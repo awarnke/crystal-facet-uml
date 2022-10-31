@@ -619,6 +619,12 @@ void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *
         }
         break;
 
+        case U8_ERROR_VALUE_OUT_OF_RANGE:
+        {
+            utf8stringbuf_append_str( (*this_).private_temp_str, "Illegal value in input" );
+        }
+        break;
+
         default:
         {
             utf8stringbuf_append_str( (*this_).private_temp_str, "Error x" );

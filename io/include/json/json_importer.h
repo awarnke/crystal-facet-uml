@@ -61,7 +61,8 @@ void json_importer_destroy( json_importer_t *this_ );
  *  \param json_text stream in json format, not NULL
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DB_STRUCTURE if diagram_id does not exist,
- *          U8_ERROR_PARSER_STRUCTURE if unexpected order of tokens, other error code otherwise
+ *          U8_ERROR_PARSER_STRUCTURE if unexpected order of tokens,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if a linked uuid does not exist, other error code otherwise
  */
 u8_error_t json_importer_import_stream( json_importer_t *this_,
                                         universal_input_stream_t *json_text,

@@ -5582,8 +5582,8 @@
         ],
         "list_order": 24748599,
         "from_classifier_name": "Commander",
-        "from_node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
         "to_classifier_name": "Perform a 1-day Mission",
+        "from_node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
         "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "uuid": "028fa4b9-5001-4b0b-8a80-2b68b2a865ab"
       }
@@ -5599,8 +5599,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Repairability",
-        "from_node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
         "to_classifier_name": "Maintainability",
+        "from_node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
         "to_node": "4aab7076-f6db-449d-af55-9f4d56114445",
         "uuid": "ff8b1117-f496-40af-a8d1-59632ffc8336"
       }
@@ -5616,8 +5616,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "30 years spare-parts supply",
-        "from_node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
         "to_classifier_name": "Repairability",
+        "from_node": "ac665ed8-a78f-47f5-9a4b-204b5561452c",
         "to_node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
         "uuid": "f9460e44-0efb-4a25-a230-3da41dd52c4e"
       }
@@ -5633,8 +5633,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Analyzability",
-        "from_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
         "to_classifier_name": "Maintainability",
+        "from_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
         "to_node": "4aab7076-f6db-449d-af55-9f4d56114445",
         "uuid": "9bbbe53e-cbb4-42e7-8b01-c08c95b8f91d"
       }
@@ -5650,8 +5650,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Self-Diagnosis",
-        "from_node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
         "to_classifier_name": "Analyzability",
+        "from_node": "230b7cd6-27f0-4d83-b101-9d2be3c76b2d",
         "to_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
         "uuid": "3838574a-4989-4678-92a7-1524bd67b45a"
       }
@@ -5667,8 +5667,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Motor defect",
-        "from_node": "789c1a7d-692b-498f-aae4-f22a7209ab56",
         "to_classifier_name": "Analyzability",
+        "from_node": "789c1a7d-692b-498f-aae4-f22a7209ab56",
         "to_node": "3891dfac-bafb-4fcc-b337-154c1f001fec",
         "uuid": "89fb4194-5ca1-4d3d-8058-d50e7587040d"
       }
@@ -5684,8 +5684,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Spare Parts Supply",
-        "from_node": "9d4af7da-01ca-4f39-a1e8-4bb44062f07d",
         "to_classifier_name": "Repairability",
+        "from_node": "9d4af7da-01ca-4f39-a1e8-4bb44062f07d",
         "to_node": "d7a03544-c226-4264-9964-3cdd6b8e7d61",
         "uuid": "91888fe4-6e76-4057-a362-2a5a635e14db"
       }
@@ -5701,8 +5701,8 @@
         ],
         "list_order": -1161718484,
         "from_classifier_name": "Mechanical Parts",
-        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
         "to_classifier_name": "Electrical Parts and Electronics",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
         "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "uuid": "04bbd0b1-f0ed-4805-bfbc-f6e6969ebfe9"
       }
@@ -5718,8 +5718,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Mechanical Parts",
-        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
         "to_classifier_name": "Chassis",
+        "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
         "to_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "uuid": "628d0a51-f269-4ed2-b1d9-53701ccc5bbb"
       }
@@ -5735,8 +5735,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Imperial Operator",
-        "from_node": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
         "to_classifier_name": "Mouse Droid (MoD5G)",
+        "from_node": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "55aee327-5b7a-4c43-b4bf-b3863738fd38"
       }
@@ -5752,8 +5752,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Operator of the old republic",
-        "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
         "to_classifier_name": "Mouse Droid (MoD5G)",
+        "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "765e3ec8-f4af-4f1d-a86a-8d6860089f57"
       }
@@ -5769,8 +5769,8 @@
         ],
         "list_order": -949056703,
         "from_classifier_name": "Development and Production Context",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_classifier_name": "Build Droids",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_node": "2fb1cd00-6d9e-4d66-bf6c-f93819adbf7b",
         "uuid": "afd97b20-892a-427f-8dcf-70aafb8fd4e6"
       }
@@ -5786,8 +5786,8 @@
         ],
         "list_order": -996447395,
         "from_classifier_name": "Development and Production Context",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_classifier_name": "Develop Software",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_node": "41abaace-cc75-4a53-b2d3-76138577dd01",
         "uuid": "9aeb098e-7814-46bf-a492-2181f761893d"
       }
@@ -5803,8 +5803,8 @@
         ],
         "list_order": -1068810697,
         "from_classifier_name": "Development and Production Context",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_classifier_name": "Design Hardware",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_node": "0e8065c4-c3bc-4e42-b344-a39cf9b201d8",
         "uuid": "bf49c597-a5d5-44a7-b0f5-c36e7718f61a"
       }
@@ -5820,8 +5820,8 @@
         ],
         "list_order": -1068982191,
         "from_classifier_name": "Development and Production Context",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_classifier_name": "Electrical Engineering",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
         "to_node": "a62eeadb-6d02-4d47-a22b-f78570a4019d",
         "uuid": "02d8a073-4e15-47b8-ac2e-6a36a557d194"
       }
@@ -5837,8 +5837,8 @@
         ],
         "list_order": -1104892992,
         "from_classifier_name": "Operational Context",
-        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
         "to_classifier_name": "Operate Droid",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
         "to_node": "c2fa0c36-72a8-45d5-8f02-9c2d49316e9e",
         "uuid": "5da7839a-7f13-463a-b556-ed1c9d8d0a4e"
       }
@@ -5854,8 +5854,8 @@
         ],
         "list_order": -1111229670,
         "from_classifier_name": "Operational Context",
-        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
         "to_classifier_name": "Repair Droid",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
         "to_node": "f737a6a7-13f7-42a4-9b2a-1c805cd2a628",
         "uuid": "2c59bc66-7333-4725-a91e-d8c7e4c3ec32"
       }
@@ -5871,8 +5871,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Outer World",
-        "from_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
         "to_classifier_name": "Main Logic Board",
+        "from_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "ffece27b-82a0-4e44-9086-7c2ed62bf06e"
       }
@@ -5888,8 +5888,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Space Station",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_classifier_name": "Mouse Droid (MoD5G)",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "uuid": "67e24e2b-a356-4062-9ad2-35fdac85982e"
       }
@@ -5905,8 +5905,8 @@
         ],
         "list_order": -596786423,
         "from_classifier_name": "Space Station",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_classifier_name": "Programming Terminal",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
         "uuid": "b9aa4979-1315-4027-a922-9e7b215d7755"
       }
@@ -5922,8 +5922,8 @@
         ],
         "list_order": -539740535,
         "from_classifier_name": "Space Station",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_classifier_name": "Charging Terminal",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
         "uuid": "960697b2-5434-4152-91da-edd98bb8a08d"
       }
@@ -5939,8 +5939,8 @@
         ],
         "list_order": -501102168,
         "from_classifier_name": "Space Station",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_classifier_name": "Maintenance Booth",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
         "to_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
         "uuid": "bd7cf063-5e1d-4917-b24f-51e03e9c0230"
       }
@@ -5956,8 +5956,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "2 of 3 Voter",
-        "from_node": "d08d2864-7bfb-40b8-aadf-7d7e195bc9e2",
         "to_classifier_name": "Cosmic Rays",
+        "from_node": "d08d2864-7bfb-40b8-aadf-7d7e195bc9e2",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "a7d1fd4d-e9cb-4f06-b532-7178dbccc276"
       }
@@ -5973,8 +5973,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Cosmic Rays Information",
-        "from_node": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
         "to_classifier_name": "Cosmic Rays",
+        "from_node": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "86e3bc92-1cca-433a-a021-0114280dcd3e"
       }
@@ -5990,8 +5990,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Watchdog Supervision",
-        "from_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
         "to_classifier_name": "Cosmic Rays",
+        "from_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "5aab167f-5707-4b60-adad-02ee0eb214b3"
       }
@@ -6007,8 +6007,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Decision: Watchdog",
-        "from_node": "2d660d61-d795-4421-823d-32f81de44f8a",
         "to_classifier_name": "Watchdog Supervision",
+        "from_node": "2d660d61-d795-4421-823d-32f81de44f8a",
         "to_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
         "uuid": "81ab804c-8321-41af-92b4-128c9e9e957a"
       }
@@ -6024,8 +6024,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Limp home mode may fail",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
         "to_classifier_name": "health::limp_home",
+        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "d00e0194-ec38-4ed9-a218-99a18ded7450"
       }
@@ -6041,8 +6041,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Limp home mode may fail",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
         "to_classifier_name": "Risk: MoD5G does not drive back to terminal",
+        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
         "to_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
         "uuid": "bd0983a1-ffd5-433f-870f-3ed72042f2d4"
       }
@@ -6059,9 +6059,9 @@
         "list_order": 1261558693,
         "from_classifier_name": "Tactics Calculator",
         "from_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_classifier_name": "Motor Controller",
         "to_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "uuid": "c4bdeafe-45e7-4c08-856d-d3b2745a922f"
       }
@@ -6078,9 +6078,9 @@
         "list_order": 1503284464,
         "from_classifier_name": "Tactics Calculator",
         "from_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_classifier_name": "Motor Controller",
         "to_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "uuid": "cfb942c8-c705-4821-91a9-5bb0bfef7bd5"
       }
@@ -6097,9 +6097,9 @@
         "list_order": 792757196,
         "from_classifier_name": "Tactics Calculator",
         "from_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_classifier_name": "Tactics Calculator",
         "to_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "uuid": "9dc21798-2013-4878-a2a8-fe7472986a3b"
       }
@@ -6115,8 +6115,8 @@
         ],
         "list_order": 1503382768,
         "from_classifier_name": "Tactics Calculator",
-        "from_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "to_classifier_name": "General Purpose Partition 2",
+        "from_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "to_node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
         "uuid": "d08a663c-b0d0-45bd-9747-1ed5c3bdfe6b"
       }
@@ -6132,8 +6132,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Situation Model",
-        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
         "to_classifier_name": "Status Model",
+        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
         "to_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
         "uuid": "1fa2f07e-fa81-413b-958c-64e00b6a802a"
       }
@@ -6149,8 +6149,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Situation Model",
-        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
         "to_classifier_name": "Environment Model",
+        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
         "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "uuid": "217e33dd-3393-410d-aeea-dfe8a4acdf4a"
       }
@@ -6166,8 +6166,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Environment Model",
-        "from_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "to_classifier_name": "Real Environment",
+        "from_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
         "uuid": "5db71ce3-952c-4436-839f-a12848b31d06"
       }
@@ -6183,8 +6183,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Status Model",
-        "from_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
         "to_classifier_name": "Real Status",
+        "from_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
         "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
         "uuid": "cc3a6e31-ac95-4ef7-b958-e3f2acbf7d64"
       }
@@ -6200,8 +6200,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Real Situation",
-        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
         "to_classifier_name": "Real Status",
+        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
         "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
         "uuid": "675d7584-39b7-4102-ae0c-284c1e952595"
       }
@@ -6217,8 +6217,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Real Situation",
-        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
         "to_classifier_name": "Real Environment",
+        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
         "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
         "uuid": "c975f85c-f312-4c32-b913-553b52e18967"
       }
@@ -6234,8 +6234,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Inner World",
-        "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
         "to_classifier_name": "Base Logic Board",
+        "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "2ecf274d-34ed-482e-88ef-f910857534ed"
       }
@@ -6251,8 +6251,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Environment Capture",
-        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
         "to_classifier_name": "Video Capture",
+        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
         "to_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "uuid": "bc58625b-6849-4b48-b78d-fad57b67cba9"
       }
@@ -6268,8 +6268,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Environment Capture",
-        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
         "to_classifier_name": "Audio Capture",
+        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
         "to_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
         "uuid": "571c2fb7-0789-4863-8994-8762141bd562"
       }
@@ -6285,8 +6285,8 @@
         ],
         "list_order": -1030764179,
         "from_classifier_name": "Environment Capture",
-        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
         "to_classifier_name": "Environment Model Composer",
+        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
         "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "uuid": "8978d39d-6e61-4525-a9ba-22f05e855e48"
       }
@@ -6302,8 +6302,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "System Control",
-        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_classifier_name": "Motor Controller",
+        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "uuid": "ea046a8f-edfe-42e3-ab48-7a287736d5f2"
       }
@@ -6319,8 +6319,8 @@
         ],
         "list_order": -528333121,
         "from_classifier_name": "System Control",
-        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_classifier_name": "SW Watchdog",
+        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
         "uuid": "355b3284-2a12-4a43-b697-7fa982b01ae5"
       }
@@ -6336,8 +6336,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Interoperability",
-        "from_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "to_classifier_name": "Compatibility",
+        "from_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "to_node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
         "uuid": "31266638-3cc2-4564-9ff8-24f5ab33b1fe"
       }
@@ -6353,8 +6353,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Old Republic Programming IF",
-        "from_node": "ec82be00-93a7-42eb-a240-e5f2f73c958f",
         "to_classifier_name": "Interoperability",
+        "from_node": "ec82be00-93a7-42eb-a240-e5f2f73c958f",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "16c2efa0-4fc1-4a29-aa9d-7a30c22b933f"
       }
@@ -6370,8 +6370,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Imperial Programming IF",
-        "from_node": "1f827014-6814-42b3-8e92-f0550b149d34",
         "to_classifier_name": "Interoperability",
+        "from_node": "1f827014-6814-42b3-8e92-f0550b149d34",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "9c486d97-aba6-4e45-8453-983896b0f9aa"
       }
@@ -6387,8 +6387,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Universial Charging IF",
-        "from_node": "49173762-e41f-4356-a6a3-20a40868c6bb",
         "to_classifier_name": "Interoperability",
+        "from_node": "49173762-e41f-4356-a6a3-20a40868c6bb",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "76cd8d53-f3f3-4e6d-9200-a20cd2f3ad2c"
       }
@@ -6404,8 +6404,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Fault Detection (main logic)",
-        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
         "to_classifier_name": "SW Watchdog",
+        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
         "uuid": "348357bd-55b5-48a2-a9c5-5c1f5d32b522"
       }
@@ -6421,8 +6421,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Fault Detection (main logic)",
-        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
         "to_classifier_name": "Risk: Wrong tactic is calculated",
+        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
         "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
         "uuid": "3b211fa8-4936-4270-8b45-49d6a9befa2d"
       }
@@ -6438,8 +6438,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Fault Detection (base logic)",
-        "from_node": "4a86e419-4afe-42f3-8846-51e7f81c61c3",
         "to_classifier_name": "SW Watchdog",
+        "from_node": "4a86e419-4afe-42f3-8846-51e7f81c61c3",
         "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
         "uuid": "4ad1d7ba-bfb0-4268-af6e-abb12ed779e4"
       }
@@ -6455,8 +6455,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Fault Detection Strategy may fail",
-        "from_node": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
         "to_classifier_name": "Risk: Wrong tactic is calculated",
+        "from_node": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
         "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
         "uuid": "b41b769a-acb5-4088-98bb-a9eca232f154"
       }
@@ -6472,8 +6472,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Wookiee Detection",
-        "from_node": "1b626973-c1cb-4234-a2cb-16a21e42e4f1",
         "to_classifier_name": "Self-Preservation",
+        "from_node": "1b626973-c1cb-4234-a2cb-16a21e42e4f1",
         "to_node": "87950246-9fe2-4acf-ba83-1eb9b813b6d8",
         "uuid": "8ae2b48a-cbed-4d31-920c-f2e365c4cc8f"
       }
@@ -6489,8 +6489,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Risk: MoD5G does not drive back to terminal",
-        "from_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
         "to_classifier_name": "health::limp_home",
+        "from_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "20a91450-fb4d-4419-8d19-7351f0919c97"
       }
@@ -6506,8 +6506,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "health::all",
-        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
         "to_classifier_name": "health::factory",
+        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
         "to_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
         "uuid": "3b69965e-8ec7-4c1c-8429-eae5418af8ce"
       }
@@ -6523,8 +6523,8 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "health::all",
-        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
         "to_classifier_name": "health::operation",
+        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
         "to_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "uuid": "05476435-2f82-4a75-b3be-58803fc44b9f"
       }
@@ -6540,8 +6540,8 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "health::all",
-        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
         "to_classifier_name": "health::disassembly",
+        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
         "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
         "uuid": "6a8d21c4-845b-4fd8-b05d-f1221620b211"
       }
@@ -6557,8 +6557,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "power::all",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_classifier_name": "power::booting",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "864b55b9-ab53-40ff-8e08-02b6b0cfd32e"
       }
@@ -6574,8 +6574,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "power::all",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_classifier_name": "power::energy_saving",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "uuid": "d995d2b3-c999-4215-b71d-9b23e1e76019"
       }
@@ -6591,8 +6591,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "power::all",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_classifier_name": "power::full_operation",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "uuid": "246532d5-1895-415c-824e-728a0f7a94c0"
       }
@@ -6608,8 +6608,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "power::all",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_classifier_name": "power::startup",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_node": "1d589448-3619-46f2-9ce5-59a227a1f329",
         "uuid": "fe3abb15-6add-49cc-a1ef-18bd330c3903"
       }
@@ -6625,8 +6625,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "power::all",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_classifier_name": "power::off",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
         "to_node": "49ac163f-507a-4691-a7cf-fc219bef2a90",
         "uuid": "50219fa5-98e4-4925-a9d9-3d56b9859989"
       }
@@ -6643,9 +6643,9 @@
         "list_order": -440817294,
         "from_classifier_name": "max 2300 msec",
         "from_feature_key": "",
-        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
+        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "8aedb309-11fa-4e10-8341-b1f6b4c8dabc"
       }
@@ -6662,9 +6662,9 @@
         "list_order": -900392769,
         "from_classifier_name": "max 2300 msec",
         "from_feature_key": "",
-        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_classifier_name": "power::booting",
         "to_feature_key": "",
+        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
         "to_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "uuid": "daaef58e-cb15-4e26-b7e9-a94d32a0f0a3"
       }
@@ -6681,9 +6681,9 @@
         "list_order": 928530041,
         "from_classifier_name": "max 500 msec",
         "from_feature_key": "",
-        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
+        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "d571d3d4-8257-423d-a75d-b7b219db887d"
       }
@@ -6700,9 +6700,9 @@
         "list_order": 717500486,
         "from_classifier_name": "max 500 msec",
         "from_feature_key": "",
-        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_classifier_name": "power::energy_saving",
         "to_feature_key": "",
+        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
         "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "uuid": "d17a7d43-fb59-4ca6-a2d1-7772e3926aac"
       }
@@ -6719,9 +6719,9 @@
         "list_order": 1062706821,
         "from_classifier_name": "Persist List",
         "from_feature_key": "",
-        "from_node": "e5887445-90e2-4d11-9976-82c1b073577b",
         "to_classifier_name": "Tactics Calculator",
         "to_feature_key": "",
+        "from_node": "e5887445-90e2-4d11-9976-82c1b073577b",
         "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "uuid": "249dceb6-328e-4362-8919-d02d00d5e1e8"
       }
@@ -6737,8 +6737,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Environmental Constraints",
-        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
         "to_classifier_name": "Cosmic Rays",
+        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
         "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
         "uuid": "2479a725-5c2d-4086-be52-d0f55e45c6bc"
       }
@@ -6754,8 +6754,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Environmental Constraints",
-        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
         "to_classifier_name": "Operating Temperatures",
+        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
         "to_node": "2e172d70-2eba-49b0-9241-7385878ccb2f",
         "uuid": "6403c948-b92a-4da5-a1b4-0c76f7c53ab2"
       }
@@ -6771,8 +6771,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Mixed standards of terminals",
-        "from_node": "9775e560-28b8-4ec2-a97d-999f2126a3e6",
         "to_classifier_name": "Interoperability",
+        "from_node": "9775e560-28b8-4ec2-a97d-999f2126a3e6",
         "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
         "uuid": "63132724-fe64-4f55-afbf-c267ef8d7cf7"
       }
@@ -6788,8 +6788,8 @@
         ],
         "list_order": 24715831,
         "from_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_classifier_name": "Perform a 1-day Mission",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "uuid": "bc7db11e-92f0-429d-9e70-818f8cbb0299"
       }
@@ -6805,8 +6805,8 @@
         ],
         "list_order": 34386514,
         "from_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_classifier_name": "Drive to Location",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "ac85bcdf-0c9c-44d4-969a-913e5c8ebb73"
       }
@@ -6822,8 +6822,8 @@
         ],
         "list_order": 34386514,
         "from_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_classifier_name": "Use Tools",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "bda8dbdf-98fa-43c3-b427-28111e312f0c"
       }
@@ -6839,8 +6839,8 @@
         ],
         "list_order": 36709334,
         "from_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_classifier_name": "Main Logic Tasks",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
         "uuid": "fc86fc07-360e-42b4-808f-b2c14522c4f7"
       }
@@ -6856,8 +6856,8 @@
         ],
         "list_order": 36096406,
         "from_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_classifier_name": "Base Logic Tasks",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
         "uuid": "5a7f4563-e269-446f-85ae-c1f6b5e20fc3"
       }
@@ -6873,8 +6873,8 @@
         ],
         "list_order": 34419282,
         "from_classifier_name": "Perform a 1-day Mission",
-        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "to_classifier_name": "Drive to Location",
+        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "ffd14d46-d17c-4bd4-a030-5c13f8872fb5"
       }
@@ -6890,8 +6890,8 @@
         ],
         "list_order": 34452050,
         "from_classifier_name": "Perform a 1-day Mission",
-        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "to_classifier_name": "Use Tools",
+        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "7b8ec957-56ad-4d32-89d4-b0ff06c298e7"
       }
@@ -6907,8 +6907,8 @@
         ],
         "list_order": 37910628,
         "from_classifier_name": "Drive to Location",
-        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "to_classifier_name": "Plan tasks",
+        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "uuid": "cb91716d-6ed1-4fbf-a7d5-7c9f530ed968"
       }
@@ -6924,8 +6924,8 @@
         ],
         "list_order": 37877860,
         "from_classifier_name": "Use Tools",
-        "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "to_classifier_name": "Plan tasks",
+        "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "uuid": "56ec89e1-873d-4b98-96b0-26a3b8b17632"
       }
@@ -6941,8 +6941,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "power::startup",
-        "from_node": "1d589448-3619-46f2-9ce5-59a227a1f329",
         "to_classifier_name": "power::booting",
+        "from_node": "1d589448-3619-46f2-9ce5-59a227a1f329",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "e2564716-936b-486d-a254-c94382b2b43b"
       }
@@ -6959,9 +6959,9 @@
         "list_order": -867565949,
         "from_classifier_name": "power::startup",
         "from_feature_key": "",
-        "from_node": "836b7e7a-9f82-4194-b786-a8d1abba049f",
         "to_classifier_name": "power::booting",
         "to_feature_key": "",
+        "from_node": "836b7e7a-9f82-4194-b786-a8d1abba049f",
         "to_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "uuid": "3ecc578f-64ec-48fb-9ec2-987917012cde"
       }
@@ -6977,8 +6977,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "power::booting",
-        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_classifier_name": "power::full_operation",
+        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "uuid": "0917a967-0cb3-4a46-8509-0d6c5a967394"
       }
@@ -6994,8 +6994,8 @@
         ],
         "list_order": -1653556647,
         "from_classifier_name": "power::booting",
-        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_classifier_name": "sw::boot_base_board",
+        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_node": "d010affc-c9ad-467b-8362-36bd7f0ef848",
         "uuid": "590b5e71-a258-4fac-98d2-2de7df293274"
       }
@@ -7011,8 +7011,8 @@
         ],
         "list_order": -1657885448,
         "from_classifier_name": "power::booting",
-        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_classifier_name": "sw::boot_main_board",
+        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_node": "ecfd83b5-6546-411c-8e9b-85f6cd8edc91",
         "uuid": "b2b101f7-4bea-4a0d-bca1-7eb8b9b50edf"
       }
@@ -7028,8 +7028,8 @@
         ],
         "list_order": -1658534839,
         "from_classifier_name": "power::booting",
-        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_classifier_name": "sw::start",
+        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_node": "b4ec551c-f9a8-46e8-bcb4-59174fb64a9f",
         "uuid": "21c7ab2e-c65a-475b-b9be-4d7d26bf7353"
       }
@@ -7045,8 +7045,8 @@
         ],
         "list_order": -1658534839,
         "from_classifier_name": "power::booting",
-        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_classifier_name": "sw::par",
+        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "uuid": "fbf99dc0-9fe0-4070-949b-e70fd6f4e015"
       }
@@ -7062,8 +7062,8 @@
         ],
         "list_order": -1658570955,
         "from_classifier_name": "power::booting",
-        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_classifier_name": "sw::sync",
+        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "uuid": "3fc23a7f-c302-477f-a19d-4e1f460151e1"
       }
@@ -7079,8 +7079,8 @@
         ],
         "list_order": -1657666120,
         "from_classifier_name": "power::booting",
-        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_classifier_name": "sw::booted",
+        "from_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "to_node": "d777c836-c542-47d3-ba04-35e9567336e7",
         "uuid": "57ce4af0-9175-4f59-9d4f-cf11381ac1a3"
       }
@@ -7097,9 +7097,9 @@
         "list_order": -473644113,
         "from_classifier_name": "power::booting",
         "from_feature_key": "",
-        "from_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
+        "from_node": "40697816-a89d-417e-a194-62aaa0262f65",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "66a1fe9c-85ee-463d-ad91-86849b4e145c"
       }
@@ -7115,8 +7115,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "power::energy_saving",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "uuid": "6af70f9b-863a-4b43-a80e-67641d63e0cf"
       }
@@ -7132,8 +7132,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "power::off",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "49ac163f-507a-4691-a7cf-fc219bef2a90",
         "uuid": "b3123382-6b09-4763-a944-7016055eca43"
       }
@@ -7149,8 +7149,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "power::booting",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "871d6d35-4388-4e11-94aa-1c722eb0c20a"
       }
@@ -7166,8 +7166,8 @@
         ],
         "list_order": -1543421817,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "sw::run_main",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "24fc8dc6-4cfa-4b16-983a-7098b8b72b2c",
         "uuid": "9b0994db-ee25-409f-bce6-369eeee93440"
       }
@@ -7183,8 +7183,8 @@
         ],
         "list_order": -1555357337,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "sw::run_base",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "8086e804-ff53-4071-ab12-e4ce5865bc94",
         "uuid": "c3a3aa0e-f2f9-4e30-a8a0-715b320bd72a"
       }
@@ -7200,8 +7200,8 @@
         ],
         "list_order": -1571232108,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "sw::op_start",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "a1e6c113-e4e8-4331-ae8b-4ea2fd7fd98a",
         "uuid": "eb95f651-17c0-4e9c-abae-d04f23c2c3b4"
       }
@@ -7217,8 +7217,8 @@
         ],
         "list_order": -1578849163,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "sw::op_end",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "02871b92-3080-40e5-8b51-f731ca504657",
         "uuid": "e4a885aa-5619-4e06-8f6d-180e880541e1"
       }
@@ -7234,8 +7234,8 @@
         ],
         "list_order": -1578849163,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "sw::op_par",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "uuid": "71280c88-27df-481f-8dc3-1c67db74cc1a"
       }
@@ -7251,8 +7251,8 @@
         ],
         "list_order": -1581422690,
         "from_classifier_name": "power::full_operation",
-        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_classifier_name": "sw::op_sync",
+        "from_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "to_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "uuid": "3b78efa8-3a3d-476f-b5e4-71c83d03988a"
       }
@@ -7269,9 +7269,9 @@
         "list_order": 239166828,
         "from_classifier_name": "power::full_operation",
         "from_feature_key": "",
-        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_classifier_name": "power::energy_saving",
         "to_feature_key": "",
+        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "uuid": "d014ba6e-959b-4fcf-8c45-17b666551450"
       }
@@ -7288,9 +7288,9 @@
         "list_order": 1627272346,
         "from_classifier_name": "power::full_operation",
         "from_feature_key": "",
-        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_classifier_name": "power::off",
         "to_feature_key": "",
+        "from_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "to_node": "e88532af-2b15-4e59-be68-757c62d7c351",
         "uuid": "06132a6a-75e0-4490-9228-aa276db965ef"
       }
@@ -7306,8 +7306,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "power::energy_saving",
-        "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "to_classifier_name": "power::full_operation",
+        "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
         "uuid": "869e4d4b-1e44-48ed-879a-eb33930339e5"
       }
@@ -7323,8 +7323,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "power::energy_saving",
-        "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "to_classifier_name": "power::booting",
+        "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
         "uuid": "18709b2b-1e36-491e-af73-eac1bba16add"
       }
@@ -7340,8 +7340,8 @@
         ],
         "list_order": -688030202,
         "from_classifier_name": "power::energy_saving",
-        "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "to_classifier_name": "sw::run_base_only",
+        "from_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
         "to_node": "848ea88a-9063-4390-a8c9-8466065dc460",
         "uuid": "710c3fe7-880f-415c-b59e-ff82ffaafa9e"
       }
@@ -7358,9 +7358,9 @@
         "list_order": 787843671,
         "from_classifier_name": "power::energy_saving",
         "from_feature_key": "",
-        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_classifier_name": "power::energy_saving",
         "to_feature_key": "",
+        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "uuid": "a407128a-fa3b-4863-a2f6-e26fd11b7d28"
       }
@@ -7377,9 +7377,9 @@
         "list_order": 909771858,
         "from_classifier_name": "power::energy_saving",
         "from_feature_key": "",
-        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_classifier_name": "power::full_operation",
         "to_feature_key": "",
+        "from_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
         "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
         "uuid": "1e63a9a2-c4e6-4a0b-89b9-42c3fa3c9f90"
       }
@@ -7396,9 +7396,9 @@
         "list_order": -881634586,
         "from_classifier_name": "power::off",
         "from_feature_key": "",
-        "from_node": "e88532af-2b15-4e59-be68-757c62d7c351",
         "to_classifier_name": "power::startup",
         "to_feature_key": "",
+        "from_node": "e88532af-2b15-4e59-be68-757c62d7c351",
         "to_node": "836b7e7a-9f82-4194-b786-a8d1abba049f",
         "uuid": "9968734d-3cca-4557-ae48-3ada381265fc"
       }
@@ -7414,9 +7414,9 @@
         ],
         "list_order": 589824,
         "from_classifier_name": "health::factory",
-        "from_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
         "to_classifier_name": "health::operation",
         "to_feature_key": "op_start",
+        "from_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
         "to_node": "56d84592-786a-4c2a-827a-cabe45a074a5",
         "uuid": "0478c6e8-22f3-4db4-a3bc-d8f8ea5b65f1"
       }
@@ -7432,8 +7432,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "health::healthy",
-        "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "to_classifier_name": "health::slightly_damaged",
+        "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "to_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "uuid": "4b55a0c5-9757-4d25-99c6-396a52829825"
       }
@@ -7449,8 +7449,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "health::healthy",
-        "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "to_classifier_name": "health::damaged",
+        "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "74a6c8fe-22fd-4e9b-97d8-6f3e2d8c3138"
       }
@@ -7466,8 +7466,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "health::healthy",
-        "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "to_classifier_name": "health::limp_home",
+        "from_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "d38fe80f-fff3-4c6d-920d-3826800edbe4"
       }
@@ -7483,8 +7483,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "health::slightly_damaged",
-        "from_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "to_classifier_name": "health::limp_home",
+        "from_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "8fd094c2-f6db-4f0f-af82-49763a4bc1a5"
       }
@@ -7500,8 +7500,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "health::slightly_damaged",
-        "from_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "to_classifier_name": "health::damaged",
+        "from_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "fd443c3c-d830-416d-98f5-dc3a800ca99f"
       }
@@ -7517,8 +7517,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "health::limp_home",
-        "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "to_classifier_name": "health::damaged",
+        "from_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "b1bcd5c0-044a-4673-9072-91d83c163437"
       }
@@ -7534,9 +7534,9 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "health::damaged",
-        "from_node": "8f316599-0438-461d-a03c-720192b86a33",
         "to_classifier_name": "health::operation",
         "to_feature_key": "no_op",
+        "from_node": "8f316599-0438-461d-a03c-720192b86a33",
         "to_node": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d",
         "uuid": "d3677bf6-8988-416d-9efc-2dbe2e800822"
       }
@@ -7552,8 +7552,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "health::operation",
-        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_classifier_name": "health::limp_home",
+        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
         "uuid": "5305dcee-e842-4672-9ec5-912398b4dc10"
       }
@@ -7569,8 +7569,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "health::operation",
-        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_classifier_name": "health::slightly_damaged",
+        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_node": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "uuid": "d7d7cbc6-4acd-4fd5-b0ff-b53c256bd3a1"
       }
@@ -7586,8 +7586,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "health::operation",
-        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_classifier_name": "health::healthy",
+        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "uuid": "cecfc733-463b-4c6a-bc5a-2f34f2c94100"
       }
@@ -7603,8 +7603,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "health::operation",
-        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_classifier_name": "health::damaged",
+        "from_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
         "to_node": "8f316599-0438-461d-a03c-720192b86a33",
         "uuid": "7f270973-e4ae-47b7-aa1c-0ab47cdb9411"
       }
@@ -7621,8 +7621,8 @@
         "list_order": 524288,
         "from_classifier_name": "health::operation",
         "from_feature_key": "no_op",
-        "from_node": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d",
         "to_classifier_name": "health::disassembly",
+        "from_node": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d",
         "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
         "uuid": "cfcdb1b0-22c2-48b1-9897-03e0b2abf3db"
       }
@@ -7639,8 +7639,8 @@
         "list_order": 622592,
         "from_classifier_name": "health::operation",
         "from_feature_key": "op_start",
-        "from_node": "56d84592-786a-4c2a-827a-cabe45a074a5",
         "to_classifier_name": "health::healthy",
+        "from_node": "56d84592-786a-4c2a-827a-cabe45a074a5",
         "to_node": "7c8b5091-abcd-4886-8309-52114d18b35c",
         "uuid": "596af305-3404-4228-938f-d4d0b6d704f6"
       }
@@ -7656,8 +7656,8 @@
         ],
         "list_order": -1054051627,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Cargo Bin",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "fb814893-cb03-454a-96aa-6ae8c313096d",
         "uuid": "143749d6-eb76-46dd-9238-eda64cd4c174"
       }
@@ -7673,8 +7673,8 @@
         ],
         "list_order": -1051609196,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Screw Driver",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "848376fc-1475-4adc-b35f-200e17103025",
         "uuid": "3bea26a0-7e34-4c71-b92d-e5acff3f8438"
       }
@@ -7690,8 +7690,8 @@
         ],
         "list_order": -1053905027,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Wheels (4)",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
         "uuid": "445d88c0-4dee-483e-9f71-e57791cf8261"
       }
@@ -7707,8 +7707,8 @@
         ],
         "list_order": -1051813110,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Fan",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "5e00054a-23a4-4e74-8029-628d165a7c3d",
         "uuid": "c036146a-7e3f-4735-8a85-e7e675c34fcf"
       }
@@ -7724,8 +7724,8 @@
         ],
         "list_order": -1053978658,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Motors",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
         "uuid": "71c9e2a9-b355-411f-bc44-ed012d39f5a6"
       }
@@ -7741,8 +7741,8 @@
         ],
         "list_order": -1053965549,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Camera",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "fb66c906-d06a-4518-8701-229af4169a30",
         "uuid": "3bb6e551-e34e-4efc-ba15-36f23cd1ec82"
       }
@@ -7758,8 +7758,8 @@
         ],
         "list_order": -1054017037,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Microphone",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "uuid": "ecd346bb-d3f9-4768-9014-8f50e72eee26"
       }
@@ -7775,8 +7775,8 @@
         ],
         "list_order": -1053973790,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Loud Speaker",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
         "uuid": "da38cda4-c272-466b-b7f0-98606fb76c8b"
       }
@@ -7792,8 +7792,8 @@
         ],
         "list_order": -1054003895,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Programming and Diagnostic Connector",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "uuid": "96a8c051-6666-48ec-92a6-c14d4742ee3f"
       }
@@ -7809,8 +7809,8 @@
         ],
         "list_order": -1053968664,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Charging Connector",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "c066d6a7-1959-4300-9aad-a75cb496da36",
         "uuid": "159f19cc-9785-4257-ba5f-a27d508484e1"
       }
@@ -7826,8 +7826,8 @@
         ],
         "list_order": -1054007896,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Energy Cell",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
         "uuid": "cc686288-fd74-427f-83ce-9e34b8218255"
       }
@@ -7843,8 +7843,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Electrical Parts and Electronics",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "uuid": "caaa01da-ea69-433c-b382-1b8b5a3bf845"
       }
@@ -7860,8 +7860,8 @@
         ],
         "list_order": -1058861716,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Gripper",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "a28d75e1-1447-462b-95f9-9093d65419e7",
         "uuid": "c075ca20-cd21-4ced-bfd2-a3bb0311ff3c"
       }
@@ -7877,8 +7877,8 @@
         ],
         "list_order": -1161718484,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Tool-Window (2)",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "052a44ef-4d00-4a84-975f-2b4294369bd0"
       }
@@ -7894,8 +7894,8 @@
         ],
         "list_order": -1427757613,
         "from_classifier_name": "Chassis",
-        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_classifier_name": "Skeleton Frame",
+        "from_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "to_node": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
         "uuid": "621dd235-698b-4595-afb1-ea76d363fd8f"
       }
@@ -7911,8 +7911,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Cargo Bin",
-        "from_node": "fb814893-cb03-454a-96aa-6ae8c313096d",
         "to_classifier_name": "Tool-Window (2)",
+        "from_node": "fb814893-cb03-454a-96aa-6ae8c313096d",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "15371124-6417-410b-803f-d494c3abea33"
       }
@@ -7928,8 +7928,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Screw Driver",
-        "from_node": "848376fc-1475-4adc-b35f-200e17103025",
         "to_classifier_name": "Tool-Window (2)",
+        "from_node": "848376fc-1475-4adc-b35f-200e17103025",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "f41ee18f-be0f-45d5-a16a-020aa5db430e"
       }
@@ -7945,9 +7945,9 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "Camera",
-        "from_node": "fb66c906-d06a-4518-8701-229af4169a30",
         "to_classifier_name": "Main Logic Board",
         "to_feature_key": "Camera",
+        "from_node": "fb66c906-d06a-4518-8701-229af4169a30",
         "to_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
         "uuid": "a1b7a0ee-9160-437d-9fdb-53800d02aff5"
       }
@@ -7963,9 +7963,9 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Microphone",
-        "from_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "to_classifier_name": "Main Logic Board",
         "to_feature_key": "Mic-Connector",
+        "from_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "to_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
         "uuid": "89d87a02-dcf2-41c7-a7a7-221191929da0"
       }
@@ -7981,9 +7981,9 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "Programming and Diagnostic Connector",
-        "from_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "to_classifier_name": "Base Micro Controller",
         "to_feature_key": "Diag",
+        "from_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "to_node": "e4cc1e9e-becc-4254-b397-fd8a4858ba73",
         "uuid": "58f8f728-b0d1-40b6-bf2f-3acad020ae79"
       }
@@ -7999,8 +7999,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Programming and Diagnostic Connector",
-        "from_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "to_classifier_name": "Tool-Window (2)",
+        "from_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "f1e1f6b6-34dd-485a-b61c-a431b15b570f"
       }
@@ -8016,8 +8016,8 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "Charging Connector",
-        "from_node": "c066d6a7-1959-4300-9aad-a75cb496da36",
         "to_classifier_name": "PMIC",
+        "from_node": "c066d6a7-1959-4300-9aad-a75cb496da36",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "e582791f-47e7-40e2-9344-16f6649f0ba1"
       }
@@ -8033,8 +8033,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Energy Cell",
-        "from_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
         "to_classifier_name": "PMIC",
+        "from_node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "f3ea2829-ac0d-4377-b3d9-d80b82b3c343"
       }
@@ -8051,9 +8051,9 @@
         "list_order": 425984,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "Base Board Connector",
-        "from_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "to_classifier_name": "Base Micro Controller",
         "to_feature_key": "Main Board Connector",
+        "from_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "to_node": "b2533db8-6881-4300-a224-3f8a5724481a",
         "uuid": "8018be89-cc26-454a-aebc-3e937dd48acb"
       }
@@ -8069,8 +8069,8 @@
         ],
         "list_order": -1137259057,
         "from_classifier_name": "Main Logic Board",
-        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_classifier_name": "High Performance SoC",
+        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "f30056ce-e840-4edc-90e9-fccff7b1393b"
       }
@@ -8086,8 +8086,8 @@
         ],
         "list_order": -1228803590,
         "from_classifier_name": "Main Logic Board",
-        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_classifier_name": "RAM",
+        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_node": "97dfab83-5bc0-48af-93f8-8a21f85de728",
         "uuid": "73f94e6b-885d-4b4c-8cc3-d243f3ed00da"
       }
@@ -8103,8 +8103,8 @@
         ],
         "list_order": -1161996671,
         "from_classifier_name": "Main Logic Board",
-        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_classifier_name": "ROM",
+        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_node": "d3419f7a-7f72-43ca-aab9-f12aed182f01",
         "uuid": "ff855440-0e50-4341-8ac5-b467adb7f772"
       }
@@ -8121,8 +8121,8 @@
         "list_order": 98304,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "Mic-Connector",
-        "from_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
         "to_classifier_name": "High Performance SoC",
+        "from_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "c93e280a-3f4f-44a3-bb5d-13280c1fc1a6"
       }
@@ -8139,8 +8139,8 @@
         "list_order": 163840,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "Camera",
-        "from_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
         "to_classifier_name": "High Performance SoC",
+        "from_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "fdc3afb0-5d05-4c53-8af3-a8de940d55b4"
       }
@@ -8156,8 +8156,8 @@
         ],
         "list_order": -532286409,
         "from_classifier_name": "Main Logic Board",
-        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_classifier_name": "Motivator",
+        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_node": "3d66e55c-081f-43bb-89cd-159e19a83a75",
         "uuid": "1c4c0498-0e03-41ff-a21d-830695fdb688"
       }
@@ -8173,8 +8173,8 @@
         ],
         "list_order": -1133597166,
         "from_classifier_name": "Base Logic Board",
-        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_classifier_name": "PMIC",
+        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "a6110d51-9a2d-4c6a-96dd-e9542fa7e663"
       }
@@ -8190,8 +8190,8 @@
         ],
         "list_order": -1134806008,
         "from_classifier_name": "Base Logic Board",
-        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_classifier_name": "Base Micro Controller",
+        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "uuid": "ab7c0329-7c6c-47ba-bc31-aa419d876b47"
       }
@@ -8207,8 +8207,8 @@
         ],
         "list_order": -1134723986,
         "from_classifier_name": "Base Logic Board",
-        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_classifier_name": "Clock",
+        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "1707b859-1969-4154-8a27-5305053ce042",
         "uuid": "8991880d-d73a-4c1d-bc8b-9ee474f80c84"
       }
@@ -8224,8 +8224,8 @@
         ],
         "list_order": -1081845112,
         "from_classifier_name": "Base Logic Board",
-        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_classifier_name": "Temperature Sensor",
+        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "uuid": "bb0baef7-daa3-4b2c-92b9-eb27a8a2da95"
       }
@@ -8241,8 +8241,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "PMIC",
-        "from_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "to_classifier_name": "Main Logic Board",
+        "from_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "45c714aa-f331-493b-9751-205f6bfa8b8d"
       }
@@ -8259,8 +8259,8 @@
         "list_order": 196608,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "Motor Control",
-        "from_node": "001ecb64-b47f-4387-b256-2f50e99c203c",
         "to_classifier_name": "Motors",
+        "from_node": "001ecb64-b47f-4387-b256-2f50e99c203c",
         "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
         "uuid": "4340c8a5-cf59-432f-9ca8-19369c95e452"
       }
@@ -8277,8 +8277,8 @@
         "list_order": 229376,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "Speaker",
-        "from_node": "0c7cc002-e769-4914-ac08-cb08a480273b",
         "to_classifier_name": "Loud Speaker",
+        "from_node": "0c7cc002-e769-4914-ac08-cb08a480273b",
         "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
         "uuid": "e76462a4-fa34-4a94-97d2-c69690da25b7"
       }
@@ -8295,8 +8295,8 @@
         "list_order": 294912,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "reset cmd",
-        "from_node": "fa28faf1-8994-4707-ac83-e9eb11910ccd",
         "to_classifier_name": "PMIC",
+        "from_node": "fa28faf1-8994-4707-ac83-e9eb11910ccd",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "bccec9c3-2880-4390-9309-d652fe2d9842"
       }
@@ -8313,8 +8313,8 @@
         "list_order": 360448,
         "from_classifier_name": "Base Micro Controller",
         "from_feature_key": "clock comm",
-        "from_node": "3299de03-94ca-40cf-84c1-236e9026b935",
         "to_classifier_name": "Clock",
+        "from_node": "3299de03-94ca-40cf-84c1-236e9026b935",
         "to_node": "1707b859-1969-4154-8a27-5305053ce042",
         "uuid": "ce835afb-6979-4602-88c2-ee6b32f59df7"
       }
@@ -8330,8 +8330,8 @@
         ],
         "list_order": -965466140,
         "from_classifier_name": "Base Micro Controller",
-        "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_classifier_name": "Watchdog Execution Environment",
+        "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_node": "4bdb79a1-504e-48df-9cdc-aa4754b081c6",
         "uuid": "52b244f6-a412-48fb-b6e5-6e6064e0894b"
       }
@@ -8347,8 +8347,8 @@
         ],
         "list_order": -1053092081,
         "from_classifier_name": "Base Micro Controller",
-        "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_classifier_name": "Base Logic SW Partition",
+        "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_node": "31139d8b-5ec3-488c-8334-d1a18274fbd7",
         "uuid": "ea767c7b-de71-4993-a02a-5545f60cf97e"
       }
@@ -8364,8 +8364,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "Clock",
-        "from_node": "1707b859-1969-4154-8a27-5305053ce042",
         "to_classifier_name": "PMIC",
+        "from_node": "1707b859-1969-4154-8a27-5305053ce042",
         "to_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "uuid": "57077faa-ae6a-44af-b713-d5671a5bcb52"
       }
@@ -8381,8 +8381,8 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Gripper",
-        "from_node": "a28d75e1-1447-462b-95f9-9093d65419e7",
         "to_classifier_name": "Tool-Window (2)",
+        "from_node": "a28d75e1-1447-462b-95f9-9093d65419e7",
         "to_node": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "uuid": "6bb74aed-4835-4eeb-aa05-b9a5acd421f6"
       }
@@ -8398,8 +8398,8 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "High Performance SoC",
-        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_classifier_name": "RAM",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "97dfab83-5bc0-48af-93f8-8a21f85de728",
         "uuid": "bf0f76f8-e114-489e-abe0-2e3106a3aea6"
       }
@@ -8415,8 +8415,8 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "High Performance SoC",
-        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_classifier_name": "ROM",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "d3419f7a-7f72-43ca-aab9-f12aed182f01",
         "uuid": "244c5c91-9463-4909-9e58-fb92ef614a0c"
       }
@@ -8432,9 +8432,9 @@
         ],
         "list_order": 131072,
         "from_classifier_name": "High Performance SoC",
-        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_classifier_name": "Main Logic Board",
         "to_feature_key": "Base Board Connector",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "uuid": "9908519c-1252-420e-8c43-cb9fa046a308"
       }
@@ -8450,8 +8450,8 @@
         ],
         "list_order": -1171309153,
         "from_classifier_name": "High Performance SoC",
-        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_classifier_name": "Real Time Video Processing Chip",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "be71df16-ded3-4d3a-a7be-a04e142d0dde",
         "uuid": "ee6cbaac-8535-4b6f-9fda-925584acf272"
       }
@@ -8467,8 +8467,8 @@
         ],
         "list_order": -1162691807,
         "from_classifier_name": "High Performance SoC",
-        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_classifier_name": "General Purpose Partition 1",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
         "uuid": "1355737a-274d-41e8-b7db-ef4889b67aaf"
       }
@@ -8484,8 +8484,8 @@
         ],
         "list_order": -1146586199,
         "from_classifier_name": "High Performance SoC",
-        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_classifier_name": "General Purpose Partition 2",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
         "uuid": "495e0a46-8acb-49b0-879f-d7a9886c2c49"
       }
@@ -8501,8 +8501,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Motivator",
-        "from_node": "3d66e55c-081f-43bb-89cd-159e19a83a75",
         "to_classifier_name": "High Performance SoC",
+        "from_node": "3d66e55c-081f-43bb-89cd-159e19a83a75",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "88cc0d6e-6904-4ceb-92be-6beda4c2354a"
       }
@@ -8518,8 +8518,8 @@
         ],
         "list_order": 37845092,
         "from_classifier_name": "Main Logic Tasks",
-        "from_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
         "to_classifier_name": "Explore Environment",
+        "from_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "41270306-9d39-476f-8bb3-c9220a2beb96"
       }
@@ -8535,8 +8535,8 @@
         ],
         "list_order": 37788482,
         "from_classifier_name": "Main Logic Tasks",
-        "from_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
         "to_classifier_name": "Plan tasks",
+        "from_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "uuid": "b2b690be-bd47-42ba-9ba8-36338b03a3d7"
       }
@@ -8552,8 +8552,8 @@
         ],
         "list_order": 36311310,
         "from_classifier_name": "Base Logic Tasks",
-        "from_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
         "to_classifier_name": "Perform Movement",
+        "from_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
         "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
         "uuid": "115679be-8b63-47a0-a65a-1a3968155729"
       }
@@ -8569,8 +8569,8 @@
         ],
         "list_order": 36311310,
         "from_classifier_name": "Base Logic Tasks",
-        "from_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
         "to_classifier_name": "Steer motors of tools",
+        "from_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "1f7d3518-a1f8-4143-a20f-e45c548b1b4a"
       }
@@ -8586,8 +8586,8 @@
         ],
         "list_order": 37943396,
         "from_classifier_name": "Plan tasks",
-        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "to_classifier_name": "Perform Movement",
+        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
         "uuid": "1522d07e-3a99-4408-bde4-254589493d07"
       }
@@ -8603,8 +8603,8 @@
         ],
         "list_order": 37976164,
         "from_classifier_name": "Plan tasks",
-        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "to_classifier_name": "Steer motors of tools",
+        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "d006995d-9fb3-4b5a-ace3-d50883dfa9bd"
       }
@@ -8620,8 +8620,8 @@
         ],
         "list_order": 38008932,
         "from_classifier_name": "Plan tasks",
-        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "to_classifier_name": "Explore Environment",
+        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
         "uuid": "db0fe0ca-4d67-4791-9bcd-202fa1b4e959"
       }
@@ -8637,9 +8637,9 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "Temperature Sensor",
-        "from_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "to_classifier_name": "Base Micro Controller",
         "to_feature_key": "Temperature",
+        "from_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "to_node": "a07bc82b-80cb-4799-a63a-4af05a86abfe",
         "uuid": "db30ce1b-b9ce-4693-8acb-6bf7f6873d3c"
       }
@@ -8655,8 +8655,8 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "sw::boot_base_board",
-        "from_node": "d010affc-c9ad-467b-8362-36bd7f0ef848",
         "to_classifier_name": "sw::sync",
+        "from_node": "d010affc-c9ad-467b-8362-36bd7f0ef848",
         "to_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "uuid": "95ee9601-a79e-483a-9f4d-675f01376cb9"
       }
@@ -8672,8 +8672,8 @@
         ],
         "list_order": 360448,
         "from_classifier_name": "sw::boot_main_board",
-        "from_node": "ecfd83b5-6546-411c-8e9b-85f6cd8edc91",
         "to_classifier_name": "sw::sync",
+        "from_node": "ecfd83b5-6546-411c-8e9b-85f6cd8edc91",
         "to_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "uuid": "91856133-49b7-4349-b673-344f236ab993"
       }
@@ -8689,8 +8689,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "sw::start",
-        "from_node": "b4ec551c-f9a8-46e8-bcb4-59174fb64a9f",
         "to_classifier_name": "sw::par",
+        "from_node": "b4ec551c-f9a8-46e8-bcb4-59174fb64a9f",
         "to_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "uuid": "a1d7e7a7-8733-4215-a6f2-860ce7c53996"
       }
@@ -8706,8 +8706,8 @@
         ],
         "list_order": 294912,
         "from_classifier_name": "sw::par",
-        "from_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "to_classifier_name": "sw::boot_main_board",
+        "from_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "to_node": "ecfd83b5-6546-411c-8e9b-85f6cd8edc91",
         "uuid": "eff99d29-bd5f-49d9-b6a8-6d6074cbe59c"
       }
@@ -8723,8 +8723,8 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "sw::par",
-        "from_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "to_classifier_name": "sw::boot_base_board",
+        "from_node": "9c14fda2-22a6-428c-a972-b43791c59cd5",
         "to_node": "d010affc-c9ad-467b-8362-36bd7f0ef848",
         "uuid": "2681b354-31db-4b93-8616-40c5f6b63b2d"
       }
@@ -8740,8 +8740,8 @@
         ],
         "list_order": 622592,
         "from_classifier_name": "sw::run_main",
-        "from_node": "24fc8dc6-4cfa-4b16-983a-7098b8b72b2c",
         "to_classifier_name": "sw::op_sync",
+        "from_node": "24fc8dc6-4cfa-4b16-983a-7098b8b72b2c",
         "to_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "uuid": "553f0c34-b871-456d-8b35-4c7ae362ec18"
       }
@@ -8757,8 +8757,8 @@
         ],
         "list_order": 589824,
         "from_classifier_name": "sw::run_base",
-        "from_node": "8086e804-ff53-4071-ab12-e4ce5865bc94",
         "to_classifier_name": "sw::op_sync",
+        "from_node": "8086e804-ff53-4071-ab12-e4ce5865bc94",
         "to_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "uuid": "708209ab-69d7-423b-809c-3c81beff738b"
       }
@@ -8774,8 +8774,8 @@
         ],
         "list_order": 425984,
         "from_classifier_name": "sw::sync",
-        "from_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "to_classifier_name": "sw::booted",
+        "from_node": "46e9980b-1770-4e86-83b3-da0b905a5746",
         "to_node": "d777c836-c542-47d3-ba04-35e9567336e7",
         "uuid": "74ac4d63-f090-42c2-a0e5-c0183773900c"
       }
@@ -8791,8 +8791,8 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "sw::op_start",
-        "from_node": "a1e6c113-e4e8-4331-ae8b-4ea2fd7fd98a",
         "to_classifier_name": "sw::op_par",
+        "from_node": "a1e6c113-e4e8-4331-ae8b-4ea2fd7fd98a",
         "to_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "uuid": "638c14b3-855f-4bee-9f85-68dfb7bd7b7c"
       }
@@ -8808,8 +8808,8 @@
         ],
         "list_order": 524288,
         "from_classifier_name": "sw::op_par",
-        "from_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "to_classifier_name": "sw::run_main",
+        "from_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "to_node": "24fc8dc6-4cfa-4b16-983a-7098b8b72b2c",
         "uuid": "33375964-b3a6-4910-819c-ce87c2171385"
       }
@@ -8825,8 +8825,8 @@
         ],
         "list_order": 557056,
         "from_classifier_name": "sw::op_par",
-        "from_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "to_classifier_name": "sw::run_base",
+        "from_node": "c71ca6f1-08bb-4075-81b8-a954d4c5e4a8",
         "to_node": "8086e804-ff53-4071-ab12-e4ce5865bc94",
         "uuid": "5549f546-91de-4092-96fd-94ab48bb2208"
       }
@@ -8842,8 +8842,8 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "sw::op_sync",
-        "from_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "to_classifier_name": "sw::op_end",
+        "from_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "to_node": "02871b92-3080-40e5-8b51-f731ca504657",
         "uuid": "08f02a48-2279-4306-9fb7-5651ad4d36ea"
       }
@@ -8859,8 +8859,8 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "Video Capture",
-        "from_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "to_classifier_name": "Environment Model Composer",
+        "from_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "uuid": "fadf2130-41d5-4e6e-8e45-2d9ca5fa93c3"
       }
@@ -8877,9 +8877,9 @@
         "list_order": -518421991,
         "from_classifier_name": "Video Capture",
         "from_feature_key": "",
-        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
+        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "a4d9f587-4173-4d6a-b21e-9597da0f828c"
       }
@@ -8896,9 +8896,9 @@
         "list_order": -1119073909,
         "from_classifier_name": "Video Capture",
         "from_feature_key": "",
-        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_classifier_name": "Video Capture",
         "to_feature_key": "",
+        "from_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "to_node": "6a4b3169-b5d8-4d44-87ed-79057d1653f9",
         "uuid": "d519f284-d315-4815-ac09-ed6df3441250"
       }
@@ -8914,8 +8914,8 @@
         ],
         "list_order": 1503350000,
         "from_classifier_name": "Video Capture",
-        "from_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "to_classifier_name": "Real Time Video Processing Chip",
+        "from_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "to_node": "be71df16-ded3-4d3a-a7be-a04e142d0dde",
         "uuid": "c9ebf3f6-00b5-4024-8e0f-585fb1bd3db5"
       }
@@ -8931,8 +8931,8 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Audio Capture",
-        "from_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
         "to_classifier_name": "Environment Model Composer",
+        "from_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
         "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "uuid": "5a5967f0-9063-4b18-a0a6-2c4f1f250c54"
       }
@@ -8949,9 +8949,9 @@
         "list_order": -804097903,
         "from_classifier_name": "Audio Capture",
         "from_feature_key": "",
-        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
+        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "02680ac7-e0c3-47bf-b965-e2a5b9e4ada1"
       }
@@ -8968,9 +8968,9 @@
         "list_order": -1141048979,
         "from_classifier_name": "Audio Capture",
         "from_feature_key": "",
-        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_classifier_name": "Audio Capture",
         "to_feature_key": "",
+        "from_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "to_node": "b27df345-c804-4482-b0db-63feb48d11d6",
         "uuid": "0fc5e1a2-52c9-464e-b4cd-b319b5662cd7"
       }
@@ -8986,8 +8986,8 @@
         ],
         "list_order": 1503448304,
         "from_classifier_name": "Audio Capture",
-        "from_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
         "to_classifier_name": "General Purpose Partition 1",
+        "from_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
         "to_node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
         "uuid": "37ddb462-7adc-4860-bde9-076582d8c7b5"
       }
@@ -9003,8 +9003,8 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Motor Controller",
-        "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "to_classifier_name": "Environment Model Composer",
+        "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "uuid": "51cb8c43-ff4d-4d20-88dd-eedd58e31ee9"
       }
@@ -9021,9 +9021,9 @@
         "list_order": -642947389,
         "from_classifier_name": "Motor Controller",
         "from_feature_key": "",
-        "from_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
+        "from_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "bd14d37f-c52c-41e8-9fc4-d01b950cfb69"
       }
@@ -9039,8 +9039,8 @@
         ],
         "list_order": 1503317232,
         "from_classifier_name": "Motor Controller",
-        "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "to_classifier_name": "Base Logic SW Partition",
+        "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "to_node": "31139d8b-5ec3-488c-8334-d1a18274fbd7",
         "uuid": "2e038ce1-094f-45c6-8ec0-57789722499a"
       }
@@ -9056,8 +9056,8 @@
         ],
         "list_order": 262144,
         "from_classifier_name": "Environment Model Composer",
-        "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "to_classifier_name": "Tactics Calculator",
+        "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "to_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "uuid": "f46735a1-7050-4be9-891a-8aa11bf56d9e"
       }
@@ -9074,9 +9074,9 @@
         "list_order": 426506026,
         "from_classifier_name": "Environment Model Composer",
         "from_feature_key": "",
-        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_classifier_name": "Tactics Calculator",
         "to_feature_key": "",
+        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
         "uuid": "d4c6c61b-85d1-4231-abc4-08c4725e2420"
       }
@@ -9093,9 +9093,9 @@
         "list_order": -27645424,
         "from_classifier_name": "Environment Model Composer",
         "from_feature_key": "",
-        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_classifier_name": "Environment Model Composer",
         "to_feature_key": "",
+        "from_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "to_node": "4e804abc-7686-4527-834f-699e8d185e43",
         "uuid": "d9bf2137-066d-4b8c-bfb0-e98924ebd666"
       }
@@ -9111,8 +9111,8 @@
         ],
         "list_order": 1503415536,
         "from_classifier_name": "Environment Model Composer",
-        "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "to_classifier_name": "General Purpose Partition 1",
+        "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "to_node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
         "uuid": "c5632eed-a27a-4d02-b0ca-d32c2523b7ff"
       }
@@ -9128,8 +9128,8 @@
         ],
         "list_order": -1157712888,
         "from_classifier_name": "Electrical Parts and Electronics",
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_classifier_name": "Software Parts",
+        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "uuid": "d77e94b7-6846-4ffd-ae22-5f456cbcf5ad"
       }
@@ -9145,8 +9145,8 @@
         ],
         "list_order": -1127573923,
         "from_classifier_name": "Electrical Parts and Electronics",
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_classifier_name": "Main Logic Board",
+        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "f4bf7478-e188-4576-9118-5f3ccc8e617f"
       }
@@ -9162,8 +9162,8 @@
         ],
         "list_order": -1137259057,
         "from_classifier_name": "Electrical Parts and Electronics",
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_classifier_name": "Base Logic Board",
+        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "88d78e6c-2255-4f8e-a827-3bc5bbb245e7"
       }
