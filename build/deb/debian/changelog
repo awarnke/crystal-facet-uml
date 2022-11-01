@@ -1,3 +1,15 @@
+crystal-facet-uml (1.43.0-0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Timing and sequence diagrams do not show a 2d snap region while dragging
+  * Errors at parsing json are shown to user including the line of occurrence
+  * In case of errors at opening json fies, the temp file is removed again
+  * specific error message in case of read-only parent directories added
+  * json export omits ids of linked objects, only uuids are exported
+  * subsystems/boundaries and interruptable regions can have features
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Nov 2022 05:00:00 +0200
+
 crystal-facet-uml (1.42.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
