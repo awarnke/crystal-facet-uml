@@ -79,6 +79,6 @@ openSuSE:
 
 wine:
 
-> see win/readme.markdown
+> see  [./win/readme.markdown](win)
 
 

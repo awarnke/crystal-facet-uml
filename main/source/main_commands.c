@@ -398,6 +398,12 @@ u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
             }
             break;
 
+            case U8_ERROR_VALUE_OUT_OF_RANGE:
+            {
+                write_err |= universal_utf8_writer_write_str( out_english_report, "Illegal value in input" );
+            }
+            break;
+
             default:
             {
                 write_err |= universal_utf8_writer_write_str( out_english_report, "Error x" );
