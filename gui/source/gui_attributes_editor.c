@@ -1582,7 +1582,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
-            /* prevent that a user accidentially enters a type for a non-existing object */
+            /* prevent that a user accidentally enters a type for a non-existing object */
 
             /* the icon grid: */
             gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );

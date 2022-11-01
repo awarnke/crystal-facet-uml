@@ -113,7 +113,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             if ( err != U8_ERROR_NONE )
             {
                 TSLOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
-                TSLOG_WARNING("Changes will not be written back to not accidentially overwrite the data source")
+                TSLOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                 (*this_).auto_writeback_to_json = false;
             }
             else
@@ -125,7 +125,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 {
                     TSLOG_ERROR("An error occurred at reading a json data file")
                     dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible additional errors */
-                    TSLOG_WARNING("Changes will not be written back to not accidentially overwrite the data source")
+                    TSLOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;
                 }
             }
