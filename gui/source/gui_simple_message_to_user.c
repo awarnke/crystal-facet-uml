@@ -1,11 +1,11 @@
 /* File: gui_simple_message_to_user.c; Copyright and License: see below */
 
 #include "gui_simple_message_to_user.h"
+#include "gui_error_info_printer.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
-#include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error.h"
 #include <stdbool.h>
 #include <assert.h>
@@ -599,71 +599,11 @@ void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *
 
     /* update content text: */
     utf8stringbuf_clear( (*this_).private_temp_str );
-    switch ( u8_error_info_get_error( err_info ) )
     {
-        case U8_ERROR_LEXICAL_STRUCTURE:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "Lexical error in input" );
-        }
-        break;
-
-        case U8_ERROR_PARSER_STRUCTURE:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "Parser error in input" );
-        }
-        break;
-
-        case U8_ERROR_STRING_BUFFER_EXCEEDED:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "String too long in input" );
-        }
-        break;
-
-        case U8_ERROR_VALUE_OUT_OF_RANGE:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "Illegal value in input" );
-        }
-        break;
-
-        default:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "Error x" );
-            utf8stringbuf_append_hex( (*this_).private_temp_str, u8_error_info_get_error( err_info ) );
-            utf8stringbuf_append_str( (*this_).private_temp_str, " occurred" );
-        }
-        break;
-    }
-
-    switch ( u8_error_info_get_unit ( err_info ) )
-    {
-        case U8_ERROR_INFO_UNIT_LINE:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, " at line " );
-            utf8stringbuf_append_int( (*this_).private_temp_str, u8_error_info_get_position( err_info ) );
-        }
-        break;
-
-        case U8_ERROR_INFO_UNIT_NAME:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, " at name " );
-            utf8stringbuf_append_str( (*this_).private_temp_str, u8_error_info_get_name( err_info ) );
-        }
-        break;
-
-        case U8_ERROR_INFO_UNIT_LINE_NAME:
-        {
-            utf8stringbuf_append_str( (*this_).private_temp_str, " at name " );
-            utf8stringbuf_append_str( (*this_).private_temp_str, u8_error_info_get_name( err_info ) );
-            utf8stringbuf_append_str( (*this_).private_temp_str, " at line " );
-            utf8stringbuf_append_int( (*this_).private_temp_str, u8_error_info_get_position( err_info ) );
-        }
-        break;
-
-        default:
-        {
-            /* no further information to add */
-        }
-        break;
+        gui_error_info_printer_t my_err_info_printer;
+        gui_error_info_printer_init( &my_err_info_printer );
+        gui_error_info_printer_show_error_info( &my_err_info_printer, err_info, (*this_).private_temp_str );
+        gui_error_info_printer_destroy( &my_err_info_printer );
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ) );
 

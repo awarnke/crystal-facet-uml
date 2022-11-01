@@ -2,6 +2,7 @@
 
 #include "main_commands.h"
 #include "gui_main.h"
+#include "gui_error_info_printer.h"
 #include "io_exporter.h"
 #include "io_importer.h"
 #include "ctrl_controller.h"
@@ -378,72 +379,16 @@ u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
 
     if ( u8_error_info_is_error( error_info ) )
     {
-        switch ( u8_error_info_get_error( error_info ) )
+        char info_string_buf[80];
+        utf8stringbuf_t info_string = UTF8STRINGBUF(info_string_buf);
+        utf8stringbuf_clear( info_string );
         {
-            case U8_ERROR_LEXICAL_STRUCTURE:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, "Lexical error in input" );
-            }
-            break;
-
-            case U8_ERROR_PARSER_STRUCTURE:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, "Parser error in input" );
-            }
-            break;
-
-            case U8_ERROR_STRING_BUFFER_EXCEEDED:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, "String too long in input" );
-            }
-            break;
-
-            case U8_ERROR_VALUE_OUT_OF_RANGE:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, "Illegal value in input" );
-            }
-            break;
-
-            default:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, "Error x" );
-                write_err |= universal_utf8_writer_write_hex( out_english_report, u8_error_info_get_error( error_info ) );
-            }
-            break;
+            gui_error_info_printer_t my_err_info_printer;
+            gui_error_info_printer_init( &my_err_info_printer );
+            write_err |= gui_error_info_printer_show_error_info( &my_err_info_printer, error_info, info_string );
+            gui_error_info_printer_destroy( &my_err_info_printer );
         }
-
-        switch ( u8_error_info_get_unit ( error_info ) )
-        {
-            case U8_ERROR_INFO_UNIT_LINE:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, " at line " );
-                write_err |= universal_utf8_writer_write_int( out_english_report, u8_error_info_get_position( error_info ) );
-            }
-            break;
-
-            case U8_ERROR_INFO_UNIT_NAME:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, " at name " );
-                write_err |= universal_utf8_writer_write_str( out_english_report, u8_error_info_get_name( error_info ) );
-            }
-            break;
-
-            case U8_ERROR_INFO_UNIT_LINE_NAME:
-            {
-                write_err |= universal_utf8_writer_write_str( out_english_report, " at name " );
-                write_err |= universal_utf8_writer_write_str( out_english_report, u8_error_info_get_name( error_info ) );
-                write_err |= universal_utf8_writer_write_str( out_english_report, " at line " );
-                write_err |= universal_utf8_writer_write_int( out_english_report, u8_error_info_get_position( error_info ) );
-            }
-            break;
-
-            default:
-            {
-                /* no further information to add */
-            }
-            break;
-        }
-
+        write_err |= universal_utf8_writer_write_str( out_english_report, utf8stringbuf_get_string(info_string) );
         write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
     }
 
