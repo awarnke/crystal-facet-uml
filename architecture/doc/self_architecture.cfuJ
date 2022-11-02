@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.43.0"
+    "generator_version": "1.43.2"
   }
   ,
   "views":
@@ -3068,7 +3068,7 @@
           {
             "id": 30,
             "display_flags": 0,
-            "classifier_name": "u8stream",
+            "classifier_name": "u8stream/",
             "node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
             "uuid": "97d18164-65a9-49bf-a890-6024f9e2bc41"
           },
@@ -3138,7 +3138,7 @@
           {
             "id": 586,
             "display_flags": 0,
-            "classifier_name": ".u8stream",
+            "classifier_name": "u8stream",
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e5e7c431-382a-4b23-b70b-04745d636dcc"
           },
@@ -3176,6 +3176,13 @@
             "classifier_name": "utf8stream",
             "node": "e1f3ec79-56d3-46d9-be30-b694bc7bccf8",
             "uuid": "147aa28a-5093-4f7e-8d46-cc2b144c7207"
+          },
+          {
+            "id": 652,
+            "display_flags": 0,
+            "classifier_name": "u8_error_info",
+            "node": "f92162b7-0bd8-4ad2-af1b-ad53b7aceae5",
+            "uuid": "4e39526a-aa17-4686-bec8-f0b651b4b80d"
           }
         ]
       }
@@ -3199,14 +3206,14 @@
           {
             "id": 435,
             "display_flags": 0,
-            "classifier_name": "u8stream",
+            "classifier_name": "u8stream/",
             "node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
             "uuid": "3d810960-2a8b-4ae7-b26e-76742c424692"
           },
           {
             "id": 440,
             "display_flags": 0,
-            "classifier_name": ".u8stream",
+            "classifier_name": "u8stream",
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "75f5b520-db4c-4a29-8706-f6b6c0bc831e"
           },
@@ -3260,7 +3267,7 @@
           {
             "id": 577,
             "display_flags": 0,
-            "classifier_name": ".u8stream",
+            "classifier_name": "u8stream",
             "node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
             "uuid": "e986948d-b180-4830-8e70-9ebf97f32775"
           },
@@ -6222,7 +6229,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": "u8stream",
+        "name": "u8stream/",
         "description": [
                 "provides small, generic utility classes that are independant of the project"
         ],
@@ -12996,7 +13003,7 @@
         "main_type": 124,
         "type": "Package",
         "stereotype": "",
-        "name": ".u8stream",
+        "name": "u8stream",
         "description": [
                 ""
         ],
@@ -13952,7 +13959,7 @@
         "stereotype": "",
         "name": "u8_error",
         "description": [
-                ""
+                "An error mask representing one or multiple errors"
         ],
         "x_order": -1046875876,
         "y_order": -1546677314,
@@ -14060,6 +14067,25 @@
             "list_order": 65536,
             "uuid": "e5ad6e0b-0d5b-4bff-b9a1-956115f02684"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 418,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "u8_error_info",
+        "description": [
+                "An error info struct representing one error with detailed information"
+        ],
+        "x_order": -1046875876,
+        "y_order": -1568843722,
+        "list_order": -1568843722,
+        "uuid": "f92162b7-0bd8-4ad2-af1b-ad53b7aceae5",
+        "features":
+        [
         ]
       }
     },
@@ -15078,8 +15104,8 @@
                 ""
         ],
         "list_order": 41192590,
-        "from_classifier_name": "u8stream",
-        "to_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream/",
+        "to_classifier_name": "u8stream",
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "uuid": "7ebc4b07-f020-4381-95db-9dea1a59faba"
@@ -15095,7 +15121,7 @@
                 ""
         ],
         "list_order": -105643833,
-        "from_classifier_name": "u8stream",
+        "from_classifier_name": "u8stream/",
         "to_classifier_name": "Utf8 Writer",
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "4bdb311e-f904-48b1-a6e9-e9e2b0972ca5",
@@ -15112,7 +15138,7 @@
                 ""
         ],
         "list_order": -105896546,
-        "from_classifier_name": "u8stream",
+        "from_classifier_name": "u8stream/",
         "to_classifier_name": "Simple Random",
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "7ca62e35-60cd-4e00-8176-8c2113cebe8a",
@@ -15129,7 +15155,7 @@
                 ""
         ],
         "list_order": -105281114,
-        "from_classifier_name": "u8stream",
+        "from_classifier_name": "u8stream/",
         "to_classifier_name": "u8_error",
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
@@ -15146,7 +15172,7 @@
                 ""
         ],
         "list_order": 41290894,
-        "from_classifier_name": "u8stream",
+        "from_classifier_name": "u8stream/",
         "to_classifier_name": "tslog",
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
@@ -15163,7 +15189,7 @@
                 ""
         ],
         "list_order": 41323662,
-        "from_classifier_name": "u8stream",
+        "from_classifier_name": "u8stream/",
         "to_classifier_name": "trace",
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
@@ -15180,11 +15206,28 @@
                 ""
         ],
         "list_order": -685325314,
-        "from_classifier_name": "u8stream",
+        "from_classifier_name": "u8stream/",
         "to_classifier_name": "utf8stream",
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "e1f3ec79-56d3-46d9-be30-b694bc7bccf8",
         "uuid": "fd7787af-e2b6-4ef1-aa24-e3d692f47714"
+      }
+    },
+    {
+      "relationship": {
+        "id": 638,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1568843722,
+        "from_classifier_name": "u8stream/",
+        "to_classifier_name": "u8_error_info",
+        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
+        "to_node": "f92162b7-0bd8-4ad2-af1b-ad53b7aceae5",
+        "uuid": "aecac66c-04b3-4c45-a1d7-4afde6375bc0"
       }
     },
     {
@@ -18944,7 +18987,7 @@
         ],
         "list_order": 41389198,
         "from_classifier_name": "u8buf",
-        "to_classifier_name": "u8stream",
+        "to_classifier_name": "u8stream/",
         "from_node": "1ec9690b-c849-4fac-a515-07812ca170c6",
         "to_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "uuid": "e1795660-44eb-47bd-b6cc-e3ff6a3406cd"
@@ -22487,7 +22530,7 @@
                 ""
         ],
         "list_order": 8462397,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "File Output Stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "40642860-97d2-4734-987a-9bab181888b4",
@@ -22504,7 +22547,7 @@
                 ""
         ],
         "list_order": -15526114,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "Memory Output Stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "23e4b07f-2d1d-432b-912b-d37012355cde",
@@ -22521,7 +22564,7 @@
                 ""
         ],
         "list_order": -85511247,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "Output Stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "c5bd3a42-7b69-4357-bc3a-85e6796bf969",
@@ -22538,7 +22581,7 @@
                 ""
         ],
         "list_order": 1585757438,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "Input Stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "fe45b491-ff33-4c10-aa40-b5afd0affcd5",
@@ -22555,7 +22598,7 @@
                 ""
         ],
         "list_order": 1695425124,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "Memory Input Stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "33c57ae0-ab84-4308-90f0-96a1de9cf49d",
@@ -22572,7 +22615,7 @@
                 ""
         ],
         "list_order": 1628103567,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "File input stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "49625329-ee5b-434e-93cc-6e2b4fbe24bb",
@@ -22589,7 +22632,7 @@
                 ""
         ],
         "list_order": 1388102372,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "Escaping Output Stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "da6a331a-0977-4a4e-9a90-d6fd3ab64231",
@@ -22606,7 +22649,7 @@
                 ""
         ],
         "list_order": 1422323403,
-        "from_classifier_name": ".u8stream",
+        "from_classifier_name": "u8stream",
         "to_classifier_name": "Stream Output Stream",
         "from_node": "ddc6286f-31b7-49a0-a9bf-79bcb3fee57b",
         "to_node": "64c320ad-1d4e-40ff-bc29-27c74f9d7c25",

@@ -40,7 +40,7 @@ void gui_error_info_printer_destroy ( gui_error_info_printer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param err_info the u8_error_info_t to be printed
- *  \param out_buf the output string buffer to which to append the error messasge
+ *  \param out_buf the output string buffer to which to append the error message
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t gui_error_info_printer_show_error_info ( gui_error_info_printer_t *this_,
