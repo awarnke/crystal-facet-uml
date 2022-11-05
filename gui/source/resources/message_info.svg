@@ -54,16 +54,14 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-1020.3622)">
-    <path
-       sodipodi:type="arc"
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none"
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3986"
-       sodipodi:cx="16.109913"
-       sodipodi:cy="16.321121"
-       sodipodi:rx="15.67888"
-       sodipodi:ry="15.67888"
-       d="M 31.788793,16.321121 A 15.67888,15.67888 0 0 1 16.109913,32.000001 15.67888,15.67888 0 0 1 0.43103313,16.321121 15.67888,15.67888 0 0 1 16.109913,0.64224148 15.67888,15.67888 0 0 1 31.788793,16.321121 Z"
-       transform="matrix(-1,0,0,1,32.219826,1020.1467)" />
+       transform="scale(-1,1)"
+       cx="-15.944146"
+       cy="1036.3356"
+       rx="15.517717"
+       ry="15.551272" />
     <ellipse
        style="fill:#ffffff;fill-opacity:1;stroke:#0055dd;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4498"
@@ -82,17 +80,17 @@
        style="fill:none;fill-opacity:1;stroke:#0055dd;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3986-3"
        transform="scale(-1,1)"
-       cx="-16.095791"
-       cy="1036.48"
-       rx="14.744159"
-       ry="14.840808" />
+       cx="-15.930169"
+       cy="1036.3477"
+       rx="14.592605"
+       ry="14.720021" />
     <ellipse
-       style="fill:none;fill-opacity:1;stroke:#0055dd;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.46666667"
+       style="fill:none;fill-opacity:1;stroke:#0055dd;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.466667"
        id="path3986-3-6"
        transform="scale(-1,1)"
-       cx="-16.072924"
-       cy="1036.4926"
-       rx="13.897183"
-       ry="13.989752" />
+       cx="-15.907537"
+       cy="1036.3601"
+       rx="13.754335"
+       ry="13.875892" />
   </g>
 </svg>
