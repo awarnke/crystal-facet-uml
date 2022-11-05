@@ -172,6 +172,11 @@ void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFo
 gboolean gui_attributes_editor_description_focus_lost_callback( GtkWidget *widget, GdkEvent *event, gpointer user_data );
 #endif
 
+/*!
+ *  \brief callback that informs that the id search button was triggered
+ */
+void gui_attributes_editor_id_search_callback ( GtkWidget *widget, gpointer user_data );
+
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
 /*!

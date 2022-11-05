@@ -446,6 +446,23 @@ gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widg
 }
 #endif
 
+void gui_attributes_editor_id_search_callback ( GtkWidget *widget, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
+    assert ( NULL != this_ );
+
+    gui_simple_message_to_user_show_message_with_error( (*this_).message_to_user,
+                                                        GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                        GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
+                                                        "search for id"
+                                                      );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
 void gui_attributes_editor_focused_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )

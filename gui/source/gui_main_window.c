@@ -246,7 +246,16 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_toolbox_highlight_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), &((*this_).tools_data) );
 
-    g_signal_connect( G_OBJECT((*this_).name_entry), "activate", G_CALLBACK(gui_attributes_editor_name_enter_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).id_search_btn),
+                      "clicked",
+                      G_CALLBACK(gui_attributes_editor_id_search_callback),
+                      &((*this_).attributes_editor)
+                    );
+    g_signal_connect( G_OBJECT((*this_).name_entry),
+                      "activate",
+                      G_CALLBACK(gui_attributes_editor_name_enter_callback),
+                      &((*this_).attributes_editor)
+                    );
 #if ( GTK_MAJOR_VERSION >= 4 )
     {
         GtkEventControllerFocus *evt_focus_n = GTK_EVENT_CONTROLLER_FOCUS(gtk_event_controller_focus_new());
@@ -682,7 +691,6 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 
     (*this_).id_label = gtk_label_new( "" );
     gtk_label_set_selectable( GTK_LABEL( (*this_).id_label ), true );
-    //(*this_).id_label = gtk_button_new_with_label( "D0001" );
     (*this_).name_label = gtk_label_new( "Name:" );
     (*this_).description_label = gtk_label_new( "Description:" );
     (*this_).stereotype_label = gtk_label_new( "Stereotype/Valuetype:" );
@@ -700,6 +708,32 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_misc_set_alignment( GTK_MISC( (*this_).stereotype_label ), 0.0, 0.0 );
     gtk_misc_set_alignment( GTK_MISC( (*this_).type_label ), 0.0, 0.0 );
 #endif
+
+    (*this_).id_search_btn = gtk_button_new();
+    (*this_).id_search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_search_search( res ));
+    gtk_button_set_image( GTK_BUTTON((*this_).id_search_btn), (*this_).id_search_btn_icon );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).id_search_btn), "Search" );
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).id_search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
+
+    /* insert widgets to box container */
+    {
+        (*this_).id_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 8 );
+#if ( GTK_MAJOR_VERSION >= 4 )
+        gtk_box_append( GTK_BOX((*this_).id_row), GTK_WIDGET((*this_).attr_section_icon) );
+        gtk_box_append( GTK_BOX((*this_).id_row), GTK_WIDGET((*this_).id_label) );
+        gtk_box_append( GTK_BOX((*this_).id_row), GTK_WIDGET((*this_).id_search_btn) );
+#else
+        gtk_container_add( GTK_CONTAINER((*this_).id_row), GTK_WIDGET((*this_).attr_section_icon) );
+        gtk_container_add( GTK_CONTAINER((*this_).id_row), GTK_WIDGET((*this_).id_label) );
+        gtk_container_add( GTK_CONTAINER((*this_).id_row), GTK_WIDGET((*this_).id_search_btn) );
+#endif
+        gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
+        gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
+        gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
+        gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).id_label ), true );
+        gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_search_btn ), false );
+        gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).id_search_btn ), false );
+    }
 
     (*this_).name_entry = gtk_entry_new();
 
@@ -762,8 +796,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     {
         (*this_).attr_edit_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 4 );
 #if ( GTK_MAJOR_VERSION >= 4 )
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).attr_section_icon) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).id_label) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).id_row) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).name_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).name_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
@@ -774,8 +807,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #else
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).attr_section_icon) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).id_label) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).id_row) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).name_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).name_entry) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );

@@ -105,6 +105,9 @@ struct gui_main_window_struct {
 
     GtkWidget *attr_edit_column;
     GtkWidget *attr_section_icon;
+    GtkWidget *id_row;
+    GtkWidget *id_search_btn_icon;
+    GtkWidget *id_search_btn;
     GtkWidget *id_label;
     GtkWidget *name_label;
     GtkWidget *name_entry;
