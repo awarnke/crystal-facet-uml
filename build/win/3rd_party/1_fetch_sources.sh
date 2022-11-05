@@ -37,21 +37,23 @@ fi
 
 if test ! -f expat* ; then
     echo "fetching expat"
-    echo "  version 0.40.0 date 2020-04-19"
-    wget https://github.com/libexpat/libexpat/releases/download/R_2_4_4/expat-2.4.4.tar.xz
+    echo "  version 2.5.0 date 2022-10-26"
+    wget https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.xz
 fi
 
 if test ! -f libxml2* ; then
     echo "fetching libxml2"
     echo "  version 2.9.9 date 2022-Feb-14"
     wget https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.9.tar.xz
+    #echo "  version 2.10.2 date 2022-Aug-29 ... this version has new python 2.7 dependencies"
+    #wget https://download.gnome.org/sources/libxml2/2.10/libxml2-2.10.2.tar.xz
     # Alternative may be here: http://www.xmlsoft.org/downloads.html
 fi
 
 if test ! -f libjpeg-turbo* ; then
     echo "fetching libjpeg-turbo"
-    echo "  version 2.1.3 date 2022-02-25"
-    wget --output-document=libjpeg-turbo-2.1.3.tar.gz https://sourceforge.net/projects/libjpeg-turbo/files/2.1.3/libjpeg-turbo-2.1.3.tar.gz/download
+    echo "  version 2.1.4 date 2022-08-12"
+    wget --output-document=libjpeg-turbo-2.1.4.tar.gz https://sourceforge.net/projects/libjpeg-turbo/files/2.1.4/libjpeg-turbo-2.1.4.tar.gz/download
 fi
 
 if test ! -f gtk* ; then
@@ -86,8 +88,8 @@ fi
 
 if test ! -f fontconfig* ; then
     echo "fetching fontconfig"
-    echo "  version 2.13.96 date 2022-02-04"
-    wget https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.96.tar.xz
+    echo "  version 2.14.1 date 2022-10-21"
+    wget https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.14.1.tar.xz
 fi
 
 if test ! -f gdk-pixbuf* ; then
@@ -104,8 +106,8 @@ fi
 
 if test ! -f freetype* ; then
     echo "fetching freetype2"
-    echo "  version 2.11.1 date 2021-12-02"
-    wget --output-document=freetype-2.11.1.tar.xz https://sourceforge.net/projects/freetype/files/freetype2/2.11.1/freetype-2.11.1.tar.xz/download
+    echo "  version 2.12.1 date 2022-05-01"
+    wget --output-document=freetype-2.12.1.tar.xz https://sourceforge.net/projects/freetype/files/freetype2/2.12.1/freetype-2.12.1.tar.xz/download
 fi
 
 if test ! -f sqlite* ; then

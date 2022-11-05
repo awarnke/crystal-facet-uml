@@ -24,6 +24,7 @@ PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
 echo `date +'%H:%M'`" building jpeg..."
 LOG_FILE=${LOG_DIR}/log_jpeg.txt
 echo "      log: ${LOG_FILE}"
+echo "      t  : expected duration: 5 min"
 cd src/libjpeg-turbo-2*
     cmake -DCMAKE_TOOLCHAIN_FILE=../../../mingw_wine_toolchain.cmake -DCMAKE_INSTALL_PREFIX=${PREFIX} . > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
@@ -34,6 +35,7 @@ echo "      lib: `${PKG_CONFIG_EXE} --libs libturbojpeg`"
 echo `date +'%H:%M'`" building pixman..."
 LOG_FILE=${LOG_DIR}/log_pixman.txt
 echo "      log: ${LOG_FILE}"
+echo "      t  : expected duration: 5 min"
 cd src/pixman-0*
     ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
     make >> ${LOG_FILE} 2>&1
