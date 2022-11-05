@@ -681,6 +681,8 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
 
     (*this_).id_label = gtk_label_new( "" );
+    gtk_label_set_selectable( GTK_LABEL( (*this_).id_label ), true );
+    //(*this_).id_label = gtk_button_new_with_label( "D0001" );
     (*this_).name_label = gtk_label_new( "Name:" );
     (*this_).description_label = gtk_label_new( "Description:" );
     (*this_).stereotype_label = gtk_label_new( "Stereotype/Valuetype:" );
@@ -847,7 +849,7 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
         (*this_).search_entry = gtk_entry_new();
 
         (*this_).search_button = gtk_button_new();
-        (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_view_search( res ));
+        (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_search_search( res ));
         gtk_button_set_image( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
         gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
         gtk_widget_set_size_request( GTK_WIDGET((*this_).search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );

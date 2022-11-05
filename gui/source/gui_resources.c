@@ -45,6 +45,7 @@
 #include "resources/navigate_create_sibling.c"
 #include "resources/navigate_create_sibling_0.c"
 #include "resources/navigate_open_folder.c"
+#include "resources/search_search.c"
 #include "resources/background_column.c"
 
 #include "resources/type_undef.c"
@@ -176,6 +177,8 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).navigate_create_sibling_0 = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_sibling_0 ) );
     (*this_).navigate_open_folder = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_open_folder ) );
 
+    (*this_).search_search = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( search_search ) );
+
     (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
 
     (*this_).type_undef = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_undef ) );
@@ -305,6 +308,8 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).navigate_create_sibling);
     g_object_unref ((*this_).navigate_create_sibling_0);
     g_object_unref ((*this_).navigate_open_folder);
+
+    g_object_unref ((*this_).search_search);
 
     g_object_unref ((*this_).background_column);
 

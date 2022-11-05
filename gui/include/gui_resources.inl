@@ -165,6 +165,11 @@ static inline GdkPixbuf *gui_resources_get_navigate_create_sibling_0 ( gui_resou
     return (*this_).navigate_create_sibling_0;
 }
 
+static inline GdkPixbuf *gui_resources_get_search_search ( gui_resources_t *this_ )
+{
+    return (*this_).search_search;
+}
+
 static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ )
 {
     return (*this_).background_column;
