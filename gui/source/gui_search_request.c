@@ -10,17 +10,20 @@ void gui_search_request_init ( gui_search_request_t *this_,
                                GtkWidget *search_label,
                                GtkWidget *search_entry,
                                GtkWidget *search_button,
+                               gui_marked_set_t *marked_set,
                                gui_search_runner_t *search_runner )
 {
     TRACE_BEGIN();
     assert ( search_label != NULL );
     assert ( search_entry != NULL );
     assert ( search_button != NULL );
+    assert ( marked_set != NULL );
     assert ( search_runner != NULL );
 
     (*this_).search_label = search_label;
     (*this_).search_entry = search_entry;
     (*this_).search_button = search_button;
+    (*this_).marked_set = marked_set;
     (*this_).search_runner = search_runner;
 
     TRACE_END();
@@ -33,6 +36,7 @@ void gui_search_request_destroy ( gui_search_request_t *this_ )
     (*this_).search_label = NULL;
     (*this_).search_entry = NULL;
     (*this_).search_button = NULL;
+    (*this_).marked_set = NULL;
     (*this_).search_runner = NULL;
 
     TRACE_END();
@@ -132,6 +136,35 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
         assert(false);
     }
 
+    TRACE_END();
+}
+
+void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_search_request_t *this_;
+    this_ = (gui_search_request_t*) user_data;
+    assert ( NULL != this_ );
+
+    data_id_t focused_id = gui_marked_set_get_focused ( (*this_).marked_set );
+    if ( data_id_is_valid( &focused_id ) )
+    {
+        char focused_id_buf[DATA_ID_MAX_UTF8STRING_LENGTH] = "";
+        utf8stringbuf_t focused_id_str = UTF8STRINGBUF(focused_id_buf);
+        const utf8error_t id_err = data_id_to_utf8stringbuf( &focused_id, focused_id_str );
+        if ( id_err == UTF8ERROR_SUCCESS )
+        {
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( (*this_).search_entry );
+            gtk_entry_buffer_set_text( name_buf, utf8stringbuf_get_string( focused_id_str ), -1 /* = n_chars */ );
+#else
+            gtk_entry_set_text( GTK_ENTRY ( (*this_).search_entry ), utf8stringbuf_get_string( focused_id_str ) );
+#endif
+            gui_search_runner_run ( (*this_).search_runner, utf8stringbuf_get_string( focused_id_str ) );
+        }
+    }
+
+    TRACE_TIMESTAMP();
     TRACE_END();
 }
 

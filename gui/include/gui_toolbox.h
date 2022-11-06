@@ -110,6 +110,11 @@ void gui_toolbox_create_btn_callback( GtkWidget* button, gpointer data );
 void gui_toolbox_search_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
+ *  \brief callback that informs that the earch_for_id button was pressed
+ */
+void gui_toolbox_search_id_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
  *  \brief callback that informs that the tool button was pressed
  */
 void gui_toolbox_cut_btn_callback( GtkWidget* button, gpointer data );
@@ -210,9 +215,9 @@ void gui_toolbox_delete( gui_toolbox_t *this_ );
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
-                                             const data_small_set_t *set_to_be_deleted,
-                                             data_stat_t *io_stat
-                                           );
+                                           const data_small_set_t *set_to_be_deleted,
+                                           data_stat_t *io_stat
+                                         );
 
 /*!
  *  \brief toggles display flags in a set of objects

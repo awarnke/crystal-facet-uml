@@ -10,6 +10,7 @@
 
 #include "gui_tool.h"
 #include "gui_search_runner.h"
+#include "gui_marked_set.h"
 #include "data_id.h"
 #include "storage/data_change_message.h"
 #include <gtk/gtk.h>
@@ -21,6 +22,7 @@ struct gui_search_request_struct {
     GtkWidget *search_label;  /*!< pointer to external GtkWidget */
     GtkWidget *search_entry;  /*!< pointer to external GtkWidget */
     GtkWidget *search_button;  /*!< pointer to external GtkWidget */
+    gui_marked_set_t *marked_set;  /*!< pointer to external marked_set */
     gui_search_runner_t *search_runner;  /*!< pointer to external search runner */
 };
 
@@ -33,12 +35,14 @@ typedef struct gui_search_request_struct gui_search_request_t;
  *  \param search_label pointer to GTK label widget
  *  \param search_entry pointer to GTK text entry widget
  *  \param search_button pointer to GTK search button widget
+ *  \param marked_set pointer to marked_set which knows the currently selected item
  *  \param search_runner pointer to search runner
  */
 void gui_search_request_init ( gui_search_request_t *this_,
                                GtkWidget *search_label,
                                GtkWidget *search_entry,
                                GtkWidget *search_button,
+                               gui_marked_set_t *marked_set,
                                gui_search_runner_t *search_runner
                              );
 
@@ -82,6 +86,13 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
  *  \param data pointer to own object attributes
  */
 void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpointer data );
+
+/*!
+ *  \brief callback that informs that the id search button (in the attributes editor pane) was triggered
+ *  \param widget the search id button that triggered the callback
+ *  \param data pointer to own object attributes
+ */
+void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_data );
 
 /* ================================ MODEL CHANGED CALLBACKS ================================ */
 

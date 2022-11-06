@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.43.2"
+    "generator_version": "1.44.0"
   }
   ,
   "views":
@@ -2707,6 +2707,13 @@
             "classifier_name": "gui_search_request",
             "node": "a10bc1db-02b2-4557-8e21-fbc9f2653ebf",
             "uuid": "4df10bab-be37-4dea-a842-38e52e5edcb6"
+          },
+          {
+            "id": 653,
+            "display_flags": 0,
+            "classifier_name": "gui_simple_message_to_user",
+            "node": "16495ce7-8208-4453-857b-cba9f10beb95",
+            "uuid": "c59be115-9e79-4fc8-86d9-f4c0568d3ca2"
           }
         ]
       }
@@ -12591,7 +12598,9 @@
         "stereotype": "",
         "name": "sketch",
         "description": [
-                ""
+                "This component is the view and controller for the central sketch widget.\n",
+                "\n",
+                "This includes the tree navigation bar and the search result list on the left."
         ],
         "x_order": -749155187,
         "y_order": -1026369662,
@@ -14084,6 +14093,25 @@
         "y_order": -1568843722,
         "list_order": -1568843722,
         "uuid": "f92162b7-0bd8-4ad2-af1b-ad53b7aceae5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 419,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "gui_simple_message_to_user",
+        "description": [
+                "This class is the controller for the status bar widgets"
+        ],
+        "x_order": -755179412,
+        "y_order": -863059162,
+        "list_order": -863059162,
+        "uuid": "16495ce7-8208-4453-857b-cba9f10beb95",
         "features":
         [
         ]
@@ -17260,7 +17288,7 @@
         "id": 355,
         "main_type": 230,
         "type": "CommunicationPath",
-        "name": "",
+        "name": "run",
         "description": [
                 ""
         ],
@@ -19167,6 +19195,23 @@
     },
     {
       "relationship": {
+        "id": 639,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -863059162,
+        "from_classifier_name": "gui",
+        "to_classifier_name": "gui_simple_message_to_user",
+        "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
+        "to_node": "16495ce7-8208-4453-857b-cba9f10beb95",
+        "uuid": "a2f499c8-6fb9-450b-b0df-29faa0cd0f4e"
+      }
+    },
+    {
+      "relationship": {
         "id": 11,
         "main_type": 200,
         "type": "Association",
@@ -20108,6 +20153,23 @@
         "from_node": "39538dfa-3b4a-42b1-9762-3809528bbee9",
         "to_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
         "uuid": "868d2a07-f32f-4871-bf20-63eb3fb1ddae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 640,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412250053,
+        "from_classifier_name": "gui_main_window",
+        "to_classifier_name": "gui_simple_message_to_user",
+        "from_node": "39538dfa-3b4a-42b1-9762-3809528bbee9",
+        "to_node": "16495ce7-8208-4453-857b-cba9f10beb95",
+        "uuid": "da541d86-68be-4801-a47a-93836ab35df6"
       }
     },
     {

@@ -20,13 +20,16 @@ void gui_main_window_init( gui_main_window_t *this_,
                            io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
                            gui_resources_t *res,
-#if ( GTK_MAJOR_VERSION >= 4 )
                            GtkApplication *gtk_app,
-#endif
                            observer_t *window_close_observer,
                            observer_t *window_open_observer )
 {
     TRACE_BEGIN();
+#if ( GTK_MAJOR_VERSION >= 4 )
+    assert( gtk_app != NULL );
+#else
+    assert( gtk_app == NULL );
+#endif
 
     /* init own attributes */
     (*this_).window_close_observer = window_close_observer;
@@ -119,6 +122,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                              (*this_).search_label,
                              (*this_).search_entry,
                              (*this_).search_button,
+                             &((*this_).marker_data),
                              &((*this_).search_runner)
                            );
     gui_sketch_area_init( &((*this_).sketcharea_data),
@@ -231,6 +235,18 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).view_create), "clicked", G_CALLBACK(gui_toolbox_create_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).view_search), "clicked", G_CALLBACK(gui_toolbox_search_btn_callback), &((*this_).tools_data) );
 
+    /* The search id button is connected to two callback functions: one to switch to search mode, one to perform a search: */
+    g_signal_connect( G_OBJECT((*this_).id_search_btn),
+                      "clicked",
+                      G_CALLBACK(gui_toolbox_search_id_btn_callback),
+                      &((*this_).tools_data)
+                    );
+    g_signal_connect( G_OBJECT((*this_).id_search_btn),
+                      "clicked",
+                      G_CALLBACK(gui_search_request_id_search_callback),
+                      &((*this_).search_request)
+                    );
+
     g_signal_connect( G_OBJECT((*this_).tool_row), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_tool_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_data_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_entry), "activate", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
@@ -246,11 +262,6 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_toolbox_highlight_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), &((*this_).tools_data) );
 
-    g_signal_connect( G_OBJECT((*this_).id_search_btn),
-                      "clicked",
-                      G_CALLBACK(gui_attributes_editor_id_search_callback),
-                      &((*this_).attributes_editor)
-                    );
     g_signal_connect( G_OBJECT((*this_).name_entry),
                       "activate",
                       G_CALLBACK(gui_attributes_editor_name_enter_callback),

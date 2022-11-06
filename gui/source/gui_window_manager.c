@@ -15,6 +15,8 @@ void gui_window_manager_init( gui_window_manager_t *this_,
     assert( data_file != NULL );
 #if ( GTK_MAJOR_VERSION >= 4 )
     assert( gtk_app != NULL );
+#else
+    assert( gtk_app == NULL );
 #endif
 
     gui_resources_init( &((*this_).gui_resources) );
@@ -83,9 +85,7 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
                               (*this_).data_file,
                               &((*this_).db_reader),
                               &((*this_).gui_resources),
-#if ( GTK_MAJOR_VERSION >= 4 )
                               (*this_).gtk_app,
-#endif
                               &((*this_).window_close_observer),
                               &((*this_).window_open_observer)
                             );

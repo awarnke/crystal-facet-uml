@@ -163,6 +163,7 @@ void gui_toolbox_navigate_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -178,6 +179,7 @@ void gui_toolbox_edit_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -193,6 +195,7 @@ void gui_toolbox_create_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -208,6 +211,7 @@ void gui_toolbox_search_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -219,10 +223,23 @@ void gui_toolbox_search_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
+void gui_toolbox_search_id_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
+
+    gui_toolbox_set_selected_tool( this_, GUI_TOOL_SEARCH );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 void gui_toolbox_cut_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_toolbox_cut( this_ );
 
@@ -286,6 +303,7 @@ void gui_toolbox_copy_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_toolbox_copy( this_ );
 
@@ -346,6 +364,7 @@ void gui_toolbox_paste_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_toolbox_paste( this_ );
 
@@ -382,6 +401,7 @@ void gui_toolbox_delete_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_toolbox_delete( this_ );
 
@@ -463,6 +483,7 @@ void gui_toolbox_highlight_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -483,6 +504,7 @@ void gui_toolbox_instantiate_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
@@ -503,6 +525,7 @@ void gui_toolbox_reset_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
+    assert( NULL != this_ );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
