@@ -1,6 +1,8 @@
 /* File: gui_search_request.c; Copyright and License: see below */
 
 #include "gui_search_request.h"
+#include "set/data_full_id.h"
+#include "data_id.h"
 #include "utf8stringbuf/utf8string.h"
 #include "trace/trace.h"
 #include "tslog/tslog.h"
@@ -146,12 +148,19 @@ void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_da
     this_ = (gui_search_request_t*) user_data;
     assert ( NULL != this_ );
 
-    data_id_t focused_id = gui_marked_set_get_focused_obj ( (*this_).marked_set );
-    if ( data_id_is_valid( &focused_id ) )
+    data_full_id_t focused_id = gui_marked_set_get_focused ( (*this_).marked_set );
+    if ( data_full_id_is_valid( &focused_id ) )
     {
+        /* get the primary id unless it is a DIAGRAMELEMENT, then take the secondary id */
+        const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &focused_id );
+        const data_id_t *const model_id
+            = (DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( vis_id ))
+            ? data_full_id_get_secondary_id_ptr( &focused_id )
+            : vis_id;
+
         char focused_id_buf[DATA_ID_MAX_UTF8STRING_LENGTH] = "";
         utf8stringbuf_t focused_id_str = UTF8STRINGBUF(focused_id_buf);
-        const utf8error_t id_err = data_id_to_utf8stringbuf( &focused_id, focused_id_str );
+        const utf8error_t id_err = data_id_to_utf8stringbuf( model_id, focused_id_str );
         if ( id_err == UTF8ERROR_SUCCESS )
         {
 #if ( GTK_MAJOR_VERSION >= 4 )
