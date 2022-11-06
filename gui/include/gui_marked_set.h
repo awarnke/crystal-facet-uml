@@ -26,8 +26,9 @@
  *  Additionally it emits a signal to listeners when the focus changes.
  */
 struct gui_marked_set_struct {
-    data_id_t focused;  /*!<  references the one focused visible object, */
-                        /*!<  e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
+    data_full_id_t focused;  /*!<  references the one focused visible object, */
+                             /*!<  e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
+                             /*!<  with an optional classifier id as the secondary id */
     data_id_t focused_diagram;  /*!< the focused diagram is the place where to e.g. insert pasted objects. */
                                 /*!< Even if the focused object is VOID, the focused_diagram should be set */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
@@ -72,7 +73,16 @@ void gui_marked_set_destroy ( gui_marked_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return id of the focused object. This is the visible object, e.g. a data_diagram_t or a data_diagramelement_t
  */
-static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ );
+static inline data_id_t gui_marked_set_get_focused_obj ( const gui_marked_set_t *this_ );
+
+/*!
+ *  \brief gets the visible object id and the classifier that is associated to the focused object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the visible object (and the classifier if the focused object is associated to a classifier),
+ *          DATA_ID_VOID_ID otherwise
+ */
+static inline data_full_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the focused_diagram id

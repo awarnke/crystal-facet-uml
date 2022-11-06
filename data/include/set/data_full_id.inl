@@ -82,6 +82,18 @@ static inline void data_full_id_reinit_by_table_and_id ( data_full_id_t *this_,
     data_id_reinit ( &((*this_).secondary_id), secondary_table, secondary_row_id );
 }
 
+static inline void data_full_id_copy ( data_full_id_t *this_, const data_full_id_t *that )
+{
+    data_id_copy ( &((*this_).primary_id), &((*that).primary_id) );
+    data_id_copy ( &((*this_).secondary_id), &((*that).secondary_id) );
+}
+
+static inline void data_full_id_replace ( data_full_id_t *this_, const data_full_id_t *that )
+{
+    data_id_replace ( &((*this_).primary_id), &((*that).primary_id) );
+    data_id_replace ( &((*this_).secondary_id), &((*that).secondary_id) );
+}
+
 static inline void data_full_id_destroy ( data_full_id_t *this_ )
 {
     data_id_destroy( &((*this_).primary_id) );
@@ -106,6 +118,11 @@ static inline data_id_t data_full_id_get_secondary_id ( const data_full_id_t *th
 static inline data_id_t *data_full_id_get_secondary_id_ptr ( data_full_id_t *this_ )
 {
     return &((*this_).secondary_id);
+}
+
+static inline bool data_full_id_equals ( const data_full_id_t *this_, const data_full_id_t *that )
+{
+    return data_id_equals( &((*this_).primary_id), &((*that).primary_id) );
 }
 
 static inline bool data_full_id_is_valid ( const data_full_id_t *this_ )

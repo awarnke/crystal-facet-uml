@@ -146,7 +146,7 @@ void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_da
     this_ = (gui_search_request_t*) user_data;
     assert ( NULL != this_ );
 
-    data_id_t focused_id = gui_marked_set_get_focused ( (*this_).marked_set );
+    data_id_t focused_id = gui_marked_set_get_focused_obj ( (*this_).marked_set );
     if ( data_id_is_valid( &focused_id ) )
     {
         char focused_id_buf[DATA_ID_MAX_UTF8STRING_LENGTH] = "";

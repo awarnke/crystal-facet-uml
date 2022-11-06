@@ -2,9 +2,14 @@
 
 #include <assert.h>
 
-static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ )
+static inline data_id_t gui_marked_set_get_focused_obj ( const gui_marked_set_t *this_ )
 {
-    return ( (*this_).focused );
+    return data_full_id_get_primary_id( &((*this_).focused) );
+}
+
+static inline data_full_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ )
+{
+    return (*this_).focused;
 }
 
 static inline data_id_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ )
@@ -14,7 +19,7 @@ static inline data_id_t gui_marked_set_get_focused_diagram ( const gui_marked_se
 
 static inline bool gui_marked_set_has_focus ( const gui_marked_set_t *this_ )
 {
-    return data_id_is_valid( &((*this_).focused) );
+    return data_full_id_is_valid( &((*this_).focused) );
 }
 
 static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t *this_ )
@@ -46,26 +51,29 @@ static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_ful
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
     const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &obj_id );
-    data_id_t model_id;
 
-    if ( data_id_equals( vis_id, &((*this_).focused) ) )
+    data_id_t model_id;
+    if ( data_full_id_equals( &obj_id, &((*this_).focused) ) )
     {
-        data_id_reinit_void( &((*this_).focused) );
+        /* clear focus: */
+        data_full_id_reinit_void( &((*this_).focused) );
         data_id_replace( &((*this_).focused_diagram), &diagram_id );
+        /* remove from selection: */
         data_small_set_delete_obj( &((*this_).selected_set), *vis_id );
         model_id = DATA_ID_VOID;
     }
     else
     {
-        data_id_replace( &((*this_).focused), vis_id );
+        /* set focus: */
+        data_full_id_replace( &((*this_).focused), &obj_id );
         data_id_replace( &((*this_).focused_diagram), &diagram_id );
+        /* add to selection: */
         data_small_set_add_obj( &((*this_).selected_set), *vis_id );
         model_id
             = (DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( vis_id ))
             ? data_full_id_get_secondary_id( &obj_id )
             : *vis_id;
     }
-    data_id_replace( &((*this_).focused_diagram), &diagram_id );
 
     /* notify new focused element */
     gui_marked_set_private_notify_listeners( this_, model_id );
@@ -81,12 +89,12 @@ static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
                                                 data_id_t diagram_id  )
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
-    const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &obj_id );
 
-    data_id_replace( &((*this_).focused), vis_id );
+    data_full_id_replace( &((*this_).focused ), &obj_id );
     data_id_replace( &((*this_).focused_diagram), &diagram_id );
 
     /* notify new focused element */
+    const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &obj_id );
     const data_id_t model_id
         = (DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( vis_id ))
         ? data_full_id_get_secondary_id( &obj_id )
@@ -113,7 +121,7 @@ static inline void gui_marked_set_set_highlighted_button ( gui_marked_set_t *thi
 
 static inline void gui_marked_set_clear_focused ( gui_marked_set_t *this_ )
 {
-    data_id_reinit_void( &((*this_).focused) );
+    data_full_id_reinit_void( &((*this_).focused) );
 
     /* notify new focused element */
     gui_marked_set_private_notify_listeners( this_, DATA_ID_VOID );

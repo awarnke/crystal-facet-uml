@@ -118,6 +118,22 @@ static inline void data_full_id_reinit_by_table_and_id ( data_full_id_t *this_,
                                                        );
 
 /*!
+ *  \brief copies a data_full_id_t struct to this uninitialized data_full_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes
+ */
+static inline void data_full_id_copy ( data_full_id_t *this_, const data_full_id_t *that );
+
+/*!
+ *  \brief copies a data_full_id_t struct over this already initialized data_full_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes
+ */
+static inline void data_full_id_replace ( data_full_id_t *this_, const data_full_id_t *that );
+
+/*!
  *  \brief destroys the data_full_id_t struct
  *
  *  \param this_ pointer to own object attributes
@@ -155,6 +171,15 @@ static inline data_id_t data_full_id_get_secondary_id ( const data_full_id_t *th
  *  \return the id of the secondary object
  */
 static inline data_id_t *data_full_id_get_secondary_id_ptr ( data_full_id_t *this_ );
+
+/*!
+ *  \brief checks if two data_full_id_t objects are equal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to other object attributes
+ *  \return true if both primary_id are equal.
+ */
+static inline bool data_full_id_equals ( const data_full_id_t *this_, const data_full_id_t *that );
 
 /*!
  *  \brief checks if the primary_id is valid

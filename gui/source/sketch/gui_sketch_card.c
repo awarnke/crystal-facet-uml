@@ -51,7 +51,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
         /* get marked ids */
-        const data_id_t mark_focused = gui_marked_set_get_focused( marker );
+        const data_id_t mark_focused = gui_marked_set_get_focused_obj( marker );
         const data_id_t mark_highlighted = gui_marked_set_get_highlighted( marker );
         const data_small_set_t *mark_selected_set = gui_marked_set_get_selected_set_const( marker );
 

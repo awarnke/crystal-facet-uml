@@ -23,7 +23,7 @@ void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
                                       shape_int_rectangle_t rect,
                                       cairo_t *cr )
 {
-    const data_id_t focused_id = gui_marked_set_get_focused ( marked_set );
+    const data_id_t focused_id = gui_marked_set_get_focused_obj ( marked_set );
     const data_id_t highlighted_id = gui_marked_set_get_highlighted ( marked_set );
     const data_id_t highlighted_diag_id = gui_marked_set_get_highlighted_diagram ( marked_set );
     const data_small_set_t *const selected_set = gui_marked_set_get_selected_set_const ( marked_set );

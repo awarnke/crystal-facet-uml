@@ -1093,7 +1093,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             }
 
             /* which object is currently focused? */
-            const data_id_t focused_before = gui_marked_set_get_focused( (*this_).marker );
+            const data_id_t focused_before = gui_marked_set_get_focused_obj( (*this_).marker );
 
             if ( data_id_equals ( &clicked_object_id, &focused_before ) )
             {

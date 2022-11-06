@@ -16,7 +16,7 @@ void gui_marked_set_init( gui_marked_set_t *this_, GObject *signal_source )
     TRACE_BEGIN();
     assert( NULL != signal_source );
 
-    data_id_init_void( &((*this_).focused) );
+    data_full_id_init_void( &((*this_).focused) );
     data_id_init_void( &((*this_).focused_diagram) );
     data_id_init_void( &((*this_).highlighted) );
     data_id_init_void( &((*this_).highlighted_diagram) );
@@ -52,7 +52,7 @@ void gui_marked_set_reinit( gui_marked_set_t *this_ )
     TRACE_BEGIN();
     assert( NULL != (*this_).signal_source );
 
-    data_id_init_void( &((*this_).focused) );
+    data_full_id_init_void( &((*this_).focused) );
     data_id_init_void( &((*this_).focused_diagram) );
     data_id_init_void( &((*this_).highlighted) );
     data_id_init_void( &((*this_).highlighted_diagram) );
@@ -66,7 +66,7 @@ void gui_marked_set_destroy( gui_marked_set_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_id_destroy( &((*this_).focused) );
+    data_full_id_destroy( &((*this_).focused) );
     data_id_destroy( &((*this_).focused_diagram) );
     data_id_destroy( &((*this_).highlighted) );
     data_id_destroy( &((*this_).highlighted_diagram) );
