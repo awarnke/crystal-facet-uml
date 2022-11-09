@@ -122,6 +122,7 @@ cd src/pango-1*
     meson setup . builddir --cross-file ../../cross_file.txt -Dprefix=${PREFIX} -Db_pie=false > ${LOG_FILE} 2>&1
     cd builddir
         # gio tests do not work in my cross build environment:
+        # TODO: maybe new setting is called disabled, not false
         meson configure -Dtests=false -Dglib.tests=false >> ${LOG_FILE} 2>&1
         meson compile >> ${LOG_FILE} 2>&1
         meson install >> ${LOG_FILE} 2>&1
@@ -155,6 +156,14 @@ cd src/gtk-4*
     cd ..
 cd ../..
 echo "      lib: `${PKG_CONFIG_EXE} --libs gtk4`"
+
+echo `date +'%H:%M'`" building glib-schemas..."
+LOG_FILE=${LOG_DIR}/log_glib-schemas.txt
+echo "      log: ${LOG_FILE}"
+# old: cp ../../../installation_win/gschemas.compiled ${PREFIX}/share/glib-2.0/schemas/
+cd ${PREFIX}/share/glib-2.0/schemas
+    wine64 ../../../bin/glib-compile-schemas.exe . > ${LOG_FILE} 2>&1
+cd ${LOG_DIR}
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

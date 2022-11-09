@@ -1699,6 +1699,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         break;
     }
 
+//#if (( GTK_MAJOR_VERSION == 4 ) && ( GTK_MINOR_VERSION < 7 ))
 #if ( GTK_MAJOR_VERSION >= 4 )
     /* workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/4856 */
     gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), 7*40, 5*30 );

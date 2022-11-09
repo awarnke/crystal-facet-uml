@@ -32,9 +32,9 @@ How to build and pack
 >
 > 2_unpack_sources.sh
 >
-> 3_compile_platform_abstration.sh
+> 3_compile_data_handling_libraries.sh
 >
-> 4_compile_data_handling_libraries.sh
+> 4_compile_platform_abstration.sh
 >
 > 5_compile_graphics_libraries.sh
 >

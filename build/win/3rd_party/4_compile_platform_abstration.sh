@@ -2,7 +2,10 @@
 
 HOST_ROOT=`cd .. && pwd`/root
 PREFIX=${HOST_ROOT}/usr/local
-mkdir -p ${PREFIX}
+if ! test -e ${PREFIX}; then
+    echo run steps 3 first
+    exit 1
+fi
 # host is the prefix of the compiler executables
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
@@ -76,16 +79,6 @@ cd src/glib-2*
     cd ..
 cd ../..
 echo "      lib: "`${PKG_CONFIG_EXE} --libs glib-2.0`
-
-echo `date +'%H:%M'`" building libxml2..."
-LOG_FILE=${LOG_DIR}/log_xml.txt
-echo "      log: ${LOG_FILE}"
-cd src/libxml2-2*
-    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
-    make >> ${LOG_FILE} 2>&1
-    make install >> ${LOG_FILE} 2>&1
-cd ../..
-echo "      lib: "`${PKG_CONFIG_EXE} --libs libxml-2.0`
 
 echo `date +'%H:%M'`" building xkbcommon ..."
 LOG_FILE=${LOG_DIR}/log_xkbcommon.txt

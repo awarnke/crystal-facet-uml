@@ -58,8 +58,12 @@ fi
 
 if test ! -f gtk* ; then
     echo "fetching gtk"
-    echo "  version 4.6.2 date 2022-Mar-19"
-    wget https://download.gnome.org/sources/gtk/4.6/gtk-4.6.2.tar.xz
+    echo "  version 4.6.8 date 2022-Oct-24"
+    wget https://download.gnome.org/sources/gtk/4.6/gtk-4.6.8.tar.xz
+    # echo "  version 4.7.2 date 2022-Aug-11"
+    # wget https://download.gnome.org/sources/gtk/4.7/gtk-4.7.2.tar.xz
+    # echo "  version 4.9.1 date 2022-Nov-01"
+    # wget https://download.gnome.org/sources/gtk/4.9/gtk-4.9.1.tar.xz
 fi
 
 if test ! -f atk* ; then
@@ -72,18 +76,21 @@ if test ! -f pango* ; then
     echo "fetching pango"
     echo "  version 1.50.4 date 2022-Feb-09"
     wget https://download.gnome.org/sources/pango/1.50/pango-1.50.4.tar.xz
+    # echo "  version 1.90.0 date 2022-Jun-22"
+    # wget https://download.gnome.org/sources/pango/1.90/pango-1.90.0.tar.xz
 fi
 
 if test ! -f cairo* ; then
     echo "fetching cairo"
-    echo "  version 1.16.0 date 2018-10-19"
-    wget https://www.cairographics.org/releases/cairo-1.16.0.tar.xz
+    echo "  version 1.17.6 date 2022-Mar-18"
+    wget https://download.gnome.org/sources/cairo/1.17/cairo-1.17.6.tar.xz
+    # Alternative: wget https://www.cairographics.org/releases/cairo-1.16.0.tar.xz
 fi
 
 if test ! -f pixman* ; then
     echo "fetching pixman"
-    echo "  version 0.40.0 date 2020-04-19"
-    wget https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
+    echo "  version 0.42.2 date 2022-11-02"
+    wget https://www.cairographics.org/releases/pixman-0.42.2.tar.gz
 fi
 
 if test ! -f fontconfig* ; then
@@ -96,6 +103,8 @@ if test ! -f gdk-pixbuf* ; then
     echo "fetching gdk-pixbuf"
     echo "  version 2.42.6 date 2021-Apr-09"
     wget https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
+    # echo "  version 2.42.9 date 2022-Aug-09"
+    # wget https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.9.tar.xz
 fi
 
 if test ! -f libcroco* ; then

@@ -2,16 +2,13 @@
 
 HOST_ROOT=`cd .. && pwd`/root
 PREFIX=${HOST_ROOT}/usr/local
-if ! test -e ${PREFIX}; then
-    echo run step 3 first
-    exit 1
-fi
+mkdir -p ${PREFIX}
 # host is the prefix of the compiler executables
 HOST=x86_64-w64-mingw32
 LOG_DIR=`pwd`
 
 # Position independant executable (PIE) is NOT enabled: -fPIE
-export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include -I${PREFIX}/share/gettext -I${PREFIX}/include/glib-2.0 -I${PREFIX}/lib/glib-2.0/include -I${PREFIX}/include/libpng16 -I${PREFIX}/include/freetype2"
+export CFLAGS="-I/usr/x86_64-w64-mingw32/include -I${PREFIX}/include"
 export CXXFLAGS="${CFLAGS}"
 # export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin -pie"  ### < PIE disabled
 export LDFLAGS="-L${PREFIX}/lib -L${PREFIX}/lib64 -L${PREFIX}/bin"
@@ -21,6 +18,16 @@ export PKG_CONFIG_PATH=
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 PKG_CONFIG_EXE="/usr/bin/x86_64-w64-mingw32-pkg-config"
+
+echo `date +'%H:%M'`" building libxml2..."
+LOG_FILE=${LOG_DIR}/log_xml.txt
+echo "      log: ${LOG_FILE}"
+cd src/libxml2-2*
+    ./configure --host=${HOST} --prefix=${PREFIX} > ${LOG_FILE} 2>&1
+    make >> ${LOG_FILE} 2>&1
+    make install >> ${LOG_FILE} 2>&1
+cd ../..
+echo "      lib: "`${PKG_CONFIG_EXE} --libs libxml-2.0`
 
 echo `date +'%H:%M'`" building expat..."
 LOG_FILE=${LOG_DIR}/log_expat.txt
