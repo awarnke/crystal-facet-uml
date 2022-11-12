@@ -4981,8 +4981,8 @@
                 "The mouse droid creates a list of actions to fulfill the given mission.\n",
                 "If data on the environment is missing, it plans an explortion task and re-plans the action list later."
         ],
-        "x_order": 85617308,
-        "y_order": 364244155,
+        "x_order": 147603683,
+        "y_order": 37845092,
         "list_order": 37788482,
         "uuid": "60329407-a371-4fca-802c-4073299aa0a2",
         "features":
@@ -7040,6 +7040,40 @@
     },
     {
       "relationship": {
+        "id": 234,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38074468,
+        "from_classifier_name": "Drive to Location",
+        "to_classifier_name": "Explore Environment",
+        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
+        "uuid": "8c28af62-06e1-45f5-bb40-4e70bc760c24"
+      }
+    },
+    {
+      "relationship": {
+        "id": 235,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38107236,
+        "from_classifier_name": "Drive to Location",
+        "to_classifier_name": "Perform Movement",
+        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
+        "uuid": "8dc36e54-8ccc-46bb-8b03-9e20d3b30caa"
+      }
+    },
+    {
+      "relationship": {
         "id": 90,
         "main_type": 261,
         "type": "Include",
@@ -7053,6 +7087,23 @@
         "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
         "uuid": "56ec89e1-873d-4b98-96b0-26a3b8b17632"
+      }
+    },
+    {
+      "relationship": {
+        "id": 233,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38041700,
+        "from_classifier_name": "Use Tools",
+        "to_classifier_name": "Steer motors of tools",
+        "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+        "uuid": "4f6d0591-b868-4f72-ae1a-dc946c5a5e6a"
       }
     },
     {
@@ -8698,57 +8749,6 @@
         "from_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "1f7d3518-a1f8-4143-a20f-e45c548b1b4a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 92,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 37943396,
-        "from_classifier_name": "Plan tasks",
-        "to_classifier_name": "Perform Movement",
-        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
-        "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
-        "uuid": "1522d07e-3a99-4408-bde4-254589493d07"
-      }
-    },
-    {
-      "relationship": {
-        "id": 93,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 37976164,
-        "from_classifier_name": "Plan tasks",
-        "to_classifier_name": "Steer motors of tools",
-        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
-        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
-        "uuid": "d006995d-9fb3-4b5a-ace3-d50883dfa9bd"
-      }
-    },
-    {
-      "relationship": {
-        "id": 94,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 38008932,
-        "from_classifier_name": "Plan tasks",
-        "to_classifier_name": "Explore Environment",
-        "from_node": "60329407-a371-4fca-802c-4073299aa0a2",
-        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
-        "uuid": "db0fe0ca-4d67-4791-9bcd-202fa1b4e959"
       }
     },
     {

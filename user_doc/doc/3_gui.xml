@@ -1,6 +1,6 @@
 <!DOCTYPE section>
 <section id="gui_main">
-    <title>GUI / Usage Manual</title>
+    <title>Graphical User Interface</title>
 
     <section>
         <title>Window Area Overview</title>
@@ -442,6 +442,16 @@
                     </listitem>
                 </itemizedlist>
             </para>
+            <para>
+
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/search_search.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/search_search.png"/></imageobject>
+                </inlinemediaobject>
+                <itemizedlist>
+                    <listitem><para>Starts a search and displays the results</para></listitem>
+                </itemizedlist>
+            </para>
 
         </section>
         <section id="draw_navigate">
@@ -648,16 +658,6 @@
                 </itemizedlist>
             </para>
 
-        </section>
-    </section>
-    <section>
-        <title>Command Line Usage</title>
-        <para>
-            If starting crystal-facet-uml from command line, there are a couple of options,
-            call <command>crystal-facet-uml -h</command> for a list.
-        </para>
-        <section><title>Storing data in a version control system</title>
-            <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="3_command_line_example_para.xml" />
         </section>
     </section>
 </section>

@@ -1,0 +1,24 @@
+<!DOCTYPE section>
+<section id="cli_main">
+    <title>Command Line Interface</title>
+
+    <section>
+        <title>Command Line Usage</title>
+        <para>
+            If starting crystal-facet-uml from command line, there are a couple of options,
+            call <command>crystal-facet-uml -h</command> for a list.
+        </para>
+        <para>
+            To run consistency checks, use the <command>-t</command> option:
+        </para>
+        <para>
+            <command>crystal-facet-uml -t my_database_file.cfu1 || echo "ERROR $?"</command>
+        </para>
+        <para>
+            To repair the database, use the <command>-r</command> option.
+        </para>
+    </section>
+    <section><title>Storing data in a version control system</title>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="6_command_line_example_para.xml" />
+    </section>
+</section>

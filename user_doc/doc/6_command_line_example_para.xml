@@ -2,7 +2,7 @@
 <para>
 
 To store a database in a version control system (vcs) like svn or git,
-you have several options:
+you have two options:
 <itemizedlist>
   <listitem>
     <para>
@@ -13,6 +13,8 @@ you have several options:
         Advantage is
         a) the simple usage and
         b) the option to view read-only files.
+    </para>
+    <para>
         Disadvantage is the lack of
         a) diff and merge of files,
         b) identify who changed which line when and with which commit message,
@@ -22,17 +24,19 @@ you have several options:
   <listitem>
     <para>
         Store the json file format <command>*.cfuJ</command> to your vcs.
-        Do not synchronize the file with your vcs while you modify it.
     </para>
     <para>
         Note that this feature requires at least version 1.35.0, better version 1.39.0 to work smoothly.
     </para>
     <para>
-        On command line, there is an option to run consistency checks <command>-t</command> or repair <command>-r</command> the
-        database:
+        Do not synchronize the file with your vcs while you modify it at the same time.
     </para>
     <para>
-        <command>crystal-facet-uml -t my_database_file.cfu1 || echo "ERROR $?"</command>
+        In case of merge conflicts in <command>*.cfuJ</command> files,
+        note that uuid strings do uniquely identify all json objects.
+        Relations between objects are defined by these uuid strings.
+        Integer-id can be changed
+        as long as they are unique among all objects of same type within the file.
     </para>
   </listitem>
 </itemizedlist>

@@ -34,7 +34,7 @@
         <para>
             <!-- How does the tool solve the task? What is the data flow? Is it interoperable? input/output formats. required Environment? -->
             crystal-facet-uml keeps element names and element hierarchies consistent.
-            It exports diagrams in svg, pdf, ps and png formats
+            The tool exports diagrams in svg, pdf, ps and png formats
             to be used in text processing systems like DocBook, html, LaTeX.
             crystal-facet-uml exports the model to json and xmi format; json can also be imported.
             The json-based data file can be stored to git, branched and merged together with your source code.
@@ -61,7 +61,7 @@
                 <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
             </mediaobject>
             crystal-facet-uml can be started in graphical mode (see <xref linkend="gui_main"/>)
-            or from command line (for help run <userinput>crystal-facet-uml -h</userinput>).
+            or from command line (see <xref linkend="cli_main"/>).
         </para>
     </section>
 </section>

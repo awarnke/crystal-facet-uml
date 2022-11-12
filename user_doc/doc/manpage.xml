@@ -170,7 +170,7 @@
   </refsect1>
   <refsect1 id="example">
     <title>EXAMPLE</title>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="3_command_line_example_para.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="6_command_line_example_para.xml" />
   </refsect1>
   <refsect1 id="diagnostics">
     <title>DIAGNOSTICS</title>

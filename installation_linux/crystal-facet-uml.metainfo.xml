@@ -14,9 +14,10 @@
     </p>
     <p>
       crystal-facet-uml keeps element names and element hierarchies consistent.
-      It exports diagrams in svg, pdf, ps and png formats
+      The tool exports diagrams in svg, pdf, ps and png formats
       to be used in text processing systems like DocBook, html, LaTeX.
       crystal-facet-uml exports the model to json and xmi format; json can also be imported.
+      The json-based data file can be stored to git, branched and merged together with your source code.
     </p>
   </description>
   <categories>
@@ -29,6 +30,14 @@
   <screenshots>
     <screenshot type="default">
       <image type="source" width="1120" height="630">https://andreaswarnke.de/crystal-facet-uml/metainfo/screenshot_1.png</image>
+      <caption/>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1120" height="630">https://andreaswarnke.de/crystal-facet-uml/metainfo/screenshot_2.png</image>
+      <caption/>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1120" height="630">https://andreaswarnke.de/crystal-facet-uml/metainfo/screenshot_3.png</image>
       <caption/>
     </screenshot>
   </screenshots>

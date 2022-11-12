@@ -63,7 +63,7 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
                                     );
             utf8stringbuf_append_str( (*this_).private_temp_str,
                                         "\n"
-                                        "License: " META_INFO_LICENSE_STR "\n"
+                                        "License: " META_INFO_LICENSE_STR " / "
                                         "Copyright: " META_INFO_COPYRIGHT_STR "\n"
                                         "Thanks to all who have contributed to improving and deploying this tool."
                                     );

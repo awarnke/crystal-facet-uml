@@ -90,6 +90,7 @@ int main (int argc, char *argv[]) {
         {
             fprintf( stdout, "\nUsage:\n" );
             fprintf( stdout, "    %s -h for help\n", argv[0] );
+            /* G_ENABLE_DIAGNOSTIC=1 prints more information on misusing the gtk libraries */
             fprintf( stdout, "    G_ENABLE_DIAGNOSTIC=1 %s -u to run the unit-tests\n", argv[0] );
             fprintf( stdout, "        (test functions of single software units\n" );
             fprintf( stdout, "    G_ENABLE_DIAGNOSTIC=1 %s -i to run the integration tests\n", argv[0] );

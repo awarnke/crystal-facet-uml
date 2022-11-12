@@ -723,7 +723,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     (*this_).id_search_btn = gtk_button_new();
     (*this_).id_search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_search_search( res ));
     gtk_button_set_image( GTK_BUTTON((*this_).id_search_btn), (*this_).id_search_btn_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).id_search_btn), "Search" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).id_search_btn), "Find Occurrences" );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).id_search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
 
     /* insert widgets to box container */

@@ -18,7 +18,7 @@
 
 
 Name:           crystal-facet-uml
-Version:        1.43.2
+Version:        1.44.0
 Release:        0
 Summary:        Draws UML/SysML Diagrams
 License:        Apache-2.0
@@ -37,9 +37,10 @@ crystal-facet-uml creates sysml/uml diagrams to document system and software arc
 As software architect, you can create a set of diagrams describing
 use-cases, requirements, structural views, behavioral and deployment views.
 crystal-facet-uml keeps element names and element hierarchies consistent.
-The tool exports diagrams as svg, pdf, ps and png formats
-to be used in text processing systems as docbook, html, latex.
-crystal-facet-uml exports the model to xmi format.
+The tool exports diagrams in svg, pdf, ps and png formats
+to be used in text processing systems like DocBook, html, LaTeX.
+crystal-facet-uml exports the model to json and xmi format; json can also be imported.
+The json-based data file can be stored to git, branched and merged together with your source code.
 It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 
 %prep

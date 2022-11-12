@@ -10,7 +10,7 @@
  */
 
 /* human readable version */
-#define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
+#define META_INFO_PROGRAM_NAME_STR "crystal-facet-uml"
 /* machine readable version */
 #define META_INFO_PROGRAM_ID_STR "crystal-facet-uml"
 /* X-Desktop ID */
