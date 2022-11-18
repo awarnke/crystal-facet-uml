@@ -110,6 +110,55 @@
     },
     {
       "diagram": {
+        "id": 44,
+        "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
+        "name": "L1 Requirements",
+        "description": [
+                "This diagram shows examples of system level L1 requirements."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Requirements and Goals",
+        "parent": "eb0b6c0b-a4e4-42c3-86d5-200f51b2ed70",
+        "uuid": "41a326e6-65bd-42ba-9469-65a7e2244d51",
+        "diagramelements":
+        [
+          {
+            "id": 235,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Drive to Location",
+            "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+            "uuid": "964266f7-c823-4607-af35-a7b6e3395b99"
+          },
+          {
+            "id": 236,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Use Tools",
+            "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+            "uuid": "d817f954-4887-469c-bb2f-0c52a9fb9193"
+          },
+          {
+            "id": 237,
+            "display_flags": 0,
+            "classifier_name": "L1Req: Recognize paths",
+            "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+            "uuid": "3983afe2-adf9-4da4-8b6a-e555f6b5bdf0"
+          },
+          {
+            "id": 238,
+            "display_flags": 0,
+            "classifier_name": "L1Req: Position screw driver",
+            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+            "uuid": "ea4fed52-d285-41a7-91c3-393eac2064f3"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 3,
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
@@ -785,14 +834,6 @@
             "uuid": "596dda63-adc3-4b3b-983f-342b54ac522e"
           },
           {
-            "id": 84,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Perform a 1-day Mission",
-            "node": "101916e8-de57-400a-bfa9-d97e8128a011",
-            "uuid": "a8988150-cb2c-4b4b-886a-c66719172299"
-          },
-          {
             "id": 85,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
@@ -807,20 +848,6 @@
             "classifier_name": "Use Tools",
             "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
             "uuid": "3e63801e-c178-4eaf-ad74-03fef216fb5e"
-          },
-          {
-            "id": 87,
-            "display_flags": 0,
-            "classifier_name": "Main Logic Tasks",
-            "node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
-            "uuid": "fe9db197-4691-4f56-bdba-fa85f1c7e7d5"
-          },
-          {
-            "id": 88,
-            "display_flags": 0,
-            "classifier_name": "Base Logic Tasks",
-            "node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
-            "uuid": "050a5776-626f-409f-ad94-31da107c1131"
           },
           {
             "id": 89,
@@ -849,6 +876,117 @@
             "classifier_name": "Plan tasks",
             "node": "60329407-a371-4fca-802c-4073299aa0a2",
             "uuid": "f4fce6e4-9b9a-43a3-9888-30848931e43e"
+          },
+          {
+            "id": 259,
+            "display_flags": 0,
+            "classifier_name": "High Performance SoC",
+            "node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+            "uuid": "a84edb08-a8f9-4738-a250-1ec6988b2a4a"
+          },
+          {
+            "id": 260,
+            "display_flags": 0,
+            "classifier_name": "Base Micro Controller",
+            "node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+            "uuid": "a31d3c1e-5977-4c18-85de-6e2efcc611b3"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 45,
+        "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
+        "name": "L3 Requirements",
+        "description": [
+                "This diagram shows examples of system level L3 requirements."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Requirements and Goals",
+        "parent": "6d06f859-47df-4b97-b724-b0715cdf17db",
+        "uuid": "71ea076b-050a-4b04-bf60-b44781ecd78b",
+        "diagramelements":
+        [
+          {
+            "id": 239,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "L1Req: Recognize paths",
+            "node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+            "uuid": "219e094a-fdc9-4be6-9b58-b8bf9ef1a3a7"
+          },
+          {
+            "id": 240,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "L1Req: Position screw driver",
+            "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+            "uuid": "cb2b67c8-ec3c-46ba-81a1-0de193a00625"
+          },
+          {
+            "id": 241,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Explore Environment",
+            "node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
+            "uuid": "9cecfba7-147c-41a5-b857-6a8a65b5a8ac"
+          },
+          {
+            "id": 242,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Steer motors of tools",
+            "node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+            "uuid": "bc757720-374a-4c34-9ed0-8687c0682c19"
+          },
+          {
+            "id": 243,
+            "display_flags": 0,
+            "classifier_name": "L3Req: Calc 3D scene from 2 cameras",
+            "node": "691d5030-5e11-4e65-b478-759ce31584fa",
+            "uuid": "adbb6401-dab6-43c2-bd5d-254343f3489b"
+          },
+          {
+            "id": 244,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "ee4dff4b-3045-4c73-90d0-0eeac1169fac"
+          },
+          {
+            "id": 245,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Main Logic Board",
+            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+            "uuid": "e56f474b-4811-4c32-bf6f-1734432fea51"
+          },
+          {
+            "id": 246,
+            "display_flags": 0,
+            "classifier_name": "L3Req: Operate motors of tool-arm",
+            "node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+            "uuid": "9d421ee3-220a-426f-8cf9-d4730dce1713"
+          },
+          {
+            "id": 247,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Screw Driver",
+            "node": "848376fc-1475-4adc-b35f-200e17103025",
+            "uuid": "c24fa607-81ae-4561-be36-3d46224d3c1d"
+          },
+          {
+            "id": 248,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Camera",
+            "node": "fb66c906-d06a-4518-8701-229af4169a30",
+            "uuid": "0153b79b-ff8b-40b4-b00e-913a8c9b1f30"
           }
         ]
       }
@@ -1044,6 +1182,115 @@
             "classifier_name": "SW Watchdog",
             "node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
             "uuid": "0b329e01-ff5c-48f6-a7df-9b06e618021b"
+          },
+          {
+            "id": 234,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Software Parts",
+            "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+            "uuid": "fb0b76aa-f394-4886-8563-afb3780d6eec"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 46,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Environment Capture",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Building Block View",
+        "parent": "b76e24bf-e4f6-4f5b-b377-54c921671283",
+        "uuid": "e01336e8-a048-486c-baa2-332cdc84ce11",
+        "diagramelements":
+        [
+          {
+            "id": 251,
+            "display_flags": 0,
+            "classifier_name": "L3Req: Calc 3D scene from 2 cameras",
+            "node": "691d5030-5e11-4e65-b478-759ce31584fa",
+            "uuid": "90786f3c-9ce0-4266-8287-2cc837c70a22"
+          },
+          {
+            "id": 252,
+            "display_flags": 0,
+            "classifier_name": "Audio Capture",
+            "node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
+            "uuid": "9d5c0282-f2cb-4e9c-b69a-56fb309d6604"
+          },
+          {
+            "id": 253,
+            "display_flags": 0,
+            "classifier_name": "Environment Capture",
+            "node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+            "uuid": "ec92f3f8-c332-4d10-8d9f-f44fcd9c38c3"
+          },
+          {
+            "id": 254,
+            "display_flags": 0,
+            "classifier_name": "Video Capture",
+            "node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
+            "uuid": "fb237483-6590-4596-ad2c-9f88b0eb3f3a"
+          },
+          {
+            "id": 255,
+            "display_flags": 0,
+            "classifier_name": "Environment Model Composer",
+            "node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+            "uuid": "7373e041-f5c4-4c8f-b54b-e75f8a53e99f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 47,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "System Control",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Building Block View",
+        "parent": "b76e24bf-e4f6-4f5b-b377-54c921671283",
+        "uuid": "33d057f3-7652-40a4-bbd1-4d93acc5ae2a",
+        "diagramelements":
+        [
+          {
+            "id": 250,
+            "display_flags": 0,
+            "classifier_name": "L3Req: Operate motors of tool-arm",
+            "node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+            "uuid": "4771d286-060c-4b34-a6f7-5ac3c816150b"
+          },
+          {
+            "id": 256,
+            "display_flags": 0,
+            "classifier_name": "System Control",
+            "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+            "uuid": "bf0bfeb7-b81e-48b7-93ca-52343fd6e13b"
+          },
+          {
+            "id": 257,
+            "display_flags": 0,
+            "classifier_name": "Motor Controller",
+            "node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
+            "uuid": "29c0f59a-0e20-4636-b176-1dfd2481c7c2"
+          },
+          {
+            "id": 258,
+            "display_flags": 0,
+            "classifier_name": "SW Watchdog",
+            "node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
+            "uuid": "82ab55f9-fb7b-43c7-88d7-61cd71031503"
           }
         ]
       }
@@ -1327,6 +1574,20 @@
             "classifier_name": "Environment Model Composer",
             "node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
             "uuid": "35e0a199-dc52-4d65-bcbb-4eac494debc3"
+          },
+          {
+            "id": 232,
+            "display_flags": 0,
+            "classifier_name": "Environment Capture",
+            "node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+            "uuid": "f7ac593a-5854-4507-a76d-4f593042dcda"
+          },
+          {
+            "id": 233,
+            "display_flags": 0,
+            "classifier_name": "System Control",
+            "node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+            "uuid": "26969283-66b0-42a6-bda6-de7d4766d4f7"
           }
         ]
       }
@@ -2543,7 +2804,7 @@
                 "\n",
                 "scenario:\n",
                 "- a service mechanic orders a batch of parts\n",
-                "- a factory creates the parts that fit in form and quality to the MoD5G\n",
+                "- a factory creates the parts that fit in form, function and quality to the MoD5G\n",
                 "- spare parts are delivered"
         ],
         "x_order": 1829101533,
@@ -2573,6 +2834,27 @@
         "y_order": -1721520797,
         "list_order": -1067603612,
         "uuid": "2f324056-c955-4a38-9b47-b3a64b19072c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 20,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "SW",
+        "name": "Software Parts",
+        "description": [
+                "The software consists of control logic, initial data that was integrated at the factory and learned data that is aggregated during operation.\n",
+                "\n",
+                "These software items are split over two logical boards and subdivided into independent execution partitions."
+        ],
+        "x_order": -855507639,
+        "y_order": -1221376560,
+        "list_order": -1157712888,
+        "uuid": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "features":
         [
         ]
@@ -2957,37 +3239,6 @@
     },
     {
       "classifier": {
-        "id": 108,
-        "main_type": 121,
-        "type": "Component",
-        "stereotype": "main logic",
-        "name": "Tactics Calculator",
-        "description": [
-                "Calculate tactics based on given strategy and current situation model"
-        ],
-        "x_order": -1600853608,
-        "y_order": -1399038054,
-        "list_order": 742633411,
-        "uuid": "683c4a3d-e049-4411-9def-9d46674b3de4",
-        "features":
-        [
-          {
-            "id": 12,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "e12195e1-14a6-4cb4-8982-2b29a62f622e"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 110,
         "main_type": 125,
         "type": "Class",
@@ -3153,44 +3404,6 @@
         "y_order": -1669019477,
         "list_order": 807995528,
         "uuid": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 118,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "main logic",
-        "name": "Environment Capture",
-        "description": [
-                ""
-        ],
-        "x_order": -1691444121,
-        "y_order": -1408399590,
-        "list_order": -1446246466,
-        "uuid": "19f96158-ec8a-41ea-b22c-d4c975b41370",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 119,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "base logic",
-        "name": "System Control",
-        "description": [
-                ""
-        ],
-        "x_order": -385315366,
-        "y_order": -1408399590,
-        "list_order": -1408399590,
-        "uuid": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
         "features":
         [
         ]
@@ -3435,7 +3648,7 @@
         "id": 133,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
+        "stereotype": "Risk",
         "name": "Risk: MoD5G does not drive back (logic board)",
         "description": [
                 "- cause/fault: the base logic board is damaged\n",
@@ -3705,7 +3918,7 @@
         "id": 147,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
+        "stereotype": "Risk",
         "name": "Risk: MoD5G does not drive back (energy)",
         "description": [
                 "- cause/fault: the energy cell is damaged\n",
@@ -3725,7 +3938,7 @@
         "id": 148,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
+        "stereotype": "Risk",
         "name": "Risk: MoD5G does not drive back (motors)",
         "description": [
                 "- cause/fault: the ,ovement/steering motors are damaged\n",
@@ -3735,6 +3948,82 @@
         "y_order": -1722530006,
         "list_order": -1722530006,
         "uuid": "7bc7017a-47a5-416e-a079-3b58bc03747c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 149,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L1Req: Recognize paths",
+        "description": [
+                "The MoDG5 shall use redundant sensor data to calculate paths that it can drive along."
+        ],
+        "x_order": -1130653626,
+        "y_order": 898896125,
+        "list_order": 1117238226,
+        "uuid": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 150,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L1Req: Position screw driver",
+        "description": [
+                "The MoDG5 shall bring the screw driver into a given 3D position."
+        ],
+        "x_order": -903871926,
+        "y_order": 898896125,
+        "list_order": 898896125,
+        "uuid": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 151,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L3Req: Calc 3D scene from 2 cameras",
+        "description": [
+                "The Main Logic Board shall create a 3D model of the environment based on 2 camera images."
+        ],
+        "x_order": -1127544510,
+        "y_order": 898896125,
+        "list_order": 898896125,
+        "uuid": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 152,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L3Req: Operate motors of tool-arm",
+        "description": [
+                "The Base Logic Board shall steer the motors of the tool-arm to a given 3D position."
+        ],
+        "x_order": 150137426,
+        "y_order": 898896125,
+        "list_order": 898896125,
+        "uuid": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
         "features":
         [
         ]
@@ -3845,7 +4134,7 @@
                 "- The mouse droid re-caclulates the route in case of new environment data\n",
                 "- The mouse droid reaches the target location"
         ],
-        "x_order": 41249868,
+        "x_order": -953711403,
         "y_order": 34386514,
         "list_order": 34386514,
         "uuid": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
@@ -3876,27 +4165,6 @@
         "y_order": 34386514,
         "list_order": 34386514,
         "uuid": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 20,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "SW",
-        "name": "Software Parts",
-        "description": [
-                "The software consists of control logic, initial data that was integrated at the factory and learned data that is aggregated during operation.\n",
-                "\n",
-                "These software items are split over two logical boards and subdivided into independent execution partitions."
-        ],
-        "x_order": -692619804,
-        "y_order": -1221376560,
-        "list_order": -1157712888,
-        "uuid": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "features":
         [
         ]
@@ -4790,8 +5058,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1693475552,
-        "y_order": -1014829152,
+        "x_order": -2013418888,
+        "y_order": -1053087634,
         "list_order": -1171309153,
         "uuid": "be71df16-ded3-4d3a-a7be-a04e142d0dde",
         "features":
@@ -4877,44 +5145,6 @@
     },
     {
       "classifier": {
-        "id": 65,
-        "main_type": 102,
-        "type": "Component",
-        "stereotype": "",
-        "name": "Main Logic Tasks",
-        "description": [
-                ""
-        ],
-        "x_order": 41249868,
-        "y_order": 36311310,
-        "list_order": 36709334,
-        "uuid": "b6493d1c-e196-4451-8c72-f267bf1304dd",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 66,
-        "main_type": 102,
-        "type": "Component",
-        "stereotype": "",
-        "name": "Base Logic Tasks",
-        "description": [
-                ""
-        ],
-        "x_order": 205870834,
-        "y_order": 36311310,
-        "list_order": 36096406,
-        "uuid": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 67,
         "main_type": 101,
         "type": "UseCase",
@@ -4923,7 +5153,7 @@
         "description": [
                 "When the mouse droid is missing relevant data on the environment, it plans a list of actions that suits the purpose of gaining the missing knowledge."
         ],
-        "x_order": 41249868,
+        "x_order": -953711403,
         "y_order": 37845092,
         "list_order": 37845092,
         "uuid": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
@@ -5402,8 +5632,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1693475552,
-        "y_order": -1032462109,
+        "x_order": -2013418888,
+        "y_order": -1212883541,
         "list_order": -902947928,
         "uuid": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "features":
@@ -5456,6 +5686,37 @@
     },
     {
       "classifier": {
+        "id": 108,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "main logic",
+        "name": "Tactics Calculator",
+        "description": [
+                "Calculate tactics based on given strategy and current situation model"
+        ],
+        "x_order": -1319632463,
+        "y_order": -1394544470,
+        "list_order": 742633411,
+        "uuid": "683c4a3d-e049-4411-9def-9d46674b3de4",
+        "features":
+        [
+          {
+            "id": 12,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "e12195e1-14a6-4cb4-8982-2b29a62f622e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 109,
         "main_type": 121,
         "type": "Component",
@@ -5465,7 +5726,7 @@
                 "Move motors according to calculated tactics"
         ],
         "x_order": -377673688,
-        "y_order": -1399038054,
+        "y_order": -1212883541,
         "list_order": 1020826245,
         "uuid": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "features":
@@ -5482,6 +5743,44 @@
             "list_order": 0,
             "uuid": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 118,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "main logic",
+        "name": "Environment Capture",
+        "description": [
+                ""
+        ],
+        "x_order": -1691444121,
+        "y_order": -1408399590,
+        "list_order": -1446246466,
+        "uuid": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 119,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "base logic",
+        "name": "System Control",
+        "description": [
+                ""
+        ],
+        "x_order": -385315366,
+        "y_order": -1408399590,
+        "list_order": -1408399590,
+        "uuid": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "features":
+        [
         ]
       }
     },
@@ -5779,6 +6078,74 @@
         "from_node": "2f324056-c955-4a38-9b47-b3a64b19072c",
         "to_node": "be342de8-62c6-456f-b09a-5160c670dc04",
         "uuid": "628d0a51-f269-4ed2-b1d9-53701ccc5bbb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 236,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1503481072,
+        "from_classifier_name": "Software Parts",
+        "to_classifier_name": "Tactics Calculator",
+        "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+        "to_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
+        "uuid": "ad9b1c9f-6942-490e-b33a-64c8df88d188"
+      }
+    },
+    {
+      "relationship": {
+        "id": 241,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1503644912,
+        "from_classifier_name": "Software Parts",
+        "to_classifier_name": "Environment Capture",
+        "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+        "to_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "uuid": "5bd7e0d9-f98e-45dd-aff9-00153eab914f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 242,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1503677680,
+        "from_classifier_name": "Software Parts",
+        "to_classifier_name": "System Control",
+        "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+        "to_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "uuid": "584a2e4b-ec06-455a-9a02-25b3609e2441"
+      }
+    },
+    {
+      "relationship": {
+        "id": 243,
+        "main_type": 250,
+        "type": "Deployment",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Software Parts",
+        "to_classifier_name": "Electrical Parts and Electronics",
+        "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+        "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
+        "uuid": "c09622ea-550f-4f06-881f-78085b596321"
       }
     },
     {
@@ -6140,80 +6507,6 @@
     },
     {
       "relationship": {
-        "id": 167,
-        "main_type": 220,
-        "type": "Message",
-        "name": "provide list of next actions",
-        "description": [
-                ""
-        ],
-        "list_order": 1261558693,
-        "from_classifier_name": "Tactics Calculator",
-        "from_feature_key": "",
-        "to_classifier_name": "Motor Controller",
-        "to_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
-        "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
-        "uuid": "c4bdeafe-45e7-4c08-856d-d3b2745a922f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 168,
-        "main_type": 220,
-        "type": "Message",
-        "name": "update limp home action list (for emergency)",
-        "description": [
-                "For the emergency case, update the limp home action list"
-        ],
-        "list_order": 1503284464,
-        "from_classifier_name": "Tactics Calculator",
-        "from_feature_key": "",
-        "to_classifier_name": "Motor Controller",
-        "to_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
-        "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
-        "uuid": "cfb942c8-c705-4821-91a9-5bb0bfef7bd5"
-      }
-    },
-    {
-      "relationship": {
-        "id": 172,
-        "main_type": 221,
-        "type": "Message",
-        "name": "calculate action list",
-        "description": [
-                "calculate action list to follow the given strategy"
-        ],
-        "list_order": 792757196,
-        "from_classifier_name": "Tactics Calculator",
-        "from_feature_key": "",
-        "to_classifier_name": "Tactics Calculator",
-        "to_feature_key": "",
-        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
-        "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
-        "uuid": "9dc21798-2013-4878-a2a8-fe7472986a3b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 202,
-        "main_type": 250,
-        "type": "Deployment",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1503382768,
-        "from_classifier_name": "Tactics Calculator",
-        "to_classifier_name": "General Purpose Partition 2",
-        "from_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
-        "to_node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
-        "uuid": "d08a663c-b0d0-45bd-9747-1ed5c3bdfe6b"
-      }
-    },
-    {
-      "relationship": {
         "id": 142,
         "main_type": 201,
         "type": "Association",
@@ -6329,91 +6622,6 @@
         "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
         "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "uuid": "2ecf274d-34ed-482e-88ef-f910857534ed"
-      }
-    },
-    {
-      "relationship": {
-        "id": 148,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Environment Capture",
-        "to_classifier_name": "Video Capture",
-        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
-        "to_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
-        "uuid": "bc58625b-6849-4b48-b78d-fad57b67cba9"
-      }
-    },
-    {
-      "relationship": {
-        "id": 149,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Environment Capture",
-        "to_classifier_name": "Audio Capture",
-        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
-        "to_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
-        "uuid": "571c2fb7-0789-4863-8994-8762141bd562"
-      }
-    },
-    {
-      "relationship": {
-        "id": 152,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1030764179,
-        "from_classifier_name": "Environment Capture",
-        "to_classifier_name": "Environment Model Composer",
-        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
-        "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
-        "uuid": "8978d39d-6e61-4525-a9ba-22f05e855e48"
-      }
-    },
-    {
-      "relationship": {
-        "id": 151,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_name": "System Control",
-        "to_classifier_name": "Motor Controller",
-        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
-        "to_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
-        "uuid": "ea046a8f-edfe-42e3-ab48-7a287736d5f2"
-      }
-    },
-    {
-      "relationship": {
-        "id": 174,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -528333121,
-        "from_classifier_name": "System Control",
-        "to_classifier_name": "SW Watchdog",
-        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
-        "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
-        "uuid": "355b3284-2a12-4a43-b697-7fa982b01ae5"
       }
     },
     {
@@ -6904,6 +7112,108 @@
     },
     {
       "relationship": {
+        "id": 244,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "L1Req: Recognize paths",
+        "to_classifier_name": "Drive to Location",
+        "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "uuid": "b9891529-89d9-4aa9-9c26-3f32d80fc132"
+      }
+    },
+    {
+      "relationship": {
+        "id": 245,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "L1Req: Position screw driver",
+        "to_classifier_name": "Use Tools",
+        "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "uuid": "ff4c421b-3f79-4cae-8217-19284a6649c4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 248,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
+        "to_classifier_name": "Explore Environment",
+        "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
+        "uuid": "bcabd929-6e0b-4bf3-9c7b-86a800ffe8d4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 249,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
+        "to_classifier_name": "L1Req: Recognize paths",
+        "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "uuid": "ba2a26ba-adbf-4f2c-aedc-7384190e58a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 250,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "L3Req: Operate motors of tool-arm",
+        "to_classifier_name": "L1Req: Position screw driver",
+        "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+        "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "uuid": "84058634-84cf-435b-bd03-7caa0559a48c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 251,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "L3Req: Operate motors of tool-arm",
+        "to_classifier_name": "Steer motors of tools",
+        "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+        "uuid": "3a931cae-b951-439f-a5a5-a75b4ac9c0b9"
+      }
+    },
+    {
+      "relationship": {
         "id": 1,
         "main_type": 300,
         "type": "Association",
@@ -6951,40 +7261,6 @@
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "bda8dbdf-98fa-43c3-b427-28111e312f0c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 84,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 36709334,
-        "from_classifier_name": "Mouse Droid (MoD5G)",
-        "to_classifier_name": "Main Logic Tasks",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "to_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
-        "uuid": "fc86fc07-360e-42b4-808f-b2c14522c4f7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 85,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 36096406,
-        "from_classifier_name": "Mouse Droid (MoD5G)",
-        "to_classifier_name": "Base Logic Tasks",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "to_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
-        "uuid": "5a7f4563-e269-446f-85ae-c1f6b5e20fc3"
       }
     },
     {
@@ -8340,6 +8616,23 @@
     },
     {
       "relationship": {
+        "id": 246,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Main Logic Board",
+        "to_classifier_name": "L1Req: Recognize paths",
+        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "uuid": "72247dc4-fd76-45ac-88c3-42ff6a5a8adb"
+      }
+    },
+    {
+      "relationship": {
         "id": 49,
         "main_type": 300,
         "type": "Association",
@@ -8404,6 +8697,40 @@
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "uuid": "bb0baef7-daa3-4b2c-92b9-eb27a8a2da95"
+      }
+    },
+    {
+      "relationship": {
+        "id": 247,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Base Logic Board",
+        "to_classifier_name": "L1Req: Position screw driver",
+        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "uuid": "1e8135a0-e8b2-4a4c-8a11-c3ce0ffad788"
+      }
+    },
+    {
+      "relationship": {
+        "id": 252,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Base Logic Board",
+        "to_classifier_name": "Screw Driver",
+        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_node": "848376fc-1475-4adc-b35f-200e17103025",
+        "uuid": "7f8a6afc-2cd9-4ddf-9865-30f290983e5f"
       }
     },
     {
@@ -8527,6 +8854,40 @@
         "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
         "to_node": "31139d8b-5ec3-488c-8334-d1a18274fbd7",
         "uuid": "ea767c7b-de71-4993-a02a-5545f60cf97e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 256,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38172772,
+        "from_classifier_name": "Base Micro Controller",
+        "to_classifier_name": "Steer motors of tools",
+        "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+        "uuid": "ae2b496b-cc41-4be9-9305-cb51f6f7946e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 257,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38205540,
+        "from_classifier_name": "Base Micro Controller",
+        "to_classifier_name": "Perform Movement",
+        "from_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+        "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
+        "uuid": "53fe9cf0-0ba5-4b34-9c08-981733857162"
       }
     },
     {
@@ -8668,6 +9029,40 @@
     },
     {
       "relationship": {
+        "id": 258,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38238308,
+        "from_classifier_name": "High Performance SoC",
+        "to_classifier_name": "Explore Environment",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
+        "uuid": "6dd4f27e-2c1e-4876-9597-521749b78497"
+      }
+    },
+    {
+      "relationship": {
+        "id": 259,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38271076,
+        "from_classifier_name": "High Performance SoC",
+        "to_classifier_name": "Plan tasks",
+        "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
+        "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
+        "uuid": "e6cfadc6-18f3-4ffa-9b16-9543a105c827"
+      }
+    },
+    {
+      "relationship": {
         "id": 78,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -8685,70 +9080,19 @@
     },
     {
       "relationship": {
-        "id": 86,
-        "main_type": 300,
-        "type": "Association",
+        "id": 255,
+        "main_type": 261,
+        "type": "Include",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 37845092,
-        "from_classifier_name": "Main Logic Tasks",
-        "to_classifier_name": "Explore Environment",
-        "from_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
-        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
-        "uuid": "41270306-9d39-476f-8bb3-c9220a2beb96"
-      }
-    },
-    {
-      "relationship": {
-        "id": 89,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 37788482,
-        "from_classifier_name": "Main Logic Tasks",
-        "to_classifier_name": "Plan tasks",
-        "from_node": "b6493d1c-e196-4451-8c72-f267bf1304dd",
-        "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
-        "uuid": "b2b690be-bd47-42ba-9ba8-36338b03a3d7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 87,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 36311310,
-        "from_classifier_name": "Base Logic Tasks",
-        "to_classifier_name": "Perform Movement",
-        "from_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
-        "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
-        "uuid": "115679be-8b63-47a0-a65a-1a3968155729"
-      }
-    },
-    {
-      "relationship": {
-        "id": 88,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 36311310,
-        "from_classifier_name": "Base Logic Tasks",
-        "to_classifier_name": "Steer motors of tools",
-        "from_node": "dc4acf88-d75f-4f51-9fff-a13adbbc6a84",
-        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
-        "uuid": "1f7d3518-a1f8-4143-a20f-e45c548b1b4a"
+        "list_order": 38140004,
+        "from_classifier_name": "Steer motors of tools",
+        "to_classifier_name": "Base Micro Controller",
+        "from_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+        "to_node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
+        "uuid": "76d2887a-9409-46bf-bf66-4b1b6ecf7bd2"
       }
     },
     {
@@ -9119,6 +9463,80 @@
     },
     {
       "relationship": {
+        "id": 167,
+        "main_type": 220,
+        "type": "Message",
+        "name": "provide list of next actions",
+        "description": [
+                ""
+        ],
+        "list_order": 1261558693,
+        "from_classifier_name": "Tactics Calculator",
+        "from_feature_key": "",
+        "to_classifier_name": "Motor Controller",
+        "to_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
+        "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
+        "uuid": "c4bdeafe-45e7-4c08-856d-d3b2745a922f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 168,
+        "main_type": 220,
+        "type": "Message",
+        "name": "update limp home action list (for emergency)",
+        "description": [
+                "For the emergency case, update the limp home action list"
+        ],
+        "list_order": 1503284464,
+        "from_classifier_name": "Tactics Calculator",
+        "from_feature_key": "",
+        "to_classifier_name": "Motor Controller",
+        "to_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
+        "to_node": "61d0bfc9-9f7f-49a0-a8be-edc3d60ce878",
+        "uuid": "cfb942c8-c705-4821-91a9-5bb0bfef7bd5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 172,
+        "main_type": 221,
+        "type": "Message",
+        "name": "calculate action list",
+        "description": [
+                "calculate action list to follow the given strategy"
+        ],
+        "list_order": 792757196,
+        "from_classifier_name": "Tactics Calculator",
+        "from_feature_key": "",
+        "to_classifier_name": "Tactics Calculator",
+        "to_feature_key": "",
+        "from_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
+        "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
+        "uuid": "9dc21798-2013-4878-a2a8-fe7472986a3b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 202,
+        "main_type": 250,
+        "type": "Deployment",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1503382768,
+        "from_classifier_name": "Tactics Calculator",
+        "to_classifier_name": "General Purpose Partition 2",
+        "from_node": "683c4a3d-e049-4411-9def-9d46674b3de4",
+        "to_node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
+        "uuid": "d08a663c-b0d0-45bd-9747-1ed5c3bdfe6b"
+      }
+    },
+    {
+      "relationship": {
         "id": 153,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -9168,6 +9586,108 @@
         "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "to_node": "31139d8b-5ec3-488c-8334-d1a18274fbd7",
         "uuid": "2e038ce1-094f-45c6-8ec0-57789722499a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 253,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Motor Controller",
+        "to_classifier_name": "L3Req: Operate motors of tool-arm",
+        "from_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
+        "to_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+        "uuid": "17ddf792-952d-49aa-933c-7b7c8c64a082"
+      }
+    },
+    {
+      "relationship": {
+        "id": 148,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Environment Capture",
+        "to_classifier_name": "Video Capture",
+        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_node": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
+        "uuid": "bc58625b-6849-4b48-b78d-fad57b67cba9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 149,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Environment Capture",
+        "to_classifier_name": "Audio Capture",
+        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_node": "b0df744b-cc68-4bc2-9faa-773b248a9e1a",
+        "uuid": "571c2fb7-0789-4863-8994-8762141bd562"
+      }
+    },
+    {
+      "relationship": {
+        "id": 152,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1030764179,
+        "from_classifier_name": "Environment Capture",
+        "to_classifier_name": "Environment Model Composer",
+        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+        "uuid": "8978d39d-6e61-4525-a9ba-22f05e855e48"
+      }
+    },
+    {
+      "relationship": {
+        "id": 151,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "System Control",
+        "to_classifier_name": "Motor Controller",
+        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "to_node": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
+        "uuid": "ea046a8f-edfe-42e3-ab48-7a287736d5f2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 174,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -528333121,
+        "from_classifier_name": "System Control",
+        "to_classifier_name": "SW Watchdog",
+        "from_node": "4ba4c91a-d296-437f-b1db-4edf72b348ac",
+        "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
+        "uuid": "355b3284-2a12-4a43-b697-7fa982b01ae5"
       }
     },
     {
@@ -9244,19 +9764,19 @@
     },
     {
       "relationship": {
-        "id": 14,
-        "main_type": 300,
-        "type": "Association",
+        "id": 254,
+        "main_type": 401,
+        "type": "Trace",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": -1157712888,
-        "from_classifier_name": "Electrical Parts and Electronics",
-        "to_classifier_name": "Software Parts",
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
-        "to_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
-        "uuid": "d77e94b7-6846-4ffd-ae22-5f456cbcf5ad"
+        "list_order": 262144,
+        "from_classifier_name": "Environment Model Composer",
+        "to_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
+        "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+        "to_node": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "uuid": "03921b7a-16d8-4576-bdd2-b91f0725cca1"
       }
     },
     {
