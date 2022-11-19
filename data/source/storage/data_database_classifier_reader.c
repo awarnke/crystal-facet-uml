@@ -411,8 +411,8 @@ u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data_d
 }
 
 u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_database_classifier_reader_t *this_,
-                                                                           data_database_iterator_classifiers_t *io_classifier_iterator
-                                                                         )
+                                                                         data_database_iterator_classifiers_t *io_classifier_iterator
+                                                                       )
 {
     TRACE_BEGIN();
     assert( NULL != io_classifier_iterator );
@@ -421,14 +421,17 @@ u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_da
     {
         sqlite3_stmt *prepared_statement;
         /* prepare a statement */
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                   DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS,
-                                                                   sizeof( DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS ),
-                                                                   &prepared_statement
-                                                                 );
+        /* this statement is prepared only when needed because this is only rarely needed (for exports) */
+        result |= data_database_classifier_reader_private_prepare_statement( this_,
+                                                                             DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS,
+                                                                             sizeof( DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS ),
+                                                                             &prepared_statement
+                                                                           );
         if ( result == U8_ERROR_NONE )
         {
-            result |= data_database_iterator_classifiers_reinit ( io_classifier_iterator, (*this_).database, prepared_statement );
+            result |= data_database_iterator_classifiers_reinit( io_classifier_iterator, (*this_).database, prepared_statement );
+
+            result |= data_database_classifier_reader_private_finalize_statement( this_, &prepared_statement);
         }
     }
 

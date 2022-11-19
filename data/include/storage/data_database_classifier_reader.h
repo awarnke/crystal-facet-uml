@@ -141,8 +141,8 @@ u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id ( data_
  *  classifiers are sorted by number of containment-parents, ascending.
  *
  *  \param this_ pointer to own object attributes
- *  \param io_classifier_iterator iterator over all classifiers. The caller is responsible for initializing before
- *                                and destroying this object afterwards.
+ *  \param[in,out] io_classifier_iterator iterator over all classifiers. The caller is responsible
+ *                                        for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
