@@ -1,0 +1,464 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Component",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "1efb16b7-2898-4b10-b654-f2014858755c",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "AngleSteering",
+            "node": "8190a2ed-df2e-4427-8eaa-0272cd62149a",
+            "uuid": "eff98c05-9373-4ae6-99e7-ed605622f0da"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "InputValidation 3",
+            "node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
+            "uuid": "54955972-ffbf-4e70-955e-d706e781fcdf"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Monitor",
+            "node": "c30af80c-6003-4fc9-93e9-c6f1c9616d65",
+            "uuid": "78e93a20-b0b3-46e0-a7a2-5f477306472f"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "Controller 3",
+            "node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
+            "uuid": "b3012fb2-aaec-488d-a3ae-2459d3d2e12b"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "AngleSteering",
+        "description": [
+                ""
+        ],
+        "x_order": -439936449,
+        "y_order": -1936952551,
+        "list_order": -1936952551,
+        "uuid": "8190a2ed-df2e-4427-8eaa-0272cd62149a",
+        "features":
+        [
+          {
+            "id": 8,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "Motor Control",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -1309331123,
+            "uuid": "9c6a12b4-fa76-419c-b2cd-a8842527dc9e"
+          },
+          {
+            "id": 7,
+            "main_type": 2,
+            "type": "Port",
+            "key": "8851",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": -1301753217,
+            "uuid": "16d642ad-1f28-4c3a-859e-de400fa737e7"
+          },
+          {
+            "id": 1,
+            "main_type": 5,
+            "type": "Interface",
+            "key": "in_direction",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 280175704,
+            "uuid": "b1e21fc9-7aca-44ea-85fa-a46ac7af7f01"
+          },
+          {
+            "id": 5,
+            "main_type": 2,
+            "type": "Port",
+            "key": "8443",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": 288010113,
+            "uuid": "a657415a-8f4a-4326-a321-31bd65a136bc"
+          },
+          {
+            "id": 4,
+            "main_type": 2,
+            "type": "Port",
+            "key": "8847",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": 865619926,
+            "uuid": "c0c78363-1861-4d25-a394-33ce9916bf06"
+          },
+          {
+            "id": 2,
+            "main_type": 5,
+            "type": "Interface",
+            "key": "actual_time",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 870629984,
+            "uuid": "af341dd3-43c8-4d58-a8aa-52797ad7b08e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 122,
+        "type": "Component",
+        "stereotype": "",
+        "name": "InputValidation 3",
+        "description": [
+                ""
+        ],
+        "x_order": -528241109,
+        "y_order": -1858272165,
+        "list_order": -1858272165,
+        "uuid": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Monitor",
+        "description": [
+                ""
+        ],
+        "x_order": -528241109,
+        "y_order": 94796312,
+        "list_order": -1926954261,
+        "uuid": "c30af80c-6003-4fc9-93e9-c6f1c9616d65",
+        "features":
+        [
+          {
+            "id": 9,
+            "main_type": 2,
+            "type": "Port",
+            "key": "8852",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": -1598512674,
+            "uuid": "1dffa6f4-f251-4c1a-935f-ee9b3046515f"
+          },
+          {
+            "id": 10,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "Emergency Stop",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -1505162650,
+            "uuid": "80c36a9a-2ec6-421b-b55b-e3e62a3067e7"
+          },
+          {
+            "id": 6,
+            "main_type": 2,
+            "type": "Port",
+            "key": "9000",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": 487798996,
+            "uuid": "8f1dbfaf-e59a-44fc-b8d8-4d9d51fa9f63"
+          },
+          {
+            "id": 3,
+            "main_type": 5,
+            "type": "Interface",
+            "key": "in_direction",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 562517579,
+            "uuid": "1c8c3d53-571e-407a-8e17-1cc0541ea909"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 122,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Controller 3",
+        "description": [
+                ""
+        ],
+        "x_order": -528241109,
+        "y_order": -1930640142,
+        "list_order": -1930640142,
+        "uuid": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1858272165,
+        "from_classifier_name": "AngleSteering",
+        "to_classifier_name": "InputValidation 3",
+        "from_node": "8190a2ed-df2e-4427-8eaa-0272cd62149a",
+        "to_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
+        "uuid": "d0c2d1b7-bdb5-48cc-ae76-edffa39a039d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "AngleSteering",
+        "from_feature_key": "in_direction",
+        "to_classifier_name": "AngleSteering",
+        "to_feature_key": "8443",
+        "from_node": "b1e21fc9-7aca-44ea-85fa-a46ac7af7f01",
+        "to_node": "a657415a-8f4a-4326-a321-31bd65a136bc",
+        "uuid": "a4bbeb87-40e4-4b6b-8be3-c4265913bbc9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "AngleSteering",
+        "from_feature_key": "8443",
+        "to_classifier_name": "InputValidation 3",
+        "from_node": "a657415a-8f4a-4326-a321-31bd65a136bc",
+        "to_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
+        "uuid": "c6380424-5b38-469e-ba6f-bcb174c1d651"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1930640142,
+        "from_classifier_name": "AngleSteering",
+        "to_classifier_name": "Controller 3",
+        "from_node": "8190a2ed-df2e-4427-8eaa-0272cd62149a",
+        "to_node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
+        "uuid": "97a9f4a5-8249-40e1-a29c-20a9e113be0a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 8,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "AngleSteering",
+        "from_feature_key": "Motor Control",
+        "to_classifier_name": "AngleSteering",
+        "to_feature_key": "8851",
+        "from_node": "9c6a12b4-fa76-419c-b2cd-a8842527dc9e",
+        "to_node": "16d642ad-1f28-4c3a-859e-de400fa737e7",
+        "uuid": "2fc07347-edbb-4578-a839-bae60c0dae92"
+      }
+    },
+    {
+      "relationship": {
+        "id": 11,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "AngleSteering",
+        "from_feature_key": "8847",
+        "to_classifier_name": "InputValidation 3",
+        "from_node": "c0c78363-1861-4d25-a394-33ce9916bf06",
+        "to_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
+        "uuid": "65c738f0-33d7-4aed-84aa-b33050c07b2c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 12,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "AngleSteering",
+        "from_feature_key": "actual_time",
+        "to_classifier_name": "AngleSteering",
+        "to_feature_key": "8847",
+        "from_node": "af341dd3-43c8-4d58-a8aa-52797ad7b08e",
+        "to_node": "c0c78363-1861-4d25-a394-33ce9916bf06",
+        "uuid": "f0409432-a9a5-44bd-8ff0-d89dcf31a266"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "InputValidation 3",
+        "to_classifier_name": "Controller 3",
+        "from_node": "fd0946a1-1d3e-4e41-bd30-fa769cab9b1c",
+        "to_node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
+        "uuid": "0899459f-2751-4804-8417-26a0299879ea"
+      }
+    },
+    {
+      "relationship": {
+        "id": 9,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Monitor",
+        "from_feature_key": "Emergency Stop",
+        "to_classifier_name": "Monitor",
+        "to_feature_key": "8852",
+        "from_node": "80c36a9a-2ec6-421b-b55b-e3e62a3067e7",
+        "to_node": "1dffa6f4-f251-4c1a-935f-ee9b3046515f",
+        "uuid": "ad5c3039-92f1-4ea1-9d7a-00aebb991d13"
+      }
+    },
+    {
+      "relationship": {
+        "id": 10,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "Monitor",
+        "from_feature_key": "in_direction",
+        "to_classifier_name": "Monitor",
+        "to_feature_key": "9000",
+        "from_node": "1c8c3d53-571e-407a-8e17-1cc0541ea909",
+        "to_node": "8f1dbfaf-e59a-44fc-b8d8-4d9d51fa9f63",
+        "uuid": "e0e2367c-c62b-4ed4-9e81-9d3d8b872be0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 7,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Controller 3",
+        "to_classifier_name": "AngleSteering",
+        "to_feature_key": "8851",
+        "from_node": "aa14f390-2c27-4aea-9bf7-d32f8e9bd0b8",
+        "to_node": "16d642ad-1f28-4c3a-859e-de400fa737e7",
+        "uuid": "9040a4d0-16c9-47d2-b14c-530e9517668d"
+      }
+    }
+  ]
+}

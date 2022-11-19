@@ -1,0 +1,316 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 9,
+        "type": "SysMLRequirementDiagram",
+        "name": "Requirements",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "1d6636e6-5568-4fdf-81c6-bdb42c270fbf",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "Startup Time",
+            "node": "5df05f98-1f74-4b78-931b-aa23e8e033f0",
+            "uuid": "47a01682-c354-4f4a-91d6-0f3743053de5"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "HW-PowerUp Time",
+            "node": "c05616e0-ceb1-4557-b95a-20cd835f8fe2",
+            "uuid": "45d0a71a-3415-4e27-bbb0-525b4a97bbce"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Reboot Time",
+            "node": "f631c756-b24d-4ab2-a7f0-333c31dec29f",
+            "uuid": "066ca35d-86d5-4c8b-b933-b5ba807a00f6"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "OS: Boot Time",
+            "node": "014ec639-99e6-4d3a-a714-c9431f12d7da",
+            "uuid": "d86147ab-7e7a-4961-9a13-b6ec2436aea1"
+          },
+          {
+            "id": 5,
+            "display_flags": 0,
+            "classifier_name": "App: Startup Time",
+            "node": "213bca19-b0f8-4827-9409-f36421ad9f5c",
+            "uuid": "69e0c43e-5ccd-4c0a-b550-b113a0120310"
+          },
+          {
+            "id": 6,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "details",
+            "node": "3d675664-95dd-4567-aa92-314f67d292cd",
+            "uuid": "489b25af-6ced-4c10-9850-0c3a2319de70"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Startup Time",
+        "description": [
+                "The system shall start up in 3 seconds"
+        ],
+        "x_order": -1616406133,
+        "y_order": -694975768,
+        "list_order": -694975768,
+        "uuid": "5df05f98-1f74-4b78-931b-aa23e8e033f0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "HW-PowerUp Time",
+        "description": [
+                "The controller-hardware shall initialize in 1 second"
+        ],
+        "x_order": -1394409859,
+        "y_order": 867428782,
+        "list_order": 867428782,
+        "uuid": "c05616e0-ceb1-4557-b95a-20cd835f8fe2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Reboot Time",
+        "description": [
+                "The system shall reboot in 4 seconds"
+        ],
+        "x_order": -1121864592,
+        "y_order": -694975768,
+        "list_order": 721510206,
+        "uuid": "f631c756-b24d-4ab2-a7f0-333c31dec29f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "OS: Boot Time",
+        "description": [
+                "The operating system shall boot in 1 second"
+        ],
+        "x_order": -1394409859,
+        "y_order": 1296333615,
+        "list_order": 1296333615,
+        "uuid": "014ec639-99e6-4d3a-a714-c9431f12d7da",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "App: Startup Time",
+        "description": [
+                "The application shall start up in 1 second"
+        ],
+        "x_order": -1394409859,
+        "y_order": 1497038620,
+        "list_order": 1497038620,
+        "uuid": "213bca19-b0f8-4827-9409-f36421ad9f5c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 6,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "details",
+        "description": [
+                ""
+        ],
+        "x_order": -1394409859,
+        "y_order": 184686679,
+        "list_order": 1236900814,
+        "uuid": "3d675664-95dd-4567-aa92-314f67d292cd",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "HW-PowerUp Time",
+        "to_classifier_name": "Startup Time",
+        "from_node": "c05616e0-ceb1-4557-b95a-20cd835f8fe2",
+        "to_node": "5df05f98-1f74-4b78-931b-aa23e8e033f0",
+        "uuid": "55f49c3b-f3d2-4d46-9a29-4205535247a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Reboot Time",
+        "to_classifier_name": "Startup Time",
+        "from_node": "f631c756-b24d-4ab2-a7f0-333c31dec29f",
+        "to_node": "5df05f98-1f74-4b78-931b-aa23e8e033f0",
+        "uuid": "fd49ef45-b79b-4bbf-8f35-a73e350aee3d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "OS: Boot Time",
+        "to_classifier_name": "Startup Time",
+        "from_node": "014ec639-99e6-4d3a-a714-c9431f12d7da",
+        "to_node": "5df05f98-1f74-4b78-931b-aa23e8e033f0",
+        "uuid": "4bc7f117-8f81-41e7-ba7b-b49a0eba35bc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "App: Startup Time",
+        "to_classifier_name": "Startup Time",
+        "from_node": "213bca19-b0f8-4827-9409-f36421ad9f5c",
+        "to_node": "5df05f98-1f74-4b78-931b-aa23e8e033f0",
+        "uuid": "7e0c0adc-d9b2-4c49-80de-9a9c9e5488af"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "details",
+        "to_classifier_name": "HW-PowerUp Time",
+        "from_node": "3d675664-95dd-4567-aa92-314f67d292cd",
+        "to_node": "c05616e0-ceb1-4557-b95a-20cd835f8fe2",
+        "uuid": "42e32acf-07df-4725-899e-7b9449dfed69"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "details",
+        "to_classifier_name": "OS: Boot Time",
+        "from_node": "3d675664-95dd-4567-aa92-314f67d292cd",
+        "to_node": "014ec639-99e6-4d3a-a714-c9431f12d7da",
+        "uuid": "f69fb4e6-8582-4ee5-8b59-70e48a7d65d2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 7,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "details",
+        "to_classifier_name": "App: Startup Time",
+        "from_node": "3d675664-95dd-4567-aa92-314f67d292cd",
+        "to_node": "213bca19-b0f8-4827-9409-f36421ad9f5c",
+        "uuid": "c3c48036-ee68-4372-b932-7fe58086fe42"
+      }
+    }
+  ]
+}

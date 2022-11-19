@@ -1,0 +1,219 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "Classes",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "86e581c9-6a2f-4204-a622-71d5b8670f21",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "Cow",
+            "node": "e4ed4476-96b1-409b-bdcd-26ee94fe5b7f",
+            "uuid": "260bcc75-04e6-402c-9082-79c909ec9e1f"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "Grass",
+            "node": "1b2ce18f-77e2-47ab-bd33-8133e9dd7b59",
+            "uuid": "7cdcb7a0-bceb-4d5f-8db2-93ad58cb49f4"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Animal",
+            "node": "c18dc8ab-07da-4dc4-8f05-5d59d6f92122",
+            "uuid": "65b1b9f8-fecd-4148-bda1-981c5a0e53b6"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "Roots",
+            "node": "36474e57-c6cc-43df-96d5-e3e2d89915da",
+            "uuid": "0a49c3ce-2293-4432-a472-cef35046b6e2"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Cow",
+        "description": [
+                ""
+        ],
+        "x_order": -645756114,
+        "y_order": -353608965,
+        "list_order": -353608965,
+        "uuid": "e4ed4476-96b1-409b-bdcd-26ee94fe5b7f",
+        "features":
+        [
+          {
+            "id": 1,
+            "main_type": 0,
+            "type": "Property",
+            "key": "num_horns",
+            "value": "uint32_t",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "da5cfcd6-4cc9-4776-922b-1d8da03dc682"
+          },
+          {
+            "id": 2,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "wait(hours: int)",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "68b2c9a3-827d-4873-9182-6cd528d13d9e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "environment",
+        "name": "Grass",
+        "description": [
+                ""
+        ],
+        "x_order": 1296391433,
+        "y_order": -609219311,
+        "list_order": -609219311,
+        "uuid": "1b2ce18f-77e2-47ab-bd33-8133e9dd7b59",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Animal",
+        "description": [
+                ""
+        ],
+        "x_order": -920306520,
+        "y_order": -799819921,
+        "list_order": -799819921,
+        "uuid": "c18dc8ab-07da-4dc4-8f05-5d59d6f92122",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Roots",
+        "description": [
+                ""
+        ],
+        "x_order": 1309177642,
+        "y_order": -783270081,
+        "list_order": -783270081,
+        "uuid": "36474e57-c6cc-43df-96d5-e3e2d89915da",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 200,
+        "type": "Association",
+        "name": "eat",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Cow",
+        "to_classifier_name": "Grass",
+        "from_node": "e4ed4476-96b1-409b-bdcd-26ee94fe5b7f",
+        "to_node": "1b2ce18f-77e2-47ab-bd33-8133e9dd7b59",
+        "uuid": "ae76fcc7-c7cc-4508-a7d2-7ded2baddc9a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Cow",
+        "to_classifier_name": "Animal",
+        "from_node": "e4ed4476-96b1-409b-bdcd-26ee94fe5b7f",
+        "to_node": "c18dc8ab-07da-4dc4-8f05-5d59d6f92122",
+        "uuid": "b56bb346-8879-41cd-a3c8-8fbdd9d6f098"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Grass",
+        "to_classifier_name": "Roots",
+        "from_node": "1b2ce18f-77e2-47ab-bd33-8133e9dd7b59",
+        "to_node": "36474e57-c6cc-43df-96d5-e3e2d89915da",
+        "uuid": "e1c8bac0-324a-429f-a15e-e4473db39c24"
+      }
+    }
+  ]
+}

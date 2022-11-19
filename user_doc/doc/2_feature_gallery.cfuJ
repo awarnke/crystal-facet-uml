@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.44.0"
+    "generator_version": "1.45.0"
   }
   ,
   "views":
@@ -1539,6 +1539,44 @@
     },
     {
       "classifier": {
+        "id": 6,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "classifier-4",
+        "description": [
+                ""
+        ],
+        "x_order": -189398108,
+        "y_order": -1426686362,
+        "list_order": 0,
+        "uuid": "69f5a52c-a207-4d31-aec6-826d2242921b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 7,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "classifier-5",
+        "description": [
+                ""
+        ],
+        "x_order": -1583292154,
+        "y_order": 1028896391,
+        "list_order": 0,
+        "uuid": "e9027f4e-e1f1-42ef-a153-3b401848aef9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 8,
         "main_type": 90,
         "type": "Block",
@@ -1835,6 +1873,49 @@
     },
     {
       "classifier": {
+        "id": 21,
+        "main_type": 111,
+        "type": "StateMachine",
+        "stereotype": "",
+        "name": "running state",
+        "description": [
+                ""
+        ],
+        "x_order": -1425939969,
+        "y_order": 550926672,
+        "list_order": 0,
+        "uuid": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "features":
+        [
+          {
+            "id": 85,
+            "main_type": 9,
+            "type": "Pseudostate",
+            "key": "abort",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -1637696427,
+            "uuid": "557f050d-e424-4408-9f58-385f33c5720f"
+          },
+          {
+            "id": 86,
+            "main_type": 8,
+            "type": "Pseudostate",
+            "key": "alt_start",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 1190335641,
+            "uuid": "a9d8bcf5-f1a7-4186-a35f-f711bb852913"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 22,
         "main_type": 101,
         "type": "UseCase",
@@ -1911,6 +1992,44 @@
     },
     {
       "classifier": {
+        "id": 26,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Listen to Radio",
+        "description": [
+                ""
+        ],
+        "x_order": -1440951005,
+        "y_order": 995454033,
+        "list_order": 0,
+        "uuid": "514bbb3e-8902-45cb-92cc-0368a554a589",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 27,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Watch TV",
+        "description": [
+                ""
+        ],
+        "x_order": -1440951005,
+        "y_order": 787288478,
+        "list_order": 0,
+        "uuid": "c5b660d4-3766-41af-9e61-99a7032d3ce5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 28,
         "main_type": 101,
         "type": "UseCase",
@@ -1961,6 +2080,44 @@
         "y_order": -768365843,
         "list_order": 0,
         "uuid": "f84af1f6-d215-4a48-8667-07086a444d1b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 31,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "",
+        "name": "read element and attributes",
+        "description": [
+                ""
+        ],
+        "x_order": -1152828029,
+        "y_order": -768365843,
+        "list_order": 0,
+        "uuid": "33aa2542-3744-46bb-b032-38e8f514c0da",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 32,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "",
+        "name": "read CDATA contents",
+        "description": [
+                ""
+        ],
+        "x_order": 56299439,
+        "y_order": -997624143,
+        "list_order": 0,
+        "uuid": "361316cf-9fa0-4670-a23e-01c498e52f35",
         "features":
         [
         ]
@@ -2292,6 +2449,82 @@
     },
     {
       "classifier": {
+        "id": 47,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "Performance SoC",
+        "description": [
+                ""
+        ],
+        "x_order": -1557687144,
+        "y_order": 213574027,
+        "list_order": 0,
+        "uuid": "a4057f7a-9030-4296-9a50-96354390febc",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 48,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "Tuner Chip",
+        "description": [
+                ""
+        ],
+        "x_order": -1924751190,
+        "y_order": -900112937,
+        "list_order": 0,
+        "uuid": "eb86f050-0a69-456b-aeba-52da0a304bc1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 49,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "Amplifier",
+        "description": [
+                ""
+        ],
+        "x_order": -1924751190,
+        "y_order": 330867103,
+        "list_order": 0,
+        "uuid": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 50,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "Power Supply",
+        "description": [
+                ""
+        ],
+        "x_order": -1924751190,
+        "y_order": 690603180,
+        "list_order": 0,
+        "uuid": "04156c73-4c79-4740-8280-29c8b9b06c64",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 51,
         "main_type": 121,
         "type": "Component",
@@ -2440,6 +2673,25 @@
             "list_order": -67117525,
             "uuid": "6e614a66-1faa-41b8-a432-78f7f724d554"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 54,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "Application 1",
+        "description": [
+                ""
+        ],
+        "x_order": -1494567973,
+        "y_order": -1743042739,
+        "list_order": 0,
+        "uuid": "dcc0baca-6eb1-49b3-80d2-d979e253b516",
+        "features":
+        [
         ]
       }
     },
@@ -2748,6 +3000,82 @@
     },
     {
       "classifier": {
+        "id": 70,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "common Services",
+        "description": [
+                ""
+        ],
+        "x_order": -1436966878,
+        "y_order": 69123541,
+        "list_order": 0,
+        "uuid": "c0395ffe-0d05-4129-892d-373ecc143a50",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 71,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "specific Services",
+        "description": [
+                ""
+        ],
+        "x_order": -1494567973,
+        "y_order": 69123541,
+        "list_order": 0,
+        "uuid": "449482a3-f3e4-4068-bbac-83e82a206b59",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 72,
+        "main_type": 122,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Page Renderer",
+        "description": [
+                ""
+        ],
+        "x_order": -1570546375,
+        "y_order": -1028457174,
+        "list_order": 0,
+        "uuid": "0c739e23-db60-415f-bea3-ddcaf8c340db",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 73,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "Watchdog",
+        "description": [
+                ""
+        ],
+        "x_order": -1576785621,
+        "y_order": 421739215,
+        "list_order": 0,
+        "uuid": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 74,
         "main_type": 125,
         "type": "Class",
@@ -3049,6 +3377,302 @@
     },
     {
       "classifier": {
+        "id": 81,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Dial Pad",
+        "description": [
+                ""
+        ],
+        "x_order": -810782554,
+        "y_order": -1994400493,
+        "list_order": 0,
+        "uuid": "fce3ffeb-62d1-4689-92db-83387adbcbc7",
+        "features":
+        [
+          {
+            "id": 25,
+            "main_type": 7,
+            "type": "Port",
+            "key": "coordinates",
+            "value": "SPI",
+            "description": [
+                ""
+            ],
+            "list_order": 723016782,
+            "uuid": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 82,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Microphone",
+        "description": [
+                ""
+        ],
+        "x_order": -816707866,
+        "y_order": -393412478,
+        "list_order": 0,
+        "uuid": "787bd029-c41b-4305-a575-871a19db6078",
+        "features":
+        [
+          {
+            "id": 71,
+            "main_type": 7,
+            "type": "Port",
+            "key": "out",
+            "value": "i2s",
+            "description": [
+                ""
+            ],
+            "list_order": -1290156358,
+            "uuid": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4"
+          },
+          {
+            "id": 22,
+            "main_type": 0,
+            "type": "Property",
+            "key": "16 bits @ 48000 Hz",
+            "value": "sample rate",
+            "description": [
+                ""
+            ],
+            "list_order": 19456,
+            "uuid": "93ced61a-ae31-43b9-bc4d-ae31e5f7f73e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 83,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Speaker",
+        "description": [
+                ""
+        ],
+        "x_order": -816707866,
+        "y_order": -536777069,
+        "list_order": 0,
+        "uuid": "453345e3-49bd-4803-98fe-09cff2f6ece9",
+        "features":
+        [
+          {
+            "id": 70,
+            "main_type": 6,
+            "type": "Port",
+            "key": "in",
+            "value": "i2s",
+            "description": [
+                ""
+            ],
+            "list_order": -799492799,
+            "uuid": "2fd25990-9b40-460a-8659-ba2aba7fe4d8"
+          },
+          {
+            "id": 21,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "16 bits @ 24000 Hz",
+            "value": "playback rate",
+            "description": [
+                ""
+            ],
+            "list_order": 18432,
+            "uuid": "e1a0ffae-f6b6-4b31-936b-6d598f8f1040"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 84,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Power Management IC",
+        "description": [
+                ""
+        ],
+        "x_order": -809531649,
+        "y_order": -1031954683,
+        "list_order": 0,
+        "uuid": "e66ba866-2fa8-432a-88ad-853589e18426",
+        "features":
+        [
+          {
+            "id": 26,
+            "main_type": 2,
+            "type": "Port",
+            "key": "V+",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 1601900981,
+            "uuid": "438f6352-cc9f-4a63-9ad8-7c9f9149743f"
+          },
+          {
+            "id": 27,
+            "main_type": 2,
+            "type": "Port",
+            "key": "0",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 1784044573,
+            "uuid": "d300c769-e3f9-40a2-b368-01d7eb0bda0c"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 85,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Display",
+        "description": [
+                ""
+        ],
+        "x_order": -816707866,
+        "y_order": -1994400493,
+        "list_order": 0,
+        "uuid": "259cd218-e04a-4b67-8fe5-f58ccdc55ae2",
+        "features":
+        [
+          {
+            "id": 24,
+            "main_type": 6,
+            "type": "Port",
+            "key": "video_1",
+            "value": "LVDS_in",
+            "description": [
+                ""
+            ],
+            "list_order": 1437518804,
+            "uuid": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 86,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Network Connector",
+        "description": [
+                ""
+        ],
+        "x_order": -810782554,
+        "y_order": -393412478,
+        "list_order": 0,
+        "uuid": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 87,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Power Connector",
+        "description": [
+                ""
+        ],
+        "x_order": -809531649,
+        "y_order": -393412478,
+        "list_order": 0,
+        "uuid": "98f22d96-80fd-4f93-bb88-8a1bd9952cb4",
+        "features":
+        [
+          {
+            "id": 28,
+            "main_type": 2,
+            "type": "Port",
+            "key": "pwr",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -144306281,
+            "uuid": "c0820590-cb63-4730-aa05-c41e440ad3ac"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 88,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "CPU",
+        "description": [
+                ""
+        ],
+        "x_order": -812187315,
+        "y_order": -1031954683,
+        "list_order": 0,
+        "uuid": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "features":
+        [
+          {
+            "id": 20,
+            "main_type": 0,
+            "type": "Property",
+            "key": "RISC 64 bit",
+            "value": "type",
+            "description": [
+                ""
+            ],
+            "list_order": 17408,
+            "uuid": "28fa1e31-acb9-4261-9fac-4fac097c53d5"
+          },
+          {
+            "id": 72,
+            "main_type": 7,
+            "type": "Port",
+            "key": "audio_out",
+            "value": "i2s",
+            "description": [
+                ""
+            ],
+            "list_order": 1311917584,
+            "uuid": "cd460687-2492-4a76-b831-68c1c7eea81b"
+          },
+          {
+            "id": 73,
+            "main_type": 6,
+            "type": "Port",
+            "key": "audio_in",
+            "value": "i2s",
+            "description": [
+                ""
+            ],
+            "list_order": 1975267523,
+            "uuid": "ac28a630-1679-4693-8001-25e109ad1bc9"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 90,
         "main_type": 99,
         "type": "Requirement",
@@ -3112,6 +3736,254 @@
     },
     {
       "classifier": {
+        "id": 92,
+        "main_type": 111,
+        "type": "StateMachine",
+        "stereotype": "",
+        "name": "fully operational",
+        "description": [
+                ""
+        ],
+        "x_order": -1412481151,
+        "y_order": 1165693843,
+        "list_order": 0,
+        "uuid": "24ea7879-939e-4973-b7b1-69f1a00e75e2",
+        "features":
+        [
+          {
+            "id": 29,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 93,
+        "main_type": 111,
+        "type": "StateMachine",
+        "stereotype": "",
+        "name": "starting applications",
+        "description": [
+                ""
+        ],
+        "x_order": -1683507530,
+        "y_order": 2041384712,
+        "list_order": 0,
+        "uuid": "304ad2c4-77cd-4e41-9326-07136ff7dcbf",
+        "features":
+        [
+          {
+            "id": 30,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "921756bc-7e6b-4679-95c4-4dd9a3d37162"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 94,
+        "main_type": 111,
+        "type": "StateMachine",
+        "stereotype": "",
+        "name": "starting operating system",
+        "description": [
+                ""
+        ],
+        "x_order": -1753689789,
+        "y_order": 2135335983,
+        "list_order": 0,
+        "uuid": "accefb21-ca6b-43dc-8848-3c203d0b0e94",
+        "features":
+        [
+          {
+            "id": 31,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "18411ac8-d373-4180-89f4-a3067c555857"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 95,
+        "main_type": 111,
+        "type": "StateMachine",
+        "stereotype": "",
+        "name": "initializing hardware",
+        "description": [
+                ""
+        ],
+        "x_order": -1701570733,
+        "y_order": 2135335983,
+        "list_order": 0,
+        "uuid": "0be5fb1d-6ca6-4077-8520-8b893b448804",
+        "features":
+        [
+          {
+            "id": 32,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "2fa49589-316d-4472-96db-34b9fbb8b128"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 96,
+        "main_type": 111,
+        "type": "StateMachine",
+        "stereotype": "",
+        "name": "unpowered",
+        "description": [
+                ""
+        ],
+        "x_order": -1746310473,
+        "y_order": 2147038189,
+        "list_order": 0,
+        "uuid": "34537079-00e0-4c76-b92c-40e918fc6d3b",
+        "features":
+        [
+          {
+            "id": 33,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "1dcfc895-6759-41bc-982b-874a981e5791"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 97,
+        "main_type": 100,
+        "type": "Actor",
+        "stereotype": "",
+        "name": "User",
+        "description": [
+                ""
+        ],
+        "x_order": -2103447299,
+        "y_order": -2123190672,
+        "list_order": 0,
+        "uuid": "f40caeb2-68d1-46c9-91d2-5c9cdf3e35f9",
+        "features":
+        [
+          {
+            "id": 34,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "87de2766-3cbd-4614-8993-b05453bb9007"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 98,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "GUI",
+        "description": [
+                ""
+        ],
+        "x_order": 2097269036,
+        "y_order": -2073288650,
+        "list_order": 0,
+        "uuid": "edb18185-61e2-481a-9cc7-1d615384eded",
+        "features":
+        [
+          {
+            "id": 35,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "f2e9a281-239f-4414-996d-56803b605733"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 99,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Audio Manager",
+        "description": [
+                ""
+        ],
+        "x_order": -1936461707,
+        "y_order": -1719060980,
+        "list_order": 0,
+        "uuid": "e9156e50-cb51-48c9-895b-9e3f40d1382a",
+        "features":
+        [
+          {
+            "id": 36,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "02770a10-67fc-410d-a08e-5b1bb47aca2c"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 100,
         "main_type": 121,
         "type": "Component",
@@ -3167,6 +4039,25 @@
         "y_order": -62732165,
         "list_order": 46260335,
         "uuid": "cb019de3-b5ec-400e-bb88-b6ddf7e97354",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 102,
+        "main_type": 122,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Subcomponent",
+        "description": [
+                ""
+        ],
+        "x_order": 2009967865,
+        "y_order": 963723280,
+        "list_order": 107694452,
+        "uuid": "1b7cb77f-656e-41e2-b67f-740b50234856",
         "features":
         [
         ]
@@ -3677,6 +4568,106 @@
     },
     {
       "classifier": {
+        "id": 120,
+        "main_type": 168,
+        "type": "AcceptEventAction",
+        "stereotype": "",
+        "name": "timeout",
+        "description": [
+                ""
+        ],
+        "x_order": -1418651675,
+        "y_order": -1308673220,
+        "list_order": -1893021350,
+        "uuid": "6fd39e33-cd25-46fd-9880-e8f91f859da5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 121,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "",
+        "name": "Action",
+        "description": [
+                ""
+        ],
+        "x_order": -1425939969,
+        "y_order": -1308673220,
+        "list_order": -1894989401,
+        "uuid": "56aab755-be0d-4c90-8139-a5881ee65842",
+        "features":
+        [
+          {
+            "id": 82,
+            "main_type": 6,
+            "type": "InputPin",
+            "key": "object pin",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -524587803,
+            "uuid": "5c4f2f4b-aa83-4844-8993-2440a07af364"
+          },
+          {
+            "id": 87,
+            "main_type": 7,
+            "type": "OutputPin",
+            "key": "result pin",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 1608326616,
+            "uuid": "f886e125-18db-45eb-8f27-f4eed47eae5e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 122,
+        "main_type": 170,
+        "type": "SendSignalAction",
+        "stereotype": "",
+        "name": "Send",
+        "description": [
+                ""
+        ],
+        "x_order": -1389224693,
+        "y_order": -1308673220,
+        "list_order": -1896450470,
+        "uuid": "4c4f8591-25bb-4974-a592-b8040907bed1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 123,
+        "main_type": 167,
+        "type": "AcceptEventAction",
+        "stereotype": "",
+        "name": "Receive",
+        "description": [
+                ""
+        ],
+        "x_order": -1383440671,
+        "y_order": -1308673220,
+        "list_order": -1894691633,
+        "uuid": "04566201-2749-464d-81f6-85e63cef47b9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 124,
         "main_type": 154,
         "type": "ForkNode",
@@ -3753,6 +4744,44 @@
     },
     {
       "classifier": {
+        "id": 128,
+        "main_type": 158,
+        "type": "Pseudostate",
+        "stereotype": "",
+        "name": "H1",
+        "description": [
+                ""
+        ],
+        "x_order": -1418651675,
+        "y_order": 550926672,
+        "list_order": -1894798264,
+        "uuid": "52bd1747-16c4-4d92-838c-ee6c03a351aa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 129,
+        "main_type": 159,
+        "type": "Pseudostate",
+        "stereotype": "",
+        "name": "H*2",
+        "description": [
+                ""
+        ],
+        "x_order": -1389224693,
+        "y_order": 550926672,
+        "list_order": -1894810968,
+        "uuid": "e61abf3f-3cab-4d76-8139-4832558e0b74",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 130,
         "main_type": 151,
         "type": "InitialNode",
@@ -3803,6 +4832,101 @@
         "y_order": -697824975,
         "list_order": 1118488284,
         "uuid": "b26adcf8-5d22-4715-b751-d2dca7b6900c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 133,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "",
+        "name": "read end tag",
+        "description": [
+                ""
+        ],
+        "x_order": 56299439,
+        "y_order": -697824975,
+        "list_order": -699516557,
+        "uuid": "8087c141-7448-46e2-8ea4-dc712657a9b8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 134,
+        "main_type": 157,
+        "type": "DecisionNode",
+        "stereotype": "",
+        "name": "next token",
+        "description": [
+                ""
+        ],
+        "x_order": -276646677,
+        "y_order": -707946265,
+        "list_order": -699516557,
+        "uuid": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 135,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "communication Lib",
+        "description": [
+                ""
+        ],
+        "x_order": -1494567973,
+        "y_order": 1377632615,
+        "list_order": 1484308504,
+        "uuid": "c7f56354-e429-47c2-b9bc-eb71fa8174c0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 136,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "storage Lib",
+        "description": [
+                ""
+        ],
+        "x_order": -1436966878,
+        "y_order": 1377632615,
+        "list_order": 1402977861,
+        "uuid": "7034e944-2fcf-46d5-a450-3743c0f67838",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 137,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "Application 2",
+        "description": [
+                ""
+        ],
+        "x_order": -1436966878,
+        "y_order": -1743042739,
+        "list_order": -1743042739,
+        "uuid": "eedb3c67-7ed0-4dd7-965e-d24b09bcc374",
         "features":
         [
         ]
@@ -3960,1130 +5084,6 @@
         [
         ]
       }
-    },
-    {
-      "classifier": {
-        "id": 6,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "classifier-4",
-        "description": [
-                ""
-        ],
-        "x_order": -189398108,
-        "y_order": -1426686362,
-        "list_order": 0,
-        "uuid": "69f5a52c-a207-4d31-aec6-826d2242921b",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 7,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "classifier-5",
-        "description": [
-                ""
-        ],
-        "x_order": -1583292154,
-        "y_order": 1028896391,
-        "list_order": 0,
-        "uuid": "e9027f4e-e1f1-42ef-a153-3b401848aef9",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 21,
-        "main_type": 111,
-        "type": "StateMachine",
-        "stereotype": "",
-        "name": "running state",
-        "description": [
-                ""
-        ],
-        "x_order": -1425939969,
-        "y_order": 550926672,
-        "list_order": 0,
-        "uuid": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
-        "features":
-        [
-          {
-            "id": 85,
-            "main_type": 9,
-            "type": "Pseudostate",
-            "key": "abort",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": -1637696427,
-            "uuid": "557f050d-e424-4408-9f58-385f33c5720f"
-          },
-          {
-            "id": 86,
-            "main_type": 8,
-            "type": "Pseudostate",
-            "key": "alt_start",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 1190335641,
-            "uuid": "a9d8bcf5-f1a7-4186-a35f-f711bb852913"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 26,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
-        "name": "Listen to Radio",
-        "description": [
-                ""
-        ],
-        "x_order": -1440951005,
-        "y_order": 995454033,
-        "list_order": 0,
-        "uuid": "514bbb3e-8902-45cb-92cc-0368a554a589",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 27,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
-        "name": "Watch TV",
-        "description": [
-                ""
-        ],
-        "x_order": -1440951005,
-        "y_order": 787288478,
-        "list_order": 0,
-        "uuid": "c5b660d4-3766-41af-9e61-99a7032d3ce5",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 31,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
-        "name": "read element and attributes",
-        "description": [
-                ""
-        ],
-        "x_order": -1152828029,
-        "y_order": -768365843,
-        "list_order": 0,
-        "uuid": "33aa2542-3744-46bb-b032-38e8f514c0da",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 32,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
-        "name": "read CDATA contents",
-        "description": [
-                ""
-        ],
-        "x_order": 56299439,
-        "y_order": -997624143,
-        "list_order": 0,
-        "uuid": "361316cf-9fa0-4670-a23e-01c498e52f35",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 47,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
-        "name": "Performance SoC",
-        "description": [
-                ""
-        ],
-        "x_order": -1557687144,
-        "y_order": 213574027,
-        "list_order": 0,
-        "uuid": "a4057f7a-9030-4296-9a50-96354390febc",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 48,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
-        "name": "Tuner Chip",
-        "description": [
-                ""
-        ],
-        "x_order": -1924751190,
-        "y_order": -900112937,
-        "list_order": 0,
-        "uuid": "eb86f050-0a69-456b-aeba-52da0a304bc1",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 49,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
-        "name": "Amplifier",
-        "description": [
-                ""
-        ],
-        "x_order": -1924751190,
-        "y_order": 330867103,
-        "list_order": 0,
-        "uuid": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 50,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
-        "name": "Power Supply",
-        "description": [
-                ""
-        ],
-        "x_order": -1924751190,
-        "y_order": 690603180,
-        "list_order": 0,
-        "uuid": "04156c73-4c79-4740-8280-29c8b9b06c64",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 54,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "Application 1",
-        "description": [
-                ""
-        ],
-        "x_order": -1494567973,
-        "y_order": -1743042739,
-        "list_order": 0,
-        "uuid": "dcc0baca-6eb1-49b3-80d2-d979e253b516",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 70,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "common Services",
-        "description": [
-                ""
-        ],
-        "x_order": -1436966878,
-        "y_order": 69123541,
-        "list_order": 0,
-        "uuid": "c0395ffe-0d05-4129-892d-373ecc143a50",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 71,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "specific Services",
-        "description": [
-                ""
-        ],
-        "x_order": -1494567973,
-        "y_order": 69123541,
-        "list_order": 0,
-        "uuid": "449482a3-f3e4-4068-bbac-83e82a206b59",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 72,
-        "main_type": 122,
-        "type": "Component",
-        "stereotype": "",
-        "name": "Page Renderer",
-        "description": [
-                ""
-        ],
-        "x_order": -1570546375,
-        "y_order": -1028457174,
-        "list_order": 0,
-        "uuid": "0c739e23-db60-415f-bea3-ddcaf8c340db",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 73,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
-        "name": "Watchdog",
-        "description": [
-                ""
-        ],
-        "x_order": -1576785621,
-        "y_order": 421739215,
-        "list_order": 0,
-        "uuid": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 81,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "Dial Pad",
-        "description": [
-                ""
-        ],
-        "x_order": -810782554,
-        "y_order": -1994400493,
-        "list_order": 0,
-        "uuid": "fce3ffeb-62d1-4689-92db-83387adbcbc7",
-        "features":
-        [
-          {
-            "id": 25,
-            "main_type": 7,
-            "type": "Port",
-            "key": "coordinates",
-            "value": "SPI",
-            "description": [
-                ""
-            ],
-            "list_order": 723016782,
-            "uuid": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 82,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "Microphone",
-        "description": [
-                ""
-        ],
-        "x_order": -816707866,
-        "y_order": -393412478,
-        "list_order": 0,
-        "uuid": "787bd029-c41b-4305-a575-871a19db6078",
-        "features":
-        [
-          {
-            "id": 71,
-            "main_type": 7,
-            "type": "Port",
-            "key": "out",
-            "value": "i2s",
-            "description": [
-                ""
-            ],
-            "list_order": -1290156358,
-            "uuid": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4"
-          },
-          {
-            "id": 22,
-            "main_type": 0,
-            "type": "Property",
-            "key": "16 bits @ 48000 Hz",
-            "value": "sample rate",
-            "description": [
-                ""
-            ],
-            "list_order": 19456,
-            "uuid": "93ced61a-ae31-43b9-bc4d-ae31e5f7f73e"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 83,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "Speaker",
-        "description": [
-                ""
-        ],
-        "x_order": -816707866,
-        "y_order": -536777069,
-        "list_order": 0,
-        "uuid": "453345e3-49bd-4803-98fe-09cff2f6ece9",
-        "features":
-        [
-          {
-            "id": 70,
-            "main_type": 6,
-            "type": "Port",
-            "key": "in",
-            "value": "i2s",
-            "description": [
-                ""
-            ],
-            "list_order": -799492799,
-            "uuid": "2fd25990-9b40-460a-8659-ba2aba7fe4d8"
-          },
-          {
-            "id": 21,
-            "main_type": 1,
-            "type": "Operation",
-            "key": "16 bits @ 24000 Hz",
-            "value": "playback rate",
-            "description": [
-                ""
-            ],
-            "list_order": 18432,
-            "uuid": "e1a0ffae-f6b6-4b31-936b-6d598f8f1040"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 84,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "Power Management IC",
-        "description": [
-                ""
-        ],
-        "x_order": -809531649,
-        "y_order": -1031954683,
-        "list_order": 0,
-        "uuid": "e66ba866-2fa8-432a-88ad-853589e18426",
-        "features":
-        [
-          {
-            "id": 26,
-            "main_type": 2,
-            "type": "Port",
-            "key": "V+",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 1601900981,
-            "uuid": "438f6352-cc9f-4a63-9ad8-7c9f9149743f"
-          },
-          {
-            "id": 27,
-            "main_type": 2,
-            "type": "Port",
-            "key": "0",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 1784044573,
-            "uuid": "d300c769-e3f9-40a2-b368-01d7eb0bda0c"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 85,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "Display",
-        "description": [
-                ""
-        ],
-        "x_order": -816707866,
-        "y_order": -1994400493,
-        "list_order": 0,
-        "uuid": "259cd218-e04a-4b67-8fe5-f58ccdc55ae2",
-        "features":
-        [
-          {
-            "id": 24,
-            "main_type": 6,
-            "type": "Port",
-            "key": "video_1",
-            "value": "LVDS_in",
-            "description": [
-                ""
-            ],
-            "list_order": 1437518804,
-            "uuid": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 86,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "Network Connector",
-        "description": [
-                ""
-        ],
-        "x_order": -810782554,
-        "y_order": -393412478,
-        "list_order": 0,
-        "uuid": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 87,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "Power Connector",
-        "description": [
-                ""
-        ],
-        "x_order": -809531649,
-        "y_order": -393412478,
-        "list_order": 0,
-        "uuid": "98f22d96-80fd-4f93-bb88-8a1bd9952cb4",
-        "features":
-        [
-          {
-            "id": 28,
-            "main_type": 2,
-            "type": "Port",
-            "key": "pwr",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": -144306281,
-            "uuid": "c0820590-cb63-4730-aa05-c41e440ad3ac"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 88,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "",
-        "name": "CPU",
-        "description": [
-                ""
-        ],
-        "x_order": -812187315,
-        "y_order": -1031954683,
-        "list_order": 0,
-        "uuid": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "features":
-        [
-          {
-            "id": 20,
-            "main_type": 0,
-            "type": "Property",
-            "key": "RISC 64 bit",
-            "value": "type",
-            "description": [
-                ""
-            ],
-            "list_order": 17408,
-            "uuid": "28fa1e31-acb9-4261-9fac-4fac097c53d5"
-          },
-          {
-            "id": 72,
-            "main_type": 7,
-            "type": "Port",
-            "key": "audio_out",
-            "value": "i2s",
-            "description": [
-                ""
-            ],
-            "list_order": 1311917584,
-            "uuid": "cd460687-2492-4a76-b831-68c1c7eea81b"
-          },
-          {
-            "id": 73,
-            "main_type": 6,
-            "type": "Port",
-            "key": "audio_in",
-            "value": "i2s",
-            "description": [
-                ""
-            ],
-            "list_order": 1975267523,
-            "uuid": "ac28a630-1679-4693-8001-25e109ad1bc9"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 92,
-        "main_type": 111,
-        "type": "StateMachine",
-        "stereotype": "",
-        "name": "fully operational",
-        "description": [
-                ""
-        ],
-        "x_order": -1412481151,
-        "y_order": 1165693843,
-        "list_order": 0,
-        "uuid": "24ea7879-939e-4973-b7b1-69f1a00e75e2",
-        "features":
-        [
-          {
-            "id": 29,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 93,
-        "main_type": 111,
-        "type": "StateMachine",
-        "stereotype": "",
-        "name": "starting applications",
-        "description": [
-                ""
-        ],
-        "x_order": -1683507530,
-        "y_order": 2041384712,
-        "list_order": 0,
-        "uuid": "304ad2c4-77cd-4e41-9326-07136ff7dcbf",
-        "features":
-        [
-          {
-            "id": 30,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "921756bc-7e6b-4679-95c4-4dd9a3d37162"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 94,
-        "main_type": 111,
-        "type": "StateMachine",
-        "stereotype": "",
-        "name": "starting operating system",
-        "description": [
-                ""
-        ],
-        "x_order": -1753689789,
-        "y_order": 2135335983,
-        "list_order": 0,
-        "uuid": "accefb21-ca6b-43dc-8848-3c203d0b0e94",
-        "features":
-        [
-          {
-            "id": 31,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "18411ac8-d373-4180-89f4-a3067c555857"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 95,
-        "main_type": 111,
-        "type": "StateMachine",
-        "stereotype": "",
-        "name": "initializing hardware",
-        "description": [
-                ""
-        ],
-        "x_order": -1701570733,
-        "y_order": 2135335983,
-        "list_order": 0,
-        "uuid": "0be5fb1d-6ca6-4077-8520-8b893b448804",
-        "features":
-        [
-          {
-            "id": 32,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "2fa49589-316d-4472-96db-34b9fbb8b128"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 96,
-        "main_type": 111,
-        "type": "StateMachine",
-        "stereotype": "",
-        "name": "unpowered",
-        "description": [
-                ""
-        ],
-        "x_order": -1746310473,
-        "y_order": 2147038189,
-        "list_order": 0,
-        "uuid": "34537079-00e0-4c76-b92c-40e918fc6d3b",
-        "features":
-        [
-          {
-            "id": 33,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "1dcfc895-6759-41bc-982b-874a981e5791"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 97,
-        "main_type": 100,
-        "type": "Actor",
-        "stereotype": "",
-        "name": "User",
-        "description": [
-                ""
-        ],
-        "x_order": -2103447299,
-        "y_order": -2123190672,
-        "list_order": 0,
-        "uuid": "f40caeb2-68d1-46c9-91d2-5c9cdf3e35f9",
-        "features":
-        [
-          {
-            "id": 34,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "87de2766-3cbd-4614-8993-b05453bb9007"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 98,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "GUI",
-        "description": [
-                ""
-        ],
-        "x_order": 2097269036,
-        "y_order": -2073288650,
-        "list_order": 0,
-        "uuid": "edb18185-61e2-481a-9cc7-1d615384eded",
-        "features":
-        [
-          {
-            "id": 35,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "f2e9a281-239f-4414-996d-56803b605733"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 99,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Audio Manager",
-        "description": [
-                ""
-        ],
-        "x_order": -1936461707,
-        "y_order": -1719060980,
-        "list_order": 0,
-        "uuid": "e9156e50-cb51-48c9-895b-9e3f40d1382a",
-        "features":
-        [
-          {
-            "id": 36,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "02770a10-67fc-410d-a08e-5b1bb47aca2c"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 102,
-        "main_type": 122,
-        "type": "Component",
-        "stereotype": "",
-        "name": "Subcomponent",
-        "description": [
-                ""
-        ],
-        "x_order": 2009967865,
-        "y_order": 963723280,
-        "list_order": 107694452,
-        "uuid": "1b7cb77f-656e-41e2-b67f-740b50234856",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 120,
-        "main_type": 168,
-        "type": "AcceptEventAction",
-        "stereotype": "",
-        "name": "timeout",
-        "description": [
-                ""
-        ],
-        "x_order": -1418651675,
-        "y_order": -1308673220,
-        "list_order": -1893021350,
-        "uuid": "6fd39e33-cd25-46fd-9880-e8f91f859da5",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 121,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
-        "name": "Action",
-        "description": [
-                ""
-        ],
-        "x_order": -1425939969,
-        "y_order": -1308673220,
-        "list_order": -1894989401,
-        "uuid": "56aab755-be0d-4c90-8139-a5881ee65842",
-        "features":
-        [
-          {
-            "id": 82,
-            "main_type": 6,
-            "type": "InputPin",
-            "key": "object pin",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": -524587803,
-            "uuid": "5c4f2f4b-aa83-4844-8993-2440a07af364"
-          },
-          {
-            "id": 87,
-            "main_type": 7,
-            "type": "OutputPin",
-            "key": "result pin",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 1608326616,
-            "uuid": "f886e125-18db-45eb-8f27-f4eed47eae5e"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 122,
-        "main_type": 170,
-        "type": "SendSignalAction",
-        "stereotype": "",
-        "name": "Send",
-        "description": [
-                ""
-        ],
-        "x_order": -1389224693,
-        "y_order": -1308673220,
-        "list_order": -1896450470,
-        "uuid": "4c4f8591-25bb-4974-a592-b8040907bed1",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 123,
-        "main_type": 167,
-        "type": "AcceptEventAction",
-        "stereotype": "",
-        "name": "Receive",
-        "description": [
-                ""
-        ],
-        "x_order": -1383440671,
-        "y_order": -1308673220,
-        "list_order": -1894691633,
-        "uuid": "04566201-2749-464d-81f6-85e63cef47b9",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 128,
-        "main_type": 158,
-        "type": "Pseudostate",
-        "stereotype": "",
-        "name": "H1",
-        "description": [
-                ""
-        ],
-        "x_order": -1418651675,
-        "y_order": 550926672,
-        "list_order": -1894798264,
-        "uuid": "52bd1747-16c4-4d92-838c-ee6c03a351aa",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 129,
-        "main_type": 159,
-        "type": "Pseudostate",
-        "stereotype": "",
-        "name": "H*2",
-        "description": [
-                ""
-        ],
-        "x_order": -1389224693,
-        "y_order": 550926672,
-        "list_order": -1894810968,
-        "uuid": "e61abf3f-3cab-4d76-8139-4832558e0b74",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 133,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
-        "name": "read end tag",
-        "description": [
-                ""
-        ],
-        "x_order": 56299439,
-        "y_order": -697824975,
-        "list_order": -699516557,
-        "uuid": "8087c141-7448-46e2-8ea4-dc712657a9b8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 134,
-        "main_type": 157,
-        "type": "DecisionNode",
-        "stereotype": "",
-        "name": "next token",
-        "description": [
-                ""
-        ],
-        "x_order": -276646677,
-        "y_order": -707946265,
-        "list_order": -699516557,
-        "uuid": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 135,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "communication Lib",
-        "description": [
-                ""
-        ],
-        "x_order": -1494567973,
-        "y_order": 1377632615,
-        "list_order": 1484308504,
-        "uuid": "c7f56354-e429-47c2-b9bc-eb71fa8174c0",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 136,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "storage Lib",
-        "description": [
-                ""
-        ],
-        "x_order": -1436966878,
-        "y_order": 1377632615,
-        "list_order": 1402977861,
-        "uuid": "7034e944-2fcf-46d5-a450-3743c0f67838",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 137,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "Application 2",
-        "description": [
-                ""
-        ],
-        "x_order": -1436966878,
-        "y_order": -1743042739,
-        "list_order": -1743042739,
-        "uuid": "eedb3c67-7ed0-4dd7-965e-d24b09bcc374",
-        "features":
-        [
-        ]
-      }
     }
   ]
   ,
@@ -5227,6 +5227,23 @@
     },
     {
       "relationship": {
+        "id": 124,
+        "main_type": 201,
+        "type": "Association",
+        "name": "aggregates",
+        "description": [
+                ""
+        ],
+        "list_order": 77824,
+        "from_classifier_name": "classifier-4",
+        "to_classifier_name": "classifier-1",
+        "from_node": "69f5a52c-a207-4d31-aec6-826d2242921b",
+        "to_node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
+        "uuid": "d2a015f0-1da4-4395-81ee-028a20c2f48f"
+      }
+    },
+    {
+      "relationship": {
         "id": 6,
         "main_type": 200,
         "type": "Association",
@@ -5363,6 +5380,91 @@
     },
     {
       "relationship": {
+        "id": 94,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1165693843,
+        "from_classifier_name": "running state",
+        "to_classifier_name": "fully operational",
+        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_node": "24ea7879-939e-4973-b7b1-69f1a00e75e2",
+        "uuid": "f493c1e2-c56b-4ddf-a59d-22ced885225f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 95,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 2041384712,
+        "from_classifier_name": "running state",
+        "to_classifier_name": "starting applications",
+        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_node": "304ad2c4-77cd-4e41-9326-07136ff7dcbf",
+        "uuid": "afbb7427-0188-495c-8ff9-8c03a49a2236"
+      }
+    },
+    {
+      "relationship": {
+        "id": 96,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 2135335983,
+        "from_classifier_name": "running state",
+        "to_classifier_name": "starting operating system",
+        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_node": "accefb21-ca6b-43dc-8848-3c203d0b0e94",
+        "uuid": "e7080b32-8292-4729-a984-25e1d77879d4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 97,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 2144858127,
+        "from_classifier_name": "running state",
+        "to_classifier_name": "initializing hardware",
+        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_node": "0be5fb1d-6ca6-4077-8520-8b893b448804",
+        "uuid": "f7e72a49-2729-4b1c-ba75-589ab6875632"
+      }
+    },
+    {
+      "relationship": {
+        "id": 98,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 2147038189,
+        "from_classifier_name": "running state",
+        "to_classifier_name": "unpowered",
+        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
+        "to_node": "34537079-00e0-4c76-b92c-40e918fc6d3b",
+        "uuid": "7a1d36b9-f6d0-4892-866c-5cd179544a16"
+      }
+    },
+    {
+      "relationship": {
         "id": 12,
         "main_type": 200,
         "type": "Association",
@@ -5495,6 +5597,40 @@
         "from_node": "f84af1f6-d215-4a48-8667-07086a444d1b",
         "to_node": "b26adcf8-5d22-4715-b751-d2dca7b6900c",
         "uuid": "e67a5491-0932-4b6c-974f-7e24bea2d9ff"
+      }
+    },
+    {
+      "relationship": {
+        "id": 172,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "tag end",
+        "description": [
+                ""
+        ],
+        "list_order": 368640,
+        "from_classifier_name": "read element and attributes",
+        "to_classifier_name": "next token",
+        "from_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
+        "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "uuid": "bb55ab6e-6efc-4c0a-93e8-7b7e1c197dae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 160,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "content end",
+        "description": [
+                ""
+        ],
+        "list_order": 106496,
+        "from_classifier_name": "read CDATA contents",
+        "to_classifier_name": "next token",
+        "from_node": "361316cf-9fa0-4670-a23e-01c498e52f35",
+        "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "uuid": "ef4db10b-cb8d-4218-b341-021de6bee8a8"
       }
     },
     {
@@ -5901,6 +6037,91 @@
         "from_node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
         "to_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
         "uuid": "1e0367a9-ac97-40f5-8c72-20b19512495f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 66,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "audio stream",
+        "description": [
+                ""
+        ],
+        "list_order": 421743311,
+        "from_classifier_name": "Performance SoC",
+        "to_classifier_name": "Amplifier",
+        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
+        "uuid": "96aeb3f3-ab6e-40a6-bde3-cebd98cdc7af"
+      }
+    },
+    {
+      "relationship": {
+        "id": 67,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "controls",
+        "description": [
+                ""
+        ],
+        "list_order": 421744335,
+        "from_classifier_name": "Performance SoC",
+        "to_classifier_name": "Tuner Chip",
+        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
+        "uuid": "9681ec2c-c8f2-4de2-aa98-9d4bdbca0f8c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 68,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "controls",
+        "description": [
+                ""
+        ],
+        "list_order": 421745359,
+        "from_classifier_name": "Performance SoC",
+        "to_classifier_name": "Amplifier",
+        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
+        "uuid": "e1d0d4b8-036b-4bbf-9363-8650c6dc0c4a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 157,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "alive signal",
+        "description": [
+                ""
+        ],
+        "list_order": 421778127,
+        "from_classifier_name": "Performance SoC",
+        "to_classifier_name": "Watchdog",
+        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
+        "to_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
+        "uuid": "5eec75f4-c123-447f-9f29-c01fc6c600a9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 65,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "audio stream",
+        "description": [
+                ""
+        ],
+        "list_order": 421742287,
+        "from_classifier_name": "Tuner Chip",
+        "to_classifier_name": "Amplifier",
+        "from_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
+        "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
+        "uuid": "a7e1ae56-37bf-4bdc-8906-30a7f9da6d3c"
       }
     },
     {
@@ -6343,6 +6564,23 @@
     },
     {
       "relationship": {
+        "id": 63,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "switches",
+        "description": [
+                ""
+        ],
+        "list_order": 421740239,
+        "from_classifier_name": "Watchdog",
+        "to_classifier_name": "Power Supply",
+        "from_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
+        "to_node": "04156c73-4c79-4740-8280-29c8b9b06c64",
+        "uuid": "ae591f89-128f-443f-bb1e-777eb3feaff7"
+      }
+    },
+    {
+      "relationship": {
         "id": 71,
         "main_type": 401,
         "type": "Trace",
@@ -6547,6 +6785,150 @@
     },
     {
       "relationship": {
+        "id": 107,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "touch input",
+        "description": [
+                ""
+        ],
+        "list_order": 25600,
+        "from_classifier_name": "Dial Pad",
+        "from_feature_key": "coordinates",
+        "to_classifier_name": "CPU",
+        "from_node": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461",
+        "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "uuid": "814777e8-eafe-4ae1-bdc9-9cbbc83cf625"
+      }
+    },
+    {
+      "relationship": {
+        "id": 148,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "mic in",
+        "description": [
+                ""
+        ],
+        "list_order": 2003993231,
+        "from_classifier_name": "Microphone",
+        "from_feature_key": "out",
+        "to_classifier_name": "CPU",
+        "to_feature_key": "audio_in",
+        "from_node": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4",
+        "to_node": "ac28a630-1679-4693-8001-25e109ad1bc9",
+        "uuid": "e5b2d3c9-a797-4f63-b5d6-9f97f6bd61e3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 86,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "power supply",
+        "description": [
+                ""
+        ],
+        "list_order": 13312,
+        "from_classifier_name": "Power Management IC",
+        "to_classifier_name": "CPU",
+        "from_node": "e66ba866-2fa8-432a-88ad-853589e18426",
+        "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "uuid": "ac2104cb-1977-4aca-b27d-6ac774359248"
+      }
+    },
+    {
+      "relationship": {
+        "id": 89,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "data in",
+        "description": [
+                ""
+        ],
+        "list_order": 16384,
+        "from_classifier_name": "Network Connector",
+        "to_classifier_name": "CPU",
+        "from_node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
+        "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "uuid": "2a1e245b-0768-41d7-a144-82e93ddbffa3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 109,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "power supply",
+        "description": [
+                ""
+        ],
+        "list_order": 27648,
+        "from_classifier_name": "Power Connector",
+        "from_feature_key": "pwr",
+        "to_classifier_name": "Power Management IC",
+        "to_feature_key": "V+",
+        "from_node": "c0820590-cb63-4730-aa05-c41e440ad3ac",
+        "to_node": "438f6352-cc9f-4a63-9ad8-7c9f9149743f",
+        "uuid": "8a835c64-91e3-4ee9-b260-6026d639cb59"
+      }
+    },
+    {
+      "relationship": {
+        "id": 88,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "data out",
+        "description": [
+                ""
+        ],
+        "list_order": 15360,
+        "from_classifier_name": "CPU",
+        "to_classifier_name": "Network Connector",
+        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
+        "uuid": "2f17e5dd-404a-48b2-848b-f33d772d605d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 108,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "display signal",
+        "description": [
+                ""
+        ],
+        "list_order": 26624,
+        "from_classifier_name": "CPU",
+        "to_classifier_name": "Display",
+        "to_feature_key": "video_1",
+        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
+        "to_node": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b",
+        "uuid": "5f049be4-9bf5-43fb-88b8-ada2d7f762d6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 149,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "amp out",
+        "description": [
+                ""
+        ],
+        "list_order": 2004025999,
+        "from_classifier_name": "CPU",
+        "from_feature_key": "audio_out",
+        "to_classifier_name": "Speaker",
+        "to_feature_key": "in",
+        "from_node": "cd460687-2492-4a76-b831-68c1c7eea81b",
+        "to_node": "2fd25990-9b40-460a-8659-ba2aba7fe4d8",
+        "uuid": "859f57c9-e56b-46e5-9f61-09990fcd1024"
+      }
+    },
+    {
+      "relationship": {
         "id": 126,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -6562,6 +6944,177 @@
         "from_node": "839e5659-3c57-4f91-9e29-af221b24ba3d",
         "to_node": "2758fb84-3593-477c-b6ca-eb8cc3b906fe",
         "uuid": "fdb958e6-dc9b-4921-823c-d7d1d908609b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 116,
+        "main_type": 220,
+        "type": "Message",
+        "name": "system up and running (2500 ms)",
+        "description": [
+                ""
+        ],
+        "list_order": 1754839735,
+        "from_classifier_name": "starting applications",
+        "from_feature_key": "",
+        "to_classifier_name": "fully operational",
+        "to_feature_key": "",
+        "from_node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
+        "to_node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
+        "uuid": "8ee38347-bcc5-41c7-81bc-5c36cfe091ff"
+      }
+    },
+    {
+      "relationship": {
+        "id": 115,
+        "main_type": 220,
+        "type": "Message",
+        "name": "load and start applications (800 ms)",
+        "description": [
+                ""
+        ],
+        "list_order": 69814931,
+        "from_classifier_name": "starting operating system",
+        "from_feature_key": "",
+        "to_classifier_name": "starting applications",
+        "to_feature_key": "",
+        "from_node": "18411ac8-d373-4180-89f4-a3067c555857",
+        "to_node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
+        "uuid": "fc6b084a-2e08-4f75-8497-c617f3a86cda"
+      }
+    },
+    {
+      "relationship": {
+        "id": 106,
+        "main_type": 220,
+        "type": "Message",
+        "name": "load and start OS (100 ms)",
+        "description": [
+                ""
+        ],
+        "list_order": -566897250,
+        "from_classifier_name": "initializing hardware",
+        "from_feature_key": "",
+        "to_classifier_name": "starting operating system",
+        "to_feature_key": "",
+        "from_node": "2fa49589-316d-4472-96db-34b9fbb8b128",
+        "to_node": "18411ac8-d373-4180-89f4-a3067c555857",
+        "uuid": "f92e9b0d-908f-48be-954b-78b81812decf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 114,
+        "main_type": 220,
+        "type": "Message",
+        "name": "power up (0 sec)",
+        "description": [
+                ""
+        ],
+        "list_order": -656575911,
+        "from_classifier_name": "unpowered",
+        "from_feature_key": "",
+        "to_classifier_name": "initializing hardware",
+        "to_feature_key": "",
+        "from_node": "1dcfc895-6759-41bc-982b-874a981e5791",
+        "to_node": "2fa49589-316d-4472-96db-34b9fbb8b128",
+        "uuid": "5a941585-bfb0-47dc-a274-42c098d8e957"
+      }
+    },
+    {
+      "relationship": {
+        "id": 105,
+        "main_type": 220,
+        "type": "Message",
+        "name": "increase volume",
+        "description": [
+                ""
+        ],
+        "list_order": -933213649,
+        "from_classifier_name": "User",
+        "from_feature_key": "",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
+        "from_node": "87de2766-3cbd-4614-8993-b05453bb9007",
+        "to_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "uuid": "af7202ff-103d-4468-9c3f-980de43d064c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 110,
+        "main_type": 220,
+        "type": "Message",
+        "name": "increase volume",
+        "description": [
+                ""
+        ],
+        "list_order": -246956624,
+        "from_classifier_name": "GUI",
+        "from_feature_key": "",
+        "to_classifier_name": "Audio Manager",
+        "to_feature_key": "",
+        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
+        "uuid": "c8dd92a5-4019-4223-a450-4949d45acbea"
+      }
+    },
+    {
+      "relationship": {
+        "id": 111,
+        "main_type": 221,
+        "type": "Message",
+        "name": "get volume",
+        "description": [
+                ""
+        ],
+        "list_order": 300059845,
+        "from_classifier_name": "GUI",
+        "from_feature_key": "",
+        "to_classifier_name": "Audio Manager",
+        "to_feature_key": "",
+        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
+        "uuid": "38c3de31-0b73-40a4-88d9-c79b2d6127f2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 113,
+        "main_type": 220,
+        "type": "Message",
+        "name": "show volume",
+        "description": [
+                ""
+        ],
+        "list_order": 1387303465,
+        "from_classifier_name": "GUI",
+        "from_feature_key": "",
+        "to_classifier_name": "User",
+        "to_feature_key": "",
+        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "to_node": "87de2766-3cbd-4614-8993-b05453bb9007",
+        "uuid": "accf65f0-f097-452b-aa16-3d74632035b4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 112,
+        "main_type": 222,
+        "type": "Message",
+        "name": "volume",
+        "description": [
+                ""
+        ],
+        "list_order": 568595202,
+        "from_classifier_name": "Audio Manager",
+        "from_feature_key": "",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
+        "from_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
+        "to_node": "f2e9a281-239f-4414-996d-56803b605733",
+        "uuid": "e8ddbcdc-043a-43f8-86df-59a2ff1ccf7b"
       }
     },
     {
@@ -6907,6 +7460,91 @@
     },
     {
       "relationship": {
+        "id": 170,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "tag end",
+        "description": [
+                ""
+        ],
+        "list_order": 303104,
+        "from_classifier_name": "read end tag",
+        "to_classifier_name": "next token",
+        "from_node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
+        "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "uuid": "16df1484-75d3-4349-aadc-3136b8a87c5b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 161,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "element end",
+        "description": [
+                ""
+        ],
+        "list_order": 139264,
+        "from_classifier_name": "next token",
+        "to_classifier_name": "read end tag",
+        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
+        "uuid": "4021742f-9309-46d6-951c-e1bd8414bf44"
+      }
+    },
+    {
+      "relationship": {
+        "id": 162,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "element start",
+        "description": [
+                ""
+        ],
+        "list_order": 172032,
+        "from_classifier_name": "next token",
+        "to_classifier_name": "read element and attributes",
+        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
+        "uuid": "17c9df91-ec32-4d4d-a9a9-08825c23b1f8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 164,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "data",
+        "description": [
+                ""
+        ],
+        "list_order": 237568,
+        "from_classifier_name": "next token",
+        "to_classifier_name": "read CDATA contents",
+        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_node": "361316cf-9fa0-4670-a23e-01c498e52f35",
+        "uuid": "f35140a4-cf00-4800-97b6-c1e94d6b8491"
+      }
+    },
+    {
+      "relationship": {
+        "id": 165,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "end of file",
+        "description": [
+                ""
+        ],
+        "list_order": 270336,
+        "from_classifier_name": "next token",
+        "to_classifier_name": "check validity",
+        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
+        "to_node": "c1002f7e-8291-4586-b7c7-94ef4bde710f",
+        "uuid": "cf957307-a649-469a-8061-25b1f0b7cc7d"
+      }
+    },
+    {
+      "relationship": {
         "id": 168,
         "main_type": 300,
         "type": "Association",
@@ -7028,644 +7666,6 @@
         "from_node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
         "to_node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
         "uuid": "df58a5b3-d509-413f-9a83-e1b187667608"
-      }
-    },
-    {
-      "relationship": {
-        "id": 124,
-        "main_type": 201,
-        "type": "Association",
-        "name": "aggregates",
-        "description": [
-                ""
-        ],
-        "list_order": 77824,
-        "from_classifier_name": "classifier-4",
-        "to_classifier_name": "classifier-1",
-        "from_node": "69f5a52c-a207-4d31-aec6-826d2242921b",
-        "to_node": "41738b81-a52b-4eeb-85f2-18ef9d0556a2",
-        "uuid": "d2a015f0-1da4-4395-81ee-028a20c2f48f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 94,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1165693843,
-        "from_classifier_name": "running state",
-        "to_classifier_name": "fully operational",
-        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
-        "to_node": "24ea7879-939e-4973-b7b1-69f1a00e75e2",
-        "uuid": "f493c1e2-c56b-4ddf-a59d-22ced885225f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 95,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 2041384712,
-        "from_classifier_name": "running state",
-        "to_classifier_name": "starting applications",
-        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
-        "to_node": "304ad2c4-77cd-4e41-9326-07136ff7dcbf",
-        "uuid": "afbb7427-0188-495c-8ff9-8c03a49a2236"
-      }
-    },
-    {
-      "relationship": {
-        "id": 96,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 2135335983,
-        "from_classifier_name": "running state",
-        "to_classifier_name": "starting operating system",
-        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
-        "to_node": "accefb21-ca6b-43dc-8848-3c203d0b0e94",
-        "uuid": "e7080b32-8292-4729-a984-25e1d77879d4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 97,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 2144858127,
-        "from_classifier_name": "running state",
-        "to_classifier_name": "initializing hardware",
-        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
-        "to_node": "0be5fb1d-6ca6-4077-8520-8b893b448804",
-        "uuid": "f7e72a49-2729-4b1c-ba75-589ab6875632"
-      }
-    },
-    {
-      "relationship": {
-        "id": 98,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 2147038189,
-        "from_classifier_name": "running state",
-        "to_classifier_name": "unpowered",
-        "from_node": "117e7ed5-fefe-4fee-96da-8f796e4e1313",
-        "to_node": "34537079-00e0-4c76-b92c-40e918fc6d3b",
-        "uuid": "7a1d36b9-f6d0-4892-866c-5cd179544a16"
-      }
-    },
-    {
-      "relationship": {
-        "id": 172,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "tag end",
-        "description": [
-                ""
-        ],
-        "list_order": 368640,
-        "from_classifier_name": "read element and attributes",
-        "to_classifier_name": "next token",
-        "from_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
-        "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "uuid": "bb55ab6e-6efc-4c0a-93e8-7b7e1c197dae"
-      }
-    },
-    {
-      "relationship": {
-        "id": 160,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "content end",
-        "description": [
-                ""
-        ],
-        "list_order": 106496,
-        "from_classifier_name": "read CDATA contents",
-        "to_classifier_name": "next token",
-        "from_node": "361316cf-9fa0-4670-a23e-01c498e52f35",
-        "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "uuid": "ef4db10b-cb8d-4218-b341-021de6bee8a8"
-      }
-    },
-    {
-      "relationship": {
-        "id": 66,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "audio stream",
-        "description": [
-                ""
-        ],
-        "list_order": 421743311,
-        "from_classifier_name": "Performance SoC",
-        "to_classifier_name": "Amplifier",
-        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
-        "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
-        "uuid": "96aeb3f3-ab6e-40a6-bde3-cebd98cdc7af"
-      }
-    },
-    {
-      "relationship": {
-        "id": 67,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "controls",
-        "description": [
-                ""
-        ],
-        "list_order": 421744335,
-        "from_classifier_name": "Performance SoC",
-        "to_classifier_name": "Tuner Chip",
-        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
-        "to_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
-        "uuid": "9681ec2c-c8f2-4de2-aa98-9d4bdbca0f8c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 68,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "controls",
-        "description": [
-                ""
-        ],
-        "list_order": 421745359,
-        "from_classifier_name": "Performance SoC",
-        "to_classifier_name": "Amplifier",
-        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
-        "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
-        "uuid": "e1d0d4b8-036b-4bbf-9363-8650c6dc0c4a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 157,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "alive signal",
-        "description": [
-                ""
-        ],
-        "list_order": 421778127,
-        "from_classifier_name": "Performance SoC",
-        "to_classifier_name": "Watchdog",
-        "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
-        "to_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
-        "uuid": "5eec75f4-c123-447f-9f29-c01fc6c600a9"
-      }
-    },
-    {
-      "relationship": {
-        "id": 65,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "audio stream",
-        "description": [
-                ""
-        ],
-        "list_order": 421742287,
-        "from_classifier_name": "Tuner Chip",
-        "to_classifier_name": "Amplifier",
-        "from_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
-        "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
-        "uuid": "a7e1ae56-37bf-4bdc-8906-30a7f9da6d3c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 63,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "switches",
-        "description": [
-                ""
-        ],
-        "list_order": 421740239,
-        "from_classifier_name": "Watchdog",
-        "to_classifier_name": "Power Supply",
-        "from_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
-        "to_node": "04156c73-4c79-4740-8280-29c8b9b06c64",
-        "uuid": "ae591f89-128f-443f-bb1e-777eb3feaff7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 107,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "touch input",
-        "description": [
-                ""
-        ],
-        "list_order": 25600,
-        "from_classifier_name": "Dial Pad",
-        "from_feature_key": "coordinates",
-        "to_classifier_name": "CPU",
-        "from_node": "6efb0a6b-801f-4bd2-abcd-631d2fcb0461",
-        "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "uuid": "814777e8-eafe-4ae1-bdc9-9cbbc83cf625"
-      }
-    },
-    {
-      "relationship": {
-        "id": 148,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "mic in",
-        "description": [
-                ""
-        ],
-        "list_order": 2003993231,
-        "from_classifier_name": "Microphone",
-        "from_feature_key": "out",
-        "to_classifier_name": "CPU",
-        "to_feature_key": "audio_in",
-        "from_node": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4",
-        "to_node": "ac28a630-1679-4693-8001-25e109ad1bc9",
-        "uuid": "e5b2d3c9-a797-4f63-b5d6-9f97f6bd61e3"
-      }
-    },
-    {
-      "relationship": {
-        "id": 86,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "power supply",
-        "description": [
-                ""
-        ],
-        "list_order": 13312,
-        "from_classifier_name": "Power Management IC",
-        "to_classifier_name": "CPU",
-        "from_node": "e66ba866-2fa8-432a-88ad-853589e18426",
-        "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "uuid": "ac2104cb-1977-4aca-b27d-6ac774359248"
-      }
-    },
-    {
-      "relationship": {
-        "id": 89,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "data in",
-        "description": [
-                ""
-        ],
-        "list_order": 16384,
-        "from_classifier_name": "Network Connector",
-        "to_classifier_name": "CPU",
-        "from_node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
-        "to_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "uuid": "2a1e245b-0768-41d7-a144-82e93ddbffa3"
-      }
-    },
-    {
-      "relationship": {
-        "id": 109,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "power supply",
-        "description": [
-                ""
-        ],
-        "list_order": 27648,
-        "from_classifier_name": "Power Connector",
-        "from_feature_key": "pwr",
-        "to_classifier_name": "Power Management IC",
-        "to_feature_key": "V+",
-        "from_node": "c0820590-cb63-4730-aa05-c41e440ad3ac",
-        "to_node": "438f6352-cc9f-4a63-9ad8-7c9f9149743f",
-        "uuid": "8a835c64-91e3-4ee9-b260-6026d639cb59"
-      }
-    },
-    {
-      "relationship": {
-        "id": 88,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "data out",
-        "description": [
-                ""
-        ],
-        "list_order": 15360,
-        "from_classifier_name": "CPU",
-        "to_classifier_name": "Network Connector",
-        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "to_node": "6b78a168-49df-4ff9-bd5f-f4a17f5f2775",
-        "uuid": "2f17e5dd-404a-48b2-848b-f33d772d605d"
-      }
-    },
-    {
-      "relationship": {
-        "id": 108,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "display signal",
-        "description": [
-                ""
-        ],
-        "list_order": 26624,
-        "from_classifier_name": "CPU",
-        "to_classifier_name": "Display",
-        "to_feature_key": "video_1",
-        "from_node": "a3fc76c0-97a7-419f-acc2-8b37823ed0bd",
-        "to_node": "06b604f9-5cef-4ba1-9b0b-46310ff9f65b",
-        "uuid": "5f049be4-9bf5-43fb-88b8-ada2d7f762d6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 149,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "amp out",
-        "description": [
-                ""
-        ],
-        "list_order": 2004025999,
-        "from_classifier_name": "CPU",
-        "from_feature_key": "audio_out",
-        "to_classifier_name": "Speaker",
-        "to_feature_key": "in",
-        "from_node": "cd460687-2492-4a76-b831-68c1c7eea81b",
-        "to_node": "2fd25990-9b40-460a-8659-ba2aba7fe4d8",
-        "uuid": "859f57c9-e56b-46e5-9f61-09990fcd1024"
-      }
-    },
-    {
-      "relationship": {
-        "id": 116,
-        "main_type": 220,
-        "type": "Message",
-        "name": "system up and running (2500 ms)",
-        "description": [
-                ""
-        ],
-        "list_order": 1754839735,
-        "from_classifier_name": "starting applications",
-        "from_feature_key": "",
-        "to_classifier_name": "fully operational",
-        "to_feature_key": "",
-        "from_node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
-        "to_node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
-        "uuid": "8ee38347-bcc5-41c7-81bc-5c36cfe091ff"
-      }
-    },
-    {
-      "relationship": {
-        "id": 115,
-        "main_type": 220,
-        "type": "Message",
-        "name": "load and start applications (800 ms)",
-        "description": [
-                ""
-        ],
-        "list_order": 69814931,
-        "from_classifier_name": "starting operating system",
-        "from_feature_key": "",
-        "to_classifier_name": "starting applications",
-        "to_feature_key": "",
-        "from_node": "18411ac8-d373-4180-89f4-a3067c555857",
-        "to_node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
-        "uuid": "fc6b084a-2e08-4f75-8497-c617f3a86cda"
-      }
-    },
-    {
-      "relationship": {
-        "id": 106,
-        "main_type": 220,
-        "type": "Message",
-        "name": "load and start OS (100 ms)",
-        "description": [
-                ""
-        ],
-        "list_order": -566897250,
-        "from_classifier_name": "initializing hardware",
-        "from_feature_key": "",
-        "to_classifier_name": "starting operating system",
-        "to_feature_key": "",
-        "from_node": "2fa49589-316d-4472-96db-34b9fbb8b128",
-        "to_node": "18411ac8-d373-4180-89f4-a3067c555857",
-        "uuid": "f92e9b0d-908f-48be-954b-78b81812decf"
-      }
-    },
-    {
-      "relationship": {
-        "id": 114,
-        "main_type": 220,
-        "type": "Message",
-        "name": "power up (0 sec)",
-        "description": [
-                ""
-        ],
-        "list_order": -656575911,
-        "from_classifier_name": "unpowered",
-        "from_feature_key": "",
-        "to_classifier_name": "initializing hardware",
-        "to_feature_key": "",
-        "from_node": "1dcfc895-6759-41bc-982b-874a981e5791",
-        "to_node": "2fa49589-316d-4472-96db-34b9fbb8b128",
-        "uuid": "5a941585-bfb0-47dc-a274-42c098d8e957"
-      }
-    },
-    {
-      "relationship": {
-        "id": 105,
-        "main_type": 220,
-        "type": "Message",
-        "name": "increase volume",
-        "description": [
-                ""
-        ],
-        "list_order": -933213649,
-        "from_classifier_name": "User",
-        "from_feature_key": "",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "from_node": "87de2766-3cbd-4614-8993-b05453bb9007",
-        "to_node": "f2e9a281-239f-4414-996d-56803b605733",
-        "uuid": "af7202ff-103d-4468-9c3f-980de43d064c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 110,
-        "main_type": 220,
-        "type": "Message",
-        "name": "increase volume",
-        "description": [
-                ""
-        ],
-        "list_order": -246956624,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "to_classifier_name": "Audio Manager",
-        "to_feature_key": "",
-        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
-        "to_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
-        "uuid": "c8dd92a5-4019-4223-a450-4949d45acbea"
-      }
-    },
-    {
-      "relationship": {
-        "id": 111,
-        "main_type": 221,
-        "type": "Message",
-        "name": "get volume",
-        "description": [
-                ""
-        ],
-        "list_order": 300059845,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "to_classifier_name": "Audio Manager",
-        "to_feature_key": "",
-        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
-        "to_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
-        "uuid": "38c3de31-0b73-40a4-88d9-c79b2d6127f2"
-      }
-    },
-    {
-      "relationship": {
-        "id": 113,
-        "main_type": 220,
-        "type": "Message",
-        "name": "show volume",
-        "description": [
-                ""
-        ],
-        "list_order": 1387303465,
-        "from_classifier_name": "GUI",
-        "from_feature_key": "",
-        "to_classifier_name": "User",
-        "to_feature_key": "",
-        "from_node": "f2e9a281-239f-4414-996d-56803b605733",
-        "to_node": "87de2766-3cbd-4614-8993-b05453bb9007",
-        "uuid": "accf65f0-f097-452b-aa16-3d74632035b4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 112,
-        "main_type": 222,
-        "type": "Message",
-        "name": "volume",
-        "description": [
-                ""
-        ],
-        "list_order": 568595202,
-        "from_classifier_name": "Audio Manager",
-        "from_feature_key": "",
-        "to_classifier_name": "GUI",
-        "to_feature_key": "",
-        "from_node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
-        "to_node": "f2e9a281-239f-4414-996d-56803b605733",
-        "uuid": "e8ddbcdc-043a-43f8-86df-59a2ff1ccf7b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 170,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "tag end",
-        "description": [
-                ""
-        ],
-        "list_order": 303104,
-        "from_classifier_name": "read end tag",
-        "to_classifier_name": "next token",
-        "from_node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
-        "to_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "uuid": "16df1484-75d3-4349-aadc-3136b8a87c5b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 161,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "element end",
-        "description": [
-                ""
-        ],
-        "list_order": 139264,
-        "from_classifier_name": "next token",
-        "to_classifier_name": "read end tag",
-        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "to_node": "8087c141-7448-46e2-8ea4-dc712657a9b8",
-        "uuid": "4021742f-9309-46d6-951c-e1bd8414bf44"
-      }
-    },
-    {
-      "relationship": {
-        "id": 162,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "element start",
-        "description": [
-                ""
-        ],
-        "list_order": 172032,
-        "from_classifier_name": "next token",
-        "to_classifier_name": "read element and attributes",
-        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "to_node": "33aa2542-3744-46bb-b032-38e8f514c0da",
-        "uuid": "17c9df91-ec32-4d4d-a9a9-08825c23b1f8"
-      }
-    },
-    {
-      "relationship": {
-        "id": 164,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "data",
-        "description": [
-                ""
-        ],
-        "list_order": 237568,
-        "from_classifier_name": "next token",
-        "to_classifier_name": "read CDATA contents",
-        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "to_node": "361316cf-9fa0-4670-a23e-01c498e52f35",
-        "uuid": "f35140a4-cf00-4800-97b6-c1e94d6b8491"
-      }
-    },
-    {
-      "relationship": {
-        "id": 165,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "end of file",
-        "description": [
-                ""
-        ],
-        "list_order": 270336,
-        "from_classifier_name": "next token",
-        "to_classifier_name": "check validity",
-        "from_node": "c75f3c21-b585-4531-af23-1a832eafd1b4",
-        "to_node": "c1002f7e-8291-4586-b7c7-94ef4bde710f",
-        "uuid": "cf957307-a649-469a-8061-25b1f0b7cc7d"
       }
     }
   ]

@@ -1,0 +1,281 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 30,
+        "type": "UMLDeploymentDiagram",
+        "name": "Deployment",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "086a3267-da02-48cf-9a99-b2ae364cfb79",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "The Cloud",
+            "node": "bb1cd799-8676-4612-8d74-fa83ffc6e0ad",
+            "uuid": "8a2a853e-c39e-41e3-82f5-0e7a9f6dcb5d"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "Local Computer",
+            "node": "197135ae-2efc-42a3-b052-35dcc523cd6d",
+            "uuid": "17941a67-2be0-4b11-8ed6-cbe9164c4822"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Web-App 1",
+            "node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
+            "uuid": "e97a5dbc-e499-4a0f-b539-2a93363265ed"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "User Settings",
+            "node": "b4736129-f4ee-493b-ae24-4045cdfbd476",
+            "uuid": "a166b41b-4c44-46ff-82fc-faf05cc24430"
+          },
+          {
+            "id": 5,
+            "display_flags": 0,
+            "classifier_name": "User-Settings App",
+            "node": "619c4e53-d53b-4791-b6f3-d4476a24944d",
+            "uuid": "65709eae-8223-4abb-9d30-aa762253c13f"
+          },
+          {
+            "id": 6,
+            "display_flags": 0,
+            "classifier_name": "Online Help App",
+            "node": "19bb26b4-a6ff-48de-ad8d-42771d134389",
+            "uuid": "ec576841-75bb-4ad9-a512-bade81e70f16"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "The Cloud",
+        "description": [
+                ""
+        ],
+        "x_order": -1369686698,
+        "y_order": -165728706,
+        "list_order": -165728706,
+        "uuid": "bb1cd799-8676-4612-8d74-fa83ffc6e0ad",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "Local Computer",
+        "description": [
+                ""
+        ],
+        "x_order": 211050066,
+        "y_order": -160186731,
+        "list_order": 15157854,
+        "uuid": "197135ae-2efc-42a3-b052-35dcc523cd6d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 127,
+        "type": "Artifact",
+        "stereotype": "",
+        "name": "Web-App 1",
+        "description": [
+                ""
+        ],
+        "x_order": -1395087680,
+        "y_order": -160186731,
+        "list_order": -160186731,
+        "uuid": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 127,
+        "type": "Artifact",
+        "stereotype": "",
+        "name": "User Settings",
+        "description": [
+                ""
+        ],
+        "x_order": -1374590786,
+        "y_order": 364057854,
+        "list_order": 364057854,
+        "uuid": "b4736129-f4ee-493b-ae24-4045cdfbd476",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "User-Settings App",
+        "description": [
+                ""
+        ],
+        "x_order": -1563482176,
+        "y_order": 364057854,
+        "list_order": 119208024,
+        "uuid": "619c4e53-d53b-4791-b6f3-d4476a24944d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 6,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Online Help App",
+        "description": [
+                ""
+        ],
+        "x_order": -1548904301,
+        "y_order": 364057854,
+        "list_order": 364057854,
+        "uuid": "19bb26b4-a6ff-48de-ad8d-42771d134389",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -160186731,
+        "from_classifier_name": "The Cloud",
+        "to_classifier_name": "Web-App 1",
+        "from_node": "bb1cd799-8676-4612-8d74-fa83ffc6e0ad",
+        "to_node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
+        "uuid": "79f4a4b0-d243-4c55-8369-4e2b02c89cf3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 251,
+        "type": "Manifestation",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Web-App 1",
+        "to_classifier_name": "User-Settings App",
+        "from_node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
+        "to_node": "619c4e53-d53b-4791-b6f3-d4476a24944d",
+        "uuid": "c2f50544-b94c-4786-8b1c-8868c996bc18"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 251,
+        "type": "Manifestation",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Web-App 1",
+        "to_classifier_name": "Online Help App",
+        "from_node": "f830c97e-ae5f-456f-8d15-b5aac8a3305e",
+        "to_node": "19bb26b4-a6ff-48de-ad8d-42771d134389",
+        "uuid": "73db421e-dbea-4ff2-b2dc-efb994d8f55a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 250,
+        "type": "Deployment",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "User Settings",
+        "to_classifier_name": "The Cloud",
+        "from_node": "b4736129-f4ee-493b-ae24-4045cdfbd476",
+        "to_node": "bb1cd799-8676-4612-8d74-fa83ffc6e0ad",
+        "uuid": "00c1131a-5a6b-44ee-82e8-ef4fbda5d652"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 250,
+        "type": "Deployment",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "User Settings",
+        "to_classifier_name": "Local Computer",
+        "from_node": "b4736129-f4ee-493b-ae24-4045cdfbd476",
+        "to_node": "197135ae-2efc-42a3-b052-35dcc523cd6d",
+        "uuid": "22f05f98-37ed-4340-aff6-a1ee738778fd"
+      }
+    }
+  ]
+}

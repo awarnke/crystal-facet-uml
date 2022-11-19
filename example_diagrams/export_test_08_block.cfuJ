@@ -1,0 +1,370 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "Block",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "3ddde57e-5999-4b2c-b0e8-50b0363b5303",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "New Perform Transaction-1",
+            "node": "79be54d9-59ae-4d52-8687-e9a72ade24f9",
+            "uuid": "b5524b82-b925-4723-9cd6-8e9b4275b17e"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "Dial Pad",
+            "node": "30caa9ee-f046-444b-904b-1d868bf6896d",
+            "uuid": "5f45543f-15cd-4251-865b-a79df0e766be"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Microcontroller",
+            "node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+            "uuid": "37ed53e0-2e0f-4cd2-addf-632a9df30924"
+          },
+          {
+            "id": 4,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "Flash Memory",
+            "node": "a15c0338-a4c5-4456-82fd-df51942b9099",
+            "uuid": "ab82864f-0d5b-4dbf-9d88-372090c27f89"
+          },
+          {
+            "id": 5,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "CPU",
+            "node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+            "uuid": "d8e79c48-cf68-4bf0-8671-79f2e0cd6874"
+          },
+          {
+            "id": 6,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "RAM",
+            "node": "d57992a4-64bd-4e5a-b936-c12f682939f8",
+            "uuid": "d4948363-1cc1-4cd5-8c8b-393bc70f1311"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "New Perform Transaction-1",
+        "description": [
+                ""
+        ],
+        "x_order": -402150497,
+        "y_order": -989870922,
+        "list_order": -989870922,
+        "uuid": "79be54d9-59ae-4d52-8687-e9a72ade24f9",
+        "features":
+        [
+          {
+            "id": 1,
+            "main_type": 2,
+            "type": "Port",
+            "key": "video_in",
+            "value": "stream",
+            "description": [
+                ""
+            ],
+            "list_order": -1768240185,
+            "uuid": "9f925924-cc59-4b3d-9dd4-bb45af74ccd8"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Dial Pad",
+        "description": [
+                ""
+        ],
+        "x_order": 1013067641,
+        "y_order": -989870922,
+        "list_order": -1488542039,
+        "uuid": "30caa9ee-f046-444b-904b-1d868bf6896d",
+        "features":
+        [
+          {
+            "id": 4,
+            "main_type": 2,
+            "type": "Port",
+            "key": "keypress_out",
+            "value": "signal",
+            "description": [
+                ""
+            ],
+            "list_order": 1818601422,
+            "uuid": "32e0542b-8ecf-491a-93de-b472205e50ee"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Microcontroller",
+        "description": [
+                ""
+        ],
+        "x_order": 935188074,
+        "y_order": -829044593,
+        "list_order": -829044593,
+        "uuid": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+        "features":
+        [
+          {
+            "id": 3,
+            "main_type": 2,
+            "type": "Port",
+            "key": "keypress_in",
+            "value": "signal",
+            "description": [
+                ""
+            ],
+            "list_order": -789164017,
+            "uuid": "7b4eb669-1d5e-4a6e-91b5-ae7192b1f48f"
+          },
+          {
+            "id": 2,
+            "main_type": 2,
+            "type": "Port",
+            "key": "video_out",
+            "value": "stream",
+            "description": [
+                ""
+            ],
+            "list_order": -375935797,
+            "uuid": "e09c6d18-5ea1-429a-90d6-0251fe633aa3"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "Flash Memory",
+        "description": [
+                ""
+        ],
+        "x_order": 695091373,
+        "y_order": -588299419,
+        "list_order": -533377464,
+        "uuid": "a15c0338-a4c5-4456-82fd-df51942b9099",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "CPU",
+        "description": [
+                ""
+        ],
+        "x_order": 769771386,
+        "y_order": -779327582,
+        "list_order": -665626488,
+        "uuid": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 6,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "",
+        "name": "RAM",
+        "description": [
+                ""
+        ],
+        "x_order": 805001240,
+        "y_order": -588299419,
+        "list_order": -588299419,
+        "uuid": "d57992a4-64bd-4e5a-b936-c12f682939f8",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Dial Pad",
+        "from_feature_key": "keypress_out",
+        "to_classifier_name": "Microcontroller",
+        "to_feature_key": "keypress_in",
+        "from_node": "32e0542b-8ecf-491a-93de-b472205e50ee",
+        "to_node": "7b4eb669-1d5e-4a6e-91b5-ae7192b1f48f",
+        "uuid": "7573aa09-d5c6-4da2-bea6-06e9888aa545"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -533377464,
+        "from_classifier_name": "Microcontroller",
+        "to_classifier_name": "Flash Memory",
+        "from_node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+        "to_node": "a15c0338-a4c5-4456-82fd-df51942b9099",
+        "uuid": "cdd7db08-5610-49f1-9075-3fe62f4f8bd8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -665626488,
+        "from_classifier_name": "Microcontroller",
+        "to_classifier_name": "CPU",
+        "from_node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+        "to_node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+        "uuid": "c3e6ad52-b1f1-4e22-98d4-e992735df936"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -588299419,
+        "from_classifier_name": "Microcontroller",
+        "to_classifier_name": "RAM",
+        "from_node": "0016b51b-a219-442b-b703-d2c9cbdfd63b",
+        "to_node": "d57992a4-64bd-4e5a-b936-c12f682939f8",
+        "uuid": "dbee96c6-71c2-466f-9c7c-6c8e20a32a74"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Microcontroller",
+        "from_feature_key": "video_out",
+        "to_classifier_name": "New Perform Transaction-1",
+        "to_feature_key": "video_in",
+        "from_node": "e09c6d18-5ea1-429a-90d6-0251fe633aa3",
+        "to_node": "9f925924-cc59-4b3d-9dd4-bb45af74ccd8",
+        "uuid": "9d3b9637-cda9-46c4-80b7-ee5fc0a742af"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "CPU",
+        "to_classifier_name": "Flash Memory",
+        "from_node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+        "to_node": "a15c0338-a4c5-4456-82fd-df51942b9099",
+        "uuid": "5eae1e94-8a02-442c-bee8-aa305c798c96"
+      }
+    },
+    {
+      "relationship": {
+        "id": 7,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "CPU",
+        "to_classifier_name": "RAM",
+        "from_node": "a1f98afd-e1a6-4027-840d-d90df44e3bdf",
+        "to_node": "d57992a4-64bd-4e5a-b936-c12f682939f8",
+        "uuid": "ad895053-9677-4d47-9d22-487b5660c234"
+      }
+    }
+  ]
+}

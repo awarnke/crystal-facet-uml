@@ -1,0 +1,291 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 13,
+        "type": "UMLInteractionDiagram/sequence",
+        "name": "The Sequence",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "d6f2b796-173f-4ccd-af0e-85fa4ef87cc4",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "User",
+            "node": "e351bb52-f59d-476b-977b-ebcbb8acff5b",
+            "uuid": "643f90f2-dc20-48b9-b696-66a07812b7f7"
+          },
+          {
+            "id": 2,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "GUI",
+            "node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
+            "uuid": "dbbbe1b5-bd08-4e9b-8ff3-80fcc695d0f4"
+          },
+          {
+            "id": 3,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "Logic",
+            "node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
+            "uuid": "7cb83cd3-2c80-45c6-9f12-4e73752c2f56"
+          },
+          {
+            "id": 4,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "Database",
+            "node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
+            "uuid": "717cf0ef-9892-4da2-a513-8e4e35aa428e"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 100,
+        "type": "Actor",
+        "stereotype": "",
+        "name": "User",
+        "description": [
+                ""
+        ],
+        "x_order": -1237217300,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "399eb78c-9939-42e6-b4ce-9740594f7353",
+        "features":
+        [
+          {
+            "id": 1,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "e351bb52-f59d-476b-977b-ebcbb8acff5b"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "GUI",
+        "description": [
+                ""
+        ],
+        "x_order": 696748688,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "7fed2ab9-6a18-4a8b-9d2b-b77af8060e2d",
+        "features":
+        [
+          {
+            "id": 2,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Logic",
+        "description": [
+                ""
+        ],
+        "x_order": 1693034198,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "76df3a23-687d-44ae-83b1-b97a1b5459c0",
+        "features":
+        [
+          {
+            "id": 3,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Database",
+        "description": [
+                ""
+        ],
+        "x_order": 1790709247,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "a8654238-2212-4670-b749-8acabe91f806",
+        "features":
+        [
+          {
+            "id": 4,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "ca8ccc29-9346-47da-8b91-6940f84af5c1"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 220,
+        "type": "Message",
+        "name": "move",
+        "description": [
+                ""
+        ],
+        "list_order": -726107949,
+        "from_classifier_name": "User",
+        "from_feature_key": "",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
+        "from_node": "e351bb52-f59d-476b-977b-ebcbb8acff5b",
+        "to_node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
+        "uuid": "1cb73387-6a46-47c2-a4df-2cbe56675efb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 221,
+        "type": "Message",
+        "name": "update position",
+        "description": [
+                ""
+        ],
+        "list_order": -27429982,
+        "from_classifier_name": "GUI",
+        "from_feature_key": "",
+        "to_classifier_name": "Logic",
+        "to_feature_key": "",
+        "from_node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
+        "to_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
+        "uuid": "dd9bc8fe-6429-4a60-8126-ba53dfe7065f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 221,
+        "type": "Message",
+        "name": "update attributes",
+        "description": [
+                ""
+        ],
+        "list_order": 337097652,
+        "from_classifier_name": "Logic",
+        "from_feature_key": "",
+        "to_classifier_name": "Database",
+        "to_feature_key": "",
+        "from_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
+        "to_node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
+        "uuid": "b9dc0aba-cbde-4e4b-bcb6-27b37e51c879"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 222,
+        "type": "Message",
+        "name": "ack",
+        "description": [
+                ""
+        ],
+        "list_order": 1299045577,
+        "from_classifier_name": "Logic",
+        "from_feature_key": "",
+        "to_classifier_name": "GUI",
+        "to_feature_key": "",
+        "from_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
+        "to_node": "7c2f000a-8384-41a8-a9b9-d4eaab0f643a",
+        "uuid": "c14d91ef-8708-4c0e-ad09-789d43e910e4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 222,
+        "type": "Message",
+        "name": "SUCCESS",
+        "description": [
+                ""
+        ],
+        "list_order": 853511801,
+        "from_classifier_name": "Database",
+        "from_feature_key": "",
+        "to_classifier_name": "Logic",
+        "to_feature_key": "",
+        "from_node": "ca8ccc29-9346-47da-8b91-6940f84af5c1",
+        "to_node": "8abc8ac1-f7ac-41a1-8eb2-d0c03d379d8a",
+        "uuid": "159bd8f5-fcf0-4650-83d8-b42ff779dbb4"
+      }
+    }
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 33,
+        "type": "UMLPackageDiagram",
+        "name": "Packages",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "28ecddda-7c7d-4bba-a313-6d17d9dd213f",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Software Layers",
+            "node": "13364252-78e0-4585-9937-7be9f1a0754b",
+            "uuid": "147e7c70-76b1-4926-8015-d06fc7463439"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "Applications",
+            "node": "7da79819-c82f-41bd-ac77-6d3421a36514",
+            "uuid": "63e341fc-f4d5-4f65-b41e-1c9dce7e8bce"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Services",
+            "node": "3ff4a91c-b111-42b2-b288-7d39dddc2d85",
+            "uuid": "6360f62e-d5f1-402a-9a6f-b9a8c65aad86"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "Infrastructure",
+            "node": "02d0f72b-375b-46d2-9cbc-49019fa717da",
+            "uuid": "ebce0b80-7e48-4a6e-be72-6e314034a1ef"
+          },
+          {
+            "id": 5,
+            "display_flags": 0,
+            "classifier_name": "Layers may be passed-by",
+            "node": "16a4b14f-a3c4-4191-a2bf-12f82f6bdb09",
+            "uuid": "f7829777-2c18-420a-bb52-989f33794c6e"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "Software Layers",
+        "description": [
+                ""
+        ],
+        "x_order": -1303053291,
+        "y_order": -1028631525,
+        "list_order": -1028631525,
+        "uuid": "13364252-78e0-4585-9937-7be9f1a0754b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "Applications",
+        "description": [
+                ""
+        ],
+        "x_order": -1303053291,
+        "y_order": -1079604188,
+        "list_order": -1114977195,
+        "uuid": "7da79819-c82f-41bd-ac77-6d3421a36514",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "Services",
+        "description": [
+                ""
+        ],
+        "x_order": -1303053291,
+        "y_order": -872138793,
+        "list_order": -1028631525,
+        "uuid": "3ff4a91c-b111-42b2-b288-7d39dddc2d85",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "Infrastructure",
+        "description": [
+                ""
+        ],
+        "x_order": -1303053291,
+        "y_order": -24298096,
+        "list_order": 53065893,
+        "uuid": "02d0f72b-375b-46d2-9cbc-49019fa717da",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Layers may be passed-by",
+        "description": [
+                "Layers in this context \n",
+                "may be passed-by:\n",
+                "\n",
+                "Applications may directly \n",
+                "use the functions of Infrastructure"
+        ],
+        "x_order": -924531526,
+        "y_order": -650829161,
+        "list_order": -650829161,
+        "uuid": "16a4b14f-a3c4-4191-a2bf-12f82f6bdb09",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1114977195,
+        "from_classifier_name": "Software Layers",
+        "to_classifier_name": "Applications",
+        "from_node": "13364252-78e0-4585-9937-7be9f1a0754b",
+        "to_node": "7da79819-c82f-41bd-ac77-6d3421a36514",
+        "uuid": "1a1d4cf5-8978-486e-9861-8d27cf8082dd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1028631525,
+        "from_classifier_name": "Software Layers",
+        "to_classifier_name": "Services",
+        "from_node": "13364252-78e0-4585-9937-7be9f1a0754b",
+        "to_node": "3ff4a91c-b111-42b2-b288-7d39dddc2d85",
+        "uuid": "39ed5907-9ef9-4364-b3d6-2b2ad1f41552"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 53065893,
+        "from_classifier_name": "Software Layers",
+        "to_classifier_name": "Infrastructure",
+        "from_node": "13364252-78e0-4585-9937-7be9f1a0754b",
+        "to_node": "02d0f72b-375b-46d2-9cbc-49019fa717da",
+        "uuid": "1b5a5f70-0830-4f68-afc3-78c98cb5ffc9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -650829161,
+        "from_classifier_name": "Software Layers",
+        "to_classifier_name": "Layers may be passed-by",
+        "from_node": "13364252-78e0-4585-9937-7be9f1a0754b",
+        "to_node": "16a4b14f-a3c4-4191-a2bf-12f82f6bdb09",
+        "uuid": "5a113869-ad78-4377-a21e-757d00d008e8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 53098661,
+        "from_classifier_name": "Applications",
+        "to_classifier_name": "Services",
+        "from_node": "7da79819-c82f-41bd-ac77-6d3421a36514",
+        "to_node": "3ff4a91c-b111-42b2-b288-7d39dddc2d85",
+        "uuid": "d8dc099b-48d2-4f6d-be19-14c5ff63e271"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 53131429,
+        "from_classifier_name": "Services",
+        "to_classifier_name": "Infrastructure",
+        "from_node": "3ff4a91c-b111-42b2-b288-7d39dddc2d85",
+        "to_node": "02d0f72b-375b-46d2-9cbc-49019fa717da",
+        "uuid": "96ae5876-fb02-4d29-a08e-79d4571b4adf"
+      }
+    }
+  ]
+}

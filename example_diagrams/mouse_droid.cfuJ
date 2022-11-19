@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.44.0"
+    "generator_version": "1.45.0"
   }
   ,
   "views":
@@ -2599,6 +2599,68 @@
     },
     {
       "classifier": {
+        "id": 2,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Cosmic Rays",
+        "description": [
+                "The droid shall ensure data and program integrity.\n",
+                "\n",
+                "It shall continue operation after cosmic rays have interfered with data storage or program execution.\n",
+                "\n",
+                "Corrupted data must not be stored permanently."
+        ],
+        "x_order": -57106334,
+        "y_order": -416597941,
+        "list_order": -416597941,
+        "uuid": "a165b404-76ec-4eec-a34b-9648249f774f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Operating Temperatures",
+        "description": [
+                "The droid shall be fully functional in the range 240K..360K,\n",
+                "it shall survive temperatures from 200K to 400K."
+        ],
+        "x_order": 1592766313,
+        "y_order": 1069105883,
+        "list_order": 1069105883,
+        "uuid": "2e172d70-2eba-49b0-9241-7385878ccb2f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 102,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Mouse Droid (MoD5G)",
+        "description": [
+                "The Mouse Droid (MoD5G) is a repair droid that can be instructed to perform a mission and which then autonomously selects tactics to achieve the mission goals."
+        ],
+        "x_order": 147603683,
+        "y_order": -474887197,
+        "list_order": 39836094,
+        "uuid": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 5,
         "main_type": 100,
         "type": "Actor",
@@ -2611,6 +2673,85 @@
         "y_order": -474887197,
         "list_order": -474887197,
         "uuid": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 6,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Perform a 1-day Mission",
+        "description": [
+                "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one terrestrial day.\n",
+                "\n",
+                "- The commander programs a mission\n",
+                "- The mouse droid drives to the first location\n",
+                "- The mouse droid uses tools to remove a defective part\n",
+                "- The mouse droid installes a spare part\n",
+                "- Above steps are repeated for other goals\n",
+                "- The mouse droid returns to its base location (see D0013#name)"
+        ],
+        "x_order": 147603683,
+        "y_order": 24715831,
+        "list_order": 24715831,
+        "uuid": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 7,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Drive to Location",
+        "description": [
+                "The mouse droid can explore its environment and calculate a route from its actual position to the target location.\n",
+                "\n",
+                "- The mouse droid explores its environment\n",
+                "- The mouse droid enriches an internally memorized map\n",
+                "- The mouse droid calculates a route\n",
+                "- The mouse droid drives along the calculated route\n",
+                "- The mouse droid re-caclulates the route in case of new environment data\n",
+                "- The mouse droid reaches the target location"
+        ],
+        "x_order": -953711403,
+        "y_order": 34386514,
+        "list_order": 34386514,
+        "uuid": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 8,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Use Tools",
+        "description": [
+                "The mouse droid has a couple of tools inside its chassis.\n",
+                "\n",
+                "- The mouse droid uses a screw diver to untighten damaged parts\n",
+                "- The mouse droid uses a gripper to move the damaged part out of the way\n",
+                "- The mouse droid uses a gripper to put a spare part from its internal cargo bin to the target place\n",
+                "- The mouse droid uses a screw diver to tighten replaced parts\n",
+                "- The mouse droid uses a gripper to move the damaged part into its internal cargo bin.\n",
+                "\n",
+                "(see D0014#name)"
+        ],
+        "x_order": 205870834,
+        "y_order": 34386514,
+        "list_order": 34386514,
+        "uuid": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "features":
         [
         ]
@@ -2841,6 +2982,29 @@
     },
     {
       "classifier": {
+        "id": 19,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "HW",
+        "name": "Electrical Parts and Electronics",
+        "description": [
+                "The main components of the electric parts are:\n",
+                "- a set of cables and connectors\n",
+                "- a set of sensors and actuators\n",
+                "- the energy cell\n",
+                "- two printed circuit boards (PCB) containing the electronic parts"
+        ],
+        "x_order": -855507639,
+        "y_order": -1168769568,
+        "list_order": -1161718484,
+        "uuid": "c1419268-c407-4e91-a9de-386c65b7459b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 20,
         "main_type": 124,
         "type": "Package",
@@ -2919,1254 +3083,6 @@
             "list_order": 0,
             "uuid": "972434aa-e165-4a40-b79d-e01d495fc4b7"
           }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 81,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Self-Preservation",
-        "description": [
-                "In case a wookiee growls at the MoD5G,\n",
-                "it shall flee for self-preservation"
-        ],
-        "x_order": -934569751,
-        "y_order": -1501520248,
-        "list_order": -1501520248,
-        "uuid": "87950246-9fe2-4acf-ba83-1eb9b813b6d8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 82,
-        "main_type": 100,
-        "type": "Actor",
-        "stereotype": "",
-        "name": "Imperial Operator",
-        "description": [
-                ""
-        ],
-        "x_order": -495434567,
-        "y_order": -260243530,
-        "list_order": -260243530,
-        "uuid": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 83,
-        "main_type": 100,
-        "type": "Actor",
-        "stereotype": "",
-        "name": "Operator of the old republic",
-        "description": [
-                ""
-        ],
-        "x_order": 147603683,
-        "y_order": -260243530,
-        "list_order": -2056089112,
-        "uuid": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 88,
-        "main_type": 102,
-        "type": "Component",
-        "stereotype": "",
-        "name": "Development and Production Context",
-        "description": [
-                "This boundary encompasses the topics that are in scope during development and production."
-        ],
-        "x_order": -1509201331,
-        "y_order": -1114260632,
-        "list_order": -1059863303,
-        "uuid": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 89,
-        "main_type": 102,
-        "type": "Component",
-        "stereotype": "",
-        "name": "Operational Context",
-        "description": [
-                "This boundary encompasses the topics that are in scope during operation and maintenance."
-        ],
-        "x_order": 1173058080,
-        "y_order": -1153233278,
-        "list_order": -1114363886,
-        "uuid": "290bb69d-78be-4238-9b20-7a138c925b0b",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 94,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Outer World",
-        "description": [
-                "The main logic\n",
-                "addresses the following tasks:\n",
-                "- calculating movement actions\n",
-                "  to be performed by base logic (tactics)\n",
-                "- evaluating sensor signals\n",
-                "  from microphone and camera"
-        ],
-        "x_order": -1310350961,
-        "y_order": -703990301,
-        "list_order": -1529738312,
-        "uuid": "267dd099-bd18-4f00-8ac1-ea27009f5250",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 95,
-        "main_type": 120,
-        "type": "Node",
-        "stereotype": "",
-        "name": "Space Station",
-        "description": [
-                ""
-        ],
-        "x_order": -383445618,
-        "y_order": -689542677,
-        "list_order": -689542677,
-        "uuid": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 99,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Motor Type",
-        "description": [
-                "All motors are electrical step motors.\n",
-                "\n",
-                "Step motors can be controlled\n",
-                "to move a defined number of steps\n",
-                "forward or backwards.\n",
-                "\n",
-                "Note that there are conditions\n",
-                "when the actual number of steps\n",
-                "is not equal to the previously requested \n",
-                "number of steps, e.g. when accellerating\n",
-                "or slowing down too fast."
-        ],
-        "x_order": -708080557,
-        "y_order": -1267273974,
-        "list_order": -1267273974,
-        "uuid": "17e88f00-df0e-4c0a-a400-a2ead53b9265",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 100,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "2 of 3 Voter",
-        "description": [
-                "In order to support integrity of the system, the logic boards and the data storages are deployed three times as three identical parts.\n",
-                "\n",
-                "All three parts shall produce the same outcomes given the same input.\n",
-                "\n",
-                "If one deviates, it's result is ignored and the part is rebooted."
-        ],
-        "x_order": 1616040324,
-        "y_order": -1072059302,
-        "list_order": -1198108703,
-        "uuid": "d08d2864-7bfb-40b8-aadf-7d7e195bc9e2",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 101,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Cosmic Rays Information",
-        "description": [
-                "When a cosmic ray interferes with the system, \n",
-                "the logic or the processed data gets corrupted."
-        ],
-        "x_order": 1319115506,
-        "y_order": -1292579796,
-        "list_order": 998414534,
-        "uuid": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 102,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Watchdog Supervision",
-        "description": [
-                "In order to support integrity of the logic and data,\n",
-                "a multi-stage hierarchy supervision shall be implemented.\n",
-                "\n",
-                "Software watchdogs shall supervise the running software parts\n",
-                "in a way that logic errors and corrupted data can be detected.\n",
-                "\n",
-                "A hardware watchdog shall supervise the software watchdogs.\n",
-                "\n",
-                "In case of a failure in the supervised logic/data, the system shall reboot.\n",
-                "In case of a failure in the monitors, the system may reboot\n",
-                "or it shall fall back to a valid supervision mode.\n",
-                "\n",
-                ""
-        ],
-        "x_order": 1616040324,
-        "y_order": 1042392306,
-        "list_order": -466042240,
-        "uuid": "f60c61af-4533-43df-a957-e8df8638e4d8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 103,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "design decision",
-        "name": "Decision: Watchdog",
-        "description": [
-                "Arguments:\n",
-                "\n",
-                "- The 2 of 3 voter is easier to implement but causes higher hardware costs.\n",
-                "- The watchdog supervision requires higher engineering efforts but is cheaper in production.\n",
-                "\n",
-                "The watchdog supervision shall be implemented."
-        ],
-        "x_order": 1337529257,
-        "y_order": 1572987452,
-        "list_order": 1572987452,
-        "uuid": "2d660d61-d795-4421-823d-32f81de44f8a",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 104,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Maintenance booth",
-        "description": [
-                "A room in a star ship or on a planet\n",
-                "where the following tasks are performed:\n",
-                "- check operability of droids\n",
-                "- oil refill service\n",
-                "- repair of droids\n",
-                "- disintegration of old droids"
-        ],
-        "x_order": -1039660097,
-        "y_order": 0,
-        "list_order": 0,
-        "uuid": "c5028436-9986-438b-a493-d1c5b404d1fa",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 105,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Limp home mode may fail",
-        "description": [
-                "In case of a single fault, the MoD5G shall return\n",
-                "to the charging station.\n",
-                "\n",
-                "The current design does not address the cases:\n",
-                "- the base logic board is damaged\n",
-                "- the energy cell is damaged\n",
-                "- the movement/steering motors are defect"
-        ],
-        "x_order": 452796978,
-        "y_order": -1722530006,
-        "list_order": -1104173096,
-        "uuid": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 110,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Situation Model",
-        "description": [
-                "The situation model refers to the (limited/erroneous) knowledge of the software on environment and status."
-        ],
-        "x_order": -730047271,
-        "y_order": -1529639812,
-        "list_order": -1325864954,
-        "uuid": "05605867-3b88-4e38-935d-719cb370309e",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 111,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Environment Model",
-        "description": [
-                "The enironment model refers to the (limited) knowledge of the software on the real environment."
-        ],
-        "x_order": 1163634552,
-        "y_order": -314934184,
-        "list_order": -314934184,
-        "uuid": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 112,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Status Model",
-        "description": [
-                "The status model refers to the (limited) knowledge of the software on the real status."
-        ],
-        "x_order": -474535909,
-        "y_order": 1055531420,
-        "list_order": 773928833,
-        "uuid": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 113,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Real Situation",
-        "description": [
-                "The real situation refers to the reality of system status and environment."
-        ],
-        "x_order": 1447454445,
-        "y_order": -1529639812,
-        "list_order": -1529639812,
-        "uuid": "0d8a7e7a-b589-4387-88e9-34f62a438589",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 114,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Real Environment",
-        "description": [
-                "The real environment refers to the physical environment of the system."
-        ],
-        "x_order": 1690871009,
-        "y_order": -314934184,
-        "list_order": -100641476,
-        "uuid": "59fc1a69-283e-480c-a90c-6567fee4296e",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 115,
-        "main_type": 125,
-        "type": "Class",
-        "stereotype": "",
-        "name": "Real Status",
-        "description": [
-                "The real status refers to the real system status. This may differ from what the sensors report."
-        ],
-        "x_order": 1564903573,
-        "y_order": 1055531420,
-        "list_order": 1055531420,
-        "uuid": "11f55c66-ff62-4fe2-b170-06399fd665d2",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 116,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Guiding Main Principles",
-        "description": [
-                "The functions of the MoD5G are divided\n",
-                "onto two logic boards.\n",
-                "\n",
-                "The base logic\n",
-                "gets local sensor information\n",
-                "and controls things within\n",
-                "the system boundary of the MoD5G.\n",
-                "\n",
-                "The main logic\n",
-                "gets sensor data of the environment\n",
-                "and calculates movement actions\n",
-                "to efficiently fulfill the mission\n",
-                "(that was programmed before)."
-        ],
-        "x_order": -1310350961,
-        "y_order": -1393110394,
-        "list_order": 442776994,
-        "uuid": "1eba76f4-44e6-4eb0-ae3c-7d409912ab90",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 117,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Inner World",
-        "description": [
-                "The base logic addresses the following tasks:\n",
-                "- charging\n",
-                "- programming\n",
-                "- steering the motors\n",
-                "- self-check\n",
-                "\n",
-                "If a list of actions is available,\n",
-                "this logic board can steer the MoD6G\n",
-                "without the help of the main logic board."
-        ],
-        "x_order": -858822106,
-        "y_order": -1669019477,
-        "list_order": 807995528,
-        "uuid": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 121,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Base Software Structure",
-        "description": [
-                "The software is basically structured into three parts:\n",
-                "- environment model generation\n",
-                "- calculating actions\n",
-                "- controlling execution of actions"
-        ],
-        "x_order": -1600853608,
-        "y_order": -1809863767,
-        "list_order": -1809863767,
-        "uuid": "67c09369-4e0b-4ec3-b7e3-7c1fcda308e3",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 122,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "quality characteristic",
-        "name": "Compatibility",
-        "description": [
-                ""
-        ],
-        "x_order": -416937143,
-        "y_order": -1394625593,
-        "list_order": -1394625593,
-        "uuid": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 123,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "SW-subcharacterisitc",
-        "name": "Interoperability",
-        "description": [
-                "The programming and charging interfaces\n",
-                "of the MoD5G shall be compatible  to\n",
-                "- old republic terminals\n",
-                "- imperial terminals"
-        ],
-        "x_order": 640302492,
-        "y_order": 1011161293,
-        "list_order": 1011161293,
-        "uuid": "be378b0a-025f-425c-a046-c25ff452e7d8",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 124,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "SW-attribute",
-        "name": "Old Republic Programming IF",
-        "description": [
-                "The old republic protocol\n",
-                "for programming a droid\n",
-                "shall be supported."
-        ],
-        "x_order": 1513335297,
-        "y_order": -1344261574,
-        "list_order": -628211907,
-        "uuid": "ec82be00-93a7-42eb-a240-e5f2f73c958f",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 125,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "SW-attribute",
-        "name": "Imperial Programming IF",
-        "description": [
-                "The imperial protocol\n",
-                "for programming a droid\n",
-                "shall be supported."
-        ],
-        "x_order": 1522696665,
-        "y_order": 1164672649,
-        "list_order": 1164672649,
-        "uuid": "1f827014-6814-42b3-8e92-f0550b149d34",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 126,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "SW-attribute",
-        "name": "Universial Charging IF",
-        "description": [
-                "The intergalactic standard protocol for power charging\n",
-                "shall be supported."
-        ],
-        "x_order": 1140363657,
-        "y_order": 1240386038,
-        "list_order": 1240386038,
-        "uuid": "49173762-e41f-4356-a6a3-20a40868c6bb",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 127,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Fault Detection (main logic)",
-        "description": [
-                "Logic and data is supervised\n",
-                "by the SW Watchdog\n",
-                "located on the Base Micro Controller.\n",
-                "\n",
-                "Every software component\n",
-                "on the Main Logic Board\n",
-                "shall check processed data\n",
-                "and report its health to the SW Watchdog\n",
-                "as well as passed checkpoints in the logic."
-        ],
-        "x_order": -1554062173,
-        "y_order": -915331974,
-        "list_order": -1227993822,
-        "uuid": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 128,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Fault Detection (base logic)",
-        "description": [
-                "The hardware of the Base Micro Controller\n",
-                "enables logic and data supervision.\n",
-                "Therefore no extra software solution\n",
-                "is implemented to monitor the base logic."
-        ],
-        "x_order": -1420158760,
-        "y_order": -1939648434,
-        "list_order": -1939648434,
-        "uuid": "4a86e419-4afe-42f3-8846-51e7f81c61c3",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 130,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Fault Detection Strategy may fail",
-        "description": [
-                "The fault detection strategy for \n",
-                "logic and data on the Main Logic Board\n",
-                "allows for unnoticed faults:\n",
-                "\n",
-                "Not every error in logic can be detected\n",
-                "by checkpoints only."
-        ],
-        "x_order": -1894895201,
-        "y_order": -1705946834,
-        "list_order": -1153151192,
-        "uuid": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 131,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "design decision",
-        "name": "Wookiee Detection",
-        "description": [
-                "Challenge: Detect presense of a Wookiee\n",
-                "\n",
-                "Alt-1: Detect a growling wookie only by\n",
-                "analyzing the audio spectrum \n",
-                "recorded from the microphone.\n",
-                "- pro: simple to implement\n",
-                "- con: may produce false alarms\n",
-                "\n",
-                "Alt-2: Combine the Video and the Audio\n",
-                "sensor data to better distinguish\n",
-                "a growling wookie from a shouting officer.\n",
-                "- pro: better recognize wookiees\n",
-                "- con: dependency on video processing\n",
-                "\n",
-                "Decision: Alt-1\n",
-                "\n",
-                "Rationale: Reacting on a false alarm\n",
-                "is not mission-critical."
-        ],
-        "x_order": -1146913401,
-        "y_order": -1486293621,
-        "list_order": -1445037450,
-        "uuid": "1b626973-c1cb-4234-a2cb-16a21e42e4f1",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 133,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "Risk",
-        "name": "Risk: MoD5G does not drive back (logic board)",
-        "description": [
-                "- cause/fault: the base logic board is damaged\n",
-                "- risk/failure: the MoD5G cannot drive anymore"
-        ],
-        "x_order": 1873364013,
-        "y_order": -1494769192,
-        "list_order": -1531045812,
-        "uuid": "74903d54-6d51-4e5f-984a-539cb62006a6",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 134,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Risk: Wrong tactic is calculated",
-        "description": [
-                "- cause/fault: Due to cosmic rays, \n",
-                "  the main logic board performs a miscalculation\n",
-                "  that goes unnoticed by control flow supervision\n",
-                "- risk/failure: the MoD5G calculates a tactic that\n",
-                "  results in falling off a cliff"
-        ],
-        "x_order": -1942098437,
-        "y_order": -1227993822,
-        "list_order": -1240623024,
-        "uuid": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 137,
-        "main_type": 111,
-        "type": "StateMachine",
-        "stereotype": "",
-        "name": "health::all",
-        "description": [
-                "The statemachine of all health states"
-        ],
-        "x_order": 452796978,
-        "y_order": -1998508708,
-        "list_order": -1538088825,
-        "uuid": "875cc2af-cf9f-49ad-823e-796daf87d00b",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 138,
-        "main_type": 110,
-        "type": "Activity",
-        "stereotype": "",
-        "name": "power::all",
-        "description": [
-                "The statemachine of all power states"
-        ],
-        "x_order": 1139012495,
-        "y_order": -1583691534,
-        "list_order": -1583691534,
-        "uuid": "17ef00e1-72db-4864-8ec0-acdce1359268",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 139,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "max 2300 msec",
-        "description": [
-                ""
-        ],
-        "x_order": 0,
-        "y_order": 0,
-        "list_order": -475724679,
-        "uuid": "82662913-b0b6-41cb-8d9a-0a6ee827ea33",
-        "features":
-        [
-          {
-            "id": 25,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 140,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "max 500 msec",
-        "description": [
-                ""
-        ],
-        "x_order": 0,
-        "y_order": 0,
-        "list_order": 1067166169,
-        "uuid": "169543c8-cbe2-4a3a-a35a-c52a13aa1457",
-        "features":
-        [
-          {
-            "id": 26,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "389deb95-fef0-40bf-84c9-ac6e18332309"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 141,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Scope",
-        "description": [
-                "This document describes\n",
-                "system and software architecture for\n",
-                "engineering generation 5 of the mouse droid,\n",
-                "denoted by the term MoD5G."
-        ],
-        "x_order": 329295460,
-        "y_order": 27131283,
-        "list_order": 0,
-        "uuid": "4e4e3b4a-3d55-454e-be11-8d9d0b2bdf7b",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 142,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Persist List",
-        "description": [
-                "the action list\n",
-                "shall be persisted,\n",
-                "so that\n",
-                "after a sudden reboot,\n",
-                "the next actions are \n",
-                "immediately available."
-        ],
-        "x_order": 0,
-        "y_order": 0,
-        "list_order": -494019889,
-        "uuid": "e44ceaeb-3aae-4553-b7b2-ff5fe870a748",
-        "features":
-        [
-          {
-            "id": 27,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "e5887445-90e2-4d11-9976-82c1b073577b"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 143,
-        "main_type": 130,
-        "type": "Comment",
-        "stereotype": "",
-        "name": "Base location",
-        "description": [
-                "The location where the MoD5G droid returns to when its mission is finished.\n",
-                "This location typically provides a charging and programming terminal.\n",
-                "This location can be re-programmed."
-        ],
-        "x_order": 1741984988,
-        "y_order": 0,
-        "list_order": 0,
-        "uuid": "117123f0-6eb5-4ad8-9318-e1543ea937bb",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 144,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "",
-        "name": "Environmental Constraints",
-        "description": [
-                "This package lists technical/physical constraints imposed by the environment in which to operate."
-        ],
-        "x_order": 1611711995,
-        "y_order": 189151822,
-        "list_order": 189151822,
-        "uuid": "87d7872b-5a5c-485b-8693-88c150cd1c04",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 145,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
-        "name": "Mixed standards of terminals",
-        "description": [
-                "precondition:\n",
-                "- The MoD5G operates in an environment\n",
-                "  providing mixed terminal standards\n",
-                "\n",
-                "trigger:\n",
-                "- The MoD5G drives to a charging or programming terminal\n",
-                "  which complied to either old republic or imperial standard.\n",
-                "\n",
-                "scenario:\n",
-                "- The MoD5G determines the applicable standard\n",
-                "- The MoD5G uses the terminal for programming or charging"
-        ],
-        "x_order": 1646107821,
-        "y_order": -691026081,
-        "list_order": -691026081,
-        "uuid": "9775e560-28b8-4ec2-a97d-999f2126a3e6",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 147,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "Risk",
-        "name": "Risk: MoD5G does not drive back (energy)",
-        "description": [
-                "- cause/fault: the energy cell is damaged\n",
-                "- risk/failure: the MoD5G cannot drive anymore"
-        ],
-        "x_order": 1873364013,
-        "y_order": -1653337778,
-        "list_order": -1653337778,
-        "uuid": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 148,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "Risk",
-        "name": "Risk: MoD5G does not drive back (motors)",
-        "description": [
-                "- cause/fault: the ,ovement/steering motors are damaged\n",
-                "- risk/failure: the MoD5G cannot drive anymore"
-        ],
-        "x_order": 1873364013,
-        "y_order": -1722530006,
-        "list_order": -1722530006,
-        "uuid": "7bc7017a-47a5-416e-a079-3b58bc03747c",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 149,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "L1Req: Recognize paths",
-        "description": [
-                "The MoDG5 shall use redundant sensor data to calculate paths that it can drive along."
-        ],
-        "x_order": -1130653626,
-        "y_order": 898896125,
-        "list_order": 1117238226,
-        "uuid": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 150,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "L1Req: Position screw driver",
-        "description": [
-                "The MoDG5 shall bring the screw driver into a given 3D position."
-        ],
-        "x_order": -903871926,
-        "y_order": 898896125,
-        "list_order": 898896125,
-        "uuid": "62045894-795a-4a7d-bea6-5cd5b733317f",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 151,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "L3Req: Calc 3D scene from 2 cameras",
-        "description": [
-                "The Main Logic Board shall create a 3D model of the environment based on 2 camera images."
-        ],
-        "x_order": -1127544510,
-        "y_order": 898896125,
-        "list_order": 898896125,
-        "uuid": "691d5030-5e11-4e65-b478-759ce31584fa",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 152,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "L3Req: Operate motors of tool-arm",
-        "description": [
-                "The Base Logic Board shall steer the motors of the tool-arm to a given 3D position."
-        ],
-        "x_order": 150137426,
-        "y_order": 898896125,
-        "list_order": 898896125,
-        "uuid": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 2,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Cosmic Rays",
-        "description": [
-                "The droid shall ensure data and program integrity.\n",
-                "\n",
-                "It shall continue operation after cosmic rays have interfered with data storage or program execution.\n",
-                "\n",
-                "Corrupted data must not be stored permanently."
-        ],
-        "x_order": -57106334,
-        "y_order": -416597941,
-        "list_order": -416597941,
-        "uuid": "a165b404-76ec-4eec-a34b-9648249f774f",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 3,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Operating Temperatures",
-        "description": [
-                "The droid shall be fully functional in the range 240K..360K,\n",
-                "it shall survive temperatures from 200K to 400K."
-        ],
-        "x_order": 1592766313,
-        "y_order": 1069105883,
-        "list_order": 1069105883,
-        "uuid": "2e172d70-2eba-49b0-9241-7385878ccb2f",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 4,
-        "main_type": 102,
-        "type": "Component",
-        "stereotype": "",
-        "name": "Mouse Droid (MoD5G)",
-        "description": [
-                "The Mouse Droid (MoD5G) is a repair droid that can be instructed to perform a mission and which then autonomously selects tactics to achieve the mission goals."
-        ],
-        "x_order": 147603683,
-        "y_order": -474887197,
-        "list_order": 39836094,
-        "uuid": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 6,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
-        "name": "Perform a 1-day Mission",
-        "description": [
-                "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one terrestrial day.\n",
-                "\n",
-                "- The commander programs a mission\n",
-                "- The mouse droid drives to the first location\n",
-                "- The mouse droid uses tools to remove a defective part\n",
-                "- The mouse droid installes a spare part\n",
-                "- Above steps are repeated for other goals\n",
-                "- The mouse droid returns to its base location (see D0013#name)"
-        ],
-        "x_order": 147603683,
-        "y_order": 24715831,
-        "list_order": 24715831,
-        "uuid": "101916e8-de57-400a-bfa9-d97e8128a011",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 7,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
-        "name": "Drive to Location",
-        "description": [
-                "The mouse droid can explore its environment and calculate a route from its actual position to the target location.\n",
-                "\n",
-                "- The mouse droid explores its environment\n",
-                "- The mouse droid enriches an internally memorized map\n",
-                "- The mouse droid calculates a route\n",
-                "- The mouse droid drives along the calculated route\n",
-                "- The mouse droid re-caclulates the route in case of new environment data\n",
-                "- The mouse droid reaches the target location"
-        ],
-        "x_order": -953711403,
-        "y_order": 34386514,
-        "list_order": 34386514,
-        "uuid": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 8,
-        "main_type": 101,
-        "type": "UseCase",
-        "stereotype": "",
-        "name": "Use Tools",
-        "description": [
-                "The mouse droid has a couple of tools inside its chassis.\n",
-                "\n",
-                "- The mouse droid uses a screw diver to untighten damaged parts\n",
-                "- The mouse droid uses a gripper to move the damaged part out of the way\n",
-                "- The mouse droid uses a gripper to put a spare part from its internal cargo bin to the target place\n",
-                "- The mouse droid uses a screw diver to tighten replaced parts\n",
-                "- The mouse droid uses a gripper to move the damaged part into its internal cargo bin.\n",
-                "\n",
-                "(see D0014#name)"
-        ],
-        "x_order": 205870834,
-        "y_order": 34386514,
-        "list_order": 34386514,
-        "uuid": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-        "features":
-        [
         ]
       }
     },
@@ -5412,6 +4328,64 @@
     },
     {
       "classifier": {
+        "id": 81,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Self-Preservation",
+        "description": [
+                "In case a wookiee growls at the MoD5G,\n",
+                "it shall flee for self-preservation"
+        ],
+        "x_order": -934569751,
+        "y_order": -1501520248,
+        "list_order": -1501520248,
+        "uuid": "87950246-9fe2-4acf-ba83-1eb9b813b6d8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 82,
+        "main_type": 100,
+        "type": "Actor",
+        "stereotype": "",
+        "name": "Imperial Operator",
+        "description": [
+                ""
+        ],
+        "x_order": -495434567,
+        "y_order": -260243530,
+        "list_order": -260243530,
+        "uuid": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 83,
+        "main_type": 100,
+        "type": "Actor",
+        "stereotype": "",
+        "name": "Operator of the old republic",
+        "description": [
+                ""
+        ],
+        "x_order": 147603683,
+        "y_order": -260243530,
+        "list_order": -2056089112,
+        "uuid": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 84,
         "main_type": 151,
         "type": "InitialNode",
@@ -5481,6 +4455,44 @@
         "y_order": -1601823745,
         "list_order": -1581422690,
         "uuid": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 88,
+        "main_type": 102,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Development and Production Context",
+        "description": [
+                "This boundary encompasses the topics that are in scope during development and production."
+        ],
+        "x_order": -1509201331,
+        "y_order": -1114260632,
+        "list_order": -1059863303,
+        "uuid": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 89,
+        "main_type": 102,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Operational Context",
+        "description": [
+                "This boundary encompasses the topics that are in scope during operation and maintenance."
+        ],
+        "x_order": 1173058080,
+        "y_order": -1153233278,
+        "list_order": -1114363886,
+        "uuid": "290bb69d-78be-4238-9b20-7a138c925b0b",
         "features":
         [
         ]
@@ -5567,6 +4579,49 @@
     },
     {
       "classifier": {
+        "id": 94,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Outer World",
+        "description": [
+                "The main logic\n",
+                "addresses the following tasks:\n",
+                "- calculating movement actions\n",
+                "  to be performed by base logic (tactics)\n",
+                "- evaluating sensor signals\n",
+                "  from microphone and camera"
+        ],
+        "x_order": -1310350961,
+        "y_order": -703990301,
+        "list_order": -1529738312,
+        "uuid": "267dd099-bd18-4f00-8ac1-ea27009f5250",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 95,
+        "main_type": 120,
+        "type": "Node",
+        "stereotype": "",
+        "name": "Space Station",
+        "description": [
+                ""
+        ],
+        "x_order": -383445618,
+        "y_order": -689542677,
+        "list_order": -689542677,
+        "uuid": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 96,
         "main_type": 120,
         "type": "Node",
@@ -5617,6 +4672,182 @@
         "y_order": 514857488,
         "list_order": -501102168,
         "uuid": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 99,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Motor Type",
+        "description": [
+                "All motors are electrical step motors.\n",
+                "\n",
+                "Step motors can be controlled\n",
+                "to move a defined number of steps\n",
+                "forward or backwards.\n",
+                "\n",
+                "Note that there are conditions\n",
+                "when the actual number of steps\n",
+                "is not equal to the previously requested \n",
+                "number of steps, e.g. when accellerating\n",
+                "or slowing down too fast."
+        ],
+        "x_order": -708080557,
+        "y_order": -1267273974,
+        "list_order": -1267273974,
+        "uuid": "17e88f00-df0e-4c0a-a400-a2ead53b9265",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 100,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "2 of 3 Voter",
+        "description": [
+                "In order to support integrity of the system, the logic boards and the data storages are deployed three times as three identical parts.\n",
+                "\n",
+                "All three parts shall produce the same outcomes given the same input.\n",
+                "\n",
+                "If one deviates, it's result is ignored and the part is rebooted."
+        ],
+        "x_order": 1616040324,
+        "y_order": -1072059302,
+        "list_order": -1198108703,
+        "uuid": "d08d2864-7bfb-40b8-aadf-7d7e195bc9e2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 101,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Cosmic Rays Information",
+        "description": [
+                "When a cosmic ray interferes with the system, \n",
+                "the logic or the processed data gets corrupted."
+        ],
+        "x_order": 1319115506,
+        "y_order": -1292579796,
+        "list_order": 998414534,
+        "uuid": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 102,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Watchdog Supervision",
+        "description": [
+                "In order to support integrity of the logic and data,\n",
+                "a multi-stage hierarchy supervision shall be implemented.\n",
+                "\n",
+                "Software watchdogs shall supervise the running software parts\n",
+                "in a way that logic errors and corrupted data can be detected.\n",
+                "\n",
+                "A hardware watchdog shall supervise the software watchdogs.\n",
+                "\n",
+                "In case of a failure in the supervised logic/data, the system shall reboot.\n",
+                "In case of a failure in the monitors, the system may reboot\n",
+                "or it shall fall back to a valid supervision mode.\n",
+                "\n",
+                ""
+        ],
+        "x_order": 1616040324,
+        "y_order": 1042392306,
+        "list_order": -466042240,
+        "uuid": "f60c61af-4533-43df-a957-e8df8638e4d8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 103,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "design decision",
+        "name": "Decision: Watchdog",
+        "description": [
+                "Arguments:\n",
+                "\n",
+                "- The 2 of 3 voter is easier to implement but causes higher hardware costs.\n",
+                "- The watchdog supervision requires higher engineering efforts but is cheaper in production.\n",
+                "\n",
+                "The watchdog supervision shall be implemented."
+        ],
+        "x_order": 1337529257,
+        "y_order": 1572987452,
+        "list_order": 1572987452,
+        "uuid": "2d660d61-d795-4421-823d-32f81de44f8a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 104,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Maintenance booth",
+        "description": [
+                "A room in a star ship or on a planet\n",
+                "where the following tasks are performed:\n",
+                "- check operability of droids\n",
+                "- oil refill service\n",
+                "- repair of droids\n",
+                "- disintegration of old droids"
+        ],
+        "x_order": -1039660097,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "c5028436-9986-438b-a493-d1c5b404d1fa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 105,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Limp home mode may fail",
+        "description": [
+                "In case of a single fault, the MoD5G shall return\n",
+                "to the charging station.\n",
+                "\n",
+                "The current design does not address the cases:\n",
+                "- the base logic board is damaged\n",
+                "- the energy cell is damaged\n",
+                "- the movement/steering motors are defect"
+        ],
+        "x_order": 452796978,
+        "y_order": -1722530006,
+        "list_order": -1104173096,
+        "uuid": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
         "features":
         [
         ]
@@ -5748,6 +4979,178 @@
     },
     {
       "classifier": {
+        "id": 110,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Situation Model",
+        "description": [
+                "The situation model refers to the (limited/erroneous) knowledge of the software on environment and status."
+        ],
+        "x_order": -730047271,
+        "y_order": -1529639812,
+        "list_order": -1325864954,
+        "uuid": "05605867-3b88-4e38-935d-719cb370309e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 111,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Environment Model",
+        "description": [
+                "The enironment model refers to the (limited) knowledge of the software on the real environment."
+        ],
+        "x_order": 1163634552,
+        "y_order": -314934184,
+        "list_order": -314934184,
+        "uuid": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 112,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Status Model",
+        "description": [
+                "The status model refers to the (limited) knowledge of the software on the real status."
+        ],
+        "x_order": -474535909,
+        "y_order": 1055531420,
+        "list_order": 773928833,
+        "uuid": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 113,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Real Situation",
+        "description": [
+                "The real situation refers to the reality of system status and environment."
+        ],
+        "x_order": 1447454445,
+        "y_order": -1529639812,
+        "list_order": -1529639812,
+        "uuid": "0d8a7e7a-b589-4387-88e9-34f62a438589",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 114,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Real Environment",
+        "description": [
+                "The real environment refers to the physical environment of the system."
+        ],
+        "x_order": 1690871009,
+        "y_order": -314934184,
+        "list_order": -100641476,
+        "uuid": "59fc1a69-283e-480c-a90c-6567fee4296e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 115,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "",
+        "name": "Real Status",
+        "description": [
+                "The real status refers to the real system status. This may differ from what the sensors report."
+        ],
+        "x_order": 1564903573,
+        "y_order": 1055531420,
+        "list_order": 1055531420,
+        "uuid": "11f55c66-ff62-4fe2-b170-06399fd665d2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 116,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Guiding Main Principles",
+        "description": [
+                "The functions of the MoD5G are divided\n",
+                "onto two logic boards.\n",
+                "\n",
+                "The base logic\n",
+                "gets local sensor information\n",
+                "and controls things within\n",
+                "the system boundary of the MoD5G.\n",
+                "\n",
+                "The main logic\n",
+                "gets sensor data of the environment\n",
+                "and calculates movement actions\n",
+                "to efficiently fulfill the mission\n",
+                "(that was programmed before)."
+        ],
+        "x_order": -1310350961,
+        "y_order": -1393110394,
+        "list_order": 442776994,
+        "uuid": "1eba76f4-44e6-4eb0-ae3c-7d409912ab90",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 117,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Inner World",
+        "description": [
+                "The base logic addresses the following tasks:\n",
+                "- charging\n",
+                "- programming\n",
+                "- steering the motors\n",
+                "- self-check\n",
+                "\n",
+                "If a list of actions is available,\n",
+                "this logic board can steer the MoD6G\n",
+                "without the help of the main logic board."
+        ],
+        "x_order": -858822106,
+        "y_order": -1669019477,
+        "list_order": 807995528,
+        "uuid": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 118,
         "main_type": 124,
         "type": "Package",
@@ -5817,6 +5220,180 @@
     },
     {
       "classifier": {
+        "id": 121,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Base Software Structure",
+        "description": [
+                "The software is basically structured into three parts:\n",
+                "- environment model generation\n",
+                "- calculating actions\n",
+                "- controlling execution of actions"
+        ],
+        "x_order": -1600853608,
+        "y_order": -1809863767,
+        "list_order": -1809863767,
+        "uuid": "67c09369-4e0b-4ec3-b7e3-7c1fcda308e3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 122,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "quality characteristic",
+        "name": "Compatibility",
+        "description": [
+                ""
+        ],
+        "x_order": -416937143,
+        "y_order": -1394625593,
+        "list_order": -1394625593,
+        "uuid": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 123,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "SW-subcharacterisitc",
+        "name": "Interoperability",
+        "description": [
+                "The programming and charging interfaces\n",
+                "of the MoD5G shall be compatible  to\n",
+                "- old republic terminals\n",
+                "- imperial terminals"
+        ],
+        "x_order": 640302492,
+        "y_order": 1011161293,
+        "list_order": 1011161293,
+        "uuid": "be378b0a-025f-425c-a046-c25ff452e7d8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 124,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "SW-attribute",
+        "name": "Old Republic Programming IF",
+        "description": [
+                "The old republic protocol\n",
+                "for programming a droid\n",
+                "shall be supported."
+        ],
+        "x_order": 1513335297,
+        "y_order": -1344261574,
+        "list_order": -628211907,
+        "uuid": "ec82be00-93a7-42eb-a240-e5f2f73c958f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 125,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "SW-attribute",
+        "name": "Imperial Programming IF",
+        "description": [
+                "The imperial protocol\n",
+                "for programming a droid\n",
+                "shall be supported."
+        ],
+        "x_order": 1522696665,
+        "y_order": 1164672649,
+        "list_order": 1164672649,
+        "uuid": "1f827014-6814-42b3-8e92-f0550b149d34",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 126,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "SW-attribute",
+        "name": "Universial Charging IF",
+        "description": [
+                "The intergalactic standard protocol for power charging\n",
+                "shall be supported."
+        ],
+        "x_order": 1140363657,
+        "y_order": 1240386038,
+        "list_order": 1240386038,
+        "uuid": "49173762-e41f-4356-a6a3-20a40868c6bb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 127,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Fault Detection (main logic)",
+        "description": [
+                "Logic and data is supervised\n",
+                "by the SW Watchdog\n",
+                "located on the Base Micro Controller.\n",
+                "\n",
+                "Every software component\n",
+                "on the Main Logic Board\n",
+                "shall check processed data\n",
+                "and report its health to the SW Watchdog\n",
+                "as well as passed checkpoints in the logic."
+        ],
+        "x_order": -1554062173,
+        "y_order": -915331974,
+        "list_order": -1227993822,
+        "uuid": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 128,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Fault Detection (base logic)",
+        "description": [
+                "The hardware of the Base Micro Controller\n",
+                "enables logic and data supervision.\n",
+                "Therefore no extra software solution\n",
+                "is implemented to monitor the base logic."
+        ],
+        "x_order": -1420158760,
+        "y_order": -1939648434,
+        "list_order": -1939648434,
+        "uuid": "4a86e419-4afe-42f3-8846-51e7f81c61c3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 129,
         "main_type": 121,
         "type": "Component",
@@ -5837,6 +5414,109 @@
         "y_order": -1032462109,
         "list_order": -528333121,
         "uuid": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 130,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Fault Detection Strategy may fail",
+        "description": [
+                "The fault detection strategy for \n",
+                "logic and data on the Main Logic Board\n",
+                "allows for unnoticed faults:\n",
+                "\n",
+                "Not every error in logic can be detected\n",
+                "by checkpoints only."
+        ],
+        "x_order": -1894895201,
+        "y_order": -1705946834,
+        "list_order": -1153151192,
+        "uuid": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 131,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "design decision",
+        "name": "Wookiee Detection",
+        "description": [
+                "Challenge: Detect presense of a Wookiee\n",
+                "\n",
+                "Alt-1: Detect a growling wookie only by\n",
+                "analyzing the audio spectrum \n",
+                "recorded from the microphone.\n",
+                "- pro: simple to implement\n",
+                "- con: may produce false alarms\n",
+                "\n",
+                "Alt-2: Combine the Video and the Audio\n",
+                "sensor data to better distinguish\n",
+                "a growling wookie from a shouting officer.\n",
+                "- pro: better recognize wookiees\n",
+                "- con: dependency on video processing\n",
+                "\n",
+                "Decision: Alt-1\n",
+                "\n",
+                "Rationale: Reacting on a false alarm\n",
+                "is not mission-critical."
+        ],
+        "x_order": -1146913401,
+        "y_order": -1486293621,
+        "list_order": -1445037450,
+        "uuid": "1b626973-c1cb-4234-a2cb-16a21e42e4f1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 133,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "Risk",
+        "name": "Risk: MoD5G does not drive back (logic board)",
+        "description": [
+                "- cause/fault: the base logic board is damaged\n",
+                "- risk/failure: the MoD5G cannot drive anymore"
+        ],
+        "x_order": 1873364013,
+        "y_order": -1494769192,
+        "list_order": -1531045812,
+        "uuid": "74903d54-6d51-4e5f-984a-539cb62006a6",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 134,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Risk: Wrong tactic is calculated",
+        "description": [
+                "- cause/fault: Due to cosmic rays, \n",
+                "  the main logic board performs a miscalculation\n",
+                "  that goes unnoticed by control flow supervision\n",
+                "- risk/failure: the MoD5G calculates a tactic that\n",
+                "  results in falling off a cliff"
+        ],
+        "x_order": -1942098437,
+        "y_order": -1227993822,
+        "list_order": -1240623024,
+        "uuid": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
         "features":
         [
         ]
@@ -5882,6 +5562,233 @@
     },
     {
       "classifier": {
+        "id": 137,
+        "main_type": 111,
+        "type": "StateMachine",
+        "stereotype": "",
+        "name": "health::all",
+        "description": [
+                "The statemachine of all health states"
+        ],
+        "x_order": 452796978,
+        "y_order": -1998508708,
+        "list_order": -1538088825,
+        "uuid": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 138,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "",
+        "name": "power::all",
+        "description": [
+                "The statemachine of all power states"
+        ],
+        "x_order": 1139012495,
+        "y_order": -1583691534,
+        "list_order": -1583691534,
+        "uuid": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 139,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "max 2300 msec",
+        "description": [
+                ""
+        ],
+        "x_order": 0,
+        "y_order": 0,
+        "list_order": -475724679,
+        "uuid": "82662913-b0b6-41cb-8d9a-0a6ee827ea33",
+        "features":
+        [
+          {
+            "id": 25,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 140,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "max 500 msec",
+        "description": [
+                ""
+        ],
+        "x_order": 0,
+        "y_order": 0,
+        "list_order": 1067166169,
+        "uuid": "169543c8-cbe2-4a3a-a35a-c52a13aa1457",
+        "features":
+        [
+          {
+            "id": 26,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "389deb95-fef0-40bf-84c9-ac6e18332309"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 141,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Scope",
+        "description": [
+                "This document describes\n",
+                "system and software architecture for\n",
+                "engineering generation 5 of the mouse droid,\n",
+                "denoted by the term MoD5G."
+        ],
+        "x_order": 329295460,
+        "y_order": 27131283,
+        "list_order": 0,
+        "uuid": "4e4e3b4a-3d55-454e-be11-8d9d0b2bdf7b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 142,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Persist List",
+        "description": [
+                "the action list\n",
+                "shall be persisted,\n",
+                "so that\n",
+                "after a sudden reboot,\n",
+                "the next actions are \n",
+                "immediately available."
+        ],
+        "x_order": 0,
+        "y_order": 0,
+        "list_order": -494019889,
+        "uuid": "e44ceaeb-3aae-4553-b7b2-ff5fe870a748",
+        "features":
+        [
+          {
+            "id": 27,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "e5887445-90e2-4d11-9976-82c1b073577b"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 143,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Base location",
+        "description": [
+                "The location where the MoD5G droid returns to when its mission is finished.\n",
+                "This location typically provides a charging and programming terminal.\n",
+                "This location can be re-programmed."
+        ],
+        "x_order": 1741984988,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "117123f0-6eb5-4ad8-9318-e1543ea937bb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 144,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "",
+        "name": "Environmental Constraints",
+        "description": [
+                "This package lists technical/physical constraints imposed by the environment in which to operate."
+        ],
+        "x_order": 1611711995,
+        "y_order": 189151822,
+        "list_order": 189151822,
+        "uuid": "87d7872b-5a5c-485b-8693-88c150cd1c04",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 145,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Mixed standards of terminals",
+        "description": [
+                "precondition:\n",
+                "- The MoD5G operates in an environment\n",
+                "  providing mixed terminal standards\n",
+                "\n",
+                "trigger:\n",
+                "- The MoD5G drives to a charging or programming terminal\n",
+                "  which complied to either old republic or imperial standard.\n",
+                "\n",
+                "scenario:\n",
+                "- The MoD5G determines the applicable standard\n",
+                "- The MoD5G uses the terminal for programming or charging"
+        ],
+        "x_order": 1646107821,
+        "y_order": -691026081,
+        "list_order": -691026081,
+        "uuid": "9775e560-28b8-4ec2-a97d-999f2126a3e6",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
         "id": 146,
         "main_type": 90,
         "type": "Block",
@@ -5902,22 +5809,115 @@
     },
     {
       "classifier": {
-        "id": 19,
-        "main_type": 90,
-        "type": "Block",
-        "stereotype": "HW",
-        "name": "Electrical Parts and Electronics",
+        "id": 147,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "Risk",
+        "name": "Risk: MoD5G does not drive back (energy)",
         "description": [
-                "The main components of the electric parts are:\n",
-                "- a set of cables and connectors\n",
-                "- a set of sensors and actuators\n",
-                "- the energy cell\n",
-                "- two printed circuit boards (PCB) containing the electronic parts"
+                "- cause/fault: the energy cell is damaged\n",
+                "- risk/failure: the MoD5G cannot drive anymore"
         ],
-        "x_order": -855507639,
-        "y_order": -1168769568,
-        "list_order": -1161718484,
-        "uuid": "c1419268-c407-4e91-a9de-386c65b7459b",
+        "x_order": 1873364013,
+        "y_order": -1653337778,
+        "list_order": -1653337778,
+        "uuid": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 148,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "Risk",
+        "name": "Risk: MoD5G does not drive back (motors)",
+        "description": [
+                "- cause/fault: the ,ovement/steering motors are damaged\n",
+                "- risk/failure: the MoD5G cannot drive anymore"
+        ],
+        "x_order": 1873364013,
+        "y_order": -1722530006,
+        "list_order": -1722530006,
+        "uuid": "7bc7017a-47a5-416e-a079-3b58bc03747c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 149,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L1Req: Recognize paths",
+        "description": [
+                "The MoDG5 shall use redundant sensor data to calculate paths that it can drive along."
+        ],
+        "x_order": -1130653626,
+        "y_order": 898896125,
+        "list_order": 1117238226,
+        "uuid": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 150,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L1Req: Position screw driver",
+        "description": [
+                "The MoDG5 shall bring the screw driver into a given 3D position."
+        ],
+        "x_order": -903871926,
+        "y_order": 898896125,
+        "list_order": 898896125,
+        "uuid": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 151,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L3Req: Calc 3D scene from 2 cameras",
+        "description": [
+                "The Main Logic Board shall create a 3D model of the environment based on 2 camera images."
+        ],
+        "x_order": -1127544510,
+        "y_order": 898896125,
+        "list_order": 898896125,
+        "uuid": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 152,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "L3Req: Operate motors of tool-arm",
+        "description": [
+                "The Base Logic Board shall steer the motors of the tool-arm to a given 3D position."
+        ],
+        "x_order": 150137426,
+        "y_order": 898896125,
+        "list_order": 898896125,
+        "uuid": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
         "features":
         [
         ]
@@ -5927,6 +5927,57 @@
   ,
   "edges":
   [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 24715831,
+        "from_classifier_name": "Mouse Droid (MoD5G)",
+        "to_classifier_name": "Perform a 1-day Mission",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "uuid": "bc7db11e-92f0-429d-9e70-818f8cbb0299"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 34386514,
+        "from_classifier_name": "Mouse Droid (MoD5G)",
+        "to_classifier_name": "Drive to Location",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "uuid": "ac85bcdf-0c9c-44d4-969a-913e5c8ebb73"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 34386514,
+        "from_classifier_name": "Mouse Droid (MoD5G)",
+        "to_classifier_name": "Use Tools",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "uuid": "bda8dbdf-98fa-43c3-b427-28111e312f0c"
+      }
+    },
     {
       "relationship": {
         "id": 2,
@@ -5942,6 +5993,125 @@
         "from_node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
         "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "uuid": "028fa4b9-5001-4b0b-8a80-2b68b2a865ab"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 34419282,
+        "from_classifier_name": "Perform a 1-day Mission",
+        "to_classifier_name": "Drive to Location",
+        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "uuid": "ffd14d46-d17c-4bd4-a030-5c13f8872fb5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 34452050,
+        "from_classifier_name": "Perform a 1-day Mission",
+        "to_classifier_name": "Use Tools",
+        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "uuid": "7b8ec957-56ad-4d32-89d4-b0ff06c298e7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 91,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 37910628,
+        "from_classifier_name": "Drive to Location",
+        "to_classifier_name": "Plan tasks",
+        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
+        "uuid": "cb91716d-6ed1-4fbf-a7d5-7c9f530ed968"
+      }
+    },
+    {
+      "relationship": {
+        "id": 234,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38074468,
+        "from_classifier_name": "Drive to Location",
+        "to_classifier_name": "Explore Environment",
+        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
+        "uuid": "8c28af62-06e1-45f5-bb40-4e70bc760c24"
+      }
+    },
+    {
+      "relationship": {
+        "id": 235,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38107236,
+        "from_classifier_name": "Drive to Location",
+        "to_classifier_name": "Perform Movement",
+        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
+        "uuid": "8dc36e54-8ccc-46bb-8b03-9e20d3b30caa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 90,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 37877860,
+        "from_classifier_name": "Use Tools",
+        "to_classifier_name": "Plan tasks",
+        "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
+        "uuid": "56ec89e1-873d-4b98-96b0-26a3b8b17632"
+      }
+    },
+    {
+      "relationship": {
+        "id": 233,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 38041700,
+        "from_classifier_name": "Use Tools",
+        "to_classifier_name": "Steer motors of tools",
+        "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+        "uuid": "4f6d0591-b868-4f72-ae1a-dc946c5a5e6a"
       }
     },
     {
@@ -6082,6 +6252,40 @@
     },
     {
       "relationship": {
+        "id": 47,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1127573923,
+        "from_classifier_name": "Electrical Parts and Electronics",
+        "to_classifier_name": "Main Logic Board",
+        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
+        "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "uuid": "f4bf7478-e188-4576-9118-5f3ccc8e617f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 48,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1137259057,
+        "from_classifier_name": "Electrical Parts and Electronics",
+        "to_classifier_name": "Base Logic Board",
+        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
+        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "uuid": "88d78e6c-2255-4f8e-a827-3bc5bbb245e7"
+      }
+    },
+    {
+      "relationship": {
         "id": 236,
         "main_type": 300,
         "type": "Association",
@@ -6146,1240 +6350,6 @@
         "from_node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "to_node": "c1419268-c407-4e91-a9de-386c65b7459b",
         "uuid": "c09622ea-550f-4f06-881f-78085b596321"
-      }
-    },
-    {
-      "relationship": {
-        "id": 113,
-        "main_type": 200,
-        "type": "Association",
-        "name": "program",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Imperial Operator",
-        "to_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
-        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "uuid": "55aee327-5b7a-4c43-b4bf-b3863738fd38"
-      }
-    },
-    {
-      "relationship": {
-        "id": 112,
-        "main_type": 200,
-        "type": "Association",
-        "name": "program",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Operator of the old republic",
-        "to_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
-        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "uuid": "765e3ec8-f4af-4f1d-a86a-8d6860089f57"
-      }
-    },
-    {
-      "relationship": {
-        "id": 124,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -949056703,
-        "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Build Droids",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
-        "to_node": "2fb1cd00-6d9e-4d66-bf6c-f93819adbf7b",
-        "uuid": "afd97b20-892a-427f-8dcf-70aafb8fd4e6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 125,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -996447395,
-        "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Develop Software",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
-        "to_node": "41abaace-cc75-4a53-b2d3-76138577dd01",
-        "uuid": "9aeb098e-7814-46bf-a492-2181f761893d"
-      }
-    },
-    {
-      "relationship": {
-        "id": 187,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1068810697,
-        "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Design Hardware",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
-        "to_node": "0e8065c4-c3bc-4e42-b344-a39cf9b201d8",
-        "uuid": "bf49c597-a5d5-44a7-b0f5-c36e7718f61a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 188,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1068982191,
-        "from_classifier_name": "Development and Production Context",
-        "to_classifier_name": "Electrical Engineering",
-        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
-        "to_node": "a62eeadb-6d02-4d47-a22b-f78570a4019d",
-        "uuid": "02d8a073-4e15-47b8-ac2e-6a36a557d194"
-      }
-    },
-    {
-      "relationship": {
-        "id": 126,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1104892992,
-        "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Operate Droid",
-        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
-        "to_node": "c2fa0c36-72a8-45d5-8f02-9c2d49316e9e",
-        "uuid": "5da7839a-7f13-463a-b556-ed1c9d8d0a4e"
-      }
-    },
-    {
-      "relationship": {
-        "id": 127,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1111229670,
-        "from_classifier_name": "Operational Context",
-        "to_classifier_name": "Repair Droid",
-        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
-        "to_node": "f737a6a7-13f7-42a4-9b2a-1c805cd2a628",
-        "uuid": "2c59bc66-7333-4725-a91e-d8c7e4c3ec32"
-      }
-    },
-    {
-      "relationship": {
-        "id": 184,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Outer World",
-        "to_classifier_name": "Main Logic Board",
-        "from_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
-        "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
-        "uuid": "ffece27b-82a0-4e44-9086-7c2ed62bf06e"
-      }
-    },
-    {
-      "relationship": {
-        "id": 128,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Space Station",
-        "to_classifier_name": "Mouse Droid (MoD5G)",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
-        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "uuid": "67e24e2b-a356-4062-9ad2-35fdac85982e"
-      }
-    },
-    {
-      "relationship": {
-        "id": 129,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -596786423,
-        "from_classifier_name": "Space Station",
-        "to_classifier_name": "Programming Terminal",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
-        "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
-        "uuid": "b9aa4979-1315-4027-a922-9e7b215d7755"
-      }
-    },
-    {
-      "relationship": {
-        "id": 130,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -539740535,
-        "from_classifier_name": "Space Station",
-        "to_classifier_name": "Charging Terminal",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
-        "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
-        "uuid": "960697b2-5434-4152-91da-edd98bb8a08d"
-      }
-    },
-    {
-      "relationship": {
-        "id": 131,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -501102168,
-        "from_classifier_name": "Space Station",
-        "to_classifier_name": "Maintenance Booth",
-        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
-        "to_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
-        "uuid": "bd7cf063-5e1d-4917-b24f-51e03e9c0230"
-      }
-    },
-    {
-      "relationship": {
-        "id": 135,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "rejected alternative",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_name": "2 of 3 Voter",
-        "to_classifier_name": "Cosmic Rays",
-        "from_node": "d08d2864-7bfb-40b8-aadf-7d7e195bc9e2",
-        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
-        "uuid": "a7d1fd4d-e9cb-4f06-b532-7178dbccc276"
-      }
-    },
-    {
-      "relationship": {
-        "id": 132,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "provides background",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Cosmic Rays Information",
-        "to_classifier_name": "Cosmic Rays",
-        "from_node": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
-        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
-        "uuid": "86e3bc92-1cca-433a-a021-0114280dcd3e"
-      }
-    },
-    {
-      "relationship": {
-        "id": 134,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Watchdog Supervision",
-        "to_classifier_name": "Cosmic Rays",
-        "from_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
-        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
-        "uuid": "5aab167f-5707-4b60-adad-02ee0eb214b3"
-      }
-    },
-    {
-      "relationship": {
-        "id": 133,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "selected solution",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Decision: Watchdog",
-        "to_classifier_name": "Watchdog Supervision",
-        "from_node": "2d660d61-d795-4421-823d-32f81de44f8a",
-        "to_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
-        "uuid": "81ab804c-8321-41af-92b4-128c9e9e957a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 136,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "comments",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "health::limp_home",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "d00e0194-ec38-4ed9-a218-99a18ded7450"
-      }
-    },
-    {
-      "relationship": {
-        "id": 179,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "explains",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "Risk: MoD5G does not drive back (logic board)",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
-        "uuid": "bd0983a1-ffd5-433f-870f-3ed72042f2d4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 229,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "explains",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "Risk: MoD5G does not drive back (motors)",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
-        "uuid": "ae57b42b-f34f-449d-a826-e7915bc8db0f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 230,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "explains",
-        "description": [
-                ""
-        ],
-        "list_order": 163840,
-        "from_classifier_name": "Limp home mode may fail",
-        "to_classifier_name": "Risk: MoD5G does not drive back (energy)",
-        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
-        "to_node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
-        "uuid": "5ba64559-ff77-4489-950b-b61e777168bc"
-      }
-    },
-    {
-      "relationship": {
-        "id": 142,
-        "main_type": 201,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Situation Model",
-        "to_classifier_name": "Status Model",
-        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
-        "to_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
-        "uuid": "1fa2f07e-fa81-413b-958c-64e00b6a802a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 143,
-        "main_type": 201,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Situation Model",
-        "to_classifier_name": "Environment Model",
-        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
-        "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
-        "uuid": "217e33dd-3393-410d-aeea-dfe8a4acdf4a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 146,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "observe by sensors",
-        "description": [
-                "Sensor data is the basis for assuming an environment model."
-        ],
-        "list_order": 163840,
-        "from_classifier_name": "Environment Model",
-        "to_classifier_name": "Real Environment",
-        "from_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
-        "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
-        "uuid": "5db71ce3-952c-4436-839f-a12848b31d06"
-      }
-    },
-    {
-      "relationship": {
-        "id": 147,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "observe",
-        "description": [
-                "Sensor data is the basis for assuming a status model. The algorithm for deriving a status model shall take into account that a sensor may be defect and/or a measured value may indicate a defect (which again may have several causes)."
-        ],
-        "list_order": 196608,
-        "from_classifier_name": "Status Model",
-        "to_classifier_name": "Real Status",
-        "from_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
-        "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
-        "uuid": "cc3a6e31-ac95-4ef7-b958-e3f2acbf7d64"
-      }
-    },
-    {
-      "relationship": {
-        "id": 144,
-        "main_type": 201,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Real Situation",
-        "to_classifier_name": "Real Status",
-        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
-        "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
-        "uuid": "675d7584-39b7-4102-ae0c-284c1e952595"
-      }
-    },
-    {
-      "relationship": {
-        "id": 145,
-        "main_type": 201,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_name": "Real Situation",
-        "to_classifier_name": "Real Environment",
-        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
-        "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
-        "uuid": "c975f85c-f312-4c32-b913-553b52e18967"
-      }
-    },
-    {
-      "relationship": {
-        "id": 183,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Inner World",
-        "to_classifier_name": "Base Logic Board",
-        "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
-        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
-        "uuid": "2ecf274d-34ed-482e-88ef-f910857534ed"
-      }
-    },
-    {
-      "relationship": {
-        "id": 158,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Interoperability",
-        "to_classifier_name": "Compatibility",
-        "from_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
-        "to_node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
-        "uuid": "31266638-3cc2-4564-9ff8-24f5ab33b1fe"
-      }
-    },
-    {
-      "relationship": {
-        "id": 159,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Old Republic Programming IF",
-        "to_classifier_name": "Interoperability",
-        "from_node": "ec82be00-93a7-42eb-a240-e5f2f73c958f",
-        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
-        "uuid": "16c2efa0-4fc1-4a29-aa9d-7a30c22b933f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 160,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Imperial Programming IF",
-        "to_classifier_name": "Interoperability",
-        "from_node": "1f827014-6814-42b3-8e92-f0550b149d34",
-        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
-        "uuid": "9c486d97-aba6-4e45-8453-983896b0f9aa"
-      }
-    },
-    {
-      "relationship": {
-        "id": 161,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_name": "Universial Charging IF",
-        "to_classifier_name": "Interoperability",
-        "from_node": "49173762-e41f-4356-a6a3-20a40868c6bb",
-        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
-        "uuid": "76cd8d53-f3f3-4e6d-9200-a20cd2f3ad2c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 175,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Fault Detection (main logic)",
-        "to_classifier_name": "SW Watchdog",
-        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
-        "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
-        "uuid": "348357bd-55b5-48a2-a9c5-5c1f5d32b522"
-      }
-    },
-    {
-      "relationship": {
-        "id": 199,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Fault Detection (main logic)",
-        "to_classifier_name": "Risk: Wrong tactic is calculated",
-        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
-        "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
-        "uuid": "3b211fa8-4936-4270-8b45-49d6a9befa2d"
-      }
-    },
-    {
-      "relationship": {
-        "id": 198,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Fault Detection (base logic)",
-        "to_classifier_name": "SW Watchdog",
-        "from_node": "4a86e419-4afe-42f3-8846-51e7f81c61c3",
-        "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
-        "uuid": "4ad1d7ba-bfb0-4268-af6e-abb12ed779e4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 181,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Fault Detection Strategy may fail",
-        "to_classifier_name": "Risk: Wrong tactic is calculated",
-        "from_node": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
-        "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
-        "uuid": "b41b769a-acb5-4088-98bb-a9eca232f154"
-      }
-    },
-    {
-      "relationship": {
-        "id": 177,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Wookiee Detection",
-        "to_classifier_name": "Self-Preservation",
-        "from_node": "1b626973-c1cb-4234-a2cb-16a21e42e4f1",
-        "to_node": "87950246-9fe2-4acf-ba83-1eb9b813b6d8",
-        "uuid": "8ae2b48a-cbed-4d31-920c-f2e365c4cc8f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 180,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "fault not handled",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Risk: MoD5G does not drive back (logic board)",
-        "to_classifier_name": "health::limp_home",
-        "from_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "20a91450-fb4d-4419-8d19-7351f0919c97"
-      }
-    },
-    {
-      "relationship": {
-        "id": 189,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 425984,
-        "from_classifier_name": "health::all",
-        "to_classifier_name": "health::factory",
-        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
-        "to_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
-        "uuid": "3b69965e-8ec7-4c1c-8429-eae5418af8ce"
-      }
-    },
-    {
-      "relationship": {
-        "id": 190,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 458752,
-        "from_classifier_name": "health::all",
-        "to_classifier_name": "health::operation",
-        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
-        "to_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
-        "uuid": "05476435-2f82-4a75-b3be-58803fc44b9f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 191,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 491520,
-        "from_classifier_name": "health::all",
-        "to_classifier_name": "health::disassembly",
-        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
-        "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
-        "uuid": "6a8d21c4-845b-4fd8-b05d-f1221620b211"
-      }
-    },
-    {
-      "relationship": {
-        "id": 192,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 262144,
-        "from_classifier_name": "power::all",
-        "to_classifier_name": "power::booting",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
-        "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
-        "uuid": "864b55b9-ab53-40ff-8e08-02b6b0cfd32e"
-      }
-    },
-    {
-      "relationship": {
-        "id": 193,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 294912,
-        "from_classifier_name": "power::all",
-        "to_classifier_name": "power::energy_saving",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
-        "to_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
-        "uuid": "d995d2b3-c999-4215-b71d-9b23e1e76019"
-      }
-    },
-    {
-      "relationship": {
-        "id": 194,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 327680,
-        "from_classifier_name": "power::all",
-        "to_classifier_name": "power::full_operation",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
-        "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
-        "uuid": "246532d5-1895-415c-824e-728a0f7a94c0"
-      }
-    },
-    {
-      "relationship": {
-        "id": 195,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 360448,
-        "from_classifier_name": "power::all",
-        "to_classifier_name": "power::startup",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
-        "to_node": "1d589448-3619-46f2-9ce5-59a227a1f329",
-        "uuid": "fe3abb15-6add-49cc-a1ef-18bd330c3903"
-      }
-    },
-    {
-      "relationship": {
-        "id": 196,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 393216,
-        "from_classifier_name": "power::all",
-        "to_classifier_name": "power::off",
-        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
-        "to_node": "49ac163f-507a-4691-a7cf-fc219bef2a90",
-        "uuid": "50219fa5-98e4-4925-a9d9-3d56b9859989"
-      }
-    },
-    {
-      "relationship": {
-        "id": 216,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "b",
-        "description": [
-                ""
-        ],
-        "list_order": -440817294,
-        "from_classifier_name": "max 2300 msec",
-        "from_feature_key": "",
-        "to_classifier_name": "power::full_operation",
-        "to_feature_key": "",
-        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
-        "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
-        "uuid": "8aedb309-11fa-4e10-8341-b1f6b4c8dabc"
-      }
-    },
-    {
-      "relationship": {
-        "id": 218,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "a",
-        "description": [
-                ""
-        ],
-        "list_order": -900392769,
-        "from_classifier_name": "max 2300 msec",
-        "from_feature_key": "",
-        "to_classifier_name": "power::booting",
-        "to_feature_key": "",
-        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
-        "to_node": "40697816-a89d-417e-a194-62aaa0262f65",
-        "uuid": "daaef58e-cb15-4e26-b7e9-a94d32a0f0a3"
-      }
-    },
-    {
-      "relationship": {
-        "id": 217,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "d",
-        "description": [
-                ""
-        ],
-        "list_order": 928530041,
-        "from_classifier_name": "max 500 msec",
-        "from_feature_key": "",
-        "to_classifier_name": "power::full_operation",
-        "to_feature_key": "",
-        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
-        "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
-        "uuid": "d571d3d4-8257-423d-a75d-b7b219db887d"
-      }
-    },
-    {
-      "relationship": {
-        "id": 219,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "c",
-        "description": [
-                ""
-        ],
-        "list_order": 717500486,
-        "from_classifier_name": "max 500 msec",
-        "from_feature_key": "",
-        "to_classifier_name": "power::energy_saving",
-        "to_feature_key": "",
-        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
-        "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
-        "uuid": "d17a7d43-fb59-4ca6-a2d1-7772e3926aac"
-      }
-    },
-    {
-      "relationship": {
-        "id": 220,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1062706821,
-        "from_classifier_name": "Persist List",
-        "from_feature_key": "",
-        "to_classifier_name": "Tactics Calculator",
-        "to_feature_key": "",
-        "from_node": "e5887445-90e2-4d11-9976-82c1b073577b",
-        "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
-        "uuid": "249dceb6-328e-4362-8919-d02d00d5e1e8"
-      }
-    },
-    {
-      "relationship": {
-        "id": 221,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Environmental Constraints",
-        "to_classifier_name": "Cosmic Rays",
-        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
-        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
-        "uuid": "2479a725-5c2d-4086-be52-d0f55e45c6bc"
-      }
-    },
-    {
-      "relationship": {
-        "id": 222,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                "Group of constratins imposed by the operation environment"
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Environmental Constraints",
-        "to_classifier_name": "Operating Temperatures",
-        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
-        "to_node": "2e172d70-2eba-49b0-9241-7385878ccb2f",
-        "uuid": "6403c948-b92a-4da5-a1b4-0c76f7c53ab2"
-      }
-    },
-    {
-      "relationship": {
-        "id": 227,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Mixed standards of terminals",
-        "to_classifier_name": "Interoperability",
-        "from_node": "9775e560-28b8-4ec2-a97d-999f2126a3e6",
-        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
-        "uuid": "63132724-fe64-4f55-afbf-c267ef8d7cf7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 232,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "fault not handled",
-        "description": [
-                ""
-        ],
-        "list_order": 229376,
-        "from_classifier_name": "Risk: MoD5G does not drive back (energy)",
-        "to_classifier_name": "health::limp_home",
-        "from_node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "1f0eeabc-5e15-435c-a24c-a08cee94adf6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 231,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "fault not handled",
-        "description": [
-                ""
-        ],
-        "list_order": 196608,
-        "from_classifier_name": "Risk: MoD5G does not drive back (motors)",
-        "to_classifier_name": "health::limp_home",
-        "from_node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
-        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
-        "uuid": "b2260b87-d99c-462e-88ab-c0678a6e9499"
-      }
-    },
-    {
-      "relationship": {
-        "id": 244,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "L1Req: Recognize paths",
-        "to_classifier_name": "Drive to Location",
-        "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
-        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-        "uuid": "b9891529-89d9-4aa9-9c26-3f32d80fc132"
-      }
-    },
-    {
-      "relationship": {
-        "id": 245,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "L1Req: Position screw driver",
-        "to_classifier_name": "Use Tools",
-        "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
-        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-        "uuid": "ff4c421b-3f79-4cae-8217-19284a6649c4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 248,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
-        "to_classifier_name": "Explore Environment",
-        "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
-        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
-        "uuid": "bcabd929-6e0b-4bf3-9c7b-86a800ffe8d4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 249,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 131072,
-        "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
-        "to_classifier_name": "L1Req: Recognize paths",
-        "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
-        "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
-        "uuid": "ba2a26ba-adbf-4f2c-aedc-7384190e58a0"
-      }
-    },
-    {
-      "relationship": {
-        "id": 250,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 163840,
-        "from_classifier_name": "L3Req: Operate motors of tool-arm",
-        "to_classifier_name": "L1Req: Position screw driver",
-        "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
-        "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
-        "uuid": "84058634-84cf-435b-bd03-7caa0559a48c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 251,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 196608,
-        "from_classifier_name": "L3Req: Operate motors of tool-arm",
-        "to_classifier_name": "Steer motors of tools",
-        "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
-        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
-        "uuid": "3a931cae-b951-439f-a5a5-a75b4ac9c0b9"
-      }
-    },
-    {
-      "relationship": {
-        "id": 1,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 24715831,
-        "from_classifier_name": "Mouse Droid (MoD5G)",
-        "to_classifier_name": "Perform a 1-day Mission",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
-        "uuid": "bc7db11e-92f0-429d-9e70-818f8cbb0299"
-      }
-    },
-    {
-      "relationship": {
-        "id": 3,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 34386514,
-        "from_classifier_name": "Mouse Droid (MoD5G)",
-        "to_classifier_name": "Drive to Location",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-        "uuid": "ac85bcdf-0c9c-44d4-969a-913e5c8ebb73"
-      }
-    },
-    {
-      "relationship": {
-        "id": 4,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 34386514,
-        "from_classifier_name": "Mouse Droid (MoD5G)",
-        "to_classifier_name": "Use Tools",
-        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
-        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-        "uuid": "bda8dbdf-98fa-43c3-b427-28111e312f0c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 5,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 34419282,
-        "from_classifier_name": "Perform a 1-day Mission",
-        "to_classifier_name": "Drive to Location",
-        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
-        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-        "uuid": "ffd14d46-d17c-4bd4-a030-5c13f8872fb5"
-      }
-    },
-    {
-      "relationship": {
-        "id": 6,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 34452050,
-        "from_classifier_name": "Perform a 1-day Mission",
-        "to_classifier_name": "Use Tools",
-        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
-        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-        "uuid": "7b8ec957-56ad-4d32-89d4-b0ff06c298e7"
-      }
-    },
-    {
-      "relationship": {
-        "id": 91,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 37910628,
-        "from_classifier_name": "Drive to Location",
-        "to_classifier_name": "Plan tasks",
-        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-        "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
-        "uuid": "cb91716d-6ed1-4fbf-a7d5-7c9f530ed968"
-      }
-    },
-    {
-      "relationship": {
-        "id": 234,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 38074468,
-        "from_classifier_name": "Drive to Location",
-        "to_classifier_name": "Explore Environment",
-        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
-        "uuid": "8c28af62-06e1-45f5-bb40-4e70bc760c24"
-      }
-    },
-    {
-      "relationship": {
-        "id": 235,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 38107236,
-        "from_classifier_name": "Drive to Location",
-        "to_classifier_name": "Perform Movement",
-        "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
-        "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
-        "uuid": "8dc36e54-8ccc-46bb-8b03-9e20d3b30caa"
-      }
-    },
-    {
-      "relationship": {
-        "id": 90,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 37877860,
-        "from_classifier_name": "Use Tools",
-        "to_classifier_name": "Plan tasks",
-        "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-        "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
-        "uuid": "56ec89e1-873d-4b98-96b0-26a3b8b17632"
-      }
-    },
-    {
-      "relationship": {
-        "id": 233,
-        "main_type": 261,
-        "type": "Include",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 38041700,
-        "from_classifier_name": "Use Tools",
-        "to_classifier_name": "Steer motors of tools",
-        "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
-        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
-        "uuid": "4f6d0591-b868-4f72-ae1a-dc946c5a5e6a"
       }
     },
     {
@@ -9251,6 +8221,40 @@
     },
     {
       "relationship": {
+        "id": 113,
+        "main_type": 200,
+        "type": "Association",
+        "name": "program",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Imperial Operator",
+        "to_classifier_name": "Mouse Droid (MoD5G)",
+        "from_node": "420c4626-1d1c-4c9e-8c2f-e6dfffd5508d",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "55aee327-5b7a-4c43-b4bf-b3863738fd38"
+      }
+    },
+    {
+      "relationship": {
+        "id": 112,
+        "main_type": 200,
+        "type": "Association",
+        "name": "program",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Operator of the old republic",
+        "to_classifier_name": "Mouse Droid (MoD5G)",
+        "from_node": "6becf1f4-d8d0-4a98-a7b7-ab44e47b6241",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "765e3ec8-f4af-4f1d-a86a-8d6860089f57"
+      }
+    },
+    {
+      "relationship": {
         "id": 119,
         "main_type": 240,
         "type": "ControlFlow",
@@ -9315,6 +8319,329 @@
         "from_node": "39281d9f-33aa-4960-a342-6c50a0e44ae4",
         "to_node": "02871b92-3080-40e5-8b51-f731ca504657",
         "uuid": "08f02a48-2279-4306-9fb7-5651ad4d36ea"
+      }
+    },
+    {
+      "relationship": {
+        "id": 124,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -949056703,
+        "from_classifier_name": "Development and Production Context",
+        "to_classifier_name": "Build Droids",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_node": "2fb1cd00-6d9e-4d66-bf6c-f93819adbf7b",
+        "uuid": "afd97b20-892a-427f-8dcf-70aafb8fd4e6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 125,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -996447395,
+        "from_classifier_name": "Development and Production Context",
+        "to_classifier_name": "Develop Software",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_node": "41abaace-cc75-4a53-b2d3-76138577dd01",
+        "uuid": "9aeb098e-7814-46bf-a492-2181f761893d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 187,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1068810697,
+        "from_classifier_name": "Development and Production Context",
+        "to_classifier_name": "Design Hardware",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_node": "0e8065c4-c3bc-4e42-b344-a39cf9b201d8",
+        "uuid": "bf49c597-a5d5-44a7-b0f5-c36e7718f61a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 188,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1068982191,
+        "from_classifier_name": "Development and Production Context",
+        "to_classifier_name": "Electrical Engineering",
+        "from_node": "74dd9830-f14b-4ae4-99e5-6a81a014fd8f",
+        "to_node": "a62eeadb-6d02-4d47-a22b-f78570a4019d",
+        "uuid": "02d8a073-4e15-47b8-ac2e-6a36a557d194"
+      }
+    },
+    {
+      "relationship": {
+        "id": 126,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1104892992,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Operate Droid",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "c2fa0c36-72a8-45d5-8f02-9c2d49316e9e",
+        "uuid": "5da7839a-7f13-463a-b556-ed1c9d8d0a4e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 127,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1111229670,
+        "from_classifier_name": "Operational Context",
+        "to_classifier_name": "Repair Droid",
+        "from_node": "290bb69d-78be-4238-9b20-7a138c925b0b",
+        "to_node": "f737a6a7-13f7-42a4-9b2a-1c805cd2a628",
+        "uuid": "2c59bc66-7333-4725-a91e-d8c7e4c3ec32"
+      }
+    },
+    {
+      "relationship": {
+        "id": 184,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Outer World",
+        "to_classifier_name": "Main Logic Board",
+        "from_node": "267dd099-bd18-4f00-8ac1-ea27009f5250",
+        "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "uuid": "ffece27b-82a0-4e44-9086-7c2ed62bf06e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 128,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Space Station",
+        "to_classifier_name": "Mouse Droid (MoD5G)",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "uuid": "67e24e2b-a356-4062-9ad2-35fdac85982e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 129,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -596786423,
+        "from_classifier_name": "Space Station",
+        "to_classifier_name": "Programming Terminal",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_node": "892f44a8-b788-4cd4-9e35-2dc326cda49b",
+        "uuid": "b9aa4979-1315-4027-a922-9e7b215d7755"
+      }
+    },
+    {
+      "relationship": {
+        "id": 130,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -539740535,
+        "from_classifier_name": "Space Station",
+        "to_classifier_name": "Charging Terminal",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_node": "cd72d494-8752-47a5-b059-bf119e7a477b",
+        "uuid": "960697b2-5434-4152-91da-edd98bb8a08d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 131,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -501102168,
+        "from_classifier_name": "Space Station",
+        "to_classifier_name": "Maintenance Booth",
+        "from_node": "f7b95a05-8cf1-40c8-ae35-7153a3cc0256",
+        "to_node": "23cf0561-9d20-41fb-a1dc-63ea57de52f3",
+        "uuid": "bd7cf063-5e1d-4917-b24f-51e03e9c0230"
+      }
+    },
+    {
+      "relationship": {
+        "id": 135,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "rejected alternative",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "2 of 3 Voter",
+        "to_classifier_name": "Cosmic Rays",
+        "from_node": "d08d2864-7bfb-40b8-aadf-7d7e195bc9e2",
+        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
+        "uuid": "a7d1fd4d-e9cb-4f06-b532-7178dbccc276"
+      }
+    },
+    {
+      "relationship": {
+        "id": 132,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "provides background",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Cosmic Rays Information",
+        "to_classifier_name": "Cosmic Rays",
+        "from_node": "e8222fca-a1d1-4ba4-a1e7-b24e0dd92b30",
+        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
+        "uuid": "86e3bc92-1cca-433a-a021-0114280dcd3e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 134,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Watchdog Supervision",
+        "to_classifier_name": "Cosmic Rays",
+        "from_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
+        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
+        "uuid": "5aab167f-5707-4b60-adad-02ee0eb214b3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 133,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "selected solution",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Decision: Watchdog",
+        "to_classifier_name": "Watchdog Supervision",
+        "from_node": "2d660d61-d795-4421-823d-32f81de44f8a",
+        "to_node": "f60c61af-4533-43df-a957-e8df8638e4d8",
+        "uuid": "81ab804c-8321-41af-92b4-128c9e9e957a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 136,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "comments",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Limp home mode may fail",
+        "to_classifier_name": "health::limp_home",
+        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
+        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "uuid": "d00e0194-ec38-4ed9-a218-99a18ded7450"
+      }
+    },
+    {
+      "relationship": {
+        "id": 179,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "explains",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Limp home mode may fail",
+        "to_classifier_name": "Risk: MoD5G does not drive back (logic board)",
+        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
+        "to_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
+        "uuid": "bd0983a1-ffd5-433f-870f-3ed72042f2d4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 229,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "explains",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Limp home mode may fail",
+        "to_classifier_name": "Risk: MoD5G does not drive back (motors)",
+        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
+        "to_node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
+        "uuid": "ae57b42b-f34f-449d-a826-e7915bc8db0f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 230,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "explains",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Limp home mode may fail",
+        "to_classifier_name": "Risk: MoD5G does not drive back (energy)",
+        "from_node": "cf9dc33b-5705-4e41-8f3e-ffee7b785d37",
+        "to_node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
+        "uuid": "5ba64559-ff77-4489-950b-b61e777168bc"
       }
     },
     {
@@ -9607,6 +8934,125 @@
     },
     {
       "relationship": {
+        "id": 142,
+        "main_type": 201,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Situation Model",
+        "to_classifier_name": "Status Model",
+        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
+        "to_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
+        "uuid": "1fa2f07e-fa81-413b-958c-64e00b6a802a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 143,
+        "main_type": 201,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Situation Model",
+        "to_classifier_name": "Environment Model",
+        "from_node": "05605867-3b88-4e38-935d-719cb370309e",
+        "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
+        "uuid": "217e33dd-3393-410d-aeea-dfe8a4acdf4a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 146,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "observe by sensors",
+        "description": [
+                "Sensor data is the basis for assuming an environment model."
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Environment Model",
+        "to_classifier_name": "Real Environment",
+        "from_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
+        "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
+        "uuid": "5db71ce3-952c-4436-839f-a12848b31d06"
+      }
+    },
+    {
+      "relationship": {
+        "id": 147,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "observe",
+        "description": [
+                "Sensor data is the basis for assuming a status model. The algorithm for deriving a status model shall take into account that a sensor may be defect and/or a measured value may indicate a defect (which again may have several causes)."
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Status Model",
+        "to_classifier_name": "Real Status",
+        "from_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
+        "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
+        "uuid": "cc3a6e31-ac95-4ef7-b958-e3f2acbf7d64"
+      }
+    },
+    {
+      "relationship": {
+        "id": 144,
+        "main_type": 201,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Real Situation",
+        "to_classifier_name": "Real Status",
+        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
+        "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
+        "uuid": "675d7584-39b7-4102-ae0c-284c1e952595"
+      }
+    },
+    {
+      "relationship": {
+        "id": 145,
+        "main_type": 201,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Real Situation",
+        "to_classifier_name": "Real Environment",
+        "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
+        "to_node": "59fc1a69-283e-480c-a90c-6567fee4296e",
+        "uuid": "c975f85c-f312-4c32-b913-553b52e18967"
+      }
+    },
+    {
+      "relationship": {
+        "id": 183,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Inner World",
+        "to_classifier_name": "Base Logic Board",
+        "from_node": "23a8bba8-37f9-40ed-94fb-565c77ca5fb8",
+        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "uuid": "2ecf274d-34ed-482e-88ef-f910857534ed"
+      }
+    },
+    {
+      "relationship": {
         "id": 148,
         "main_type": 300,
         "type": "Association",
@@ -9781,36 +9227,590 @@
     },
     {
       "relationship": {
-        "id": 47,
-        "main_type": 300,
-        "type": "Association",
+        "id": 158,
+        "main_type": 400,
+        "type": "Refine",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": -1127573923,
-        "from_classifier_name": "Electrical Parts and Electronics",
-        "to_classifier_name": "Main Logic Board",
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
-        "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
-        "uuid": "f4bf7478-e188-4576-9118-5f3ccc8e617f"
+        "list_order": 32768,
+        "from_classifier_name": "Interoperability",
+        "to_classifier_name": "Compatibility",
+        "from_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
+        "to_node": "f928ad3b-73f0-400e-9cc1-3ef1af6634f2",
+        "uuid": "31266638-3cc2-4564-9ff8-24f5ab33b1fe"
       }
     },
     {
       "relationship": {
-        "id": 48,
+        "id": 159,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Old Republic Programming IF",
+        "to_classifier_name": "Interoperability",
+        "from_node": "ec82be00-93a7-42eb-a240-e5f2f73c958f",
+        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
+        "uuid": "16c2efa0-4fc1-4a29-aa9d-7a30c22b933f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 160,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Imperial Programming IF",
+        "to_classifier_name": "Interoperability",
+        "from_node": "1f827014-6814-42b3-8e92-f0550b149d34",
+        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
+        "uuid": "9c486d97-aba6-4e45-8453-983896b0f9aa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 161,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Universial Charging IF",
+        "to_classifier_name": "Interoperability",
+        "from_node": "49173762-e41f-4356-a6a3-20a40868c6bb",
+        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
+        "uuid": "76cd8d53-f3f3-4e6d-9200-a20cd2f3ad2c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 175,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Fault Detection (main logic)",
+        "to_classifier_name": "SW Watchdog",
+        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
+        "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
+        "uuid": "348357bd-55b5-48a2-a9c5-5c1f5d32b522"
+      }
+    },
+    {
+      "relationship": {
+        "id": 199,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Fault Detection (main logic)",
+        "to_classifier_name": "Risk: Wrong tactic is calculated",
+        "from_node": "a2f86f8a-7e4a-4de7-b100-4a701db41595",
+        "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
+        "uuid": "3b211fa8-4936-4270-8b45-49d6a9befa2d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 198,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Fault Detection (base logic)",
+        "to_classifier_name": "SW Watchdog",
+        "from_node": "4a86e419-4afe-42f3-8846-51e7f81c61c3",
+        "to_node": "3fdba187-2a96-4f85-ae03-aaaa33c4abbf",
+        "uuid": "4ad1d7ba-bfb0-4268-af6e-abb12ed779e4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 181,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Fault Detection Strategy may fail",
+        "to_classifier_name": "Risk: Wrong tactic is calculated",
+        "from_node": "8ce065ad-ac5f-4ba7-af0e-6bdd9ef320f2",
+        "to_node": "5e2e0dc0-8036-4dc8-811e-1d72e920eaa5",
+        "uuid": "b41b769a-acb5-4088-98bb-a9eca232f154"
+      }
+    },
+    {
+      "relationship": {
+        "id": 177,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Wookiee Detection",
+        "to_classifier_name": "Self-Preservation",
+        "from_node": "1b626973-c1cb-4234-a2cb-16a21e42e4f1",
+        "to_node": "87950246-9fe2-4acf-ba83-1eb9b813b6d8",
+        "uuid": "8ae2b48a-cbed-4d31-920c-f2e365c4cc8f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 180,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "fault not handled",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Risk: MoD5G does not drive back (logic board)",
+        "to_classifier_name": "health::limp_home",
+        "from_node": "74903d54-6d51-4e5f-984a-539cb62006a6",
+        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "uuid": "20a91450-fb4d-4419-8d19-7351f0919c97"
+      }
+    },
+    {
+      "relationship": {
+        "id": 189,
         "main_type": 300,
         "type": "Association",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": -1137259057,
-        "from_classifier_name": "Electrical Parts and Electronics",
-        "to_classifier_name": "Base Logic Board",
-        "from_node": "c1419268-c407-4e91-a9de-386c65b7459b",
-        "to_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
-        "uuid": "88d78e6c-2255-4f8e-a827-3bc5bbb245e7"
+        "list_order": 425984,
+        "from_classifier_name": "health::all",
+        "to_classifier_name": "health::factory",
+        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+        "to_node": "325755c3-e9e8-4f9f-8391-d7dc155e7ed5",
+        "uuid": "3b69965e-8ec7-4c1c-8429-eae5418af8ce"
+      }
+    },
+    {
+      "relationship": {
+        "id": 190,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "health::all",
+        "to_classifier_name": "health::operation",
+        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+        "to_node": "79cf3abc-cb16-4e68-8b2d-aff55d6ae108",
+        "uuid": "05476435-2f82-4a75-b3be-58803fc44b9f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 191,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "health::all",
+        "to_classifier_name": "health::disassembly",
+        "from_node": "875cc2af-cf9f-49ad-823e-796daf87d00b",
+        "to_node": "4f2dd295-be68-415b-8210-686c2d3b9125",
+        "uuid": "6a8d21c4-845b-4fd8-b05d-f1221620b211"
+      }
+    },
+    {
+      "relationship": {
+        "id": 192,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "power::all",
+        "to_classifier_name": "power::booting",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_node": "b6e14925-4440-4700-b154-d33db39a5949",
+        "uuid": "864b55b9-ab53-40ff-8e08-02b6b0cfd32e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 193,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "power::all",
+        "to_classifier_name": "power::energy_saving",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_node": "6af446f7-9194-4af4-aace-cf49c4abe994",
+        "uuid": "d995d2b3-c999-4215-b71d-9b23e1e76019"
+      }
+    },
+    {
+      "relationship": {
+        "id": 194,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "power::all",
+        "to_classifier_name": "power::full_operation",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_node": "e1199457-1249-4585-9dc2-85d7dff7e2b4",
+        "uuid": "246532d5-1895-415c-824e-728a0f7a94c0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 195,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "power::all",
+        "to_classifier_name": "power::startup",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_node": "1d589448-3619-46f2-9ce5-59a227a1f329",
+        "uuid": "fe3abb15-6add-49cc-a1ef-18bd330c3903"
+      }
+    },
+    {
+      "relationship": {
+        "id": 196,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "power::all",
+        "to_classifier_name": "power::off",
+        "from_node": "17ef00e1-72db-4864-8ec0-acdce1359268",
+        "to_node": "49ac163f-507a-4691-a7cf-fc219bef2a90",
+        "uuid": "50219fa5-98e4-4925-a9d9-3d56b9859989"
+      }
+    },
+    {
+      "relationship": {
+        "id": 216,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "b",
+        "description": [
+                ""
+        ],
+        "list_order": -440817294,
+        "from_classifier_name": "max 2300 msec",
+        "from_feature_key": "",
+        "to_classifier_name": "power::full_operation",
+        "to_feature_key": "",
+        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
+        "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
+        "uuid": "8aedb309-11fa-4e10-8341-b1f6b4c8dabc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 218,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "a",
+        "description": [
+                ""
+        ],
+        "list_order": -900392769,
+        "from_classifier_name": "max 2300 msec",
+        "from_feature_key": "",
+        "to_classifier_name": "power::booting",
+        "to_feature_key": "",
+        "from_node": "8f75cdad-cd9f-4b19-bb7f-cd0fa430f109",
+        "to_node": "40697816-a89d-417e-a194-62aaa0262f65",
+        "uuid": "daaef58e-cb15-4e26-b7e9-a94d32a0f0a3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 217,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "d",
+        "description": [
+                ""
+        ],
+        "list_order": 928530041,
+        "from_classifier_name": "max 500 msec",
+        "from_feature_key": "",
+        "to_classifier_name": "power::full_operation",
+        "to_feature_key": "",
+        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
+        "to_node": "31f09b53-bb0e-4bf5-b3ef-63a3a2c02071",
+        "uuid": "d571d3d4-8257-423d-a75d-b7b219db887d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 219,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "c",
+        "description": [
+                ""
+        ],
+        "list_order": 717500486,
+        "from_classifier_name": "max 500 msec",
+        "from_feature_key": "",
+        "to_classifier_name": "power::energy_saving",
+        "to_feature_key": "",
+        "from_node": "389deb95-fef0-40bf-84c9-ac6e18332309",
+        "to_node": "5e4e496f-db00-4592-a7d8-a2f8f5e94845",
+        "uuid": "d17a7d43-fb59-4ca6-a2d1-7772e3926aac"
+      }
+    },
+    {
+      "relationship": {
+        "id": 220,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1062706821,
+        "from_classifier_name": "Persist List",
+        "from_feature_key": "",
+        "to_classifier_name": "Tactics Calculator",
+        "to_feature_key": "",
+        "from_node": "e5887445-90e2-4d11-9976-82c1b073577b",
+        "to_node": "e12195e1-14a6-4cb4-8982-2b29a62f622e",
+        "uuid": "249dceb6-328e-4362-8919-d02d00d5e1e8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 221,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Environmental Constraints",
+        "to_classifier_name": "Cosmic Rays",
+        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
+        "to_node": "a165b404-76ec-4eec-a34b-9648249f774f",
+        "uuid": "2479a725-5c2d-4086-be52-d0f55e45c6bc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 222,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                "Group of constratins imposed by the operation environment"
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Environmental Constraints",
+        "to_classifier_name": "Operating Temperatures",
+        "from_node": "87d7872b-5a5c-485b-8693-88c150cd1c04",
+        "to_node": "2e172d70-2eba-49b0-9241-7385878ccb2f",
+        "uuid": "6403c948-b92a-4da5-a1b4-0c76f7c53ab2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 227,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Mixed standards of terminals",
+        "to_classifier_name": "Interoperability",
+        "from_node": "9775e560-28b8-4ec2-a97d-999f2126a3e6",
+        "to_node": "be378b0a-025f-425c-a046-c25ff452e7d8",
+        "uuid": "63132724-fe64-4f55-afbf-c267ef8d7cf7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 232,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "fault not handled",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Risk: MoD5G does not drive back (energy)",
+        "to_classifier_name": "health::limp_home",
+        "from_node": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
+        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "uuid": "1f0eeabc-5e15-435c-a24c-a08cee94adf6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 231,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "fault not handled",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Risk: MoD5G does not drive back (motors)",
+        "to_classifier_name": "health::limp_home",
+        "from_node": "7bc7017a-47a5-416e-a079-3b58bc03747c",
+        "to_node": "f8d4abb9-dc1f-44cc-96f9-c5e7c40e2613",
+        "uuid": "b2260b87-d99c-462e-88ab-c0678a6e9499"
+      }
+    },
+    {
+      "relationship": {
+        "id": 244,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "L1Req: Recognize paths",
+        "to_classifier_name": "Drive to Location",
+        "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
+        "uuid": "b9891529-89d9-4aa9-9c26-3f32d80fc132"
+      }
+    },
+    {
+      "relationship": {
+        "id": 245,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "L1Req: Position screw driver",
+        "to_classifier_name": "Use Tools",
+        "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
+        "uuid": "ff4c421b-3f79-4cae-8217-19284a6649c4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 248,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
+        "to_classifier_name": "Explore Environment",
+        "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
+        "uuid": "bcabd929-6e0b-4bf3-9c7b-86a800ffe8d4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 249,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "L3Req: Calc 3D scene from 2 cameras",
+        "to_classifier_name": "L1Req: Recognize paths",
+        "from_node": "691d5030-5e11-4e65-b478-759ce31584fa",
+        "to_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "uuid": "ba2a26ba-adbf-4f2c-aedc-7384190e58a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 250,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "L3Req: Operate motors of tool-arm",
+        "to_classifier_name": "L1Req: Position screw driver",
+        "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+        "to_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
+        "uuid": "84058634-84cf-435b-bd03-7caa0559a48c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 251,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "L3Req: Operate motors of tool-arm",
+        "to_classifier_name": "Steer motors of tools",
+        "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
+        "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
+        "uuid": "3a931cae-b951-439f-a5a5-a75b4ac9c0b9"
       }
     }
   ]

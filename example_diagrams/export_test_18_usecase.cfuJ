@@ -1,0 +1,272 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 0,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.45.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Use Case",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "229a9a46-bcbf-4a67-aac5-1743e1f87698",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "Customer Support",
+            "node": "c27dfef5-e60d-4ab1-a8aa-7dacce2af646",
+            "uuid": "2fff6aa3-18e4-44e1-aa23-c2e8d28e5157"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "Customer",
+            "node": "9c53f372-b8e3-447d-8907-20e50b733805",
+            "uuid": "db57739c-3261-43e7-a343-3bbf73cfe2c3"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Complain",
+            "node": "d8c74262-fb48-498b-bb3d-02de2288f030",
+            "uuid": "d007df7e-c3e8-44f5-8397-0fef8ee39959"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "Solve Complaint",
+            "node": "42c09c4a-1d65-45cb-8300-d50854afbfac",
+            "uuid": "cbad66d1-eb25-49ec-8c08-5a5ca8e1200f"
+          },
+          {
+            "id": 5,
+            "display_flags": 0,
+            "classifier_name": "Track Customer Satisfaction",
+            "node": "0dc2da74-c198-441f-9cc5-b7cf99c0114c",
+            "uuid": "c2061e55-b829-41c0-a5d9-cb0ecf3315f0"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 102,
+        "type": "Component",
+        "stereotype": "",
+        "name": "Customer Support",
+        "description": [
+                ""
+        ],
+        "x_order": -148074238,
+        "y_order": -257771673,
+        "list_order": -257771673,
+        "uuid": "c27dfef5-e60d-4ab1-a8aa-7dacce2af646",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 100,
+        "type": "Actor",
+        "stereotype": "",
+        "name": "Customer",
+        "description": [
+                ""
+        ],
+        "x_order": -1588754684,
+        "y_order": -257771673,
+        "list_order": -1193305140,
+        "uuid": "9c53f372-b8e3-447d-8907-20e50b733805",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Complain",
+        "description": [
+                ""
+        ],
+        "x_order": -238672401,
+        "y_order": -257771673,
+        "list_order": -95814813,
+        "uuid": "d8c74262-fb48-498b-bb3d-02de2288f030",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Solve Complaint",
+        "description": [
+                ""
+        ],
+        "x_order": -238672401,
+        "y_order": -143937047,
+        "list_order": -143937047,
+        "uuid": "42c09c4a-1d65-45cb-8300-d50854afbfac",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "",
+        "name": "Track Customer Satisfaction",
+        "description": [
+                ""
+        ],
+        "x_order": -148074238,
+        "y_order": -143937047,
+        "list_order": -111538470,
+        "uuid": "0dc2da74-c198-441f-9cc5-b7cf99c0114c",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -95814813,
+        "from_classifier_name": "Customer Support",
+        "to_classifier_name": "Complain",
+        "from_node": "c27dfef5-e60d-4ab1-a8aa-7dacce2af646",
+        "to_node": "d8c74262-fb48-498b-bb3d-02de2288f030",
+        "uuid": "6cf49a42-1ff0-400f-80b5-4bb373d28c8a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -143937047,
+        "from_classifier_name": "Customer Support",
+        "to_classifier_name": "Solve Complaint",
+        "from_node": "c27dfef5-e60d-4ab1-a8aa-7dacce2af646",
+        "to_node": "42c09c4a-1d65-45cb-8300-d50854afbfac",
+        "uuid": "ec76eb03-c1be-4038-8db2-f672db1c63ff"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -111538470,
+        "from_classifier_name": "Customer Support",
+        "to_classifier_name": "Track Customer Satisfaction",
+        "from_node": "c27dfef5-e60d-4ab1-a8aa-7dacce2af646",
+        "to_node": "0dc2da74-c198-441f-9cc5-b7cf99c0114c",
+        "uuid": "521f72e0-4a98-4266-a890-61c02268bd9e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 200,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Customer",
+        "to_classifier_name": "Complain",
+        "from_node": "9c53f372-b8e3-447d-8907-20e50b733805",
+        "to_node": "d8c74262-fb48-498b-bb3d-02de2288f030",
+        "uuid": "a9009917-70a4-4ee2-9b6a-93a3e071974d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Complain",
+        "to_classifier_name": "Track Customer Satisfaction",
+        "from_node": "d8c74262-fb48-498b-bb3d-02de2288f030",
+        "to_node": "0dc2da74-c198-441f-9cc5-b7cf99c0114c",
+        "uuid": "0fb1338f-2d33-4647-b074-dc479c704006"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 260,
+        "type": "Extend",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Solve Complaint",
+        "to_classifier_name": "Complain",
+        "from_node": "42c09c4a-1d65-45cb-8300-d50854afbfac",
+        "to_node": "d8c74262-fb48-498b-bb3d-02de2288f030",
+        "uuid": "a898b1ca-5d19-4e75-b422-95b2aa7bb7f5"
+      }
+    }
+  ]
+}
