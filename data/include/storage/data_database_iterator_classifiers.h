@@ -17,7 +17,7 @@
 
 /*!
  *  \brief all data attributes needed for the classifier iterator functions
- * 
+ *
  *  The iterator works similar to the J2SE-ListIterator, hibernate-query-Iterator and QT-QListIterator:
  *  while ( hasNext() ) { element = next() };
  */
@@ -43,16 +43,19 @@ u8_error_t data_database_iterator_classifiers_init_empty ( data_database_iterato
  *
  *  \param this_ pointer to own object attributes
  *  \param database database which this iterator uses
- *  \param statement_all_classifiers sql statement to access the result set
+ *  \param hierarchical true if the iterator shall start with classifiers without parent
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* statement_all_classifiers );
+u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_,
+                                                       data_database_t *database,
+                                                       bool hierarchical
+                                                     );
 
 /*!
  *  \brief destroys the data_database_iterator_classifiers_t struct
  *
  *  This destructor frees the resources occupied by the database.
- * 
+ *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success
  */

@@ -328,6 +328,7 @@ u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_re
 }
 
 u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
+                                                               bool hierarchical,
                                                                data_database_iterator_classifiers_t *io_classifier_iterator
                                                              )
 {
@@ -337,6 +338,7 @@ u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_rea
     if ( (*this_).is_open )
     {
         result = data_database_classifier_reader_get_all_classifiers_iterator( &((*this_).temp_classifier_reader),
+                                                                               hierarchical,
                                                                                io_classifier_iterator
                                                                              );
     }

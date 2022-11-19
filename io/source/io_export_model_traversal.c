@@ -70,7 +70,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
 
         /* init the iterator */
         data_database_iterator_classifiers_init_empty( &classifier_iterator );
-        data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, &classifier_iterator );
+        data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, true, &classifier_iterator );
         if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;

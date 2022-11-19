@@ -89,20 +89,6 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     /* see also https://sqlite.org/forum/forumpost/e1033dab18c262ac4b36cdf7c65bf87a5aaaecab3b3ba100e4588fc30e50f9fb */
 
 /*!
- *  \brief search statement to iterate over all classifiers sorted by number of parent-containers
- *
- *  The "order by cnt" is important to ensure parent objects are iterated first, e.g. for xmi export
- *  The "order by id" is important to get reproducable results, e.g. for json export
- */
-static const char DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS[] =
-    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order,uuid,"
-        "(SELECT count(*) FROM relationships "
-        "WHERE (relationships.to_classifier_id=classifiers.id) AND (relationships.to_feature_id IS NULL) "
-        "AND (relationships.main_type=300)) AS cnt "
-    "FROM classifiers "
-    "ORDER BY cnt ASC,id ASC;";
-
-/*!
  *  \brief the column id of the result where this parameter is stored: id
  */
 static const int RESULT_CLASSIFIER_ID_COLUMN = 0;
@@ -411,6 +397,7 @@ u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data_d
 }
 
 u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_database_classifier_reader_t *this_,
+                                                                         bool hierarchical,
                                                                          data_database_iterator_classifiers_t *io_classifier_iterator
                                                                        )
 {
@@ -418,22 +405,7 @@ u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_da
     assert( NULL != io_classifier_iterator );
     u8_error_t result = U8_ERROR_NONE;
 
-    {
-        sqlite3_stmt *prepared_statement;
-        /* prepare a statement */
-        /* this statement is prepared only when needed because this is only rarely needed (for exports) */
-        result |= data_database_classifier_reader_private_prepare_statement( this_,
-                                                                             DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS,
-                                                                             sizeof( DATA_DATABASE_READER_SELECT_ALL_CLASSIFIERS ),
-                                                                             &prepared_statement
-                                                                           );
-        if ( result == U8_ERROR_NONE )
-        {
-            result |= data_database_iterator_classifiers_reinit( io_classifier_iterator, (*this_).database, prepared_statement );
-
-            /* io_classifier_iterator will later perform sqlite3_finalize */
-        }
-    }
+    result |= data_database_iterator_classifiers_reinit( io_classifier_iterator, (*this_).database, hierarchical );
 
     TRACE_END_ERR( result );
     return result;

@@ -22,6 +22,7 @@
 #include "data_table.h"
 #include "u8list/universal_array_list.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 /*!
  *  \brief attributes of the flat-list traversal
@@ -71,9 +72,10 @@ void io_export_flat_traversal_destroy( io_export_flat_traversal_t *this_ );
  *  \brief prints all classifiers as flat list to the output stream
  *
  *  \param this_ pointer to own object attributes
+ *  \param hierarchical true if the iterator shall start with classifiers without parent
  *  \return -1 in case of error, 0 in case of success
  */
-int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_ );
+int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_, bool hierarchical );
 
 /*!
  *  \brief writes the classifier and feature and writes its outgoing relationships

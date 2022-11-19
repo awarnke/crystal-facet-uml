@@ -249,12 +249,14 @@ u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_re
  *  classifiers are sorted by number of containment-parents, ascending.
  *
  *  \param this_ pointer to own object attributes
+ *  \param hierarchical true if the iterator shall start with classifiers without parent
  *  \param[in,out] io_classifier_iterator iterator over all classifiers. The caller is responsible
  *                                        for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
+                                                               bool hierarchical,
                                                                data_database_iterator_classifiers_t *io_classifier_iterator
                                                              );
 

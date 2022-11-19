@@ -36,7 +36,7 @@ void io_export_flat_traversal_destroy( io_export_flat_traversal_t *this_ )
     TRACE_END();
 }
 
-int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_ )
+int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_, bool hierarchical  )
 {
     TRACE_BEGIN();
     int write_err = 0;
@@ -47,7 +47,7 @@ int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *t
 
         /* init the iterator */
         data_database_iterator_classifiers_init_empty( &classifier_iterator );
-        data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, &classifier_iterator );
+        data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, hierarchical, &classifier_iterator );
         if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;

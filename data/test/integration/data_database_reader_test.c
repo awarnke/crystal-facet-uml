@@ -505,7 +505,7 @@ static void test_iterate_over_classifiers(void)
 
     /* test the iterator, init */
     data_database_iterator_classifiers_init_empty( &classifier_iterator );
-    data_err = data_database_reader_get_all_classifiers_iterator ( &db_reader, &classifier_iterator );
+    data_err = data_database_reader_get_all_classifiers_iterator ( &db_reader, true, &classifier_iterator );
     TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test the iterator, step 1 */
