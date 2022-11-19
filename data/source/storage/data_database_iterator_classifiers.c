@@ -15,18 +15,18 @@ u8_error_t data_database_iterator_classifiers_init_empty ( data_database_iterato
 
     (*this_).is_valid = false;
     (*this_).database = NULL;
-    (*this_).classifiers_sql_statement_result = NULL;
+    (*this_).statement_all_classifiers = NULL;
     (*this_).is_at_end = true;
 
     TRACE_END_ERR(result);
     return result;
 }
 
-u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* classifiers_sql_statement_result )
+u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* statement_all_classifiers )
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    assert( NULL != classifiers_sql_statement_result );
+    assert( NULL != statement_all_classifiers );
     u8_error_t result = U8_ERROR_NONE;
 
     /* destroy old state */
@@ -35,7 +35,7 @@ u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_cl
     /* init new state */
     (*this_).is_valid = true;
     (*this_).database = database;
-    (*this_).classifiers_sql_statement_result = classifiers_sql_statement_result;
+    (*this_).statement_all_classifiers = statement_all_classifiers;
     result |= data_database_iterator_private_step_to_next( this_ );
 
     TRACE_END_ERR(result);
@@ -49,13 +49,13 @@ u8_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_c
 
     if ( (*this_).is_valid )
     {
-        assert( NULL != (*this_).classifiers_sql_statement_result );
+        assert( NULL != (*this_).statement_all_classifiers );
         int sqlite_err;
-        TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql( (*this_).classifiers_sql_statement_result ) );
-        sqlite_err = sqlite3_finalize( (*this_).classifiers_sql_statement_result );
+        TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql( (*this_).statement_all_classifiers ) );
+        sqlite_err = sqlite3_finalize( (*this_).statement_all_classifiers );
         if ( SQLITE_OK != sqlite_err )
         {
-            TSLOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql( (*this_).classifiers_sql_statement_result ) );
+            TSLOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql( (*this_).statement_all_classifiers ) );
             TSLOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
             result = U8_ERROR_AT_DB;
         }
@@ -63,7 +63,7 @@ u8_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_c
 
     (*this_).is_valid = false;
     (*this_).database = NULL;
-    (*this_).classifiers_sql_statement_result = NULL;
+    (*this_).statement_all_classifiers = NULL;
     (*this_).is_at_end = true;
 
     TRACE_END_ERR(result);
@@ -135,7 +135,7 @@ u8_error_t data_database_iterator_classifiers_next ( data_database_iterator_clas
     {
         if ( ! (*this_).is_at_end )
         {
-            sqlite3_stmt *const sql_statement = (*this_).classifiers_sql_statement_result;
+            sqlite3_stmt *const sql_statement = (*this_).statement_all_classifiers;
             data_row_id_t classifier_id = sqlite3_column_int64( sql_statement, RESULT_CLASSIFIER_ID_COLUMN );
             result |= data_classifier_reinit( out_classifier,
                                               classifier_id,
@@ -175,14 +175,14 @@ u8_error_t data_database_iterator_private_step_to_next ( data_database_iterator_
 {
     TRACE_BEGIN();
     assert( (*this_).is_valid );
-    assert( NULL != (*this_).classifiers_sql_statement_result );
+    assert( NULL != (*this_).statement_all_classifiers );
     u8_error_t result = U8_ERROR_NONE;
 
     /* do one step, check if is_at_end */
     {
         int sqlite_err;
         TRACE_INFO( "sqlite3_step()" );
-        sqlite_err = sqlite3_step( (*this_).classifiers_sql_statement_result );
+        sqlite_err = sqlite3_step( (*this_).statement_all_classifiers );
         if ( SQLITE_DONE == sqlite_err )
         {
             TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );

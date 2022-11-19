@@ -22,9 +22,9 @@
  *  while ( hasNext() ) { element = next() };
  */
 struct data_database_iterator_classifiers_struct {
-    bool is_valid;  /*!< database and/or classifiers_sql_statement_result are invalid (NULL) */
+    bool is_valid;  /*!< database and/or statement_all_classifiers are invalid (NULL) */
     data_database_t *database;  /*!< pointer to external database. Currently unused, but in future, e.g. is_open could be queried */
-    sqlite3_stmt *classifiers_sql_statement_result;  /*!< own instance of a pointer to the sql query object */
+    sqlite3_stmt *statement_all_classifiers;  /*!< own instance of a pointer to the sql query object */
     bool is_at_end;  /*!< true if is_invalid or if at the end of the sql query result */
 };
 
@@ -43,10 +43,10 @@ u8_error_t data_database_iterator_classifiers_init_empty ( data_database_iterato
  *
  *  \param this_ pointer to own object attributes
  *  \param database database which this iterator uses
- *  \param classifiers_sql_statement_result sql statement to access the result set
+ *  \param statement_all_classifiers sql statement to access the result set
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* classifiers_sql_statement_result );
+u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_, data_database_t *database, sqlite3_stmt* statement_all_classifiers );
 
 /*!
  *  \brief destroys the data_database_iterator_classifiers_t struct
