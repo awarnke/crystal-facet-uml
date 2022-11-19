@@ -197,7 +197,7 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
 
     if ( (*this_).is_open )
     {
-        prepared_statement = (*this_).private_prepared_query_diagram_ids_by_textfragment;
+        prepared_statement = (*this_).statement_diagram_ids_by_textfragment;
 
         result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, textfragment, textfragment );
 
@@ -299,7 +299,7 @@ u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( da
 
     if ( (*this_).is_open )
     {
-        prepared_statement = (*this_).private_prepared_query_classifier_ids_by_textfragment;
+        prepared_statement = (*this_).statement_classifier_ids_by_textfragment;
 
         result |= data_database_text_search_private_bind_three_texts_to_statement( this_, prepared_statement, textfragment, textfragment, textfragment );
 
@@ -420,7 +420,7 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
 
     if ( (*this_).is_open )
     {
-        prepared_statement = (*this_).private_prepared_query_feature_ids_by_textfragment;
+        prepared_statement = (*this_).statement_feature_ids_by_textfragment;
 
         result |= data_database_text_search_private_bind_three_texts_to_statement( this_, prepared_statement, textfragment, textfragment, textfragment );
 
@@ -579,7 +579,7 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
 
     if ( (*this_).is_open )
     {
-        prepared_statement = (*this_).private_prepared_query_relationship_ids_by_textfragment;
+        prepared_statement = (*this_).statement_relationship_ids_by_textfragment;
 
         result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, textfragment, textfragment );
 
@@ -681,22 +681,22 @@ u8_error_t data_database_text_search_private_open( data_database_text_search_t *
         result |= data_database_text_search_private_prepare_statement( this_,
                                                                        data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT,
                                                                        sizeof( data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).private_prepared_query_diagram_ids_by_textfragment)
+                                                                       &((*this_).statement_diagram_ids_by_textfragment)
                                                                      );
         result |= data_database_text_search_private_prepare_statement( this_,
                                                                        data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT,
                                                                        sizeof( data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).private_prepared_query_classifier_ids_by_textfragment)
+                                                                       &((*this_).statement_classifier_ids_by_textfragment)
                                                                      );
         result |= data_database_text_search_private_prepare_statement( this_,
                                                                        data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT,
                                                                        sizeof( data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).private_prepared_query_feature_ids_by_textfragment)
+                                                                       &((*this_).statement_feature_ids_by_textfragment)
                                                                      );
         result |= data_database_text_search_private_prepare_statement( this_,
                                                                        data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT,
                                                                        sizeof( data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).private_prepared_query_relationship_ids_by_textfragment)
+                                                                       &((*this_).statement_relationship_ids_by_textfragment)
                                                                      );
 
         (*this_).is_open = true;
@@ -718,10 +718,10 @@ u8_error_t data_database_text_search_private_close( data_database_text_search_t 
 
     if ( (*this_).is_open )
     {
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_relationship_ids_by_textfragment );
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_feature_ids_by_textfragment );
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_ids_by_textfragment );
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_textfragment );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_relationship_ids_by_textfragment );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_feature_ids_by_textfragment );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_classifier_ids_by_textfragment );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_diagram_ids_by_textfragment );
 
         (*this_).is_open = false;
     }

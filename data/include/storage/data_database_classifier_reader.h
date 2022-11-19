@@ -32,19 +32,19 @@
 struct data_database_classifier_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
 
-    sqlite3_stmt *private_prepared_query_classifier_by_id;
-    sqlite3_stmt *private_prepared_query_classifier_by_name;
-    sqlite3_stmt *private_prepared_query_classifier_by_uuid;
-    sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
-    sqlite3_stmt *private_prepared_query_feature_by_id;
-    sqlite3_stmt *private_prepared_query_feature_by_uuid;
-    sqlite3_stmt *private_prepared_query_features_by_classifier_id;
-    sqlite3_stmt *private_prepared_query_features_by_diagram_id;
-    sqlite3_stmt *private_prepared_query_relationship_by_id;
-    sqlite3_stmt *private_prepared_query_relationship_by_uuid;
-    sqlite3_stmt *private_prepared_query_relationships_by_classifier_id;
-    sqlite3_stmt *private_prepared_query_relationships_by_feature_id;
-    sqlite3_stmt *private_prepared_query_relationships_by_diagram_id;
+    sqlite3_stmt *statement_classifier_by_id;
+    sqlite3_stmt *statement_classifier_by_name;
+    sqlite3_stmt *statement_classifier_by_uuid;
+    sqlite3_stmt *statement_classifiers_by_diagram_id;
+    sqlite3_stmt *statement_feature_by_id;
+    sqlite3_stmt *statement_feature_by_uuid;
+    sqlite3_stmt *statement_features_by_classifier_id;
+    sqlite3_stmt *statement_features_by_diagram_id;
+    sqlite3_stmt *statement_relationship_by_id;
+    sqlite3_stmt *statement_relationship_by_uuid;
+    sqlite3_stmt *statement_relationships_by_classifier_id;
+    sqlite3_stmt *statement_relationships_by_feature_id;
+    sqlite3_stmt *statement_relationships_by_diagram_id;
 };
 
 typedef struct data_database_classifier_reader_struct data_database_classifier_reader_t;

@@ -34,20 +34,20 @@
 struct data_database_diagram_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
 
-    sqlite3_stmt *private_prepared_query_diagram_by_id;
-    sqlite3_stmt *private_prepared_query_diagram_by_uuid;
-    sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
-    sqlite3_stmt *private_prepared_query_diagrams_by_parent_id_null;
+    sqlite3_stmt *statement_diagram_by_id;
+    sqlite3_stmt *statement_diagram_by_uuid;
+    sqlite3_stmt *statement_diagrams_by_parent_id;
+    sqlite3_stmt *statement_diagrams_by_parent_id_null;
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
-    sqlite3_stmt *private_prepared_query_diagrams_by_classifier_id;
+    sqlite3_stmt *statement_diagrams_by_classifier_id;
 #endif
-    sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id;
-    sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id_null;
-    sqlite3_stmt *private_prepared_query_diagram_ids_by_classifier_id;
-    sqlite3_stmt *private_prepared_query_diagramelement_by_id;
-    sqlite3_stmt *private_prepared_query_diagramelement_by_uuid;
-    sqlite3_stmt *private_prepared_query_diagramelements_by_diagram_id;
-    sqlite3_stmt *private_prepared_query_diagramelements_by_classifier_id;
+    sqlite3_stmt *statement_diagram_ids_by_parent_id;
+    sqlite3_stmt *statement_diagram_ids_by_parent_id_null;
+    sqlite3_stmt *statement_diagram_ids_by_classifier_id;
+    sqlite3_stmt *statement_diagramelement_by_id;
+    sqlite3_stmt *statement_diagramelement_by_uuid;
+    sqlite3_stmt *statement_diagramelements_by_diagram_id;
+    sqlite3_stmt *statement_diagramelements_by_classifier_id;
 };
 
 typedef struct data_database_diagram_reader_struct data_database_diagram_reader_t;

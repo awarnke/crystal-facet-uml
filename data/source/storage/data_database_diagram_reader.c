@@ -15,20 +15,20 @@ u8_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *t
 
     (*this_).database = database;
 
-    (*this_).private_prepared_query_diagram_by_id = NULL;
-    (*this_).private_prepared_query_diagram_by_uuid = NULL;
-    (*this_).private_prepared_query_diagrams_by_parent_id = NULL;
-    (*this_).private_prepared_query_diagrams_by_parent_id_null = NULL;
+    (*this_).statement_diagram_by_id = NULL;
+    (*this_).statement_diagram_by_uuid = NULL;
+    (*this_).statement_diagrams_by_parent_id = NULL;
+    (*this_).statement_diagrams_by_parent_id_null = NULL;
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
-    (*this_).private_prepared_query_diagrams_by_classifier_id = NULL;
+    (*this_).statement_diagrams_by_classifier_id = NULL;
 #endif
-    (*this_).private_prepared_query_diagram_ids_by_parent_id = NULL;
-    (*this_).private_prepared_query_diagram_ids_by_parent_id_null = NULL;
-    (*this_).private_prepared_query_diagram_ids_by_classifier_id = NULL;
-    (*this_).private_prepared_query_diagramelement_by_id = NULL;
-    (*this_).private_prepared_query_diagramelement_by_uuid = NULL;
-    (*this_).private_prepared_query_diagramelements_by_diagram_id = NULL;
-    (*this_).private_prepared_query_diagramelements_by_classifier_id = NULL;
+    (*this_).statement_diagram_ids_by_parent_id = NULL;
+    (*this_).statement_diagram_ids_by_parent_id_null = NULL;
+    (*this_).statement_diagram_ids_by_classifier_id = NULL;
+    (*this_).statement_diagramelement_by_id = NULL;
+    (*this_).statement_diagramelement_by_uuid = NULL;
+    (*this_).statement_diagramelements_by_diagram_id = NULL;
+    (*this_).statement_diagramelements_by_classifier_id = NULL;
 
     result |= data_database_diagram_reader_private_open( this_ );
 
@@ -169,7 +169,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagram_by_id;
+        prepared_statement = (*this_).statement_diagram_by_id;
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, id );
 
@@ -224,7 +224,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagram_by_uuid;
+        prepared_statement = (*this_).statement_diagram_by_uuid;
 
         result |= data_database_diagram_reader_private_bind_text_to_statement( this_, prepared_statement, uuid );
 
@@ -284,12 +284,12 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
     {
         if ( DATA_ROW_ID_VOID == parent_id )
         {
-            prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id_null;
+            prepared_statement = (*this_).statement_diagrams_by_parent_id_null;
             result |= data_database_diagram_reader_private_bind_void_to_statement( this_, prepared_statement );
         }
         else
         {
-            prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id;
+            prepared_statement = (*this_).statement_diagrams_by_parent_id;
             result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, parent_id );
         }
 
@@ -357,7 +357,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagrams_by_classifier_id;
+        prepared_statement = (*this_).statement_diagrams_by_classifier_id;
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
 
@@ -424,12 +424,12 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_data
     {
         if ( DATA_ROW_ID_VOID == parent_id )
         {
-            prepared_statement = (*this_).private_prepared_query_diagram_ids_by_parent_id_null;
+            prepared_statement = (*this_).statement_diagram_ids_by_parent_id_null;
             result |= data_database_diagram_reader_private_bind_void_to_statement( this_, prepared_statement );
         }
         else
         {
-            prepared_statement = (*this_).private_prepared_query_diagram_ids_by_parent_id;
+            prepared_statement = (*this_).statement_diagram_ids_by_parent_id;
             result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, parent_id );
         }
 
@@ -478,7 +478,7 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagram_ids_by_classifier_id;
+        prepared_statement = (*this_).statement_diagram_ids_by_classifier_id;
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
 
@@ -588,7 +588,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagramelement_by_id;
+        prepared_statement = (*this_).statement_diagramelement_by_id;
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, id );
 
@@ -641,7 +641,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagramelement_by_uuid;
+        prepared_statement = (*this_).statement_diagramelement_by_uuid;
 
         result |= data_database_diagram_reader_private_bind_text_to_statement( this_, prepared_statement, uuid );
 
@@ -697,7 +697,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagramelements_by_diagram_id;
+        prepared_statement = (*this_).statement_diagramelements_by_diagram_id;
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
@@ -762,7 +762,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( da
     sqlite3_stmt *prepared_statement;
 
     {
-        prepared_statement = (*this_).private_prepared_query_diagramelements_by_classifier_id;
+        prepared_statement = (*this_).statement_diagramelements_by_classifier_id;
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
 
@@ -824,75 +824,75 @@ u8_error_t data_database_diagram_reader_private_open ( data_database_diagram_rea
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID ),
-                                                                           &((*this_).private_prepared_query_diagram_by_id)
+                                                                           &((*this_).statement_diagram_by_id)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAM_BY_UUID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_BY_UUID ),
-                                                                           &((*this_).private_prepared_query_diagram_by_uuid)
+                                                                           &((*this_).statement_diagram_by_uuid)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID ),
-                                                                           &((*this_).private_prepared_query_diagrams_by_parent_id)
+                                                                           &((*this_).statement_diagrams_by_parent_id)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL ),
-                                                                           &((*this_).private_prepared_query_diagrams_by_parent_id_null)
+                                                                           &((*this_).statement_diagrams_by_parent_id_null)
                                                                          );
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID ),
-                                                                           &((*this_).private_prepared_query_diagrams_by_classifier_id)
+                                                                           &((*this_).statement_diagrams_by_classifier_id)
                                                                          );
 #endif
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID ),
-                                                                           &((*this_).private_prepared_query_diagram_ids_by_parent_id)
+                                                                           &((*this_).statement_diagram_ids_by_parent_id)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL ),
-                                                                           &((*this_).private_prepared_query_diagram_ids_by_parent_id_null)
+                                                                           &((*this_).statement_diagram_ids_by_parent_id_null)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID ),
-                                                                           &((*this_).private_prepared_query_diagram_ids_by_classifier_id)
+                                                                           &((*this_).statement_diagram_ids_by_classifier_id)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID ),
-                                                                           &((*this_).private_prepared_query_diagramelement_by_id)
+                                                                           &((*this_).statement_diagramelement_by_id)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_UUID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_UUID ),
-                                                                           &((*this_).private_prepared_query_diagramelement_by_uuid)
+                                                                           &((*this_).statement_diagramelement_by_uuid)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID ),
-                                                                           &((*this_).private_prepared_query_diagramelements_by_diagram_id)
+                                                                           &((*this_).statement_diagramelements_by_diagram_id)
                                                                          );
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID ),
-                                                                           &((*this_).private_prepared_query_diagramelements_by_classifier_id)
+                                                                           &((*this_).statement_diagramelements_by_classifier_id)
                                                                          );
 
         if ( result != U8_ERROR_NONE )
@@ -911,43 +911,43 @@ u8_error_t data_database_diagram_reader_private_close ( data_database_diagram_re
     u8_error_t result = U8_ERROR_NONE;
 
     {
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_by_id );
-        (*this_).private_prepared_query_diagram_by_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagram_by_id );
+        (*this_).statement_diagram_by_id = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_by_uuid );
-        (*this_).private_prepared_query_diagram_by_uuid = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagram_by_uuid );
+        (*this_).statement_diagram_by_uuid = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id );
-        (*this_).private_prepared_query_diagrams_by_parent_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagrams_by_parent_id );
+        (*this_).statement_diagrams_by_parent_id = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id_null );
-        (*this_).private_prepared_query_diagrams_by_parent_id_null = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagrams_by_parent_id_null );
+        (*this_).statement_diagrams_by_parent_id_null = NULL;
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_classifier_id );
-        (*this_).private_prepared_query_diagrams_by_classifier_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagrams_by_classifier_id );
+        (*this_).statement_diagrams_by_classifier_id = NULL;
 #endif
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_parent_id );
-        (*this_).private_prepared_query_diagram_ids_by_parent_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagram_ids_by_parent_id );
+        (*this_).statement_diagram_ids_by_parent_id = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_parent_id_null );
-        (*this_).private_prepared_query_diagram_ids_by_parent_id_null = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagram_ids_by_parent_id_null );
+        (*this_).statement_diagram_ids_by_parent_id_null = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_classifier_id );
-        (*this_).private_prepared_query_diagram_ids_by_classifier_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagram_ids_by_classifier_id );
+        (*this_).statement_diagram_ids_by_classifier_id = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelement_by_id );
-        (*this_).private_prepared_query_diagramelement_by_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagramelement_by_id );
+        (*this_).statement_diagramelement_by_id = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelement_by_uuid );
-        (*this_).private_prepared_query_diagramelement_by_uuid = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagramelement_by_uuid );
+        (*this_).statement_diagramelement_by_uuid = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelements_by_diagram_id );
-        (*this_).private_prepared_query_diagramelements_by_diagram_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagramelements_by_diagram_id );
+        (*this_).statement_diagramelements_by_diagram_id = NULL;
 
-        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelements_by_classifier_id );
-        (*this_).private_prepared_query_diagramelements_by_classifier_id = NULL;
+        result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagramelements_by_classifier_id );
+        (*this_).statement_diagramelements_by_classifier_id = NULL;
 
     }
 

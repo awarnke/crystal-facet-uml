@@ -35,10 +35,10 @@ struct data_database_text_search_struct {
     data_database_t *database;  /*!< pointer to external database */
 
     bool is_open;  /*!< the prepared statements are only initialized if the database is open */
-    sqlite3_stmt *private_prepared_query_diagram_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
-    sqlite3_stmt *private_prepared_query_classifier_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
-    sqlite3_stmt *private_prepared_query_feature_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
-    sqlite3_stmt *private_prepared_query_relationship_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
+    sqlite3_stmt *statement_diagram_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
+    sqlite3_stmt *statement_classifier_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
+    sqlite3_stmt *statement_feature_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
+    sqlite3_stmt *statement_relationship_ids_by_textfragment;  /*!< retrieves rows containing matches of the fragment in a text field */
 
     data_rules_t data_rules;  /*!< own instance of data rules */
 
