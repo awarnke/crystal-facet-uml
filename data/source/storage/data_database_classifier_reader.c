@@ -431,7 +431,7 @@ u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_da
         {
             result |= data_database_iterator_classifiers_reinit( io_classifier_iterator, (*this_).database, prepared_statement );
 
-            result |= data_database_classifier_reader_private_finalize_statement( this_, &prepared_statement);
+            /* io_classifier_iterator will later perform sqlite3_finalize */
         }
     }
 
