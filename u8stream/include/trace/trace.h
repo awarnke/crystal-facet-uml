@@ -7,6 +7,11 @@
 /*!
  *  \file
  *  \brief Prints traces to a byte stream
+ *
+ *  Target audience is the developer of the application.
+ *  Use logs to address the operator.
+ *  Return error codes to address the user of the application
+ *  or to defer the decision to the calling function.
  */
 
 #include <stdio.h>
