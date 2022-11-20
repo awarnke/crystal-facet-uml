@@ -2,6 +2,7 @@ crystal-facet-uml (1.45.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * On model changes, diffs on json data file are smaller (new sort order)
+  * search for empty fields omits stereo/value types: these are often empty
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 19 Dec 2022 11:00:00 +0200
 

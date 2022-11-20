@@ -1107,6 +1107,14 @@
             "classifier_name": "Base Software Structure",
             "node": "67c09369-4e0b-4ec3-b7e3-7c1fcda308e3",
             "uuid": "61cd2042-c1bf-4923-b3b3-9d8bfe68af89"
+          },
+          {
+            "id": 261,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Software Parts",
+            "node": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
+            "uuid": "74309b27-9d68-4026-a643-66444219f40f"
           }
         ]
       }
@@ -1201,7 +1209,7 @@
         "type": "UMLComponentDiagram",
         "name": "Environment Capture",
         "description": [
-                ""
+                "This diagram shows the software components that perceive the the outer environment and create a model from this data."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -1244,6 +1252,13 @@
             "classifier_name": "Environment Model Composer",
             "node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
             "uuid": "7373e041-f5c4-4c8f-b54b-e75f8a53e99f"
+          },
+          {
+            "id": 264,
+            "display_flags": 0,
+            "classifier_name": "Environment Model",
+            "node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
+            "uuid": "a8c7d88e-1a40-4e6e-af1f-232c6cdb6175"
           }
         ]
       }
@@ -1255,7 +1270,7 @@
         "type": "UMLComponentDiagram",
         "name": "System Control",
         "description": [
-                ""
+                "This diagram shows the software components that perceive MoD5G internal sensor data and steer the actuators of the MoD5G."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -4982,7 +4997,7 @@
         "id": 110,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
+        "stereotype": "data",
         "name": "Situation Model",
         "description": [
                 "The situation model refers to the (limited/erroneous) knowledge of the software on environment and status."
@@ -5001,13 +5016,13 @@
         "id": 111,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
+        "stereotype": "data",
         "name": "Environment Model",
         "description": [
                 "The enironment model refers to the (limited) knowledge of the software on the real environment."
         ],
         "x_order": 1163634552,
-        "y_order": -314934184,
+        "y_order": -1212883541,
         "list_order": -314934184,
         "uuid": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "features":
@@ -5020,7 +5035,7 @@
         "id": 112,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
+        "stereotype": "data",
         "name": "Status Model",
         "description": [
                 "The status model refers to the (limited) knowledge of the software on the real status."
@@ -5064,7 +5079,7 @@
                 "The real environment refers to the physical environment of the system."
         ],
         "x_order": 1690871009,
-        "y_order": -314934184,
+        "y_order": -1212883541,
         "list_order": -100641476,
         "uuid": "59fc1a69-283e-480c-a90c-6567fee4296e",
         "features":
@@ -9104,6 +9119,23 @@
     },
     {
       "relationship": {
+        "id": 261,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "Environment Capture",
+        "to_classifier_name": "Environment Model",
+        "from_node": "19f96158-ec8a-41ea-b22c-d4c975b41370",
+        "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
+        "uuid": "03659026-f35e-4e4c-be81-c7a9e3af4e49"
+      }
+    },
+    {
+      "relationship": {
         "id": 151,
         "main_type": 300,
         "type": "Association",
@@ -9223,6 +9255,23 @@
         "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "to_node": "691d5030-5e11-4e65-b478-759ce31584fa",
         "uuid": "03921b7a-16d8-4576-bdd2-b91f0725cca1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 260,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "creates",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "Environment Model Composer",
+        "to_classifier_name": "Environment Model",
+        "from_node": "fd29096d-7e2f-40e5-a111-c204d77d9024",
+        "to_node": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
+        "uuid": "00d08a97-40d9-45d8-873a-dbf7adf339a2"
       }
     },
     {

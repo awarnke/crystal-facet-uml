@@ -20,6 +20,11 @@
  *  This should be logged to easier analyze issues. E.g. paste an empty clipboard.
  *
  *  An event is a signal that is send to or received from external software parts.
+ *
+ *  Target audience is the operator of the application.
+ *  Use traces for developing.
+ *  Return error codes to address the user of the application
+ *  or to defer the decision to the calling function.
  */
 
 #include <stdio.h>
@@ -35,8 +40,8 @@
 /*define TSLOG_OUT_STREAM_ stderr -- stdout is better because traces and logs are merged to the same stream in the right order */
 #define TSLOG_OUT_STREAM_ stdout
 
-#ifndef NDEBUG  /* SWITCH RELEASE/DEBUG */
-#ifdef __linux__  /* SWITCH RELEASE SYSLOG */
+#ifndef NDEBUG  /* SWITCH RELEASE/DEBUG : CASE DEBUG */
+#ifdef __linux__  /* SWITCH TARGET OS : CASE LINUx */
 
 #define TSLOG_RED_ "\033[37;1;41m"
 #define TSLOG_YELLOW_ "\033[30;43m"
@@ -50,10 +55,10 @@
 
 #define TSLOG_PRINTF_ERR_1_(FMT,P1) \
     fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_ERR FMT "\n\n", P1); fflush(TSLOG_OUT_STREAM_);\
-    syslog(LOG_ERR, "ERR : " FMT, P1);
+    syslog(LOG_ERR, "ERR : " FMT, P1); sleep(3);
 #define TSLOG_PRINTF_ERR_2_(FMT,P1,P2) \
     fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_ERR FMT "\n\n", P1, P2); fflush(TSLOG_OUT_STREAM_);\
-    syslog(LOG_ERR, "ERR : " FMT, P1, P2);
+    syslog(LOG_ERR, "ERR : " FMT, P1, P2); sleep(3);
 #define TSLOG_PRINTF_WARN_1_(FMT,P1) \
     fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_WARN FMT "\n\n", P1); fflush(TSLOG_OUT_STREAM_);\
     syslog(LOG_WARNING, "WARN: " FMT, P1);
@@ -73,7 +78,7 @@
     fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_EVT FMT "\n\n", P1, P2);\
     syslog(LOG_INFO, "EVT : " FMT, P1, P2);
 
-#else   /* SWITCH RELEASE SYSLOG */
+#else   /* SWITCH TARGET OS : CASE NON-LINUx */
 
 #define TSLOG_PREFIX_ERR "ERR : "
 #define TSLOG_PREFIX_WARN "WARN: "
@@ -97,9 +102,9 @@
 #define TSLOG_PRINTF_EVT_2_(FMT,P1,P2) \
     fprintf(TSLOG_OUT_STREAM_, "\n" TSLOG_PREFIX_EVT FMT "\n\n", P1, P2);
 
-#endif  /* SWITCH RELEASE SYSLOG */
-#else             /* SWITCH RELEASE/DEBUG */
-#ifdef __linux__  /* SWITCH RELEASE SYSLOG */
+#endif  /* SWITCH TARGET OS */
+#else             /* SWITCH RELEASE/DEBUG : CASE RELEASE */
+#ifdef __linux__  /* SWITCH TARGET OS : CASE LINUx */
 
 #define TSLOG_PRINTF_ERR_1_(FMT,P1) syslog(LOG_ERR, "ERR : " FMT, P1);
 #define TSLOG_PRINTF_ERR_2_(FMT,P1,P2) syslog(LOG_ERR, "ERR : " FMT, P1, P2);
@@ -110,7 +115,7 @@
 #define TSLOG_PRINTF_EVT_1_(FMT,P1) (void)P1;  /* cast to void to prevent warnings on unused variables */
 #define TSLOG_PRINTF_EVT_2_(FMT,P1,P2) (void)P1; (void)P2;  /* cast to void to prevent warnings on unused variables */
 
-#else   /* SWITCH RELEASE SYSLOG */
+#else   /* SWITCH TARGET OS : CASE NON-LINUx */
 
 #define TSLOG_PRINTF_ERR_1_(FMT,P1) (void)P1;  /* cast to void to prevent warnings on unused variables */
 #define TSLOG_PRINTF_ERR_2_(FMT,P1,P2) (void)P1; (void)P2;  /* cast to void to prevent warnings on unused variables */
@@ -121,7 +126,7 @@
 #define TSLOG_PRINTF_EVT_1_(FMT,P1) (void)P1;  /* cast to void to prevent warnings on unused variables */
 #define TSLOG_PRINTF_EVT_2_(FMT,P1,P2) (void)P1; (void)P2;  /* cast to void to prevent warnings on unused variables */
 
-#endif  /* SWITCH RELEASE SYSLOG */
+#endif  /* SWITCH TARGET OS */
 #endif  /* SWITCH RELEASE/DEBUG */
 
 
@@ -151,6 +156,8 @@
 
 #endif  /* INIT SYSLOG ON LINUX ONLY */
 
+
+/* ==== Type checks and conversions ==== */
 
 /*!
  *  \brief logs an error string

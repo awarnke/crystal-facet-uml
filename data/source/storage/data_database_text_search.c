@@ -111,7 +111,13 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
     utf8error_t u8err = UTF8ERROR_SUCCESS;
     char like_search_buf[48] = "";
     utf8stringbuf_t like_search = UTF8STRINGBUF( like_search_buf );
-    if ( 0 != utf8string_get_length( textfragment ) )
+    const bool search_empty = (0 == utf8string_get_length( textfragment ));
+    if ( search_empty )
+    {
+        /* no wildcards and no excaping if search string is empty */
+        utf8stringbuf_clear( like_search );
+    }
+    else
     {
         u8err |= utf8stringbuf_append_str( like_search, "%" );
         utf8stringbuf_t escape_me = utf8stringbuf_get_end( like_search );
@@ -119,34 +125,39 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
         u8err |= utf8stringbuf_replace_all( escape_me, &DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
         u8err |= utf8stringbuf_append_str( like_search, "%" );
     }
-    else
-    {
-        /* no wildcards and no excaping if search string is empty */
-        utf8stringbuf_clear( like_search );
-    }
     TRACE_INFO_STR( "LIKE SEARCH:", utf8stringbuf_get_string( like_search ) );
     if ( u8err != UTF8ERROR_SUCCESS )
     {
         TSLOG_WARNING_STR( "error at escaping the search string", textfragment );
     }
+    /* search for the prepared pattern. In case of empty, search for a non-existing pattern in the type fields */
+    const char *const search_name = search_empty ? "" : utf8stringbuf_get_string( like_search );
+    const char *const search_type = search_empty ? "\n" : utf8stringbuf_get_string( like_search );
+    const char *const search_descr = search_empty ? "" : utf8stringbuf_get_string( like_search );
 
     result |= data_database_text_search_private_get_diagrams_by_textfragment( this_,
-                                                                              utf8stringbuf_get_string( like_search ),
+                                                                              search_name,
+                                                                              search_descr,
                                                                               io_results
                                                                             );
 
     result |= data_database_text_search_private_get_classifiers_by_textfragment( this_,
-                                                                                 utf8stringbuf_get_string( like_search ),
+                                                                                 search_name,
+                                                                                 search_type,
+                                                                                 search_descr,
                                                                                  io_results
                                                                                );
 
     result |= data_database_text_search_private_get_features_by_textfragment( this_,
-                                                                              utf8stringbuf_get_string( like_search ),
+                                                                              search_name,
+                                                                              search_type,
+                                                                              search_descr,
                                                                               io_results
                                                                             );
 
     result |= data_database_text_search_private_get_relationships_by_textfragment( this_,
-                                                                                   utf8stringbuf_get_string( like_search ),
+                                                                                   search_name,
+                                                                                   search_descr,
                                                                                    io_results
                                                                                  );
 
@@ -184,12 +195,14 @@ static const int RESULT_DIAGRAM_NAME_COLUMN = 2;
 
 
 u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_database_text_search_t *this_,
-                                                                           const char *textfragment,
+                                                                           const char *name_fragment,
+                                                                           const char *descr_fragment,
                                                                            data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
-    assert( NULL != textfragment );
+    assert( NULL != name_fragment );
+    assert( NULL != descr_fragment );
     u8_error_t result = U8_ERROR_NONE;
 
     int sqlite_err;
@@ -199,7 +212,7 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
     {
         prepared_statement = (*this_).statement_diagram_ids_by_textfragment;
 
-        result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, textfragment, textfragment );
+        result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, name_fragment, descr_fragment );
 
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
@@ -286,12 +299,16 @@ static const int RESULT_CLASSIFIER_NAME_COLUMN = 2;
 static const int RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN = 3;
 
 u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( data_database_text_search_t *this_,
-                                                                              const char *textfragment,
+                                                                              const char *name_fragment,
+                                                                              const char *stereo_fragment,
+                                                                              const char *descr_fragment,
                                                                               data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
-    assert( NULL != textfragment );
+    assert( NULL != name_fragment );
+    assert( NULL != stereo_fragment );
+    assert( NULL != descr_fragment );
     u8_error_t result = U8_ERROR_NONE;
 
     int sqlite_err;
@@ -301,7 +318,12 @@ u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( da
     {
         prepared_statement = (*this_).statement_classifier_ids_by_textfragment;
 
-        result |= data_database_text_search_private_bind_three_texts_to_statement( this_, prepared_statement, textfragment, textfragment, textfragment );
+        result |= data_database_text_search_private_bind_three_texts_to_statement( this_,
+                                                                                   prepared_statement,
+                                                                                   name_fragment,
+                                                                                   stereo_fragment,
+                                                                                   descr_fragment
+                                                                                 );
 
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
@@ -407,12 +429,16 @@ static const int RESULT_FEATURE_DIAGRAM_ID_COLUMN = 5;
 static const int RESULT_FEATURE_DIAGRAM_TYPE_COLUMN = 6;
 
 u8_error_t data_database_text_search_private_get_features_by_textfragment( data_database_text_search_t *this_,
-                                                                           const char *textfragment,
+                                                                           const char *key_fragment,
+                                                                           const char *value_fragment,
+                                                                           const char *descr_fragment,
                                                                            data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
-    assert( NULL != textfragment );
+    assert( NULL != key_fragment );
+    assert( NULL != value_fragment );
+    assert( NULL != descr_fragment );
     u8_error_t result = U8_ERROR_NONE;
 
     int sqlite_err;
@@ -422,7 +448,12 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
     {
         prepared_statement = (*this_).statement_feature_ids_by_textfragment;
 
-        result |= data_database_text_search_private_bind_three_texts_to_statement( this_, prepared_statement, textfragment, textfragment, textfragment );
+        result |= data_database_text_search_private_bind_three_texts_to_statement( this_,
+                                                                                   prepared_statement,
+                                                                                   key_fragment,
+                                                                                   value_fragment,
+                                                                                   descr_fragment
+                                                                                 );
 
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
@@ -565,12 +596,14 @@ static const int RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN = 7;
 static const int RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN = 8;
 
 u8_error_t data_database_text_search_private_get_relationships_by_textfragment( data_database_text_search_t *this_,
-                                                                                const char *textfragment,
+                                                                                const char *name_fragment,
+                                                                                const char *descr_fragment,
                                                                                 data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
     assert( NULL != io_results );
-    assert( NULL != textfragment );
+    assert( NULL != name_fragment );
+    assert( NULL != descr_fragment );
     u8_error_t result = U8_ERROR_NONE;
 
     int sqlite_err;
@@ -581,7 +614,11 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
     {
         prepared_statement = (*this_).statement_relationship_ids_by_textfragment;
 
-        result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, textfragment, textfragment );
+        result |= data_database_text_search_private_bind_two_texts_to_statement( this_,
+                                                                                 prepared_statement,
+                                                                                 name_fragment,
+                                                                                 descr_fragment
+                                                                               );
 
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )

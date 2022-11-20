@@ -6,7 +6,9 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Notifies generic errors as bit masks
+ *  \brief Notifies generic errors as bit masks.
+ *
+ *  Error codes defer the decision how to handle an error to the calling function.
  */
 
 #include "u8/u8_error_cat.h"
