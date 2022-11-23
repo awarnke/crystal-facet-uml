@@ -232,7 +232,8 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
+            /* Do not log this incident, the caller may not expect to find a row. */
+            TRACE_INFO( "sqlite3_step did not find a row." );
             result |= U8_ERROR_NOT_FOUND;
         }
 
@@ -649,7 +650,8 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
+            /* Do not log this incident, the caller may not expect to find a row. */
+            TRACE_INFO( "sqlite3_step did not find a row." );
             result |= U8_ERROR_NOT_FOUND;
         }
 

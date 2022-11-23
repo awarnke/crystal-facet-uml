@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
   <!-- file format specification available at https://www.freedesktop.org/software/appstream/docs/ -->
-  <id>crystal-facet-uml.desktop</id>
+  <id>de.andreaswarnke.crystal-facet-uml</id>
   <metadata_license>CC0-1.0</metadata_license>
   <name>crystal-facet-uml</name>
   <summary>crystal-facet-uml creates diagrams to document system and software architecture</summary>

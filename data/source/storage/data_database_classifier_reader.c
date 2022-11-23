@@ -154,8 +154,8 @@ static const int RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN = 11;
 static const int RESULT_CLASSIFIER_DIAGELE_UUID_COLUMN = 12;
 
 u8_error_t data_database_classifier_reader_get_classifier_by_id( data_database_classifier_reader_t *this_,
-                                                                   data_row_id_t id,
-                                                                   data_classifier_t *out_classifier )
+                                                                 data_row_id_t id,
+                                                                 data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
@@ -206,8 +206,8 @@ u8_error_t data_database_classifier_reader_get_classifier_by_id( data_database_c
 }
 
 u8_error_t data_database_classifier_reader_get_classifier_by_name( data_database_classifier_reader_t *this_,
-                                                                     const char *name,
-                                                                     data_classifier_t *out_classifier )
+                                                                   const char *name,
+                                                                   data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
     assert( NULL != out_classifier );
@@ -278,7 +278,8 @@ u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_databas
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
+            /* Do not log this incident, the caller may not expect to find a row. */
+            TRACE_INFO( "sqlite3_step did not find a row." );
             result |= U8_ERROR_NOT_FOUND;
         }
 
@@ -560,7 +561,8 @@ u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_c
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
+            /* Do not log this incident, the caller may not expect to find a row. */
+            TRACE_INFO( "sqlite3_step did not find a row." );
             result |= U8_ERROR_NOT_FOUND;
         }
 
@@ -912,7 +914,8 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
+            /* Do not log this incident, the caller may not expect to find a row. */
+            TRACE_INFO( "sqlite3_step did not find a row." );
             result |= U8_ERROR_NOT_FOUND;
         }
 

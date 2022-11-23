@@ -69,10 +69,12 @@ u8_error_t universal_memory_output_stream_write ( universal_memory_output_stream
     }
     else
     {
+        TRACE_BEGIN();
         memcpy( buf_first_free, start, space_left );
         (*this_).mem_buf_filled += space_left;
-        TSLOG_WARNING_INT( "not all bytes could be written. missing:", length-space_left );
+        TRACE_INFO_INT( "not all bytes could be written. missing:", length-space_left );
         err = U8_ERROR_AT_FILE_WRITE;
+        TRACE_END_ERR(err);
     }
 
     /*TRACE_END_ERR(err);*/
@@ -100,12 +102,11 @@ u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_
         TSLOG_ERROR( "buffer size is 0; buffer is not terminated by zero." );
         err = U8_ERROR_LOGIC_STATE;
     }
-
     else if ( (*this_).mem_buf_size == (*this_).mem_buf_filled )
     {
         char *const last_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_size - 1]  );
         *last_char = '\0';
-        TSLOG_WARNING( "last byte overwritten by terminating zero" );
+        TRACE_INFO( "last byte overwritten by terminating zero" );
         err = U8_ERROR_AT_FILE_WRITE;
     }
     else

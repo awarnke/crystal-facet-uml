@@ -2,7 +2,11 @@ crystal-facet-uml (1.45.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * On model changes, diffs on json data file are smaller (new sort order)
-  * search for empty fields omits stereo/value types: these are often empty
+  * search for empty fields omits stereo/value types; these are often empty
+  * no superfluous warnings from json_element_reader_skip_next_string anymore
+  * no superfluous anomalies from data_database_reader_get_xy_by_uuid anymore
+  * application id changed from desktop.crystal-facet-uml to
+    de.andreaswarnke.crystal-facet-uml
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 19 Dec 2022 11:00:00 +0200
 
