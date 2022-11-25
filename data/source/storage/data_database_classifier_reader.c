@@ -440,11 +440,13 @@ static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID[] =
 
 /*!
  *  \brief predefined search statement to find features by classifier-id
+ *
+ *  Order by id to ensure a defined, non-changeing order of relationships in json export
  */
 static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID[] =
     "SELECT id,main_type,classifier_id,key,value,description,list_order,uuid "
     "FROM features "
-    "WHERE classifier_id=? ORDER BY list_order ASC;";
+    "WHERE classifier_id=? ORDER BY id ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -760,12 +762,15 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
 
 /*!
  *  \brief predefined search statement to find relationships by classifier-id
+ *
+ *  Order by id to ensure a defined, non-changeing order of relationships in json export
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
     "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid "
     "FROM relationships "
-    "WHERE from_classifier_id=? OR to_classifier_id=?;";
+    "WHERE from_classifier_id=? OR to_classifier_id=? "
+    "ORDER BY id ASC;";
 
 /*!
  *  \brief predefined search statement to find relationships by feature-id

@@ -3387,18 +3387,6 @@
         "features":
         [
           {
-            "id": 19,
-            "main_type": 8,
-            "type": "Pseudostate",
-            "key": "op_start",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 44134258,
-            "uuid": "56d84592-786a-4c2a-827a-cabe45a074a5"
-          },
-          {
             "id": 18,
             "main_type": 9,
             "type": "Pseudostate",
@@ -3409,6 +3397,18 @@
             ],
             "list_order": 1116559325,
             "uuid": "4da1d8ce-2ba5-48c1-8d4d-8194b0b0bc4d"
+          },
+          {
+            "id": 19,
+            "main_type": 8,
+            "type": "Pseudostate",
+            "key": "op_start",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 44134258,
+            "uuid": "56d84592-786a-4c2a-827a-cabe45a074a5"
           }
         ]
       }
@@ -3658,18 +3658,6 @@
         "features":
         [
           {
-            "id": 8,
-            "main_type": 2,
-            "type": "Port",
-            "key": "Base Board Connector",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": -1301296947,
-            "uuid": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2"
-          },
-          {
             "id": 1,
             "main_type": 6,
             "type": "Port",
@@ -3692,6 +3680,18 @@
             ],
             "list_order": 959276956,
             "uuid": "168231f5-4ca5-4ae2-92a1-96da722d4bdd"
+          },
+          {
+            "id": 8,
+            "main_type": 2,
+            "type": "Port",
+            "key": "Base Board Connector",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": -1301296947,
+            "uuid": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2"
           }
         ]
       }
@@ -3759,28 +3759,16 @@
         "features":
         [
           {
-            "id": 10,
-            "main_type": 6,
+            "id": 3,
+            "main_type": 7,
             "type": "Port",
-            "key": "Temperature",
-            "value": "sensor",
-            "description": [
-                ""
-            ],
-            "list_order": -1750988368,
-            "uuid": "a07bc82b-80cb-4799-a63a-4af05a86abfe"
-          },
-          {
-            "id": 7,
-            "main_type": 2,
-            "type": "Port",
-            "key": "clock comm",
+            "key": "Motor Control",
             "value": "I2C",
             "description": [
                 ""
             ],
-            "list_order": -983460096,
-            "uuid": "3299de03-94ca-40cf-84c1-236e9026b935"
+            "list_order": 1532923889,
+            "uuid": "001ecb64-b47f-4387-b256-2f50e99c203c"
           },
           {
             "id": 4,
@@ -3795,16 +3783,16 @@
             "uuid": "0c7cc002-e769-4914-ac08-cb08a480273b"
           },
           {
-            "id": 9,
+            "id": 5,
             "main_type": 2,
             "type": "Port",
-            "key": "Main Board Connector",
-            "value": "",
+            "key": "Diag",
+            "value": "JTAG",
             "description": [
                 ""
             ],
-            "list_order": 401944096,
-            "uuid": "b2533db8-6881-4300-a224-3f8a5724481a"
+            "list_order": 1915709895,
+            "uuid": "e4cc1e9e-becc-4254-b397-fd8a4858ba73"
           },
           {
             "id": 6,
@@ -3819,28 +3807,40 @@
             "uuid": "fa28faf1-8994-4707-ac83-e9eb11910ccd"
           },
           {
-            "id": 3,
-            "main_type": 7,
+            "id": 7,
+            "main_type": 2,
             "type": "Port",
-            "key": "Motor Control",
+            "key": "clock comm",
             "value": "I2C",
             "description": [
                 ""
             ],
-            "list_order": 1532923889,
-            "uuid": "001ecb64-b47f-4387-b256-2f50e99c203c"
+            "list_order": -983460096,
+            "uuid": "3299de03-94ca-40cf-84c1-236e9026b935"
           },
           {
-            "id": 5,
+            "id": 9,
             "main_type": 2,
             "type": "Port",
-            "key": "Diag",
-            "value": "JTAG",
+            "key": "Main Board Connector",
+            "value": "",
             "description": [
                 ""
             ],
-            "list_order": 1915709895,
-            "uuid": "e4cc1e9e-becc-4254-b397-fd8a4858ba73"
+            "list_order": 401944096,
+            "uuid": "b2533db8-6881-4300-a224-3f8a5724481a"
+          },
+          {
+            "id": 10,
+            "main_type": 6,
+            "type": "Port",
+            "key": "Temperature",
+            "value": "sensor",
+            "description": [
+                ""
+            ],
+            "list_order": -1750988368,
+            "uuid": "a07bc82b-80cb-4799-a63a-4af05a86abfe"
           }
         ]
       }
