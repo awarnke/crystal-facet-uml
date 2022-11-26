@@ -1,6 +1,6 @@
 /* File: draw_classifier_label.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void draw_classifier_label_init( draw_classifier_label_t *this_ )

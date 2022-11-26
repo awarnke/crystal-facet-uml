@@ -1,7 +1,7 @@
 /* File: geometry_point.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <math.h>
 
@@ -118,9 +118,9 @@ static inline void geometry_point_shift ( geometry_point_t *this_, double delta_
 
 static inline void geometry_point_trace ( const geometry_point_t *this_ )
 {
-    TRACE_INFO( "geometry_point_t" );
-    TRACE_INFO_INT( "- x:", (*this_).x );
-    TRACE_INFO_INT( "- y:", (*this_).y );
+    U8_TRACE_INFO( "geometry_point_t" );
+    U8_TRACE_INFO_INT( "- x:", (*this_).x );
+    U8_TRACE_INFO_INT( "- y:", (*this_).y );
 }
 
 

@@ -2,8 +2,8 @@
 
 #include "xhtml/xhtml_stylesheet_writer.h"
 #include "utf8stringbuf/utf8string.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdbool.h>
 #include <assert.h>
 
@@ -132,33 +132,33 @@ static const char CSS_ALL[]
 void xhtml_stylesheet_writer_init ( xhtml_stylesheet_writer_t *this_,
                                      universal_output_stream_t *output )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != output );
 
     (*this_).output = output;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void xhtml_stylesheet_writer_destroy( xhtml_stylesheet_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).output = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int xhtml_stylesheet_writer_write_stylesheet( xhtml_stylesheet_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     utf8string_t text = CSS_ALL;
     const size_t text_len = utf8string_get_length(text);
     export_err |= universal_output_stream_write( (*this_).output, text, text_len);
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 

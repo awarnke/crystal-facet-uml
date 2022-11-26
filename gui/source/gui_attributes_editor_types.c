@@ -2,14 +2,14 @@
 
 #include "gui_attributes_editor_types.h"
 #include "gtk_helper/gtk_helper_tree_model.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_table.h"
 #include "data_id.h"
 #include <gtk/gtk.h>
 
 void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gui_resources_t *resources )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != resources );
 
     (*this_).resources = resources;
@@ -108,12 +108,12 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         gtk_list_store_set ( (*this_).relationship_types, &iter_r, 0, type, 1, name, 2, icon, -1 );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_types_destroy ( gui_attributes_editor_types_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     gui_resource_selector_destroy ( &((*this_).selector) );
 
@@ -137,7 +137,7 @@ void gui_attributes_editor_types_destroy ( gui_attributes_editor_types_t *this_ 
 
     (*this_).resources = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

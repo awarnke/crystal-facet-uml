@@ -1,8 +1,8 @@
 /* File: txt_writer.c; Copyright and License: see below */
 
 #include "txt/txt_writer.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -17,28 +17,28 @@ static const char TXT_NEWLINE[] = "\n";
 void txt_writer_init ( txt_writer_t *this_,
                        universal_output_stream_t *output )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != output );
 
     (*this_).output = output;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void txt_writer_destroy( txt_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).output = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
                                                const char *indent,
                                                const char *multiline_string )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != indent );
     assert( NULL != (*this_).output );
     int result = 0;
@@ -101,7 +101,7 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -109,7 +109,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
                                  int indent_width,
                                  data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
@@ -119,7 +119,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     /* indent */
     if ( indent_width > TXT_WRITER_INDENT_COLUMN )
     {
-        TSLOG_ERROR_INT( "more spaces requested than available. missing:", indent_width - TXT_WRITER_INDENT_COLUMN );
+        U8_LOG_ERROR_INT( "more spaces requested than available. missing:", indent_width - TXT_WRITER_INDENT_COLUMN );
         indent_width = TXT_WRITER_INDENT_COLUMN;
     }
     if ( indent_width > 0 )
@@ -140,13 +140,13 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
         result |= universal_output_stream_write( (*this_).output, utf8stringbuf_get_string(id_str), len );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
@@ -163,7 +163,7 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
         result |= universal_output_stream_write ( (*this_).output, utf8stringbuf_get_string(id_str), len );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

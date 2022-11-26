@@ -11,7 +11,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "test_assert.h"
 
 static void set_up(void);
@@ -287,7 +287,7 @@ static void iterate_types_on_mini_model(void)
             {
                 for ( unsigned int variation_idx = 0; variation_idx < 2; variation_idx ++ )
                 {
-                    TSLOG_ANOMALY_INT("variation_idx",variation_idx);
+                    U8_LOG_ANOMALY_INT("variation_idx",variation_idx);
                     /* update types in database */
                     {
                         ctrl_classifier_controller_t *c_ctrl;

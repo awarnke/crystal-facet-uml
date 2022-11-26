@@ -2,7 +2,7 @@
 
 #include "pencil_relationship_painter.h"
 #include "pencil_layout_data.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -11,22 +11,22 @@
 
 void pencil_relationship_painter_init( pencil_relationship_painter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
@@ -38,7 +38,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                                         PangoLayout *layout,
                                         cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_relationship );
     assert( NULL != layout );
@@ -51,7 +51,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
     if ( data_relationship_is_valid( the_relationship ) )
     {
-        TRACE_INFO_INT("drawing relationship id", data_relationship_get_row_id( the_relationship ) );
+        U8_TRACE_INFO_INT("drawing relationship id", data_relationship_get_row_id( the_relationship ) );
 
         /* set the right line width */
         const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
@@ -294,7 +294,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
                     default:
                     {
-                        TSLOG_ERROR("illegal case");
+                        U8_LOG_ERROR("illegal case");
                     }
                     break;
                 }
@@ -321,7 +321,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
             default:
             {
-                TSLOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                U8_LOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
                 /* no arrow tip */
             }
             break;
@@ -404,7 +404,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
                     default:
                     {
-                        TSLOG_ERROR("illegal case");
+                        U8_LOG_ERROR("illegal case");
                     }
                     break;
                 }
@@ -468,7 +468,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
                     default:
                     {
-                        TSLOG_ERROR("illegal case");
+                        U8_LOG_ERROR("illegal case");
                     }
                     break;
                 }
@@ -498,7 +498,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
             default:
             {
-                TSLOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                U8_LOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
                 /* no rhomboid or other feathers */
             }
             break;
@@ -541,7 +541,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
             default:
             {
-                TSLOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                U8_LOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
                 double error_dashes[1];
                 error_dashes[0] = 0.2*pencil_size_get_line_dash_length( pencil_size );
                 cairo_set_dash ( cr, error_dashes, 1, 0.0 );
@@ -641,10 +641,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
     }
     else
     {
-        TSLOG_ERROR("invalid relationship in array!");
+        U8_LOG_ERROR("invalid relationship in array!");
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

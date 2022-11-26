@@ -1,7 +1,7 @@
 /* File: pencil_relationship_1d_layouter.c; Copyright and License: see below */
 
 #include "pencil_relationship_1d_layouter.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,7 @@ void pencil_relationship_1d_layouter_init( pencil_relationship_1d_layouter_t *th
                                            pencil_layout_data_t *layout_data,
                                            pencil_size_t *pencil_size )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
 
@@ -21,21 +21,21 @@ void pencil_relationship_1d_layouter_init( pencil_relationship_1d_layouter_t *th
 
     pencil_relationship_painter_init( &((*this_).relationship_painter) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_1d_layouter_destroy( pencil_relationship_1d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_1d_layouter_private_make_all_visible ( pencil_relationship_1d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* determine visibility */
     const uint32_t count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
@@ -63,12 +63,12 @@ void pencil_relationship_1d_layouter_private_make_all_visible ( pencil_relations
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_relationship_1d_layouter_private_make_all_visible( this_ );
 
@@ -81,7 +81,7 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
     /* layout the relationships */
     const uint32_t count_relations
         = pencil_layout_data_get_relationship_count( (*this_).layout_data );
-    TRACE_INFO_INT( "count_relations:", count_relations );
+    U8_TRACE_INFO_INT( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
@@ -188,12 +188,12 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_relationship_1d_layouter_private_make_all_visible( this_ );
 
@@ -206,7 +206,7 @@ void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_l
     /* layout the relationships */
     const uint32_t count_relations
         = pencil_layout_data_get_relationship_count( (*this_).layout_data );
-    TRACE_INFO_INT( "count_relations:", count_relations );
+    U8_TRACE_INFO_INT( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
@@ -313,7 +313,7 @@ void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_l
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

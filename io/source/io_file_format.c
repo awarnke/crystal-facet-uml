@@ -1,13 +1,13 @@
 /* File: io_file_format.c; Copyright and License: see below */
 
 #include "io_file_format.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <assert.h>
 
 void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_fileformat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     int count = 0;
     utf8stringbuf_clear( out_fileformat );
@@ -78,7 +78,7 @@ void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_
         utf8stringbuf_copy_str( out_fileformat, "none" );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

@@ -1,7 +1,7 @@
 /* File: json_token_reader.inl; Copyright and License: see below */
 
 #include "json/json_constants.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 static inline void json_token_reader_private_skip_whitespace ( json_token_reader_t *this_ )
@@ -99,7 +99,7 @@ static inline u8_error_t json_token_reader_private_read_string ( json_token_read
                 ouf_buf_len = 0;
                 if ( err != 0 )
                 {
-                    TRACE_INFO( "could not write all data to output stream in json_token_reader_private_read_string." );
+                    U8_TRACE_INFO( "could not write all data to output stream in json_token_reader_private_read_string." );
                     result = U8_ERROR_STRING_BUFFER_EXCEEDED;
                 }
             }
@@ -111,7 +111,7 @@ static inline u8_error_t json_token_reader_private_read_string ( json_token_read
         ouf_buf_len = 0;
         if ( err2 != 0 )
         {
-            TRACE_INFO( "could not write all data to output stream in json_token_reader_private_read_string" );
+            U8_TRACE_INFO( "could not write all data to output stream in json_token_reader_private_read_string" );
             result = U8_ERROR_STRING_BUFFER_EXCEEDED;
         }
     }

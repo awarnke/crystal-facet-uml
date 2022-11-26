@@ -35,6 +35,13 @@ typedef struct gui_sketch_drag_state_struct gui_sketch_drag_state_t;
 static inline void gui_sketch_drag_state_init ( gui_sketch_drag_state_t *this_ );
 
 /*!
+ *  \brief re-initializes the gui_sketch_drag_state_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void gui_sketch_drag_state_reinit ( gui_sketch_drag_state_t *this_ );
+
+/*!
  *  \brief destroys the gui_sketch_drag_state_t struct
  *
  *  \param this_ pointer to own object attributes

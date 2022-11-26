@@ -1,6 +1,6 @@
 /* File: layout_order.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 
 static inline void layout_order_private_init ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second )
 {
@@ -90,41 +90,41 @@ static inline int32_t layout_order_get_second ( const layout_order_t *this_ )
 
 static inline void layout_order_trace ( const layout_order_t *this_ )
 {
-    TRACE_INFO( "layout_order_t" );
+    U8_TRACE_INFO( "layout_order_t" );
     switch ( (*this_).order_type )
     {
         case PENCIL_LAYOUT_ORDER_TYPE_NONE:
         {
-            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_NONE" );
+            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_NONE" );
         }
         break;
 
         case PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE:
         {
-            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE" );
+            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE" );
         }
         break;
 
         case PENCIL_LAYOUT_ORDER_TYPE_X_Y:
         {
-            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_X_Y" );
+            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_X_Y" );
         }
         break;
 
         case PENCIL_LAYOUT_ORDER_TYPE_LIST:
         {
-            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_LIST" );
+            U8_TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_LIST" );
         }
         break;
 
         default:
         {
-            TRACE_INFO( "- order_type: <error>" );
+            U8_TRACE_INFO( "- order_type: <error>" );
         }
         break;
     }
-    TRACE_INFO_INT( "- first:", (*this_).first );
-    TRACE_INFO_INT( "- second:", (*this_).second );
+    U8_TRACE_INFO_INT( "- first:", (*this_).first );
+    U8_TRACE_INFO_INT( "- second:", (*this_).second );
 }
 
 

@@ -1,7 +1,7 @@
 /* File: pencil_classifier_composer.c; Copyright and License: see below */
 
 #include "pencil_classifier_composer.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -11,7 +11,7 @@
 
 void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
     data_rules_init ( &((*this_).data_rules) );
@@ -19,12 +19,12 @@ void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ )
     draw_classifier_label_init( &((*this_).draw_classifier_label) );
     draw_classifier_contour_init( &((*this_).draw_classifier_contour) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     draw_classifier_icon_destroy( &((*this_).draw_classifier_icon) );
     draw_classifier_label_destroy( &((*this_).draw_classifier_label) );
@@ -32,7 +32,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
     data_rules_destroy ( &((*this_).data_rules) );
     pencil_marker_destroy( &((*this_).marker) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
@@ -45,7 +45,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                        PangoLayout *font_layout,
                                        cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_classifier );
     assert( NULL != layout_data );
@@ -78,7 +78,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         const data_diagramelement_flag_t display_flags
             = data_diagramelement_get_display_flags( diagramelement );
 
-        TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
+        U8_TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
 
         const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
@@ -368,7 +368,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             default:
             {
-                TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
+                U8_LOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
             }
             break;
         }
@@ -416,7 +416,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t *this_,
@@ -426,7 +426,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
                                               PangoLayout *font_layout,
                                               layout_visible_classifier_t *io_classifier_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != space );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -440,8 +440,8 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
     const data_classifier_type_t classifier_type
         = data_classifier_get_main_type( classifier );
 
-    TRACE_INFO_INT("expanding bounds of classifier id:", data_classifier_get_row_id( classifier ) );
-    TRACE_INFO_INT_INT("expanding bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
+    U8_TRACE_INFO_INT("expanding bounds of classifier id:", data_classifier_get_row_id( classifier ) );
+    U8_TRACE_INFO_INT_INT("expanding bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
     /* determine icon space */
     const geometry_dimensions_t icon_dim
@@ -469,7 +469,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
                                                           );
     if ( area_too_small != 0 )
     {
-        TRACE_INFO("new width is defined by label-and-icon, not by requested inner space" );
+        U8_TRACE_INFO("new width is defined by label-and-icon, not by requested inner space" );
     }
     const double label_top = geometry_rectangle_get_top( space ) - geometry_rectangle_get_height( &label_compartment );
     geometry_rectangle_set_top( &label_rect, label_top );
@@ -483,7 +483,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
 
         if ( is_fix_sized_symbol )
         {
-            TRACE_INFO("calculating symbol box for fixed-sized icon..." );
+            U8_TRACE_INFO("calculating symbol box for fixed-sized icon..." );
 
             const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
             const double symbol_width = symbol_height;
@@ -504,7 +504,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
         }
         else
         {
-            TRACE_INFO("calculating symbol box as envelope around label and space..." );
+            U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
 
             /* calculate symbol bounds */
             geometry_rectangle_t inner_area;
@@ -554,17 +554,17 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
         geometry_rectangle_destroy( &classifier_space );
     }
 
-    TRACE_INFO("==== symbol_box ====" );
+    U8_TRACE_INFO("==== symbol_box ====" );
     geometry_rectangle_trace( layout_visible_classifier_get_symbol_box_const( io_classifier_layout ) );
-    TRACE_INFO("==== label_box  ====" );
+    U8_TRACE_INFO("==== label_box  ====" );
     geometry_rectangle_trace( &label_rect );
-    TRACE_INFO("==== space     =====" );
+    U8_TRACE_INFO("==== space     =====" );
     geometry_rectangle_trace( layout_visible_classifier_get_space_const( io_classifier_layout ) );
 
     geometry_rectangle_destroy( &label_rect );
     geometry_rectangle_destroy( &label_compartment );
 
-    TRACE_END_ERR(area_too_small);
+    U8_TRACE_END_ERR(area_too_small);
     return area_too_small;
 }
 
@@ -575,7 +575,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
                                                  PangoLayout *font_layout,
                                                  layout_visible_classifier_t *io_classifier_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != envelope );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -589,8 +589,8 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
     const data_classifier_type_t classifier_type
         = data_classifier_get_main_type( classifier );
 
-    TRACE_INFO_INT("calculating bounds of classifier id, type:", data_classifier_get_row_id( classifier ) );
-    TRACE_INFO_INT_INT("calculating bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
+    U8_TRACE_INFO_INT("calculating bounds of classifier id, type:", data_classifier_get_row_id( classifier ) );
+    U8_TRACE_INFO_INT_INT("calculating bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
     /* determine icon space */
     const geometry_dimensions_t icon_dim
@@ -636,7 +636,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
 
         if ( is_fix_sized_symbol )
         {
-            TRACE_INFO("calculating symbol box for fixed-sized icon..." );
+            U8_TRACE_INFO("calculating symbol box for fixed-sized icon..." );
 
             const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
             const double symbol_width = symbol_height;
@@ -662,7 +662,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
         }
         else
         {
-            TRACE_INFO("calculating symbol box as envelope around label and space..." );
+            U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
 
             /* calculate symbol bounds */
             layout_visible_classifier_set_symbol_box( io_classifier_layout, envelope );
@@ -681,11 +681,11 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
                                                     GEOMETRY_V_ALIGN_TOP
                                                   );
 
-        TRACE_INFO("==== symbol_box ====" );
+        U8_TRACE_INFO("==== symbol_box ====" );
         geometry_rectangle_trace( layout_visible_classifier_get_symbol_box_const( io_classifier_layout ) );
-        TRACE_INFO("==== label_box  ====" );
+        U8_TRACE_INFO("==== label_box  ====" );
         geometry_rectangle_trace( &label_rect );
-        TRACE_INFO("==== space     =====" );
+        U8_TRACE_INFO("==== space     =====" );
         geometry_rectangle_trace( &classifier_space );
 
         geometry_rectangle_destroy( &classifier_space );
@@ -696,7 +696,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
         geometry_rectangle_copy( &space_guess, &space_and_label );
         geometry_rectangle_shift( &space_guess, 0.0, geometry_rectangle_get_height( &label_compartment ) );
         geometry_rectangle_enlarge( &space_guess, 0.0, -geometry_rectangle_get_height( &label_compartment ) );
-        TRACE_INFO("==== space_guess====" );
+        U8_TRACE_INFO("==== space_guess====" );
         geometry_rectangle_trace( &space_guess );
         pencil_classifier_composer_expand_space( this_,
                                                  &space_guess,
@@ -718,7 +718,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
     geometry_rectangle_destroy( &label_rect );
     geometry_rectangle_destroy( &label_compartment );
 
-    TRACE_END_ERR( area_too_small );
+    U8_TRACE_END_ERR( area_too_small );
     return area_too_small;
 }
 
@@ -734,7 +734,7 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
                                                        geometry_rectangle_t *out_label_box,
                                                        geometry_rectangle_t *out_label_compartment )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
     assert( NULL != space_and_label );
     assert( NULL != icon_dim );
@@ -780,13 +780,13 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
 
         if ( text_width > (proposed_label_width + 0.0001) )
         {
-            TRACE_INFO_INT_INT("label does not fit to provided width", (int)text_width, (int)proposed_label_width );
+            U8_TRACE_INFO_INT_INT("label does not fit to provided width", (int)text_width, (int)proposed_label_width );
             result = 1;
         }
         const double proposed_label_height = geometry_rectangle_get_height( space_and_label );
         if ( text_height > (proposed_label_height + 0.0001) )
         {
-            TRACE_INFO_INT_INT("label does not fit to provided height", (int)text_height, (int)proposed_label_height );
+            U8_TRACE_INFO_INT_INT("label does not fit to provided height", (int)text_height, (int)proposed_label_height );
             result = 1;
         }
     }
@@ -868,7 +868,7 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
         geometry_rectangle_reinit( out_label_box, text_left, text_top, text_width, text_height );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -878,7 +878,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
                                                                     const pencil_size_t *pencil_size,
                                                                     cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != layouted_classifier );
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
@@ -960,7 +960,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
         */
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /*

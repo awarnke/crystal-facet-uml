@@ -1,6 +1,6 @@
 /* File: gui_sketch_nav_tree.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 
 static inline data_row_id_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ )
 {

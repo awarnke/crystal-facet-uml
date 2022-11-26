@@ -1,8 +1,8 @@
 /* File: data_diagramelement.inl; Copyright and License: see below */
 
 #include "data_id.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_ )
@@ -104,13 +104,13 @@ static inline bool data_diagramelement_is_valid ( const data_diagramelement_t *t
 
 static inline void data_diagramelement_trace ( const data_diagramelement_t *this_ )
 {
-    TRACE_INFO( "data_diagramelement_t" );
-    TRACE_INFO_INT( "- id:", (*this_).id );
-    TRACE_INFO_INT( "- diagram_id:", (*this_).diagram_id );
-    TRACE_INFO_INT( "- classifier_id:", (*this_).classifier_id );
-    TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
-    TRACE_INFO_INT( "- focused_feature_id:", (*this_).focused_feature_id );
-    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
+    U8_TRACE_INFO( "data_diagramelement_t" );
+    U8_TRACE_INFO_INT( "- id:", (*this_).id );
+    U8_TRACE_INFO_INT( "- diagram_id:", (*this_).diagram_id );
+    U8_TRACE_INFO_INT( "- classifier_id:", (*this_).classifier_id );
+    U8_TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
+    U8_TRACE_INFO_INT( "- focused_feature_id:", (*this_).focused_feature_id );
+    U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 static inline data_row_id_t data_diagramelement_get_row_id ( const data_diagramelement_t *this_ )

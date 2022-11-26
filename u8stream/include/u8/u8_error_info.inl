@@ -1,8 +1,8 @@
 /* File: u8_error_info.inl; Copyright and License: see below */
 
 #include "utf8stringbuf/utf8stringbuf.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void u8_error_info_init_void ( u8_error_info_t *this_ )

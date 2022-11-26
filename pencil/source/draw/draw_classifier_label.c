@@ -1,7 +1,7 @@
 /* File: draw_classifier_label.c; Copyright and License: see below */
 
 #include "draw/draw_classifier_label.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
 #include "utf8stringbuf/utf8stringbuf.h"
@@ -25,7 +25,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                                                                double *out_text_width,
                                                                double *out_text_height )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
     assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
@@ -121,11 +121,11 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
     }
     else
     {
-        TSLOG_ERROR("invalid visible classifier in draw_classifier_label_get_stereotype_and_name_dimensions()");
+        U8_LOG_ERROR("invalid visible classifier in draw_classifier_label_get_stereotype_and_name_dimensions()");
         *out_text_width = 0.0;
         *out_text_height = 0.0;
     }
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label_t *this_,
@@ -135,7 +135,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
                                                      PangoLayout *font_layout,
                                                      cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
@@ -238,7 +238,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         pango_cairo_show_layout (cr, font_layout);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
@@ -248,7 +248,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
                                     PangoLayout *font_layout,
                                     cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
     assert( NULL != classifier_bounds );
     assert( NULL != pencil_size );
@@ -360,7 +360,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
 
         default:
         {
-            TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
+            U8_LOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
         }
         break;
     }
@@ -372,7 +372,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
     cairo_move_to ( cr, left + width - text4_width - x_gap, top + height - text4_height - y_gap );
     pango_cairo_show_layout (cr, font_layout);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

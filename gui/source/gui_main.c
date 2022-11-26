@@ -5,8 +5,8 @@
 #include "gui_window_manager.h"
 #include "storage/data_database_reader.h"
 #include "meta/meta_info.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,22 +16,22 @@ static gui_window_manager_t window_manager;
 #if ( GTK_MAJOR_VERSION >= 4 )
 static void gui_main_activate_callback( GtkApplication* app, gpointer user_data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     gui_window_manager_t *const win_manager = user_data;
     assert( win_manager != NULL );
 
     gui_window_manager_open_main_window( win_manager );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 #endif
 
 void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
-    TRACE_INFO_INT( "sizeof(gui_window_manager_t):", sizeof(gui_window_manager_t) );
-    TRACE_INFO( "initializing gui thread..." );
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_INFO_INT( "sizeof(gui_window_manager_t):", sizeof(gui_window_manager_t) );
+    U8_TRACE_INFO( "initializing gui thread..." );
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     /* init */
@@ -42,11 +42,11 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), &window_manager);
 
     /* run */
-    TSLOG_EVENT( "Connecting to a display (if display is remote, this may take some seconds) ..." );
+    U8_LOG_EVENT( "Connecting to a display (if display is remote, this may take some seconds) ..." );
     int error_code = g_application_run( G_APPLICATION(gtk_app), argc, argv );
     if ( error_code != 0 )
     {
-        TSLOG_ERROR_INT( "g_application_run:", error_code );
+        U8_LOG_ERROR_INT( "g_application_run:", error_code );
     }
 
     /* destroy */
@@ -64,8 +64,8 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     gui_window_manager_destroy( &window_manager );
 #endif
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 

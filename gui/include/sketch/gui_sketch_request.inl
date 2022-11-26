@@ -1,6 +1,6 @@
 /* File: gui_sketch_request.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -40,31 +40,31 @@ static inline void gui_sketch_request_set_tool_mode( gui_sketch_request_t *this_
     {
         case GUI_TOOL_NAVIGATE:
         {
-            TRACE_INFO("GUI_TOOL_NAVIGATE");
+            U8_TRACE_INFO("GUI_TOOL_NAVIGATE");
         }
         break;
 
         case GUI_TOOL_EDIT:
         {
-            TRACE_INFO("GUI_TOOL_EDIT");
+            U8_TRACE_INFO("GUI_TOOL_EDIT");
         }
         break;
 
         case GUI_TOOL_SEARCH:
         {
-            TRACE_INFO("GUI_TOOL_SEARCH");
+            U8_TRACE_INFO("GUI_TOOL_SEARCH");
         }
         break;
 
         case GUI_TOOL_CREATE:
         {
-            TRACE_INFO("GUI_TOOL_CREATE");
+            U8_TRACE_INFO("GUI_TOOL_CREATE");
         }
         break;
 
         default:
         {
-            TSLOG_ERROR("selected_tool is out of range");
+            U8_LOG_ERROR("selected_tool is out of range");
         }
         break;
     }

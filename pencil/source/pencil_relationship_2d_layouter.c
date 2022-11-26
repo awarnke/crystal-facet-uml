@@ -1,7 +1,7 @@
 /* File: pencil_relationship_2d_layouter.c; Copyright and License: see below */
 
 #include "pencil_relationship_2d_layouter.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,7 @@ void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *th
                                            pencil_layout_data_t *layout_data,
                                            pencil_size_t *pencil_size )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
 
@@ -23,23 +23,23 @@ void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *th
     (*this_).pencil_size = pencil_size;
     pencil_relationship_painter_init( &((*this_).relationship_painter) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_destroy( pencil_relationship_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_array_index_sorter_destroy( &((*this_).sorted_relationships) );
 
     pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );
@@ -93,12 +93,12 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
 
     universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_relationship_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
 
     /* get draw area */
@@ -155,12 +155,12 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
             insert_error = universal_array_index_sorter_insert( &((*this_).sorted_relationships), index, simpleness );
             if ( 0 != insert_error )
             {
-                TSLOG_WARNING( "not all relationships are shaped" );
+                U8_LOG_WARNING( "not all relationships are shaped" );
             }
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relationship_2d_layouter_t *this_,
@@ -168,7 +168,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
                                                                  geometry_connector_t out_solutions[],
                                                                  uint32_t *out_solutions_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
@@ -231,7 +231,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
         assert ( *out_solutions_count <= solutions_max );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static const geometry_3dir_t PENCIL_BAD_V_PATTERN1
@@ -248,7 +248,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
                                                                const geometry_connector_t solutions[],
                                                                uint32_t *out_index_of_best )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
     assert ( NULL != solutions );
     assert ( NULL != out_index_of_best );
@@ -551,7 +551,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
     *out_index_of_best = index_of_best;
     geometry_connector_trace( &(solutions[index_of_best]) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_relationship_2d_layouter_t *this_,
@@ -561,7 +561,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
                                                                        geometry_connector_t out_solutions[],
                                                                        uint32_t *out_solutions_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != source_rect );
     assert( NULL != dest_rect );
     assert ( NULL != out_solutions );
@@ -777,7 +777,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_I ( pencil_re
 
     *out_solutions_count = solutions_count;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_private_connect_rectangles_by_ZN ( pencil_relationship_2d_layouter_t *this_,
@@ -787,7 +787,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_ZN ( pencil_r
                                                                         geometry_connector_t out_solutions[],
                                                                         uint32_t *out_solutions_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != source_rect );
     assert( NULL != dest_rect );
     assert ( NULL != out_solutions );
@@ -952,7 +952,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_ZN ( pencil_r
 
     *out_solutions_count = solutions_count;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_private_connect_rectangles_by_UC ( pencil_relationship_2d_layouter_t *this_,
@@ -962,7 +962,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_UC ( pencil_r
                                                                         geometry_connector_t out_solutions[],
                                                                         uint32_t *out_solutions_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != source_rect );
     assert( NULL != dest_rect );
     assert ( NULL != out_solutions );
@@ -1157,7 +1157,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_UC ( pencil_r
 
     *out_solutions_count = solutions_count;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_private_connect_rectangles_by_L7 ( pencil_relationship_2d_layouter_t *this_,
@@ -1167,7 +1167,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_L7 ( pencil_r
                                                                         geometry_connector_t out_solutions[],
                                                                         uint32_t *out_solutions_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != source_rect );
     assert( NULL != dest_rect );
     assert ( NULL != out_solutions );
@@ -1466,7 +1466,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_L7 ( pencil_r
 
     *out_solutions_count = solutions_count;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_relationship_2d_layouter_t *this_,
@@ -1475,7 +1475,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
                                                                          double min_gap,
                                                                          double *io_coordinate )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).sorted_rel_index < universal_array_index_sorter_get_count( &((*this_).sorted_relationships) ) );
     assert ( NULL != search_rect );
     assert ( NULL != io_coordinate );
@@ -1913,13 +1913,13 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
 
     geometry_rectangle_destroy( &consider_rect );
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 void pencil_relationship_2d_layouter_private_make_all_visible ( pencil_relationship_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* determine visibility */
     const uint32_t count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
@@ -1947,23 +1947,23 @@ void pencil_relationship_2d_layouter_private_make_all_visible ( pencil_relations
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_layout_standard( pencil_relationship_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_relationship_2d_layouter_private_make_all_visible( this_ );
 
     pencil_relationship_2d_layouter_private_do_layout ( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_layout_void( pencil_relationship_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* hide all relationships */
     const uint32_t count_relations
@@ -1979,12 +1979,12 @@ void pencil_relationship_2d_layouter_layout_void( pencil_relationship_2d_layoute
     /* layout the relationships (needed for PENCIL_VISIBILITY_IMPLICIT) */
     pencil_relationship_2d_layouter_private_do_layout ( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_relationship_2d_layouter_layout_for_communication( pencil_relationship_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_relationship_2d_layouter_private_make_all_visible( this_ );
 
@@ -2008,7 +2008,7 @@ void pencil_relationship_2d_layouter_layout_for_communication( pencil_relationsh
     /* layout the visible relationships */
     pencil_relationship_2d_layouter_private_do_layout ( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

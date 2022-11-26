@@ -1,8 +1,8 @@
 /* File: ctrl_undo_redo_list.c; Copyright and License: see below */
 
 #include "ctrl_undo_redo_list.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 u8_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ )
@@ -63,7 +63,7 @@ u8_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t 
 
 u8_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_stat );
 
     u8_error_t result = U8_ERROR_NONE;
@@ -94,34 +94,34 @@ u8_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t 
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( cur_entry ) )
             {
-                TRACE_INFO("boundary");
+                U8_TRACE_INFO("boundary");
                 finished = true;
             }
             else
             {
-                TRACE_INFO("undo");
+                U8_TRACE_INFO("undo");
                 const uint32_t current_before = (*this_).current;
                 const u8_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, true );
                 ctrl_undo_redo_entry_to_statistics ( cur_entry, true /*=undo*/, (U8_ERROR_NONE!=cur_err), io_stat );
                 result |= cur_err;
                 if ( (*this_).current != current_before )
                 {
-                     TSLOG_ERROR("ctrl_undo_redo_list_t was modified while performing undo.");
+                     U8_LOG_ERROR("ctrl_undo_redo_list_t was modified while performing undo.");
                      /* try to continue undo, this is the most likely way to get the db back to a consistent state */
                 }
             }
         }
     }
 
-    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
+    U8_TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_stat );
 
     u8_error_t result = U8_ERROR_NONE;
@@ -147,24 +147,24 @@ u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t 
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( cur_entry ) )
             {
-                TRACE_INFO("boundary");
+                U8_TRACE_INFO("boundary");
                 finished = true;
             }
             else if ( (*this_).current == (*this_).length )
             {
-                TRACE_INFO("boundary");
+                U8_TRACE_INFO("boundary");
                 finished = true;
             }
             if ( ! finished )
             {
-                TRACE_INFO("redo");
+                U8_TRACE_INFO("redo");
                 const uint32_t current_before = (*this_).current;
                 const u8_error_t cur_err = ctrl_undo_redo_list_private_do_action( this_, cur_entry, false );
                 ctrl_undo_redo_entry_to_statistics ( cur_entry, false /*=undo*/, (U8_ERROR_NONE!=cur_err), io_stat );
                 result |= cur_err;
                 if ( (*this_).current != current_before )
                 {
-                    TSLOG_ERROR("ctrl_undo_redo_list_t was modified while performing redo.");
+                    U8_LOG_ERROR("ctrl_undo_redo_list_t was modified while performing redo.");
                     result |= U8_ERROR_INVALID_REQUEST;
                     finished = true;
                 }
@@ -172,9 +172,9 @@ u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t 
         }
     }
 
-    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
+    U8_TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -182,7 +182,7 @@ u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t 
 
 ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_redo_list_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
     assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
     assert( (*this_).current <= (*this_).length );
@@ -233,15 +233,15 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
         result = &((*this_).buffer[index]);
     }
 
-    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
+    U8_TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
 u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_, ctrl_undo_redo_entry_t *action, bool undo )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     u8_error_t result = U8_ERROR_NONE;
 
@@ -249,7 +249,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
     {
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM" );
             data_diagram_t *diag = ctrl_undo_redo_entry_get_diagram_before_action_ptr ( action );
             if ( undo )
             {
@@ -265,7 +265,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM" );
             data_diagram_t *diag;
             if ( undo )
             {
@@ -291,7 +291,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM" );
             data_diagram_t *diag = ctrl_undo_redo_entry_get_diagram_after_action_ptr ( action );
             if ( undo )
             {
@@ -307,7 +307,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT" );
             data_diagramelement_t *diag_ele = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr ( action );
             if ( undo )
             {
@@ -323,7 +323,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT" );
             data_diagramelement_t *diag_element;
             if ( undo )
             {
@@ -343,7 +343,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT" );
             data_diagramelement_t *diag_ele = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr ( action );
             if ( undo )
             {
@@ -359,7 +359,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER" );
             data_classifier_t *classfy = ctrl_undo_redo_entry_get_classifier_before_action_ptr ( action );
             if ( undo )
             {
@@ -375,7 +375,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER" );
             data_classifier_t *classfy;
             if ( undo )
             {
@@ -405,7 +405,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER" );
             data_classifier_t *classfy = ctrl_undo_redo_entry_get_classifier_after_action_ptr ( action );
             if ( undo )
             {
@@ -421,7 +421,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE" );
             data_feature_t *feat = ctrl_undo_redo_entry_get_feature_before_action_ptr ( action );
             if ( undo )
             {
@@ -437,7 +437,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE" );
             data_feature_t *feat;
             if ( undo )
             {
@@ -463,7 +463,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE" );
             data_feature_t *feat = ctrl_undo_redo_entry_get_feature_after_action_ptr ( action );
             if ( undo )
             {
@@ -479,7 +479,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP" );
             data_relationship_t *relation = ctrl_undo_redo_entry_get_relationship_before_action_ptr ( action );
             if ( undo )
             {
@@ -495,7 +495,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP" );
             data_relationship_t *relation;
             if ( undo )
             {
@@ -519,7 +519,7 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP:
         {
-            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP" );
+            U8_TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP" );
             data_relationship_t *relation = ctrl_undo_redo_entry_get_relationship_after_action_ptr ( action );
             if ( undo )
             {
@@ -535,11 +535,11 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
 
         default:
         {
-            TSLOG_ERROR( "unexptected ctrl_undo_redo_entry_type_t" );
+            U8_LOG_ERROR( "unexptected ctrl_undo_redo_entry_type_t" );
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

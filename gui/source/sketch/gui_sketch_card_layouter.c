@@ -2,24 +2,24 @@
 
 #include "gui_sketch_card_layouter.h"
 #include "sketch/gui_sketch_area.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 void gui_sketch_card_layouter_init( gui_sketch_card_layouter_t *this_, shape_int_rectangle_t *bounds )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != bounds );
 
     (*this_).bounds = *bounds;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_card_layouter_destroy( gui_sketch_card_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static const uint_fast32_t RATIO_WIDTH = 36;
@@ -32,7 +32,7 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
                                        uint32_t cards_num,
                                        cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
     assert( NULL != io_cards );
     assert( cards_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
@@ -42,7 +42,7 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
     const uint_fast32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
     const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
     const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    TRACE_INFO_INT_INT( "width, height", width, height );
+    U8_TRACE_INFO_INT_INT( "width, height", width, height );
 
     /* calculate card sizes */
     uint_fast32_t focus_card_height;
@@ -158,7 +158,7 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_card_layouter_private_layout_to_grid ( gui_sketch_card_layouter_t *this_,
@@ -168,7 +168,7 @@ void gui_sketch_card_layouter_private_layout_to_grid ( gui_sketch_card_layouter_
                                                        uint_fast32_t cards_num,
                                                        cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
     assert( NULL != bounds );
     assert( NULL != io_cards );
@@ -235,7 +235,7 @@ void gui_sketch_card_layouter_private_layout_to_grid ( gui_sketch_card_layouter_
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

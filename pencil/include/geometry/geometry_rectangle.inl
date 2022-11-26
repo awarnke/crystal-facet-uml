@@ -1,7 +1,7 @@
 /* File: geometry_rectangle.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <math.h>
 
@@ -388,11 +388,11 @@ static inline void geometry_rectangle_set_height ( geometry_rectangle_t *this_, 
 
 static inline void geometry_rectangle_trace ( const geometry_rectangle_t *this_ )
 {
-    TRACE_INFO( "geometry_rectangle_t" );
-    TRACE_INFO_INT( "- left:", (*this_).left );
-    TRACE_INFO_INT( "- top:", (*this_).top );
-    TRACE_INFO_INT( "- width:", (*this_).width );
-    TRACE_INFO_INT( "- height:", (*this_).height );
+    U8_TRACE_INFO( "geometry_rectangle_t" );
+    U8_TRACE_INFO_INT( "- left:", (*this_).left );
+    U8_TRACE_INFO_INT( "- top:", (*this_).top );
+    U8_TRACE_INFO_INT( "- width:", (*this_).width );
+    U8_TRACE_INFO_INT( "- height:", (*this_).height );
 }
 
 

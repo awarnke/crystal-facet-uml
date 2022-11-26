@@ -2,27 +2,27 @@
 
 #include "sketch/gui_sketch_overlay.h"
 #include "sketch/gui_sketch_snap_state.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <gtk/gtk.h>
 #include <assert.h>
 
 void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).overlay_std_red = 0.0;
     (*this_).overlay_std_green = 0.6;
     (*this_).overlay_std_blue = 0.4;
     (*this_).overlay_std_alpha = 1.0;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
@@ -33,7 +33,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               gui_marked_set_t *marked_objects,
                               cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != drag_state );
     assert( NULL != cr );
     assert( NULL != nav_tree );
@@ -66,12 +66,12 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
 
         default:
         {
-            TSLOG_ERROR("selected_tool is out of range");
+            U8_LOG_ERROR("selected_tool is out of range");
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_private_draw_nav_mode( gui_sketch_overlay_t *this_,
@@ -79,7 +79,7 @@ void gui_sketch_overlay_private_draw_nav_mode( gui_sketch_overlay_t *this_,
                                                const gui_sketch_nav_tree_t *nav_tree,
                                                cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != drag_state );
     assert( NULL != cr );
     assert( NULL != nav_tree );
@@ -117,10 +117,10 @@ void gui_sketch_overlay_private_draw_nav_mode( gui_sketch_overlay_t *this_,
         }
         else
         {
-            TRACE_INFO("dragging diagram outside nav_tree");
+            U8_TRACE_INFO("dragging diagram outside nav_tree");
         }
     }
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
@@ -128,7 +128,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
                                                 const gui_sketch_card_t *card_under_mouse,
                                                 cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != drag_state );
     assert( NULL != cr );
 
@@ -157,7 +157,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
@@ -166,7 +166,7 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                   data_table_t highlighted_object_table,
                                                   cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != drag_state );
     assert( NULL != cr );
 
@@ -215,7 +215,7 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
@@ -225,7 +225,7 @@ void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
                                             int32_t to_y,
                                             cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     cairo_set_source_rgba( cr,
@@ -304,7 +304,7 @@ void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
     cairo_line_to ( cr, to_x + DX[clock_direction][1], to_y + DY[clock_direction][1] );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
@@ -313,7 +313,7 @@ void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
                                                   bool with_arrow_option,
                                                   cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     cairo_set_source_rgba( cr,
@@ -363,14 +363,14 @@ void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
 
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
                                            const gui_sketch_card_t *card_under_mouse,
                                            cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != card_under_mouse );
     assert( NULL != cr );
 
@@ -406,7 +406,7 @@ void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_,
@@ -416,7 +416,7 @@ void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_
                                                      int32_t y,
                                                      cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != card_under_mouse );
     assert( NULL != cr );
 
@@ -448,7 +448,7 @@ void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_
         cairo_fill (cr);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

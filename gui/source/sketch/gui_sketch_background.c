@@ -2,29 +2,29 @@
 
 #include "sketch/gui_sketch_background.h"
 #include "meta/meta_info.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <stdint.h>
 #include <gtk/gtk.h>
 #include <assert.h>
 
 void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t *resources )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     (*this_).resources = resources;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_background_destroy( gui_sketch_background_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     shape_int_rectangle_destroy( &((*this_).bounds) );
     (*this_).resources = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static const double BLACK_R = 0.0;
@@ -56,7 +56,7 @@ static const double BORDER = 8;  /* border between text/icons and ground rectang
 void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                               cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
@@ -132,7 +132,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                                          cr
                                                        );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
@@ -140,7 +140,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                             unsigned int num_children,
                                             cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
@@ -166,12 +166,12 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
         gui_sketch_background_private_draw_quick_introduction( this_, cr );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_background_draw_search( gui_sketch_background_t *this_, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
@@ -183,12 +183,12 @@ void gui_sketch_background_draw_search( gui_sketch_background_t *this_, cairo_t 
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_background_draw_edit( gui_sketch_background_t *this_, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
@@ -200,12 +200,12 @@ void gui_sketch_background_draw_edit( gui_sketch_background_t *this_, cairo_t *c
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
@@ -217,12 +217,12 @@ void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t 
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_background_private_draw_quick_introduction( gui_sketch_background_t *this_, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
@@ -294,7 +294,7 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
                                                          cr
                                                        );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_t *this_,
@@ -305,7 +305,7 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
                                                           int y,
                                                           cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
     assert( NULL != icon_1 );
     assert( NULL != text_1 );
@@ -324,7 +324,7 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
     cairo_move_to ( cr, x+icon_width+BORDER, y + 2*14 );
     cairo_show_text ( cr, text_2 );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

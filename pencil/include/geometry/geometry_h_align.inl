@@ -1,7 +1,7 @@
 /* File: geometry_h_align.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_, double width, double reference_left, double reference_width )
@@ -30,7 +30,7 @@ static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_
 
         default:
         {
-            TSLOG_ERROR("unknown geometry_h_align_t in geometry_h_align_get_left()");
+            U8_LOG_ERROR("unknown geometry_h_align_t in geometry_h_align_get_left()");
             assert(0);
             left = 0.0;
         }

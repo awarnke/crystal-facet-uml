@@ -8,7 +8,7 @@
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 #include "u8stream/universal_null_output_stream.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "test_assert.h"
 
 static void set_up(void);

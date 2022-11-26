@@ -3,7 +3,7 @@
 #include "io_export_interaction_traversal.h"
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_element_info_map.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include <stdint.h>
@@ -17,7 +17,7 @@ void io_export_interaction_traversal_init( io_export_interaction_traversal_t *th
                                            data_stat_t *io_export_stat,
                                            io_element_writer_t *out_element_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
     assert( NULL != io_written_id_set );
@@ -36,12 +36,12 @@ void io_export_interaction_traversal_init( io_export_interaction_traversal_t *th
     data_feature_init_empty( &((*this_).fake_lifeline_feature) );
     data_feature_set_main_type( &((*this_).fake_lifeline_feature), DATA_FEATURE_TYPE_LIFELINE );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_classifier_destroy( &((*this_).fake_interaction_classifier) );
     data_feature_destroy( &((*this_).fake_lifeline_feature) );
@@ -52,14 +52,14 @@ void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t 
     (*this_).export_stat = NULL;
     (*this_).element_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_interaction_traversal_t *this_,
                                                                      data_classifier_type_t nesting_type,
                                                                      data_id_t classifier_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_is_valid( &classifier_id ) );
     int write_err = 0;
 
@@ -94,7 +94,7 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
     }
     data_small_set_destroy( &out_showing_diagram_ids );
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -102,7 +102,7 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
                                                            data_classifier_type_t nesting_type,
                                                            data_id_t diagram_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int write_err = 0;
 
@@ -135,7 +135,7 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
 
         if ( is_interaction_type )
         {
-            TRACE_INFO_INT("exporting diagram as interaction, id:",data_diagram_get_row_id(diag_ptr));
+            U8_TRACE_INFO_INT("exporting diagram as interaction, id:",data_diagram_get_row_id(diag_ptr));
 
             /* add this classifier to the already written elements */
             write_err |= universal_array_list_append( (*this_).written_id_set, &diagram_id );
@@ -163,7 +163,7 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
         data_visible_set_destroy( (*this_).input_data );
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -171,7 +171,7 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
                                                                           const data_visible_set_t *diagram_data,
                                                                           const data_classifier_t *fake_interaction )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     int write_err = 0;
@@ -189,7 +189,7 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
             const data_classifier_t *classifier;
             classifier = data_visible_classifier_get_classifier_const( visible_classifier );
             const data_id_t classifier_id = data_classifier_get_data_id(classifier);
-            TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
+            U8_TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
             const data_diagramelement_t *diagele;
             diagele = data_visible_classifier_get_diagramelement_const( visible_classifier );
             const data_id_t focused_feature_id = data_diagramelement_get_focused_feature_data_id( diagele );
@@ -239,7 +239,7 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -247,7 +247,7 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
                                                                        const data_visible_set_t *diagram_data,
                                                                        data_id_t focused_feature_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_FEATURE == data_id_get_table( &focused_feature_id ) );
@@ -301,7 +301,7 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -311,7 +311,7 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
                                                                            data_id_t focused_feature_id,
                                                                            const data_classifier_t *fake_interaction )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
@@ -360,7 +360,7 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
                                                                    );
                 if ( map_err != 0 )
                 {
-                    TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", relation_type );
+                    U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", relation_type );
                 }
 
 
@@ -395,7 +395,7 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -403,7 +403,7 @@ int io_export_interaction_traversal_private_fake_interaction( io_export_interact
                                                               const data_diagram_t *interaction_diagram,
                                                               data_classifier_t *out_fake_classifier )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( out_fake_classifier != NULL );
     assert( interaction_diagram != NULL );
     assert( data_diagram_is_valid( interaction_diagram ) );
@@ -419,7 +419,7 @@ int io_export_interaction_traversal_private_fake_interaction( io_export_interact
     data_classifier_set_list_order( out_fake_classifier, data_diagram_get_list_order( interaction_diagram ) );
     write_err |= data_classifier_set_uuid( out_fake_classifier, data_diagram_get_uuid_const( interaction_diagram ) );
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 

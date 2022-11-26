@@ -1,7 +1,7 @@
 /* File: gui_resources.c; Copyright and License: see below */
 
 #include "gui_resources.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
@@ -134,7 +134,7 @@
 
 void gui_resources_init ( gui_resources_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).crystal_facet_uml = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( crystal_facet_uml ) );
 
@@ -258,7 +258,7 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_rel_sync = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_sync ) );
     (*this_).type_rel_trace = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_trace ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /*!
@@ -266,7 +266,7 @@ void gui_resources_init ( gui_resources_t *this_ )
  */
 void gui_resources_destroy ( gui_resources_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     g_object_unref ((*this_).crystal_facet_uml);
 
@@ -389,7 +389,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_rel_sync);
     g_object_unref ((*this_).type_rel_trace);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

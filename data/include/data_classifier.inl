@@ -1,8 +1,8 @@
 /* File: data_classifier.inl; Copyright and License: see below */
 
 #include "data_id.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void data_classifier_init_empty ( data_classifier_t *this_ )
@@ -51,7 +51,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -59,7 +59,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -67,7 +67,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -101,7 +101,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
     if ( main_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
     {
         main_type = DATA_CLASSIFIER_TYPE_REQUIREMENT;
-        TSLOG_ANOMALY_INT( "Classifier type FEATURE is deprecated. Converted to REQUIREMENT. See id C", id );
+        U8_LOG_ANOMALY_INT( "Classifier type FEATURE is deprecated. Converted to REQUIREMENT. See id C", id );
     }
     (*this_).main_type = main_type;
 
@@ -109,7 +109,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -117,7 +117,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -125,7 +125,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -183,16 +183,16 @@ static inline void data_classifier_destroy ( data_classifier_t *this_ )
 
 static inline void data_classifier_trace ( const data_classifier_t *this_ )
 {
-    TRACE_INFO( "data_classifier_t" );
-    TRACE_INFO_INT( "- id:", (*this_).id );
-    TRACE_INFO_INT( "- main_type:", (*this_).main_type );
-    TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string((*this_).stereotype) );
-    TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
-    TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
-    TRACE_INFO_INT( "- x_order:", (*this_).x_order );
-    TRACE_INFO_INT( "- y_order:", (*this_).y_order );
-    TRACE_INFO_INT( "- list_order:", (*this_).list_order );
-    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
+    U8_TRACE_INFO( "data_classifier_t" );
+    U8_TRACE_INFO_INT( "- id:", (*this_).id );
+    U8_TRACE_INFO_INT( "- main_type:", (*this_).main_type );
+    U8_TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string((*this_).stereotype) );
+    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
+    U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
+    U8_TRACE_INFO_INT( "- x_order:", (*this_).x_order );
+    U8_TRACE_INFO_INT( "- y_order:", (*this_).y_order );
+    U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 static inline data_row_id_t data_classifier_get_row_id ( const data_classifier_t *this_ )
@@ -241,7 +241,7 @@ static inline u8_error_t data_classifier_set_stereotype ( data_classifier_t *thi
     strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -261,7 +261,7 @@ static inline u8_error_t data_classifier_set_name ( data_classifier_t *this_, co
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -281,7 +281,7 @@ static inline u8_error_t data_classifier_set_description ( data_classifier_t *th
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -296,7 +296,7 @@ static inline u8_error_t data_classifier_append_description ( data_classifier_t 
     strerr = utf8stringbuf_append_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;

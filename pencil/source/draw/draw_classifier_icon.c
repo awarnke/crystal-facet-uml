@@ -2,7 +2,7 @@
 
 #include "draw/draw_classifier_icon.h"
 #include "pencil_layout_data.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -17,7 +17,7 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
                                            geometry_rectangle_t bounds,
                                            cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     /* determine linewidth to avoid that drawings overlap to the outside of bounds */
@@ -74,14 +74,14 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
         }
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
                                           geometry_rectangle_t bounds,
                                           cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
@@ -126,14 +126,14 @@ void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
         }
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
                                        geometry_rectangle_t bounds,
                                        cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
@@ -186,7 +186,7 @@ void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
         }
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
@@ -198,7 +198,7 @@ void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
                                         bool deep_history,
                                         cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
 
@@ -302,14 +302,14 @@ void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
         }
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
                                       geometry_rectangle_t bounds,
                                       cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
@@ -346,14 +346,14 @@ void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
         }
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
                                       geometry_rectangle_t bounds,
                                       cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     /* when filling rectangles, no line overlaps the bounds due to its line width */
@@ -381,7 +381,7 @@ void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
         }
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

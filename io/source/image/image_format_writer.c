@@ -1,8 +1,8 @@
 /* File: image_format_writer.c; Copyright and License: see below */
 
 #include "image/image_format_writer.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gtk/gtk.h>
 #include <cairo-svg.h>
 #include <cairo-pdf.h>
@@ -15,7 +15,7 @@ void image_format_writer_init ( image_format_writer_t *this_,
                                 data_database_reader_t *db_reader,
                                 data_visible_set_t *input_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
 
@@ -24,19 +24,19 @@ void image_format_writer_init ( image_format_writer_t *this_,
     geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 800.0, 600.0 );
     pencil_diagram_maker_init( &((*this_).painter), input_data );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void image_format_writer_destroy( image_format_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_diagram_maker_destroy( &((*this_).painter) );
     geometry_rectangle_destroy(&((*this_).bounds));
     (*this_).input_data = NULL;
     (*this_).db_reader = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #ifndef CAIRO_HAS_SVG_SURFACE
@@ -53,7 +53,7 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
                                                 const char* target_filename,
                                                 data_stat_t *io_render_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != target_filename );
     assert( NULL != io_render_stat );
     assert( IO_FILE_FORMAT_TXT != export_type );
@@ -72,7 +72,7 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
     result |= image_format_writer_private_render_surface_to_file( this_, export_type, target_filename, io_render_stat );
     data_visible_set_destroy( (*this_).input_data );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -81,7 +81,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
                                                         const char* target_filename,
                                                         data_stat_t *io_render_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != target_filename );
     assert( IO_FILE_FORMAT_TXT != export_type );
     int result = 0;
@@ -120,7 +120,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
     /* draw on surface */
     if ( CAIRO_STATUS_SUCCESS != cairo_surface_status( surface ) )
     {
-        TSLOG_ERROR_INT( "surface could not be created", cairo_surface_status( surface ) );
+        U8_LOG_ERROR_INT( "surface could not be created", cairo_surface_status( surface ) );
         result = -1;
     }
     else
@@ -173,7 +173,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
             png_result = cairo_surface_write_to_png ( surface, target_filename );
             if ( CAIRO_STATUS_SUCCESS != png_result )
             {
-                TSLOG_ERROR("error writing png.");
+                U8_LOG_ERROR("error writing png.");
                 result = -1;
             }
         }
@@ -185,7 +185,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
 
     cairo_surface_destroy ( surface );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

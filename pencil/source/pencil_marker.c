@@ -1,7 +1,7 @@
 /* File: pencil_marker.c; Copyright and License: see below */
 
 #include "pencil_marker.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,21 +9,21 @@
 
 void pencil_marker_init( pencil_marker_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_marker_destroy( pencil_marker_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_marker_mark_focused_rectangle ( const pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     static const double YELLOW_BOX_SIZE = 8.0;
@@ -70,12 +70,12 @@ void pencil_marker_mark_focused_rectangle ( const pencil_marker_t *this_, geomet
     cairo_rectangle ( cr, right+GAP+LINE_WIDTH, bottom+GAP+LINE_WIDTH, YELLOW_BOX_SIZE, YELLOW_BOX_SIZE );
     cairo_fill (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_marker_mark_selected_rectangle ( const pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     static const double EXPAND_OVER_BORDER = 2.0;
@@ -135,7 +135,7 @@ void pencil_marker_mark_selected_rectangle ( const pencil_marker_t *this_, geome
         cairo_fill (cr);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

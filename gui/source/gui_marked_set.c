@@ -3,8 +3,8 @@
 #include "gui_marked_set.h"
 #include "data_table.h"
 #include "data_id.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gdk/gdk.h>
 
 static bool gui_marked_set_glib_signal_initialized = false;
@@ -13,7 +13,7 @@ const char *GUI_MARKED_SET_GLIB_SIGNAL_NAME = "cfu_object_selected";
 
 void gui_marked_set_init( gui_marked_set_t *this_, GObject *signal_source )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != signal_source );
 
     data_full_id_init_void( &((*this_).focused) );
@@ -39,17 +39,17 @@ void gui_marked_set_init( gui_marked_set_t *this_, GObject *signal_source )
             G_TYPE_POINTER /* data_id_t* */
         );
         gui_marked_set_glib_signal_initialized = true;
-        TRACE_INFO_INT( "g_signal_new(\"cfu_object_selected\") returned new signal id", gui_marked_set_glib_signal_id );
+        U8_TRACE_INFO_INT( "g_signal_new(\"cfu_object_selected\") returned new signal id", gui_marked_set_glib_signal_id );
     }
 
     (*this_).signal_source = signal_source;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_marked_set_reinit( gui_marked_set_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != (*this_).signal_source );
 
     data_full_id_init_void( &((*this_).focused) );
@@ -59,12 +59,12 @@ void gui_marked_set_reinit( gui_marked_set_t *this_ )
     (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
     data_small_set_reinit( &((*this_).selected_set) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_marked_set_destroy( gui_marked_set_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_full_id_destroy( &((*this_).focused) );
     data_id_destroy( &((*this_).focused_diagram) );
@@ -73,17 +73,17 @@ void gui_marked_set_destroy( gui_marked_set_t *this_ )
     data_small_set_destroy( &((*this_).selected_set) );
     (*this_).signal_source = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_marked_set_private_notify_listeners( gui_marked_set_t *this_, data_id_t modified_real_object_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_INFO( "g_signal_emit to listeners" );
+    U8_TRACE_INFO( "g_signal_emit to listeners" );
     g_signal_emit( (*this_).signal_source, gui_marked_set_glib_signal_id, 0, &modified_real_object_id );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

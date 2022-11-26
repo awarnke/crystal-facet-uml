@@ -5,7 +5,7 @@
 #include "json/json_element_reader.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8stream/universal_memory_output_stream.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -15,7 +15,7 @@ void io_export_set_traversal_init ( io_export_set_traversal_t *this_,
                                     data_stat_t *io_export_stat,
                                     io_element_writer_t *out_element_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != io_export_stat );
     assert( NULL != out_element_writer );
@@ -24,24 +24,24 @@ void io_export_set_traversal_init ( io_export_set_traversal_t *this_,
     (*this_).export_stat = io_export_stat;
     (*this_).element_writer = out_element_writer;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).db_reader = NULL;
     (*this_).export_stat = NULL;
     (*this_).element_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
                                         const data_small_set_t *set_to_be_exported )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != set_to_be_exported );
 
     int serialize_error = 0;
@@ -77,7 +77,7 @@ int io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
             case DATA_TABLE_FEATURE:
             {
                 /* intentionally not supported */
-                TRACE_INFO( "io_export_set_traversal_export_set does not copy single features, only complete classifiers." );
+                U8_TRACE_INFO( "io_export_set_traversal_export_set does not copy single features, only complete classifiers." );
                 data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED );
             }
             break;
@@ -95,13 +95,13 @@ int io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
 
     serialize_error |= io_element_writer_end_main( (*this_).element_writer );
 
-    TRACE_END_ERR(serialize_error);
+    U8_TRACE_END_ERR(serialize_error);
     return serialize_error;
 }
 
 int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *this_, data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_DIAGRAM == data_id_get_table( &id ) );
     int serialize_error = 0;
@@ -128,17 +128,17 @@ int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *t
     else
     {
         /* program internal error */
-        TSLOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
+        U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
     }
 
-    TRACE_END_ERR(serialize_error);
+    U8_TRACE_END_ERR(serialize_error);
     return serialize_error;
 }
 
 int io_export_set_traversal_private_export_diagramelement( io_export_set_traversal_t *this_, data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &id ) );
     int serialize_error = 0;
@@ -191,7 +191,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
         if ( read_error == U8_ERROR_NONE )
         {
             /* intentionally not supported: diagramelements */
-            TRACE_INFO( "io_export_set_traversal_export_set does not copy single diagramelements, only referenced classifiers." );
+            U8_TRACE_INFO( "io_export_set_traversal_export_set does not copy single diagramelements, only referenced classifiers." );
             /*
             serialize_error |= io_element_writer_start_diagramelement( (*this_).element_writer,
                                                                        &out_diagram,
@@ -261,24 +261,24 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
         else
         {
             /* program internal error */
-            TSLOG_ERROR( "io_export_set_traversal_export_set could not read referenced data of the set." );
+            U8_LOG_ERROR( "io_export_set_traversal_export_set could not read referenced data of the set." );
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
         }
     }
     else
     {
         /* program internal error */
-        TSLOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
+        U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
     }
 
-    TRACE_END_ERR(serialize_error);
+    U8_TRACE_END_ERR(serialize_error);
     return serialize_error;
 }
 
 int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t *this_, data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &id ) );
     int serialize_error = 0;
@@ -339,17 +339,17 @@ int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t
     else
     {
         /* program internal error */
-        TSLOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
+        U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
     }
 
-    TRACE_END_ERR(serialize_error);
+    U8_TRACE_END_ERR(serialize_error);
     return serialize_error;
 }
 
 int io_export_set_traversal_private_export_relationship( io_export_set_traversal_t *this_, data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_RELATIONSHIP == data_id_get_table( &id ) );
     int serialize_error = 0;
@@ -425,18 +425,18 @@ int io_export_set_traversal_private_export_relationship( io_export_set_traversal
         else
         {
             /* program internal error */
-            TSLOG_ERROR( "io_export_set_traversal_export_set could not read referenced data of the set." );
+            U8_LOG_ERROR( "io_export_set_traversal_export_set could not read referenced data of the set." );
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
         }
     }
     else
     {
         /* program internal error */
-        TSLOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
+        U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
     }
 
-    TRACE_END_ERR(serialize_error);
+    U8_TRACE_END_ERR(serialize_error);
     return serialize_error;
 }
 

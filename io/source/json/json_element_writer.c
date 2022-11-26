@@ -4,8 +4,8 @@
 #include "json/json_constants.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 /* define a struct where the function pointers have the exact right signatures to avoid typecasts */
@@ -45,7 +45,7 @@ void json_element_writer_init( json_element_writer_t *this_,
                                data_stat_t *io_export_stat,
                                universal_output_stream_t *output)
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( io_export_stat != NULL );
     assert( output != NULL );
 
@@ -66,12 +66,12 @@ void json_element_writer_init( json_element_writer_t *this_,
     (*this_).mode = JSON_WRITER_PASS_NODES;
     (*this_).export_stat = io_export_stat;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void json_element_writer_destroy( json_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     json_type_name_map_destroy( &((*this_).type_map) );
 
@@ -80,31 +80,31 @@ void json_element_writer_destroy( json_element_writer_t *this_ )
     io_element_writer_private_destroy( &((*this_).element_writer) );
     (*this_).export_stat = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 io_element_writer_t * json_element_writer_get_element_writer( json_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     io_element_writer_t * base = &((*this_).element_writer);
 
-    TRACE_END();
+    U8_TRACE_END();
     return base;
 }
 
 void json_element_writer_set_mode( json_element_writer_t *this_, json_writer_pass_t mode )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).mode = mode;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int json_element_writer_write_header( json_element_writer_t *this_, const char *document_title )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( document_title != NULL );
     assert( (*this_).in_outer_array == false );
     assert( (*this_).in_inner_array == false );
@@ -140,16 +140,16 @@ int json_element_writer_write_header( json_element_writer_t *this_, const char *
 
     if ( out_err != 0 )
     {
-        TSLOG_ERROR( "output buffer exceeded." );
+        U8_LOG_ERROR( "output buffer exceeded." );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
 int json_element_writer_start_main( json_element_writer_t *this_, const char *document_title )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( document_title != NULL );
     assert( (*this_).in_outer_array == false );
     assert( (*this_).in_inner_array == false );
@@ -199,13 +199,13 @@ int json_element_writer_start_main( json_element_writer_t *this_, const char *do
 
     if ( out_err != 0 )
     {
-        TSLOG_ERROR( "output buffer exceeded." );
+        U8_LOG_ERROR( "output buffer exceeded." );
     }
 
     (*this_).in_outer_array = true;
     (*this_).is_outer_first = true;
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -213,9 +213,9 @@ bool json_element_writer_can_classifier_nest_classifier( json_element_writer_t *
                                                          data_classifier_type_t host_type,
                                                          data_classifier_type_t child_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     const bool can_nest = false;
-    TRACE_END();
+    U8_TRACE_END();
     return can_nest;
 }
 
@@ -223,9 +223,9 @@ bool json_element_writer_can_classifier_nest_relationship( json_element_writer_t
                                                            data_classifier_type_t host_type,
                                                            data_relationship_type_t child_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     const bool can_nest = true;
-    TRACE_END();
+    U8_TRACE_END();
     return can_nest;
 }
 
@@ -233,7 +233,7 @@ int json_element_writer_start_classifier( json_element_writer_t *this_,
                                           data_classifier_type_t host_type,
                                           const data_classifier_t *classifier_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
     int out_err = 0;
 
@@ -266,7 +266,7 @@ int json_element_writer_start_classifier( json_element_writer_t *this_,
                                             JSON_CONSTANTS_BEGIN_OBJECT_NL );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -274,7 +274,7 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
                                              data_classifier_type_t host_type,
                                              const data_classifier_t *classifier_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
     int out_err = 0;
 
@@ -402,7 +402,7 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -410,7 +410,7 @@ int json_element_writer_end_classifier( json_element_writer_t *this_,
                                         data_classifier_type_t host_type,
                                         const data_classifier_t *classifier_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
     int out_err = 0;
 
@@ -447,11 +447,11 @@ int json_element_writer_end_classifier( json_element_writer_t *this_,
 
         if ( out_err != 0 )
         {
-            TSLOG_ERROR( "output buffer exceeded." );
+            U8_LOG_ERROR( "output buffer exceeded." );
         }
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -459,7 +459,7 @@ int json_element_writer_start_feature( json_element_writer_t *this_,
                                        data_classifier_type_t parent_type,
                                        const data_feature_t *feature_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
     int out_err = 0;
 
@@ -491,7 +491,7 @@ int json_element_writer_start_feature( json_element_writer_t *this_,
                                           );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -499,7 +499,7 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
                                           data_classifier_type_t parent_type,
                                           const data_feature_t *feature_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
     int out_err = 0;
 
@@ -593,7 +593,7 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -601,7 +601,7 @@ int json_element_writer_end_feature( json_element_writer_t *this_,
                                      data_classifier_type_t parent_type,
                                      const data_feature_t *feature_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
     int out_err = 0;
 
@@ -619,11 +619,11 @@ int json_element_writer_end_feature( json_element_writer_t *this_,
 
         if ( out_err != 0 )
         {
-            TSLOG_ERROR( "output buffer exceeded." );
+            U8_LOG_ERROR( "output buffer exceeded." );
         }
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -631,7 +631,7 @@ int json_element_writer_start_relationship( json_element_writer_t *this_,
                                             data_classifier_type_t host_type,
                                             const data_relationship_t *relation_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
     int out_err = 0;
 
@@ -669,7 +669,7 @@ int json_element_writer_start_relationship( json_element_writer_t *this_,
                                           );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -681,7 +681,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                const data_classifier_t *to_c,
                                                const data_feature_t *to_f )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
     int out_err = 0;
 
@@ -893,7 +893,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -901,7 +901,7 @@ int json_element_writer_end_relationship( json_element_writer_t *this_,
                                           data_classifier_type_t host_type,
                                           const data_relationship_t *relation_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
     int out_err = 0;
 
@@ -920,17 +920,17 @@ int json_element_writer_end_relationship( json_element_writer_t *this_,
 
         if ( out_err != 0 )
         {
-            TSLOG_ERROR( "output buffer exceeded." );
+            U8_LOG_ERROR( "output buffer exceeded." );
         }
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
 int json_element_writer_start_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diag_ptr != NULL );
     int out_err = 0;
 
@@ -970,7 +970,7 @@ int json_element_writer_start_diagram( json_element_writer_t *this_, const data_
                                           );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -979,7 +979,7 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                           const data_diagram_t *diag_ptr,
                                           const char *diagram_file_base_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diag_ptr != NULL );
     assert( diagram_file_base_name != NULL );
     int out_err = 0;
@@ -1127,26 +1127,26 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
 int json_element_writer_end_diagram_fake( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diag_ptr != NULL );
     int out_err = 0;
 
     /* The JSON export does not encapsulate one diagram into another. */
     /* Therefore, diagrams are ended already when the next starts. */
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
 int json_element_writer_private_end_diagram( json_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int out_err = 0;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
@@ -1179,7 +1179,7 @@ int json_element_writer_private_end_diagram( json_element_writer_t *this_ )
                                           );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -1187,7 +1187,7 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
                                               const data_diagram_t *parent,
                                               const data_diagramelement_t *diagramelement_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
     int out_err = 0;
@@ -1221,11 +1221,11 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
 
         if ( out_err != 0 )
         {
-            TSLOG_ERROR( "output buffer exceeded." );
+            U8_LOG_ERROR( "output buffer exceeded." );
         }
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -1235,7 +1235,7 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                  const data_classifier_t *occurrence,
                                                  const data_feature_t *feat_occur )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( parent != NULL );
     assert( diagramelement_ptr != NULL );
     assert( occurrence != NULL );
@@ -1317,7 +1317,7 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
@@ -1325,7 +1325,7 @@ int json_element_writer_end_diagramelement( json_element_writer_t *this_,
                                             const data_diagram_t *parent,
                                             const data_diagramelement_t *diagramelement_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
     int out_err = 0;
@@ -1344,17 +1344,17 @@ int json_element_writer_end_diagramelement( json_element_writer_t *this_,
 
         if ( out_err != 0 )
         {
-            TSLOG_ERROR( "output buffer exceeded." );
+            U8_LOG_ERROR( "output buffer exceeded." );
         }
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
 int json_element_writer_end_main( json_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int out_err = 0;
 
     /* print diagram end here because the official end requires hierarcical diagram containments */
@@ -1380,16 +1380,16 @@ int json_element_writer_end_main( json_element_writer_t *this_ )
 
     if ( out_err != 0 )
     {
-        TSLOG_ERROR( "output buffer exceeded." );
+        U8_LOG_ERROR( "output buffer exceeded." );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 
 int json_element_writer_write_footer( json_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).in_outer_array == false );
     assert( (*this_).in_inner_array == false );
     int out_err = 0;
@@ -1400,10 +1400,10 @@ int json_element_writer_write_footer( json_element_writer_t *this_ )
 
     if ( out_err != 0 )
     {
-        TSLOG_ERROR( "output buffer exceeded." );
+        U8_LOG_ERROR( "output buffer exceeded." );
     }
 
-    TRACE_END_ERR(out_err);
+    U8_TRACE_END_ERR(out_err);
     return out_err;
 }
 

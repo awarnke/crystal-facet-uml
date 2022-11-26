@@ -1,7 +1,7 @@
 /* File: pencil_layouter.c; Copyright and License: see below */
 
 #include "pencil_layouter.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +9,7 @@
 
 void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *input_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != input_data );
 
     pencil_size_init_empty( &((*this_).pencil_size) );
@@ -54,23 +54,23 @@ void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *i
                                     &((*this_).layout_data),
                                     &((*this_).pencil_size)
                                   );
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layouter_reinit( pencil_layouter_t *this_, const data_visible_set_t *input_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != input_data );
 
     /* re-initialize the layout data objects */
     pencil_layout_data_reinit( &((*this_).layout_data), input_data );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layouter_destroy( pencil_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_rel_label_layouter_destroy( &((*this_).relationship_label_layouter) );
     pencil_relationship_1d_layouter_destroy( &((*this_).pencil_relationship_1d_layouter) );
@@ -90,12 +90,12 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
 
     pencil_layout_data_destroy( &((*this_).layout_data) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get the diagram data */
     layout_diagram_t *the_diagram;
@@ -152,12 +152,12 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout, data_stat_t *io_layout_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( font_layout != NULL );
 
     /* get the diagram data */
@@ -259,12 +259,12 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     {
         pencil_layout_data_get_statistics( &((*this_).layout_data), io_layout_stat );
     }
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* determine grid cell size */
     const double grid_width = geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
@@ -333,7 +333,7 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
         geometry_dimensions_reinit( default_size, w, w * 0.75 );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *this_,
@@ -344,7 +344,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
                                                       data_full_id_t* out_selected_id,
                                                       data_full_id_t* out_surrounding_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_selected_id );
     assert( NULL != out_surrounding_id );
 
@@ -417,11 +417,11 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
     }
     else
     {
-        TRACE_INFO( "given location outside diagram or no diagram chosen" );
+        U8_TRACE_INFO( "given location outside diagram or no diagram chosen" );
         result = PENCIL_ERROR_OUT_OF_BOUNDS;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -431,7 +431,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
                                                                   data_full_id_t* out_selected_id,
                                                                   data_full_id_t* out_surrounding_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_selected_id );
     assert( NULL != out_surrounding_id );
 
@@ -492,7 +492,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -503,7 +503,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
                                                                data_full_id_t* out_selected_id,
                                                                data_full_id_t* out_surrounding_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_selected_id );
     assert( NULL != out_surrounding_id );
 
@@ -556,7 +556,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -566,7 +566,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
                                                                     double snap_distance,
                                                                     data_full_id_t* out_selected_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_selected_id );
 
     pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
@@ -603,7 +603,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -614,7 +614,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
                                                              double snap_distance,
                                                              layout_order_t* out_layout_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_layout_order );
 
     pencil_error_t result = PENCIL_ERROR_NONE;
@@ -703,7 +703,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -713,7 +713,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                                                           double y,
                                                           layout_order_t* out_layout_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_layout_order );
     assert ( NULL != feature_ptr );
 
@@ -737,7 +737,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         result = PENCIL_ERROR_OUT_OF_BOUNDS;
     }
     else if ( DATA_ROW_ID_VOID == parent_classifier_id ) {
-        TSLOG_WARNING( "feature to move has no parent classifier!" );
+        U8_LOG_WARNING( "feature to move has no parent classifier!" );
         layout_order_init_empty( out_layout_order );
         result = PENCIL_ERROR_UNKNOWN_OBJECT;
     }
@@ -901,7 +901,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
 
                 case DATA_FEATURE_TYPE_LIFELINE:
                 {
-                    TRACE_INFO( "feature to move is a lifeline and therefore cannot move." );
+                    U8_TRACE_INFO( "feature to move is a lifeline and therefore cannot move." );
                     layout_order_init_empty( out_layout_order );
                     result = PENCIL_ERROR_UNKNOWN_OBJECT;
                 }
@@ -909,7 +909,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
 
                 default:
                 {
-                    TSLOG_WARNING( "feature to move has illegal/unknown type!" );
+                    U8_LOG_WARNING( "feature to move has illegal/unknown type!" );
                     layout_order_init_empty( out_layout_order );
                     result = PENCIL_ERROR_UNKNOWN_OBJECT;
                 }
@@ -918,13 +918,13 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         }
         else
         {
-            TSLOG_WARNING( "parent classifier of feature is not visible; possibly array size too small?" );
+            U8_LOG_WARNING( "parent classifier of feature is not visible; possibly array size too small?" );
             layout_order_init_empty( out_layout_order );
             result = PENCIL_ERROR_UNKNOWN_OBJECT;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -933,7 +933,7 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
                                                                double y,
                                                                layout_order_t* out_layout_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_layout_order );
 
     pencil_error_t result = PENCIL_ERROR_NONE;
@@ -1018,7 +1018,7 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

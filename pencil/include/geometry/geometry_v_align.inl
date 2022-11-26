@@ -1,7 +1,7 @@
 /* File: geometry_v_align.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_, double height, double reference_top, double reference_height )
 {
@@ -29,7 +29,7 @@ static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_,
 
         default:
         {
-            TSLOG_ERROR("unknown geometry_v_align_t in geometry_v_align_get_top()");
+            U8_LOG_ERROR("unknown geometry_v_align_t in geometry_v_align_get_top()");
             assert(0);
             top = 0.0;
         }

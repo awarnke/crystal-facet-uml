@@ -1,7 +1,7 @@
 /* File: gui_clipboard.c; Copyright and License: see below */
 
 #include "gui_clipboard.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "u8/u8_error.h"
 #include "set/data_stat.h"
 #include "utf8stringbuf/utf8string.h"
@@ -15,7 +15,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
                           data_database_reader_t *db_reader,
                           ctrl_controller_t *controller )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != clipboard );
     assert( NULL != message_to_user );
     assert( NULL != db_reader );
@@ -31,12 +31,12 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
     io_exporter_light_init ( &((*this_).exporter), db_reader );
     io_importer_init ( &((*this_).importer), db_reader, controller );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_clipboard_destroy ( gui_clipboard_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     io_exporter_light_destroy ( &((*this_).exporter) );
     io_importer_destroy ( &((*this_).importer) );
@@ -44,12 +44,12 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ )
     (*this_).the_clipboard = NULL;
     (*this_).message_to_user = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_small_set_t *set_to_be_copied, data_stat_t *io_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != set_to_be_copied );
     assert( NULL != io_stat );
     int serialize_error;
@@ -70,11 +70,11 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
     }
     else
     {
-        TSLOG_ERROR_HEX( "Exporting selected set to clipboard failed:", serialize_error );
+        U8_LOG_ERROR_HEX( "Exporting selected set to clipboard failed:", serialize_error );
     }
-    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
+    U8_TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
 
-    TRACE_END_ERR( serialize_error );
+    U8_TRACE_END_ERR( serialize_error );
     return serialize_error;
 }
 
@@ -82,12 +82,12 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
 
 void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
     (*this_).destination_diagram_id = destination_diagram_id;
-    TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
+    U8_TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
 
     gdk_clipboard_read_text_async( (*this_).the_clipboard,
                                    NULL,  /* GCancellable* cancellable */
@@ -95,14 +95,14 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t
                                    this_
                                  );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_clipboard_clipboard_text_received_callback( GObject *source_object,
                                                      GAsyncResult* res,
                                                      gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != source_object );
     assert( NULL != res );
     assert( NULL != user_data );
@@ -114,7 +114,7 @@ void gui_clipboard_clipboard_text_received_callback( GObject *source_object,
 
     if ( error != NULL )
     {
-        TSLOG_ERROR_STR( "Error:", (*error).message );
+        U8_LOG_ERROR_STR( "Error:", (*error).message );
         g_error_free( error );
     }
 
@@ -132,20 +132,20 @@ void gui_clipboard_clipboard_text_received_callback( GObject *source_object,
                                                );
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 #else
 
 void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
     (*this_).destination_diagram_id = destination_diagram_id;
-    TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
+    U8_TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
 
     /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
     gtk_clipboard_request_text( (*this_).the_clipboard,
@@ -153,12 +153,12 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t
                                 this_
                               );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_clipboard_clipboard_text_received_callback( GdkClipboard *clipboard, const gchar *clipboard_text, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != clipboard );
     assert( NULL != data );
     gui_clipboard_t *this_ = data;
@@ -175,17 +175,17 @@ void gui_clipboard_clipboard_text_received_callback( GdkClipboard *clipboard, co
                                                );
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 #endif
 
 void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const char *json_text )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != json_text );
-    TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
+    U8_TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
 
     u8_error_t parse_error;
     data_stat_t stat;
@@ -219,7 +219,7 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     }
 
     data_stat_destroy(&stat);
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

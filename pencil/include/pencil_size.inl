@@ -1,6 +1,6 @@
 /* File: pencil_size.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void pencil_size_init( pencil_size_t *this_, double width, double height )

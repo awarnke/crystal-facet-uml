@@ -6693,18 +6693,6 @@
         "features":
         [
           {
-            "id": 94,
-            "main_type": 4,
-            "type": "Interface",
-            "key": "notify_listeners",
-            "value": "IP-socket",
-            "description": [
-                ""
-            ],
-            "list_order": -1805579753,
-            "uuid": "d5e4682e-ee02-4e8f-b40b-24085c06a957"
-          },
-          {
             "id": 91,
             "main_type": 5,
             "type": "Interface",
@@ -6715,6 +6703,18 @@
             ],
             "list_order": -187143138,
             "uuid": "d373144e-c420-4c92-8390-3ffa8dae30fb"
+          },
+          {
+            "id": 94,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "notify_listeners",
+            "value": "IP-socket",
+            "description": [
+                ""
+            ],
+            "list_order": -1805579753,
+            "uuid": "d5e4682e-ee02-4e8f-b40b-24085c06a957"
           }
         ]
       }
@@ -9017,18 +9017,6 @@
         "features":
         [
           {
-            "id": 87,
-            "main_type": 4,
-            "type": "Interface",
-            "key": "notify_listeners",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 824692185,
-            "uuid": "7d60442d-eed7-4e1e-a264-e31f17b052ff"
-          },
-          {
             "id": 86,
             "main_type": 4,
             "type": "Interface",
@@ -9039,6 +9027,18 @@
             ],
             "list_order": 1426372702,
             "uuid": "270acb9a-d2be-457c-bd70-b535046fb0f9"
+          },
+          {
+            "id": 87,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "notify_listeners",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 824692185,
+            "uuid": "7d60442d-eed7-4e1e-a264-e31f17b052ff"
           }
         ]
       }
@@ -9083,18 +9083,6 @@
             "uuid": "5482330e-d688-4f51-967e-b034d6e7dd62"
           },
           {
-            "id": 42,
-            "main_type": 0,
-            "type": "Property",
-            "key": "stereotype",
-            "value": "GtkEntry *",
-            "description": [
-                ""
-            ],
-            "list_order": 761352,
-            "uuid": "41613598-cdc9-4351-ad06-af2ea1e918c0"
-          },
-          {
             "id": 40,
             "main_type": 0,
             "type": "Property",
@@ -9117,6 +9105,18 @@
             ],
             "list_order": 810504,
             "uuid": "c5d2b9de-8a29-4c16-a146-b2937d471631"
+          },
+          {
+            "id": 42,
+            "main_type": 0,
+            "type": "Property",
+            "key": "stereotype",
+            "value": "GtkEntry *",
+            "description": [
+                ""
+            ],
+            "list_order": 761352,
+            "uuid": "41613598-cdc9-4351-ad06-af2ea1e918c0"
           },
           {
             "id": 43,
@@ -9829,6 +9829,18 @@
         "features":
         [
           {
+            "id": 74,
+            "main_type": 2,
+            "type": "Port",
+            "key": "clipboard in",
+            "value": "IF",
+            "description": [
+                ""
+            ],
+            "list_order": 1248483198,
+            "uuid": "e2686347-6780-4e1b-ab4e-044dea0da234"
+          },
+          {
             "id": 75,
             "main_type": 2,
             "type": "Port",
@@ -9839,6 +9851,18 @@
             ],
             "list_order": 95481415,
             "uuid": "3bb09b27-9dbe-4e87-9a8c-c5acd0836ccb"
+          },
+          {
+            "id": 85,
+            "main_type": 2,
+            "type": "Port",
+            "key": "export_trigger",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 1897956719,
+            "uuid": "8dc6fd34-f206-4450-9e0c-d8445897032d"
           },
           {
             "id": 95,
@@ -9853,18 +9877,6 @@
             "uuid": "25a150fc-b819-4e31-85a9-4937bb85a3fb"
           },
           {
-            "id": 74,
-            "main_type": 2,
-            "type": "Port",
-            "key": "clipboard in",
-            "value": "IF",
-            "description": [
-                ""
-            ],
-            "list_order": 1248483198,
-            "uuid": "e2686347-6780-4e1b-ab4e-044dea0da234"
-          },
-          {
             "id": 96,
             "main_type": 2,
             "type": "Port",
@@ -9875,18 +9887,6 @@
             ],
             "list_order": 1557638905,
             "uuid": "5ef1f24b-e5de-472d-b862-bd437bc8cfb7"
-          },
-          {
-            "id": 85,
-            "main_type": 2,
-            "type": "Port",
-            "key": "export_trigger",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 1897956719,
-            "uuid": "8dc6fd34-f206-4450-9e0c-d8445897032d"
           }
         ]
       }

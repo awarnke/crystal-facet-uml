@@ -2,7 +2,7 @@
 
 #include "gui_file_export_dialog.h"
 #include "set/data_stat.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <gdk/gdk.h>
@@ -16,7 +16,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
                                    GtkWindow *parent_window,
                                    gui_simple_message_to_user_t *message_to_user )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != database );
     assert( NULL != db_reader );
     assert( NULL != parent_window );
@@ -111,12 +111,12 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     g_signal_connect( G_OBJECT((*this_).export_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* no need to g_object_unref ( (*this_).format_asciidoc ); here */
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -131,12 +131,12 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
     (*this_).message_to_user = NULL;
     (*this_).database = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show( GTK_WIDGET( (*this_).export_file_chooser ) );
@@ -148,26 +148,26 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_file_export_dialog_t *this_ = user_data;
 
     switch ( response_id )
     {
         case GTK_RESPONSE_CANCEL:
         {
-            TSLOG_EVENT( "GTK_RESPONSE_CANCEL" );
+            U8_LOG_EVENT( "GTK_RESPONSE_CANCEL" );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
         }
         break;
 
         case GTK_RESPONSE_ACCEPT:
         {
-            TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
+            U8_LOG_EVENT( "GTK_RESPONSE_ACCEPT" );
             int export_err;
             data_stat_t export_stat;
             data_stat_init ( &export_stat );
@@ -187,7 +187,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
             if ( folder_path != NULL )
             {
-                TRACE_INFO_STR( "chosen folder:", folder_path );
+                U8_TRACE_INFO_STR( "chosen folder:", folder_path );
 
                 selected_format = IO_FILE_FORMAT_NONE;
     #if ( GTK_MAJOR_VERSION >= 4 )
@@ -262,7 +262,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             }
             else
             {
-                TSLOG_WARNING( "Export dialog returned no folder path" );
+                U8_LOG_WARNING( "Export dialog returned no folder path" );
             }
             if ( selected_file != NULL )
             {
@@ -275,17 +275,17 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
 
         case GTK_RESPONSE_DELETE_EVENT:
         {
-            TSLOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
+            U8_LOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
         }
         break;
 
         default:
         {
-            TSLOG_ERROR( "unexpected response_id" );
+            U8_LOG_ERROR( "unexpected response_id" );
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

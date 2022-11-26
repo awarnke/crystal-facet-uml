@@ -2,7 +2,7 @@
 
 #include "draw/draw_classifier_contour.h"
 #include "draw/draw_classifier_icon.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -17,7 +17,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
                                                                const geometry_rectangle_t *outer_bounds,
                                                                const pencil_size_t *pencil_size )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
 
@@ -144,12 +144,12 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
 
         default:
         {
-            TSLOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
+            U8_LOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -158,7 +158,7 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
                                                                  const geometry_rectangle_t *inner_area,
                                                                  const pencil_size_t *pencil_size )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != inner_area );
     assert ( NULL != pencil_size );
 
@@ -285,12 +285,12 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
 
         default:
         {
-            TSLOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
+            U8_LOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -300,7 +300,7 @@ void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t
                                                  const pencil_size_t *pencil_size,
                                                  cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -340,7 +340,7 @@ void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t
         cairo_set_dash ( cr, NULL, 0, 0.0 );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_ellipse ( const draw_classifier_contour_t *this_,
@@ -348,7 +348,7 @@ void draw_classifier_contour_draw_ellipse ( const draw_classifier_contour_t *thi
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -373,7 +373,7 @@ void draw_classifier_contour_draw_ellipse ( const draw_classifier_contour_t *thi
     cairo_curve_to ( cr, border_right, border_bottom - ctrl_yoffset, border_right - ctrl_xoffset, border_bottom, center_x /* end point x */, border_bottom /* end point y */ );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *this_,
@@ -381,7 +381,7 @@ void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *thi
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -402,7 +402,7 @@ void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *thi
     cairo_line_to ( cr, center_x, border_bottom );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_3d_box ( const draw_classifier_contour_t *this_,
@@ -410,7 +410,7 @@ void draw_classifier_contour_draw_3d_box ( const draw_classifier_contour_t *this
                                            const pencil_size_t *pencil_size,
                                            cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -436,7 +436,7 @@ void draw_classifier_contour_draw_3d_box ( const draw_classifier_contour_t *this
     cairo_line_to ( cr, border_right-offset_3d, border_top+offset_3d );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t *this_,
@@ -444,7 +444,7 @@ void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t
                                                  const pencil_size_t *pencil_size,
                                                  cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -466,7 +466,7 @@ void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t
     cairo_line_to ( cr, border_right, border_bottom );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t *this_,
@@ -474,7 +474,7 @@ void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t 
                                                 const pencil_size_t *pencil_size,
                                                 cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -496,7 +496,7 @@ void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t 
     cairo_line_to ( cr, border_right - x_indent, border_bottom );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *this_,
@@ -505,7 +505,7 @@ void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *thi
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -532,7 +532,7 @@ void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *thi
     cairo_rectangle ( cr, border_left, border_top+tab_height, border_width, border_height-tab_height );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_diagram_ref ( const draw_classifier_contour_t *this_,
@@ -540,7 +540,7 @@ void draw_classifier_contour_draw_diagram_ref ( const draw_classifier_contour_t 
                                                 const pencil_size_t *pencil_size,
                                                 cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -560,7 +560,7 @@ void draw_classifier_contour_draw_diagram_ref ( const draw_classifier_contour_t 
     cairo_line_to ( cr, border_left+title_corner_width, border_top );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *this_,
@@ -568,7 +568,7 @@ void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *thi
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
     assert ( NULL != cr );
@@ -591,7 +591,7 @@ void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *thi
     cairo_line_to ( cr, border_right - corner_edge, border_top );
     cairo_stroke (cr);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

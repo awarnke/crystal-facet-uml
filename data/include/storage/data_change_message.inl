@@ -1,6 +1,6 @@
 /* File: data_change_message.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 
 static inline void data_change_message_init ( data_change_message_t *this_,
                                               data_change_event_type_t event,
@@ -43,54 +43,54 @@ static inline data_id_t data_change_message_get_parent ( const data_change_messa
 
 static inline void data_change_message_trace ( const data_change_message_t *this_ )
 {
-    TRACE_INFO( "data_change_message_t" );
+    U8_TRACE_INFO( "data_change_message_t" );
     switch ( (*this_).event )
     {
         case DATA_CHANGE_EVENT_TYPE_CREATE:
         {
-            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_CREATE");
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_CREATE");
         }
         break;
 
         case DATA_CHANGE_EVENT_TYPE_UPDATE:
         {
-            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_UPDATE");
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_UPDATE");
         }
         break;
 
         case DATA_CHANGE_EVENT_TYPE_DELETE:
         {
-            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DELETE");
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DELETE");
         }
         break;
 
         case DATA_CHANGE_EVENT_TYPE_DB_OPENED:
         {
-            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_OPENED");
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_OPENED");
         }
         break;
 
         case DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE:
         {
-            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE");
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE");
         }
         break;
 
         case DATA_CHANGE_EVENT_TYPE_DB_CLOSED:
         {
-            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_CLOSED");
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_CLOSED");
         }
         break;
 
         default:
         {
-            TSLOG_ERROR("- event: out of range");
+            U8_LOG_ERROR("- event: out of range");
         }
         break;
     }
-    TRACE_INFO( "- modified:" );
+    U8_TRACE_INFO( "- modified:" );
     data_id_trace( &((*this_).modified) );
-    TRACE_INFO( "- parent:" );
+    U8_TRACE_INFO( "- parent:" );
     data_id_trace( &((*this_).parent) );
 }
 

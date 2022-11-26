@@ -1,7 +1,7 @@
 /* File: data_change_notifier.inl; Copyright and License: see below */
 
 #include "data_id.h"
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void data_change_notifier_emit_signal_without_parent ( data_change_notifier_t *this_,

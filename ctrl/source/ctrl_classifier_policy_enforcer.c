@@ -3,15 +3,15 @@
 #include "ctrl_classifier_policy_enforcer.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 void ctrl_classifier_policy_enforcer_init( ctrl_classifier_policy_enforcer_t *this_,
                                            data_database_reader_t *db_reader,
                                            struct ctrl_classifier_controller_struct *clfy_ctrl,
                                            struct ctrl_diagram_controller_struct *diag_ctrl )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != clfy_ctrl );
     assert( NULL != diag_ctrl );
@@ -20,18 +20,18 @@ void ctrl_classifier_policy_enforcer_init( ctrl_classifier_policy_enforcer_t *th
     (*this_).clfy_ctrl = clfy_ctrl;
     (*this_).diag_ctrl = diag_ctrl;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void ctrl_classifier_policy_enforcer_destroy( ctrl_classifier_policy_enforcer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).db_reader = NULL;
     (*this_).clfy_ctrl = NULL;
     (*this_).diag_ctrl = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ LIFELINES ================================ */
@@ -39,7 +39,7 @@ void ctrl_classifier_policy_enforcer_destroy( ctrl_classifier_policy_enforcer_t 
 u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline( ctrl_classifier_policy_enforcer_t *this_,
                                                                     const data_feature_t *deleted_feature )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != deleted_feature );
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
@@ -86,7 +86,7 @@ u8_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline( ctrl_classif
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

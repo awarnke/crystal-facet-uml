@@ -54,8 +54,8 @@
 #include "unit/utf8stringviewiterator_test.h"
 #include "utf8stringbuf/utf8string.h"
 /* TEST_ENVIRONMENT */
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "test_runner.h"
@@ -67,11 +67,11 @@
  *  \brief main runs the unit tests
  */
 int main (int argc, char *argv[]) {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
-    TRACE_INFO( "--------------------" );
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_INFO( "--------------------" );
     int exit_code = 0;
-    TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
+    U8_LOG_INIT(META_INFO_PROGRAM_ID_STR, U8_LOG_DEBUG_MODE_CONTINUE);
 
     /* print id, license and copyrights */
     {
@@ -125,7 +125,7 @@ int main (int argc, char *argv[]) {
 #endif
         if ( ! success )
         {
-            TSLOG_WARNING("gtk could not be initialized.");
+            U8_LOG_WARNING("gtk could not be initialized.");
         }
     }
 
@@ -211,10 +211,10 @@ int main (int argc, char *argv[]) {
            );
     exit_code = test_result_get_failed( &res );
 
-    TSLOG_DESTROY();
-    TRACE_INFO( "--------------------" );
-    TRACE_TIMESTAMP();
-    TRACE_END_ERR( exit_code );
+    U8_LOG_DESTROY();
+    U8_TRACE_INFO( "--------------------" );
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END_ERR( exit_code );
     return exit_code;
 }
 

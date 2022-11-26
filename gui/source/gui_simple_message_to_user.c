@@ -2,8 +2,8 @@
 
 #include "gui_simple_message_to_user.h"
 #include "gui_error_info_printer.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "u8/u8_error.h"
@@ -12,7 +12,7 @@
 
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( text_label != NULL );
     assert ( icon_image != NULL );
     assert ( res != NULL );
@@ -25,25 +25,25 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
     (*this_).private_temp_str = utf8stringbuf_init( sizeof((*this_).private_temp_buf), (*this_).private_temp_buf );
     utf8stringbuf_clear( (*this_).private_temp_str );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).text_label = NULL;
     (*this_).icon_image = NULL;
     (*this_).res = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *this_,
                                                gui_simple_message_type_t type_id,
                                                gui_simple_message_content_t content_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* update type id: */
     (*this_).type_id = type_id;
@@ -180,17 +180,17 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
 
         default:
         {
-            TSLOG_ERROR("unexptected gui_simple_message_content_t");
+            U8_LOG_ERROR("unexptected gui_simple_message_content_t");
         }
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
-    TSLOG_EVENT( utf8stringbuf_get_string( (*this_).private_temp_str ) );
+    U8_LOG_EVENT( utf8stringbuf_get_string( (*this_).private_temp_str ) );
 
     /* show: */
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_to_user_t *this_,
@@ -198,7 +198,7 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
                                                              const gui_simple_message_content_quantity_t *content_id,
                                                              int quantity )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( content_id != NULL );
 
     /* update type id: */
@@ -209,19 +209,19 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
     utf8stringbuf_clear( (*this_).private_temp_str );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Current database is inconsistent; errors: " );
         utf8stringbuf_append_int( (*this_).private_temp_str, quantity );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Maximum number of windows already open: " );
         utf8stringbuf_append_int( (*this_).private_temp_str, quantity );
     }
     else
     {
-        TSLOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexptected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
@@ -230,7 +230,7 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if 0
@@ -239,7 +239,7 @@ void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_u
                                                          const gui_simple_message_content_position_t *content_id,
                                                          int stream_line )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( content_id != NULL );
 
     /* update type id: */
@@ -250,13 +250,13 @@ void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_u
     utf8stringbuf_clear( (*this_).private_temp_str );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Invalid input data at line " );
         utf8stringbuf_append_int( (*this_).private_temp_str, stream_line );
     }
     else
     {
-        TSLOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexptected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
@@ -265,7 +265,7 @@ void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_u
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 #endif
 
@@ -274,7 +274,7 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
                                                          const gui_simple_message_content_name_t *content_id,
                                                          const char *name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( content_id != NULL );
     assert( name != NULL );
 
@@ -286,13 +286,13 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
     utf8stringbuf_clear( (*this_).private_temp_str );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Chosen database file could not be opened/created:\n" );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_CREATEABLE" );
         utf8stringbuf_append_str( (*this_).private_temp_str,
                                   "Database file could not be created, the parent directory is possibly read-only:\n"
                                 );
@@ -300,19 +300,19 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Chosen database file opened/created with warning:\n" );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Export failed, destination path: " );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE" );
         utf8stringbuf_append_str( (*this_).private_temp_str,
                                   "Name already in use (use copy and paste to insert the existing object): "
                                 );
@@ -320,29 +320,29 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_LOADING_WAIT" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Loading DB file ...\n" );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Exporting files ...\n" );
         utf8stringbuf_append_str( (*this_).private_temp_str, name );
     }
     else
     {
-        TSLOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexptected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
-    TRACE_INFO_STR( "error at", name );
+    U8_TRACE_INFO_STR( "error at", name );
 
     /* show: */
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_user_t *this_,
@@ -350,7 +350,7 @@ void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_
                                                           const gui_simple_message_content_names_t *content_id,
                                                           const char *list_of_names )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( content_id != NULL );
     assert( list_of_names != NULL );
 
@@ -361,7 +361,7 @@ void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_
     /* update content text: */
     utf8stringbuf_clear( (*this_).private_temp_str );
     {
-        TSLOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexptected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
@@ -370,7 +370,7 @@ void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_user_t *this_,
@@ -378,7 +378,7 @@ void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_
                                                           const gui_simple_message_content_error_t *content_id,
                                                           const char *error_message )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( content_id != NULL );
     assert( error_message != NULL );
 
@@ -390,13 +390,13 @@ void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_
     utf8stringbuf_clear( (*this_).private_temp_str );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "This feature is not yet implemented: " );
         utf8stringbuf_append_str( (*this_).private_temp_str, error_message );
     }
     else
     {
-        TSLOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexptected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
@@ -405,7 +405,7 @@ void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLES_MAX])
@@ -421,7 +421,7 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
                                                          const data_stat_t *stat
                                                        )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( stat != NULL );
     assert( content_id != NULL );
     data_stat_trace( stat );
@@ -434,43 +434,43 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
     utf8stringbuf_clear( (*this_).private_temp_str );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Selection cut to clipboard: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, true, (*this_).private_temp_str );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Selection copied to clipboard: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, true, (*this_).private_temp_str );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Clipboard pasted: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_DELETE )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DELETE" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_DELETE" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Selection deleted: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_UNDO )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_UNDO" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_UNDO" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Undo success: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
     else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_REDO )
     {
-        TSLOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_REDO" );
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_REDO" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
     else
     {
-        TSLOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexptected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
@@ -479,7 +479,7 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_message_to_user_t *this_,
@@ -488,7 +488,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
                                                                   const char *list_of_names,
                                                                   const data_stat_t *stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( stat != NULL );
     assert( list_of_names != NULL );
     assert( content_id != NULL );
@@ -502,7 +502,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     utf8stringbuf_clear( (*this_).private_temp_str );
     if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED )
     {
-        TSLOG_EVENT_STR( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED", list_of_names );
+        U8_LOG_EVENT_STR( "GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED", list_of_names );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Files exported, format: " );
         utf8stringbuf_append_str( (*this_).private_temp_str, list_of_names );
         utf8stringbuf_append_str( (*this_).private_temp_str, "\n" );
@@ -514,7 +514,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     }
     else
     {
-        TSLOG_ERROR("unexptected content_id");
+        U8_LOG_ERROR("unexptected content_id");
         assert(false);
     }
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
@@ -523,7 +523,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user_t *this_,
@@ -532,7 +532,7 @@ void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user
                                                       utf8stringbuf_t out_buf
                                                     )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( stat != NULL );
 
     bool first_series = true;
@@ -584,14 +584,14 @@ void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user
     {
         utf8stringbuf_append_str( out_buf, "0" );
     }
-    TRACE_INFO( utf8stringbuf_get_string( out_buf ) );
+    U8_TRACE_INFO( utf8stringbuf_get_string( out_buf ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *this_, const u8_error_info_t *err_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* update type id: */
     (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_ERROR;
@@ -611,18 +611,18 @@ void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *
     gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE;
     gtk_widget_hide( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_hide( GTK_WIDGET ( (*this_).icon_image ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

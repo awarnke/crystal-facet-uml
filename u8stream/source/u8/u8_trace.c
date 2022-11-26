@@ -1,16 +1,16 @@
-/* File: trace.c; Copyright and License: see below */
+/* File: u8_trace.c; Copyright and License: see below */
 
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <stdio.h>
 #include <time.h>
 
-__thread unsigned int trace_indent_depth = 0;
+__thread unsigned int u8_trace_indent_depth = 0;
 
-const char trace_indent_pattern_begin[ TRACE_INDENT_STEP * TRACE_INDENT_MAX + TRACE_NULLTERM_SIZE ]
+const char u8_trace_indent_pattern_begin[ U8_TRACE_INDENT_STEP * U8_TRACE_INDENT_MAX + U8_TRACE_NULLTERM_SIZE ]
     = "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | + \0";
-const char trace_indent_pattern_end[ TRACE_INDENT_STEP * TRACE_INDENT_MAX + TRACE_NULLTERM_SIZE ]
+const char u8_trace_indent_pattern_end[ U8_TRACE_INDENT_STEP * U8_TRACE_INDENT_MAX + U8_TRACE_NULLTERM_SIZE ]
     = "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | \' \0";
-const char trace_indent_pattern_info[ TRACE_INDENT_STEP * TRACE_INDENT_MAX  +TRACE_NULLTERM_SIZE ]
+const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_INDENT_MAX  +U8_TRACE_NULLTERM_SIZE ]
     = "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | |   \0";
 
 

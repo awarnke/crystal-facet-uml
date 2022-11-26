@@ -1,7 +1,7 @@
 /* File: universal_array_list.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <string.h>
 
@@ -14,9 +14,9 @@ static inline void universal_array_list_init ( universal_array_list_t *this_,
                                                bool (*equal)(const void* instance_1, const void* instance_2),
                                                void (*dtor)(void* instance) )
 {
-    TRACE_INFO_INT( "- max_elements:", max_elements );
-    TRACE_INFO_INT( "- element_size:", element_size );
-    TRACE_INFO_INT( "- step_size:", step_size );
+    U8_TRACE_INFO_INT( "- max_elements:", max_elements );
+    U8_TRACE_INFO_INT( "- element_size:", element_size );
+    U8_TRACE_INFO_INT( "- step_size:", step_size );
     assert( element_size <= step_size );
     assert( (element_size+sizeof(int)) > step_size );  /* something is wrong if there is more padding than an int */
     assert( elements != NULL );
@@ -45,12 +45,12 @@ static inline void universal_array_list_trace ( const universal_array_list_t *th
     assert( (*this_).length <= (*this_).max_elements );
     assert( (*this_).elements != NULL );
 
-    TRACE_INFO( "universal_array_list_t" );
-    TRACE_INFO_INT( "- length:", (*this_).length );
-    TRACE_INFO_INT( "- max_elements:", (*this_).max_elements );
-    TRACE_INFO_INT( "- element_size:", (*this_).element_size );
-    TRACE_INFO_STR( "- copy_ctor:", ((*this_).copy_ctor == NULL)?"NULL":"exists" );
-    TRACE_INFO_STR( "- dtor:", ((*this_).dtor == NULL)?"NULL":"exists" );
+    U8_TRACE_INFO( "universal_array_list_t" );
+    U8_TRACE_INFO_INT( "- length:", (*this_).length );
+    U8_TRACE_INFO_INT( "- max_elements:", (*this_).max_elements );
+    U8_TRACE_INFO_INT( "- element_size:", (*this_).element_size );
+    U8_TRACE_INFO_STR( "- copy_ctor:", ((*this_).copy_ctor == NULL)?"NULL":"exists" );
+    U8_TRACE_INFO_STR( "- dtor:", ((*this_).dtor == NULL)?"NULL":"exists" );
 }
 
 static inline bool universal_array_list_is_empty ( const universal_array_list_t *this_ )

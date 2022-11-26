@@ -2,8 +2,8 @@
 
 #include "gui_search_runner.h"
 #include "set/data_search_result_list.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 void gui_search_runner_init ( gui_search_runner_t *this_,
@@ -12,7 +12,7 @@ void gui_search_runner_init ( gui_search_runner_t *this_,
                               data_database_t *database,
                               gui_sketch_area_t *result_consumer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( message_to_user != NULL );
     assert ( db_reader != NULL );
     assert ( database != NULL );
@@ -23,33 +23,33 @@ void gui_search_runner_init ( gui_search_runner_t *this_,
     const u8_error_t d_err = data_database_text_search_init ( &((*this_).db_searcher), database );
     if ( U8_ERROR_NONE != d_err )
     {
-        TSLOG_WARNING_HEX( "data_database_text_search_t could not be constructed.", d_err );
+        U8_LOG_WARNING_HEX( "data_database_text_search_t could not be constructed.", d_err );
     }
     (*this_).result_consumer = result_consumer;
     DATA_SEARCH_RESULT_LIST_INIT( &((*this_).temp_result_list), (*this_).temp_result_list_buf );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_runner_destroy ( gui_search_runner_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).message_to_user = NULL;
     (*this_).db_reader = NULL;
     const u8_error_t d_err = data_database_text_search_destroy ( &((*this_).db_searcher) );
     if ( U8_ERROR_NONE != d_err )
     {
-        TSLOG_WARNING_HEX( "data_database_text_search_t could not be destructed.", d_err );
+        U8_LOG_WARNING_HEX( "data_database_text_search_t could not be destructed.", d_err );
     }
     (*this_).result_consumer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     if ( search_string != NULL )
     {
@@ -89,7 +89,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     }
                     else
                     {
-                        TRACE_INFO( "classifier does not exist or database not open." );
+                        U8_TRACE_INFO( "classifier does not exist or database not open." );
                     }
                 }
                 break;
@@ -118,7 +118,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     }
                     else
                     {
-                        TRACE_INFO( "feature does not exist or database not open." );
+                        U8_TRACE_INFO( "feature does not exist or database not open." );
                     }
                 }
                 break;
@@ -148,7 +148,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     }
                     else
                     {
-                        TRACE_INFO( "relationship does not exist or database not open." );
+                        U8_TRACE_INFO( "relationship does not exist or database not open." );
                     }
                 }
                 break;
@@ -172,7 +172,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         if ( err != 0 )
                         {
                             /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                            TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                         }
 
                         data_diagramelement_destroy( &((*this_).temp_diagramelement) );
@@ -180,7 +180,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     }
                     else
                     {
-                        TRACE_INFO( "diagramelement does not exist or database not open." );
+                        U8_TRACE_INFO( "diagramelement does not exist or database not open." );
                     }
                 }
                 break;
@@ -201,7 +201,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         if ( err != 0 )
                         {
                             /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                            TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                            U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                         }
 
                         data_diagram_destroy( &((*this_).temp_diagrams[0]) );
@@ -209,7 +209,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     }
                     else
                     {
-                        TRACE_INFO( "diagram does not exist or database not open." );
+                        U8_TRACE_INFO( "diagram does not exist or database not open." );
                     }
                 }
                 break;
@@ -223,7 +223,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
         }
         else
         {
-            TSLOG_EVENT_STR( "User search input is not an id", search_string );
+            U8_LOG_EVENT_STR( "User search input is not an id", search_string );
         }
 
         /* free text search */
@@ -233,7 +233,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                       );
         if ( U8_ERROR_NONE != d_err )
         {
-            TSLOG_ERROR_HEX( "data_database_text_search_t could not search.", d_err );
+            U8_LOG_ERROR_HEX( "data_database_text_search_t could not search.", d_err );
         }
 
         gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_list) );
@@ -244,7 +244,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
         assert(false);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
@@ -252,7 +252,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                                                             data_search_result_list_t *io_list
                                                           )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( classifier_template != NULL );
     assert( io_list != NULL );
     u8_error_t d_err = U8_ERROR_NONE;
@@ -275,7 +275,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                                                                );
     if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
     {
-        TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at searching diagrams" );
+        U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at searching diagrams" );
     }
 
     if (( d_err == U8_ERROR_NONE )||( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED ))
@@ -316,7 +316,7 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                 if ( err != 0 )
                 {
                     /*d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
-                    TSLOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                    U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                 }
             }
 
@@ -325,10 +325,10 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
     }
     else
     {
-        TRACE_INFO( "diagram does not exist or database not open." );
+        U8_TRACE_INFO( "diagram does not exist or database not open." );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

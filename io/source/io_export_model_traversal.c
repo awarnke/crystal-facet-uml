@@ -1,7 +1,7 @@
 /* File: io_export_model_traversal.c; Copyright and License: see below */
 
 #include "io_export_model_traversal.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include <stdint.h>
@@ -14,7 +14,7 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                      data_stat_t *io_export_stat,
                                      io_element_writer_t *out_element_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != io_export_stat );
     assert( NULL != out_element_writer );
@@ -40,12 +40,12 @@ void io_export_model_traversal_init( io_export_model_traversal_t *this_,
                                           io_export_stat,
                                           out_element_writer
                                         );
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     io_export_interaction_traversal_destroy ( &((*this_).interaction_helper) );
 
@@ -55,12 +55,12 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
     (*this_).export_stat = NULL;
     (*this_).element_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int write_err = 0;
 
     {
@@ -105,7 +105,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -115,7 +115,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
                                                   data_id_t classifier_id,
                                                   unsigned int recursion_depth )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( recursion_depth <= IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH );
     assert( data_id_is_valid( &classifier_id ) );
     int write_err = 0;
@@ -293,7 +293,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     data_small_set_destroy (&contained_classifiers);
     data_small_set_destroy (&containment_relations);
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -301,7 +301,7 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
                                                    data_classifier_type_t host_type,
                                                    const data_node_set_t *node_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     int write_err = 0;
 
@@ -312,7 +312,7 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
     write_err |= io_element_writer_start_classifier( (*this_).element_writer, host_type, classifier );
     write_err |= io_element_writer_assemble_classifier( (*this_).element_writer, host_type, classifier );
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -321,7 +321,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
                                                          data_small_set_t *io_contained_classifiers,
                                                          data_small_set_t *io_containment_relations )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( io_contained_classifiers != NULL );
     assert( io_containment_relations != NULL );
@@ -361,7 +361,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -371,7 +371,7 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
                                                           const data_small_set_t *containment_relations,
                                                           unsigned int recursion_depth )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( contained_classifiers != NULL );
     assert( containment_relations != NULL );
     int write_err = 0;
@@ -389,7 +389,7 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -397,7 +397,7 @@ int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *th
                                                  data_classifier_type_t host_type,
                                                  const data_node_set_t *node_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     int write_err = 0;
 
@@ -407,14 +407,14 @@ int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *th
 
     write_err |= io_element_writer_end_classifier( (*this_).element_writer, host_type, classifier );
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
 int io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
                                                               const data_node_set_t *node_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
@@ -457,7 +457,7 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -466,7 +466,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
                                                                    const data_classifier_t *host,
                                                                    const data_node_set_t *node_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
@@ -576,7 +576,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -588,7 +588,7 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
                                                                       data_classifier_t *out_to_c,
                                                                       data_feature_t *out_to_f )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( relation != NULL );
     assert( out_from_c != NULL );
     assert( out_from_f != NULL );
@@ -686,11 +686,11 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
 
     if ( data_err != U8_ERROR_NONE )
     {
-        TSLOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
+        U8_LOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
                          data_relationship_get_row_id ( relation )
                        );
     }
-    TRACE_END_ERR( data_err );
+    U8_TRACE_END_ERR( data_err );
     return data_err;
 }
 
@@ -698,7 +698,7 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
                                                                   data_classifier_type_t nesting_type,
                                                                   const data_node_set_t *node_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
@@ -747,7 +747,7 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 

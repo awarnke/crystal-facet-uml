@@ -1,7 +1,7 @@
 /* File: xmi_element_info_map.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <stdlib.h>
 
@@ -283,7 +283,7 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", classifier_type );
+            U8_LOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", classifier_type );
             /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
             result = NULL;
         }
@@ -394,7 +394,7 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
+            U8_LOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
             /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
             result = NULL;
         }
@@ -566,7 +566,7 @@ static inline int xmi_element_info_map_get_relationship ( const xmi_element_info
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", rel_type );
+            U8_LOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", rel_type );
             /* this is a possible error case that can happen when */
             /* a database created with a newer version of the program is opened with this version */
             result = NULL;

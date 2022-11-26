@@ -1,6 +1,6 @@
 /* File: gui_sketch_area.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline data_diagram_t *gui_sketch_area_private_get_focused_diagram_ptr ( gui_sketch_area_t *this_ )

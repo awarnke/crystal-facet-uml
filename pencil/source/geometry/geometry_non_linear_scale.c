@@ -2,15 +2,15 @@
 
 #define __STDC_LIMIT_MACROS
 #include "geometry/geometry_non_linear_scale.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
 
 void geometry_non_linear_scale_init ( geometry_non_linear_scale_t *this_, double lower_bound, double upper_bound )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( lower_bound <= upper_bound );
 
     (*this_).num_points = 2;
@@ -19,27 +19,27 @@ void geometry_non_linear_scale_init ( geometry_non_linear_scale_t *this_, double
     (*this_).location[1] = upper_bound;
     (*this_).order[1] = INT32_MAX;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void geometry_non_linear_scale_trace ( const geometry_non_linear_scale_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
 
-    TRACE_INFO( "geometry_non_linear_scale_t" );
-    TRACE_INFO_INT( "- num_points:", (*this_).num_points );
+    U8_TRACE_INFO( "geometry_non_linear_scale_t" );
+    U8_TRACE_INFO_INT( "- num_points:", (*this_).num_points );
     for ( uint32_t pos = 0; pos < (*this_).num_points; pos ++ )
     {
-        TRACE_INFO_INT_INT( "- location-%, order:", (int)((*this_).location[pos]*100.0), (*this_).order[pos] );
+        U8_TRACE_INFO_INT_INT( "- location-%, order:", (int)((*this_).location[pos]*100.0), (*this_).order[pos] );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, int32_t order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
     assert( (*this_).num_points >= 2 );  /* prevent division by zero */
 
@@ -55,7 +55,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
         else if ( order == (*this_).order[pos] )
         {
             duplicate = true;
-            TRACE_INFO_INT( "duplicate:", order );
+            U8_TRACE_INFO_INT( "duplicate:", order );
         }
     }
 
@@ -87,7 +87,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
         }
         else
         {
-            TSLOG_WARNING( "geometry_non_linear_scale_t has not enough points." );
+            U8_LOG_WARNING( "geometry_non_linear_scale_t has not enough points." );
         }
     }
 
@@ -102,7 +102,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
     }
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

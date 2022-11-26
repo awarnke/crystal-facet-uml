@@ -8,7 +8,7 @@
 #include "u8stream/universal_stream_output_stream.h"
 #include "u8stream/universal_null_output_stream.h"
 #include "utf8stream/universal_utf8_writer.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "test_assert.h"
 
 static void set_up(void);

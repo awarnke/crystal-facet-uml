@@ -9,8 +9,8 @@
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_null_output_stream.h"
 #include "u8stream/universal_output_stream.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static const char *IO_DATA_FILE_TEMP_EXT = ".tmp-cfu";
@@ -19,7 +19,7 @@ static const char *IO_DATA_FILE_CFU1_EXT = ".cfu1";  /* the native sqlite3 DB fo
 
 void io_data_file_init ( io_data_file_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_database_init( &((*this_).database) );
     ctrl_controller_init( &((*this_).controller), &((*this_).database) );
@@ -34,17 +34,17 @@ void io_data_file_init ( io_data_file_t *this_ )
 
     (*this_).auto_writeback_to_json = false;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void io_data_file_destroy ( io_data_file_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     ctrl_controller_destroy( &((*this_).controller) );
     data_database_destroy( &((*this_).database) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t io_data_file_open ( io_data_file_t *this_,
@@ -52,7 +52,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                                bool read_only,
                                u8_error_info_t *out_err_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( db_file_path != NULL );
     assert( out_err_info != NULL );
     u8_error_info_init_void( out_err_info );
@@ -112,8 +112,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
             if ( err != U8_ERROR_NONE )
             {
-                TSLOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
-                TSLOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
+                U8_LOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
+                U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                 (*this_).auto_writeback_to_json = false;
             }
             else
@@ -123,9 +123,9 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
 
                 if ( err != U8_ERROR_NONE )
                 {
-                    TSLOG_ERROR("An error occurred at reading a json data file")
+                    U8_LOG_ERROR("An error occurred at reading a json data file")
                     dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible additional errors */
-                    TSLOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
+                    U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;
                 }
             }
@@ -151,13 +151,13 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
     }
 
-    TRACE_END_ERR( err );
+    U8_TRACE_END_ERR( err );
     return err;
 }
 
 u8_error_t io_data_file_close ( io_data_file_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     u8_error_t result = U8_ERROR_NONE;
 
@@ -174,13 +174,13 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
         (*this_).auto_writeback_to_json = false;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     u8_error_t result = data_database_flush_caches( &((*this_).database) );
 
@@ -189,25 +189,25 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
         result |= io_data_file_private_export( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t io_data_file_trace_stats ( io_data_file_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_INFO_STR( "io_data_file_t:", utf8stringbuf_get_string( (*this_).data_file_name ) );
+    U8_TRACE_INFO_STR( "io_data_file_t:", utf8stringbuf_get_string( (*this_).data_file_name ) );
 
     const u8_error_t result = data_database_trace_stats( &((*this_).database) );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const char *filename, bool *out_json )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( filename != NULL );
     assert( out_json != NULL );
     u8_error_t scan_head_error = U8_ERROR_NONE;
@@ -227,12 +227,12 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
         if (( scan_head_error == U8_ERROR_NONE )&&( prefix_size == sizeof(file_prefix) )
             &&( 0 == memcmp( &file_prefix, &DATA_DATABASE_SQLITE3_MAGIC, sizeof(file_prefix) ) ))
         {
-            TRACE_INFO_STR("File exists and starts with sqlite3 magic:", filename);
+            U8_TRACE_INFO_STR("File exists and starts with sqlite3 magic:", filename);
             *out_json = false;
         }
         else
         {
-            TRACE_INFO_STR("File exists and is not of type sqlite3:", filename);
+            U8_TRACE_INFO_STR("File exists and is not of type sqlite3:", filename);
             *out_json = true;
         }
     }
@@ -240,12 +240,12 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
     {
         if( 1 == utf8string_ends_with_str( filename, IO_DATA_FILE_CFU1_EXT ) )
         {
-            TRACE_INFO_STR("File does not exist and type defaults to sqlite3:", filename);
+            U8_TRACE_INFO_STR("File does not exist and type defaults to sqlite3:", filename);
             *out_json = false;
         }
         else
         {
-            TRACE_INFO_STR("File does not exist and is of type json:", filename);
+            U8_TRACE_INFO_STR("File does not exist and is of type json:", filename);
             *out_json = true;
         }
     }
@@ -254,13 +254,13 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
     scan_head_error |= universal_file_input_stream_close( &in_file );
     scan_head_error |= universal_file_input_stream_destroy( &in_file );
 
-    TRACE_END_ERR( scan_head_error );
+    U8_TRACE_END_ERR( scan_head_error );
     return scan_head_error;
 }
 
 u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_file, u8_error_info_t *out_err_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( src_file != NULL );
     assert( out_err_info != NULL );
     u8_error_info_init_void( out_err_info );
@@ -271,7 +271,7 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
     universal_utf8_writer_t out_null;
     universal_utf8_writer_init( &out_null, universal_null_output_stream_get_output_stream( &dev_null ) );
 
-    TRACE_INFO_STR( "importing file:", src_file );
+    U8_TRACE_INFO_STR( "importing file:", src_file );
     if ( io_data_file_is_open( this_ ) )
     {
         static data_database_reader_t db_reader;
@@ -295,17 +295,17 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
 
     universal_utf8_writer_destroy( &out_null );
     universal_null_output_stream_destroy( &dev_null );
-    TRACE_END_ERR( import_err );
+    U8_TRACE_END_ERR( import_err );
     return import_err;
 }
 
 u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_file )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( dst_file != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
 
-    TRACE_INFO_STR( "exporting file:", dst_file );
+    U8_TRACE_INFO_STR( "exporting file:", dst_file );
     const char *document_filename = io_data_file_get_filename_ptr( this_ );
     if ( io_data_file_is_open( this_ ) )
     {
@@ -328,7 +328,7 @@ u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_
         export_err = U8_ERROR_NO_DB;
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 

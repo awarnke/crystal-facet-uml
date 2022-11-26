@@ -1,12 +1,12 @@
 /* File: ctrl_controller.c; Copyright and License: see below */
 
 #include "ctrl_controller.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* init member attributes */
     (*this_).database = database;
@@ -38,12 +38,12 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
                                 );
     data_database_add_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void ctrl_controller_destroy ( ctrl_controller_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* stop listening on db open and prepare_close events: */
     data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
@@ -58,19 +58,19 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
     data_database_writer_destroy( &((*this_).db_writer) );
     data_database_reader_destroy( &((*this_).db_reader) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ interface for database file ================================ */
 
 void ctrl_controller_db_change_callback ( ctrl_controller_t *this_, data_database_listener_signal_t signal_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* for any db event, clear the undo history */
     ctrl_undo_redo_list_clear( &((*this_).undo_redo_list) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

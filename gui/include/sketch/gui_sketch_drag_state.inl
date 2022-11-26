@@ -11,6 +11,11 @@ static inline void gui_sketch_drag_state_init ( gui_sketch_drag_state_t *this_ )
     data_full_id_init_void ( &((*this_).dragged_object) );
 }
 
+static inline void gui_sketch_drag_state_reinit ( gui_sketch_drag_state_t *this_ )
+{
+    gui_sketch_drag_state_init( this_ );
+}
+
 static inline void gui_sketch_drag_state_destroy ( gui_sketch_drag_state_t *this_ )
 {
     data_full_id_destroy ( &((*this_).dragged_object) );

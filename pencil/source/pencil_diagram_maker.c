@@ -1,7 +1,7 @@
 /* File: pencil_diagram_maker.c; Copyright and License: see below */
 
 #include "pencil_diagram_maker.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +13,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                  const data_small_set_t *mark_selected,
                                  cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
@@ -75,7 +75,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
 
     g_object_unref (layout);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *this_,
@@ -85,7 +85,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                      PangoLayout *layout,
                                                      cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
@@ -111,7 +111,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                        );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
@@ -121,7 +121,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                                   PangoLayout *layout,
                                                   cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
@@ -152,7 +152,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                     );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *this_,
@@ -162,7 +162,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                                                        PangoLayout *layout,
                                                        cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
@@ -222,7 +222,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_maker_t *this_,
@@ -231,7 +231,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
                                                        double y,
                                                        layout_order_t* out_layout_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_layout_order );
 
     pencil_error_t result = PENCIL_ERROR_NONE;
@@ -274,7 +274,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
             }
             else
             {
-                TSLOG_ANOMALY( "feature to move does not exist in input_data." );
+                U8_LOG_ANOMALY( "feature to move does not exist in input_data." );
                 layout_order_init_empty( out_layout_order );
                 result = PENCIL_ERROR_UNKNOWN_OBJECT;
             }
@@ -293,7 +293,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            TSLOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
+            U8_LOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
             layout_order_init_empty( out_layout_order );
             result = PENCIL_ERROR_UNKNOWN_OBJECT;
         }
@@ -302,7 +302,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
         case DATA_TABLE_DIAGRAM:
         {
             /* pencil cannot move diagrams */
-            TSLOG_WARNING( "object to be re-positioned has unexpected type: diagram" );
+            U8_LOG_WARNING( "object to be re-positioned has unexpected type: diagram" );
             layout_order_init_empty( out_layout_order );
             result = PENCIL_ERROR_UNKNOWN_OBJECT;
         }
@@ -310,14 +310,14 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         default:
         {
-            TSLOG_WARNING( "object to be re-positioned has illegal type" );
+            U8_LOG_WARNING( "object to be re-positioned has illegal type" );
             layout_order_init_empty( out_layout_order );
             result = PENCIL_ERROR_UNKNOWN_OBJECT;
         }
         break;
     }
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
@@ -327,7 +327,7 @@ pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diag
                                                                double y,
                                                                layout_order_t* out_layout_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != feature_ptr );
     assert( NULL != out_layout_order );
 
@@ -339,7 +339,7 @@ pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diag
                                                      out_layout_order
                                                    );
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 

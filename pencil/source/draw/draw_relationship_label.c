@@ -1,7 +1,7 @@
   /* File: draw_relationship_label.c; Copyright and License: see below */
 
 #include "draw/draw_relationship_label.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
 #include "utf8stringbuf/utf8stringbuf.h"
@@ -22,7 +22,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
                                                             double *out_text_width,
                                                             double *out_text_height )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != relationship );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -112,11 +112,11 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
     }
     else
     {
-        TSLOG_ERROR("invalid relationship in draw_relationship_label_get_type_and_name_dimensions()");
+        U8_LOG_ERROR("invalid relationship in draw_relationship_label_get_type_and_name_dimensions()");
         *out_text_width = 0.0;
         *out_text_height = 0.0;
     }
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_t *this_,
@@ -126,7 +126,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
                                                   PangoLayout *font_layout,
                                                   cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != relationship );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
@@ -219,7 +219,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
         pango_cairo_show_layout (cr, font_layout);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

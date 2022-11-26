@@ -2,8 +2,8 @@
 
 #include "u8stream/universal_buffer_input_stream.h"
 #include "u8stream/universal_input_stream_if.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <string.h>
 #include <assert.h>
 
@@ -19,7 +19,7 @@ void universal_buffer_input_stream_init( universal_buffer_input_stream_t *this_,
                                          size_t mem_buf_size,
                                          universal_input_stream_t *source )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( mem_buf_start != NULL );
     assert( source != NULL );
 
@@ -32,12 +32,12 @@ void universal_buffer_input_stream_init( universal_buffer_input_stream_t *this_,
     universal_input_stream_private_init( &((*this_).input_stream), &universal_buffer_input_stream_private_if, this_ );
     (*this_).stream_pos_of_buf = 0;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void universal_buffer_input_stream_destroy( universal_buffer_input_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).source != NULL );
 
@@ -50,12 +50,12 @@ void universal_buffer_input_stream_destroy( universal_buffer_input_stream_t *thi
 
     (*this_).source = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void universal_buffer_input_stream_reset ( universal_buffer_input_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).source != NULL );
 
@@ -63,12 +63,12 @@ void universal_buffer_input_stream_reset ( universal_buffer_input_stream_t *this
     (*this_).mem_buf_fill = 0;
     (*this_).stream_pos_of_buf = 0;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t universal_buffer_input_stream_read ( universal_buffer_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length )
 {
-    /*TRACE_BEGIN();*/
+    /*U8_TRACE_BEGIN();*/
     assert( out_buffer != NULL );
     assert( max_size != 0 );
     assert( out_length != NULL );
@@ -114,17 +114,17 @@ u8_error_t universal_buffer_input_stream_read ( universal_buffer_input_stream_t 
         }
     }
 
-    /*TRACE_END_ERR(err);*/
+    /*U8_TRACE_END_ERR(err);*/
     return err;
 }
 
 universal_input_stream_t* universal_buffer_input_stream_get_input_stream( universal_buffer_input_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_input_stream_t* result = &((*this_).input_stream);
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

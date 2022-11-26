@@ -7,8 +7,8 @@
 #include "geometry/geometry_rectangle.h"
 #include "data_table.h"
 #include "data_id.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdint.h>
@@ -23,7 +23,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
                            ctrl_controller_t *controller,
                            data_database_reader_t *db_reader )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != drawing_area );
     assert( NULL != marker );
     assert( NULL != toolbox );
@@ -98,12 +98,12 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     /* fetch initial data from the database */
     gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* destroy instances of own objects */
     gui_sketch_result_list_destroy( &((*this_).result_list) );
@@ -134,12 +134,12 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != result_list );
 
     data_search_result_list_trace(result_list);
@@ -166,7 +166,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
     }
     if ( (dropped_duplicates + dropped_too_many) > 0 )
     {
-        TRACE_INFO_INT_INT( "dropped_duplicates, dropped_too_many:", dropped_duplicates, dropped_too_many );
+        U8_TRACE_INFO_INT_INT( "dropped_duplicates, dropped_too_many:", dropped_duplicates, dropped_too_many );
     }
 
     /* load new data */
@@ -182,14 +182,14 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
     /* mark dirty rect */
     gtk_widget_queue_draw( (*this_).drawing_area );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     assert( NULL != cr );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -197,13 +197,13 @@ void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int wid
 
     gui_sketch_area_draw( this_, width, height, cr );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_sketch_area_draw_old_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     assert( NULL != cr );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -214,14 +214,14 @@ gboolean gui_sketch_area_draw_old_callback( GtkWidget *widget, cairo_t *cr, gpoi
 
     gui_sketch_area_draw( this_, width, height, cr );
 
-    TRACE_END();
+    U8_TRACE_END();
     return FALSE;
 }
 #endif
 
 void gui_sketch_area_draw( gui_sketch_area_t *this_, int width, int height, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     if ( ! data_database_reader_is_open( (*this_).db_reader ) )
@@ -242,17 +242,17 @@ void gui_sketch_area_draw( gui_sketch_area_t *this_, int width, int height, cair
         gui_sketch_area_private_draw_subwidgets( this_, bounds, cr );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_diagram_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_id_trace( &main_diagram_id );
     const uint32_t src_results_cnt
         = data_small_set_get_count( gui_sketch_request_get_search_result_diagrams_const( &((*this_).request) ) );
-    TRACE_INFO_INT( "src_results_cnt:", src_results_cnt );
+    U8_TRACE_INFO_INT( "src_results_cnt:", src_results_cnt );
 
     /* determine diagram id of root diagram */
     if ( ! data_id_is_valid( &main_diagram_id ) )
@@ -268,24 +268,24 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
         const uint32_t count = data_small_set_get_count( &roots );
         if ( U8_ERROR_NONE != ( db_err & U8_ERROR_NO_DB ) )
         {
-            TRACE_INFO( "database not open.");
+            U8_TRACE_INFO( "database not open.");
         }
         else if ( U8_ERROR_NONE != db_err )
         {
-            TSLOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
+            U8_LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
         }
         else if ( count > 1 )
         {
-            TSLOG_ERROR_INT( "more than one root diagram exists!", count );
+            U8_LOG_ERROR_INT( "more than one root diagram exists!", count );
         }
         else if ( count < 1 )
         {
-            TSLOG_WARNING( "no root diagram exists!" );
+            U8_LOG_WARNING( "no root diagram exists!" );
         }
         else
         {
             main_diagram_id = data_small_set_get_id( &roots, 0 );
-            TRACE_INFO_INT( "main_diagram_id:", data_id_get_row_id( &main_diagram_id ));
+            U8_TRACE_INFO_INT( "main_diagram_id:", data_id_get_row_id( &main_diagram_id ));
         }
 
         /* cleanup */
@@ -298,12 +298,12 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
     /* load data to be drawn */
     gui_sketch_area_private_load_cards_data ( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* determine currently selected diagram id and parent id from cache for emergency-fallback */
     const data_id_t former_diagram_id = gui_sketch_request_get_focused_diagram( &((*this_).request) );
@@ -332,12 +332,12 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* destroy _all_ old cards */
     for ( uint_fast32_t idx = 0; idx < (*this_).card_num; idx ++ )
@@ -368,12 +368,12 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                     }
                     else
                     {
-                        TRACE_INFO_INT( "could not load diagram:", data_id_get_row_id(&diag_id) );
+                        U8_TRACE_INFO_INT( "could not load diagram:", data_id_get_row_id(&diag_id) );
                     }
                 }
                 else
                 {
-                    TRACE_INFO_INT( "max diagrams exeeded, dropping diagram:", data_id_get_row_id(&diag_id) );
+                    U8_TRACE_INFO_INT( "max diagrams exeeded, dropping diagram:", data_id_get_row_id(&diag_id) );
                 }
             }
         }
@@ -392,9 +392,9 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
             const data_diagram_t *selected_diag = gui_sketch_area_private_get_focused_diagram_ptr( this_ );
             const data_row_id_t selected_diagram_row_id = data_diagram_get_row_id( selected_diag );
             const data_id_t selected_diagram_id = data_diagram_get_data_id( selected_diag );
-            TRACE_INFO_INT( "selected_diagram_row_id:", selected_diagram_row_id );
+            U8_TRACE_INFO_INT( "selected_diagram_row_id:", selected_diagram_row_id );
             const data_id_t parent_diagram_id = data_diagram_get_parent_data_id( selected_diag );
-            TRACE_INFO_INT( "parent_diagram_id:", data_id_get_row_id( &parent_diagram_id ) );
+            U8_TRACE_INFO_INT( "parent_diagram_id:", data_id_get_row_id( &parent_diagram_id ) );
 
             const data_id_t former_focused_diag = gui_marked_set_get_focused_diagram( (*this_).marker);
             gui_sketch_request_set_parent_diagram( &((*this_).request), parent_diagram_id );
@@ -428,11 +428,11 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                                                                        );
                 if ( U8_ERROR_NONE != ( db_err & U8_ERROR_NO_DB ) )
                 {
-                    TRACE_INFO( "database not open.");
+                    U8_TRACE_INFO( "database not open.");
                 }
                 else if ( U8_ERROR_NONE != db_err )
                 {
-                    TSLOG_ERROR_HEX( "data_database_reader_get_diagram_ids_by_parent_id failed.", db_err );
+                    U8_LOG_ERROR_HEX( "data_database_reader_get_diagram_ids_by_parent_id failed.", db_err );
                 }
                 else
                 {
@@ -447,7 +447,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                         }
                         else
                         {
-                            TSLOG_ERROR_INT( "more children diagrams exist than fit into cards array:", data_id_get_row_id( &child ) );
+                            U8_LOG_ERROR_INT( "more children diagrams exist than fit into cards array:", data_id_get_row_id( &child ) );
                         }
                     }
                 }
@@ -459,7 +459,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static const uint32_t NAV_TREE_WIDTH = 224;
@@ -467,7 +467,7 @@ static const uint32_t RESULT_LIST_WIDTH = 240;
 
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
     assert((*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS);
 
@@ -479,7 +479,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     const uint32_t height = shape_int_rectangle_get_height( &area_bounds );
     const int32_t left = shape_int_rectangle_get_left( &area_bounds );
     const int32_t top = shape_int_rectangle_get_top( &area_bounds );
-    TRACE_INFO_INT_INT( "width, height", width, height );
+    U8_TRACE_INFO_INT_INT( "width, height", width, height );
 
     /* layout result list */
     const bool result_list_visible = ( GUI_TOOL_SEARCH == selected_tool );
@@ -526,12 +526,12 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         gui_sketch_background_set_bounds( &((*this_).background), background_bounds );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     const gui_tool_t selected_tool = gui_sketch_request_get_tool_mode( &((*this_).request) );
@@ -602,14 +602,14 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
                              cr
                            );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_leave_notify_callback( GtkEventControllerMotion* self, gpointer user_data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     gui_sketch_area_t *this_ = user_data;
     assert( NULL != this_ );
 
@@ -617,13 +617,13 @@ void gui_sketch_area_leave_notify_callback( GtkEventControllerMotion* self, gpoi
     /* mark dirty rect */
     gtk_widget_queue_draw( (*this_).drawing_area );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_sketch_area_leave_notify_old_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -635,7 +635,7 @@ gboolean gui_sketch_area_leave_notify_old_callback( GtkWidget* widget, GdkEventC
         gtk_widget_queue_draw( (*this_).drawing_area );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return TRUE;
 }
 #endif
@@ -646,18 +646,18 @@ void gui_sketch_area_motion_notify_callback( GtkEventControllerMotion* self,
                                              gdouble in_y,
                                              gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_sketch_area_t *this_ = user_data;
     assert( NULL != this_ );
 
     gui_sketch_area_motion_notify( this_, (int)in_x, (int)in_y );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_sketch_area_mouse_motion_old_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -669,20 +669,20 @@ gboolean gui_sketch_area_mouse_motion_old_callback( GtkWidget* widget, GdkEventM
     const GdkModifierType state = (GdkModifierType) (*evt).state;
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
-        TRACE_INFO( "GDK_BUTTON1_MASK" );
+        U8_TRACE_INFO( "GDK_BUTTON1_MASK" );
     }
 
     gui_sketch_area_motion_notify( this_, x, y );
 
-    TRACE_END();
+    U8_TRACE_END();
     return TRUE;
 }
 #endif
 
 void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
 {
-    TRACE_BEGIN();
-    TRACE_INFO_INT_INT( "x/y", x, y );
+    U8_TRACE_BEGIN();
+    U8_TRACE_INFO_INT_INT( "x/y", x, y );
 
     /* update drag coordinates */
     gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
@@ -785,7 +785,7 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                 else
                 {
                     gui_marked_set_clear_highlighted( (*this_).marker );
-                    TRACE_INFO( "mouse click outside sketch card." );
+                    U8_TRACE_INFO( "mouse click outside sketch card." );
                 }
             }
             else /* not dragging */
@@ -859,12 +859,12 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
 
         default:
         {
-            TSLOG_ERROR("selected_tool is out of range");
+            U8_LOG_ERROR("selected_tool is out of range");
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -874,20 +874,20 @@ void gui_sketch_area_button_press_callback( GtkGestureClick* self,
                                             gdouble y,
                                             gpointer user_data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     gui_sketch_area_t *this_ = user_data;
     assert( NULL != this_ );
 
     gui_sketch_area_button_press( this_, (int)x, (int)y );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_sketch_area_button_press_old_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -898,31 +898,31 @@ gboolean gui_sketch_area_button_press_old_callback( GtkWidget* widget, GdkEventB
         gui_sketch_area_button_press( this_, (int)((*evt).x), (int)((*evt).y) );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return TRUE;
 }
 #endif
 
 void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* in general, hide the last message */
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    TRACE_INFO("press");
+    U8_TRACE_INFO("press");
 
     /* cause the text edit widgets to lose the focus so that these can store the latest changes */
     gtk_widget_grab_focus( (*this_).drawing_area );
 
     /* get position */
-    TRACE_INFO_INT_INT( "x/y", x, y );
+    U8_TRACE_INFO_INT_INT( "x/y", x, y );
 
     /* check that drag state is false */
     if ( ( gui_sketch_drag_state_is_dragging( &((*this_).drag_state) ) )
         || ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) ) )
     {
-        TSLOG_ERROR("drag state indicates dragging - but button was not pressed before!");
+        U8_LOG_ERROR("drag state indicates dragging - but button was not pressed before!");
     }
 
     /* update drag coordinates */
@@ -935,7 +935,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
     {
         case GUI_TOOL_NAVIGATE:
         {
-            TRACE_INFO( "GUI_TOOL_NAVIGATE" );
+            U8_TRACE_INFO( "GUI_TOOL_NAVIGATE" );
 
             /* determine clicked diagram */
             data_id_t clicked_diagram_id = DATA_ID_VOID;
@@ -954,7 +954,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             }
             else
             {
-                TRACE_INFO("invalid clicked object at gui_sketch_area_button_press_callback");
+                U8_TRACE_INFO("invalid clicked object at gui_sketch_area_button_press_callback");
 
                 gui_sketch_action_t action_button_id;
                 gui_sketch_nav_tree_get_button_at_pos ( &((*this_).nav_tree), x, y, &action_button_id );
@@ -1013,7 +1013,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
                             default:
                             {
-                                TSLOG_ERROR_INT("illegal action value in gui_sketch_action_t:",action_button_id);
+                                U8_LOG_ERROR_INT("illegal action value in gui_sketch_action_t:",action_button_id);
                                 assert(false);
                                 c_result = U8_ERROR_INVALID_REQUEST;
                             }
@@ -1023,7 +1023,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
                     if ( U8_ERROR_NONE != c_result )
                     {
-                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_diagram");
+                        U8_LOG_ERROR("unexpected error at gui_sketch_object_creator_create_diagram");
                     }
                     else
                     {
@@ -1047,7 +1047,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_EDIT:
         {
-            TRACE_INFO( "GUI_TOOL_EDIT" );
+            U8_TRACE_INFO( "GUI_TOOL_EDIT" );
 
             /* determine the focused object */
             data_full_id_t focused_object;
@@ -1074,7 +1074,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_SEARCH:
         {
-            TRACE_INFO( "GUI_TOOL_SEARCH" );
+            U8_TRACE_INFO( "GUI_TOOL_SEARCH" );
 
             /* determine clicked diagram */
             data_id_t clicked_diagram_id = DATA_ID_VOID;
@@ -1113,14 +1113,14 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_CREATE:
         {
-            TRACE_INFO( "GUI_TOOL_CREATE" );
+            U8_TRACE_INFO( "GUI_TOOL_CREATE" );
 
             /* what is the target location? */
             gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
 
             if ( NULL == target_card )
             {
-                TRACE_INFO_INT_INT("No card at",x,y);
+                U8_TRACE_INFO_INT_INT("No card at",x,y);
 
                 /* if this happens, invalidate the marked object. */
                 gui_marked_set_clear_focused( (*this_).marker );
@@ -1162,14 +1162,14 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     /* create a new classifier */
                     const data_diagram_t *const target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
                     const data_row_id_t selected_diagram_id = data_diagram_get_row_id( target_diag );
-                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+                    U8_TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
                     data_id_t dummy_classifier;
                     data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ROW_ID_VOID );
                     layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dummy_classifier, x, y );
                     const int32_t x_order = layout_order_get_first( &layout_order );
                     const int32_t y_order = layout_order_get_second( &layout_order );
-                    TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+                    U8_TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                     /* create a classifier or a child-classifier */
                     u8_error_t c_result;
@@ -1210,7 +1210,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     }
                     else if ( U8_ERROR_NONE != c_result )
                     {
-                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier/_as_child");
+                        U8_LOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier/_as_child");
                     }
                     else
                     {
@@ -1220,7 +1220,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                         gui_marked_set_set_focused( (*this_).marker, focused_object, diag_id );
                         gui_marked_set_clear_selected_set( (*this_).marker );
 
-                        TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                        U8_TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
                     }
                 }
             }
@@ -1229,12 +1229,12 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
         default:
         {
-            TSLOG_ERROR( "selected_tool is out of range" );
+            U8_LOG_ERROR( "selected_tool is out of range" );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -1244,20 +1244,20 @@ void gui_sketch_area_button_release_callback( GtkGestureClick* self,
                                               gdouble y,
                                               gpointer user_data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     gui_sketch_area_t *this_ = user_data;
     assert( NULL != this_ );
 
     gui_sketch_area_button_release( this_, (int)x, (int)y );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_sketch_area_button_release_old_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -1268,19 +1268,19 @@ gboolean gui_sketch_area_button_release_old_callback( GtkWidget* widget, GdkEven
         gui_sketch_area_button_release( this_, (int)((*evt).x), (int)((*evt).y) );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return TRUE;
 }
 #endif
 
 void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_INFO("release");
+    U8_TRACE_INFO("release");
 
     /* get position */
-    TRACE_INFO_INT_INT("x/y",x,y);
+    U8_TRACE_INFO_INT_INT("x/y",x,y);
 
     /* update drag coordinates */
     gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
@@ -1289,7 +1289,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
     if ( ( ! gui_sketch_drag_state_is_dragging( &((*this_).drag_state) ) )
         && ( ! gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) ) )
     {
-        TRACE_INFO("drag state indicates no dragging and no waiting - but button was pressed before!");
+        U8_TRACE_INFO("drag state indicates no dragging and no waiting - but button was pressed before!");
     }
 
     /* do action */
@@ -1299,7 +1299,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
     {
         case GUI_TOOL_NAVIGATE:
         {
-            TRACE_INFO("GUI_TOOL_NAVIGATE");
+            U8_TRACE_INFO("GUI_TOOL_NAVIGATE");
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* which diagram was dragged? */
@@ -1325,9 +1325,9 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                     && ( DATA_TABLE_DIAGRAM == data_id_get_table( &target_parent_id ) )
                     && ( GUI_ERROR_NONE == gui_err ))
                 {
-                    TRACE_INFO_INT( "dragged_diagram:", data_id_get_row_id( &dragged_diagram ) );
-                    TRACE_INFO_INT( "target_parent_id:", data_id_get_row_id( &target_parent_id ) );
-                    TRACE_INFO_INT( "target_list_order:", target_list_order );
+                    U8_TRACE_INFO_INT( "dragged_diagram:", data_id_get_row_id( &dragged_diagram ) );
+                    U8_TRACE_INFO_INT( "target_parent_id:", data_id_get_row_id( &target_parent_id ) );
+                    U8_TRACE_INFO_INT( "target_list_order:", target_list_order );
                     bool is_descendant;
                     bool is_self;
                     gui_error_t not_found;
@@ -1349,7 +1349,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                  );
                         if ( U8_ERROR_NONE != c_err )
                         {
-                            TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
+                            U8_LOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                         }
                         c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
                                                                                   data_id_get_row_id( &dragged_diagram ),
@@ -1358,7 +1358,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                 );
                         if ( U8_ERROR_NONE != c_err )
                         {
-                            TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
+                            U8_LOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                         }
                     }
                     else if ( DATA_ROW_ID_VOID == data_id_get_row_id( &target_parent_id ) )
@@ -1379,7 +1379,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                     );
                             if ( U8_ERROR_NONE != c_err )
                             {
-                                TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
+                                U8_LOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                             }
                             c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
                                                                                       root_id,
@@ -1388,17 +1388,17 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                     );
                             if ( U8_ERROR_NONE != c_err )
                             {
-                                TSLOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
+                                U8_LOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                             }
                         }
                         else
                         {
-                            TSLOG_WARNING("dragging a diagram to the root location but no root exists or dragged diagram is root?");
+                            U8_LOG_WARNING("dragging a diagram to the root location but no root exists or dragged diagram is root?");
                         }
                     }
                     else
                     {
-                        TSLOG_WARNING("diagram dragging to invalid target location");
+                        U8_LOG_WARNING("diagram dragging to invalid target location");
                         /* current diagram is root */
                         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -1438,7 +1438,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 }
                 else
                 {
-                    TSLOG_ANOMALY("GUI_TOOL_NAVIGATE released mouse button but not a diagram clicked before");
+                    U8_LOG_ANOMALY("GUI_TOOL_NAVIGATE released mouse button but not a diagram clicked before");
                 }
             }
         }
@@ -1446,7 +1446,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_EDIT:
         {
-            TRACE_INFO("GUI_TOOL_EDIT");
+            U8_TRACE_INFO("GUI_TOOL_EDIT");
 
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
@@ -1462,7 +1462,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 const gui_sketch_card_t *const target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
                 if ( NULL == target_card )
                 {
-                    TRACE_INFO_INT_INT("No card at",x,y);
+                    U8_TRACE_INFO_INT_INT("No card at",x,y);
                 }
                 else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &dragged_element ) )
                 {
@@ -1470,7 +1470,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                     if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t list_order = layout_order_get_first( &layout_order );
-                        TRACE_INFO_INT( "list_order", list_order );
+                        U8_TRACE_INFO_INT( "list_order", list_order );
 
                         /* update db */
                         ctrl_classifier_controller_t *const classifier_control
@@ -1482,14 +1482,14 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                      );
                         if ( U8_ERROR_NONE != mov_result )
                         {
-                            TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_list_order" );
+                            U8_LOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_list_order" );
                         }
                     }
                     else if ( PENCIL_LAYOUT_ORDER_TYPE_X_Y == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t x_order = layout_order_get_first( &layout_order );
                         int32_t y_order = layout_order_get_second( &layout_order );
-                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+                        U8_TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                         /* update db */
                         ctrl_classifier_controller_t *const classifier_control
@@ -1502,7 +1502,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                           );
                         if ( U8_ERROR_NONE != mov_result )
                         {
-                            TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_x_order_y_order" );
+                            U8_LOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_x_order_y_order" );
                         }
                     }
                 }
@@ -1512,7 +1512,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                     if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t list_order = layout_order_get_first( &layout_order );
-                        TRACE_INFO_INT( "list_order", list_order );
+                        U8_TRACE_INFO_INT( "list_order", list_order );
 
                         /* update db */
                         ctrl_classifier_controller_t *const classifier_control
@@ -1524,7 +1524,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                        );
                         if ( U8_ERROR_NONE != mov_result )
                         {
-                            TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_relationship_list_order" );
+                            U8_LOG_ERROR( "changing order failed: ctrl_classifier_controller_update_relationship_list_order" );
                         }
                     }
                 }
@@ -1534,7 +1534,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                     if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                     {
                         int32_t list_order = layout_order_get_first( &layout_order );
-                        TRACE_INFO_INT( "list_order", list_order );
+                        U8_TRACE_INFO_INT( "list_order", list_order );
 
                         /* update db */
                         ctrl_classifier_controller_t *const classifier_control
@@ -1546,13 +1546,13 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                                                                                   );
                         if ( U8_ERROR_NONE != mov_result )
                         {
-                            TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_feature_list_order" );
+                            U8_LOG_ERROR( "changing order failed: ctrl_classifier_controller_update_feature_list_order" );
                         }
                     }
                 }
                 else
                 {
-                    TRACE_INFO("Dragged object is neither relationship nor classifier nor feature");
+                    U8_TRACE_INFO("Dragged object is neither relationship nor classifier nor feature");
                 }
             }
         }
@@ -1560,7 +1560,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_SEARCH:
         {
-            TRACE_INFO("GUI_TOOL_SEARCH");
+            U8_TRACE_INFO("GUI_TOOL_SEARCH");
 
             if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
             {
@@ -1582,7 +1582,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 }
                 else
                 {
-                    TRACE_INFO("GUI_TOOL_SEARCH released mouse button but not a diagram clicked before");
+                    U8_TRACE_INFO("GUI_TOOL_SEARCH released mouse button but not a diagram clicked before");
                 }
             }
         }
@@ -1590,7 +1590,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_CREATE:
         {
-            TRACE_INFO("GUI_TOOL_CREATE");
+            U8_TRACE_INFO("GUI_TOOL_CREATE");
 
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
@@ -1688,7 +1688,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
 
                         if ( U8_ERROR_NONE != c_result )
                         {
-                            TSLOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_relationship",c_result);
+                            U8_LOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_relationship",c_result);
                         }
                         else
                         {
@@ -1759,7 +1759,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
 
                         if ( U8_ERROR_NONE != ctrl_err )
                         {
-                            TSLOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_feature",ctrl_err);
+                            U8_LOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_feature",ctrl_err);
                         }
                         else
                         {
@@ -1772,24 +1772,24 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                     }
                     else
                     {
-                        TSLOG_WARNING("unexpected state at gui_sketch_area_button_release_callback");
+                        U8_LOG_WARNING("unexpected state at gui_sketch_area_button_release_callback");
                     }
                 }
                 else
                 {
-                    TSLOG_WARNING("invalid clicked object at gui_sketch_area_button_release_callback");
+                    U8_LOG_WARNING("invalid clicked object at gui_sketch_area_button_release_callback");
                 }
             }
             else
             {
-                TRACE_INFO("according to drag-state, the button press was already handled at press-time");
+                U8_TRACE_INFO("according to drag-state, the button press was already handled at press-time");
             }
         }
         break;
 
         default:
         {
-            TSLOG_ERROR("selected_tool is out of range");
+            U8_LOG_ERROR("selected_tool is out of range");
         }
         break;
     }
@@ -1800,7 +1800,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
     /* mark dirty rect */
     gtk_widget_queue_draw( (*this_).drawing_area );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -1810,21 +1810,21 @@ gboolean gui_sketch_area_key_press_callback( GtkEventControllerKey* self,
                                              GdkModifierType state,
                                              gpointer user_data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     gui_sketch_area_t *this_ = user_data;
     assert( NULL != this_ );
 
     const gboolean result_event_handled = gui_sketch_area_key_press( this_, 0 != (GDK_CONTROL_MASK&state), keyval );
 
-    TRACE_END();
+    U8_TRACE_END();
     return result_event_handled;
 }
 #else
 gboolean gui_sketch_area_key_press_old_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data )
 {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -1832,14 +1832,14 @@ gboolean gui_sketch_area_key_press_old_callback( GtkWidget* widget, GdkEventKey*
 
     const gboolean result_event_handled = gui_sketch_area_key_press( this_, (*evt).state == GDK_CONTROL_MASK, (*evt).keyval );
 
-    TRACE_END();
+    U8_TRACE_END();
     return result_event_handled;
 }
 #endif
 
 bool gui_sketch_area_key_press( gui_sketch_area_t *this_, bool ctrl_state, guint keyval )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gboolean result_event_handled = false;
 
     /* keys that have to be handled locally in the gui_sketch_area */
@@ -1848,19 +1848,19 @@ bool gui_sketch_area_key_press( gui_sketch_area_t *this_, bool ctrl_state, guint
     {
         if ( keyval == GDK_KEY_x )
         {
-            TRACE_INFO ( "key pressed: Ctrl-X" );
+            U8_TRACE_INFO ( "key pressed: Ctrl-X" );
             gui_toolbox_cut( (*this_).toolbox );
             result_event_handled = true;
         }
         else if ( keyval == GDK_KEY_c )
         {
-            TRACE_INFO ( "key pressed: Ctrl-C" );
+            U8_TRACE_INFO ( "key pressed: Ctrl-C" );
             gui_toolbox_copy( (*this_).toolbox );
             result_event_handled = true;
         }
         else if ( keyval == GDK_KEY_v )
         {
-            TRACE_INFO ( "key pressed: Ctrl-V" );
+            U8_TRACE_INFO ( "key pressed: Ctrl-V" );
             gui_toolbox_paste( (*this_).toolbox );
             result_event_handled = true;
         }
@@ -1870,20 +1870,20 @@ bool gui_sketch_area_key_press( gui_sketch_area_t *this_, bool ctrl_state, guint
     {
         if ( keyval == GDK_KEY_Delete )
         {
-            TRACE_INFO ( "key pressed: DEL" );
+            U8_TRACE_INFO ( "key pressed: DEL" );
             gui_toolbox_delete( (*this_).toolbox );
             result_event_handled = true;
         }
         /* other keys are out of scope */
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result_event_handled;
 }
 
 void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != msg );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
@@ -1893,11 +1893,17 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
     {
+        /* abort dragging */
+        gui_sketch_drag_state_reinit( &((*this_).drag_state) );
+
         /* do not keep search results */
         gui_sketch_result_list_invalidate_data( &((*this_).result_list) );
 
         /* do not keep selected or focued objects */
         gui_marked_set_reinit( (*this_).marker );
+
+        /* reset the currently visible diagram */
+        gui_sketch_request_reinit( &((*this_).request) );
     }
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
@@ -1914,12 +1920,12 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     /* mark dirty rect */
     gtk_widget_queue_draw( (*this_).drawing_area );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
     assert ( NULL != widget );
@@ -1944,7 +1950,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
         gtk_widget_queue_draw( (*this_).drawing_area );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

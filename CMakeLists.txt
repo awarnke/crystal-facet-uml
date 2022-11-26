@@ -67,7 +67,7 @@ FILE(GLOB commonSource gui/source/*.c
                        u8buf/source/utf8stringbuf/*.c
                        u8stream/source/dir/*.c
                        u8stream/source/u8stream/*.c
-                       u8stream/source/trace/*.c
+                       u8stream/source/u8/*.c
                        pencil/source/*.c
                        pencil/source/geometry/*.c
                        pencil/source/draw/*.c

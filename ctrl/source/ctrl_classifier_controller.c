@@ -1,8 +1,8 @@
 /* File: ctrl_classifier_controller.c; Copyright and License: see below */
 
 #include "ctrl_classifier_controller.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
                                        ctrl_undo_redo_list_t *undo_redo_list,
@@ -11,7 +11,7 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
                                        data_database_reader_t *db_reader,
                                        data_database_writer_t *db_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).undo_redo_list = undo_redo_list;
     (*this_).policy_enforcer = policy_enforcer;
@@ -20,12 +20,12 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
     (*this_).db_writer = db_writer;
     ctrl_consistency_checker_init ( &((*this_).consistency_checker), database, db_reader, db_writer );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
     (*this_).undo_redo_list = NULL;
@@ -34,7 +34,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ CLASSIFIER ================================ */
@@ -44,7 +44,7 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                           data_row_id_t* out_new_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_classifier );
     data_classifier_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
@@ -66,7 +66,7 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -84,7 +84,7 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
 
     data_classifier_destroy( &to_be_created );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -92,7 +92,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
                                                          data_row_id_t obj_id,
                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
 
@@ -137,7 +137,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -232,7 +232,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             else if ( U8_ERROR_NONE != ( data_result & U8_ERROR_OBJECT_STILL_REFERENCED ))
             {
                 /* report this unexpected error */
-                TSLOG_ERROR( "The classifier cannot be deleted because it is still referenced." );
+                U8_LOG_ERROR( "The classifier cannot be deleted because it is still referenced." );
                 result |= (u8_error_t) data_result;
             }
             else
@@ -246,7 +246,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -254,7 +254,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
                                                                      data_row_id_t classifier_id,
                                                                      const char* new_classifier_stereotype )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -275,7 +275,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -283,7 +283,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_class
                                                                       data_row_id_t classifier_id,
                                                                       const char* new_classifier_description )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -304,7 +304,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_class
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -312,7 +312,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
                                                                data_row_id_t classifier_id,
                                                                const char* new_classifier_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -333,7 +333,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -341,7 +341,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classif
                                                                     data_row_id_t classifier_id,
                                                                     data_classifier_type_t new_classifier_main_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -362,7 +362,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classif
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -370,7 +370,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifie
                                                                   data_row_id_t classifier_id,
                                                                   int32_t new_classifier_x_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -391,7 +391,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifie
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -399,7 +399,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifie
                                                                   data_row_id_t classifier_id,
                                                                   int32_t new_classifier_y_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -420,7 +420,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifie
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -429,7 +429,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_c
                                                                           int32_t new_classifier_x_order,
                                                                           int32_t new_classifier_y_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -455,7 +455,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_c
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -463,7 +463,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classi
                                                                      data_row_id_t classifier_id,
                                                                      int32_t new_classifier_list_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
@@ -484,7 +484,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classi
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -495,7 +495,7 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
                                                        ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                        data_row_id_t* out_new_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_feature );
     data_feature_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
@@ -517,7 +517,7 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -535,7 +535,7 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
 
     data_feature_destroy( &to_be_created );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -543,7 +543,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
                                                        data_row_id_t obj_id,
                                                        ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
 
@@ -554,7 +554,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
         internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
         if ( U8_ERROR_NONE != internal_err )
         {
-            TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
         }
     }
 
@@ -620,7 +620,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
         data_feature_destroy( &old_feature );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -628,7 +628,7 @@ u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier
                                                                  data_row_id_t feature_id,
                                                                  data_feature_type_t new_feature_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_feature_t old_feature;
@@ -649,7 +649,7 @@ u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -657,7 +657,7 @@ u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_contr
                                                            data_row_id_t feature_id,
                                                            const char* new_feature_key )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_feature_t old_feature;
@@ -678,7 +678,7 @@ u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_contr
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -686,7 +686,7 @@ u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_con
                                                              data_row_id_t feature_id,
                                                              const char* new_feature_value )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_feature_t old_feature;
@@ -707,7 +707,7 @@ u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_con
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -715,7 +715,7 @@ u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifi
                                                                    data_row_id_t feature_id,
                                                                    const char* new_feature_description )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_feature_t old_feature;
@@ -736,7 +736,7 @@ u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifi
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -744,7 +744,7 @@ u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifie
                                                                   data_row_id_t feature_id,
                                                                   int32_t new_feature_list_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_feature_t old_feature;
@@ -765,7 +765,7 @@ u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifie
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -776,7 +776,7 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                             data_row_id_t* out_new_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_relationship );
     data_relationship_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
@@ -798,7 +798,7 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -816,7 +816,7 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
 
     data_relationship_destroy( &to_be_created );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -824,7 +824,7 @@ u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_cont
                                                             data_row_id_t obj_id,
                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     /* delete relationship */
@@ -841,7 +841,7 @@ u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_cont
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -854,7 +854,7 @@ u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_cont
 
     result |= (u8_error_t) current_result5;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -862,7 +862,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
                                                                       data_row_id_t relationship_id,
                                                                       data_relationship_type_t new_relationship_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_relationship_t old_relation;
@@ -883,7 +883,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -891,7 +891,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier
                                                                  data_row_id_t relationship_id,
                                                                  const char* new_relationship_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_relationship_t old_relation;
@@ -912,7 +912,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -920,7 +920,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_cla
                                                                         data_row_id_t relationship_id,
                                                                         const char* new_relationship_description )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_relationship_t old_relation;
@@ -941,7 +941,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_cla
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -949,7 +949,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_clas
                                                                        data_row_id_t relationship_id,
                                                                        int32_t new_relationship_list_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_relationship_t old_relation;
@@ -970,7 +970,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_clas
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

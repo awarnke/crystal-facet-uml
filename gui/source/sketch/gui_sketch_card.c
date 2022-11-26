@@ -3,13 +3,13 @@
 #include "sketch/gui_sketch_card.h"
 #include "pencil_diagram_maker.h"
 #include "geometry/geometry_rectangle.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gdk/gdk.h>
 
 void gui_sketch_card_init( gui_sketch_card_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).visible = false;
     (*this_).dirty_elements_layout = false;
@@ -18,19 +18,19 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data) );
     gui_sketch_marker_init( &((*this_).sketch_marker), false );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     pencil_diagram_maker_destroy( &((*this_).painter) );
     data_visible_set_destroy( &((*this_).painter_input_data) );
     shape_int_rectangle_destroy(&((*this_).bounds));
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static const double WHITE_R = 1.0;
@@ -40,7 +40,7 @@ static const double WHITE_A = 1.0;
 
 void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     if ( (*this_).visible )
@@ -86,14 +86,14 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
                                   );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
                                             data_id_t obj_id,
                                             const layout_order_t *order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != order );
 
     const data_table_t table = data_id_get_table ( &obj_id );
@@ -115,7 +115,7 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
                         = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
                     {
-                        TSLOG_WARNING( "pencil input data does not contain the object to be moved" );
+                        U8_LOG_WARNING( "pencil input data does not contain the object to be moved" );
                         data_id_trace( &obj_id );
                     }
                     else
@@ -131,32 +131,32 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
 
                 case DATA_TABLE_FEATURE:
                 {
-                    TSLOG_WARNING( "object to be x/y-moved has no x/y coordinates: feature" );
+                    U8_LOG_WARNING( "object to be x/y-moved has no x/y coordinates: feature" );
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    TSLOG_WARNING( "object to be x/y-moved has no x/y coordinates: relationship" );
+                    U8_LOG_WARNING( "object to be x/y-moved has no x/y coordinates: relationship" );
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
-                    TSLOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
+                    U8_LOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAM:
                 {
                     /* pencil cannot move diagrams */
-                    TSLOG_WARNING( "object to be x/y-moved has unexpected type: diagram" );
+                    U8_LOG_WARNING( "object to be x/y-moved has unexpected type: diagram" );
                 }
                 break;
 
                 default:
                 {
-                    TSLOG_WARNING( "object to be x/y-moved has illegal type" );
+                    U8_LOG_WARNING( "object to be x/y-moved has illegal type" );
                 }
                 break;
             }
@@ -174,7 +174,7 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
                     data_classifier_t *const move_me = data_visible_set_get_classifier_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
                     {
-                        TSLOG_WARNING( "pencil input data does not contain the classifier to be moved" );
+                        U8_LOG_WARNING( "pencil input data does not contain the classifier to be moved" );
                         data_id_trace( &obj_id );
                     }
                     else
@@ -194,7 +194,7 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
                     data_feature_t *const move_me = data_visible_set_get_feature_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
                     {
-                        TSLOG_WARNING( "pencil input data does not contain the feature to be moved" );
+                        U8_LOG_WARNING( "pencil input data does not contain the feature to be moved" );
                         data_id_trace( &obj_id );
                     }
                     else
@@ -214,7 +214,7 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
                     data_relationship_t *const move_me = data_visible_set_get_relationship_by_id_ptr( &((*this_).painter_input_data), row_id );
                     if ( move_me == NULL )
                     {
-                        TSLOG_WARNING( "pencil input data does not contain the relationship to be moved" );
+                        U8_LOG_WARNING( "pencil input data does not contain the relationship to be moved" );
                         data_id_trace( &obj_id );
                     }
                     else
@@ -229,20 +229,20 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
 
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
-                    TSLOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
+                    U8_LOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAM:
                 {
                     /* pencil cannot move diagrams */
-                    TSLOG_WARNING( "object to be x/y-moved has unexpected type: diagram" );
+                    U8_LOG_WARNING( "object to be x/y-moved has unexpected type: diagram" );
                 }
                 break;
 
                 default:
                 {
-                    TSLOG_WARNING( "object to be x/y-moved has illegal type" );
+                    U8_LOG_WARNING( "object to be x/y-moved has illegal type" );
                 }
                 break;
             }
@@ -253,19 +253,19 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
         {
             /* nothing to do */
             /* no error */
-            TSLOG_ANOMALY( "object to be moved has no movement data" );
+            U8_LOG_ANOMALY( "object to be moved has no movement data" );
         }
         break;
 
         case PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE:
         default:
         {
-            TSLOG_WARNING( "object to be x/y-moved has illegal movement data" );
+            U8_LOG_WARNING( "object to be x/y-moved has illegal movement data" );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

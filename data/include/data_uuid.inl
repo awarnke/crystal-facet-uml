@@ -1,8 +1,8 @@
 /* File: data_uuid.c; Copyright and License: see below */
 
 #include "u8stream/universal_simple_random.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <time.h>
 #include <assert.h>
 
@@ -20,12 +20,12 @@ static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_
     strerr = utf8stringbuf_copy_str( (*this_).uuid_string, uuid_string );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     else if ( utf8stringbuf_get_length( (*this_).uuid_string ) != DATA_UUID_STRING_LENGTH )
     {
-        TSLOG_ERROR_INT( "uuid_string too short:", utf8stringbuf_get_length( (*this_).uuid_string ) );
+        U8_LOG_ERROR_INT( "uuid_string too short:", utf8stringbuf_get_length( (*this_).uuid_string ) );
         result |= U8_ERROR_VALUE_OUT_OF_RANGE;
     }
 
@@ -112,7 +112,7 @@ static inline utf8string_t data_uuid_get_string ( const data_uuid_t *this_ )
 
 static inline void data_uuid_trace ( const data_uuid_t *this_ )
 {
-    TRACE_INFO_STR( "data_uuid_t", utf8stringbuf_get_string( (*this_).uuid_string ) );
+    U8_TRACE_INFO_STR( "data_uuid_t", utf8stringbuf_get_string( (*this_).uuid_string ) );
 }
 
 

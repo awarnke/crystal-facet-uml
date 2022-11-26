@@ -1,21 +1,12 @@
-/* File: gui_sketch_background.inl; Copyright and License: see below */
+/* File: u8_log.c; Copyright and License: see below */
 
 #include "u8/u8_log.h"
 
-static inline shape_int_rectangle_t gui_sketch_background_get_bounds( gui_sketch_background_t *this_ )
-{
-    return (*this_).bounds;
-}
-
-static inline void gui_sketch_background_set_bounds( gui_sketch_background_t *this_, shape_int_rectangle_t bounds )
-{
-    (*this_).bounds = bounds;
-}
-
+__thread unsigned int u8_log_debug_mode = U8_LOG_DEBUG_MODE_CONTINUE;
 
 
 /*
-Copyright 2018-2022 Andreas Warnke
+Copyright 2022-2022 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

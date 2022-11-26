@@ -2,8 +2,8 @@
 
 #include "u8stream/universal_null_output_stream.h"
 #include "u8stream/universal_output_stream_if.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdbool.h>
 #include <assert.h>
 
@@ -16,49 +16,49 @@ static const universal_output_stream_if_t universal_null_output_stream_private_i
 
 void universal_null_output_stream_init ( universal_null_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_output_stream_private_init( &((*this_).output_stream), &universal_null_output_stream_private_if, this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t universal_null_output_stream_destroy( universal_null_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t err = U8_ERROR_NONE;
 
     universal_output_stream_private_destroy( &((*this_).output_stream) );
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 u8_error_t universal_null_output_stream_write ( universal_null_output_stream_t *this_, const void *start, size_t length )
 {
-    /*TRACE_BEGIN();*/
+    /*U8_TRACE_BEGIN();*/
     u8_error_t err = U8_ERROR_NONE;
 
-    /*TRACE_END_ERR(err);*/
+    /*U8_TRACE_END_ERR(err);*/
     return err;
 }
 
 u8_error_t universal_null_output_stream_flush( universal_null_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t err = U8_ERROR_NONE;
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 universal_output_stream_t* universal_null_output_stream_get_output_stream( universal_null_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_output_stream_t* result = &((*this_).output_stream);
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

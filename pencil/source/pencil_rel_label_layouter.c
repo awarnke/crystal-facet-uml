@@ -3,7 +3,7 @@
 #include "pencil_rel_label_layouter.h"
 #include "geometry/geometry_point.h"
 #include "geometry/geometry_direction.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 
 void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
@@ -11,7 +11,7 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
                                      pencil_size_t *pencil_size
                                    )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
 
@@ -20,22 +20,22 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
     pencil_label_layout_helper_init ( &((*this_).label_layout_helper) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_label_layout_helper_destroy ( &((*this_).label_layout_helper) );
     draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     assert( NULL != font_layout );
 
@@ -94,13 +94,13 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
 
     universal_array_index_sorter_destroy( &sorted );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_label_layouter_t *this_,
                                                                   universal_array_index_sorter_t *out_sorted )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_sorted );
 
     /* sort the relationships by their label-box: the less simple, the earlier it shall be processed */
@@ -127,12 +127,12 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
             insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
             if ( 0 != insert_error )
             {
-                TSLOG_WARNING( "not all relationship label-boxes are layouted" );
+                U8_LOG_WARNING( "not all relationship label-boxes are layouted" );
             }
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layouter_t *this_,
@@ -142,7 +142,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                                            geometry_rectangle_t out_solutions[],
                                                            uint32_t *out_solutions_count)
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != current_relation );
     assert( NULL != font_layout );
     assert( NULL != out_solutions );
@@ -396,7 +396,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         *out_solutions_count = solution_idx;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

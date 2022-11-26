@@ -1,7 +1,7 @@
 /* File: pencil_diagram_painter.c; Copyright and License: see below */
 
 #include "pencil_diagram_painter.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,20 +9,20 @@
 
 void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_marker_destroy( &((*this_).marker) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
@@ -34,7 +34,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                    PangoLayout *font_layout,
                                    cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_diagram );
     assert( NULL != font_layout );
@@ -50,8 +50,8 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     const double width = geometry_rectangle_get_width ( diagram_bounds );
     const double height = geometry_rectangle_get_height ( diagram_bounds );
 
-    TRACE_INFO_INT( "w", (int)(width) );
-    TRACE_INFO_INT( "h", (int)(height) );
+    U8_TRACE_INFO_INT( "w", (int)(width) );
+    U8_TRACE_INFO_INT( "h", (int)(height) );
 
     const double gap = pencil_size_get_standard_object_border( pencil_size );
     const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
@@ -59,7 +59,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 
     /* draw diagram border and name */
     {
-        TRACE_INFO_INT("drawing diagram id",data_diagram_get_row_id(the_diagram));
+        U8_TRACE_INFO_INT("drawing diagram id",data_diagram_get_row_id(the_diagram));
 
         const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
@@ -158,7 +158,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
@@ -167,7 +167,7 @@ void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *
                                                 const geometry_rectangle_t *diagram_bounds,
                                                 geometry_rectangle_t *out_diagram_space )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != the_diagram );
     assert( NULL != out_diagram_space );
@@ -197,7 +197,7 @@ void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *
         geometry_rectangle_reinit( out_diagram_space, left+gap, top+gap+f_size_guess+f_line_gap, space_width, space_height );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

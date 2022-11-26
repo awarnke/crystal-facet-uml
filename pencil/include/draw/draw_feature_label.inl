@@ -1,6 +1,6 @@
 /* File: draw_feature_label.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void draw_feature_label_init( draw_feature_label_t *this_ )

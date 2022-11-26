@@ -1,7 +1,7 @@
 /* File: gui_file_use_db_dialog.c; Copyright and License: see below */
 
 #include "gui_file_use_db_dialog.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -13,7 +13,7 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                                    GtkWindow *parent_window,
                                    gui_simple_message_to_user_t *message_to_user )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).use_db_file_chooser = gtk_file_chooser_dialog_new ( "Select DB to use",
                                                                  parent_window,
@@ -38,12 +38,12 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
 #else
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
 #endif
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_destroy( GTK_WINDOW((*this_).use_db_file_chooser) );
@@ -54,12 +54,12 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
 
     gui_file_db_manager_destroy( &((*this_).file_manager) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_existing )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     gtk_file_chooser_set_action( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ),
                                  open_existing ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE
@@ -81,19 +81,19 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
     gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_file_use_db_dialog_t *this_ = user_data;
 
     switch ( response_id )
     {
         case GTK_RESPONSE_ACCEPT:
         {
-            TSLOG_EVENT( "GTK_RESPONSE_ACCEPT" );
+            U8_LOG_EVENT( "GTK_RESPONSE_ACCEPT" );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
 
             gchar *filename = NULL;
@@ -108,7 +108,7 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
 #endif
             if ( filename != NULL )
             {
-                TRACE_INFO_STR( "File chosen:", filename );
+                U8_TRACE_INFO_STR( "File chosen:", filename );
 
                 gui_file_db_manager_use_db( &((*this_).file_manager), filename );
 
@@ -116,7 +116,7 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
             }
             else
             {
-                TSLOG_WARNING( "Use DB dialog returned no file name" );
+                U8_LOG_WARNING( "Use DB dialog returned no file name" );
             }
 #if ( GTK_MAJOR_VERSION >= 4 )
             if ( selected_file != NULL )
@@ -129,24 +129,24 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
 
         case GTK_RESPONSE_CANCEL:
         {
-            TSLOG_EVENT( "GTK_RESPONSE_CANCEL" );
+            U8_LOG_EVENT( "GTK_RESPONSE_CANCEL" );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
         }
         break;
 
         case GTK_RESPONSE_DELETE_EVENT:
         {
-            TSLOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
+            U8_LOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
         }
         break;
 
         default:
         {
-            TSLOG_ERROR( "unexpected response_id" );
+            U8_LOG_ERROR( "unexpected response_id" );
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

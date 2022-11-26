@@ -1,52 +1,52 @@
 /* File: data_visible_set.c; Copyright and License: see below */
 
 #include "set/data_visible_set.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 
 void data_visible_set_init( data_visible_set_t *this_ )
 {
-    TRACE_BEGIN();
-    TRACE_INFO_INT( "sizeof(data_visible_set_t):", sizeof(data_visible_set_t) );
+    U8_TRACE_BEGIN();
+    U8_TRACE_INFO_INT( "sizeof(data_visible_set_t):", sizeof(data_visible_set_t) );
 
     data_diagram_init_empty( &((*this_).diagram) );
     (*this_).visible_classifier_count = 0;
     (*this_).feature_count = 0;
     (*this_).relationship_count = 0;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void data_visible_set_reinit( data_visible_set_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_diagram_reinit_empty( &((*this_).diagram) );
     data_visible_set_private_destroy_visible_classifiers( this_ );
     data_visible_set_private_destroy_features( this_ );
     data_visible_set_private_destroy_relationships( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
     
 }
 
 void data_visible_set_destroy( data_visible_set_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_diagram_destroy( &((*this_).diagram) );
     data_visible_set_private_destroy_visible_classifiers( this_ );
     data_visible_set_private_destroy_features( this_ );
     data_visible_set_private_destroy_relationships( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -73,11 +73,11 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
 
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
@@ -96,11 +96,11 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
 
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
@@ -119,11 +119,11 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
 
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
@@ -142,11 +142,11 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
 
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
-            TSLOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
+            U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
         if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
@@ -159,13 +159,13 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
     /* update the containment cache */
     data_visible_set_private_update_containment_cache( this_ );
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
 void data_visible_set_private_update_containment_cache ( data_visible_set_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
@@ -239,7 +239,7 @@ void data_visible_set_private_update_containment_cache ( data_visible_set_t *thi
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

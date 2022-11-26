@@ -1,7 +1,7 @@
 /* File: data_search_result.inl; Copyright and License: see below */
 
 #include <assert.h>
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
                                                      data_row_id_t match_id,
@@ -15,7 +15,7 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
     if ( match_type == DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM )
     {
         match_type = DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM;
-        TSLOG_ANOMALY_INT( "Diagram type INTERACTION_OVERVIEW is re-invented. Old type converted to ACTIVITY. See id D", match_id );
+        U8_LOG_ANOMALY_INT( "Diagram type INTERACTION_OVERVIEW is re-invented. Old type converted to ACTIVITY. See id D", match_id );
     }
     (*this_).match_type = match_type;
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
@@ -23,7 +23,7 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         /* just the read-only name of a search result - truncation should not matter */
-        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
     }
 
     data_id_init_void( &((*this_).src_classifier_id) );
@@ -44,7 +44,7 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
     if ( match_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
     {
         match_type = DATA_CLASSIFIER_TYPE_REQUIREMENT;
-        TSLOG_ANOMALY_INT( "Classifier type FEATURE is deprecated. Converted to REQUIREMENT. See id C", match_id );
+        U8_LOG_ANOMALY_INT( "Classifier type FEATURE is deprecated. Converted to REQUIREMENT. See id C", match_id );
     }
     (*this_).match_type = match_type;
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
@@ -52,7 +52,7 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         /* just the read-only name of a search result - truncation should not matter */
-        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
     }
 
     data_id_init_void( &((*this_).src_classifier_id) );
@@ -77,7 +77,7 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         /* just the read-only name of a search result - truncation should not matter */
-        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
     }
 
     data_id_init( &((*this_).src_classifier_id), DATA_TABLE_CLASSIFIER, classifier_id );
@@ -103,7 +103,7 @@ static inline void data_search_result_init_relationship ( data_search_result_t *
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         /* just the read-only name of a search result - truncation should not matter */
-        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
     }
 
     data_id_init( &((*this_).src_classifier_id), DATA_TABLE_CLASSIFIER, from_classifier_id );
@@ -206,8 +206,8 @@ static inline const data_id_t *data_search_result_get_diagram_id_const ( const d
 
 static inline void data_search_result_trace ( const data_search_result_t *this_ )
 {
-    TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).match_object_name) );
-    TRACE_INFO_INT( "- type:", (*this_).match_type );
+    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).match_object_name) );
+    U8_TRACE_INFO_INT( "- type:", (*this_).match_type );
     data_id_trace( &((*this_).match_object_id) );
     data_id_trace( &((*this_).src_classifier_id) );
     data_id_trace( &((*this_).dst_classifier_id) );

@@ -1,6 +1,6 @@
 /* File: universal_utf8_writer.c; Copyright and License: see below */
 
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <string.h>
 #include <inttypes.h>
 #include <assert.h>

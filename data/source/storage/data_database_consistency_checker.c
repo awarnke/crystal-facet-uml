@@ -1,33 +1,33 @@
 /* File: data_database_consistency_checker.c; Copyright and License: see below */
 
 #include "storage/data_database_consistency_checker.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <assert.h>
 
 u8_error_t data_database_consistency_checker_init ( data_database_consistency_checker_t *this_, data_database_t *database )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != database );
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = database;
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
 
 u8_error_t data_database_consistency_checker_destroy ( data_database_consistency_checker_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).database = NULL;
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
@@ -267,7 +267,7 @@ static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_CLASSIFIER_ID_COLUMN 
 
 u8_error_t data_database_consistency_checker_find_circular_diagram_parents ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_set );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -308,7 +308,7 @@ u8_error_t data_database_consistency_checker_find_circular_diagram_parents ( dat
                 }
             }
         }
-        TRACE_INFO_INT_INT( "invalid+circular references search: round,found_children:", tree_depth, found_children );
+        U8_TRACE_INFO_INT_INT( "invalid+circular references search: round,found_children:", tree_depth, found_children );
         finished = ( found_children == 0 );
     }
 
@@ -320,12 +320,12 @@ u8_error_t data_database_consistency_checker_find_circular_diagram_parents ( dat
         if ( diag_has_parent )
         {
             data_row_id_t diag_id = ((*this_).private_temp_diagram_ids_buf)[diag_idx][0];
-            TSLOG_ERROR_INT( "Diagram has a parent that is not linked to root:", diag_id );
+            U8_LOG_ERROR_INT( "Diagram has a parent that is not linked to root:", diag_id );
             data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAM, diag_id );
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -334,7 +334,7 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
                                                                          data_row_id_t (*out_diagram_id_pair)[][2],
                                                                          uint32_t *out_diagram_id_pair_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagram_id_pair );
     assert( NULL != out_diagram_id_pair_count );
     assert( max_out_array_size <= MAX_ROWS_TO_CHECK );
@@ -345,7 +345,7 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
     if ( ! data_database_is_open( (*this_).database ) )
     {
         result = U8_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        U8_LOG_WARNING( "Database not open, cannot request data." );
     }
     else
     {
@@ -353,7 +353,7 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
 
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMS_IDS );
+        U8_LOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMS_IDS );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
                                            SELECT_DIAGRAMS_IDS,
                                            AUTO_DETECT_SQL_LENGTH,
@@ -363,7 +363,7 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
 
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
         else
@@ -371,12 +371,12 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
             sqlite_err = SQLITE_ROW;
             for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK) && (result == U8_ERROR_NONE); row_index ++ )
             {
-                TRACE_INFO( "sqlite3_step()" );
+                U8_TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
 
                 if ( SQLITE_DONE == sqlite_err )
                 {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                    U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
@@ -385,11 +385,11 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
                     if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN ) )
                     {
                         diag_parent_id = DATA_ROW_ID_VOID;
-                        TRACE_INFO_INT( "root:", diag_id );
+                        U8_TRACE_INFO_INT( "root:", diag_id );
                     }
                     else
                     {
-                        TRACE_INFO_INT_INT( "ok: diag_id, parent_id:", diag_id, diag_parent_id );
+                        U8_TRACE_INFO_INT_INT( "ok: diag_id, parent_id:", diag_id, diag_parent_id );
                     }
 
                     /* diagram found */
@@ -401,13 +401,13 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
                     }
                     else
                     {
-                        TSLOG_ERROR_INT( "Number of diagrams in the database exceeds max_out_array_size:", max_out_array_size );
+                        U8_LOG_ERROR_INT( "Number of diagrams in the database exceeds max_out_array_size:", max_out_array_size );
                         result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                     result |= U8_ERROR_AT_DB;
                 }
             }
@@ -416,18 +416,18 @@ u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_data
         sqlite_err = sqlite3_finalize( prepared_statement );
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_set );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -435,7 +435,7 @@ u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements
     if ( ! data_database_is_open( (*this_).database ) )
     {
         result = U8_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        U8_LOG_WARNING( "Database not open, cannot request data." );
     }
     else
     {
@@ -443,7 +443,7 @@ u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
 
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMELEMENTS_AND_RELATED );
+        U8_LOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMELEMENTS_AND_RELATED );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
                                            SELECT_DIAGRAMELEMENTS_AND_RELATED,
                                            AUTO_DETECT_SQL_LENGTH,
@@ -453,7 +453,7 @@ u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements
 
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
         else
@@ -461,12 +461,12 @@ u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements
             sqlite_err = SQLITE_ROW;
             for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
-                TRACE_INFO( "sqlite3_step()" );
+                U8_TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
 
                 if ( SQLITE_DONE == sqlite_err )
                 {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                    U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
@@ -479,31 +479,31 @@ u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements
                     bool classifier_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN ) );
                     if (( ! diagram_exists ) && ( ! classifier_exists ))
                     {
-                        TSLOG_ERROR_INT( "referenced diagram and classifier not existing, diagramelement:", diagele_id );
-                        TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
-                        TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
+                        U8_LOG_ERROR_INT( "referenced diagram and classifier not existing, diagramelement:", diagele_id );
+                        U8_TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
+                        U8_TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                     }
                     else if ( ! diagram_exists )
                     {
-                        TSLOG_ERROR_INT( "referenced diagram not existing, diagramelement:", diagele_id );
-                        TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
+                        U8_LOG_ERROR_INT( "referenced diagram not existing, diagramelement:", diagele_id );
+                        U8_TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                     }
                     else if ( ! classifier_exists )
                     {
-                        TSLOG_ERROR_INT( "referenced classifier not existing, diagramelement:", diagele_id );
-                        TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
+                        U8_LOG_ERROR_INT( "referenced classifier not existing, diagramelement:", diagele_id );
+                        U8_TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                     }
                     else
                     {
-                        TRACE_INFO_INT( "ok:", diagele_id );
+                        U8_TRACE_INFO_INT( "ok:", diagele_id );
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                     result |= U8_ERROR_AT_DB;
                 }
             }
@@ -512,18 +512,18 @@ u8_error_t data_database_consistency_checker_find_nonreferencing_diagramelements
         sqlite_err = sqlite3_finalize( prepared_statement );
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_consistency_checker_find_invalid_focused_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_set );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -531,7 +531,7 @@ u8_error_t data_database_consistency_checker_find_invalid_focused_features ( dat
     if ( ! data_database_is_open( (*this_).database ) )
     {
         result = U8_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        U8_LOG_WARNING( "Database not open, cannot request data." );
     }
     else
     {
@@ -539,7 +539,7 @@ u8_error_t data_database_consistency_checker_find_invalid_focused_features ( dat
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
 
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FOCUSED_FEATURES );
+        U8_LOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FOCUSED_FEATURES );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
                                            SELECT_FOCUSED_FEATURES,
                                            AUTO_DETECT_SQL_LENGTH,
@@ -549,7 +549,7 @@ u8_error_t data_database_consistency_checker_find_invalid_focused_features ( dat
 
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
         else
@@ -557,12 +557,12 @@ u8_error_t data_database_consistency_checker_find_invalid_focused_features ( dat
             sqlite_err = SQLITE_ROW;
             for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
-                TRACE_INFO( "sqlite3_step()" );
+                U8_TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
 
                 if ( SQLITE_DONE == sqlite_err )
                 {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                    U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
@@ -601,33 +601,33 @@ u8_error_t data_database_consistency_checker_find_invalid_focused_features ( dat
                     /* evaluate the data record */
                     if ( ! diagele_has_focused_feature )
                     {
-                        TRACE_INFO_INT( "ok (no focused feature):", diagele_id );
+                        U8_TRACE_INFO_INT( "ok (no focused feature):", diagele_id );
                     }
                     else
                     {
                         if ( ! feature_exists )
                         {
-                            TSLOG_ERROR_INT( "focused feature not existing, diagramelement:", diagele_id );
-                            TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
-                            TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
+                            U8_LOG_ERROR_INT( "focused feature not existing, diagramelement:", diagele_id );
+                            U8_TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
+                            U8_TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
                             data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                         }
                         else if ( diagele_classifier_id != feature_classifier_id )
                         {
-                            TSLOG_ERROR_INT( "referenced classifier of diagramelement and focused_feature differ, diagramelement:", diagele_id );
-                            TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
-                            TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
+                            U8_LOG_ERROR_INT( "referenced classifier of diagramelement and focused_feature differ, diagramelement:", diagele_id );
+                            U8_TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
+                            U8_TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
                             data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                         }
                         else
                         {
-                            TRACE_INFO_INT( "ok (valid focused feature):", diagele_id );
+                            U8_TRACE_INFO_INT( "ok (valid focused feature):", diagele_id );
                         }
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                     result |= U8_ERROR_AT_DB;
                 }
             }
@@ -636,18 +636,18 @@ u8_error_t data_database_consistency_checker_find_invalid_focused_features ( dat
         sqlite_err = sqlite3_finalize( prepared_statement );
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_set );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -655,7 +655,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( dat
     if ( ! data_database_is_open( (*this_).database ) )
     {
         result = U8_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        U8_LOG_WARNING( "Database not open, cannot request data." );
     }
     else
     {
@@ -663,7 +663,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( dat
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
 
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_CLASSIFIERS_AND_DIAGRAMELEMENTS );
+        U8_LOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_CLASSIFIERS_AND_DIAGRAMELEMENTS );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
                                            SELECT_CLASSIFIERS_AND_DIAGRAMELEMENTS,
                                            AUTO_DETECT_SQL_LENGTH,
@@ -673,7 +673,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( dat
 
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
         else
@@ -681,12 +681,12 @@ u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( dat
             sqlite_err = SQLITE_ROW;
             for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
-                TRACE_INFO( "sqlite3_step()" );
+                U8_TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
 
                 if ( SQLITE_DONE == sqlite_err )
                 {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                    U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
@@ -698,18 +698,18 @@ u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( dat
                     bool diagele_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN ) );
                     if ( ! diagele_exists )
                     {
-                        TSLOG_ERROR_INT( "referencing diagramelement not existing, classifier :", classifier_id );
-                        TRACE_INFO_INT( "referencing diagramelement not existing: classifier:", classifier_id );
+                        U8_LOG_ERROR_INT( "referencing diagramelement not existing, classifier :", classifier_id );
+                        U8_TRACE_INFO_INT( "referencing diagramelement not existing: classifier:", classifier_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_CLASSIFIER, classifier_id );
                     }
                     else
                     {
-                        TRACE_INFO_INT_INT( "ok (classifier_id,diagele_id):", classifier_id, diagele_id );
+                        U8_TRACE_INFO_INT_INT( "ok (classifier_id,diagele_id):", classifier_id, diagele_id );
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                     result |= U8_ERROR_AT_DB;
                 }
             }
@@ -718,18 +718,18 @@ u8_error_t data_database_consistency_checker_find_unreferenced_classifiers ( dat
         sqlite_err = sqlite3_finalize( prepared_statement );
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_set );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -737,7 +737,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_d
     if ( ! data_database_is_open( (*this_).database ) )
     {
         result = U8_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        U8_LOG_WARNING( "Database not open, cannot request data." );
     }
     else
     {
@@ -745,7 +745,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_d
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
 
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FEATURES_AND_CLASSIFIERS );
+        U8_LOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FEATURES_AND_CLASSIFIERS );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
                                            SELECT_FEATURES_AND_CLASSIFIERS,
                                            AUTO_DETECT_SQL_LENGTH,
@@ -755,7 +755,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_d
 
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
         else
@@ -763,12 +763,12 @@ u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_d
             sqlite_err = SQLITE_ROW;
             for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
-                TRACE_INFO( "sqlite3_step()" );
+                U8_TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
 
                 if ( SQLITE_DONE == sqlite_err )
                 {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                    U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
@@ -778,18 +778,18 @@ u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_d
                     bool classifier_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_FEATURES_CLASSIFIER_ID_COLUMN ) );
                     if ( ! classifier_exists )
                     {
-                        TSLOG_ERROR_INT( "referenced classifier not existing, feature:", feature_id );
-                        TRACE_INFO_INT_INT( "referenced classifier not existing: feature, classifier:", feature_id, feature_classifier_id );
+                        U8_LOG_ERROR_INT( "referenced classifier not existing, feature:", feature_id );
+                        U8_TRACE_INFO_INT_INT( "referenced classifier not existing: feature, classifier:", feature_id, feature_classifier_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_FEATURE, feature_id );
                     }
                     else
                     {
-                        TRACE_INFO_INT( "ok:", feature_id );
+                        U8_TRACE_INFO_INT( "ok:", feature_id );
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                     result |= U8_ERROR_AT_DB;
                 }
             }
@@ -798,18 +798,18 @@ u8_error_t data_database_consistency_checker_find_unreferenced_features ( data_d
         sqlite_err = sqlite3_finalize( prepared_statement );
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_set );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -817,7 +817,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( d
     if ( ! data_database_is_open( (*this_).database ) )
     {
         result = U8_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        U8_LOG_WARNING( "Database not open, cannot request data." );
     }
     else
     {
@@ -825,7 +825,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( d
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
 
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_RELATIONSHIPS_AND_CLASSIFIERS );
+        U8_LOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_RELATIONSHIPS_AND_CLASSIFIERS );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
                                            SELECT_RELATIONSHIPS_AND_CLASSIFIERS,
                                            AUTO_DETECT_SQL_LENGTH,
@@ -835,7 +835,7 @@ u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( d
 
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
         else
@@ -843,12 +843,12 @@ u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( d
             sqlite_err = SQLITE_ROW;
             for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
-                TRACE_INFO( "sqlite3_step()" );
+                U8_TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
 
                 if ( SQLITE_DONE == sqlite_err )
                 {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                    U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
@@ -861,31 +861,31 @@ u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( d
                     bool dest_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN ) );
                     if (( ! source_exists ) && ( ! dest_exists ))
                     {
-                        TSLOG_ERROR_INT( "relationship referencing non-existing source and destiation, relationship:", relation_id );
-                        TRACE_INFO_INT_INT( "relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
-                        TRACE_INFO_INT_INT( "relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
+                        U8_LOG_ERROR_INT( "relationship referencing non-existing source and destiation, relationship:", relation_id );
+                        U8_TRACE_INFO_INT_INT( "relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
+                        U8_TRACE_INFO_INT_INT( "relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                     }
                     else if ( ! source_exists )
                     {
-                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing source, relationship:", relation_id );
-                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
+                        U8_LOG_ERROR_INT( "referenced relationship referencing non-existing source, relationship:", relation_id );
+                        U8_TRACE_INFO_INT_INT( "referenced relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                     }
                     else if ( ! dest_exists )
                     {
-                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing destination, relationship:", relation_id );
-                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
+                        U8_LOG_ERROR_INT( "referenced relationship referencing non-existing destination, relationship:", relation_id );
+                        U8_TRACE_INFO_INT_INT( "referenced relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                     }
                     else
                     {
-                        TRACE_INFO_INT( "ok:", relation_id );
+                        U8_TRACE_INFO_INT( "ok:", relation_id );
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                     result |= U8_ERROR_AT_DB;
                 }
             }
@@ -894,18 +894,18 @@ u8_error_t data_database_consistency_checker_find_unreferenced_relationships ( d
         sqlite_err = sqlite3_finalize( prepared_statement );
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_consistency_checker_find_invalid_relationship_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_set );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -913,7 +913,7 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
     if ( ! data_database_is_open( (*this_).database ) )
     {
         result = U8_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        U8_LOG_WARNING( "Database not open, cannot request data." );
     }
     else
     {
@@ -921,7 +921,7 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
 
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FEATURE_RELATIONSHIPS );
+        U8_LOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FEATURE_RELATIONSHIPS );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
                                            SELECT_FEATURE_RELATIONSHIPS,
                                            AUTO_DETECT_SQL_LENGTH,
@@ -931,7 +931,7 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
 
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
         else
@@ -939,12 +939,12 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
             sqlite_err = SQLITE_ROW;
             for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
-                TRACE_INFO( "sqlite3_step()" );
+                U8_TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
 
                 if ( SQLITE_DONE == sqlite_err )
                 {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                    U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
@@ -1012,25 +1012,25 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
                     {
                         if ( ! relation_has_to_feature )
                         {
-                            TRACE_INFO_INT( "ok (no feature relation):", relation_id );
+                            U8_TRACE_INFO_INT( "ok (no feature relation):", relation_id );
                         }
                         else
                         {
                             if ( ! dest_feature_exists )
                             {
-                                TSLOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
+                                U8_LOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_to_classifier_id != dest_feature_classifier_id )
                             {
-                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
-                                TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
-                                TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
+                                U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                U8_TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
+                                U8_TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
                             {
-                                TRACE_INFO_INT( "ok (valid destination feature, no source feature):", relation_id );
+                                U8_TRACE_INFO_INT( "ok (valid destination feature, no source feature):", relation_id );
                             }
                         }
                     }
@@ -1040,57 +1040,57 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
                         {
                             if ( ! source_feature_exists )
                             {
-                                TSLOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
+                                U8_LOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_from_classifier_id != source_feature_classifier_id )
                             {
-                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
-                                TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
-                                TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
+                                U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                U8_TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
+                                U8_TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
                             {
-                                TRACE_INFO_INT( "ok (valid source feature, no destination feature):", relation_id );
+                                U8_TRACE_INFO_INT( "ok (valid source feature, no destination feature):", relation_id );
                             }
                         }
                         else
                         {
                             if ( ! source_feature_exists )
                             {
-                                TSLOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
+                                U8_LOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( ! dest_feature_exists )
                             {
-                                TSLOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
+                                U8_LOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_from_classifier_id != source_feature_classifier_id )
                             {
-                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
-                                TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
-                                TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
+                                U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                U8_TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
+                                U8_TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_to_classifier_id != dest_feature_classifier_id )
                             {
-                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
-                                TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
-                                TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
+                                U8_LOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                U8_TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
+                                U8_TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
                             {
-                                TRACE_INFO_INT( "ok (valid source and destination features):", relation_id );
+                                U8_TRACE_INFO_INT( "ok (valid source and destination features):", relation_id );
                             }
                         }
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                     result |= U8_ERROR_AT_DB;
                 }
             }
@@ -1099,12 +1099,12 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
         sqlite_err = sqlite3_finalize( prepared_statement );
         if ( 0 != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -1121,7 +1121,7 @@ static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX =
 
 u8_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_id_t obj_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
@@ -1136,17 +1136,17 @@ u8_error_t data_database_consistency_checker_kill_classifier( data_database_cons
         utf8stringbuf_copy_str( delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX );
         utf8stringbuf_append_int( delete_statement, obj_id );
         utf8stringbuf_append_str( delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX );
-        TSLOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string(delete_statement) );
+        U8_LOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string(delete_statement) );
         sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string(delete_statement), NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", utf8stringbuf_get_string(delete_statement) );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            U8_LOG_ERROR_STR( "sqlite3_exec() failed:", utf8stringbuf_get_string(delete_statement) );
+            U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= (sqlite_err == SQLITE_READONLY) ? U8_ERROR_READ_ONLY_DB : U8_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
@@ -1155,11 +1155,11 @@ u8_error_t data_database_consistency_checker_kill_classifier( data_database_cons
     }
     else
     {
-        TSLOG_WARNING( "database not open." );
+        U8_LOG_WARNING( "database not open." );
         result = U8_ERROR_NO_DB;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

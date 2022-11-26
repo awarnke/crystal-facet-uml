@@ -1,15 +1,15 @@
 /* File: dir_file.c; Copyright and License: see below */
 
 #include "dir/dir_file.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
 
 u8_error_t dir_file_remove( dir_file_t this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( this_ != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
@@ -17,7 +17,7 @@ u8_error_t dir_file_remove( dir_file_t this_ )
     if ( 0 != remove_err )
     {
         /* This error may have happened on purpose or by an unexpected condition */
-        TRACE_INFO_STR( "error at removing file:", this_ );
+        U8_TRACE_INFO_STR( "error at removing file:", this_ );
         if (errno == ENOENT)
         {
             err |= U8_ERROR_FILE_ALREADY_REMOVED;
@@ -28,7 +28,7 @@ u8_error_t dir_file_remove( dir_file_t this_ )
         }
     }
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 

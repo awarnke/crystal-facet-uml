@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define TEST_FAIL()\
 {fprintf(stderr,"TEST FAILED at %s:%d\n",__FILE__,__LINE__);exit(-1);}

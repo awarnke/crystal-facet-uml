@@ -1,7 +1,7 @@
 /* File: pencil_feature_layouter.c; Copyright and License: see below */
 
 #include "pencil_feature_layouter.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +11,7 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
                                    pencil_layout_data_t *layout_data,
                                    pencil_size_t *pencil_size )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
 
@@ -20,22 +20,22 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
     data_rules_init( &((*this_).rules) );
     pencil_feature_painter_init( &((*this_).feature_painter) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_rules_destroy( &((*this_).rules) );
     pencil_feature_painter_destroy( &((*this_).feature_painter) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
 
     /* get diagram draw area */
@@ -129,7 +129,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 
             default:
             {
-                TSLOG_ERROR("invalid feature type in pencil_feature_layouter_do_layout");
+                U8_LOG_ERROR("invalid feature type in pencil_feature_layouter_do_layout");
                 layout_feature_set_symbol_box ( feature_layout, c_symbol_box );
                 layout_feature_set_label_box ( feature_layout, c_symbol_box );
                 layout_feature_set_icon_direction ( feature_layout, GEOMETRY_DIRECTION_CENTER );
@@ -138,7 +138,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t *this_,
@@ -148,7 +148,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                                        const geometry_rectangle_t *classifier_symbol_box,
                                                        layout_feature_t *out_feature_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != diagram_space );
     assert ( NULL != classifier_symbol_box );
     assert ( NULL != out_feature_layout );
@@ -204,7 +204,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
         layout_feature_set_label_box ( out_feature_layout, classifier_symbol_box );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t *this_,
@@ -214,7 +214,7 @@ void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t
                                                        PangoLayout *font_layout,
                                                        layout_feature_t *out_feature_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != classifier_symbol_box );
     assert ( NULL != the_feature );
     assert ( NULL != font_layout );
@@ -302,7 +302,7 @@ void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t
     layout_feature_set_label_box ( out_feature_layout, &f_bounds );
     layout_feature_set_icon_direction ( out_feature_layout, arrow_dir );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_t *this_,
@@ -311,7 +311,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                                         PangoLayout *font_layout,
                                                         layout_feature_t *out_feature_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != classifier_symbol_box );
     assert ( NULL != the_feature );
     assert ( NULL != font_layout );
@@ -401,7 +401,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter_t *this_,
@@ -410,7 +410,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
                                                          PangoLayout *font_layout,
                                                          layout_feature_t *out_feature_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != classifier_space );
     assert ( NULL != the_feature );
     assert ( NULL != font_layout );
@@ -492,7 +492,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
     layout_feature_set_label_box ( out_feature_layout, &f_bounds );
     layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );  /* dummy direction */
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
@@ -500,7 +500,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
                                                          PangoLayout *font_layout,
                                                          geometry_dimensions_t *out_features_bounds )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != font_layout );
     assert( NULL != out_features_bounds );
 
@@ -546,7 +546,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
     const double sum_of_gaps = 4.0 * gap;  /* gaps above and below the compartment lines */
 
     geometry_dimensions_reinit( out_features_bounds, width, height + sum_of_gaps );
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines a set of function pointers that allow to implement an output stream.
+ *  \brief Defines a set of function pointers that allow to implement a byte (u8) output stream.
  *
  *  This is an interface only - to be used in a pipes-and-filters architecture
  *  where pipes and filters do not know their predecessor or successor.

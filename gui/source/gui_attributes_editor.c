@@ -2,7 +2,7 @@
 
 #include "gui_attributes_editor.h"
 #include "gtk_helper/gtk_helper_tree_model.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_table.h"
 #include "data_id.h"
 #include "utf8stringbuf/utf8string.h"
@@ -23,7 +23,7 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   data_database_t *database,
                                   gui_simple_message_to_user_t *message_to_user )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != id_label );
     assert( NULL != name_entry );
     assert( NULL != stereotype_entry );
@@ -63,12 +63,12 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     /* update widgets */
     gui_attributes_editor_update_widgets( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_id_destroy( &((*this_).selected_object_id) );
     data_diagram_destroy( &((*this_).private_diagram_cache) );
@@ -91,12 +91,12 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     (*this_).type_icon_grid = NULL;
     (*this_).description_text_view = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_update_widgets ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     if ( (*this_).sync_dir == GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
     {
@@ -109,20 +109,20 @@ void gui_attributes_editor_update_widgets ( gui_attributes_editor_t *this_ )
     else
     {
         /* widgets are not updated in GUI TO DB mode */
-        TSLOG_WARNING( "gui_attributes_editor_update_widgets called in GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB mode!" );
+        U8_LOG_WARNING( "gui_attributes_editor_update_widgets called in GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB mode!" );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_commit_changes ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const gui_attributes_editor_sync_dir_t original_dir = (*this_).sync_dir;
     if ( (*this_).sync_dir == GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
     {
-        TSLOG_EVENT( "gui_attributes_editor entering state GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB." );
+        U8_LOG_EVENT( "gui_attributes_editor entering state GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB." );
         (*this_).sync_dir = GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB;
     }
 
@@ -132,85 +132,85 @@ void gui_attributes_editor_commit_changes ( gui_attributes_editor_t *this_ )
 
     if ( original_dir == GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
     {
-        TSLOG_EVENT( "gui_attributes_editor leaving state GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB." );
+        U8_LOG_EVENT( "gui_attributes_editor leaving state GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB." );
         (*this_).sync_dir = GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI;
         gui_attributes_editor_private_load_object( this_, (*this_).selected_object_id );
         gui_attributes_editor_update_widgets( this_ );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_INFO( "gui_attributes_editor_t" );
-    TRACE_INFO( "- selected_object_id:" );
+    U8_TRACE_INFO( "gui_attributes_editor_t" );
+    U8_TRACE_INFO( "- selected_object_id:" );
     data_id_trace( &((*this_).selected_object_id) );
 
     switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
     {
         case DATA_TABLE_VOID:
         {
-            TRACE_INFO( "- cached object: none" );
+            U8_TRACE_INFO( "- cached object: none" );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            TRACE_INFO( "- cached object:" );
+            U8_TRACE_INFO( "- cached object:" );
             data_classifier_trace( &((*this_).private_classifier_cache) );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            TRACE_INFO( "- cached object:" );
+            U8_TRACE_INFO( "- cached object:" );
             data_feature_trace( &((*this_).private_feature_cache) );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            TRACE_INFO( "- cached object:" );
+            U8_TRACE_INFO( "- cached object:" );
             data_relationship_trace( &((*this_).private_relationship_cache) );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            TRACE_INFO( "- cached object: ANOMALY, UNEXPECTED VALUE OF data_table_t" );
+            U8_TRACE_INFO( "- cached object: ANOMALY, UNEXPECTED VALUE OF data_table_t" );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            TRACE_INFO( "- cached object:" );
+            U8_TRACE_INFO( "- cached object:" );
             data_diagram_trace( &((*this_).private_diagram_cache) );
         }
         break;
 
         default:
         {
-            TRACE_INFO( "- cached object: ERROR, ILLEGAL ENUM VALUE OF data_table_t" );
+            U8_TRACE_INFO( "- cached object: ERROR, ILLEGAL ENUM VALUE OF data_table_t" );
         }
         break;
     }
 
     /* id: */
-    if ( TRACE_ACTIVE )
+    if ( U8_TRACE_ACTIVE )
     {
         GtkLabel *id_widget;
         const char* text;
         id_widget = GTK_LABEL( (*this_).id_label );
         text = gtk_label_get_text( id_widget );
 
-        TRACE_INFO_STR( "- visible id:", text );
+        U8_TRACE_INFO_STR( "- visible id:", text );
     }
 
     /* name: */
-    if ( TRACE_ACTIVE )
+    if ( U8_TRACE_ACTIVE )
     {
         const char* text;
         GtkEntry *const name_widget = GTK_ENTRY( (*this_).name_entry );
@@ -220,11 +220,11 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
 #else
         text = gtk_entry_get_text( name_widget );
 #endif
-        TRACE_INFO_STR( "- visible name:", text );
+        U8_TRACE_INFO_STR( "- visible name:", text );
     }
 
     /* stereotype: */
-    if ( TRACE_ACTIVE )
+    if ( U8_TRACE_ACTIVE )
     {
         const char* text;
         GtkEntry *const stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
@@ -234,11 +234,11 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
 #else
         text = gtk_entry_get_text( stereotype_widget );
 #endif
-        TRACE_INFO_STR( "- visible stereotype:", text );
+        U8_TRACE_INFO_STR( "- visible stereotype:", text );
     }
 
     /* type: */
-    if ( TRACE_ACTIVE )
+    if ( U8_TRACE_ACTIVE )
     {
         GtkComboBox *type_widget;
         int obj_type;
@@ -246,11 +246,11 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
         type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
         index = gtk_combo_box_get_active ( type_widget );
         obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
-        TRACE_INFO_INT( "- visible type id:", obj_type );
+        U8_TRACE_INFO_INT( "- visible type id:", obj_type );
     }
 
     /* description: */
-    if ( TRACE_ACTIVE )
+    if ( U8_TRACE_ACTIVE )
     {
         GtkTextView *description_widget;
         GtkTextBuffer *buffer;
@@ -262,12 +262,12 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
         gtk_text_buffer_get_end_iter ( buffer, &end );
         const char* text;
         text = gtk_text_buffer_get_text ( buffer, &start, &end, false );
-        TRACE_INFO_STR( "- visible description:", text );
+        U8_TRACE_INFO_STR( "- visible description:", text );
     }
 
-    TRACE_INFO_STR( "- sync mode:", ((*this_).sync_dir==GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI)?"db-2-gui":"GUI_TO_DB" );
+    U8_TRACE_INFO_STR( "- sync mode:", ((*this_).sync_dir==GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI)?"db-2-gui":"GUI_TO_DB" );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ USER INPUT CALLBACKS ================================ */
@@ -275,7 +275,7 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_name_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( gtk_event_controller_get_widget( GTK_EVENT_CONTROLLER(self) ) == GTK_WIDGET( (*this_).name_entry ) );
@@ -283,13 +283,13 @@ void gui_attributes_editor_name_focus_left_callback( GtkEventControllerFocus* se
     //gui_attributes_editor_private_name_commit_changes( this_ );
     gui_attributes_editor_commit_changes( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
@@ -297,15 +297,15 @@ gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, Gdk
     //gui_attributes_editor_private_name_commit_changes( this_ );
     gui_attributes_editor_commit_changes( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
 #endif
 
 void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
@@ -313,14 +313,14 @@ void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user
     //gui_attributes_editor_private_name_commit_changes( this_ );
     gui_attributes_editor_commit_changes ( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_stereotype_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( gtk_event_controller_get_widget( GTK_EVENT_CONTROLLER(self) ) == GTK_WIDGET( (*this_).stereotype_entry ) );
@@ -328,13 +328,13 @@ void gui_attributes_editor_stereotype_focus_left_callback( GtkEventControllerFoc
     //gui_attributes_editor_private_stereotype_commit_changes( this_ );
     gui_attributes_editor_commit_changes( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( GTK_ENTRY(widget) == GTK_ENTRY( (*this_).stereotype_entry ) );
@@ -342,15 +342,15 @@ gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widge
     //gui_attributes_editor_private_stereotype_commit_changes( this_ );
     gui_attributes_editor_commit_changes( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
 #endif
 
 void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( GTK_ENTRY(widget) == GTK_ENTRY( (*this_).stereotype_entry ) );
@@ -358,13 +358,13 @@ void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointe
     //gui_attributes_editor_private_stereotype_commit_changes( this_ );
     gui_attributes_editor_commit_changes ( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_attributes_editor_t *this_;
     this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
@@ -376,7 +376,7 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
     int index;
     type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
     index = gtk_combo_box_get_active ( type_widget );
-    TRACE_INFO_INT( "selected:", index );
+    U8_TRACE_INFO_INT( "selected:", index );
     obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
 
     /* commit possibly changed texts before causing update events */
@@ -384,13 +384,13 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
 
     gui_attributes_editor_private_type_commit_changes( this_, obj_type );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkTreePath *path, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_attributes_editor_t *this_;
     this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
@@ -402,7 +402,7 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
     const gint * const indices = gtk_tree_path_get_indices(path);
     assert( NULL != indices );
     const uint32_t index = indices[0];
-    TRACE_INFO_INT( "selected:", index );
+    U8_TRACE_INFO_INT( "selected:", index );
     int obj_type;
     obj_type = gtk_helper_tree_model_get_id( gtk_icon_view_get_model( (*this_).type_icon_grid ), 0, index );
 
@@ -411,14 +411,14 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
 
     gui_attributes_editor_private_type_commit_changes ( this_, obj_type );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( gtk_event_controller_get_widget( GTK_EVENT_CONTROLLER(self) ) == GTK_WIDGET( (*this_).description_text_view ) );
@@ -426,13 +426,13 @@ void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFo
     gui_attributes_editor_commit_changes( this_ );
     //gui_attributes_editor_private_description_commit_changes( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 #else
 gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( user_data != NULL );
     gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
     assert( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
@@ -440,8 +440,8 @@ gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widg
     gui_attributes_editor_commit_changes( this_ );
     //gui_attributes_editor_private_description_commit_changes( this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
 #endif
@@ -450,7 +450,7 @@ gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widg
 
 void gui_attributes_editor_focused_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_attributes_editor_t *this_;
     this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
@@ -478,17 +478,17 @@ void gui_attributes_editor_focused_object_changed_callback( GtkWidget *widget, d
             gtk_widget_grab_focus( GTK_WIDGET((*this_).name_entry) );
             /* the grab focus may cause focus-lost signals - which update the widgets */
             gtk_editable_select_region( GTK_EDITABLE((*this_).name_entry), 0, -1 );
-            TRACE_INFO( "gui_attributes_editor called gtk_widget_grab_focus" );
+            U8_TRACE_INFO( "gui_attributes_editor called gtk_widget_grab_focus" );
         }
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_attributes_editor_t *this_;
     this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
@@ -536,21 +536,21 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
         }
     };
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 /* ================================ PRIVATE METHODS ================================ */
 
 void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_, data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* before overwriting the current data, trace this_: */
     gui_attributes_editor_trace( this_ );
     if ( (*this_).sync_dir != GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
     {
-        TSLOG_WARNING( "gui_attributes_editor_private_load_object called in GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB mode!" );
+        U8_LOG_WARNING( "gui_attributes_editor_private_load_object called in GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB mode!" );
     }
 
     switch ( data_id_get_table(&id) )
@@ -581,7 +581,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
                 if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
+                    U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
@@ -613,7 +613,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
                 if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
+                    U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
@@ -645,7 +645,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
                 if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
+                    U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
@@ -688,7 +688,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
                 if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
-                    TSLOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+                    U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
@@ -706,7 +706,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
 
             data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
             data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
@@ -720,12 +720,12 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
     /* after loading the current data, trace this_: */
     gui_attributes_editor_trace( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const char* text;
     GtkEntry *const name_widget = GTK_ENTRY( (*this_).name_entry );
@@ -736,7 +736,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
     text = gtk_entry_get_text( name_widget );
 #endif
 
-    TRACE_INFO_STR( "text:", text );
+    U8_TRACE_INFO_STR( "text:", text );
 
     u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
@@ -744,7 +744,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TRACE_INFO( "no object selected where name can be updated." );
+            U8_TRACE_INFO( "no object selected where name can be updated." );
         }
         break;
 
@@ -786,7 +786,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
             }
         }
@@ -822,7 +822,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update key/name failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update key/name failed:", ctrl_err );
                 }
             }
         }
@@ -858,7 +858,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
             }
         }
@@ -867,7 +867,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
-            TSLOG_WARNING( "no object selected where name can be updated." );
+            U8_LOG_WARNING( "no object selected where name can be updated." );
         }
         break;
 
@@ -901,7 +901,7 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
             }
         }
@@ -909,17 +909,17 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const char* text;
     GtkEntry *const stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
@@ -930,7 +930,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
     text = gtk_entry_get_text( stereotype_widget );
 #endif
 
-    TRACE_INFO_STR( "text:", text );
+    U8_TRACE_INFO_STR( "text:", text );
 
     u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
@@ -938,7 +938,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TRACE_INFO( "no object selected where stereotype can be updated." );
+            U8_TRACE_INFO( "no object selected where stereotype can be updated." );
         }
         break;
 
@@ -969,7 +969,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
                 }
             }
         }
@@ -1002,7 +1002,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
                 }
             }
         }
@@ -1010,38 +1010,38 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            TRACE_INFO( "no object selected where stereotype can be updated." );
+            U8_TRACE_INFO( "no object selected where stereotype can be updated." );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
-            TSLOG_WARNING( "no object selected where stereotype can be updated." );
+            U8_LOG_WARNING( "no object selected where stereotype can be updated." );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            TRACE_INFO( "no object selected where stereotype can be updated." );
+            U8_TRACE_INFO( "no object selected where stereotype can be updated." );
         }
         break;
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_, int obj_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_INFO_INT( "obj_type:", obj_type );
+    U8_TRACE_INFO_INT( "obj_type:", obj_type );
 
     u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
@@ -1049,7 +1049,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TRACE_INFO( "no object selected where type can be updated." );
+            U8_TRACE_INFO( "no object selected where type can be updated." );
         }
         break;
 
@@ -1073,7 +1073,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
             }
         }
@@ -1099,7 +1099,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
             }
         }
@@ -1125,7 +1125,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update main type failed:", ctrl_err );
                 }
             }
         }
@@ -1134,7 +1134,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
-            TSLOG_WARNING( "no object selected where type can be updated." );
+            U8_LOG_WARNING( "no object selected where type can be updated." );
         }
         break;
 
@@ -1158,7 +1158,7 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update type failed:", ctrl_err );
                 }
             }
         }
@@ -1166,17 +1166,17 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_description_commit_changes ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     GtkTextView *description_widget;
     GtkTextBuffer *buffer;
     description_widget = GTK_TEXT_VIEW( (*this_).description_text_view );
@@ -1190,7 +1190,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
     const char* text;
     text = gtk_text_buffer_get_text ( buffer, &start, &end, false );
 
-    TRACE_INFO_STR( "text:", text );
+    U8_TRACE_INFO_STR( "text:", text );
 
     u8_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
@@ -1198,7 +1198,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TRACE_INFO( "no object selected where description can be updated." );
+            U8_TRACE_INFO( "no object selected where description can be updated." );
         }
         break;
 
@@ -1229,7 +1229,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
             }
         }
@@ -1262,7 +1262,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
             }
         }
@@ -1295,7 +1295,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
             }
         }
@@ -1304,7 +1304,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
-            TSLOG_WARNING( "no object selected where description can be updated." );
+            U8_LOG_WARNING( "no object selected where description can be updated." );
         }
         break;
 
@@ -1335,7 +1335,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
+                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
             }
         }
@@ -1343,17 +1343,17 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_id_update_view ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     GtkLabel *id_widget;
     id_widget = GTK_LABEL( (*this_).id_label );
 
@@ -1365,17 +1365,17 @@ void gui_attributes_editor_private_id_update_view ( gui_attributes_editor_t *thi
         utf8error_t str_err = data_id_to_utf8stringbuf ( &((*this_).selected_object_id), data_id_string );
         if ( UTF8ERROR_SUCCESS != str_err )
         {
-            TSLOG_ERROR_HEX( "data_id_to_utf8stringbuf failed:", str_err );
+            U8_LOG_ERROR_HEX( "data_id_to_utf8stringbuf failed:", str_err );
         }
     }
     gtk_label_set_text ( id_widget, utf8stringbuf_get_string( data_id_string ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     GtkEntry *name_widget;
     name_widget = GTK_ENTRY( (*this_).name_entry );
 
@@ -1456,7 +1456,7 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
 #if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
             gtk_entry_buffer_set_text( name_buf, "", 0 /* = n_chars */ );
@@ -1467,12 +1467,12 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     GtkEntry *stereotype_widget;
     stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
 
@@ -1559,17 +1559,17 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     GtkComboBox *type_widget;
     type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
     GtkIconView *type_icon_grid;
@@ -1694,7 +1694,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
     }
@@ -1707,12 +1707,12 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
 #else
 #endif
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_attributes_editor_private_description_update_view ( gui_attributes_editor_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     GtkTextView *description_widget;
     GtkTextBuffer *buffer;
@@ -1776,12 +1776,12 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
 
         default:
         {
-            TSLOG_ERROR( "invalid data in data_id_t." );
+            U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

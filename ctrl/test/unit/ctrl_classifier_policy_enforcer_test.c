@@ -5,7 +5,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "test_assert.h"
 
 static void set_up(void);

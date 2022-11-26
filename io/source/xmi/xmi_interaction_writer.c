@@ -8,8 +8,8 @@
 #include "utf8stringbuf/utf8string.h"
 #include "data_id.h"
 #include "data_classifier_type.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -20,7 +20,7 @@ void xmi_interaction_writer_init ( xmi_interaction_writer_t *this_,
                                    data_stat_t *io_export_stat,
                                    xml_writer_t *out_writer  )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_export_stat );
     assert( NULL != out_writer );
 
@@ -30,19 +30,19 @@ void xmi_interaction_writer_init ( xmi_interaction_writer_t *this_,
     xmi_type_converter_init( &((*this_).xmi_types) );
     xmi_atom_writer_init( &((*this_).atom_writer), (*this_).xml_writer );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     xmi_atom_writer_destroy( &((*this_).atom_writer) );
     xmi_type_converter_destroy( &((*this_).xmi_types) );
     (*this_).xml_writer = NULL;  /* unreference */
     (*this_).export_stat = NULL;  /* unreference */
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if 0
@@ -50,7 +50,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
                                           data_classifier_type_t parent_type,
                                           const data_diagram_t *diagram_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != diagram_ptr );
     int export_err = 0;
 
@@ -73,7 +73,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
         {
             /* The caller requested to write an interaction to an illegal place. */
             /* This should not have happened, because latest the model is a valid nesting container */
-            TRACE_INFO("xmi_element_writer: request to write an interaction to an illegal place!")
+            U8_TRACE_INFO("xmi_element_writer: request to write an interaction to an illegal place!")
             assert(false);
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
@@ -137,14 +137,14 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
 int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
                                         data_classifier_type_t parent_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     if ( (*this_).mode == XMI_WRITER_PASS_BASE )
@@ -172,7 +172,7 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_END_TAG_END );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 #endif
@@ -182,7 +182,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
                                              data_classifier_type_t parent_type,
                                              const data_feature_t *feature_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
     int export_err = 0;
 
@@ -215,7 +215,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
         export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_EMPTY_TAG_END );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -228,7 +228,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
                                                   data_classifier_type_t to_c_type,
                                                   data_feature_type_t to_f_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );
     /* NULL is allowed here: dest_classifier_ptr */
     int export_err = 0;
@@ -267,7 +267,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         if ( from_type_err != 0 )
         {
             /* The caller requested to write a relationship of illegal source end type */
-            TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal source end type!")
+            U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal source end type!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -333,7 +333,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         if ( to_type_err != 0 )
         {
             /* The caller requested to write a relationship of illegal target end type */
-            TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal target end type!")
+            U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal target end type!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -387,7 +387,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
 
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 

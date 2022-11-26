@@ -1,7 +1,7 @@
 /* File: io_export_diagram_traversal.c; Copyright and License: see below */
 
 #include "io_export_diagram_traversal.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include <stdint.h>
@@ -14,7 +14,7 @@ void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
                                        data_stat_t *io_export_stat,
                                        io_element_writer_t *out_element_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
     assert( NULL != io_export_stat );
@@ -26,12 +26,12 @@ void io_export_diagram_traversal_init( io_export_diagram_traversal_t *this_,
     (*this_).export_stat = io_export_stat;
     (*this_).element_writer = out_element_writer;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_rules_destroy ( &((*this_).filter_rules) );
     (*this_).input_data = NULL;
@@ -39,14 +39,14 @@ void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
     (*this_).export_stat = NULL;
     (*this_).element_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
                                                          data_id_t diagram_id,
                                                          const char *diagram_file_base_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_is_valid( &diagram_id ) );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int write_err = 0;
@@ -68,7 +68,7 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
         const data_diagram_t *diag_ptr = data_visible_set_get_diagram_const( (*this_).input_data );
         assert( diag_ptr != NULL );
         assert( data_diagram_is_valid( diag_ptr ) );
-        TRACE_INFO_INT("printing diagram with id",data_diagram_get_row_id(diag_ptr));
+        U8_TRACE_INFO_INT("printing diagram with id",data_diagram_get_row_id(diag_ptr));
 
         /* load parent diagram if there is one */
         data_diagram_init_empty( &((*this_).temp_parent_diag) );
@@ -99,14 +99,14 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
 
     data_visible_set_destroy( (*this_).input_data );
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
 int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
                                               data_id_t diagram_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_is_valid( &diagram_id ) );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int write_err = 0;
@@ -129,14 +129,14 @@ int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *thi
 
         data_diagram_destroy( diagram_ptr );
     }
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
 int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
                                                                       const data_visible_set_t *diagram_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     int write_err = 0;
@@ -154,7 +154,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
             const data_classifier_t *classifier
                 = data_visible_classifier_get_classifier_const( visible_classifier );
             const data_id_t classifier_id = data_classifier_get_data_id( classifier );
-            TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
+            U8_TRACE_INFO_INT( "printing classifier with id", data_id_get_row_id( &classifier_id ) );
 
             /* start+assemble classifier */
             write_err |= io_element_writer_start_classifier( (*this_).element_writer,
@@ -195,7 +195,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
                 ? NULL
                 : data_visible_set_get_feature_by_id_const( diagram_data, focused_feature_id );
 
-            TRACE_INFO_INT( "printing diagramelement with id", data_id_get_row_id( &diagele_id ) );
+            U8_TRACE_INFO_INT( "printing diagramelement with id", data_id_get_row_id( &diagele_id ) );
 
             /* start+assemble+end diagramelement */
             write_err |= io_element_writer_start_diagramelement( (*this_).element_writer,
@@ -219,7 +219,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -227,7 +227,7 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
                                                                       const data_visible_set_t *diagram_data,
                                                                       data_id_t classifier_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
@@ -269,7 +269,7 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -277,7 +277,7 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
                                                                            const data_visible_set_t *diagram_data,
                                                                            data_id_t from_classifier_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
@@ -334,7 +334,7 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 

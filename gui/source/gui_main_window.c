@@ -2,7 +2,7 @@
 
 #include "gui_main_window.h"
 #include "gui_clipboard.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "storage/data_database.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
@@ -24,7 +24,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                            observer_t *window_close_observer,
                            observer_t *window_open_observer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 #if ( GTK_MAJOR_VERSION >= 4 )
     assert( gtk_app != NULL );
 #else
@@ -80,13 +80,13 @@ void gui_main_window_init( gui_main_window_t *this_,
         GdkDisplay *const current_display = gdk_display_get_default();
         if ( current_display != NULL )
         {
-            TRACE_INFO_STR( "GdkDisplay:", gdk_display_get_name( current_display ) );
+            U8_TRACE_INFO_STR( "GdkDisplay:", gdk_display_get_name( current_display ) );
             current_clipboard = gdk_display_get_primary_clipboard( current_display );
             Alternative: current_clipboard = gdk_display_get_clipboard( current_display );
         }
         else
         {
-            TSLOG_WARNING( "No display could be found. No clipboard is available." );
+            U8_LOG_WARNING( "No display could be found. No clipboard is available." );
         }
         */
 #else
@@ -167,7 +167,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                                  &((*this_).message_to_user)
                                );
 
-    TRACE_INFO("GTK+ Widgets are created.");
+    U8_TRACE_INFO("GTK+ Widgets are created.");
 
     (*this_).two_panes = gtk_paned_new( GTK_ORIENTATION_HORIZONTAL );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -211,7 +211,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).main_stack_column);
 #endif
 
-    TRACE_INFO("GTK+ Widgets are added to containers.");
+    U8_TRACE_INFO("GTK+ Widgets are added to containers.");
 
     /* inject dependencies by signals */
     /* parameter info: g_signal_connect( instance-that-emits-the-signal, signal-name, callback-handler, data-to-be-passed-to-callback-handler) */
@@ -321,7 +321,7 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
-    TRACE_INFO("GTK+ Callbacks are connected to widget events.");
+    U8_TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
     /* register observers */
 
@@ -332,7 +332,7 @@ void gui_main_window_init( gui_main_window_t *this_,
         /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).search_entry) );
 
-    TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
+    U8_TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_show((*this_).window);
@@ -350,13 +350,13 @@ void gui_main_window_init( gui_main_window_t *this_,
     gui_simple_message_to_user_show_message ( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_INFO, GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE );
 #endif
     gui_search_request_hide( &((*this_).search_request) );
-    TRACE_INFO("GTK+ Widgets are shown.");
-    TRACE_END();
+    U8_TRACE_INFO("GTK+ Widgets are shown.");
+    U8_TRACE_END();
 }
 
 void gui_main_window_destroy( gui_main_window_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* Note: The widgets may be destroyed already. A cast by G_OBJECT is therefore illegal. */
     data_change_notifier_remove_listener( (*this_).data_notifier, (GObject*)(*this_).window );
@@ -364,10 +364,10 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     data_change_notifier_remove_listener( (*this_).data_notifier, (GObject*)(*this_).sketcharea );
     data_change_notifier_remove_listener( (*this_).data_notifier, (GObject*)(*this_).search_entry );
 
-    TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
+    U8_TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
     gui_file_export_dialog_destroy ( &((*this_).file_export_dialog) );
     gui_file_use_db_dialog_destroy ( &((*this_).file_use_db_dialog) );
-    TRACE_INFO("GTK+ hidden windows are destroyed.");
+    U8_TRACE_INFO("GTK+ hidden windows are destroyed.");
 
     gui_search_request_destroy( &((*this_).search_request) );
     gui_search_runner_destroy( &((*this_).search_runner) );
@@ -381,7 +381,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     (*this_).controller = NULL;
 #endif  /* not NDEBUG */
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -394,7 +394,7 @@ static inline void gtk_button_set_image( GtkButton *btn, GtkWidget *icon )
 
 void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resources_t *res )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).file_new_db_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_db( res ));
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_db_icon), 32 /*=w*/ , 32 /*=h*/ );
@@ -685,12 +685,12 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 #endif
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, gui_resources_t *res )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).attr_section_icon = gtk_image_new_from_pixbuf ( gui_resources_get_edit_attributes_sect( res ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
@@ -833,12 +833,12 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_scroll_win ), true );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *this_, gui_resources_t *res )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).message_text_label = gtk_label_new( "" );
 #if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
@@ -872,12 +872,12 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
         gtk_widget_set_hexpand( GTK_WIDGET( (*this_).message_text_label ), true );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *this_, gui_resources_t *res )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* init search widgets */
     {
@@ -947,20 +947,20 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
         gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
     assert( (*this_).window == (void*)widget );
 
     /* forward destroy request to gui_window_manager: */
     observer_notify( (*this_).window_close_observer, this_ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -969,45 +969,45 @@ gboolean gui_main_window_delete_event_callback( GtkWindow *widget, gpointer data
 gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data )
 #endif
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
     assert( (*this_).window == (void*)widget );
     (void) this_;  /* unused in case of NDEBUG */
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
     return false;  /* return false to trigger destroy event */
 }
 
 void gui_main_window_new_db_btn_callback( GtkWidget* button, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
     gui_file_use_db_dialog_show( &((*this_).file_use_db_dialog), false /* open_existing*/ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_main_window_open_db_btn_callback( GtkWidget* button, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
     gui_file_use_db_dialog_show( &((*this_).file_use_db_dialog), true /* open_existing*/ );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_;
     this_ = (gui_main_window_t*) user_data;
     assert( this_ != NULL );
@@ -1053,8 +1053,8 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
 #endif
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -1068,20 +1068,20 @@ gboolean gui_main_window_save_shortcut_callback( GtkWidget* widget, GVariant* ar
 
 void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
     gui_file_export_dialog_show ( &((*this_).file_export_dialog) );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
     /* hide last message */
@@ -1090,13 +1090,13 @@ void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data )
     /* forward new window request to gui_window_manager: */
     observer_notify( (*this_).window_open_observer, &((*this_).message_to_user) );
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
     if ( GUI_SIMPLE_MESSAGE_TYPE_ABOUT == gui_simple_message_to_user_get_type_id( &((*this_).message_to_user) ) )
@@ -1112,13 +1112,13 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
                                                );
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_main_window_data_changed_callback( GtkWidget *window, data_change_message_t *msg, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *this_ = user_data;
 
     if (( DATA_CHANGE_EVENT_TYPE_DB_OPENED == data_change_message_get_event( msg ) )
@@ -1136,8 +1136,8 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
         }
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 

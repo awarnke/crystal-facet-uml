@@ -1,14 +1,14 @@
 /* File: data_rules.c; Copyright and License: see below */
 
 #include "data_rules.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 /* ================================ VISIBLE_SET ================================ */
 
 bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_visible_set_t *diagram_set, data_row_id_t feature_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != diagram_set );
     bool result = false;
 
@@ -66,16 +66,16 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
     else
     {
         /* maybe the data_visible_set_t was full and the classifier could not be stored? */
-        TSLOG_ANOMALY_INT( "data_visible_set_t contains a feature but not the related classifier.", feature_id );
+        U8_LOG_ANOMALY_INT( "data_visible_set_t contains a feature but not the related classifier.", feature_id );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
 bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const data_visible_set_t *diagram_set, data_row_id_t relationship_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != diagram_set );
     bool result = false;
 
@@ -147,7 +147,7 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
         if (( from_classifier_or_null == NULL )&&( to_classifier_or_null == NULL ))
         {
             /* maybe the data_visible_set_t was full and the classifier could not be stored? */
-            TSLOG_ANOMALY_INT( "data_visible_set_t contains a relationship but no related classifier.", relationship_id );
+            U8_LOG_ANOMALY_INT( "data_visible_set_t contains a relationship but no related classifier.", relationship_id );
         }
         else
         {
@@ -155,7 +155,7 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

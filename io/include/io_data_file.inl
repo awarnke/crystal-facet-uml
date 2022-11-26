@@ -1,6 +1,6 @@
 /* File: io_data_file.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,

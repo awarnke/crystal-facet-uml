@@ -3,8 +3,8 @@
 #include "ctrl_consistency_checker.h"
 #include "storage/data_database_consistency_checker.h"
 #include "data_id.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_,
@@ -12,7 +12,7 @@ void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_,
                                      data_database_reader_t *db_reader,
                                      data_database_writer_t *db_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != database );
     assert( NULL != db_reader );
     assert( NULL != db_writer );
@@ -23,12 +23,12 @@ void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_,
 
     data_database_consistency_checker_init( &((*this_).db_checker), database );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     data_database_consistency_checker_destroy( &((*this_).db_checker) );
 
@@ -36,7 +36,7 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
@@ -45,7 +45,7 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
                                                       uint32_t *out_fix,
                                                       universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_english_report );
     u8_error_t err_result = U8_ERROR_NONE;
     uint32_t error_count = 0;
@@ -119,7 +119,7 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
         err_result |= U8_ERROR_DB_STRUCTURE;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -129,7 +129,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
                                                                          uint32_t *io_fix,
                                                                          universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
@@ -209,7 +209,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -219,7 +219,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                                                                            uint32_t *io_fix,
                                                                            universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != out_english_report );
     u8_error_t err_result = U8_ERROR_NONE;
@@ -303,7 +303,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -313,7 +313,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
                                                                            uint32_t *io_fix,
                                                                            universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
@@ -373,7 +373,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -383,7 +383,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
                                                                             uint32_t *io_fix,
                                                                             universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
@@ -443,7 +443,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -453,7 +453,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
                                                                             uint32_t *io_fix,
                                                                             universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
@@ -512,7 +512,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -522,7 +522,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
                                                                            uint32_t *io_fix,
                                                                            universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
@@ -582,7 +582,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -592,7 +592,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
                                                                                     uint32_t *io_fix,
                                                                                     universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
@@ -652,7 +652,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 
@@ -662,7 +662,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
                                                                                  uint32_t *io_fix,
                                                                                  universal_utf8_writer_t *out_english_report )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
@@ -722,7 +722,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
         err_result |= data_err;
     }
 
-    TRACE_END_ERR( err_result );
+    U8_TRACE_END_ERR( err_result );
     return err_result;
 }
 

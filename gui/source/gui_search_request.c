@@ -4,8 +4,8 @@
 #include "set/data_full_id.h"
 #include "data_id.h"
 #include "utf8stringbuf/utf8string.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 void gui_search_request_init ( gui_search_request_t *this_,
@@ -15,7 +15,7 @@ void gui_search_request_init ( gui_search_request_t *this_,
                                gui_marked_set_t *marked_set,
                                gui_search_runner_t *search_runner )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( search_label != NULL );
     assert ( search_entry != NULL );
     assert ( search_button != NULL );
@@ -28,12 +28,12 @@ void gui_search_request_init ( gui_search_request_t *this_,
     (*this_).marked_set = marked_set;
     (*this_).search_runner = search_runner;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_request_destroy ( gui_search_request_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).search_label = NULL;
     (*this_).search_entry = NULL;
@@ -41,34 +41,34 @@ void gui_search_request_destroy ( gui_search_request_t *this_ )
     (*this_).marked_set = NULL;
     (*this_).search_runner = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_request_show ( gui_search_request_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     gtk_widget_show( GTK_WIDGET ( (*this_).search_label ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).search_entry ) );
     gtk_widget_show( GTK_WIDGET ( (*this_).search_button ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_request_hide ( gui_search_request_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     gtk_widget_hide( GTK_WIDGET ( (*this_).search_label ) );
     gtk_widget_hide( GTK_WIDGET ( (*this_).search_entry ) );
     gtk_widget_hide( GTK_WIDGET ( (*this_).search_button ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_search_request_t *this_ = data;
     assert( NULL != this_ );
 
@@ -78,45 +78,45 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
     {
         case GUI_TOOL_NAVIGATE:
         {
-            TRACE_INFO("GUI_TOOL_NAVIGATE");
+            U8_TRACE_INFO("GUI_TOOL_NAVIGATE");
             gui_search_request_hide( this_ );
         }
         break;
 
         case GUI_TOOL_EDIT:
         {
-            TRACE_INFO("GUI_TOOL_EDIT");
+            U8_TRACE_INFO("GUI_TOOL_EDIT");
             gui_search_request_hide( this_ );
         }
         break;
 
         case GUI_TOOL_SEARCH:
         {
-            TRACE_INFO("GUI_TOOL_SEARCH");
+            U8_TRACE_INFO("GUI_TOOL_SEARCH");
             gui_search_request_show( this_ );
         }
         break;
 
         case GUI_TOOL_CREATE:
         {
-            TRACE_INFO("GUI_TOOL_CREATE");
+            U8_TRACE_INFO("GUI_TOOL_CREATE");
             gui_search_request_hide( this_ );
         }
         break;
 
         default:
         {
-            TSLOG_ERROR("selected_tool is out of range");
+            U8_LOG_ERROR("selected_tool is out of range");
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpointer data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_search_request_t *this_ = data;
     assert( NULL != this_ );
     /* note: button may bei either the text entry widget or the search button widget */
@@ -138,12 +138,12 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
         assert(false);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_search_request_t *this_;
     this_ = (gui_search_request_t*) user_data;
     assert ( NULL != this_ );
@@ -173,13 +173,13 @@ void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_da
         }
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
 }
 
 void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != msg );
     gui_search_request_t *this_ = user_data;
     assert( NULL != this_ );
@@ -198,7 +198,7 @@ void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_me
 #endif
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

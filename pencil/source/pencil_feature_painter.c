@@ -2,7 +2,7 @@
 
 #include "pencil_feature_painter.h"
 #include "pencil_layout_data.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,22 +14,22 @@ const static double SINE_OF_45_DEGREE = 0.707106781187;
 
 void pencil_feature_painter_init( pencil_feature_painter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
     draw_feature_label_init( &((*this_).draw_feature_label) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     draw_feature_label_destroy( &((*this_).draw_feature_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
@@ -42,7 +42,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    PangoLayout *layout,
                                    cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_feature );
     assert( NULL != layout );
@@ -53,7 +53,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
     if ( data_feature_is_valid( the_feature ) )
     {
-        TRACE_INFO_INT("drawing feature id", data_feature_get_row_id( the_feature ) );
+        U8_TRACE_INFO_INT("drawing feature id", data_feature_get_row_id( the_feature ) );
 
         /* select color */
         GdkRGBA foreground_color;
@@ -112,7 +112,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
             default:
             {
-                TSLOG_ERROR("invalid feature type in pencil_feature_painter_draw");
+                U8_LOG_ERROR("invalid feature type in pencil_feature_painter_draw");
             }
             break;
         }
@@ -161,10 +161,10 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
     }
     else
     {
-        TSLOG_ERROR("invalid visible feature in array!");
+        U8_LOG_ERROR("invalid visible feature in array!");
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_t *this_,
@@ -173,7 +173,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
                                                          const pencil_size_t *pencil_size,
                                                          cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_feature );
     assert( NULL != cr );
@@ -224,7 +224,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
 
     cairo_set_dash ( cr, NULL, 0, 0.0 );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_t *this_,
@@ -233,7 +233,7 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
                                                          GdkRGBA foreground_color,
                                                          cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_feature );
     assert( NULL != cr );
@@ -330,12 +330,12 @@ void pencil_feature_painter_private_draw_port_pin_icon ( pencil_feature_painter_
 
         default:
         {
-            TSLOG_ERROR( "unexpected value in geometry_direction_t." );
+            U8_LOG_ERROR( "unexpected value in geometry_direction_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painter_t *this_,
@@ -344,7 +344,7 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
                                                            GdkRGBA foreground_color,
                                                            cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_feature );
     assert( NULL != cr );
@@ -390,7 +390,7 @@ void pencil_feature_painter_private_draw_entry_exit_icon ( pencil_feature_painte
         cairo_stroke (cr);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter_t *this_,
@@ -398,7 +398,7 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
                                                           const pencil_size_t *pencil_size,
                                                           cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_feature );
     assert( NULL != cr );
@@ -470,12 +470,12 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
 
         default:
         {
-            TSLOG_ERROR( "unexpected value in geometry_direction_t." );
+            U8_LOG_ERROR( "unexpected value in geometry_direction_t." );
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_,
@@ -484,7 +484,7 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
                                                  PangoLayout *font_layout,
                                                  geometry_dimensions_t *out_feature_bounds )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != the_feature );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -497,7 +497,7 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
 
     if ( data_feature_is_valid( the_feature ) )
     {
-        TRACE_INFO_INT("calculating minimum bounds of feature id", data_feature_get_row_id( the_feature ) );
+        U8_TRACE_INFO_INT("calculating minimum bounds of feature id", data_feature_get_row_id( the_feature ) );
 
 
         /* layout text */
@@ -531,11 +531,11 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
     }
     else
     {
-        TSLOG_ERROR("invalid feature in array!");
+        U8_LOG_ERROR("invalid feature in array!");
     }
 
     geometry_dimensions_reinit( out_feature_bounds, width, height );
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

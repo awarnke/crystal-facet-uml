@@ -1,7 +1,7 @@
 /* File: data_rules.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void data_rules_init ( data_rules_t *this_ )
@@ -129,7 +129,7 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
 
         default:
         {
-            TSLOG_ERROR("diagram_type out of range in data_rules_get_default_classifier_type");
+            U8_LOG_ERROR("diagram_type out of range in data_rules_get_default_classifier_type");
             result = DATA_CLASSIFIER_TYPE_COMMENT;
             /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
         }
@@ -239,7 +239,7 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
 
             default:
             {
-                TSLOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_relationship_type");
+                U8_LOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_relationship_type");
                 result = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
                 /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
             }
@@ -352,7 +352,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
 
         default:
         {
-            TSLOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_feature_type");
+            U8_LOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_feature_type");
             result = DATA_FEATURE_TYPE_PROPERTY;
             /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
         }
@@ -425,7 +425,7 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
 
         default:
         {
-            TSLOG_ERROR("data_classifier_type_t out of range in data_rules_has_features");
+            U8_LOG_ERROR("data_classifier_type_t out of range in data_rules_has_features");
             result = false;
             /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
         }

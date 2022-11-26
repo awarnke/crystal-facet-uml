@@ -1,15 +1,15 @@
 /* File: ctrl_multi_step_changer.c; Copyright and License: see below */
 
 #include "ctrl_multi_step_changer.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 void ctrl_multi_step_changer_init ( ctrl_multi_step_changer_t *this_,
                                     ctrl_controller_t *controller,
                                     data_database_reader_t *db_reader )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != controller );
     assert( NULL != db_reader );
 
@@ -19,12 +19,12 @@ void ctrl_multi_step_changer_init ( ctrl_multi_step_changer_t *this_,
 
     (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void ctrl_multi_step_changer_destroy ( ctrl_multi_step_changer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != (*this_).controller );
     assert( NULL != (*this_).db_reader );
 
@@ -32,7 +32,7 @@ void ctrl_multi_step_changer_destroy ( ctrl_multi_step_changer_t *this_ )
     (*this_).controller = NULL;
     (*this_).db_reader = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ delete sets of elements ================================ */
@@ -41,7 +41,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                                                 const data_small_set_t *objects,
                                                 data_stat_t *io_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_stat );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -253,7 +253,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
         result |= ctrl_controller_get_statistics( (*this_).controller, io_stat );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -263,7 +263,7 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
                                                     data_diagram_t *new_diagram,
                                                     u8_error_t* out_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_diagram );
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
@@ -318,7 +318,7 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
         result = create_err;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -326,7 +326,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
                                                            data_diagramelement_t *new_diagramelement,
                                                            u8_error_t* out_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_diagramelement );
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
@@ -381,7 +381,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
         result = create_err;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -389,7 +389,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
                                                        data_classifier_t *new_classifier,
                                                        u8_error_t* out_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_classifier );
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
@@ -470,7 +470,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
                 data_classifier_set_name( new_classifier, utf8stringbuf_get_string( full_new_name ) );
                 if ( trunc_err != UTF8ERROR_SUCCESS )
                 {
-                    TRACE_INFO_STR("Name truncated at search for alternative:", utf8stringbuf_get_string( full_new_name ) );
+                    U8_TRACE_INFO_STR("Name truncated at search for alternative:", utf8stringbuf_get_string( full_new_name ) );
                 }
 
                 result = ctrl_classifier_controller_create_classifier( classifier_ctrl,
@@ -493,7 +493,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -501,7 +501,7 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
                                                     data_feature_t *new_feature,
                                                     u8_error_t* out_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_feature );
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
@@ -556,7 +556,7 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
         result = create_err;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -564,7 +564,7 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
                                                          data_relationship_t *new_relationship,
                                                          u8_error_t* out_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_relationship );
     assert( NULL != out_info );
     u8_error_t result = U8_ERROR_NONE;
@@ -619,7 +619,7 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
         result = create_err;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -629,7 +629,7 @@ u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_ch
                                                               data_row_id_t diagram_id,
                                                               data_row_id_t new_diagram_parent_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     ctrl_diagram_controller_t *const diagram_ctrl
@@ -645,7 +645,7 @@ u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_ch
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

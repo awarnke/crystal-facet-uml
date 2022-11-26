@@ -5,8 +5,8 @@
 #include "u8stream/universal_file_output_stream.h"
 #include "u8stream/universal_output_stream.h"
 #include "xmi/xmi_writer_pass.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gtk/gtk.h>
 #include <cairo-svg.h>
 #include <cairo-pdf.h>
@@ -21,7 +21,7 @@ enum io_exporter_max_enum {
 void io_exporter_init ( io_exporter_t *this_,
                         data_database_reader_t *db_reader )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
 
     (*this_).db_reader = db_reader;
@@ -29,16 +29,16 @@ void io_exporter_init ( io_exporter_t *this_,
     (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
     utf8stringbuf_clear( (*this_).temp_filename );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void io_exporter_destroy( io_exporter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).db_reader = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int io_exporter_export_files( io_exporter_t *this_,
@@ -47,7 +47,7 @@ int io_exporter_export_files( io_exporter_t *this_,
                               const char *document_file_path,
                               data_stat_t *io_export_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != target_folder );
     assert ( NULL != document_file_path );
     assert ( NULL != io_export_stat );
@@ -109,11 +109,11 @@ int io_exporter_export_files( io_exporter_t *this_,
     }
     else /* target_folder == NULL */
     {
-        TSLOG_WARNING("selected target folder was NULL.");
+        U8_LOG_WARNING("selected target folder was NULL.");
         export_err = -1;
     }
 
-    TRACE_END_ERR(export_err);
+    U8_TRACE_END_ERR(export_err);
     return export_err;
 }
 
@@ -121,7 +121,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
                                       const char* path,
                                       utf8stringbuf_t out_base_filename )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != path );
     int err = 0;
 
@@ -139,7 +139,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
     utf8error_t u8err = utf8stringbuf_copy_region_from_str( out_base_filename, path, start, length );
 
     err = (( u8err==UTF8ERROR_SUCCESS )&&(utf8stringbuf_get_length( out_base_filename )>0)) ? 0 : -1;
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
@@ -150,10 +150,10 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                                             const char *target_folder,
                                             data_stat_t *io_export_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != target_folder );
     assert ( NULL != io_export_stat );
-    TRACE_INFO_STR("target_folder:", target_folder );
+    U8_TRACE_INFO_STR("target_folder:", target_folder );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
     int result = 0;
 
@@ -187,7 +187,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".txt" );
         }
-        TSLOG_EVENT_STR( "exporting diagram to file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
+        U8_LOG_EVENT_STR( "exporting diagram to file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
         result |= io_exporter_export_image_file( this_,
                                                  diagram_id,
@@ -206,7 +206,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
         db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_row_id, &the_set );
         if ( db_err != U8_ERROR_NONE )
         {
-            TSLOG_ERROR("error reading database.");
+            U8_LOG_ERROR("error reading database.");
             result = -1;
         }
         else
@@ -224,7 +224,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
         data_small_set_destroy( &the_set );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -234,11 +234,11 @@ int io_exporter_export_image_file( io_exporter_t *this_,
                                    const char *file_path,
                                    data_stat_t *io_export_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( data_id_is_valid( &diagram_id ) );
     assert ( NULL != file_path );
     assert ( NULL != io_export_stat );
-    TRACE_INFO_STR("file_path:", file_path );
+    U8_TRACE_INFO_STR("file_path:", file_path );
     int result = 0;
 
     /* create surface */
@@ -291,7 +291,7 @@ int io_exporter_export_image_file( io_exporter_t *this_,
 
             if ( 0 != write_err )
             {
-                TSLOG_ERROR("error writing txt.");
+                U8_LOG_ERROR("error writing txt.");
                 result = -1;
             }
 
@@ -304,7 +304,7 @@ int io_exporter_export_image_file( io_exporter_t *this_,
         data_stat_inc_count ( io_export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -314,12 +314,12 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               const char *document_file_name,
                                               data_stat_t *io_export_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != target_folder );
     assert ( NULL != document_file_name );
     assert ( NULL != io_export_stat );
-    TRACE_INFO_STR("target_folder:", target_folder );
-    TRACE_INFO_STR("document_file_name:", document_file_name );
+    U8_TRACE_INFO_STR("target_folder:", target_folder );
+    U8_TRACE_INFO_STR("document_file_name:", document_file_name );
     int export_err = 0;
 
     /* open file */
@@ -361,11 +361,11 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         default:
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".unknown_format" );
-            TSLOG_ERROR("error: unknown_format.");
+            U8_LOG_ERROR("error: unknown_format.");
         }
         break;
     }
-    TSLOG_EVENT_STR( "exporting diagrams to document file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
+    U8_LOG_EVENT_STR( "exporting diagrams to document file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
     export_err |= io_exporter_export_document_file( this_,
                                                     export_type,
@@ -374,7 +374,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
                                                     io_export_stat
                                                   );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -384,11 +384,11 @@ int io_exporter_export_document_file( io_exporter_t *this_,
                                       const char *file_path,
                                       data_stat_t *io_export_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != document_title );
     assert ( NULL != file_path );
     assert ( NULL != io_export_stat );
-    TRACE_INFO_STR("file_path:", file_path );
+    U8_TRACE_INFO_STR("file_path:", file_path );
     int export_err = 0;
     universal_file_output_stream_t file_output;
     universal_file_output_stream_init( &file_output );
@@ -505,7 +505,7 @@ int io_exporter_export_document_file( io_exporter_t *this_,
 
     export_err |= universal_file_output_stream_destroy( &file_output );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -514,7 +514,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
                                               uint32_t max_recursion,
                                               data_stat_t *io_export_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != io_export_stat );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
     int export_err = 0;
@@ -544,7 +544,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
         db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_row_id, &the_set );
         if ( db_err != U8_ERROR_NONE )
         {
-            TSLOG_ERROR("error reading database.");
+            U8_LOG_ERROR("error reading database.");
             export_err |= -1;
         }
         else
@@ -569,7 +569,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
         export_err |= io_export_diagram_traversal_end_diagram( &((*this_).temp_diagram_traversal), diagram_id );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -578,7 +578,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
                                                   uint32_t max_recursion,
                                                   xhtml_element_writer_t *format_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != format_writer );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
     int export_err = 0;
@@ -595,7 +595,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
         db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_row_id, &((*this_).temp_diagram) );
         if ( db_err != U8_ERROR_NONE )
         {
-            TSLOG_ERROR("error reading database.");
+            U8_LOG_ERROR("error reading database.");
             export_err |= -1;
         }
         else
@@ -614,7 +614,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
         db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_row_id, &the_set );
         if ( db_err != U8_ERROR_NONE )
         {
-            TSLOG_ERROR("error reading database.");
+            U8_LOG_ERROR("error reading database.");
             export_err |= -1;
         }
         else
@@ -643,7 +643,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
         export_err |= xhtml_element_writer_end_toc_entry( format_writer );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -651,7 +651,7 @@ int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
                                                   data_id_t diagram_id,
                                                   utf8stringbuf_t filename )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     int result = 0;
     utf8stringbuf_clear( filename );
@@ -660,7 +660,7 @@ int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
     db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id( &diagram_id ), &((*this_).temp_diagram) );
     if ( db_err != U8_ERROR_NONE )
     {
-        TSLOG_ERROR("error reading database.");
+        U8_LOG_ERROR("error reading database.");
         result |= -1;
     }
     else
@@ -675,7 +675,7 @@ int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
         data_diagram_destroy( &((*this_).temp_diagram) );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -683,9 +683,9 @@ void io_exporter_private_append_valid_chars_to_filename( io_exporter_t *this_,
                                                          const char* name,
                                                          utf8stringbuf_t filename )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != name );
-    TRACE_INFO_STR( "name:", name );
+    U8_TRACE_INFO_STR( "name:", name );
 
     bool finished = false;
     static const int MAX_APPEND_CHARS = 64;
@@ -722,7 +722,7 @@ void io_exporter_private_append_valid_chars_to_filename( io_exporter_t *this_,
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

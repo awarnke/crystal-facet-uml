@@ -1,7 +1,7 @@
 /* File: geometry_dimensions.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <math.h>
 
@@ -92,9 +92,9 @@ static inline void geometry_dimensions_expand ( geometry_dimensions_t *this_, do
 
 static inline void geometry_dimensions_trace ( const geometry_dimensions_t *this_ )
 {
-    TRACE_INFO( "geometry_dimensions_t" );
-    TRACE_INFO_INT( "- width:", (*this_).width );
-    TRACE_INFO_INT( "- height:", (*this_).height );
+    U8_TRACE_INFO( "geometry_dimensions_t" );
+    U8_TRACE_INFO_INT( "- width:", (*this_).width );
+    U8_TRACE_INFO_INT( "- height:", (*this_).height );
 }
 
 

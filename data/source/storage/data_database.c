@@ -3,8 +3,8 @@
 #include "storage/data_database.h"
 #include "data_id.h"
 #include "data_table.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <unistd.h>
 #include <assert.h>
 
@@ -351,7 +351,7 @@ static const char *DATA_DATABASE_COMMIT_TRANSACTION =
 
 u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
@@ -360,13 +360,13 @@ u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAM_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMELEMENT_TABLE, false );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_private_initialize_indexes( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     /*
@@ -376,13 +376,13 @@ u8_error_t data_database_private_initialize_indexes( data_database_t *this_ )
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX, false );
     */
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
 #if 0
@@ -417,19 +417,19 @@ u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
 
     if ( ( result & U8_ERROR_READ_ONLY_DB ) != U8_ERROR_NONE )
     {
-        TSLOG_EVENT( "sqlite3 database is read only." );
+        U8_LOG_EVENT( "sqlite3 database is read only." );
         result = result & ~U8_ERROR_READ_ONLY_DB;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 void data_database_init ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TSLOG_EVENT_STR( "sqlite3_libversion:", sqlite3_libversion() );
+    U8_LOG_EVENT_STR( "sqlite3_libversion:", sqlite3_libversion() );
 
     (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
     utf8stringbuf_clear( (*this_).db_file_name );
@@ -450,12 +450,12 @@ void data_database_init ( data_database_t *this_ )
     data_change_notifier_init ( &((*this_).notifier) );
     data_database_private_clear_db_listener_list( this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_file_path );
     /* there should not be pending transactions when calling open */
     assert( (*this_).transaction_recursion == 0 );
@@ -467,14 +467,14 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
 
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
-        TRACE_INFO("data_database_open called on database that was not closed.");
+        U8_TRACE_INFO("data_database_open called on database that was not closed.");
         result |= U8_ERROR_INVALID_REQUEST;
     }
     else
     {
         utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
 
-        TSLOG_EVENT_STR( "sqlite3_open_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+        U8_LOG_EVENT_STR( "sqlite3_open_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         sqlite_err = sqlite3_open_v2( utf8stringbuf_get_string( (*this_).db_file_name ),
                                       &((*this_).db),
                                       sqlite3_flags,
@@ -482,8 +482,8 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
                                     );
         if ( SQLITE_OK != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_open_v2() failed:", sqlite_err );
-            TSLOG_ERROR_STR( "sqlite3_open_v2() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+            U8_LOG_ERROR_INT( "sqlite3_open_v2() failed:", sqlite_err );
+            U8_LOG_ERROR_STR( "sqlite3_open_v2() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
             (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
             result |= U8_ERROR_NO_DB;  /* no db to use */
         }
@@ -510,11 +510,11 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
             }
             else
             {
-                TSLOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+                U8_LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
                 sqlite_err = sqlite3_close( (*this_).db );
                 if ( SQLITE_OK != sqlite_err )
                 {
-                    TSLOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+                    U8_LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
                 }
                 utf8stringbuf_clear( (*this_).db_file_name );
                 (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
@@ -540,13 +540,13 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
                                         );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_close ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     /* there should not be pending transactions when calling cloas */
     assert( (*this_).transaction_recursion == 0 );
     int sqlite_err;
@@ -573,11 +573,11 @@ u8_error_t data_database_close ( data_database_t *this_ )
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
         /* perform close */
-        TSLOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+        U8_LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         sqlite_err = sqlite3_close( (*this_).db );
         if ( SQLITE_OK != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
             result |= U8_ERROR_AT_DB;
         }
 
@@ -589,7 +589,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
     }
     else
     {
-        TRACE_INFO("data_database_close called on database that was not open.");
+        U8_TRACE_INFO("data_database_close called on database that was not open.");
         result |= U8_ERROR_INVALID_REQUEST;
     }
 
@@ -607,13 +607,13 @@ u8_error_t data_database_close ( data_database_t *this_ )
         );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 void data_database_destroy ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     /* there should not be pending transactions when calling destroy */
     assert( (*this_).transaction_recursion == 0 );
 
@@ -636,50 +636,50 @@ void data_database_destroy ( data_database_t *this_ )
 
     /* g_mutex_clear ( &((*this_).private_lock) ); -- must not be called because this GMutex is not on the stack */
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t data_database_flush_caches ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
-        TSLOG_EVENT_INT( "sqlite3_libversion_number()", sqlite3_libversion_number() );
+        U8_LOG_EVENT_INT( "sqlite3_libversion_number()", sqlite3_libversion_number() );
         if ( sqlite3_libversion_number() >= 3010000 )
         {
             /* available if sqlite newer than 2016-01-06 (3.10.0) */
 #if ( SQLITE_VERSION_NUMBER >= 3010000 )
             int sqlite_err;
-            TSLOG_EVENT( "sqlite3_db_cacheflush" );
+            U8_LOG_EVENT( "sqlite3_db_cacheflush" );
             sqlite_err = sqlite3_db_cacheflush( (*this_).db );
             if ( SQLITE_OK != sqlite_err )
             {
-                TSLOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
                 result = U8_ERROR_AT_DB;
             }
 #else
-            TSLOG_WARNING_INT( "The compile-time version of sqlite3 did not provide the sqlite3_db_cacheflush() function.",
+            U8_LOG_WARNING_INT( "The compile-time version of sqlite3 did not provide the sqlite3_db_cacheflush() function.",
                                SQLITE_VERSION_NUMBER
                              );
 #endif
         }
         else
         {
-            TSLOG_WARNING_INT( "The runtime-time version of sqlite3 does not provide the sqlite3_db_cacheflush() function.",
+            U8_LOG_WARNING_INT( "The runtime-time version of sqlite3 does not provide the sqlite3_db_cacheflush() function.",
                                sqlite3_libversion_number()
                              );
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_trace_stats ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
@@ -689,20 +689,20 @@ u8_error_t data_database_trace_stats ( data_database_t *this_ )
 
         use = sqlite3_memory_used();
         max = sqlite3_memory_highwater(false);
-        TRACE_INFO_INT_INT( "sqlite3_memory_used/highwater():", use, max );
+        U8_TRACE_INFO_INT_INT( "sqlite3_memory_used/highwater():", use, max );
     }
     else
     {
-        TRACE_INFO( "database not open." );
+        U8_TRACE_INFO( "database not open." );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != listener );
     u8_error_t result = U8_ERROR_NONE;
     bool already_registered = false;
@@ -724,7 +724,7 @@ u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_
 
     if ( already_registered )
     {
-        TSLOG_ERROR( "Listener already registered." );
+        U8_LOG_ERROR( "Listener already registered." );
         result |= U8_ERROR_INVALID_REQUEST;
     }
     else if ( -1 != pos )
@@ -733,19 +733,19 @@ u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_
     }
     else
     {
-        TSLOG_ERROR_INT( "Maximum number of listeners reached.", DATA_DATABASE_MAX_LISTENERS );
+        U8_LOG_ERROR_INT( "Maximum number of listeners reached.", DATA_DATABASE_MAX_LISTENERS );
         result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
     result |= data_database_private_unlock( this_ );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_remove_db_listener( data_database_t *this_, data_database_listener_t *listener )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     assert( NULL != listener );
 
@@ -767,17 +767,17 @@ u8_error_t data_database_remove_db_listener( data_database_t *this_, data_databa
 
     if ( count_closed == 0 )
     {
-        TSLOG_ERROR( "listener not found" );
+        U8_LOG_ERROR( "listener not found" );
         result |= U8_ERROR_INVALID_REQUEST;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     data_database_listener_t *(listener_list_copy[DATA_DATABASE_MAX_LISTENERS]);
     u8_error_t result = U8_ERROR_NONE;
 
@@ -795,13 +795,13 @@ u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, da
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_transaction_begin ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     /* nestnig of transactions should not be greater than 2. You may increase this limit if needed. */
     assert( (*this_).transaction_recursion < 2 );
     u8_error_t result = U8_ERROR_NONE;
@@ -813,17 +813,17 @@ u8_error_t data_database_transaction_begin ( data_database_t *this_ )
     {
         if ( (*this_).transaction_recursion == 0 )
         {
-            TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_BEGIN_TRANSACTION );
+            U8_LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_BEGIN_TRANSACTION );
             sqlite_err = sqlite3_exec( db, DATA_DATABASE_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
             if ( SQLITE_OK != sqlite_err )
             {
-                TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_BEGIN_TRANSACTION );
-                TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_BEGIN_TRANSACTION );
+                U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if ( error_msg != NULL )
             {
-                TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
                 sqlite3_free( error_msg );
                 error_msg = NULL;
             }
@@ -832,17 +832,17 @@ u8_error_t data_database_transaction_begin ( data_database_t *this_ )
     }
     else
     {
-        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_BEGIN_TRANSACTION );
+        U8_LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_BEGIN_TRANSACTION );
         result = U8_ERROR_NO_DB;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_database_transaction_commit ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     /* there should be at least 1 pending transaction */
     assert( (*this_).transaction_recursion > 0 );
     u8_error_t result = U8_ERROR_NONE;
@@ -854,17 +854,17 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ )
     {
         if ( (*this_).transaction_recursion == 1 )
         {
-            TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
+            U8_LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
             sqlite_err = sqlite3_exec( db, DATA_DATABASE_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
             if ( SQLITE_OK != sqlite_err )
             {
-                TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_COMMIT_TRANSACTION );
-                TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_COMMIT_TRANSACTION );
+                U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if ( error_msg != NULL )
             {
-                TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
                 sqlite3_free( error_msg );
                 error_msg = NULL;
             }
@@ -873,11 +873,11 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ )
     }
     else
     {
-        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_COMMIT_TRANSACTION );
+        U8_LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_COMMIT_TRANSACTION );
         result = U8_ERROR_NO_DB;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

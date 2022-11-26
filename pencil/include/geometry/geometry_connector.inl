@@ -1,7 +1,7 @@
 /* File: geometry_connector.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <math.h>
 
 static inline void geometry_connector_init_vertical ( geometry_connector_t *this_,
@@ -520,16 +520,16 @@ static inline void geometry_connector_trace ( const geometry_connector_t *this_ 
             [4] = geometry_mnemomic[pattern.third],
             [5] = '\0' };
 
-    TRACE_INFO( "geometry_connector_t" );
-    TRACE_INFO_INT( "- source_end_x:", (*this_).source_end_x );
-    TRACE_INFO_INT( "- source_end_y:", (*this_).source_end_y );
-    TRACE_INFO_INT( "- main_line_source_x:", (*this_).main_line_source_x );
-    TRACE_INFO_INT( "- main_line_source_y:", (*this_).main_line_source_y );
-    TRACE_INFO_INT( "- main_line_destination_x:", (*this_).main_line_destination_x );
-    TRACE_INFO_INT( "- main_line_destination_y:", (*this_).main_line_destination_y );
-    TRACE_INFO_INT( "- destination_end_x:", (*this_).destination_end_x );
-    TRACE_INFO_INT( "- destination_end_y:", (*this_).destination_end_y );
-    TRACE_INFO_STR( "- get_directions:", pattern_as_str );
+    U8_TRACE_INFO( "geometry_connector_t" );
+    U8_TRACE_INFO_INT( "- source_end_x:", (*this_).source_end_x );
+    U8_TRACE_INFO_INT( "- source_end_y:", (*this_).source_end_y );
+    U8_TRACE_INFO_INT( "- main_line_source_x:", (*this_).main_line_source_x );
+    U8_TRACE_INFO_INT( "- main_line_source_y:", (*this_).main_line_source_y );
+    U8_TRACE_INFO_INT( "- main_line_destination_x:", (*this_).main_line_destination_x );
+    U8_TRACE_INFO_INT( "- main_line_destination_y:", (*this_).main_line_destination_y );
+    U8_TRACE_INFO_INT( "- destination_end_x:", (*this_).destination_end_x );
+    U8_TRACE_INFO_INT( "- destination_end_y:", (*this_).destination_end_y );
+    U8_TRACE_INFO_STR( "- get_directions:", pattern_as_str );
 }
 
 

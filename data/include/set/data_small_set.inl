@@ -1,7 +1,7 @@
 /* File: data_small_set.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void data_small_set_init ( data_small_set_t *this_ )
@@ -29,32 +29,32 @@ static inline void data_small_set_trace ( const data_small_set_t *this_ )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
 
-    TRACE_INFO( "data_small_set_t" );
-    TRACE_INFO_INT( "- count:", (*this_).count );
+    U8_TRACE_INFO( "data_small_set_t" );
+    U8_TRACE_INFO_INT( "- count:", (*this_).count );
     for ( uint32_t index = 0; index < (*this_).count; index ++ )
     {
         switch ( data_id_get_table( &((*this_).id_set[index]) ))
         {
             case DATA_TABLE_VOID:
-                TRACE_INFO_INT("- []: table = DATA_TABLE_VOID, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_VOID, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_CLASSIFIER:
-                TRACE_INFO_INT("- []: table = DATA_TABLE_CLASSIFIER, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_CLASSIFIER, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_FEATURE:
-                TRACE_INFO_INT("- []: table = DATA_TABLE_FEATURE, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_FEATURE, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_RELATIONSHIP:
-                TRACE_INFO_INT("- []: table = DATA_TABLE_RELATIONSHIP, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_RELATIONSHIP, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_DIAGRAMELEMENT:
-                TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAMELEMENT, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAMELEMENT, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
                 break;
             case DATA_TABLE_DIAGRAM:
-                TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAM, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
+                U8_TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAM, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
                 break;
             default:
-                TSLOG_ERROR("- []: illegal value");
+                U8_LOG_ERROR("- []: illegal value");
                 break;
         }
     }

@@ -3,15 +3,15 @@
 #include "ctrl_diagram_policy_enforcer.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 void ctrl_diagram_policy_enforcer_init( ctrl_diagram_policy_enforcer_t *this_,
                                         data_database_reader_t *db_reader,
                                         struct ctrl_classifier_controller_struct *clfy_ctrl,
                                         struct ctrl_diagram_controller_struct *diag_ctrl )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != clfy_ctrl );
     assert( NULL != diag_ctrl );
@@ -20,18 +20,18 @@ void ctrl_diagram_policy_enforcer_init( ctrl_diagram_policy_enforcer_t *this_,
     (*this_).clfy_ctrl = clfy_ctrl;
     (*this_).diag_ctrl = diag_ctrl;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void ctrl_diagram_policy_enforcer_destroy( ctrl_diagram_policy_enforcer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).db_reader = NULL;
     (*this_).clfy_ctrl = NULL;
     (*this_).diag_ctrl = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ LIFELINES ================================ */
@@ -39,7 +39,7 @@ void ctrl_diagram_policy_enforcer_destroy( ctrl_diagram_policy_enforcer_t *this_
 u8_error_t ctrl_diagram_policy_enforcer_private_create_lifelines( ctrl_diagram_policy_enforcer_t *this_,
                                                                   const data_diagram_t *updated_diagram )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != updated_diagram );
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
@@ -85,14 +85,14 @@ u8_error_t ctrl_diagram_policy_enforcer_private_create_lifelines( ctrl_diagram_p
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline( ctrl_diagram_policy_enforcer_t *this_,
                                                                    const data_diagramelement_t *new_diagramelement )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
@@ -120,14 +120,14 @@ u8_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline( ctrl_diagram_
         result |= (u8_error_t) data_result;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline( ctrl_diagram_policy_enforcer_t *this_,
                                                                      const data_diagramelement_t *the_diagramelement )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != the_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
@@ -164,14 +164,14 @@ u8_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline( ctrl_diagra
     /* cleanup */
     data_feature_destroy ( &new_lifeline );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline( ctrl_diagram_policy_enforcer_t *this_,
                                                                    const data_diagramelement_t *deleted_diagramelement )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -186,7 +186,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline( ctrl_diagram_
                                                            );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -195,7 +195,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline( ctrl_diagram_
 u8_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier( ctrl_diagram_policy_enforcer_t *this_,
                                                                                 const data_diagramelement_t *deleted_diagramelement )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -209,7 +209,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier( 
 
     if ( U8_ERROR_NONE != ( my_ctrl_result & U8_ERROR_OBJECT_STILL_REFERENCED ))
     {
-        TSLOG_ANOMALY( "The classifier cannot be deleted because it is still referenced." );
+        U8_LOG_ANOMALY( "The classifier cannot be deleted because it is still referenced." );
     }
     else
     {
@@ -217,7 +217,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier( 
         result |= my_ctrl_result;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -226,7 +226,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier( 
 u8_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships( ctrl_diagram_policy_enforcer_t *this_,
                                                                                 const data_diagramelement_t *deleted_diagramelement )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -243,8 +243,8 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships( 
                                                                  );
     if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
     {
-        TSLOG_ANOMALY( "The dereferenced classifier has more relationships than can be checked for being superfluous now." );
-        TRACE_INFO_INT( "classifier has too many relationships:", classifier_id );
+        U8_LOG_ANOMALY( "The dereferenced classifier has more relationships than can be checked for being superfluous now." );
+        U8_TRACE_INFO_INT( "classifier has too many relationships:", classifier_id );
         /* no further error propagation. */
     }
     else
@@ -264,8 +264,8 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships( 
 
             if ( vis_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
             {
-                TSLOG_ANOMALY( "A relationship is connected to a classifier that is too often referenced to check for being superfluous now." );
-                TRACE_INFO_INT( "classifier or related classifier has too many diagramelements:", classifier_id );
+                U8_LOG_ANOMALY( "A relationship is connected to a classifier that is too often referenced to check for being superfluous now." );
+                U8_TRACE_INFO_INT( "classifier or related classifier has too many diagramelements:", classifier_id );
                 /* no further error propagation. */
             }
             else if ( vis_err == U8_ERROR_NONE )
@@ -286,7 +286,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_invisible_relationships( 
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -294,7 +294,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram( ctrl
                                                                             const data_relationship_t *relation,
                                                                             bool *out_result )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != relation );
     assert( NULL != out_result );
     u8_error_t result = U8_ERROR_NONE;
@@ -377,7 +377,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_has_relationship_a_diagram( ctrl
         data_small_set_destroy( &from_diagrams );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

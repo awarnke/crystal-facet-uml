@@ -1,5 +1,6 @@
 /* File: universal_arena_list.inl; Copyright and License: see below */
 
+#include "u8/u8_log.h"
 #include <stdint.h>
 #include <assert.h>
 
@@ -51,7 +52,7 @@ static inline int universal_arena_list_append( universal_arena_list_t *this_, vo
             }
             if ( ! finished )
             {
-                TSLOG_WARNING("max loop count exceeded in universal_arena_list_append, list too long");
+                U8_LOG_WARNING("max loop count exceeded in universal_arena_list_append, list too long");
                 err = -1;
             }
         }

@@ -2,8 +2,8 @@
 
 #include "xml/xml_writer.h"
 #include "data_id.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -298,7 +298,7 @@ static const char *const XML_WRITER_PRIVATE_INDENT_PLAIN[XML_WRITER_PRIVATE_MAX_
 void xml_writer_init ( xml_writer_t *this_,
                        universal_output_stream_t *output )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != output );
 
     (*this_).output = output;
@@ -309,22 +309,22 @@ void xml_writer_init ( xml_writer_t *this_,
     (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[0]);
     (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[0]);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void xml_writer_destroy( xml_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_escaping_output_stream_destroy( &((*this_).esc_output) );
     (*this_).output = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     int result = 0;
@@ -341,13 +341,13 @@ int xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
         result = universal_escaping_output_stream_write( &((*this_).esc_output), utf8stringbuf_get_string(id_str), len );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 int xml_writer_write_int ( xml_writer_t *this_, int64_t number )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     char numberStr[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
     int result = 0;
 
@@ -355,13 +355,13 @@ int xml_writer_write_int ( xml_writer_t *this_, int64_t number )
     sprintf( numberStr, "%" PRIi64, number );
     result = xml_writer_write_plain( this_, &(numberStr[0]) );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const unsigned int level
         = ( (*this_).indent_level >= XML_WRITER_PRIVATE_MAX_INDENT_LEVELS )
@@ -371,7 +371,7 @@ void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ )
     (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[level]);
     (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[level]);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

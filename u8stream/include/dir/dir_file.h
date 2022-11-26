@@ -1,4 +1,4 @@
-/* File: universal_file_output_stream.h; Copyright and License: see below */
+/* File: dir_file.h; Copyright and License: see below */
 
 #ifndef DIR_FILE_H
 #define DIR_FILE_H

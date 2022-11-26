@@ -1,7 +1,7 @@
 /* File: geometry_anchor.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <math.h>
 
@@ -55,11 +55,11 @@ static inline geometry_v_align_t geometry_anchor_get_y_align ( const geometry_an
 
 static inline void geometry_anchor_trace ( const geometry_anchor_t *this_ )
 {
-    TRACE_INFO( "geometry_anchor_t" );
-    TRACE_INFO_INT( "- x:", geometry_point_get_x( &((*this_).reference_point) ) );
-    TRACE_INFO_INT( "- y:", geometry_point_get_y( &((*this_).reference_point) ) );
-    TRACE_INFO_INT( "- x_align:", (*this_).x_align );
-    TRACE_INFO_INT( "- y_align:", (*this_).y_align );
+    U8_TRACE_INFO( "geometry_anchor_t" );
+    U8_TRACE_INFO_INT( "- x:", geometry_point_get_x( &((*this_).reference_point) ) );
+    U8_TRACE_INFO_INT( "- y:", geometry_point_get_y( &((*this_).reference_point) ) );
+    U8_TRACE_INFO_INT( "- x_align:", (*this_).x_align );
+    U8_TRACE_INFO_INT( "- y_align:", (*this_).y_align );
 }
 
 

@@ -2,8 +2,8 @@
 
 #include "u8stream/universal_escaping_output_stream.h"
 #include "u8stream/universal_output_stream_if.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <string.h>
 #include <assert.h>
 
@@ -18,7 +18,7 @@ void universal_escaping_output_stream_init ( universal_escaping_output_stream_t 
                                              const char *const ((*patterns_and_replacements)[][2]),
                                              universal_output_stream_t *sink )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( patterns_and_replacements != NULL );
     assert( sink != NULL );
 
@@ -26,36 +26,36 @@ void universal_escaping_output_stream_init ( universal_escaping_output_stream_t 
     (*this_).sink = sink;
     universal_output_stream_private_init( &((*this_).output_stream), &universal_escaping_output_stream_private_if, this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t universal_escaping_output_stream_destroy( universal_escaping_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t err = U8_ERROR_NONE;
 
     (*this_).patterns_and_replacements = NULL;
     (*this_).sink = NULL;
     universal_output_stream_private_destroy( &((*this_).output_stream) );
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 void universal_escaping_output_stream_change_rules( universal_escaping_output_stream_t *this_,
                                                     const char *const ((*patterns_and_replacements)[][2]) )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( patterns_and_replacements != NULL );
 
     (*this_).patterns_and_replacements = patterns_and_replacements;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t universal_escaping_output_stream_write ( universal_escaping_output_stream_t *this_, const void *start, size_t length )
 {
-    /*TRACE_BEGIN();*/
+    /*U8_TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).patterns_and_replacements != NULL );
     assert( (*this_).sink != NULL );
@@ -134,28 +134,28 @@ u8_error_t universal_escaping_output_stream_write ( universal_escaping_output_st
         }
     }
 
-    /*TRACE_END_ERR(err);*/
+    /*U8_TRACE_END_ERR(err);*/
     return err;
 }
 
 u8_error_t universal_escaping_output_stream_flush( universal_escaping_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).sink != NULL );
 
     const u8_error_t err = universal_output_stream_flush( (*this_).sink );
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 universal_output_stream_t* universal_escaping_output_stream_get_output_stream( universal_escaping_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_output_stream_t* result = &((*this_).output_stream);
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

@@ -4,7 +4,7 @@
 #include "pencil_layouter.h"
 #include "pencil_diagram_maker.h"
 #include "test_data/test_data_setup.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "test_assert.h"
 
 static void set_up(void);

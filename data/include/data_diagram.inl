@@ -1,7 +1,7 @@
 /* File: data_diagram.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )
@@ -47,7 +47,7 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, diagram_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -55,7 +55,7 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, diagram_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -87,7 +87,7 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
     if ( diagram_type == DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM )
     {
         diagram_type = DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM;
-        TSLOG_ANOMALY_INT( "Diagram type INTERACTION_OVERVIEW is re-invented. Old type converted to ACTIVITY. See id D", diagram_id );
+        U8_LOG_ANOMALY_INT( "Diagram type INTERACTION_OVERVIEW is re-invented. Old type converted to ACTIVITY. See id D", diagram_id );
     }
     (*this_).diagram_type = diagram_type;
 
@@ -95,7 +95,7 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, diagram_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -103,7 +103,7 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, diagram_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     (*this_).list_order = list_order;
@@ -144,15 +144,15 @@ static inline void data_diagram_destroy ( data_diagram_t *this_ )
 
 static inline void data_diagram_trace ( const data_diagram_t *this_ )
 {
-    TRACE_INFO( "data_diagram_t" );
-    TRACE_INFO_INT( "- id:", (*this_).id );
-    TRACE_INFO_INT( "- parent_id:", (*this_).parent_id );
-    TRACE_INFO_INT( "- diagram_type:", (*this_).diagram_type );
-    TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
-    TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
-    TRACE_INFO_INT( "- list_order:", (*this_).list_order );
-    TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
-    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
+    U8_TRACE_INFO( "data_diagram_t" );
+    U8_TRACE_INFO_INT( "- id:", (*this_).id );
+    U8_TRACE_INFO_INT( "- parent_id:", (*this_).parent_id );
+    U8_TRACE_INFO_INT( "- diagram_type:", (*this_).diagram_type );
+    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
+    U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
+    U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    U8_TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
+    U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 static inline data_row_id_t data_diagram_get_row_id ( const data_diagram_t *this_ )
@@ -212,7 +212,7 @@ static inline u8_error_t data_diagram_set_name ( data_diagram_t *this_, const ch
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -231,7 +231,7 @@ static inline u8_error_t data_diagram_set_description ( data_diagram_t *this_, c
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -245,7 +245,7 @@ static inline u8_error_t data_diagram_append_description ( data_diagram_t *this_
     strerr = utf8stringbuf_append_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;

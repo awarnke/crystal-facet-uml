@@ -1,15 +1,15 @@
 /* File: data_database_diagram_reader.c; Copyright and License: see below */
 
 #include "storage/data_database_diagram_reader.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <assert.h>
 
 u8_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *this_, data_database_t *database )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != database );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -32,20 +32,20 @@ u8_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *t
 
     result |= data_database_diagram_reader_private_open( this_ );
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
 u8_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_diagram_reader_private_close( this_ );
 
     (*this_).database = NULL;
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
@@ -162,7 +162,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
                                                               data_row_id_t id,
                                                               data_diagram_t *out_diagram )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagram );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -173,11 +173,11 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, id );
 
-        TRACE_INFO( "sqlite3_step()" );
+        U8_TRACE_INFO( "sqlite3_step()" );
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
+            U8_LOG_ANOMALY( "sqlite3_step did not find a row." );
             result |= U8_ERROR_DB_STRUCTURE;
         }
 
@@ -204,12 +204,12 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -217,7 +217,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
                                                                 const char *uuid,
                                                                 data_diagram_t *out_diagram )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagram );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -228,12 +228,12 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
 
         result |= data_database_diagram_reader_private_bind_text_to_statement( this_, prepared_statement, uuid );
 
-        TRACE_INFO( "sqlite3_step()" );
+        U8_TRACE_INFO( "sqlite3_step()" );
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
             /* Do not log this incident, the caller may not expect to find a row. */
-            TRACE_INFO( "sqlite3_step did not find a row." );
+            U8_TRACE_INFO( "sqlite3_step did not find a row." );
             result |= U8_ERROR_NOT_FOUND;
         }
 
@@ -260,12 +260,12 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
             result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -275,7 +275,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
                                                                       data_diagram_t (*out_diagram)[],
                                                                       uint32_t *out_diagram_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagram_count );
     assert( NULL != out_diagram );
     u8_error_t result = U8_ERROR_NONE;
@@ -298,11 +298,11 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
         {
-            TRACE_INFO( "sqlite3_step()" );
+            U8_TRACE_INFO( "sqlite3_step()" );
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -329,17 +329,17 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
+                U8_LOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
                 result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -350,7 +350,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
                                                                           data_diagram_t (*out_diagram)[],
                                                                           uint32_t *out_diagram_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagram_count );
     assert( NULL != out_diagram );
     u8_error_t result = U8_ERROR_NONE;
@@ -366,11 +366,11 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
         {
-            TRACE_INFO( "sqlite3_step()" );
+            U8_TRACE_INFO( "sqlite3_step()" );
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -397,17 +397,17 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
+                U8_LOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
                 result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 #endif
@@ -416,7 +416,7 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_data
                                                                          data_row_id_t parent_id,
                                                                          data_small_set_t *out_diagram_ids )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagram_ids );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -438,11 +438,11 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_data
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= DATA_SMALL_SET_MAX_SET_SIZE); row_index ++ )
         {
-            TRACE_INFO( "sqlite3_step()" );
+            U8_TRACE_INFO( "sqlite3_step()" );
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < DATA_SMALL_SET_MAX_SET_SIZE))
@@ -453,18 +453,18 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_data
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= DATA_SMALL_SET_MAX_SET_SIZE))
             {
-                TSLOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
+                U8_LOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
                 result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
         data_small_set_trace( out_diagram_ids );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -472,7 +472,7 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_
                                                                              data_row_id_t classifier_id,
                                                                              data_small_set_t *out_diagram_ids )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagram_ids );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -486,11 +486,11 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= DATA_SMALL_SET_MAX_SET_SIZE); row_index ++ )
         {
-            TRACE_INFO( "sqlite3_step()" );
+            U8_TRACE_INFO( "sqlite3_step()" );
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < DATA_SMALL_SET_MAX_SET_SIZE))
@@ -502,17 +502,17 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= DATA_SMALL_SET_MAX_SET_SIZE))
             {
-                TSLOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
+                U8_LOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
                 result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -582,7 +582,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
                                                                      data_row_id_t id,
                                                                      data_diagramelement_t *out_diagramelement )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -593,11 +593,11 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
 
         result |= data_database_diagram_reader_private_bind_id_to_statement( this_, prepared_statement, id );
 
-        TRACE_INFO( "sqlite3_step()" );
+        U8_TRACE_INFO( "sqlite3_step()" );
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
+            U8_LOG_ANOMALY( "sqlite3_step did not find a row." );
             result |= U8_ERROR_DB_STRUCTURE;
         }
 
@@ -622,12 +622,12 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -635,7 +635,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
                                                                        const char *uuid,
                                                                        data_diagramelement_t *out_diagramelement )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -646,12 +646,12 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
 
         result |= data_database_diagram_reader_private_bind_text_to_statement( this_, prepared_statement, uuid );
 
-        TRACE_INFO( "sqlite3_step()" );
+        U8_TRACE_INFO( "sqlite3_step()" );
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
             /* Do not log this incident, the caller may not expect to find a row. */
-            TRACE_INFO( "sqlite3_step did not find a row." );
+            U8_TRACE_INFO( "sqlite3_step did not find a row." );
             result |= U8_ERROR_NOT_FOUND;
         }
 
@@ -676,12 +676,12 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
             result |= U8_ERROR_DB_STRUCTURE;
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -691,7 +691,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data
                                                                               data_diagramelement_t (*out_diagramelement)[],
                                                                               uint32_t *out_diagramelement_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement_count );
     assert( NULL != out_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
@@ -707,11 +707,11 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
         {
-            TRACE_INFO( "sqlite3_step()" );
+            U8_TRACE_INFO( "sqlite3_step()" );
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -736,17 +736,17 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ANOMALY_INT( "out_diagramelement[] full:", (row_index+1) );
+                U8_LOG_ANOMALY_INT( "out_diagramelement[] full:", (row_index+1) );
                 result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -756,7 +756,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( da
                                                                                 data_diagramelement_t (*out_diagramelement)[],
                                                                                 uint32_t *out_diagramelement_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement_count );
     assert( NULL != out_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
@@ -772,11 +772,11 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( da
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
         {
-            TRACE_INFO( "sqlite3_step()" );
+            U8_TRACE_INFO( "sqlite3_step()" );
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -801,17 +801,17 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( da
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ANOMALY_INT( "out_diagramelement[] full:", (row_index+1) );
+                U8_LOG_ANOMALY_INT( "out_diagramelement[] full:", (row_index+1) );
                 result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -819,7 +819,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( da
 
 u8_error_t data_database_diagram_reader_private_open ( data_database_diagram_reader_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     {
@@ -899,17 +899,17 @@ u8_error_t data_database_diagram_reader_private_open ( data_database_diagram_rea
 
         if ( result != U8_ERROR_NONE )
         {
-            TSLOG_ERROR( "A prepared statement could not be prepared." );
+            U8_LOG_ERROR( "A prepared statement could not be prepared." );
         }
     }
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
 u8_error_t data_database_diagram_reader_private_close ( data_database_diagram_reader_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     {
@@ -953,7 +953,7 @@ u8_error_t data_database_diagram_reader_private_close ( data_database_diagram_re
 
     }
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 

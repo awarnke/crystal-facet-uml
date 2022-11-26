@@ -2,8 +2,8 @@
 
 #include "main.h"
 #include "main_commands.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include "meta/meta_info.h"
 #include "meta/meta_version.h"
 #include "utf8stringbuf/utf8string.h"
@@ -32,10 +32,10 @@ static const char *const MAIN_HELP
     "    -r <database_file> : to test and repair the database file\n";
 
 int main (int argc, char **argv) {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
+    U8_TRACE_BEGIN();
+    U8_TRACE_TIMESTAMP();
     u8_error_t exit_code = U8_ERROR_NONE;
-    TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
+    U8_LOG_INIT(META_INFO_PROGRAM_ID_STR, U8_LOG_DEBUG_MODE_DELAY);
     char *database_file = NULL;
     char *export_directory = NULL;
     char *import_file = NULL;
@@ -156,16 +156,16 @@ int main (int argc, char **argv) {
     universal_utf8_writer_destroy( &writer );
     universal_stream_output_stream_destroy( &out_stream );
 
-    TSLOG_DESTROY();
-    TRACE_TIMESTAMP();
+    U8_LOG_DESTROY();
+    U8_TRACE_TIMESTAMP();
     int exit_byte = ((exit_code >> 24)|(exit_code >> 16)|(exit_code >> 8)|(exit_code))&0xff;
-    TRACE_END_ERR(exit_byte);
+    U8_TRACE_END_ERR(exit_byte);
     return exit_byte;
 }
 
 io_file_format_t main_private_get_selected_format( char *arg_fmt )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( arg_fmt != NULL );
     io_file_format_t result = 0;
 
@@ -206,13 +206,13 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
         result = IO_FILE_FORMAT_XMI2;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
 io_import_mode_t main_private_get_selected_mode( char *arg_fmt )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( arg_fmt != NULL );
     io_import_mode_t result = IO_IMPORT_MODE_CHECK;
 
@@ -229,7 +229,7 @@ io_import_mode_t main_private_get_selected_mode( char *arg_fmt )
         result = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

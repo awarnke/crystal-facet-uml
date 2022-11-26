@@ -2,7 +2,7 @@
 
 #include "gui_file_db_manager.h"
 #include "u8/u8_error_info.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -13,7 +13,7 @@ void gui_file_db_manager_init( gui_file_db_manager_t *this_,
                                io_data_file_t *data_file,
                                gui_simple_message_to_user_t *message_to_user )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != controller );
     assert( NULL != data_file );
     assert( NULL != message_to_user );
@@ -22,31 +22,31 @@ void gui_file_db_manager_init( gui_file_db_manager_t *this_,
     (*this_).data_file = data_file;
     (*this_).message_to_user = message_to_user;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).controller = NULL;
     (*this_).data_file = NULL;
     (*this_).message_to_user = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char *filename )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     if ( io_data_file_is_open( (*this_).data_file ) )
     {
         const u8_error_t close_err = io_data_file_close( (*this_).data_file );
         if ( close_err != U8_ERROR_NONE )
         {
-            TSLOG_ERROR( "Closing the database was not possible" );
-            TRACE_INFO_STR( "Closing the database was not possible:", io_data_file_get_filename_ptr( (*this_).data_file ) );
+            U8_LOG_ERROR( "Closing the database was not possible" );
+            U8_TRACE_INFO_STR( "Closing the database was not possible:", io_data_file_get_filename_ptr( (*this_).data_file ) );
         }
     }
 
@@ -115,7 +115,7 @@ u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char 
         }
     }
 
-    TRACE_END_ERR( error );
+    U8_TRACE_END_ERR( error );
     return error;
 }
 

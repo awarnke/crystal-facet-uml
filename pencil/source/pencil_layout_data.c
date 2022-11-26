@@ -1,15 +1,15 @@
 /* File: pencil_layout_data.c; Copyright and License: see below */
 
 #include "pencil_layout_data.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 void pencil_layout_data_init( pencil_layout_data_t *this_, const data_visible_set_t *input_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != input_data );
-    TRACE_INFO_INT( "sizeof(pencil_layout_data_t):", sizeof(pencil_layout_data_t) );
+    U8_TRACE_INFO_INT( "sizeof(pencil_layout_data_t):", sizeof(pencil_layout_data_t) );
 
     data_rules_init ( &((*this_).filter_rules) );
 
@@ -26,12 +26,12 @@ void pencil_layout_data_init( pencil_layout_data_t *this_, const data_visible_se
     {
         assert ( pencil_layout_data_is_valid( this_ ) );
     }
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layout_data_private_init_diagram( pencil_layout_data_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
     layout_diagram_init ( &((*this_).diagram_layout),
@@ -39,16 +39,16 @@ void pencil_layout_data_private_init_diagram( pencil_layout_data_t *this_ )
                         );
     (*this_).diagram_valid = layout_diagram_is_valid( &((*this_).diagram_layout) );
 
-    TRACE_INFO_INT ( "diagram      data    objects:", 1 );
-    TRACE_INFO_INT ( "diagram      ignored objects:", 0 );  /* we do not ignore diagram objects */
-    TRACE_INFO_INT ( "layout_diagram       objects:", 1 );
+    U8_TRACE_INFO_INT ( "diagram      data    objects:", 1 );
+    U8_TRACE_INFO_INT ( "diagram      ignored objects:", 0 );  /* we do not ignore diagram objects */
+    U8_TRACE_INFO_INT ( "layout_diagram       objects:", 1 );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layout_data_private_init_classifiers( pencil_layout_data_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
     const uint_fast32_t data_classifier_count = data_visible_set_get_visible_classifier_count( (*this_).input_data );
@@ -69,21 +69,21 @@ void pencil_layout_data_private_init_classifiers( pencil_layout_data_t *this_ )
         }
         else
         {
-            TSLOG_ERROR("error in input_data: illegal classifier.");
+            U8_LOG_ERROR("error in input_data: illegal classifier.");
             assert(false);
         }
     }  /* end for all classifier_data */
 
-    TRACE_INFO_INT ( "classifier   data    objects:", data_classifier_count );
-    TRACE_INFO_INT ( "classifier   ignored objects:", data_classifier_count - (*this_).visible_classifier_count );
-    TRACE_INFO_INT ( "layout_v._classifier objects:", (*this_).visible_classifier_count );
+    U8_TRACE_INFO_INT ( "classifier   data    objects:", data_classifier_count );
+    U8_TRACE_INFO_INT ( "classifier   ignored objects:", data_classifier_count - (*this_).visible_classifier_count );
+    U8_TRACE_INFO_INT ( "layout_v._classifier objects:", (*this_).visible_classifier_count );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
     const uint_fast32_t data_feature_count = data_visible_set_get_feature_count( (*this_).input_data );
@@ -138,7 +138,7 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
         }
         else
         {
-            TSLOG_ERROR("error in input_data: illegal feature.");
+            U8_LOG_ERROR("error in input_data: illegal feature.");
             assert(false);
         }
 
@@ -149,20 +149,20 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
         }
     }  /* end for all feature_data */
 
-    TRACE_INFO_INT ( "feature      data    objects:", data_feature_count );
-    TRACE_INFO_INT ( "feature      ignored objects:", debug_dropped_features );
-    TRACE_INFO_INT ( "layout_feature       objects:", (*this_).feature_count );
+    U8_TRACE_INFO_INT ( "feature      data    objects:", data_feature_count );
+    U8_TRACE_INFO_INT ( "feature      ignored objects:", debug_dropped_features );
+    U8_TRACE_INFO_INT ( "layout_feature       objects:", (*this_).feature_count );
     if ( 0 != warn_dropped_features )
     {
-        TSLOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, layout_features not visible:", warn_dropped_features );
+        U8_LOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, layout_features not visible:", warn_dropped_features );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
     const uint32_t data_relationship_count = data_visible_set_get_relationship_count( (*this_).input_data );
@@ -195,7 +195,7 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
         }
         else
         {
-            TSLOG_ERROR("error in input_data: illegal relationship.");
+            U8_LOG_ERROR("error in input_data: illegal relationship.");
             assert(false);
         }
 
@@ -206,22 +206,22 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
         }
     }  /* end for all relationship_data */
 
-    TRACE_INFO_INT ( "relationship data    objects:", data_relationship_count );
-    TRACE_INFO_INT ( "relationship ignored objects:", debug_dropped_relationships );
-    TRACE_INFO_INT ( "layout_relationship  objects:", (*this_).relationship_count );
+    U8_TRACE_INFO_INT ( "relationship data    objects:", data_relationship_count );
+    U8_TRACE_INFO_INT ( "relationship ignored objects:", debug_dropped_relationships );
+    U8_TRACE_INFO_INT ( "layout_relationship  objects:", (*this_).relationship_count );
     if ( 0 != warn_dropped_relationships )
     {
-        TSLOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, layout_relationships not visible:", warn_dropped_relationships );
+        U8_LOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, layout_relationships not visible:", warn_dropped_relationships );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *this_,
                                                        const data_relationship_t *relationship_data,
                                                        uint32_t *io_dropped_relationships )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
     assert ( NULL != relationship_data );
     assert ( NULL != io_dropped_relationships );
@@ -303,7 +303,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                             }
                             else
                             {
-                                TSLOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
+                                U8_LOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
                             }
                         }  /* one_to_feature_found */
                     }  /* end search-for to_feature */
@@ -386,7 +386,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                                 }
                                 else
                                 {
-                                    TSLOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
+                                    U8_LOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
                                 }
                             }  /* one_to_feature_found */
                         }  /* end search-for to_feature */
@@ -394,19 +394,19 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                 }
                 else
                 {
-                    TSLOG_ERROR("error in input_data: relationship links from feature and inconsistent classifier.");
+                    U8_LOG_ERROR("error in input_data: relationship links from feature and inconsistent classifier.");
                 }
             }  /* one_from_feature_found */
         }  /* end search-for from_feature */
     }  /* endif: search source(from) */
 
-    TRACE_END();
+    U8_TRACE_END();
     return layout_relationship_count;
 }
 
 void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
     assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
@@ -433,7 +433,7 @@ void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
         layout_relationship_destroy( &((*this_).relationship_layout[r_idx]) );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ misc ================================ */
@@ -534,7 +534,7 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
 
 void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
     assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
@@ -871,7 +871,7 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
         data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

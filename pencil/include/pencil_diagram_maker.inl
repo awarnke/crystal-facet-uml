@@ -1,12 +1,12 @@
 /* File: pencil_diagram_maker.inl; Copyright and License: see below */
 
 #include "pencil_diagram_maker.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != input_data );
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
@@ -19,23 +19,23 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, con
 
     (*this_).snap_to_grid_distance = 5.000001;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != input_data );
 
     (*this_).input_data = input_data;
     pencil_layouter_reinit( &((*this_).layouter), input_data );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
     pencil_classifier_composer_destroy( &((*this_).classifier_painter) );
@@ -45,7 +45,7 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
     pencil_layouter_destroy( &((*this_).layouter) );
     (*this_).input_data = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,

@@ -6,8 +6,8 @@
 #include "xmi/xmi_xml.h"
 #include "utf8stringbuf/utf8string.h"
 #include "data_id.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdbool.h>
 #include <assert.h>
 
@@ -38,19 +38,19 @@ static const char XMI2_COMMENT_TYPE[]
 void xmi_atom_writer_init ( xmi_atom_writer_t *this_,
                             xml_writer_t *out_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_writer );
 
     (*this_).xml_writer = out_writer;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void xmi_atom_writer_destroy( xmi_atom_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int xmi_atom_writer_write_xmi_comment( xmi_atom_writer_t *this_,
@@ -58,7 +58,7 @@ int xmi_atom_writer_write_xmi_comment( xmi_atom_writer_t *this_,
                                        const char *comment_type,
                                        const char *comment )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != comment_type );
     assert( NULL != comment );
     int export_err = 0;
@@ -98,7 +98,7 @@ int xmi_atom_writer_write_xmi_comment( xmi_atom_writer_t *this_,
     xml_writer_decrease_indent ( (*this_).xml_writer );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_OWNED_COMMENT_END );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -106,14 +106,14 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
                                    data_id_t element_id )
 
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     switch ( data_id_get_table(&element_id) )
     {
         case DATA_TABLE_VOID:
         {
-            TSLOG_WARNING( "invalid data_id_t at xmi_atom_writer_encode_xmi_id." ); /* "1" is reserved for profiles */
+            U8_LOG_WARNING( "invalid data_id_t at xmi_atom_writer_encode_xmi_id." ); /* "1" is reserved for profiles */
             export_err |= -1;
         }
         break;
@@ -151,7 +151,7 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
 
         default:
         {
-            TSLOG_ERROR( "unknown data_id_t at xmi_atom_writer_encode_xmi_id." );
+            U8_LOG_ERROR( "unknown data_id_t at xmi_atom_writer_encode_xmi_id." );
         }
         break;
     }
@@ -190,7 +190,7 @@ int xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
         export_err |= xml_writer_write_int ( (*this_).xml_writer, data_id_get_row_id(&element_id) );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -198,7 +198,7 @@ int xmi_atom_writer_report_unknown_classifier( xmi_atom_writer_t *this_,
                                                data_id_t fact_classifier_id,
                                                data_classifier_type_t fact_classifier_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -210,7 +210,7 @@ int xmi_atom_writer_report_unknown_classifier( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -218,7 +218,7 @@ int xmi_atom_writer_report_unknown_feature( xmi_atom_writer_t *this_,
                                             data_id_t fact_feature_id,
                                             data_feature_type_t fact_feature_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -230,7 +230,7 @@ int xmi_atom_writer_report_unknown_feature( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -238,7 +238,7 @@ int xmi_atom_writer_report_unknown_relationship( xmi_atom_writer_t *this_,
                                                  data_id_t fact_relationship_id,
                                                  data_relationship_type_t fact_relationship_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -250,7 +250,7 @@ int xmi_atom_writer_report_unknown_relationship( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -259,7 +259,7 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
                                               data_classifier_type_t fact_classifier_type,
                                               data_classifier_type_t fact_parent_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     const xmi_element_info_t *parent_info;
@@ -270,7 +270,7 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
+        U8_LOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
     }
     const xmi_element_info_t *classifier_info;
     map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
@@ -280,7 +280,7 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
                                                  );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map type", fact_classifier_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map type", fact_classifier_type );
     }
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -321,7 +321,7 @@ int xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Pack the nested element into a suitable container or change its type" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -329,7 +329,7 @@ int xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
                                                data_id_t element_id,
                                                utf8stringview_t stereotype )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -348,7 +348,7 @@ int xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the name of the stereotype" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -356,7 +356,7 @@ int xmi_atom_writer_report_illegal_datatype( xmi_atom_writer_t *this_,
                                              data_id_t feature_id,
                                              const char * datatype )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -375,7 +375,7 @@ int xmi_atom_writer_report_illegal_datatype( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Clear the valuetype/datatype or change the type of the feature" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -384,7 +384,7 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
                                            data_feature_type_t fact_feature_type,
                                            data_classifier_type_t fact_parent_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     const xmi_element_info_t *parent_info;
@@ -395,7 +395,7 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
+        U8_LOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
     }
     const xmi_element_info_t *feature_info;
     map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
@@ -405,7 +405,7 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
                                               );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_feature could not map type", fact_feature_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_feature could not map type", fact_feature_type );
     }
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -446,7 +446,7 @@ int xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the child feature or the parent element" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -456,7 +456,7 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
                                              data_classifier_type_t fact_hosting_type
                                            )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     const xmi_element_info_t *host_info;
@@ -467,7 +467,7 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
+        U8_LOG_WARNING("xmi_element_info_map_get_classifier could not map DATA_CLASSIFIER_TYPE_PACKAGE");
     }
     const xmi_element_info_t *relation_info;
     map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
@@ -477,7 +477,7 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
                                                    );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
     }
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -518,7 +518,7 @@ int xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -530,7 +530,7 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
                                                       data_classifier_type_t fact_end_classifier_type,
                                                       data_feature_type_t fact_end_feature_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     const xmi_element_info_t *relation_info;
@@ -541,7 +541,7 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
                                                        );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
     }
 
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
@@ -575,7 +575,7 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
                                                          );
         if ( map_err != 0 )
         {
-            TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map type", fact_end_classifier_type );
+            U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map type", fact_end_classifier_type );
         }
         if ( classifier_info != NULL )
         {
@@ -600,7 +600,7 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
                                                       );
         if ( map_err != 0 )
         {
-            TSLOG_WARNING_INT("xmi_element_info_map_get_feature could not map type", fact_end_feature_type );
+            U8_LOG_WARNING_INT("xmi_element_info_map_get_feature could not map type", fact_end_feature_type );
         }
         if ( feature_info != NULL )
         {
@@ -626,7 +626,7 @@ int xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *this_,
     export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
     export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 

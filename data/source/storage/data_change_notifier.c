@@ -3,8 +3,8 @@
 #include "data_id.h"
 #include "storage/data_change_notifier.h"
 #include "storage/data_change_message.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <glib-object.h>
 #include <unistd.h>
 #include <string.h>
@@ -16,7 +16,7 @@ const char *DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME = "cfu_data_changed";
 
 void data_change_notifier_init ( data_change_notifier_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).num_listeners = 0;
     memset( (*this_).listener_array, '\0', sizeof( (*this_).listener_array ) );
@@ -37,17 +37,17 @@ void data_change_notifier_init ( data_change_notifier_t *this_ )
             G_TYPE_POINTER /* data_id_t*: id of the record that was created, updated or deleted */
         );
         data_change_notifier_glib_signal_initialized = true;
-        TRACE_INFO_INT( "g_signal_new(\"cfu_data_changed\") returned new signal id", data_change_notifier_glib_signal_id );
+        U8_TRACE_INFO_INT( "g_signal_new(\"cfu_data_changed\") returned new signal id", data_change_notifier_glib_signal_id );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void data_change_notifier_destroy ( data_change_notifier_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
@@ -57,7 +57,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
                                         data_table_t parent_table,
                                         data_row_id_t parent_row_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* prepare */
     data_id_t modified_element_id;
@@ -77,7 +77,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
     /* send messages */
     for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
     {
-        TRACE_INFO_INT( "g_signal_emit to listener", pos );
+        U8_TRACE_INFO_INT( "g_signal_emit to listener", pos );
         g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, &message );
     }
 
@@ -86,12 +86,12 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
     data_id_destroy( &parent_element_id );
     data_change_message_destroy( &message );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GObject *new_listener )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_listener );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -103,7 +103,7 @@ u8_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GO
         {
             duplicate = true;
             result = U8_ERROR_INVALID_REQUEST;
-            TSLOG_ERROR( "duplicate call to data_change_notifier_add_listener for same listener." );
+            U8_LOG_ERROR( "duplicate call to data_change_notifier_add_listener for same listener." );
         }
     }
 
@@ -117,17 +117,17 @@ u8_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GO
         else
         {
             result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-            TSLOG_ERROR( "data_change_notifier_add_listener has too many listeners." );
+            U8_LOG_ERROR( "data_change_notifier_add_listener has too many listeners." );
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
 u8_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != no_listener );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -143,7 +143,7 @@ u8_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_,
 
     /* remove if found */
     if ( found_at_pos != -1 ) {
-        TRACE_INFO_INT( "unsubscribing from pos", found_at_pos );
+        U8_TRACE_INFO_INT( "unsubscribing from pos", found_at_pos );
         (*this_).listener_array[found_at_pos] = NULL;
         if ( found_at_pos + 1 != (*this_).num_listeners )
         {
@@ -155,10 +155,10 @@ u8_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_,
     else
     {
         result = U8_ERROR_INVALID_REQUEST;
-        TSLOG_ERROR( "data_change_notifier_remove_listener did not find listener to remove." );
+        U8_LOG_ERROR( "data_change_notifier_remove_listener did not find listener to remove." );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

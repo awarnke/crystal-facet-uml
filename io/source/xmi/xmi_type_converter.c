@@ -2,29 +2,29 @@
 
 #include "xmi/xmi_type_converter.h"
 #include "xmi/xmi_element_info_map.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 void xmi_type_converter_init ( xmi_type_converter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void xmi_type_converter_destroy( xmi_type_converter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ CLASSIFIER ================================ */
 
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t *this_, data_classifier_type_t c_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const xmi_element_info_t *classifier_info = NULL;
     int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, 
@@ -34,14 +34,14 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", c_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", c_type );
     }
     assert ( classifier_info != NULL );
     
     const xmi_spec_t result
         = (*classifier_info).specification;
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -50,7 +50,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
                                                             data_classifier_type_t c_type,
                                                             xmi_spec_t spec )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const xmi_element_info_t *classifier_info = NULL;
     int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, 
@@ -60,7 +60,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", c_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", c_type );
     }
     assert ( classifier_info != NULL );
     
@@ -70,7 +70,7 @@ const char* xmi_type_converter_get_xmi_type_of_classifier ( xmi_type_converter_t
         : (*classifier_info).base_name;
     assert ( result != NULL );
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -79,7 +79,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
                                                                 data_classifier_type_t child_type,
                                                                 char const * *out_xmi_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( out_xmi_name != NULL );
     const char* result = NULL;
 
@@ -91,7 +91,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", parent_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", parent_type );
     }
     assert ( parent_info != NULL );
     
@@ -107,7 +107,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
                                                  );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", child_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", child_type );
     }
     assert ( child_info != NULL );
 
@@ -175,7 +175,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_convert
 
     *out_xmi_name = (result==NULL) ? "" : result;
     const int result_err = (result==NULL) ? -1 : 0;
-    TRACE_END_ERR( result_err );
+    U8_TRACE_END_ERR( result_err );
     return result_err;
 }
 
@@ -184,7 +184,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
                                                             data_feature_type_t feature_type,
                                                             char const * *out_xmi_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( out_xmi_name != NULL );
     const char* result = NULL;
     int result_err = -1;
@@ -197,7 +197,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", parent_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", parent_type );
     }
     assert ( parent_info != NULL );
 
@@ -291,7 +291,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
 
         default:
         {
-            TSLOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
+            U8_LOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
             /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
             result = NULL;
         }
@@ -299,7 +299,7 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
     }
 
     *out_xmi_name = (result==NULL) ? "" : result;
-    TRACE_END_ERR( result_err );
+    U8_TRACE_END_ERR( result_err );
     return result_err;
 }
 
@@ -308,7 +308,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
                                                                   data_relationship_type_t child_type,
                                                                   char const * *out_xmi_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( out_xmi_name != NULL );
     const char* result = NULL;
 
@@ -320,7 +320,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
                                                      );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", hosting_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", hosting_type );
     }
     assert ( host_info != NULL );
     
@@ -339,7 +339,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
                                                    );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", child_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", child_type );
     }
     assert ( child_info != NULL );
     
@@ -402,7 +402,7 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
 
     *out_xmi_name = (result==NULL) ? "" : result;
     const int result_err = (result==NULL) ? -1 : 0;
-    TRACE_END_ERR( result_err );
+    U8_TRACE_END_ERR( result_err );
     return result_err;
 }
 
@@ -410,10 +410,10 @@ int xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_conve
 
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_feature ( xmi_type_converter_t *this_, data_feature_type_t feature_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     xmi_spec_t result = XMI_SPEC_UML;  /* all currently known features are defined in the uml specification */
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -422,7 +422,7 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
                                                          data_feature_type_t feature_type,
                                                          xmi_spec_t spec )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const xmi_element_info_t *feature_info = NULL;
     int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, 
@@ -432,7 +432,7 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
                                                   );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_feature could not map unknown type", feature_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_feature could not map unknown type", feature_type );
     }
     assert ( feature_info != NULL );
 
@@ -442,7 +442,7 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
         : (*feature_info).base_name;
     assert ( result != NULL );
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -450,7 +450,7 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
 
 xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_t *this_, data_relationship_type_t r_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const xmi_element_info_t *rel_info = NULL;
     int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard, 
@@ -460,14 +460,14 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_relationship ( xmi_type_converter_
                                                        );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", r_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", r_type );
     }
     assert ( rel_info != NULL );
 
     const xmi_spec_t result
         = (*rel_info).specification;
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -476,7 +476,7 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
                                                               data_relationship_type_t r_type,
                                                               xmi_spec_t spec  )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const bool host_is_state = ( hosting_type == DATA_CLASSIFIER_TYPE_STATE );
     const xmi_element_info_t *rel_info = NULL;
@@ -487,7 +487,7 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
                                                        );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", r_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", r_type );
     }
     assert ( rel_info != NULL );
     
@@ -497,7 +497,7 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
         : (*rel_info).base_name;
     assert ( result != NULL );
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
@@ -509,7 +509,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
                                                                       data_feature_type_t end_feature_type,
                                                                       char const * *out_xmi_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( out_xmi_name != NULL );
     int err = 0;
 
@@ -522,7 +522,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
                                                        );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", rel_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map unknown type", rel_type );
     }
     assert ( rel_info != NULL );
     
@@ -543,7 +543,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
                                                  );
     if ( map_err != 0 )
     {
-        TSLOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", end_classifier_type );
+        U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", end_classifier_type );
     }
     assert ( classifier_info != NULL );
 
@@ -626,7 +626,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
                                                   );
         if ( map_err != 0 )
         {
-            TSLOG_WARNING_INT("xmi_element_info_map_get_feature could not map unknown type", end_feature_type );
+            U8_LOG_WARNING_INT("xmi_element_info_map_get_feature could not map unknown type", end_feature_type );
         }
         assert ( feature_info != NULL );
 
@@ -686,7 +686,7 @@ int xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_c
 
     }
 
-    TRACE_END_ERR( err );
+    U8_TRACE_END_ERR( err );
     return err;
 }
 

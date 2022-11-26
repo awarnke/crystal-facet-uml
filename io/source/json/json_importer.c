@@ -3,40 +3,40 @@
 #include "json/json_importer.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8string.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
 void json_importer_init( json_importer_t *this_, io_import_elements_t *elements_importer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != elements_importer );
 
     (*this_).elements_importer = elements_importer;
 
     data_rules_init ( &((*this_).data_rules) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void json_importer_destroy( json_importer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != (*this_).elements_importer );
 
     data_rules_destroy ( &((*this_).data_rules) );
 
     (*this_).elements_importer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t json_importer_import_stream( json_importer_t *this_,
                                         universal_input_stream_t *json_text,
                                         u8_error_info_t *out_err_info )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != json_text );
     assert( NULL != out_err_info );
 
@@ -76,13 +76,13 @@ u8_error_t json_importer_import_stream( json_importer_t *this_,
 
     json_element_reader_destroy( &((*this_).temp_element_reader) );
 
-    TRACE_END_ERR( sync_error );
+    U8_TRACE_END_ERR( sync_error );
     return sync_error;
 }
 
 u8_error_t json_importer_private_import_views( json_importer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     u8_error_t sync_error = U8_ERROR_NONE;
 
@@ -149,7 +149,7 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
 
                     default:
                     {
-                        TSLOG_ERROR( "unexpected token error" );
+                        U8_LOG_ERROR( "unexpected token error" );
                         sync_error = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
@@ -166,13 +166,13 @@ u8_error_t json_importer_private_import_views( json_importer_t *this_ )
         }
     }
 
-    TRACE_END_ERR( sync_error );
+    U8_TRACE_END_ERR( sync_error );
     return sync_error;
 }
 
 u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     u8_error_t sync_error = U8_ERROR_NONE;
 
@@ -233,7 +233,7 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
 
                     default:
                     {
-                        TSLOG_ERROR( "unexpected token error" );
+                        U8_LOG_ERROR( "unexpected token error" );
                         sync_error = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
@@ -250,13 +250,13 @@ u8_error_t json_importer_private_import_nodes( json_importer_t *this_ )
         }
     }
 
-    TRACE_END_ERR( sync_error );
+    U8_TRACE_END_ERR( sync_error );
     return sync_error;
 }
 
 u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     u8_error_t sync_error = U8_ERROR_NONE;
 
@@ -315,7 +315,7 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
 
                     default:
                     {
-                        TSLOG_ERROR( "unexpected token error" );
+                        U8_LOG_ERROR( "unexpected token error" );
                         sync_error = U8_ERROR_PARSER_STRUCTURE;
                     }
                 }
@@ -332,13 +332,13 @@ u8_error_t json_importer_private_import_edges( json_importer_t *this_ )
         }
     }
 
-    TRACE_END_ERR( sync_error );
+    U8_TRACE_END_ERR( sync_error );
     return sync_error;
 }
 
 u8_error_t json_importer_private_import_diagramelement_array( json_importer_t *this_, const char *diagram_uuid )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != diagram_uuid );
     u8_error_t sync_error = U8_ERROR_NONE;
 
@@ -384,13 +384,13 @@ u8_error_t json_importer_private_import_diagramelement_array( json_importer_t *t
         }
     }
 
-    TRACE_END_ERR( sync_error );
+    U8_TRACE_END_ERR( sync_error );
     return sync_error;
 }
 
 u8_error_t json_importer_private_import_feature_array( json_importer_t *this_, const char *classifier_uuid )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != classifier_uuid );
     u8_error_t sync_error = U8_ERROR_NONE;
 
@@ -429,7 +429,7 @@ u8_error_t json_importer_private_import_feature_array( json_importer_t *this_, c
         }
     }
 
-    TRACE_END_ERR( sync_error );
+    U8_TRACE_END_ERR( sync_error );
     return sync_error;
 }
 

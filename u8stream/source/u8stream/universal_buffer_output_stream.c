@@ -2,8 +2,8 @@
 
 #include "u8stream/universal_buffer_output_stream.h"
 #include "u8stream/universal_output_stream_if.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <string.h>
 #include <assert.h>
 
@@ -19,7 +19,7 @@ void universal_buffer_output_stream_init( universal_buffer_output_stream_t *this
                                           size_t mem_buf_size,
                                           universal_output_stream_t *sink )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( mem_buf_start != NULL );
     assert( sink != NULL );
 
@@ -30,12 +30,12 @@ void universal_buffer_output_stream_init( universal_buffer_output_stream_t *this
     (*this_).mem_buf_filled = 0;
     universal_output_stream_private_init( &((*this_).output_stream), &universal_buffer_output_stream_private_if, this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t universal_buffer_output_stream_destroy( universal_buffer_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).sink != NULL );
     u8_error_t err = U8_ERROR_NONE;
@@ -49,13 +49,13 @@ u8_error_t universal_buffer_output_stream_destroy( universal_buffer_output_strea
 
     (*this_).sink = NULL;
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 u8_error_t universal_buffer_output_stream_write ( universal_buffer_output_stream_t *this_, const void *start, size_t length )
 {
-    /*TRACE_BEGIN();*/
+    /*U8_TRACE_BEGIN();*/
     assert( start != NULL );
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).sink != NULL );
@@ -90,13 +90,13 @@ u8_error_t universal_buffer_output_stream_write ( universal_buffer_output_stream
         }
     }
 
-    /*TRACE_END_ERR(err);*/
+    /*U8_TRACE_END_ERR(err);*/
     return err;
 }
 
 u8_error_t universal_buffer_output_stream_flush( universal_buffer_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
     assert( (*this_).sink != NULL );
     u8_error_t err = U8_ERROR_NONE;
@@ -107,17 +107,17 @@ u8_error_t universal_buffer_output_stream_flush( universal_buffer_output_stream_
     }
     (*this_).mem_buf_filled = 0;
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 universal_output_stream_t* universal_buffer_output_stream_get_output_stream( universal_buffer_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_output_stream_t* result = &((*this_).output_stream);
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

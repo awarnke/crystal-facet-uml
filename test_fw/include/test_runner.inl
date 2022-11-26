@@ -1,6 +1,5 @@
 /* File: test_runner.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
 #include <stdio.h>
 
 static inline void test_runner_init( test_runner_t *this_ )
@@ -28,10 +27,10 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
         test_result_add_test_case_result( &((*this_).result), success );
         test_result_add_test_case_result( &suite_local_result, success );
     }
-    fprintf( stdout, 
-             "test result: total %d, failed: %d\n", 
-             test_result_get_total( &suite_local_result ), 
-             test_result_get_failed( &suite_local_result ) 
+    fprintf( stdout,
+             "test result: total %d, failed: %d\n",
+             test_result_get_total( &suite_local_result ),
+             test_result_get_failed( &suite_local_result )
            );
     test_result_destroy( &suite_local_result );
 }

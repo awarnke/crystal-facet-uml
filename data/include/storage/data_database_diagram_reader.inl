@@ -1,7 +1,7 @@
 /* File: data_database_diagram_reader.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
-#include "trace/trace.h"
+#include "u8/u8_log.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 /* ================================ private ================================ */
@@ -20,7 +20,7 @@ static inline u8_error_t data_database_diagram_reader_private_prepare_statement 
 
     db = data_database_get_database_ptr ( (*this_).database );
 
-    TRACE_INFO_STR( "sqlite3_prepare_v2():", string_statement );
+    U8_TRACE_INFO_STR( "sqlite3_prepare_v2():", string_statement );
     sqlite_err = sqlite3_prepare_v2( db,
                                      string_statement,
                                      string_size,
@@ -30,9 +30,9 @@ static inline u8_error_t data_database_diagram_reader_private_prepare_statement 
     if (( SQLITE_OK != sqlite_err )
         || ( first_unused_statement_char != &(string_statement[string_size-1]) ))
     {
-        TSLOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
-        TSLOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-        TSLOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
+        U8_LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
+        U8_LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
+        U8_LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
         result |= U8_ERROR_AT_DB;
     }
 
@@ -45,12 +45,12 @@ static inline u8_error_t data_database_diagram_reader_private_finalize_statement
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
 
-    TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql(statement_ptr) );
+    U8_TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql(statement_ptr) );
     sqlite_err = sqlite3_finalize( statement_ptr );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql(statement_ptr) );
-        TSLOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
+        U8_LOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql(statement_ptr) );
+        U8_LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
         result |= U8_ERROR_AT_DB;
     }
 
@@ -67,7 +67,7 @@ static inline u8_error_t data_database_diagram_reader_private_bind_void_to_state
     sqlite_err = sqlite3_reset( statement_ptr );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        U8_LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
         result |= U8_ERROR_AT_DB;
     }
 
@@ -86,16 +86,16 @@ static inline u8_error_t data_database_diagram_reader_private_bind_id_to_stateme
     sqlite_err = sqlite3_reset( statement_ptr );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        U8_LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
         result |= U8_ERROR_AT_DB;
     }
 
-    TRACE_INFO_STR( "sqlite3_bind_int64():", sqlite3_sql(statement_ptr) );
-    TRACE_INFO_INT( "sqlite3_bind_int64():", id );
+    U8_TRACE_INFO_STR( "sqlite3_bind_int64():", sqlite3_sql(statement_ptr) );
+    U8_TRACE_INFO_INT( "sqlite3_bind_int64():", id );
     sqlite_err = sqlite3_bind_int64( statement_ptr, FIRST_SQL_BIND_PARAM, id );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_INT( "sqlite3_bind_int64() failed:", sqlite_err );
+        U8_LOG_ERROR_INT( "sqlite3_bind_int64() failed:", sqlite_err );
         result |= U8_ERROR_AT_DB;
     }
 
@@ -115,18 +115,18 @@ static inline u8_error_t data_database_diagram_reader_private_bind_text_to_state
     sqlite_err = sqlite3_reset( statement_ptr );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        U8_LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
         result |= U8_ERROR_AT_DB;
     }
 
-    TRACE_INFO_STR( "sqlite3_bind_text():", sqlite3_sql(statement_ptr) );
+    U8_TRACE_INFO_STR( "sqlite3_bind_text():", sqlite3_sql(statement_ptr) );
     /* SQLITE_STATIC vs SQLITE_TRANSIENT: This function is used to perform a SELECT statement. */
     /* During the SELECT, the text string is not modified. This is guaranteed by data_database_diagram_reader. */
-    TRACE_INFO_STR( "sqlite3_bind_text():", text );
+    U8_TRACE_INFO_STR( "sqlite3_bind_text():", text );
     sqlite_err = sqlite3_bind_text( statement_ptr, FIRST_SQL_BIND_PARAM, text, -1, SQLITE_STATIC );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
+        U8_LOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
         result |= U8_ERROR_AT_DB;
     }
 

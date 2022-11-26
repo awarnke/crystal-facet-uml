@@ -53,7 +53,7 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
     strerr = utf8stringbuf_copy_str( (*this_).name, relationship_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -61,7 +61,7 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
     strerr = utf8stringbuf_copy_str( (*this_).description, relationship_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -100,7 +100,7 @@ static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, relationship_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -108,7 +108,7 @@ static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, relationship_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -254,7 +254,7 @@ static inline u8_error_t data_relationship_set_name ( data_relationship_t *this_
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -273,7 +273,7 @@ static inline u8_error_t data_relationship_set_description ( data_relationship_t
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -287,7 +287,7 @@ static inline u8_error_t data_relationship_append_description ( data_relationshi
     strerr = utf8stringbuf_append_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stringbuf_append_str() failed:", strerr );
         result = U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -324,17 +324,17 @@ static inline bool data_relationship_is_valid ( const data_relationship_t *this_
 
 static inline void data_relationship_trace ( const data_relationship_t *this_ )
 {
-    TRACE_INFO( "data_relationship_t" );
-    TRACE_INFO_INT( "- id:", (*this_).id );
-    TRACE_INFO_INT( "- main_type:", (*this_).main_type );
-    TRACE_INFO_INT( "- from_classifier_id:", (*this_).from_classifier_id );
-    TRACE_INFO_INT( "- to_classifier_id:", (*this_).to_classifier_id );
-    TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
-    TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
-    TRACE_INFO_INT( "- list_order:", (*this_).list_order );
-    TRACE_INFO_INT( "- from_feature_id:", (*this_).from_feature_id );
-    TRACE_INFO_INT( "- to_feature_id:", (*this_).to_feature_id );
-    TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
+    U8_TRACE_INFO( "data_relationship_t" );
+    U8_TRACE_INFO_INT( "- id:", (*this_).id );
+    U8_TRACE_INFO_INT( "- main_type:", (*this_).main_type );
+    U8_TRACE_INFO_INT( "- from_classifier_id:", (*this_).from_classifier_id );
+    U8_TRACE_INFO_INT( "- to_classifier_id:", (*this_).to_classifier_id );
+    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
+    U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
+    U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    U8_TRACE_INFO_INT( "- from_feature_id:", (*this_).from_feature_id );
+    U8_TRACE_INFO_INT( "- to_feature_id:", (*this_).to_feature_id );
+    U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 

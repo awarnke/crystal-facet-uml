@@ -2,8 +2,8 @@
 
 #include "u8stream/universal_stream_output_stream.h"
 #include "u8stream/universal_output_stream_if.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdbool.h>
 #include <assert.h>
 
@@ -16,28 +16,28 @@ static const universal_output_stream_if_t universal_stream_output_stream_private
 
 void universal_stream_output_stream_init( universal_stream_output_stream_t *this_, FILE* out_stream )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( out_stream != NULL );
 
     (*this_).output = out_stream;
     universal_output_stream_private_init( &((*this_).output_stream), &universal_stream_output_stream_private_if, this_ );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void universal_stream_output_stream_destroy( universal_stream_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).output = NULL;
     universal_output_stream_private_destroy( &((*this_).output_stream) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t universal_stream_output_stream_write ( universal_stream_output_stream_t *this_, const void *start, size_t length )
 {
-    /*TRACE_BEGIN();*/
+    /*U8_TRACE_BEGIN();*/
     assert( (*this_).output != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
@@ -48,7 +48,7 @@ u8_error_t universal_stream_output_stream_write ( universal_stream_output_stream
         out_count = fwrite( ((const char*)start)+written, 1, length-written, (*this_).output );
         if ( out_count < 0 )
         {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", length-written );
+            U8_LOG_ERROR_INT( "not all bytes could be written. missing:", length-written );
             err = U8_ERROR_AT_FILE_WRITE;
         }
         else
@@ -57,13 +57,13 @@ u8_error_t universal_stream_output_stream_write ( universal_stream_output_stream
         }
     }
 
-    /*TRACE_END_ERR(err);*/
+    /*U8_TRACE_END_ERR(err);*/
     return err;
 }
 
 u8_error_t universal_stream_output_stream_flush( universal_stream_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).output != NULL );
     u8_error_t err = U8_ERROR_NONE;
 
@@ -71,21 +71,21 @@ u8_error_t universal_stream_output_stream_flush( universal_stream_output_stream_
     flush_err = fflush( (*this_).output );
     if ( 0 != flush_err )
     {
-        TSLOG_ERROR_INT("error at flushing file:",flush_err);
+        U8_LOG_ERROR_INT("error at flushing file:",flush_err);
         err = U8_ERROR_AT_FILE_WRITE;
     }
 
-    TRACE_END_ERR(err);
+    U8_TRACE_END_ERR(err);
     return err;
 }
 
 universal_output_stream_t* universal_stream_output_stream_get_output_stream( universal_stream_output_stream_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     universal_output_stream_t* result = &((*this_).output_stream);
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

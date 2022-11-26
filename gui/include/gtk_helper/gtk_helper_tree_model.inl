@@ -1,6 +1,6 @@
 /* File: gtk_helper_tree_model.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, int id_col, int id )

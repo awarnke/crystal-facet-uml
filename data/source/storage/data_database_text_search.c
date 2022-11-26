@@ -1,8 +1,8 @@
 /* File: data_database_text_search.c; Copyright and License: see below */
 
 #include "storage/data_database_text_search.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <assert.h>
@@ -19,7 +19,7 @@ const char *const DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE[][2] = {
 
 u8_error_t data_database_text_search_init( data_database_text_search_t *this_, data_database_t *database )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != database );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -37,13 +37,13 @@ u8_error_t data_database_text_search_init( data_database_text_search_t *this_, d
 
     data_rules_init ( &((*this_).data_rules) );
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
 u8_error_t data_database_text_search_destroy( data_database_text_search_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     data_rules_destroy ( &((*this_).data_rules) );
@@ -57,20 +57,20 @@ u8_error_t data_database_text_search_destroy( data_database_text_search_t *this_
 
     (*this_).database = NULL;
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
 void data_database_text_search_db_change_callback( data_database_text_search_t *this_, data_database_listener_signal_t signal_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     switch ( signal_id )
     {
         case DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE:
         {
-            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE" );
+            U8_TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE" );
             if ( (*this_).is_open )
             {
                 result |= data_database_text_search_private_close( this_ );
@@ -80,7 +80,7 @@ void data_database_text_search_db_change_callback( data_database_text_search_t *
 
         case DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED:
         {
-            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED" );
+            U8_TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED" );
             if ( (*this_).is_open )
             {
                 result |= data_database_text_search_private_close( this_ );
@@ -91,18 +91,18 @@ void data_database_text_search_db_change_callback( data_database_text_search_t *
 
         default:
         {
-            TSLOG_ERROR( "unexpected data_database_listener_signal_t" );
+            U8_LOG_ERROR( "unexpected data_database_listener_signal_t" );
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_text_search_t *this_,
                                                                   const char *textfragment,
                                                                   data_search_result_list_t *io_results )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != textfragment );
     u8_error_t result = U8_ERROR_NONE;
@@ -125,10 +125,10 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
         u8err |= utf8stringbuf_replace_all( escape_me, &DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
         u8err |= utf8stringbuf_append_str( like_search, "%" );
     }
-    TRACE_INFO_STR( "LIKE SEARCH:", utf8stringbuf_get_string( like_search ) );
+    U8_TRACE_INFO_STR( "LIKE SEARCH:", utf8stringbuf_get_string( like_search ) );
     if ( u8err != UTF8ERROR_SUCCESS )
     {
-        TSLOG_WARNING_STR( "error at escaping the search string", textfragment );
+        U8_LOG_WARNING_STR( "error at escaping the search string", textfragment );
     }
     /* search for the prepared pattern. In case of empty, search for a non-existing pattern in the type fields */
     const char *const search_name = search_empty ? "" : utf8stringbuf_get_string( like_search );
@@ -161,7 +161,7 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
                                                                                    io_results
                                                                                  );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -199,7 +199,7 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
                                                                            const char *descr_fragment,
                                                                            data_search_result_list_t *io_results )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != name_fragment );
     assert( NULL != descr_fragment );
@@ -217,15 +217,15 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
         {
-            TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
+            U8_TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
             sqlite_err = sqlite3_step( prepared_statement );
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
             else if ( SQLITE_ROW != sqlite_err )
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             else
@@ -241,7 +241,7 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
                 int err_full = data_search_result_list_add( io_results, &current_result );
                 if ( err_full != 0 )
                 {
-                    TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
+                    U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
                     result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
                 }
 
@@ -253,10 +253,10 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
     else
     {
         result |= U8_ERROR_NO_DB;
-        TRACE_INFO( "Database not open, cannot request data." );
+        U8_TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -304,7 +304,7 @@ u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( da
                                                                               const char *descr_fragment,
                                                                               data_search_result_list_t *io_results )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != name_fragment );
     assert( NULL != stereo_fragment );
@@ -328,15 +328,15 @@ u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( da
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
         {
-            TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
+            U8_TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
             sqlite_err = sqlite3_step( prepared_statement );
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
             else if ( SQLITE_ROW != sqlite_err )
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             else
@@ -353,7 +353,7 @@ u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( da
                 int err_full = data_search_result_list_add( io_results, &current_result );
                 if ( err_full != 0 )
                 {
-                    TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
+                    U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
                     result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
                 }
 
@@ -365,10 +365,10 @@ u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( da
     else
     {
         result |= U8_ERROR_NO_DB;
-        TRACE_INFO( "Database not open, cannot request data." );
+        U8_TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -434,7 +434,7 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
                                                                            const char *descr_fragment,
                                                                            data_search_result_list_t *io_results )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != key_fragment );
     assert( NULL != value_fragment );
@@ -458,15 +458,15 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
         {
-            TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
+            U8_TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
             sqlite_err = sqlite3_step( prepared_statement );
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
             else if ( SQLITE_ROW != sqlite_err )
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             else
@@ -483,8 +483,8 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
                 const data_feature_type_t f_type = data_search_result_get_match_type( &current_result );
                 const data_classifier_type_t c_type = sqlite3_column_int( prepared_statement, RESULT_FEATURE_CLASSIFIER_MAIN_TYPE_COLUMN );
                 const data_diagram_type_t d_type = sqlite3_column_int( prepared_statement, RESULT_FEATURE_DIAGRAM_TYPE_COLUMN );
-                TRACE_INFO_INT( "- c_type:", c_type );
-                TRACE_INFO_INT( "- d_type:", d_type );
+                U8_TRACE_INFO_INT( "- c_type:", c_type );
+                U8_TRACE_INFO_INT( "- d_type:", d_type );
 
                 bool filter = false;
                 const bool is_scenario_feat = data_rules_feature_is_scenario_cond( &((*this_).data_rules), f_type );
@@ -506,7 +506,7 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
                     int err_full = data_search_result_list_add( io_results, &current_result );
                     if ( err_full != 0 )
                     {
-                        TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
+                        U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
                         result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
                     }
                 }
@@ -519,11 +519,11 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
     else
     {
         result |= U8_ERROR_NO_DB;
-        TRACE_INFO( "Database not open, cannot request data." );
+        U8_TRACE_INFO( "Database not open, cannot request data." );
     }
 
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -600,7 +600,7 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
                                                                                 const char *descr_fragment,
                                                                                 data_search_result_list_t *io_results )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != name_fragment );
     assert( NULL != descr_fragment );
@@ -623,15 +623,15 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
         {
-            TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
+            U8_TRACE_INFO_INT( "sqlite3_step():", (row_index+1) );
             sqlite_err = sqlite3_step( prepared_statement );
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
             else if ( SQLITE_ROW != sqlite_err )
             {
-                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= U8_ERROR_AT_DB;
             }
             else
@@ -649,9 +649,9 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
                 const data_row_id_t from_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN );
                 const data_row_id_t to_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN );
                 const data_diagram_type_t d_type = sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN );
-                TRACE_INFO_INT( "- from_feat:", from_feat );
-                TRACE_INFO_INT( "- to_feat:", to_feat );
-                TRACE_INFO_INT( "- d_type:", d_type );
+                U8_TRACE_INFO_INT( "- from_feat:", from_feat );
+                U8_TRACE_INFO_INT( "- to_feat:", to_feat );
+                U8_TRACE_INFO_INT( "- d_type:", d_type );
 
                 bool filter = false;
                 const bool is_scenario_diag = data_rules_diagram_is_scenario ( &((*this_).data_rules), d_type );
@@ -678,7 +678,7 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
                     int err_full = data_search_result_list_add( io_results, &current_result );
                     if ( err_full != 0 )
                     {
-                        TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
+                        U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
                         result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
                     }
                 }
@@ -691,17 +691,17 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
     else
     {
         result |= U8_ERROR_NO_DB;
-        TRACE_INFO( "Database not open, cannot request data." );
+        U8_TRACE_INFO( "Database not open, cannot request data." );
     }
 
     if ( dropped_scenario_rel != 0 )
     {
-        TSLOG_ANOMALY_INT( "Full text search does not work on relationships in scenario based diagrams. Possibly missed relationships:",
+        U8_LOG_ANOMALY_INT( "Full text search does not work on relationships in scenario based diagrams. Possibly missed relationships:",
                            dropped_scenario_rel
                          );
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -710,7 +710,7 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
 
 u8_error_t data_database_text_search_private_open( data_database_text_search_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     if ( ! (*this_).is_open )
@@ -741,16 +741,16 @@ u8_error_t data_database_text_search_private_open( data_database_text_search_t *
     else
     {
         result |= U8_ERROR_INVALID_REQUEST;
-        TSLOG_WARNING( "Database is already open." );
+        U8_LOG_WARNING( "Database is already open." );
     }
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 
 u8_error_t data_database_text_search_private_close( data_database_text_search_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
@@ -765,10 +765,10 @@ u8_error_t data_database_text_search_private_close( data_database_text_search_t 
     else
     {
         result |= U8_ERROR_INVALID_REQUEST;
-        TSLOG_WARNING( "Database was not open." );
+        U8_LOG_WARNING( "Database was not open." );
     }
 
-    TRACE_END_ERR(result);
+    U8_TRACE_END_ERR(result);
     return result;
 }
 

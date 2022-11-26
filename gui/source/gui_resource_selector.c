@@ -1,14 +1,14 @@
 /* File: gui_resource_selector.c; Copyright and License: see below */
 
 #include "gui_resource_selector.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gtk/gtk.h>
 #include <assert.h>
 
 void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_t *resources )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( resources != NULL );
     (*this_).resources = resources;
 
@@ -307,18 +307,18 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
     assert( (*this_).diagram_types_length + (*this_).classifier_types_length + (*this_).feature_types_length + (*this_).relationship_types_length
             == GUI_RESOURCE_SELECTOR_MAX_TYPES );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_resource_selector_destroy ( gui_resource_selector_t *this_ )
 {
-    TRACE_BEGIN();
-    TRACE_END();
+    U8_TRACE_BEGIN();
+    U8_TRACE_END();
 }
 
 const GdkPixbuf *gui_resource_selector_get_icon ( const gui_resource_selector_t *this_, data_table_t table, int type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     const GdkPixbuf *result;
 
@@ -326,7 +326,7 @@ const GdkPixbuf *gui_resource_selector_get_icon ( const gui_resource_selector_t 
         case DATA_TABLE_VOID:
         {
             result = gui_resources_get_type_undef( (*this_).resources );
-            TSLOG_ANOMALY("unexpected data_table_t in gui_resource_selector_get_icon");
+            U8_LOG_ANOMALY("unexpected data_table_t in gui_resource_selector_get_icon");
         }
         break;
 
@@ -351,7 +351,7 @@ const GdkPixbuf *gui_resource_selector_get_icon ( const gui_resource_selector_t 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             result = gui_resources_get_type_undef( (*this_).resources );
-            TSLOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
+            U8_LOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
         }
         break;
 
@@ -364,12 +364,12 @@ const GdkPixbuf *gui_resource_selector_get_icon ( const gui_resource_selector_t 
         default:
         {
             result = gui_resources_get_type_undef( (*this_).resources );
-            TSLOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
+            U8_LOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
         }
         break;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 

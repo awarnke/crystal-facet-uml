@@ -1,7 +1,7 @@
 /* File: pencil_classifier_2d_layouter.c; Copyright and License: see below */
 
 #include "pencil_classifier_2d_layouter.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,7 +15,7 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
                                          geometry_non_linear_scale_t *y_scale,
                                          pencil_feature_layouter_t *feature_layouter )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
     assert( NULL != default_classifier_size );
@@ -38,23 +38,23 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
         (*this_).diagram_draw_area = layout_diagram_get_draw_area_const( diagram_layout );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_2d_layouter_destroy( pencil_classifier_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_classifier_composer_destroy( &((*this_).classifier_composer) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ INITIAL LAYOUT ================================ */
 
 void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* store the classifier bounds into input_data_layouter_t */
     const uint32_t count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
@@ -148,14 +148,14 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ MOVE TO AVOID OVERLAPS ================================ */
 
 void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
     universal_array_index_sorter_t sorted;
@@ -222,12 +222,12 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
 
     universal_array_index_sorter_destroy( &sorted );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_2d_layouter_private_propose_move_processing_order ( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_sorted );
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
@@ -250,7 +250,7 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
             intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_envelope_box, (*this_).diagram_draw_area );
             if ( 0 != intersect_error2 )
             {
-                TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
+                U8_LOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
             }
 
             simpleness += 16.0 * geometry_rectangle_get_area( &border_intersect );
@@ -304,11 +304,11 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
         insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
         if ( 0 != insert_error )
         {
-            TSLOG_WARNING( "not all rectangles are moved" );
+            U8_LOG_WARNING( "not all rectangles are moved" );
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /*!
@@ -331,7 +331,7 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
                                                                         double out_solution_move_dy[],
                                                                         uint32_t *out_solutions_count )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != sorted );
     assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
     assert ( NULL != out_solution_move_dx );
@@ -478,7 +478,7 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
             {
                 const data_classifier_t *classifier_p;
                 classifier_p = data_visible_classifier_get_classifier_const( visible_classifier_data );
-                TRACE_INFO_STR( "- overlaps:", data_classifier_get_name_const( classifier_p ) );
+                U8_TRACE_INFO_STR( "- overlaps:", data_classifier_get_name_const( classifier_p ) );
             }
         }
     }
@@ -488,9 +488,9 @@ void pencil_classifier_2d_layouter_private_propose_4dir_move_solutions( pencil_c
     visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
+    U8_TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_classifier_2d_layouter_t *this_,
@@ -499,7 +499,7 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
                                                                       double * out_solution_move_dx,
                                                                       double * out_solution_move_dy )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != sorted );
     assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
     assert ( NULL != out_solution_move_dx );
@@ -601,9 +601,9 @@ void pencil_classifier_2d_layouter_private_propose_anchored_solution( pencil_cla
     visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
+    U8_TRACE_INFO_STR( "classifier:", data_classifier_get_name_const( classifier ) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifier_2d_layouter_t *this_,
@@ -614,7 +614,7 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
                                                                  const double solution_move_dy[],
                                                                  uint32_t *out_index_of_best )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != sorted );
     assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
     assert ( NULL != solution_move_dx );
@@ -715,14 +715,14 @@ void pencil_classifier_2d_layouter_private_select_move_solution( pencil_classifi
 
     *out_index_of_best = index_of_best;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ EMBRACE CHILDREN STEP BY STEP ================================ */
 
 void pencil_classifier_2d_layouter_embrace_children( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_t sorted_relationships;
@@ -765,12 +765,12 @@ void pencil_classifier_2d_layouter_embrace_children( pencil_classifier_2d_layout
 
     universal_array_index_sorter_destroy( &sorted_relationships );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != out_sorted );
 
     const uint32_t rel_count = pencil_layout_data_get_relationship_count( (*this_).layout_data );
@@ -791,11 +791,11 @@ void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_clas
             = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
         if ( 0 != err )
         {
-            TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
+            U8_LOG_ERROR ( "universal_array_index_sorter_t list is full." );
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2d_layouter_t *this_,
@@ -803,7 +803,7 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
                                                              bool move,
                                                              PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != the_relationship );
     int result_err = -1;
 
@@ -893,12 +893,12 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
         }
         else
         {
-            TRACE_INFO( "Classifier contains itself" );
+            U8_TRACE_INFO( "Classifier contains itself" );
         }
     }
     /* else this is not a parent child relationship */
 
-    TRACE_END_ERR( result_err );
+    U8_TRACE_END_ERR( result_err );
     return result_err;
 }
 
@@ -906,7 +906,7 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
 
 void pencil_classifier_2d_layouter_hide_relations_of_embraced_children( pencil_classifier_2d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* search containment relations */
     const uint32_t rel_count = pencil_layout_data_get_relationship_count( (*this_).layout_data );
@@ -938,20 +938,20 @@ void pencil_classifier_2d_layouter_hide_relations_of_embraced_children( pencil_c
                 if ( geometry_rectangle_is_containing( parent_space, child_symbol_box ) )
                 {
                     pencil_layout_data_set_relationship_visibility( (*this_).layout_data, rel_idx, PENCIL_VISIBILITY_IMPLICIT );
-                    TRACE_INFO( "Containment relation is PENCIL_VISIBILITY_IMPLICIT" );
+                    U8_TRACE_INFO( "Containment relation is PENCIL_VISIBILITY_IMPLICIT" );
                 }
             }
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ EMBRACE AND MOVE CHILDREN TOGETHER ================================ */
 
 void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_2d_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
     const double TAKE_RATIO = (1.0/3.0);
@@ -1038,12 +1038,12 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
 
     universal_array_index_sorter_destroy( &sorted_classifiers );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_2d_layouter_private_propose_move_embrace_order ( pencil_classifier_2d_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_sorted );
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
@@ -1063,11 +1063,11 @@ void pencil_classifier_2d_layouter_private_propose_move_embrace_order ( pencil_c
         insert_error = universal_array_index_sorter_insert( out_sorted, index, lazy_move );
         if ( 0 != insert_error )
         {
-            TSLOG_WARNING( "not all rectangles are grown" );
+            U8_LOG_WARNING( "not all rectangles are grown" );
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

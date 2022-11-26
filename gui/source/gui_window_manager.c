@@ -2,7 +2,7 @@
 
 #include "gui_window_manager.h"
 #include "ctrl_controller.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -11,7 +11,7 @@ void gui_window_manager_init( gui_window_manager_t *this_,
                               io_data_file_t *data_file,
                               GtkApplication *gtk_app )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( data_file != NULL );
 #if ( GTK_MAJOR_VERSION >= 4 )
     assert( gtk_app != NULL );
@@ -39,12 +39,12 @@ void gui_window_manager_init( gui_window_manager_t *this_,
         (*this_).main_window_active[index] = false;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_window_manager_destroy( gui_window_manager_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
     {
@@ -61,12 +61,12 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ )
     (*this_).data_file = NULL;
     (*this_).gtk_app = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     gui_main_window_t *result;
 
     int pos = -1;
@@ -90,22 +90,22 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
                               &((*this_).window_open_observer)
                             );
         (*this_).main_window_active[pos] = true;
-        TRACE_INFO_INT( "main_window[] index:", pos );
+        U8_TRACE_INFO_INT( "main_window[] index:", pos );
         result = &((*this_).main_window[pos]);
     }
     else
     {
-        TSLOG_ERROR_INT( "Maximum number of windows already open.", GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS );
+        U8_LOG_ERROR_INT( "Maximum number of windows already open.", GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS );
         result = NULL;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
     return result;
 }
 
 void gui_window_manager_close_main_window_callback( gui_window_manager_t *this_, gui_main_window_t *main_window )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int count_active = 0;
     int count_closed = 0;
 
@@ -117,7 +117,7 @@ void gui_window_manager_close_main_window_callback( gui_window_manager_t *this_,
             {
                 gui_main_window_destroy( &((*this_).main_window[index]) );
                 (*this_).main_window_active[index] = false;
-                TRACE_INFO_INT( "main_window[] index:", index );
+                U8_TRACE_INFO_INT( "main_window[] index:", index );
                 count_closed ++;
             }
             else
@@ -129,7 +129,7 @@ void gui_window_manager_close_main_window_callback( gui_window_manager_t *this_,
 
     if ( count_closed == 0 )
     {
-        TSLOG_ERROR( "no window of given address found" );
+        U8_LOG_ERROR( "no window of given address found" );
     }
     if ( count_active == 0 )
     {
@@ -140,12 +140,12 @@ void gui_window_manager_close_main_window_callback( gui_window_manager_t *this_,
 #endif
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_window_manager_open_main_window_callback( gui_window_manager_t *this_, gui_simple_message_to_user_t *message_to_user )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     gui_main_window_t *new_win;
     new_win = gui_window_manager_open_main_window( this_ );
@@ -159,7 +159,7 @@ void gui_window_manager_open_main_window_callback( gui_window_manager_t *this_, 
                                                              );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

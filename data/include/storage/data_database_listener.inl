@@ -1,6 +1,6 @@
 /* File: data_database_listener.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 static inline void data_database_listener_init ( data_database_listener_t *this_,
@@ -21,7 +21,7 @@ static inline void data_database_listener_notify ( data_database_listener_t *thi
 {
     assert( (*this_).listener_instance != NULL );
     assert( (*this_).listener_callback != NULL );
-    TRACE_INFO("data_database_listener_notify()");
+    U8_TRACE_INFO("data_database_listener_notify()");
     ((*this_).listener_callback)( (*this_).listener_instance, signal_id );
 }
 

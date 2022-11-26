@@ -1,7 +1,7 @@
 /* File: gui_sketch_card.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
-#include "trace/trace.h"
+#include "u8/u8_log.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_,
@@ -13,7 +13,7 @@ static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_,
         = data_visible_set_load( &((*this_).painter_input_data), data_id_get_row_id( &diagram_id ), db_reader );
     if ( d_err != U8_ERROR_NONE )
     {
-        TRACE_INFO( "gui_sketch_card_load_data called on invalid database." );
+        U8_TRACE_INFO( "gui_sketch_card_load_data called on invalid database." );
     }
 }
 
@@ -88,12 +88,12 @@ static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_
         break;
         case PENCIL_ERROR_OUT_OF_BOUNDS:
         {
-            TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_object_id_at_pos" );
+            U8_TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_object_id_at_pos" );
         }
         break;
         case PENCIL_ERROR_UNKNOWN_OBJECT:
         {
-            TSLOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_object_id_at_pos" );
+            U8_LOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_object_id_at_pos" );
         }
         break;
     }
@@ -123,12 +123,12 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos( const gui_sketch_
         break;
         case PENCIL_ERROR_OUT_OF_BOUNDS:
         {
-            TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_order_at_pos" );
+            U8_TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_order_at_pos" );
         }
         break;
         case PENCIL_ERROR_UNKNOWN_OBJECT:
         {
-            TSLOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_order_at_pos" );
+            U8_LOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_order_at_pos" );
         }
         break;
     }
@@ -162,12 +162,12 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
         break;
         case PENCIL_ERROR_OUT_OF_BOUNDS:
         {
-            TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_feature_order_at_pos" );
+            U8_TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_feature_order_at_pos" );
         }
         break;
         case PENCIL_ERROR_UNKNOWN_OBJECT:
         {
-            TSLOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_feature_order_at_pos" );
+            U8_LOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_feature_order_at_pos" );
         }
         break;
     }
@@ -232,7 +232,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
     }
     else
     {
-        TRACE_INFO( "gui_sketch_card_do_layout called on invalid card." );
+        U8_TRACE_INFO( "gui_sketch_card_do_layout called on invalid card." );
     }
 }
 

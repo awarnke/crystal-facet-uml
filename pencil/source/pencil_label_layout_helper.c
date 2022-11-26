@@ -1,21 +1,21 @@
 /* File: pencil_label_layout_helper.c; Copyright and License: see below */
 
 #include "pencil_label_layout_helper.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 
 void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *this_,
@@ -25,7 +25,7 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
                                                   const geometry_rectangle_t solutions[],
                                                   uint32_t *out_index_of_best )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != solutions );
     assert( solutions_count >= 1 );
     assert( NULL != out_index_of_best );
@@ -163,10 +163,10 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
     */
 
     /* output the best */
-    TRACE_INFO_INT_INT("label layout idx, debt:", index_of_best, (int32_t)debts_of_best)
+    U8_TRACE_INFO_INT_INT("label layout idx, debt:", index_of_best, (int32_t)debts_of_best)
     *out_index_of_best = index_of_best;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

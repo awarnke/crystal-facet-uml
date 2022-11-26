@@ -3,8 +3,8 @@
 #include "sketch/gui_sketch_nav_tree.h"
 #include "geometry/geometry_rectangle.h"
 #include "gui_sketch_int_compare.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gdk/gdk.h>
 
 static const int GUI_SKETCH_NAV_TREE_INDENT = 12;
@@ -14,7 +14,7 @@ static const int GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango 
 
 void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( resources != NULL );
 
     (*this_).ancestors_count = 0;
@@ -32,12 +32,12 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
@@ -47,12 +47,12 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
 
     shape_int_rectangle_destroy( &((*this_).bounds) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
 
     gui_sketch_nav_tree_invalidate_data( this_ );
@@ -90,7 +90,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
     if ( (*this_).ancestors_count == 0 )
     {
         db_err = U8_ERROR_INVALID_REQUEST;
-        TSLOG_ANOMALY_INT( "gui_sketch_nav_tree_load_data cannot load diagram", diagram_id );
+        U8_LOG_ANOMALY_INT( "gui_sketch_nav_tree_load_data cannot load diagram", diagram_id );
     }
 
     /* get siblings */
@@ -138,12 +138,12 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
         (*this_).gap_count = 0;
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
     assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
     assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
@@ -341,7 +341,7 @@ void gui_sketch_nav_tree_do_layout( gui_sketch_nav_tree_t *this_, cairo_t *cr )
     /* release the font_layout */
     g_object_unref(font_layout);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
@@ -350,7 +350,7 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
                                                int32_t *io_y_pos,
                                                PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != node );
     assert( NULL != io_y_pos );
     assert( NULL != font_layout );
@@ -405,12 +405,12 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
 
     shape_int_rectangle_destroy( &new_label_box );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
     assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
     assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
@@ -450,7 +450,7 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     }
     (*this_).gap_count = 0;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_t *this_,
@@ -460,7 +460,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
                                                       int32_t *out_list_order,
                                                       shape_int_rectangle_t *out_gap_line )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_parent_id );
     assert ( NULL != out_list_order );
     assert ( NULL != out_gap_line );
@@ -507,7 +507,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_
         ret_error = GUI_ERROR_OUT_OF_BOUNDS;
     }
 
-    TRACE_END_ERR( ret_error );
+    U8_TRACE_END_ERR( ret_error );
     return ret_error;
 }
 
@@ -516,7 +516,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
                                                 int32_t y,
                                                 data_id_t *out_selected_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != out_selected_id );
 
     /* default in case no object found */
@@ -548,7 +548,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *thi
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static const double GREY_R = 0.8;
@@ -558,7 +558,7 @@ static const double GREY_A = 1.0;
 
 void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != marker );
     assert( NULL != cr );
 
@@ -595,7 +595,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
         g_object_unref(font_layout);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
@@ -604,7 +604,7 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
                                             PangoLayout *font_layout,
                                             cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
     assert( NULL != node );
     assert( NULL != marker );
@@ -681,7 +681,7 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
         cairo_fill (cr);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

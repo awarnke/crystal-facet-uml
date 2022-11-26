@@ -1,6 +1,6 @@
 /* File: data_database.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline u8_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
@@ -98,14 +98,14 @@ static inline u8_error_t data_database_private_exec_sql( data_database_t *this_,
     u8_error_t result = U8_ERROR_NONE;
     sqlite3 *const db = (*this_).db;
 
-    TSLOG_EVENT_STR( "sqlite3_exec:", sql_command );
+    U8_LOG_EVENT_STR( "sqlite3_exec:", sql_command );
     sqlite_err = sqlite3_exec( db, sql_command, NULL, NULL, &error_msg );
 
     if ( SQLITE_READONLY == sqlite_err )
     {
         if ( ! ignore_errors )
         {
-            TSLOG_WARNING_STR( "sqlite3_exec() failed:", sql_command );
+            U8_LOG_WARNING_STR( "sqlite3_exec() failed:", sql_command );
         }
         result |=  U8_ERROR_READ_ONLY_DB;
     }
@@ -113,14 +113,14 @@ static inline u8_error_t data_database_private_exec_sql( data_database_t *this_,
     {
         if ( ! ignore_errors )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_command );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            U8_LOG_ERROR_STR( "sqlite3_exec() failed:", sql_command );
+            U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         }
         result |= U8_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
-        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        U8_TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
         sqlite3_free( error_msg );
         error_msg = NULL;
     }

@@ -2,8 +2,8 @@
 
 #include "md/md_filter.h"
 #include "utf8stringbuf/utf8stringview.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -21,7 +21,7 @@ void md_filter_init ( md_filter_t *this_,
                       const char * tag_xref_end,
                       xml_writer_t *sink )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != tag_linebreak );
     assert( NULL != tag_xref_start );
@@ -36,22 +36,22 @@ void md_filter_init ( md_filter_t *this_,
     (*this_).tag_xref_end = tag_xref_end;
     (*this_).sink = sink;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void md_filter_destroy( md_filter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).sink = NULL;
     (*this_).db_reader = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int md_filter_transform ( md_filter_t *this_, const char *text )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != text );
     assert ( NULL != (*this_).db_reader );
     assert ( NULL != (*this_).sink );
@@ -141,12 +141,12 @@ int md_filter_transform ( md_filter_t *this_, const char *text )
                     }
                     else
                     {
-                        TRACE_INFO_INT("id found but diagram does not exist: D", data_id_get_row_id( &probe_id ) );
+                        U8_TRACE_INFO_INT("id found but diagram does not exist: D", data_id_get_row_id( &probe_id ) );
                     }
                 }
                 else
                 {
-                    TRACE_INFO_INT("id found but #id or #name fragment missing: D", data_id_get_row_id( &probe_id ) );
+                    U8_TRACE_INFO_INT("id found but #id or #name fragment missing: D", data_id_get_row_id( &probe_id ) );
                 }
             }
         }
@@ -157,7 +157,7 @@ int md_filter_transform ( md_filter_t *this_, const char *text )
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 

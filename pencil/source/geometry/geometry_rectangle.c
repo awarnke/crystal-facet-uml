@@ -1,8 +1,8 @@
 /* File: geometry_rectangle.c; Copyright and License: see below */
 
 #include "geometry/geometry_rectangle.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 #include <math.h>
 
@@ -10,7 +10,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                                             const geometry_rectangle_t *rect_a,
                                             const geometry_rectangle_t *rect_b )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != rect_a );
     assert( NULL != rect_b );
 
@@ -52,7 +52,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "to.bo.le.ri." );
+                        U8_TRACE_INFO( "to.bo.le.ri." );
                         /* 4 possible solutions */
                         const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
                         const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
@@ -111,7 +111,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "to.bo.le." );
+                        U8_TRACE_INFO( "to.bo.le." );
                         /* 3 possible solutions */
                         const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
                         const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
@@ -144,7 +144,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "to.bo.ri." );
+                        U8_TRACE_INFO( "to.bo.ri." );
                         /* 3 possible solutions */
                         const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
                         const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
@@ -174,7 +174,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "to.bo." );
+                        U8_TRACE_INFO( "to.bo." );
                         /* 2 possible solutions */
                         if (( b_top-a_top )>( a_bottom-b_bottom ))
                         {
@@ -193,7 +193,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "to.le.ri." );
+                        U8_TRACE_INFO( "to.le.ri." );
                         /* 3 possible solutions */
                         const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
                         const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
@@ -223,7 +223,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "to.le." );
+                        U8_TRACE_INFO( "to.le." );
                         /* 2 possible solutions */
                         const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
                         const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
@@ -242,7 +242,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "to.ri." );
+                        U8_TRACE_INFO( "to.ri." );
                         /* 2 possible solutions */
                         const double area_top = geometry_rectangle_get_width( rect_a ) * ( b_top-a_top );
                         const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
@@ -257,7 +257,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "to." );
+                        U8_TRACE_INFO( "to." );
                         /* 1 solution */
                         keep_top_part = true;
                     }
@@ -272,7 +272,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "bo.le.ri." );
+                        U8_TRACE_INFO( "bo.le.ri." );
                         /* 3 possible solutions */
                         const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
                         const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
@@ -302,7 +302,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "bo.le." );
+                        U8_TRACE_INFO( "bo.le." );
                         /* 2 possible solutions */
                         const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
                         const double area_left = ( b_left-a_left ) * geometry_rectangle_get_height( rect_a );
@@ -321,7 +321,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "bo.ri." );
+                        U8_TRACE_INFO( "bo.ri." );
                         /* 2 possible solutions */
                         const double area_bottom = geometry_rectangle_get_width( rect_a ) * ( a_bottom-b_bottom );
                         const double area_right = ( a_right-b_right ) * geometry_rectangle_get_height( rect_a );
@@ -336,7 +336,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "bo." );
+                        U8_TRACE_INFO( "bo." );
                         /* 1 solution */
                         keep_bottom_part = true;
                     }
@@ -348,7 +348,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "le.ri." );
+                        U8_TRACE_INFO( "le.ri." );
                         /* 2 possible solutions */
                         if (( b_left-a_left )>( a_right-b_right ))
                         {
@@ -361,7 +361,7 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "le." );
+                        U8_TRACE_INFO( "le." );
                         /* 1 solution */
                         keep_left_part = true;
                     }
@@ -371,13 +371,13 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
                 {
                     if ( check_right )
                     {
-                        TRACE_INFO( "ri." );
+                        U8_TRACE_INFO( "ri." );
                         /* 1 solution */
                         keep_right_part = true;
                     }
                     else  /* ! check_right */
                     {
-                        TRACE_INFO( "0." );
+                        U8_TRACE_INFO( "0." );
                         /* rect_b contains rect_a, result is empty */
                     }
                 }
@@ -387,35 +387,35 @@ int geometry_rectangle_init_by_difference ( geometry_rectangle_t *this_,
         if ( keep_top_part )
         {
             assert ( check_top );
-            TRACE_INFO( "-top-" );
+            U8_TRACE_INFO( "-top-" );
             geometry_rectangle_init ( this_, a_left, a_top, geometry_rectangle_get_width( rect_a ), b_top-a_top );
         }
         else if ( keep_bottom_part )
         {
             assert ( check_bottom );
-            TRACE_INFO( "-bottom-" );
+            U8_TRACE_INFO( "-bottom-" );
             geometry_rectangle_init ( this_, a_left, b_bottom, geometry_rectangle_get_width( rect_a ), a_bottom-b_bottom );
         }
         else if ( keep_left_part )
         {
             assert ( check_left );
-            TRACE_INFO( "-left-" );
+            U8_TRACE_INFO( "-left-" );
             geometry_rectangle_init ( this_, a_left, a_top, b_left-a_left, geometry_rectangle_get_height( rect_a ) );
         }
         else if ( keep_right_part )
         {
             assert ( check_right );
-            TRACE_INFO( "-right-" );
+            U8_TRACE_INFO( "-right-" );
             geometry_rectangle_init ( this_, b_right, a_top, a_right-b_right, geometry_rectangle_get_height( rect_a ) );
         }
         else
         {
-            TRACE_INFO( "-none-" );
+            U8_TRACE_INFO( "-none-" );
             geometry_rectangle_init ( this_, a_left, a_top, 0.0, 0.0 );
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

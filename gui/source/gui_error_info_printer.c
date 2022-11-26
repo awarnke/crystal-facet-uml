@@ -1,29 +1,29 @@
 /* File: gui_error_info_printer.c; Copyright and License: see below */
 
 #include "gui_error_info_printer.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 void gui_error_info_printer_init ( gui_error_info_printer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_error_info_printer_destroy ( gui_error_info_printer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 u8_error_t gui_error_info_printer_show_error_info ( gui_error_info_printer_t *this_,
                                                     const u8_error_info_t *err_info,
                                                     utf8stringbuf_t out_buf )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     /* update content text: */
@@ -94,7 +94,7 @@ u8_error_t gui_error_info_printer_show_error_info ( gui_error_info_printer_t *th
         break;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

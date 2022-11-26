@@ -11,8 +11,8 @@
 #include "data_id.h"
 #include "meta/meta_version.h"
 #include "meta/meta_info.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -129,7 +129,7 @@ void xmi_element_writer_init ( xmi_element_writer_t *this_,
                                data_stat_t *io_export_stat,
                                universal_output_stream_t *output )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != output );
     assert( NULL != io_export_stat );
 
@@ -149,12 +149,12 @@ void xmi_element_writer_init ( xmi_element_writer_t *this_,
                                  &((*this_).xml_writer)
                                );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void xmi_element_writer_destroy( xmi_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     xmi_interaction_writer_destroy( &((*this_).interaction_writer) );
 
@@ -163,31 +163,31 @@ void xmi_element_writer_destroy( xmi_element_writer_t *this_ )
     xml_writer_destroy( &((*this_).xml_writer) );
     io_element_writer_private_destroy( &((*this_).element_writer) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 io_element_writer_t * xmi_element_writer_get_element_writer( xmi_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     io_element_writer_t * base = &((*this_).element_writer);
 
-    TRACE_END();
+    U8_TRACE_END();
     return base;
 }
 
 void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t mode )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).mode = mode;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *document_title )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != document_title );
     int export_err = 0;
 
@@ -204,13 +204,13 @@ int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *do
     export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), META_VERSION_STR );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_METAINFO_END );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
 int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *document_title )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     /* uml model */
@@ -221,7 +221,7 @@ int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *docu
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MODEL_MIDDLE );
     xml_writer_increase_indent ( &((*this_).xml_writer) );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -247,7 +247,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
                                          data_classifier_type_t host_type,
                                          const data_classifier_t *classifier_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
     int export_err = 0;
 
@@ -265,7 +265,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
         if ( map_err != 0 )
         {
             /* The caller requested to write a classifier of unknown type */
-            TRACE_INFO("xmi_element_writer: request to write a classifier of unknown type!")
+            U8_TRACE_INFO("xmi_element_writer: request to write a classifier of unknown type!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -288,7 +288,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
             /* The caller requested to write a classifier to an illegal place. */
             /* This can happen in the fallback case. */
             /* During the regular tree traversal, xmi_element_writer_can_classifier_nest_classifier is checked and adhered. */
-            TRACE_INFO("xmi_element_writer: request to write a classifier to an illegal place!")
+            U8_TRACE_INFO("xmi_element_writer: request to write a classifier to an illegal place!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -309,7 +309,7 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
         xml_writer_increase_indent ( &((*this_).xml_writer) );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -317,7 +317,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                             data_classifier_type_t host_type,
                                             const data_classifier_t *classifier_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
     int export_err = 0;
 
@@ -339,7 +339,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         if ( map_err != 0 )
         {
             /* The caller requested to write a classifier of unknown type, error was already logged at xmi_element_writer_start_classifier */
-            TRACE_INFO_INT("xmi_element_writer: request to write a classifier of unknown type", classifier_type );
+            U8_TRACE_INFO_INT("xmi_element_writer: request to write a classifier of unknown type", classifier_type );
         }
 
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
@@ -602,7 +602,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         }
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -610,7 +610,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
                                        data_classifier_type_t host_type,
                                        const data_classifier_t *classifier_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     int export_err = 0;
@@ -650,7 +650,7 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -658,7 +658,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                                       data_classifier_type_t parent_type,
                                       const data_feature_t *feature_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
     int export_err = 0;
 
@@ -677,7 +677,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
         if ( map_err != 0 )
         {
             /* The caller requested to write a feature of unknown type */
-            TRACE_INFO("xmi_element_writer: request to write a feature of unknown type!")
+            U8_TRACE_INFO("xmi_element_writer: request to write a feature of unknown type!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -698,7 +698,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
         if ( owning_err != 0 )
         {
             /* The caller requested to write a feature to an illegal place */
-            TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!")
+            U8_TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -753,7 +753,7 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
         data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -761,7 +761,7 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
                                          data_classifier_type_t parent_type,
                                          const data_feature_t *feature_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
     int export_err = 0;
 
@@ -834,7 +834,7 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
         }
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -842,7 +842,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
                                     data_classifier_type_t parent_type,
                                     const data_feature_t *feature_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
     int export_err = 0;
 
@@ -861,7 +861,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
         if ( owning_err != 0 )
         {
             /* The caller requested to write a feature to an illegal place */
-            TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
+            U8_TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
             owning_type = XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
         }
 
@@ -872,7 +872,7 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -880,7 +880,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                            data_classifier_type_t host_type,
                                            const data_relationship_t *relation_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );
     /* NULL is allowed here: dest_classifier_ptr */
     int export_err = 0;
@@ -903,7 +903,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         if ( map_err != 0 )
         {
             /* The caller requested to write a relationship of unknown type */
-            TRACE_INFO("xmi_element_writer: request to write a relationship of unknown type!")
+            U8_TRACE_INFO("xmi_element_writer: request to write a relationship of unknown type!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -924,7 +924,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         if ( nesting_err != 0 )
         {
             /* The caller requested to write a relationship to an illegal place */
-            TRACE_INFO("xmi_element_writer: request to write a relationship to an illegal place!")
+            U8_TRACE_INFO("xmi_element_writer: request to write a relationship to an illegal place!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -1052,7 +1052,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         }
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1064,7 +1064,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                               const data_classifier_t *to_c,
                                               const data_feature_t *to_f )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     assert ( NULL != relation_ptr );
     assert ( NULL != from_c );
@@ -1110,7 +1110,7 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
                                                             to_f_type
                                                           );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1124,7 +1124,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
                                                       data_classifier_type_t to_c_type,
                                                       data_feature_type_t to_f_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );
     /* NULL is allowed here: dest_classifier_ptr */
     int export_err = 0;
@@ -1148,7 +1148,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
     if ( map_err != 0 )
     {
         /* The caller requested to write a relationship of unknown type, error was already logged at xmi_element_writer_start_relationship */
-        TRACE_INFO_INT("xmi_element_writer: request to write a relationship of unknown type", relation_type );
+        U8_TRACE_INFO_INT("xmi_element_writer: request to write a relationship of unknown type", relation_type );
     }
 
     const xmi_element_info_t *from_end_info = NULL;
@@ -1157,7 +1157,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, host_type /*wrong host here*/, from_c_type, &from_end_info );
         if ( map_err != 0 )
         {
-            TRACE_INFO_INT("xmi_element_writer: request to write a relationship from-end of unknown c-type", from_c_type );
+            U8_TRACE_INFO_INT("xmi_element_writer: request to write a relationship from-end of unknown c-type", from_c_type );
         }
     }
     else
@@ -1165,7 +1165,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, from_c_type, from_f_type, &from_end_info );
         if ( map_err != 0 )
         {
-            TRACE_INFO_INT("xmi_element_writer: request to write a relationship from-end of unknown f-type", from_f_type );
+            U8_TRACE_INFO_INT("xmi_element_writer: request to write a relationship from-end of unknown f-type", from_f_type );
         }
     }
     assert ( from_end_info != NULL );
@@ -1176,7 +1176,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard, host_type /*wrong host here*/, to_c_type, &to_end_info );
         if ( map_err != 0 )
         {
-            TRACE_INFO_INT("xmi_element_writer: request to write a relationship to-end of unknown c-type", to_c_type );
+            U8_TRACE_INFO_INT("xmi_element_writer: request to write a relationship to-end of unknown c-type", to_c_type );
         }
     }
     else
@@ -1184,7 +1184,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard, to_c_type, to_f_type, &to_end_info );
         if ( map_err != 0 )
         {
-            TRACE_INFO_INT("xmi_element_writer: request to write a relationship to-end of unknown f-type", to_f_type );
+            U8_TRACE_INFO_INT("xmi_element_writer: request to write a relationship to-end of unknown f-type", to_f_type );
         }
     }
     assert ( to_end_info != NULL );
@@ -1244,7 +1244,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
             if ( from_type_err != 0 )
             {
                 /* The caller requested to write a relationship of illegal source end type */
-                TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal source end type!")
+                U8_TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal source end type!")
                 /* update export statistics */
                 data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                 /* inform the user via an XML comment: */
@@ -1304,7 +1304,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         if ( to_type_err != 0 )
         {
             /* The caller requested to write a relationship of illegal target end type */
-            TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal target end type!")
+            U8_TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal target end type!")
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -1364,7 +1364,7 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
         }
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1372,7 +1372,7 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
                                          data_classifier_type_t host_type,
                                          const data_relationship_t *relation_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );
     /* NULL is allowed here: dest_classifier_ptr */
     int export_err = 0;
@@ -1402,16 +1402,16 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
     }
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
 int xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     const int export_err = -1;
-    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
-    TRACE_END_ERR( export_err );
+    U8_LOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1420,19 +1420,19 @@ int xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
                                          const data_diagram_t *diag_ptr,
                                          const char *diagram_file_base_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     const int export_err = -1;
-    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
-    TRACE_END_ERR( export_err );
+    U8_LOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
 int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     const int export_err = -1;
-    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
-    TRACE_END_ERR( export_err );
+    U8_LOG_WARNING( "xmi_element_writer_t does not export data_diagram_t" );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1440,10 +1440,10 @@ int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
                                              const data_diagram_t *parent,
                                              const data_diagramelement_t *diagramelement_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     const int export_err = -1;
-    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
-    TRACE_END_ERR( export_err );
+    U8_LOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1453,11 +1453,11 @@ int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
                                                 const data_classifier_t *occurrence,
                                                 const data_feature_t *feat_occur )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     /* NULL is allowed here: feat_occur */
     const int export_err = -1;
-    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
-    TRACE_END_ERR( export_err );
+    U8_LOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1465,35 +1465,35 @@ int xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
                                            const data_diagram_t *parent,
                                            const data_diagramelement_t *diagramelement_ptr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     const int export_err = -1;
-    TSLOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
-    TRACE_END_ERR( export_err );
+    U8_LOG_WARNING( "xmi_element_writer_t does not export data_diagramelement_t" );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
 int xmi_element_writer_end_main( xmi_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     xml_writer_decrease_indent ( &((*this_).xml_writer) );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_UML_MODEL_END );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
 int xmi_element_writer_write_footer( xmi_element_writer_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     xml_writer_decrease_indent ( &((*this_).xml_writer) );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_DOC_END );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 
@@ -1505,7 +1505,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                 data_feature_type_t end_feature_type,
                                                 bool is_target_end )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int export_err = 0;
 
     const bool is_composition
@@ -1522,7 +1522,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                      );
     if ( map_err != 0 )
     {
-        TRACE_INFO_INT("xmi_element_writer: request to write a member end of unknown type", end_classifier_type )
+        U8_TRACE_INFO_INT("xmi_element_writer: request to write a member end of unknown type", end_classifier_type )
     }
     assert ( classifier_info != NULL );
 
@@ -1605,7 +1605,7 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_OWNED_END );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
 
-    TRACE_END_ERR( export_err );
+    U8_TRACE_END_ERR( export_err );
     return export_err;
 }
 

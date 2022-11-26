@@ -1,6 +1,6 @@
 /* File: observer.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline void observer_init( observer_t *this_,
@@ -26,7 +26,7 @@ static inline void observer_notify( observer_t *this_, void *call_param )
 {
     assert( (*this_).observer_instance != NULL );
     assert( (*this_).observer_callback != NULL );
-    TSLOG_EVENT_STR("observer_notify() -->", (*this_).callback_name);
+    U8_LOG_EVENT_STR("observer_notify() -->", (*this_).callback_name);
     ((*this_).observer_callback)( (*this_).observer_instance, call_param );
 }
 

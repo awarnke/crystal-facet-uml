@@ -1,7 +1,7 @@
 /* File: io_export_flat_traversal.c; Copyright and License: see below */
 
 #include "io_export_flat_traversal.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include <stdint.h>
@@ -13,7 +13,7 @@ void io_export_flat_traversal_init( io_export_flat_traversal_t *this_,
                                      data_stat_t *io_export_stat,
                                      io_element_writer_t *out_element_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != io_export_stat );
     assert( NULL != out_element_writer );
@@ -22,23 +22,23 @@ void io_export_flat_traversal_init( io_export_flat_traversal_t *this_,
     (*this_).export_stat = io_export_stat;
     (*this_).element_writer = out_element_writer;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void io_export_flat_traversal_destroy( io_export_flat_traversal_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).db_reader = NULL;
     (*this_).export_stat = NULL;
     (*this_).element_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_, bool hierarchical  )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     int write_err = 0;
 
     {
@@ -76,14 +76,14 @@ int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *t
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
 int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traversal_t *this_,
                                                            const data_classifier_t *classifier )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != classifier );
     assert( data_classifier_is_valid( classifier ) );
     int write_err = 0;
@@ -126,14 +126,14 @@ int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traver
         write_err |= io_element_writer_end_classifier( (*this_).element_writer, host_type, classifier );
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
 int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal_t *this_,
                                                         const data_node_set_t *node_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
@@ -170,14 +170,14 @@ int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
 int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_traversal_t *this_,
                                                              const data_node_set_t *node_data )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
     int write_err = 0;
@@ -246,7 +246,7 @@ int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_trav
         }
     }
 
-    TRACE_END_ERR( write_err );
+    U8_TRACE_END_ERR( write_err );
     return write_err;
 }
 
@@ -258,7 +258,7 @@ u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_fla
                                                                      data_classifier_t *out_to_c,
                                                                      data_feature_t *out_to_f )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( relation != NULL );
     assert( node_data != NULL );
     assert( out_from_c != NULL );
@@ -357,11 +357,11 @@ u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_fla
 
     if ( data_err != U8_ERROR_NONE )
     {
-        TSLOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
+        U8_LOG_ERROR_INT( "A relationship references classifier(s) and/or feature(s) that do not exist:",
                          data_relationship_get_row_id ( relation )
                        );
     }
-    TRACE_END_ERR( data_err );
+    U8_TRACE_END_ERR( data_err );
     return data_err;
 }
 

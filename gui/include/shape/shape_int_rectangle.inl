@@ -1,6 +1,6 @@
 /* File: shape_int_rectangle.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 #define SHAPE_INT_RECTANGLE_MAX(a,b) ((a) > (b) ? (a) : (b))
@@ -201,11 +201,11 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
 
 static inline void shape_int_rectangle_trace ( const shape_int_rectangle_t *this_ )
 {
-    TRACE_INFO( "shape_int_rectangle_t" );
-    TRACE_INFO_INT( "- left:", (*this_).left );
-    TRACE_INFO_INT( "- top:", (*this_).top );
-    TRACE_INFO_INT( "- width:", (*this_).width );
-    TRACE_INFO_INT( "- height:", (*this_).height );
+    U8_TRACE_INFO( "shape_int_rectangle_t" );
+    U8_TRACE_INFO_INT( "- left:", (*this_).left );
+    U8_TRACE_INFO_INT( "- top:", (*this_).top );
+    U8_TRACE_INFO_INT( "- width:", (*this_).width );
+    U8_TRACE_INFO_INT( "- height:", (*this_).height );
 }
 
 

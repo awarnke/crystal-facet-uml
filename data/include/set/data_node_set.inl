@@ -1,6 +1,6 @@
 /* File: data_node_set.inl; Copyright and License: see below */
 
-#include "tslog/tslog.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline bool data_node_set_is_valid ( const data_node_set_t *this_ )
@@ -64,7 +64,7 @@ static inline const data_feature_t *data_node_set_get_feature_const ( const data
     else
     {
         result = NULL;
-        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).feature_count)", index );
+        U8_LOG_ERROR_INT( "index out of bounds (>=(*this_).feature_count)", index );
     }
 
     return result;
@@ -82,7 +82,7 @@ static inline data_feature_t *data_node_set_get_feature_ptr ( data_node_set_t *t
     else
     {
         result = NULL;
-        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).feature_count)", index );
+        U8_LOG_ERROR_INT( "index out of bounds (>=(*this_).feature_count)", index );
     }
 
     return result;
@@ -149,7 +149,7 @@ static inline const data_relationship_t *data_node_set_get_relationship_const ( 
     else
     {
         result = NULL;
-        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
+        U8_LOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
     }
 
     return result;
@@ -167,7 +167,7 @@ static inline data_relationship_t *data_node_set_get_relationship_ptr ( data_nod
     else
     {
         result = NULL;
-        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
+        U8_LOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
     }
 
     return result;

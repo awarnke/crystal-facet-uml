@@ -1,7 +1,7 @@
 /* File: data_stat.inl; Copyright and License: see below */
 
 #include "utf8stringbuf/utf8stringbuf.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 static inline void data_stat_init ( data_stat_t *this_ )
@@ -132,7 +132,7 @@ static inline void data_stat_trace ( const data_stat_t *this_ )
             utf8stringbuf_append_str( stat_str, (tables_idx==0)?"":"," );
             utf8stringbuf_append_int( stat_str, (*this_).data[tables_idx][series_idx] );
         }
-        TRACE_INFO( utf8stringbuf_get_string( stat_str ) );
+        U8_TRACE_INFO( utf8stringbuf_get_string( stat_str ) );
     }
 }
 

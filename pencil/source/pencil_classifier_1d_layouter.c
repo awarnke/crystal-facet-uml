@@ -1,7 +1,7 @@
 /* File: pencil_classifier_1d_layouter.c; Copyright and License: see below */
 
 #include "pencil_classifier_1d_layouter.h"
-#include "trace/trace.h"
+#include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +11,7 @@ void pencil_classifier_1d_layouter_init( pencil_classifier_1d_layouter_t *this_,
                                          pencil_layout_data_t *layout_data,
                                          const pencil_size_t *pencil_size )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
 
@@ -26,21 +26,21 @@ void pencil_classifier_1d_layouter_init( pencil_classifier_1d_layouter_t *this_,
         (*this_).diagram_draw_area = layout_diagram_get_draw_area_const( diagram_layout );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_destroy( pencil_classifier_1d_layouter_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     pencil_classifier_composer_destroy( &((*this_).classifier_composer) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get preferred object distance */
     const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -77,7 +77,7 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
             const int insert_err = universal_array_index_sorter_insert( &sorted_classifiers, plain_idx, weight );
             if ( 0 != insert_err )
             {
-                TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
+                U8_LOG_ERROR ( "universal_array_index_sorter_t list is full." );
             }
         }
 
@@ -110,12 +110,12 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
     universal_array_index_sorter_destroy( &sorted_classifiers );
     geometry_rectangle_destroy( &draw_area );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get preferred object distance */
     const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -182,7 +182,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             }
             if ( 0 != insert_err )
             {
-                TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
+                U8_LOG_ERROR ( "universal_array_index_sorter_t list is full." );
             }
         }
 
@@ -243,12 +243,12 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
     geometry_rectangle_destroy( &left_area );
     geometry_rectangle_destroy( &draw_area );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layouter_t *this_, PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get preferred object distance */
     const double obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -311,7 +311,7 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
             }
             if ( 0 != insert_err )
             {
-                TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
+                U8_LOG_ERROR ( "universal_array_index_sorter_t list is full." );
             }
         }
 
@@ -357,7 +357,7 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
     geometry_rectangle_destroy( &top_row );
     geometry_rectangle_destroy( &draw_area );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_classifier_1d_layouter_t *this_,
@@ -365,7 +365,7 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
                                                               const geometry_rectangle_t *dest_rect,
                                                               geometry_v_align_t v_alignment )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get the destination rectangle coordinates */
     const double diag_x = geometry_rectangle_get_left( dest_rect );
@@ -435,7 +435,7 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classifier_1d_layouter_t *this_,
@@ -443,7 +443,7 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
                                                             const geometry_rectangle_t *dest_rect,
                                                             geometry_h_align_t h_alignment )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get the destination rectangle coordinates */
     const double diag_y = geometry_rectangle_get_top( dest_rect );
@@ -514,7 +514,7 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
         }
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_classifier_1d_layouter_t *this_,
@@ -522,7 +522,7 @@ void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_class
                                                               const geometry_rectangle_t *dest_rect,
                                                               geometry_v_align_t v_alignment )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get the destination rectangle coordinates */
     const double diag_x = geometry_rectangle_get_left( (*this_).diagram_draw_area );
@@ -574,7 +574,7 @@ void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_class
         layout_visible_classifier_shift( visible_classifier2, delta_x, delta_y );
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classifier_1d_layouter_t *this_,
@@ -582,7 +582,7 @@ void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classif
                                                             const geometry_rectangle_t *dest_rect,
                                                             geometry_h_align_t h_alignment )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* get the destination rectangle coordinates */
     const double diag_y = geometry_rectangle_get_top( (*this_).diagram_draw_area );
@@ -635,7 +635,7 @@ void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classif
 
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

@@ -1,7 +1,7 @@
 /* File: gui_simple_message_to_user.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <assert.h>
 
 static inline gui_simple_message_type_t gui_simple_message_to_user_get_type_id( gui_simple_message_to_user_t *this_ )
@@ -45,7 +45,7 @@ static inline void gui_simple_message_to_user_private_set_icon_image ( gui_simpl
 
         default:
         {
-            TSLOG_ERROR("unexptected gui_simple_message_type_t");
+            U8_LOG_ERROR("unexptected gui_simple_message_type_t");
             assert(false);  /* should not happen */
         }
     }

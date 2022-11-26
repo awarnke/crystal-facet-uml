@@ -1,8 +1,8 @@
 /* File: ctrl_diagram_controller.c; Copyright and License: see below */
 
 #include "ctrl_diagram_controller.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
@@ -11,7 +11,7 @@ void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     data_database_reader_t *db_reader,
                                     data_database_writer_t *db_writer )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).undo_redo_list = undo_redo_list;
     (*this_).policy_enforcer = policy_enforcer;
@@ -19,12 +19,12 @@ void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     (*this_).undo_redo_list = NULL;
     (*this_).policy_enforcer = NULL;
@@ -32,7 +32,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 /* ================================ DIAGRAM ================================ */
@@ -42,7 +42,7 @@ u8_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *t
                                                     ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                     data_row_id_t* out_new_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_diagram );
     data_diagram_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
@@ -64,7 +64,7 @@ u8_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *t
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -82,7 +82,7 @@ u8_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *t
 
     data_diagram_destroy( &to_be_created );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -92,7 +92,7 @@ u8_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_c
                                                                   const char* diagram_name,
                                                                   data_row_id_t* out_new_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     data_diagram_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
@@ -120,7 +120,7 @@ u8_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_c
 
     data_diagram_destroy( &to_be_created );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -129,7 +129,7 @@ u8_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diag
                                                                        const char* diagram_name,
                                                                        data_row_id_t* out_new_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t root_diag_buf[1];
@@ -162,7 +162,7 @@ u8_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diag
         }
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -170,7 +170,7 @@ u8_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *t
                                                     data_row_id_t obj_id,
                                                     ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     /* delete diagram */
@@ -190,7 +190,7 @@ u8_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *t
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -203,7 +203,7 @@ u8_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *t
 
     result |= (u8_error_t) current_result3;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -212,7 +212,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
                                                               data_row_id_t new_diagram_parent_id,
                                                               ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t old_diagram;
@@ -232,7 +232,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -245,7 +245,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -253,7 +253,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_con
                                                                 data_row_id_t diagram_id,
                                                                 const char* new_diagram_description )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t old_diagram;
@@ -274,7 +274,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_con
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -282,7 +282,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller
                                                          data_row_id_t diagram_id,
                                                          const char* new_diagram_name )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t old_diagram;
@@ -303,7 +303,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -311,7 +311,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
                                                          data_row_id_t diagram_id,
                                                          data_diagram_type_t new_diagram_type )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t old_diagram;
@@ -341,7 +341,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
         result = (u8_error_t) data_result;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -349,7 +349,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_cont
                                                                data_row_id_t diagram_id,
                                                                int32_t new_diagram_list_order )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t old_diagram;
@@ -370,7 +370,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_cont
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -381,7 +381,7 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
                                                           data_row_id_t* out_new_id )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != new_diagramelement );
     data_diagramelement_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
@@ -403,7 +403,7 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -429,7 +429,7 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
 
     data_diagramelement_destroy( &to_be_created );
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -437,7 +437,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controlle
                                                           data_row_id_t obj_id,
                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     /* delete diagramelement */
@@ -457,7 +457,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controlle
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -477,7 +477,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controlle
         result |= (u8_error_t) current_result;
     }
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -486,7 +486,7 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags( ctrl_dia
                                                                         data_diagramelement_flag_t new_diagramelement_display_flags,
                                                                         ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagramelement_t old_diagramelement;
@@ -510,7 +510,7 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags( ctrl_dia
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -523,7 +523,7 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags( ctrl_dia
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 
@@ -532,7 +532,7 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id( ctr
                                                                              data_row_id_t new_diagramelement_focused_feature_id,
                                                                              ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagramelement_t old_diagramelement;
@@ -556,7 +556,7 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id( ctr
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( U8_ERROR_NONE != internal_err )
             {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                U8_LOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -569,7 +569,7 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id( ctr
     }
     result = (u8_error_t) data_result;
 
-    TRACE_END_ERR( result );
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

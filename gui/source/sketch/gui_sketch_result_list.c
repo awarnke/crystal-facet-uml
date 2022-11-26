@@ -4,8 +4,8 @@
 #include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "gui_sketch_int_compare.h"
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include <gdk/gdk.h>
 
 static const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
@@ -14,7 +14,7 @@ static const int OBJ_GAP = 4;
 
 void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources_t *resources )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( resources != NULL );
 
     DATA_SEARCH_RESULT_LIST_INIT( &((*this_).result_list), (*this_).result_list_buf );
@@ -29,12 +29,12 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources
     (*this_).resources = resources;
     gui_resource_selector_init( &((*this_).selector), resources );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     gui_resource_selector_destroy( &((*this_).selector) );
     (*this_).resources = NULL;
@@ -45,12 +45,12 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
 
     shape_int_rectangle_destroy( &((*this_).bounds) );
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
 
     /* create the font_layout */
     PangoLayout *font_layout;
@@ -76,7 +76,7 @@ void gui_sketch_result_list_do_layout( gui_sketch_result_list_t *this_, cairo_t 
     /* release the font_layout */
     g_object_unref(font_layout);
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *this_,
@@ -84,7 +84,7 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
                                                      int32_t *io_y_pos,
                                                      PangoLayout *font_layout )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != element );
     assert( NULL != io_y_pos );
     assert( NULL != font_layout );
@@ -137,7 +137,7 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
         = gui_sketch_int_compare_max_i32( shape_int_rectangle_get_bottom(icon_box), shape_int_rectangle_get_bottom(label_box) )
         + OBJ_GAP;
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 static const double GREY_R = 0.8;
@@ -147,7 +147,7 @@ static const double GREY_A = 1.0;
 
 void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_marked_set_t *marker, cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != marker );
     assert( NULL != cr );
 
@@ -210,7 +210,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
         g_object_unref(font_layout);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 void gui_sketch_result_list_private_draw_element( gui_sketch_result_list_t *this_,
@@ -219,7 +219,7 @@ void gui_sketch_result_list_private_draw_element( gui_sketch_result_list_t *this
                                                   PangoLayout *font_layout,
                                                   cairo_t *cr )
 {
-    TRACE_BEGIN();
+    U8_TRACE_BEGIN();
     assert( NULL != cr );
     assert( NULL != element );
     assert( NULL != marker );
@@ -291,7 +291,7 @@ void gui_sketch_result_list_private_draw_element( gui_sketch_result_list_t *this
         cairo_fill (cr);
     }
 
-    TRACE_END();
+    U8_TRACE_END();
 }
 
 

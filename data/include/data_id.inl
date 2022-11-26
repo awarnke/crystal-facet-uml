@@ -1,7 +1,7 @@
 /* File: data_id.inl; Copyright and License: see below */
 
-#include "trace/trace.h"
-#include "tslog/tslog.h"
+#include "u8/u8_trace.h"
+#include "u8/u8_log.h"
 #include "utf8stringbuf/utf8string.h"
 
 static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_id_t row_id )
@@ -141,7 +141,7 @@ static inline void data_id_trace ( const data_id_t *this_ )
     utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
     utf8stringbuf_copy_str( id_str, prefix );
     data_id_to_utf8stringbuf( this_, id_str );
-    TRACE_INFO( utf8stringbuf_get_string( id_str ) );
+    U8_TRACE_INFO( utf8stringbuf_get_string( id_str ) );
 }
 
 static inline bool data_id_equals ( const data_id_t *this_, const data_id_t *that )
@@ -210,7 +210,7 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
 
         default:
         {
-            TSLOG_ERROR( "data_id_to_utf8stringbuf has incomplete switch on data_table_t" );
+            U8_LOG_ERROR( "data_id_to_utf8stringbuf has incomplete switch on data_table_t" );
         }
         break;
     }
@@ -295,7 +295,7 @@ static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, univer
 
         default:
         {
-            TSLOG_ERROR( "data_id_to_utf8_writer has incomplete switch on data_table_t" );
+            U8_LOG_ERROR( "data_id_to_utf8_writer has incomplete switch on data_table_t" );
         }
         break;
     }
