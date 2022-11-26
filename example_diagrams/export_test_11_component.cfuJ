@@ -77,30 +77,6 @@
         "features":
         [
           {
-            "id": 8,
-            "main_type": 4,
-            "type": "Interface",
-            "key": "Motor Control",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": -1309331123,
-            "uuid": "9c6a12b4-fa76-419c-b2cd-a8842527dc9e"
-          },
-          {
-            "id": 7,
-            "main_type": 2,
-            "type": "Port",
-            "key": "8851",
-            "value": "IP-Port",
-            "description": [
-                ""
-            ],
-            "list_order": -1301753217,
-            "uuid": "16d642ad-1f28-4c3a-859e-de400fa737e7"
-          },
-          {
             "id": 1,
             "main_type": 5,
             "type": "Interface",
@@ -113,16 +89,16 @@
             "uuid": "b1e21fc9-7aca-44ea-85fa-a46ac7af7f01"
           },
           {
-            "id": 5,
-            "main_type": 2,
-            "type": "Port",
-            "key": "8443",
-            "value": "IP-Port",
+            "id": 2,
+            "main_type": 5,
+            "type": "Interface",
+            "key": "actual_time",
+            "value": "",
             "description": [
                 ""
             ],
-            "list_order": 288010113,
-            "uuid": "a657415a-8f4a-4326-a321-31bd65a136bc"
+            "list_order": 870629984,
+            "uuid": "af341dd3-43c8-4d58-a8aa-52797ad7b08e"
           },
           {
             "id": 4,
@@ -137,16 +113,40 @@
             "uuid": "c0c78363-1861-4d25-a394-33ce9916bf06"
           },
           {
-            "id": 2,
-            "main_type": 5,
+            "id": 5,
+            "main_type": 2,
+            "type": "Port",
+            "key": "8443",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": 288010113,
+            "uuid": "a657415a-8f4a-4326-a321-31bd65a136bc"
+          },
+          {
+            "id": 7,
+            "main_type": 2,
+            "type": "Port",
+            "key": "8851",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": -1301753217,
+            "uuid": "16d642ad-1f28-4c3a-859e-de400fa737e7"
+          },
+          {
+            "id": 8,
+            "main_type": 4,
             "type": "Interface",
-            "key": "actual_time",
+            "key": "Motor Control",
             "value": "",
             "description": [
                 ""
             ],
-            "list_order": 870629984,
-            "uuid": "af341dd3-43c8-4d58-a8aa-52797ad7b08e"
+            "list_order": -1309331123,
+            "uuid": "9c6a12b4-fa76-419c-b2cd-a8842527dc9e"
           }
         ]
       }
@@ -187,6 +187,30 @@
         "features":
         [
           {
+            "id": 3,
+            "main_type": 5,
+            "type": "Interface",
+            "key": "in_direction",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 562517579,
+            "uuid": "1c8c3d53-571e-407a-8e17-1cc0541ea909"
+          },
+          {
+            "id": 6,
+            "main_type": 2,
+            "type": "Port",
+            "key": "9000",
+            "value": "IP-Port",
+            "description": [
+                ""
+            ],
+            "list_order": 487798996,
+            "uuid": "8f1dbfaf-e59a-44fc-b8d8-4d9d51fa9f63"
+          },
+          {
             "id": 9,
             "main_type": 2,
             "type": "Port",
@@ -209,30 +233,6 @@
             ],
             "list_order": -1505162650,
             "uuid": "80c36a9a-2ec6-421b-b55b-e3e62a3067e7"
-          },
-          {
-            "id": 6,
-            "main_type": 2,
-            "type": "Port",
-            "key": "9000",
-            "value": "IP-Port",
-            "description": [
-                ""
-            ],
-            "list_order": 487798996,
-            "uuid": "8f1dbfaf-e59a-44fc-b8d8-4d9d51fa9f63"
-          },
-          {
-            "id": 3,
-            "main_type": 5,
-            "type": "Interface",
-            "key": "in_direction",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 562517579,
-            "uuid": "1c8c3d53-571e-407a-8e17-1cc0541ea909"
           }
         ]
       }

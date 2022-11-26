@@ -280,7 +280,7 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
         }
         else if ( count < 1 )
         {
-            U8_LOG_WARNING( "no root diagram exists!" );
+            U8_LOG_ANOMALY( "no root diagram exists!" );
         }
         else
         {

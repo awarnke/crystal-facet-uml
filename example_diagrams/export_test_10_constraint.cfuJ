@@ -74,16 +74,16 @@
         "features":
         [
           {
-            "id": 5,
+            "id": 1,
             "main_type": 2,
             "type": "Port",
-            "key": "out_emergency_off",
-            "value": "",
+            "key": "in_acceleration",
+            "value": "int32_t",
             "description": [
                 ""
             ],
-            "list_order": -1592712442,
-            "uuid": "96f7f3be-c5b2-4d7f-8db6-81441a78636c"
+            "list_order": 1870163520,
+            "uuid": "07d2374d-dbd2-439b-996f-aae097a98120"
           },
           {
             "id": 2,
@@ -122,16 +122,16 @@
             "uuid": "eba00347-004a-4941-a577-bf47383c7cd0"
           },
           {
-            "id": 1,
+            "id": 5,
             "main_type": 2,
             "type": "Port",
-            "key": "in_acceleration",
-            "value": "int32_t",
+            "key": "out_emergency_off",
+            "value": "",
             "description": [
                 ""
             ],
-            "list_order": 1870163520,
-            "uuid": "07d2374d-dbd2-439b-996f-aae097a98120"
+            "list_order": -1592712442,
+            "uuid": "96f7f3be-c5b2-4d7f-8db6-81441a78636c"
           }
         ]
       }

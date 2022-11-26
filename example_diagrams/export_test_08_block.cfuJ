@@ -156,18 +156,6 @@
         "features":
         [
           {
-            "id": 3,
-            "main_type": 2,
-            "type": "Port",
-            "key": "keypress_in",
-            "value": "signal",
-            "description": [
-                ""
-            ],
-            "list_order": -789164017,
-            "uuid": "7b4eb669-1d5e-4a6e-91b5-ae7192b1f48f"
-          },
-          {
             "id": 2,
             "main_type": 2,
             "type": "Port",
@@ -178,6 +166,18 @@
             ],
             "list_order": -375935797,
             "uuid": "e09c6d18-5ea1-429a-90d6-0251fe633aa3"
+          },
+          {
+            "id": 3,
+            "main_type": 2,
+            "type": "Port",
+            "key": "keypress_in",
+            "value": "signal",
+            "description": [
+                ""
+            ],
+            "list_order": -789164017,
+            "uuid": "7b4eb669-1d5e-4a6e-91b5-ae7192b1f48f"
           }
         ]
       }
