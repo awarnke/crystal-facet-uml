@@ -2,7 +2,7 @@
 
 #include "u8/u8_log.h"
 
-__thread unsigned int u8_log_debug_mode = U8_LOG_DEBUG_MODE_CONTINUE;
+unsigned int u8_log_debug_mode = U8_LOG_DEBUG_MODE_CONTINUE;
 
 
 /*

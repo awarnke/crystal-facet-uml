@@ -5,6 +5,7 @@ crystal-facet-uml (1.45.0) UNRELEASED; urgency=medium
   * search for empty fields omits stereo/value types; these are often empty
   * no superfluous warnings from json_element_reader_skip_next_string anymore
   * no superfluous anomalies from data_database_reader_get_xy_by_uuid anymore
+  * no superfluous errors in log during regular opening json data files
   * application id changed from desktop.crystal-facet-uml to
     de.andreaswarnke.crystal-facet-uml
 

@@ -43,7 +43,7 @@
 /* reactions to errors and warnings and anomalies in debug mode: */
 #define U8_LOG_DEBUG_MODE_DELAY (3)
 #define U8_LOG_DEBUG_MODE_CONTINUE (0)
-extern __thread unsigned int u8_log_debug_mode;
+extern unsigned int u8_log_debug_mode;
 
 #ifndef NDEBUG  /* SWITCH RELEASE/DEBUG : CASE DEBUG */
 #ifdef __linux__  /* SWITCH TARGET OS : CASE LINUX */
