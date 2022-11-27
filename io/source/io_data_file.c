@@ -67,6 +67,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
     {
         if ( temp_requested )
         {
+            U8_TRACE_INFO( "CASE: use temp db file that does not exist, is not accessible or has wrong format" );
+            U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
             /* This is a strange request, but we can create such an sqlite file. */
             /* To be consistent with the case of opening an existing temporary file, also this is exported to json later */
             (*this_).auto_writeback_to_json = ( ! read_only );
@@ -77,6 +79,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
         else if ( is_json )
         {
+            U8_TRACE_INFO( "CASE: use json file that does not exist or is not accessible" );
+            U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
             /* A new json file shall be created */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = ( ! read_only );
@@ -87,6 +91,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
         else
         {
+            U8_TRACE_INFO( "CASE: use sqlite file that does not exist, is not accessible or has wrong format" );
+            U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
             /* A new sqlite file shall be created */
             (*this_).auto_writeback_to_json = false;
             (*this_).delete_db_when_finished = false;
@@ -98,6 +104,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
     {
         if ( temp_requested )
         {
+            U8_TRACE_INFO_STR( "CASE: use existing temp file", read_only ? "read_only" : "writeable" );
             /* A temporary sqlite file shall be used and later be exported to json */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = ( ! read_only );
@@ -107,6 +114,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
         else if ( is_json )
         {
+            U8_TRACE_INFO_STR( "CASE: use existing json file", read_only ? "read_only" : "writeable" );
             /* An existing json file shall be used */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = true;
@@ -140,6 +148,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         }
         else
         {
+            U8_TRACE_INFO_STR( "CASE: use existing sqlite file", read_only ? "read_only" : "writeable" );
             /* An sqlite file shall be used */
             (*this_).auto_writeback_to_json = false;
             (*this_).delete_db_when_finished = false;
@@ -172,6 +181,7 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
 
     if ( (*this_).auto_writeback_to_json )
     {
+        U8_TRACE_INFO( "CASE: auto_writeback_to_json == true" );
         result |= io_data_file_private_export( this_, utf8stringbuf_get_string( (*this_).data_file_name ) );
     }
 
@@ -179,6 +189,7 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
 
     if ( (*this_).delete_db_when_finished )
     {
+        U8_TRACE_INFO( "CASE: delete_db_when_finished == true" );
         dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
     }
 

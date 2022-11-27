@@ -27,7 +27,7 @@ static const char *const MAIN_HELP
     /*"       import_mode: check|add|update\n"  - update is a legacy option */
     "   [-u]<database_file> : to use/create a database file\n"
     "       extension for compact sqlite format: *.cfu1\n"
-    /*"    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"*/
+    "    -g <database_file> to upgrade the database tables from version 1.32.1 and older\n"
     "    -t <database_file> : to test the database file\n"
     "    -r <database_file> : to test and repair the database file\n";
 
@@ -123,9 +123,9 @@ int main (int argc, char **argv) {
         const int argc_remaining = 1;
         exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc_remaining, argv );
 
-        if ( do_upgrade || do_check || do_export )
+        /* upgrade only if explicitly requested, otherwiese read-only mode of -t and -e options does not work: */
+        if ( do_upgrade )
         {
-            /* if upgrade or starting in read-only mode, upgrade db first: */
             exit_code |= main_commands_upgrade( &commands, database_file, &writer );
         }
 
