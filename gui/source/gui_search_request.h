@@ -90,7 +90,7 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
 /*!
  *  \brief callback that informs that the id search button (in the attributes editor pane) was triggered
  *  \param widget the search id button that triggered the callback
- *  \param data pointer to own object attributes
+ *  \param user_data pointer to own object attributes
  */
 void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_data );
 
