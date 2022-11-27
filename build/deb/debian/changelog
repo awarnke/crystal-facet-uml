@@ -12,7 +12,7 @@ crystal-facet-uml (1.45.0-1) UNRELEASED; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Nov 2022 16:00:00 +0200
 
- crystal-facet-uml (1.44.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.44.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Find-Occurrence button added for faster navigation in the model
