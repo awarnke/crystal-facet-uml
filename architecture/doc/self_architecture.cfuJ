@@ -1543,37 +1543,9 @@
             "uuid": "a9a4a85a-f5de-41c2-b38f-abbf63c9a310"
           },
           {
-            "id": 550,
-            "display_flags": 0,
-            "classifier_name": "Disambiguation of non-unique IDs of diagrams",
-            "node": "cb310526-bad0-4ea2-b316-ca10d304a924",
-            "uuid": "c9ca1321-2247-4be2-b930-2233ae241e1f"
-          },
-          {
-            "id": 551,
-            "display_flags": 0,
-            "classifier_name": "Disambiguation of non-unique IDs of classifiers",
-            "node": "fd3f8abe-3058-426e-9c3e-006595dae4fd",
-            "uuid": "82f7123d-dd0f-4964-a919-77766dab0274"
-          },
-          {
-            "id": 552,
-            "display_flags": 0,
-            "classifier_name": "Disambiguation of non-unique IDs of features",
-            "node": "1468f356-53aa-4aa8-b7e2-495530d37ee3",
-            "uuid": "18926a7f-2f0c-475b-aef5-544a0779965c"
-          },
-          {
-            "id": 553,
-            "display_flags": 0,
-            "classifier_name": "Disambiguation of non-unique IDs of relations",
-            "node": "7af10c3a-0986-46b8-b0f5-731028d49572",
-            "uuid": "18733233-ef1a-4b16-92fb-3a319a236384"
-          },
-          {
             "id": 554,
             "display_flags": 0,
-            "classifier_name": "Disambiguation of non-unique IDs of diagelement",
+            "classifier_name": "Disambiguation of non-unique IDs",
             "node": "41415eb5-5698-4dbe-a29e-79cbe2cbb488",
             "uuid": "595f441e-82b2-459f-b12f-d678b6bb015f"
           },
@@ -1604,6 +1576,13 @@
             "classifier_name": "line-based data entries",
             "node": "ef416f1b-e7fd-4fb9-bf5a-30ba84134de5",
             "uuid": "1fdbcec0-5a37-4e65-a0b1-759d76671b0c"
+          },
+          {
+            "id": 654,
+            "display_flags": 0,
+            "classifier_name": "Constant order for unchanged parts",
+            "node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
+            "uuid": "551c6b81-ff63-4a8a-80f5-a152b4b4db44"
           }
         ]
       }
@@ -2489,7 +2468,7 @@
           {
             "id": 452,
             "display_flags": 0,
-            "classifier_name": "io_format_writer",
+            "classifier_name": "xhtml_element_writer (and xml/docbook)",
             "node": "28d24517-4348-455a-a70e-a548fa63589b",
             "uuid": "b7b069d3-ec08-43f0-86cd-68fae37760f3"
           },
@@ -2534,6 +2513,89 @@
             "classifier_name": "io_element_writer",
             "node": "b34ed24f-5b72-498f-b48a-24276e340253",
             "uuid": "4db58daf-112d-4e08-b546-14b599ff7327"
+          },
+          {
+            "id": 655,
+            "display_flags": 0,
+            "classifier_name": "io_export_flat_traversal",
+            "node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+            "uuid": "b9f0aa8c-61d3-491d-a9d8-6b06240dbab2"
+          },
+          {
+            "id": 664,
+            "display_flags": 0,
+            "classifier_name": "json_element_writer",
+            "node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
+            "uuid": "41abf9c7-5fed-4392-9273-597bc18e8d85"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 99,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "data_model_traversal",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "io_export components",
+        "parent": "e7eda656-ea48-4f05-97ff-6266c7aebdb5",
+        "uuid": "2b20a75a-336f-4a01-b709-6a5b15957f2f",
+        "diagramelements":
+        [
+          {
+            "id": 657,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Constant order for unchanged parts",
+            "node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
+            "uuid": "4eb7ef51-0aa7-41ad-b3db-c6c4e268b02c"
+          },
+          {
+            "id": 658,
+            "display_flags": 0,
+            "classifier_name": "io_export_flat_traversal",
+            "node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+            "uuid": "f8986760-e951-496a-9990-31c5ee1e5f64"
+          },
+          {
+            "id": 659,
+            "display_flags": 0,
+            "classifier_name": "documents",
+            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+            "uuid": "a36d4f0b-8f70-41ce-b4c2-30cf6bdfb2d1"
+          },
+          {
+            "id": 660,
+            "display_flags": 0,
+            "classifier_name": "io_export_model_traversal",
+            "node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
+            "uuid": "64cf8ba9-3d64-466a-be2a-35a68e365616"
+          },
+          {
+            "id": 661,
+            "display_flags": 0,
+            "classifier_name": "io_export_diagram_traversal",
+            "node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
+            "uuid": "8ee5000f-8a72-44be-915a-81fcfdb929b9"
+          },
+          {
+            "id": 662,
+            "display_flags": 0,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "995f142c-abf2-40ed-86c9-1cb436108af3"
+          },
+          {
+            "id": 663,
+            "display_flags": 0,
+            "classifier_name": "md/txt/xmi/xml/json",
+            "node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
+            "uuid": "b5959925-87b3-47a7-81c5-de0f3f741dbf"
           }
         ]
       }
@@ -2557,7 +2619,7 @@
           {
             "id": 433,
             "display_flags": 0,
-            "classifier_name": "io_format_writer",
+            "classifier_name": "xhtml_element_writer (and xml/docbook)",
             "node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
             "uuid": "925cbe6b-886f-4e4b-b496-7526ec0c4065"
           },
@@ -10225,7 +10287,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "",
-        "name": "io_format_writer",
+        "name": "xhtml_element_writer (and xml/docbook)",
         "description": [
                 "cares about\n",
                 "- writing output-format specific meta data\n",
@@ -13394,89 +13456,18 @@
     },
     {
       "classifier": {
-        "id": 364,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Disambiguation of non-unique IDs of diagrams",
-        "description": [
-                ""
-        ],
-        "x_order": -696112420,
-        "y_order": -2069399419,
-        "list_order": -2049135004,
-        "uuid": "cb310526-bad0-4ea2-b316-ca10d304a924",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 365,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Disambiguation of non-unique IDs of classifiers",
-        "description": [
-                ""
-        ],
-        "x_order": 77352428,
-        "y_order": -2069399419,
-        "list_order": -2069399419,
-        "uuid": "fd3f8abe-3058-426e-9c3e-006595dae4fd",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 366,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Disambiguation of non-unique IDs of features",
-        "description": [
-                ""
-        ],
-        "x_order": 77352428,
-        "y_order": -2047089171,
-        "list_order": -2044315352,
-        "uuid": "1468f356-53aa-4aa8-b7e2-495530d37ee3",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
-        "id": 367,
-        "main_type": 99,
-        "type": "Requirement",
-        "stereotype": "",
-        "name": "Disambiguation of non-unique IDs of relations",
-        "description": [
-                ""
-        ],
-        "x_order": 77352428,
-        "y_order": -2041224341,
-        "list_order": -2031262281,
-        "uuid": "7af10c3a-0986-46b8-b0f5-731028d49572",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 368,
         "main_type": 99,
         "type": "Requirement",
         "stereotype": "",
-        "name": "Disambiguation of non-unique IDs of diagelement",
+        "name": "Disambiguation of non-unique IDs",
         "description": [
-                ""
+                "Disambiguation of non-unique IDs of\n",
+                "- classifiers\n",
+                "- features\n",
+                "- relationships\n",
+                "- diagrams\n",
+                "- diagramelements"
         ],
         "x_order": -696112420,
         "y_order": -2041224341,
@@ -13495,7 +13486,8 @@
         "stereotype": "",
         "name": "human readable foreign keys",
         "description": [
-                ""
+                "Foreign keys shall be human readable.\n",
+                "Therefore not only uuids but also the classifier names are stated in the json files."
         ],
         "x_order": -1156768670,
         "y_order": -2069399419,
@@ -14535,6 +14527,64 @@
         "y_order": -863059162,
         "list_order": -863059162,
         "uuid": "16495ce7-8208-4453-857b-cba9f10beb95",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 420,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "",
+        "name": "Constant order for unchanged parts",
+        "description": [
+                "When merging two text files that have parts in common (the unchanged parts), then it is important that these unchanged parts occur in the same order in both files.\n",
+                "(Implemented in 1.45.0)"
+        ],
+        "x_order": -696112420,
+        "y_order": -2069399419,
+        "list_order": -486551564,
+        "uuid": "be6a385a-b80a-4ea1-bda2-33593d99d334",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 421,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "io_export_flat_traversal",
+        "description": [
+                ""
+        ],
+        "x_order": -1083067015,
+        "y_order": -1967195711,
+        "list_order": -1982571059,
+        "uuid": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 422,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "json_element_writer",
+        "description": [
+                ""
+        ],
+        "x_order": -1400634552,
+        "y_order": -1929078218,
+        "list_order": -1861557975,
+        "uuid": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
         "features":
         [
         ]
@@ -19740,7 +19790,7 @@
                 ""
         ],
         "list_order": 1252154010,
-        "from_classifier_name": "io_format_writer",
+        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
         "from_feature_key": "",
         "to_classifier_name": "md/txt/xmi/xml/json",
         "to_feature_key": "",
@@ -19759,7 +19809,7 @@
                 ""
         ],
         "list_order": 1412446661,
-        "from_classifier_name": "io_format_writer",
+        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
         "to_classifier_name": "txt_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
@@ -19776,7 +19826,7 @@
                 ""
         ],
         "list_order": 1412479429,
-        "from_classifier_name": "io_format_writer",
+        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
         "to_classifier_name": "md_filter",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "ef415086-85ec-446b-8a84-deb484e8393e",
@@ -19793,7 +19843,7 @@
                 ""
         ],
         "list_order": 1412512197,
-        "from_classifier_name": "io_format_writer",
+        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
         "to_classifier_name": "xml_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "b5960f34-5328-438f-a755-418e58dee838",
@@ -19810,7 +19860,7 @@
                 ""
         ],
         "list_order": 1412577733,
-        "from_classifier_name": "io_format_writer",
+        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
         "to_classifier_name": "io_element_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
@@ -21114,7 +21164,7 @@
         ],
         "list_order": 1412315589,
         "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "io_format_writer",
+        "to_classifier_name": "xhtml_element_writer (and xml/docbook)",
         "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
         "to_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "uuid": "97876425-94fa-4459-ad2c-6880f29cc34f"
@@ -21203,6 +21253,23 @@
         "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
         "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
         "uuid": "f6ae8f8a-6816-4334-9919-69b1ecaad82c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 645,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1861557975,
+        "from_classifier_name": "md/txt/xmi/xml/json",
+        "to_classifier_name": "json_element_writer",
+        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
+        "to_node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
+        "uuid": "8f568386-b6b2-41ef-b0c2-d379004ebd72"
       }
     },
     {
@@ -21547,6 +21614,23 @@
     },
     {
       "relationship": {
+        "id": 642,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1982571059,
+        "from_classifier_name": "documents",
+        "to_classifier_name": "io_export_flat_traversal",
+        "from_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+        "to_node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+        "uuid": "e85868ee-88ef-472b-931d-354d67816e4d"
+      }
+    },
+    {
+      "relationship": {
         "id": 436,
         "main_type": 200,
         "type": "Association",
@@ -21576,7 +21660,7 @@
         "list_order": 849774531,
         "from_classifier_name": "io_export_diagram_traversal",
         "from_feature_key": "",
-        "to_classifier_name": "io_format_writer",
+        "to_classifier_name": "xhtml_element_writer (and xml/docbook)",
         "to_feature_key": "",
         "from_node": "1d5d8c36-04c2-40c3-a724-38bf291c9e79",
         "to_node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
@@ -22775,74 +22859,6 @@
     },
     {
       "relationship": {
-        "id": 513,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "Disambiguation of non-unique IDs of diagrams",
-        "to_classifier_name": "git merge",
-        "from_node": "cb310526-bad0-4ea2-b316-ca10d304a924",
-        "to_node": "5d3968aa-9451-4730-a152-8c649a00afda",
-        "uuid": "1e0186f4-be03-4ab8-9c62-c99b2e1b4b5b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 515,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 98304,
-        "from_classifier_name": "Disambiguation of non-unique IDs of classifiers",
-        "to_classifier_name": "git merge",
-        "from_node": "fd3f8abe-3058-426e-9c3e-006595dae4fd",
-        "to_node": "5d3968aa-9451-4730-a152-8c649a00afda",
-        "uuid": "4bca6bd1-8ff1-4470-beaa-754bd837341b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 514,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 65536,
-        "from_classifier_name": "Disambiguation of non-unique IDs of features",
-        "to_classifier_name": "git merge",
-        "from_node": "1468f356-53aa-4aa8-b7e2-495530d37ee3",
-        "to_node": "5d3968aa-9451-4730-a152-8c649a00afda",
-        "uuid": "a3f7b8eb-ee88-4d66-9ebe-562038bd770b"
-      }
-    },
-    {
-      "relationship": {
-        "id": 517,
-        "main_type": 400,
-        "type": "Refine",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 163840,
-        "from_classifier_name": "Disambiguation of non-unique IDs of relations",
-        "to_classifier_name": "git merge",
-        "from_node": "7af10c3a-0986-46b8-b0f5-731028d49572",
-        "to_node": "5d3968aa-9451-4730-a152-8c649a00afda",
-        "uuid": "a5bda443-a225-4095-924c-37dee3094f28"
-      }
-    },
-    {
-      "relationship": {
         "id": 516,
         "main_type": 400,
         "type": "Refine",
@@ -22851,7 +22867,7 @@
                 ""
         ],
         "list_order": 131072,
-        "from_classifier_name": "Disambiguation of non-unique IDs of diagelement",
+        "from_classifier_name": "Disambiguation of non-unique IDs",
         "to_classifier_name": "git merge",
         "from_node": "41415eb5-5698-4dbe-a29e-79cbe2cbb488",
         "to_node": "5d3968aa-9451-4730-a152-8c649a00afda",
@@ -23876,6 +23892,74 @@
         "from_node": "1ec9690b-c849-4fac-a515-07812ca170c6",
         "to_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "uuid": "e1795660-44eb-47bd-b6cc-e3ff6a3406cd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 641,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "Constant order for unchanged parts",
+        "to_classifier_name": "git merge",
+        "from_node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
+        "to_node": "5d3968aa-9451-4730-a152-8c649a00afda",
+        "uuid": "138ff5ce-127b-4f25-b048-700771e7d7b2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 643,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412676037,
+        "from_classifier_name": "io_export_flat_traversal",
+        "to_classifier_name": "Constant order for unchanged parts",
+        "from_node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+        "to_node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
+        "uuid": "315e863a-e11d-4f92-8251-2b042a6c4e10"
+      }
+    },
+    {
+      "relationship": {
+        "id": 644,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "use",
+        "description": [
+                ""
+        ],
+        "list_order": 1412708805,
+        "from_classifier_name": "io_export_flat_traversal",
+        "to_classifier_name": "io_element_writer",
+        "from_node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
+        "uuid": "85fc650e-cec2-439d-81ac-a01cd58f7e1c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 648,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412774341,
+        "from_classifier_name": "json_element_writer",
+        "to_classifier_name": "io_element_writer",
+        "from_node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
+        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
+        "uuid": "32d7ecab-e23e-47ce-9726-a132812e6b60"
       }
     }
   ]

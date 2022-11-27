@@ -1,4 +1,18 @@
-crystal-facet-uml (1.44.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.45.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * On model changes, diffs on json data file are smaller (new sort order)
+  * Search for empty fields omits stereo/value types; these are often empty
+  * When exporting json files from command line, no .tmp-cfu file remains
+  * No superfluous warnings from json_element_reader_skip_next_string anymore
+  * No superfluous anomalies from data_database_reader_get_xy_by_uuid anymore
+  * No superfluous errors in log during regular opening json data files
+  * Application id changed from desktop.crystal-facet-uml to
+    de.andreaswarnke.crystal-facet-uml
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Nov 2022 16:00:00 +0200
+
+ crystal-facet-uml (1.44.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Find-Occurrence button added for faster navigation in the model
