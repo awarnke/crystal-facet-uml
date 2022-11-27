@@ -33,6 +33,7 @@ void io_data_file_init ( io_data_file_t *this_ )
     utf8stringbuf_clear( (*this_).db_file_name );
 
     (*this_).auto_writeback_to_json = false;
+    (*this_).delete_db_when_finished = false;
 
     U8_TRACE_END();
 }
@@ -69,6 +70,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             /* This is a strange request, but we can create such an sqlite file. */
             /* To be consistent with the case of opening an existing temporary file, also this is exported to json later */
             (*this_).auto_writeback_to_json = ( ! read_only );
+            (*this_).delete_db_when_finished = ( ! read_only );
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
@@ -77,6 +79,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             /* A new json file shall be created */
             (*this_).auto_writeback_to_json = ( ! read_only );
+            (*this_).delete_db_when_finished = ( ! read_only );
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
@@ -86,6 +89,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             /* A new sqlite file shall be created */
             (*this_).auto_writeback_to_json = false;
+            (*this_).delete_db_when_finished = false;
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
         }
@@ -96,6 +100,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             /* A temporary sqlite file shall be used and later be exported to json */
             (*this_).auto_writeback_to_json = ( ! read_only );
+            (*this_).delete_db_when_finished = ( ! read_only );
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
@@ -104,6 +109,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             /* An existing json file shall be used */
             (*this_).auto_writeback_to_json = ( ! read_only );
+            (*this_).delete_db_when_finished = true;
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
@@ -115,6 +121,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 U8_LOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
                 U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                 (*this_).auto_writeback_to_json = false;
+                (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu files when import was not successful */
             }
             else
             {
@@ -127,6 +134,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                     dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible additional errors */
                     U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;
+                    (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu files when import was not successful */
                 }
             }
         }
@@ -134,6 +142,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             /* An sqlite file shall be used */
             (*this_).auto_writeback_to_json = false;
+            (*this_).delete_db_when_finished = false;
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
         }
@@ -168,11 +177,13 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
 
     result |= data_database_close( &((*this_).database) );
 
-    if ( (*this_).auto_writeback_to_json )
+    if ( (*this_).delete_db_when_finished )
     {
         dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
-        (*this_).auto_writeback_to_json = false;
     }
+
+    (*this_).auto_writeback_to_json = false;
+    (*this_).delete_db_when_finished = false;
 
     U8_TRACE_END_ERR( result );
     return result;

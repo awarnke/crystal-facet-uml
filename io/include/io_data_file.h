@@ -29,7 +29,10 @@ struct io_data_file_struct {
     utf8stringbuf_t db_file_name;  /*!< the file name of the sqlite database */
     char private_db_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
 
-    bool auto_writeback_to_json;
+    bool auto_writeback_to_json;  /*!< true if the current database shall automatically be exported to json */
+                                  /*!< when flushing (sync to disk) and when closing. */
+    bool delete_db_when_finished;  /*!< true if the current database (db_file_name) shall automatically */
+                                   /*!< be deleted when closing. */
 };
 
 typedef struct io_data_file_struct io_data_file_t;
