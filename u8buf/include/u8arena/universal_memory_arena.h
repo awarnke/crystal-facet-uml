@@ -63,7 +63,7 @@ static inline int universal_memory_arena_get_block ( universal_memory_arena_t *t
                                                      void **out_block
                                                    );
 
-#include "arena/universal_memory_arena.inl"
+#include "u8arena/universal_memory_arena.inl"
 
 #endif  /* UNIVERSAL_MEMORY_ARENA_H */
 

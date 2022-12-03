@@ -9,8 +9,8 @@
  *  \brief implements a single linked list for use in a memory region.
  */
 
-#include "arena/universal_arena_list_element.h"
-#include "arena/universal_memory_arena.h"
+#include "u8arena/universal_arena_list_element.h"
+#include "u8arena/universal_memory_arena.h"
 
 /*!
  *  \brief attributes of the universal_arena_list
@@ -62,7 +62,7 @@ static inline universal_arena_list_element_t* universal_arena_list_get_begin ( u
  */
 static inline universal_arena_list_element_t* universal_arena_list_get_end ( universal_arena_list_t *this_ );
 
-#include "arena/universal_arena_list.inl"
+#include "u8arena/universal_arena_list.inl"
 
 #endif  /* UNIVERSAL_ARENA_LIST_H */
 

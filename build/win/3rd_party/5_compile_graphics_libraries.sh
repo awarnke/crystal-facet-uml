@@ -160,7 +160,6 @@ echo "      lib: `${PKG_CONFIG_EXE} --libs gtk4`"
 echo `date +'%H:%M'`" building glib-schemas..."
 LOG_FILE=${LOG_DIR}/log_glib-schemas.txt
 echo "      log: ${LOG_FILE}"
-# old: cp ../../../installation_win/gschemas.compiled ${PREFIX}/share/glib-2.0/schemas/
 cd ${PREFIX}/share/glib-2.0/schemas
     wine64 ../../../bin/glib-compile-schemas.exe . > ${LOG_FILE} 2>&1
 cd ${LOG_DIR}
