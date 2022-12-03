@@ -13,13 +13,19 @@ use std::env;
 
 /// Runs all test suites and returns true if all cases succeeded.
 fn run_all_suites(exe_to_test: &String) -> bool {
-    let cli_result: TestResult = suite_cli_run(exe_to_test);
-    let _gui_result: TestResult = suite_gui_run(exe_to_test);
+    let mut result: TestResult = TestResult {
+        failed: 0,
+        total: 0,
+    };
+
+    result += suite_cli_run(exe_to_test);
+    result += suite_gui_run(exe_to_test);
+
     println!(
         "TEST RESULT: {}/{} tests failed.",
-        cli_result.failed, cli_result.total
+        result.failed, result.total
     );
-    cli_result.failed == 0
+    result.failed == 0
 }
 
 /// Parses the command line parameters, uses these as test environment input,

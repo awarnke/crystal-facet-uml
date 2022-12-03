@@ -3,15 +3,15 @@ use regex::Regex;
 use std::process::Stdio;
 
 pub fn suite_cli_run(exe_to_test: &String) -> TestResult {
-    let mut all_ok: u32 = 0;
+    let mut result: TestResult = TestResult {
+        failed: 0,
+        total: 0,
+    };
 
-    all_ok += if testcase_version(exe_to_test) { 1 } else { 0 };
-    all_ok += if testcase_help(exe_to_test) { 1 } else { 0 };
+    result += testcase_version(exe_to_test);
+    result += testcase_help(exe_to_test);
 
-    TestResult {
-        total: 2,
-        failed: 2 - all_ok,
-    }
+    result
 }
 
 /// Test that requesting the version is possible.
@@ -19,7 +19,7 @@ pub fn suite_cli_run(exe_to_test: &String) -> TestResult {
 /// Returns true if the result string looks like a version,
 /// false if not,
 /// panics if the test environment reports errors.
-fn testcase_version(exe_to_test: &String) -> bool {
+fn testcase_version(exe_to_test: &String) -> TestResult {
     let output = match std::process::Command::new(exe_to_test)
         .args(&["-v"])
         .output()
@@ -41,7 +41,10 @@ fn testcase_version(exe_to_test: &String) -> bool {
     let exit_ok: bool = output.status.success();
 
     print!("testcase_version: <<{}>>:{}\n", stdout, stdout.len());
-    success && exit_ok
+    TestResult {
+        failed: if success && exit_ok { 0 } else { 1 },
+        total: 1,
+    }
 }
 
 /// Test that requesting a help string is possible.
@@ -49,7 +52,7 @@ fn testcase_version(exe_to_test: &String) -> bool {
 /// Returns true if the result string looks like a help string,
 /// false if not,
 /// panics if the test environment reports errors.
-fn testcase_help(exe_to_test: &String) -> bool {
+fn testcase_help(exe_to_test: &String) -> TestResult {
     let process = match std::process::Command::new(exe_to_test)
         .args(&["-h"])
         .stdout(Stdio::piped())
@@ -76,5 +79,8 @@ fn testcase_help(exe_to_test: &String) -> bool {
     let exit_ok: bool = output.status.success();
 
     println!("testcase_help: <<{}>>:{}", stdout, stdout.len());
-    success && exit_ok
+    TestResult {
+        failed: if success && exit_ok { 0 } else { 1 },
+        total: 1,
+    }
 }
