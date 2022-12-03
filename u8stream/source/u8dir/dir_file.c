@@ -1,6 +1,6 @@
 /* File: dir_file.c; Copyright and License: see below */
 
-#include "dir/dir_file.h"
+#include "u8dir/dir_file.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <stdio.h>

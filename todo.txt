@@ -1,3 +1,6 @@
+
+     =====     KEEP IT SIMPLE & STUPID     =====
+
 ideas for future versions:
   @gui
   [ ] After deselecting all elements, paste does not work. One has to select an element first.

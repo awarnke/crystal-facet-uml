@@ -64,7 +64,7 @@ static inline void universal_arena_list_element_set_next ( universal_arena_list_
                                                            universal_arena_list_element_t *next
                                                          );
 
-#include "arena/universal_arena_list_element.inl"
+#include "u8arena/universal_arena_list_element.inl"
 
 #endif  /* UNIVERSAL_ARENA_LIST_ELEMENT_H */
 

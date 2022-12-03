@@ -1,9 +1,9 @@
 /* File: universal_arena_list_test.c; Copyright and License: see below */
 
 #include "universal_arena_list_test.h"
-#include "arena/universal_arena_list.h"
-#include "arena/universal_arena_list_element.h"
-#include "arena/universal_memory_arena.h"
+#include "u8arena/universal_arena_list.h"
+#include "u8arena/universal_arena_list_element.h"
+#include "u8arena/universal_memory_arena.h"
 #include "test_assert.h"
 #include <string.h>
 #include <assert.h>
