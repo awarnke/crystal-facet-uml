@@ -1875,6 +1875,48 @@
     },
     {
       "diagram": {
+        "id": 30,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Tactics for Security",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Strategies for Security",
+        "parent": "c4191860-edc2-47a0-8f58-943d55dbb8a4",
+        "uuid": "fb025383-f93f-4ed1-ab92-4bb0520021fe",
+        "diagramelements":
+        [
+          {
+            "id": 335,
+            "display_flags": 0,
+            "classifier_name": "TOCTOU",
+            "node": "4f3cf346-69e3-4891-a688-7564d3a27418",
+            "uuid": "dafe37ce-c435-4785-95da-6a91ca99d4aa"
+          },
+          {
+            "id": 336,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Non-Repudiation",
+            "node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
+            "uuid": "d40f69da-de2a-4354-a8a7-2710884d582e"
+          },
+          {
+            "id": 337,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Integrity",
+            "node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
+            "uuid": "3fe17a48-3214-4210-8cc9-7869575b1282"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 27,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
@@ -7599,6 +7641,25 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 223,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "",
+        "name": "TOCTOU",
+        "description": [
+                "Design and use interfaces in a way that time of check (TOC) (e.g. access rights, existance, ...) is not different from the time of use (TOU)"
+        ],
+        "x_order": -943496486,
+        "y_order": -1125682583,
+        "list_order": -1125682583,
+        "uuid": "4f3cf346-69e3-4891-a688-7564d3a27418",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -11157,6 +11218,40 @@
         "from_node": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
         "to_node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
         "uuid": "2d5a6cdf-a14c-4f12-8713-199528b3defe"
+      }
+    },
+    {
+      "relationship": {
+        "id": 270,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "TOCTOU",
+        "to_classifier_name": "Non-Repudiation",
+        "from_node": "4f3cf346-69e3-4891-a688-7564d3a27418",
+        "to_node": "6aefcb83-7281-4dc2-b4a1-2e58e33a1291",
+        "uuid": "4529d821-ffd2-46a5-84f3-fa0753848cdf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 271,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "TOCTOU",
+        "to_classifier_name": "Integrity",
+        "from_node": "4f3cf346-69e3-4891-a688-7564d3a27418",
+        "to_node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
+        "uuid": "4e038ef0-13f6-44e3-8b75-df291f37945b"
       }
     }
   ]

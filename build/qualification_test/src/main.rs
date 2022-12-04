@@ -12,14 +12,14 @@ use std::env;
 /* Run this test by calling "cargo run" from the current directory .. */
 
 /// Runs all test suites and returns true if all cases succeeded.
-fn run_all_suites(exe_to_test: &String,temp_dir: &String) -> bool {
+fn run_all_suites(exe_to_test: &String, temp_dir: &String) -> bool {
     let mut result: TestResult = TestResult {
         failed: 0,
         total: 0,
     };
 
-    result += suite_cli_run(exe_to_test,temp_dir);
-    result += suite_gui_run(exe_to_test,temp_dir);
+    result += suite_cli_run(exe_to_test, temp_dir);
+    result += suite_gui_run(exe_to_test, temp_dir);
 
     println!("______________________________");
     println!(
@@ -43,7 +43,7 @@ fn main() {
         err_code = exitcode::USAGE;
     } else {
         println!("{:?}", args);
-        err_code = match run_all_suites(&args[1],&args[2]) {
+        err_code = match run_all_suites(&args[1], &args[2]) {
             true => exitcode::OK,
             false => exitcode::SOFTWARE,
         };

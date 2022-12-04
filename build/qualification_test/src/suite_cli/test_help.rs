@@ -3,7 +3,7 @@ use crate::test_tool::test_result::TestResult;
 use regex::Regex;
 use std::process::Stdio;
 
-pub fn suite_cli_run(exe_to_test: &String,temp_dir: &String) -> TestResult {
+pub fn suite_cli_run(exe_to_test: &String, temp_dir: &String) -> TestResult {
     let mut result: TestResult = TestResult {
         failed: 0,
         total: 0,
@@ -11,7 +11,7 @@ pub fn suite_cli_run(exe_to_test: &String,temp_dir: &String) -> TestResult {
 
     result += testcase_version(exe_to_test);
     result += testcase_help(exe_to_test);
-    result += testcase_create_cfu1(exe_to_test,temp_dir);
+    result += testcase_create_cfu1(exe_to_test, temp_dir);
 
     result
 }
