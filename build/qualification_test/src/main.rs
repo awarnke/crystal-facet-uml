@@ -1,18 +1,18 @@
 pub mod suite_cli;
 pub mod suite_gui;
 pub mod test_tool;
-use suite_cli::test_help::suite_cli_run;
-use suite_gui::test_file::suite_gui_run;
+use suite_cli::suite_runner::suite_cli_run;
+use suite_gui::suite_runner::suite_gui_run;
 use test_tool::test_result::TestResult;
 
 extern crate exitcode;
 
 use std::env;
 
-/* Run this test by calling "cargo run" from the current directory .. */
+/* Run this test by calling "cargo run" from the current directory. */
 
 /// Runs all test suites and returns true if all cases succeeded.
-fn run_all_suites(exe_to_test: &String, temp_dir: &String) -> bool {
+fn run_all_suites(exe_to_test: &str, temp_dir: &str) -> bool {
     let mut result: TestResult = TestResult {
         failed: 0,
         total: 0,

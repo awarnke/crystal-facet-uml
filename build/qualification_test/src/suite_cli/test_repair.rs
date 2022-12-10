@@ -7,7 +7,7 @@ use std::process::Command;
 ///
 /// Returns result of check if the result string looks like a version,
 /// panics if the test environment reports errors.
-pub(super) fn testcase_create_cfu1(exe_to_test: &str, temp_dir: &str) -> TestResult {
+pub(super) fn testcase_repair_cfu1(exe_to_test: &str, temp_dir: &str) -> TestResult {
     /* create the temp directory, panic in case an error occured */
     fs::create_dir_all(temp_dir).unwrap();
 
@@ -43,7 +43,7 @@ pub(super) fn testcase_create_cfu1(exe_to_test: &str, temp_dir: &str) -> TestRes
         fs::remove_dir_all(temp_dir).unwrap();
     }
 
-    print!("testcase_create_cfu1: <<{}>>:{}\n", stdout, stdout.len());
+    print!("testcase_repair_cfu1: <<{}>>:{}\n", stdout, stdout.len());
     TestResult {
         failed: if as_expected && !exit_ok { 0 } else { 1 },
         total: 1,

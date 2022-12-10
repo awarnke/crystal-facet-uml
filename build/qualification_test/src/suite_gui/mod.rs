@@ -1,1 +1,1 @@
-pub mod test_file;
+pub mod suite_runner;

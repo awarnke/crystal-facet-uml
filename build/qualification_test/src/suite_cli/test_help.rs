@@ -1,26 +1,12 @@
-use super::test_importexport::testcase_create_cfu1;
 use crate::test_tool::test_result::TestResult;
 use regex::Regex;
 use std::process::Stdio;
-
-pub fn suite_cli_run(exe_to_test: &String, temp_dir: &String) -> TestResult {
-    let mut result: TestResult = TestResult {
-        failed: 0,
-        total: 0,
-    };
-
-    result += testcase_version(exe_to_test);
-    result += testcase_help(exe_to_test);
-    result += testcase_create_cfu1(exe_to_test, temp_dir);
-
-    result
-}
 
 /// Test that requesting the version is possible.
 ///
 /// Returns result of check if the result string looks like a version,
 /// panics if the test environment reports errors.
-fn testcase_version(exe_to_test: &String) -> TestResult {
+pub(super) fn testcase_version(exe_to_test: &str) -> TestResult {
     let output = match std::process::Command::new(exe_to_test)
         .args(&["-v"])
         .output()
@@ -52,7 +38,7 @@ fn testcase_version(exe_to_test: &String) -> TestResult {
 ///
 /// Returns result of check if the result string looks like a help string,
 /// panics if the test environment reports errors.
-fn testcase_help(exe_to_test: &String) -> TestResult {
+pub(super) fn testcase_help(exe_to_test: &str) -> TestResult {
     let process = match std::process::Command::new(exe_to_test)
         .args(&["-h"])
         .stdout(Stdio::piped())
