@@ -1,5 +1,4 @@
 use crate::test_tool::test_result::TestResult;
-use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -7,10 +6,11 @@ use std::process::Command;
 ///
 /// Returns result of check if the result string looks like a version,
 /// panics if the test environment reports errors.
+///
+/// # Arguments
+///
+/// * `temp_dir` - A path to a directory that exists and can be used for testing
 pub(super) fn testcase_create_cfu1(exe_to_test: &str, temp_dir: &str) -> TestResult {
-    /* create the temp directory, panic in case an error occured */
-    fs::create_dir_all(temp_dir).unwrap();
-
     /* create the db_to_use_param string, panic in case an error occured */
     let mut db_to_use = PathBuf::from(temp_dir);
     db_to_use.push("sqlite3_db.cfu1");
@@ -36,12 +36,6 @@ pub(super) fn testcase_create_cfu1(exe_to_test: &str, temp_dir: &str) -> TestRes
 
     /* check that the exit code is 0 */
     let exit_ok: bool = output.status.success();
-
-    /* cleanup */
-    if as_expected && !exit_ok {
-        /* delete the temp directory in case of successful test result, panic in case an error occured */
-        fs::remove_dir_all(temp_dir).unwrap();
-    }
 
     print!("testcase_create_cfu1: <<{}>>:{}\n", stdout, stdout.len());
     TestResult {
