@@ -4,7 +4,7 @@
 #include "u8arena/universal_arena_list.h"
 #include "u8arena/universal_arena_list_element.h"
 #include "u8arena/universal_memory_arena.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <string.h>
 #include <assert.h>
 
@@ -40,37 +40,37 @@ static void test_append(void)
 
     /* check empty iterator */
     universal_arena_list_element_t *it1 = universal_arena_list_get_begin( &test_me );
-    TEST_ASSERT( NULL == it1 );
+    TEST_EXPECT( NULL == it1 );
 
     /* get memory from arena */
     double *ele_1;
     int err1 = universal_memory_arena_get_block( &small_arena, sizeof(double), (void**)&ele_1 );
-    TEST_ASSERT_EQUAL_INT( 0, err1 );
+    TEST_EXPECT_EQUAL_INT( 0, err1 );
     *ele_1 = 34.5;
 
     /* append by getting memory from arena */
     int err2 = universal_arena_list_append( &test_me, ele_1 );
-    TEST_ASSERT_EQUAL_INT( 0, err2 );
+    TEST_EXPECT_EQUAL_INT( 0, err2 );
 
     /* get memory from arena */
     double *ele_2;
     int err3 = universal_memory_arena_get_block( &small_arena, sizeof(double), (void**)&ele_2 );
-    TEST_ASSERT_EQUAL_INT( 0, err3 );
+    TEST_EXPECT_EQUAL_INT( 0, err3 );
     *ele_1 = 17.25;
 
     /* fail to append by getting memory from arena */
     int err4 = universal_arena_list_append( &test_me, ele_2 );
-    TEST_ASSERT_EQUAL_INT( -1, err4 );
+    TEST_EXPECT_EQUAL_INT( -1, err4 );
 
     /* check non-empty iterator */
     universal_arena_list_element_t *it2 = universal_arena_list_get_begin( &test_me );
-    TEST_ASSERT( NULL != it2 );
-    TEST_ASSERT( ele_1 == universal_arena_list_element_get_data( it2 ) );
+    TEST_EXPECT( NULL != it2 );
+    TEST_EXPECT( ele_1 == universal_arena_list_element_get_data( it2 ) );
 
     /* check iterate */
     it2 = universal_arena_list_element_get_next( it2 );
-    TEST_ASSERT( NULL == it2 );
-    TEST_ASSERT( NULL == universal_arena_list_get_end( &test_me ) );
+    TEST_EXPECT( NULL == it2 );
+    TEST_EXPECT( NULL == universal_arena_list_get_end( &test_me ) );
 
     universal_arena_list_destroy( &test_me );
 }

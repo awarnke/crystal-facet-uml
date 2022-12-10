@@ -3,7 +3,7 @@
 #include "draw_classifier_contour_test.h"
 #include "draw/draw_classifier_contour.h"
 #include "data_classifier_type.h"
-#include "test_assert.h"
+#include "test_expect.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -51,8 +51,8 @@ static void test_calc_inner_area_and_back(void)
                                                        &pencil_size
                                                      );
 
-        TEST_ASSERT( geometry_rectangle_is_containing( &outer_bounds_before, &inner_area ) );
-        TEST_ASSERT( ! geometry_rectangle_is_empty( &inner_area ) );
+        TEST_EXPECT( geometry_rectangle_is_containing( &outer_bounds_before, &inner_area ) );
+        TEST_EXPECT( ! geometry_rectangle_is_empty( &inner_area ) );
 
         const geometry_rectangle_t outer_bounds_after
             = draw_classifier_contour_calc_outer_bounds( &contour_calculator,
@@ -61,10 +61,10 @@ static void test_calc_inner_area_and_back(void)
                                                          &pencil_size
                                                        );
 
-        TEST_ASSERT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( &outer_bounds_after ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_top( &outer_bounds_after ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 110.0, geometry_rectangle_get_width( &outer_bounds_after ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 80.0, geometry_rectangle_get_height( &outer_bounds_after ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( &outer_bounds_after ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_top( &outer_bounds_after ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 110.0, geometry_rectangle_get_width( &outer_bounds_after ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 80.0, geometry_rectangle_get_height( &outer_bounds_after ) );
     }
 
     draw_classifier_contour_destroy( &contour_calculator );
@@ -88,8 +88,8 @@ static void test_calc_inner_area_too_small(void)
                                                    &pencil_size
                                                  );
 
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &inner_area ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &inner_area ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &inner_area ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &inner_area ) );
 
     draw_classifier_contour_destroy( &contour_calculator );
 }

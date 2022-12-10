@@ -2,7 +2,7 @@
 
 #include "u8list/universal_array_list.h"
 #include "universal_array_list_test.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <stdio.h>
 #include <assert.h>
 
@@ -53,45 +53,45 @@ static void test_insert_and_retrieve(void)
                                 NULL /*equal*/,
                                 NULL /*dtor*/
                               );
-    TEST_ASSERT_EQUAL_INT( true, universal_array_list_is_empty( &testee ) );
-    TEST_ASSERT_EQUAL_INT( 0, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( true, universal_array_list_is_empty( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, universal_array_list_get_length( &testee ) );
 
     /* insert first */
     err = universal_array_list_append ( &testee, "123456" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 1, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 1, universal_array_list_get_length( &testee ) );
 
     /* insert second */
     err = universal_array_list_append ( &testee, "abcdef" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 2, universal_array_list_get_length( &testee ) );
-    TEST_ASSERT_EQUAL_INT( false, universal_array_list_is_empty( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 2, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( false, universal_array_list_is_empty( &testee ) );
 
     /* read element */
-    TEST_ASSERT_EQUAL_PTR( NULL, universal_array_list_get_const( &testee, 2 ) );
-    TEST_ASSERT_EQUAL_PTR( NULL, universal_array_list_get_ptr( &testee, 2 ) );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( "abcdef", universal_array_list_get_const( &testee, 1 ), sizeof(char[7]) ) );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( "abcdef", universal_array_list_get_ptr( &testee, 1 ), sizeof(char[7]) ) );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( "123456", universal_array_list_get_const( &testee, 0 ), sizeof(char[7]) ) );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( "123456", universal_array_list_get_ptr( &testee, 0 ), sizeof(char[7]) ) );
+    TEST_EXPECT_EQUAL_PTR( NULL, universal_array_list_get_const( &testee, 2 ) );
+    TEST_EXPECT_EQUAL_PTR( NULL, universal_array_list_get_ptr( &testee, 2 ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( "abcdef", universal_array_list_get_const( &testee, 1 ), sizeof(char[7]) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( "abcdef", universal_array_list_get_ptr( &testee, 1 ), sizeof(char[7]) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( "123456", universal_array_list_get_const( &testee, 0 ), sizeof(char[7]) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( "123456", universal_array_list_get_ptr( &testee, 0 ), sizeof(char[7]) ) );
 
     /* search element */
-    TEST_ASSERT_EQUAL_INT( 1, universal_array_list_get_index_of ( &testee, "abcdef" ) );
+    TEST_EXPECT_EQUAL_INT( 1, universal_array_list_get_index_of ( &testee, "abcdef" ) );
 
     /* clear */
     universal_array_list_clear( &testee );
-    TEST_ASSERT_EQUAL_INT( true, universal_array_list_is_empty( &testee ) );
-    TEST_ASSERT_EQUAL_INT( 0, universal_array_list_get_length( &testee ) );
-    TEST_ASSERT_EQUAL_PTR( NULL, universal_array_list_get_const( &testee, 0 ) );
-    TEST_ASSERT_EQUAL_PTR( NULL, universal_array_list_get_ptr( &testee, 0 ) );
+    TEST_EXPECT_EQUAL_INT( true, universal_array_list_is_empty( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_PTR( NULL, universal_array_list_get_const( &testee, 0 ) );
+    TEST_EXPECT_EQUAL_PTR( NULL, universal_array_list_get_ptr( &testee, 0 ) );
 
     /* search element */
-    TEST_ASSERT_EQUAL_INT( -1, universal_array_list_get_index_of ( &testee, "abcdef" ) );
+    TEST_EXPECT_EQUAL_INT( -1, universal_array_list_get_index_of ( &testee, "abcdef" ) );
 
     /* done */
     universal_array_list_destroy( &testee );
-    TEST_ASSERT_EQUAL_INT( 0, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 0, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
 }
 
 static void test_max_size(void)
@@ -110,36 +110,36 @@ static void test_max_size(void)
                                 NULL /*equal*/,
                                 NULL /*dtor*/
                               );
-    TEST_ASSERT_EQUAL_INT( 0, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, universal_array_list_get_length( &testee ) );
 
     /* insert first element */
     const uint64_t ele1 = 0x8000cccc10004444;
     err = universal_array_list_append ( &testee, &ele1 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 1, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 1, universal_array_list_get_length( &testee ) );
 
     /* insert second element */
     const uint64_t ele2 = 0xcccc100044440000;
     err = universal_array_list_append ( &testee, &ele2 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 2, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 2, universal_array_list_get_length( &testee ) );
 
     /* insert self, first time */
     err = universal_array_list_append_all ( &testee, &testee );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 4, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 4, universal_array_list_get_length( &testee ) );
 
     /* insert self, second time */
     err = universal_array_list_append_all ( &testee, &testee );
-    TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT_EQUAL_INT( 5, universal_array_list_get_length( &testee ) );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &ele1, universal_array_list_get_const( &testee, 4 ), sizeof(uint64_t) ) );
+    TEST_EXPECT_EQUAL_INT( -1, err );
+    TEST_EXPECT_EQUAL_INT( 5, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &ele1, universal_array_list_get_const( &testee, 4 ), sizeof(uint64_t) ) );
 
     /* insert third element */
     const uint64_t ele3 = 0x1000444400005b5b;
     err = universal_array_list_append ( &testee, &ele3 );
-    TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT_EQUAL_INT( 5, universal_array_list_get_length( &testee ) );
+    TEST_EXPECT_EQUAL_INT( -1, err );
+    TEST_EXPECT_EQUAL_INT( 5, universal_array_list_get_length( &testee ) );
 
 }
 
@@ -177,49 +177,49 @@ static void test_element_lifecycle(void)
                                 (bool (*)(const void*, const void*))equal,
                                 (void (*)(void*))dtor
                               );
-    TEST_ASSERT_EQUAL_INT( 0, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 0, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
 
     /* insert first */
     const double ele1 = 17.125;
     err = universal_array_list_append ( &testee, &ele1 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 1, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
-    TEST_ASSERT_EQUAL_INT( 0, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 1, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
+    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
 
     /* clear */
     universal_array_list_clear( &testee );
-    TEST_ASSERT_EQUAL_INT( 1, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
-    TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 1, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
 
     /* insert first again */
     err = universal_array_list_append ( &testee, &ele1 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 2, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
-    TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 2, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
 
     /* insert self, first time */
     err = universal_array_list_append_all ( &testee, &testee );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 3, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 0, eq_calls );
-    TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
 
     /* search element */
     int idx = universal_array_list_get_index_of ( &testee, &ele1 );
-    TEST_ASSERT_EQUAL_INT( 0, idx );
-    TEST_ASSERT_EQUAL_INT( 3, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 1, eq_calls );
-    TEST_ASSERT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, idx );
+    TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 1, eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
 
     /* done */
     universal_array_list_destroy( &testee );
-    TEST_ASSERT_EQUAL_INT( 3, ctor_calls );
-    TEST_ASSERT_EQUAL_INT( 1, eq_calls );
-    TEST_ASSERT_EQUAL_INT( 3, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 1, eq_calls );
+    TEST_EXPECT_EQUAL_INT( 3, dtor_calls );
 }
 
 

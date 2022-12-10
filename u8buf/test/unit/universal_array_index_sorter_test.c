@@ -2,7 +2,7 @@
 
 #include "u8list/universal_array_index_sorter.h"
 #include "universal_array_index_sorter_test.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <stdio.h>
 #include <assert.h>
 
@@ -36,45 +36,45 @@ static void test_insert_and_retrieve(void)
     /* init */
     universal_array_index_sorter_init( &testee );
     count = universal_array_index_sorter_get_count( &testee );
-    TEST_ASSERT_EQUAL_INT( 0, count );
+    TEST_EXPECT_EQUAL_INT( 0, count );
 
     /* insert first */
     err = universal_array_index_sorter_insert( &testee, 17001, -17 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     count = universal_array_index_sorter_get_count( &testee );
-    TEST_ASSERT_EQUAL_INT( 1, count );
+    TEST_EXPECT_EQUAL_INT( 1, count );
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 0 /* = sort_index */ );
-    TEST_ASSERT_EQUAL_INT( 17001, unsorted_index );
+    TEST_EXPECT_EQUAL_INT( 17001, unsorted_index );
 
     /* insert second in front */
     err = universal_array_index_sorter_insert( &testee, 23000, -19 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     count = universal_array_index_sorter_get_count( &testee );
-    TEST_ASSERT_EQUAL_INT( 2, count );
+    TEST_EXPECT_EQUAL_INT( 2, count );
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 0 /* = sort_index */ );
-    TEST_ASSERT_EQUAL_INT( 23000, unsorted_index );
+    TEST_EXPECT_EQUAL_INT( 23000, unsorted_index );
 
     /* insert third at end */
     err = universal_array_index_sorter_insert( &testee, 45022, 11 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     count = universal_array_index_sorter_get_count( &testee );
-    TEST_ASSERT_EQUAL_INT( 3, count );
+    TEST_EXPECT_EQUAL_INT( 3, count );
 
     /* insert fourth in middle */
     err = universal_array_index_sorter_insert( &testee, 99900, -18 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     count = universal_array_index_sorter_get_count( &testee );
-    TEST_ASSERT_EQUAL_INT( 4, count );
+    TEST_EXPECT_EQUAL_INT( 4, count );
 
     /* check full list */
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 0 /* = sort_index */ );
-    TEST_ASSERT_EQUAL_INT( 23000, unsorted_index );
+    TEST_EXPECT_EQUAL_INT( 23000, unsorted_index );
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 1 /* = sort_index */ );
-    TEST_ASSERT_EQUAL_INT( 99900, unsorted_index );
+    TEST_EXPECT_EQUAL_INT( 99900, unsorted_index );
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 2 /* = sort_index */ );
-    TEST_ASSERT_EQUAL_INT( 17001, unsorted_index );
+    TEST_EXPECT_EQUAL_INT( 17001, unsorted_index );
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 3 /* = sort_index */ );
-    TEST_ASSERT_EQUAL_INT( 45022, unsorted_index );
+    TEST_EXPECT_EQUAL_INT( 45022, unsorted_index );
 
     /* done */
     universal_array_index_sorter_destroy( &testee );

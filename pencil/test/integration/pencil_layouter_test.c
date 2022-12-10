@@ -5,14 +5,15 @@
 #include "pencil_diagram_maker.h"
 #include "test_data/test_data_setup.h"
 #include "u8/u8_trace.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 #include <inttypes.h>
- 
+
 static void set_up(void);
 static void tear_down(void);
 static void layout_good_cases(void);
 static void layout_challenging_cases(void);
-#ifndef NDEBUG                
+#ifndef NDEBUG
 static void layout_edge_cases(void);
 #endif
 
@@ -30,14 +31,14 @@ STATISTICS OF VERSION: 1.28.0 - other fonts installed:
 [  337s]   test case: layout_challenging_cases
 [  337s]     #Diag=432, total=11205 |  ERR=1205, W/C=8675, W/F=13081, W/R=15725
 */
-    
+
 test_suite_t pencil_layouter_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "pencil_layouter_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
     test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
-#ifndef NDEBUG                
+#ifndef NDEBUG
     test_suite_add_test_case( &result, "layout_edge_cases", &layout_edge_cases );
 #endif
     return result;
@@ -55,7 +56,7 @@ static void set_up(void)
     data_visible_set_init( &data_set );
     pencil_layouter_init( &layouter, &data_set );
     geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
-    surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32, 
+    surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
                                           (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
                                           (uint32_t) geometry_rectangle_get_height( &diagram_bounds )
                                         );
@@ -75,12 +76,12 @@ static void tear_down(void)
     pencil_layouter_destroy( &layouter );
     data_visible_set_destroy( &data_set );
 }
- 
+
 static void layout_good_cases(void)
 {
     data_stat_t total_stats;
     data_stat_init( &total_stats );
-        
+
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
@@ -89,25 +90,25 @@ static void layout_good_cases(void)
         test_data_setup_get_variant_data( &ts_setup, &data_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        
+
         /* perform test */
         pencil_layouter_prepare ( &layouter );
         pencil_layouter_define_grid ( &layouter, diagram_bounds );
         pencil_layouter_layout_elements ( &layouter, font_layout, &layout_stats );
-        
+
         /* check result */
         const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
-        TEST_ASSERT( NULL != layout_data );
+        TEST_EXPECT( NULL != layout_data );
         /*
         const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, class_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, class_cnt );
         const uint32_t feat_cnt = pencil_layout_data_get_feature_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, feat_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, feat_cnt );
         const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, rel_cnt );
         */
 
-        /*  
+        /*
         const unsigned int variant = test_data_setup_get_variant( &ts_setup );
         fprintf( stdout,
              "    v=%i, #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
@@ -120,12 +121,12 @@ static void layout_good_cases(void)
              data_stat_get_count( &layout_stats, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
            );
         */
-    
+
         data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
-    
+
     fprintf( stdout,
              "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
              data_stat_get_count( &total_stats, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
@@ -142,7 +143,7 @@ static void layout_challenging_cases(void)
 {
     data_stat_t total_stats;
     data_stat_init( &total_stats );
-    
+
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
@@ -151,22 +152,22 @@ static void layout_challenging_cases(void)
         test_data_setup_get_variant_data( &ts_setup, &data_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        
+
         /* perform test */
         pencil_layouter_prepare ( &layouter );
         pencil_layouter_define_grid ( &layouter, diagram_bounds );
         pencil_layouter_layout_elements ( &layouter, font_layout, &layout_stats );
-        
+
         /* check result */
         const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
-        TEST_ASSERT( NULL != layout_data );
+        TEST_EXPECT( NULL != layout_data );
         /*
         const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, class_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, class_cnt );
         const uint32_t feat_cnt = pencil_layout_data_get_feature_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, feat_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, feat_cnt );
         const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, rel_cnt );
         */
         data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
@@ -184,7 +185,7 @@ static void layout_challenging_cases(void)
     data_stat_destroy( &total_stats );
 }
 
-#ifndef NDEBUG                
+#ifndef NDEBUG
 static void layout_edge_cases(void)
 {
     test_data_setup_t ts_setup;
@@ -193,22 +194,22 @@ static void layout_edge_cases(void)
     {
         /* setup */
         test_data_setup_get_variant_data( &ts_setup, &data_set );
-        
+
         /* perform test */
         pencil_layouter_prepare ( &layouter );
         pencil_layouter_define_grid ( &layouter, diagram_bounds );
         pencil_layouter_layout_elements ( &layouter, font_layout, NULL );
-        
+
         /* check result */
         const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
-        TEST_ASSERT( NULL != layout_data );
+        TEST_EXPECT( NULL != layout_data );
         /*
         const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, class_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, class_cnt );
         const uint32_t feat_cnt = pencil_layout_data_get_feature_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, feat_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, feat_cnt );
         const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
-        TEST_ASSERT_EQUAL_INT( 0, rel_cnt );
+        TEST_EXPECT_EQUAL_INT( 0, rel_cnt );
         */
     }
     test_data_setup_destroy( &ts_setup );

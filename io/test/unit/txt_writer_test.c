@@ -4,7 +4,7 @@
 #include "txt_writer_test.h"
 #include "set/data_visible_set.h"
 #include "u8stream/universal_memory_output_stream.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <string.h>
 
 static void set_up(void);
@@ -59,70 +59,70 @@ static void test_write_indent_multiline_string_null(void)
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", NULL );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, "[", strlen("[") ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, "[", strlen("[") ) );
 }
 
 static void test_write_indent_multiline_string_empty(void)
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, "[", strlen("[") ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, "[", strlen("[") ) );
 }
 
 static void test_write_indent_multiline_string_empty_last(void)
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\n" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, "123_456\n[", strlen("123_456\n[") ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n[", strlen("123_456\n[") ) );
 }
 
 static void test_write_indent_multiline_string_single(void)
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, "123_456\n[", strlen("123_456\n[") ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n[", strlen("123_456\n[") ) );
 }
 
 static void test_write_indent_multiline_string_dual(void)
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\n789" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_456\n[") ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_456\n[") ) );
 }
 
 static void test_write_indent_multiline_string_crnl(void)
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\r\n789\r\n" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
 }
 
 static void test_write_indent_multiline_string_cr(void)
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\r789\r" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
 }
 
 

@@ -3,7 +3,8 @@
 #include "data_rules_test.h"
 #include "set/data_visible_set.h"
 #include "data_rules.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -188,51 +189,51 @@ static void test_data_rules_filter_scenarios(void)
 
     /* valid feature(lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+3 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid feature(lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+4 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid feature(lifeline) which is not referenced */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(non-lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(non-lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+3 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(lifeline) to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+4 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid relationship from classifier to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+5 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid relationship from feature(lifeline) to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+6 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid relationship from classifier to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+7 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(non-lifeline) to feature(non-lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+4 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from classifier to feature(non-lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+5 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(non-lifeline) to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+6 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     data_rules_destroy ( &testrules );
 }
@@ -249,51 +250,51 @@ static void test_data_rules_filter_box_and_list(void)
 
     /* valid feature(lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+3 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+4 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(lifeline) which is not referenced */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(non-lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(non-lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+3 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(lifeline) to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+4 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from classifier to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+5 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(lifeline) to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+6 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from classifier to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+7 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(non-lifeline) to feature(non-lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+4 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from classifier to feature(non-lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+5 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(non-lifeline) to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+6 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     data_rules_destroy ( &testrules );
 }
@@ -310,51 +311,51 @@ static void test_data_rules_filter_standard(void)
 
     /* valid feature(lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+3 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+4 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(lifeline) which is not referenced */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_REFS );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(non-lifeline) at decision-node */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+2 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid feature(non-lifeline) at class */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_LIFELINE_COUNT+3 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid relationship from feature(lifeline) to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+4 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from classifier to feature(lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+5 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from feature(lifeline) to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+6 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* valid relationship from classifier to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+7 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid relationship from feature(non-lifeline) to feature(non-lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+4 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid relationship from classifier to feature(non-lifeline) */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+5 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     /* valid relationship from feature(non-lifeline) to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_REF_MOD+6 );
-    TEST_ASSERT( show == true );
+    TEST_EXPECT( show == true );
 
     data_rules_destroy ( &testrules );
 }
@@ -371,23 +372,23 @@ static void test_data_rules_filter_incomplete(void)
 
     /* feature referencing unknown parent */
     show = data_rules_diagram_shows_feature ( &testrules, test_input_data, TEST_FEATURE_ID_OFFSET+TEST_CLASSIFIER_ID_GAP );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* relationship referencing unknown from classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_ID_GAP );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* relationship referencing unknown to classifier */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_CLASSIFIER_ID_GAP+1 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* relationship referencing unknown from feature */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_FEATURE_ID_GAP );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     /* relationship referencing unknown to feature */
     show = data_rules_diagram_shows_relationship ( &testrules, test_input_data, TEST_RELATION_ID_OFFSET+TEST_FEATURE_ID_GAP+1 );
-    TEST_ASSERT( show == false );
+    TEST_EXPECT( show == false );
 
     data_rules_destroy ( &testrules );
 }

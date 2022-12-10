@@ -2,7 +2,8 @@
 
 #include "data_small_set_test.h"
 #include "set/data_small_set.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -41,72 +42,72 @@ static void test_small_set_add_and_remove(void)
     data_small_set_init ( &my_set );
 
     empty = data_small_set_is_empty ( &my_set );
-    TEST_ASSERT_EQUAL_INT( true, empty );
+    TEST_EXPECT_EQUAL_INT( true, empty );
 
     data_id_init( &row_id, DATA_TABLE_RELATIONSHIP, 12345678900 );
 
     is_in = data_small_set_contains( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( false, is_in );
+    TEST_EXPECT_EQUAL_INT( false, is_in );
 
     is_in = data_small_set_contains_row_id ( &my_set, DATA_TABLE_RELATIONSHIP, 12345678900 );
-    TEST_ASSERT_EQUAL_INT( false, is_in );
+    TEST_EXPECT_EQUAL_INT( false, is_in );
 
     d_err = data_small_set_add_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
 
     is_in = data_small_set_contains( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( true, is_in );
+    TEST_EXPECT_EQUAL_INT( true, is_in );
 
     is_in = data_small_set_contains_row_id ( &my_set, DATA_TABLE_RELATIONSHIP, 12345678900 );
-    TEST_ASSERT_EQUAL_INT( true, is_in );
+    TEST_EXPECT_EQUAL_INT( true, is_in );
 
     d_err = data_small_set_add_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_DUPLICATE_ID, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_DUPLICATE_ID, d_err );
 
     data_id_init_void( &row_inval );
 
     d_err = data_small_set_add_obj ( &my_set, row_inval );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
 
     data_id_init( &row_id2, DATA_TABLE_CLASSIFIER, -37 );
 
     d_err = data_small_set_add_obj ( &my_set, row_id2 );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
     is_in = data_small_set_contains( &my_set, row_id2 );
-    TEST_ASSERT_EQUAL_INT( true, is_in );
+    TEST_EXPECT_EQUAL_INT( true, is_in );
 
     data_small_set_trace ( &my_set );
 
     d_err = data_small_set_toggle_obj ( &my_set, row_inval );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
 
     d_err = data_small_set_toggle_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
     is_in = data_small_set_contains( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( false, is_in );
+    TEST_EXPECT_EQUAL_INT( false, is_in );
 
     d_err = data_small_set_toggle_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
     is_in = data_small_set_contains( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( true, is_in );
+    TEST_EXPECT_EQUAL_INT( true, is_in );
 
     data_small_set_trace ( &my_set );
 
     d_err = data_small_set_delete_obj ( &my_set, row_id2 );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
     is_in = data_small_set_contains( &my_set, row_id2 );
-    TEST_ASSERT_EQUAL_INT( false, is_in );
+    TEST_EXPECT_EQUAL_INT( false, is_in );
 
     d_err = data_small_set_delete_obj ( &my_set, row_id2 );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, d_err );
 
     d_err = data_small_set_delete_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
     is_in = data_small_set_contains( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( false, is_in );
+    TEST_EXPECT_EQUAL_INT( false, is_in );
 
     empty = data_small_set_is_empty ( &my_set );
-    TEST_ASSERT_EQUAL_INT( true, empty );
+    TEST_EXPECT_EQUAL_INT( true, empty );
 
     data_small_set_destroy ( &my_set );
 }
@@ -126,33 +127,33 @@ static void test_small_set_full(void)
     {
         data_id_init( &row_id, DATA_TABLE_DIAGRAM, idx );
         d_err = data_small_set_add_obj ( &my_set, row_id );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
         is_in = data_small_set_contains( &my_set, row_id );
-        TEST_ASSERT_EQUAL_INT( true, is_in );
+        TEST_EXPECT_EQUAL_INT( true, is_in );
     }
 
     data_id_init( &row_id, DATA_TABLE_DIAGRAM, 57000111222 );
     d_err = data_small_set_add_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
     is_in = data_small_set_contains( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( false, is_in );
+    TEST_EXPECT_EQUAL_INT( false, is_in );
 
     d_err = data_small_set_toggle_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
     is_in = data_small_set_contains( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( false, is_in );
+    TEST_EXPECT_EQUAL_INT( false, is_in );
 
     for ( int idx = 0; idx < DATA_SMALL_SET_MAX_SET_SIZE; idx ++ )
     {
         data_id_init( &row_id, DATA_TABLE_DIAGRAM, idx );
         d_err = data_small_set_delete_obj ( &my_set, row_id );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
         is_in = data_small_set_contains( &my_set, row_id );
-        TEST_ASSERT_EQUAL_INT( false, is_in );
+        TEST_EXPECT_EQUAL_INT( false, is_in );
     }
 
     empty = data_small_set_is_empty ( &my_set );
-    TEST_ASSERT_EQUAL_INT( true, empty );
+    TEST_EXPECT_EQUAL_INT( true, empty );
 
     data_small_set_destroy ( &my_set );
 }
@@ -169,24 +170,24 @@ static void test_small_set_clear(void)
     data_small_set_init ( &my_set );
     data_id_init( &row_id, DATA_TABLE_RELATIONSHIP, 12345678900 );
     d_err = data_small_set_add_obj ( &my_set, row_id );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, d_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, d_err );
 
     /* test on filled set */
 
     empty = data_small_set_is_empty ( &my_set );
-    TEST_ASSERT_EQUAL_INT( false, empty );
+    TEST_EXPECT_EQUAL_INT( false, empty );
 
     data_small_set_clear ( &my_set );
 
     empty = data_small_set_is_empty ( &my_set );
-    TEST_ASSERT_EQUAL_INT( true, empty );
+    TEST_EXPECT_EQUAL_INT( true, empty );
 
     /* test on empty set */
 
     data_small_set_clear ( &my_set );
 
     empty = data_small_set_is_empty ( &my_set );
-    TEST_ASSERT_EQUAL_INT( true, empty );
+    TEST_EXPECT_EQUAL_INT( true, empty );
 
     /* clean up */
 

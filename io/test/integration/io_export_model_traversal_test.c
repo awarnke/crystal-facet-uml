@@ -12,7 +12,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "u8/u8_trace.h"
-#include "test_assert.h"
+#include "test_expect.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -355,7 +355,7 @@ static void iterate_types_on_mini_model(void)
                             export_err |= io_export_model_traversal_walk_model_nodes( &temp_model_traversal );
                             export_err |= xmi_element_writer_write_footer( &temp_xmi_writer );
 
-                            TEST_ASSERT_EQUAL_INT( 0, export_err );
+                            TEST_EXPECT_EQUAL_INT( 0, export_err );
 
                             io_export_model_traversal_destroy( &temp_model_traversal );
                             xmi_element_writer_destroy( &temp_xmi_writer );
@@ -374,18 +374,18 @@ static void iterate_types_on_mini_model(void)
 #endif
 
                     const int xml_is_error = test_result_check_xml_validate_xml( &(mem_buffer[0]) );
-                    TEST_ASSERT_EQUAL_INT( 0, xml_is_error );
+                    TEST_EXPECT_EQUAL_INT( 0, xml_is_error );
 
                     data_stat_trace( &stat );
-                    TEST_ASSERT_EQUAL_INT( 5, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED ) );
-                    //TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED ) );
-                    //TEST_ASSERT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ) );
-                    //TEST_ASSERT_EQUAL_INT( 10, data_stat_get_series_count( &stat, DATA_STAT_SERIES_EXPORTED ) );
-                    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_MODIFIED ) );
-                    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_DELETED ) );
-                    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_IGNORED ) );
-                    //TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_WARNING ) );
-                    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
+                    TEST_EXPECT_EQUAL_INT( 5, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED ) );
+                    //TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED ) );
+                    //TEST_EXPECT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ) );
+                    //TEST_EXPECT_EQUAL_INT( 10, data_stat_get_series_count( &stat, DATA_STAT_SERIES_EXPORTED ) );
+                    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_MODIFIED ) );
+                    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_DELETED ) );
+                    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_IGNORED ) );
+                    //TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_WARNING ) );
+                    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
                     data_stat_destroy( &stat );
                 }
             }

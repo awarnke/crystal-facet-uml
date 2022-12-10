@@ -2,7 +2,8 @@
 
 #include "data_change_notifier_test.h"
 #include "storage/data_change_notifier.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 #include <glib-object.h>
 
 static void set_up(void);
@@ -51,35 +52,35 @@ static void test_notifier_list_insert_and_remove(void)
 
     /* remove from empty list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* add one to list */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
 
     /* add another to list */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
 
     /* add the same again to list */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* remove not-contained from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[2]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* remove second from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
 
     /* remove second again from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[1]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* remove first from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
 }
 
 static void test_notifier_list_full(void)
@@ -90,27 +91,27 @@ static void test_notifier_list_full(void)
     for ( int idx = 0; idx < data.max_list_len; idx ++ )
     {
         result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[idx]));
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
     }
 
     /* add one more */
     result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[data.max_list_len]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, result );
 
     /* remove max_list_len */
     for ( int idx = 0; idx < data.max_list_len; idx ++ )
     {
         result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[idx]));
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, result );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
     }
 
     /* remove one more */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[data.max_list_len]));
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, result );
 
     /* check that memory was not overwritten */
-    TEST_ASSERT_EQUAL_INT( 0x4343f9f5u, data.guard_1 );
-    TEST_ASSERT_EQUAL_INT( 0xf6de0043u, data.guard_2 );
+    TEST_EXPECT_EQUAL_INT( 0x4343f9f5u, data.guard_1 );
+    TEST_EXPECT_EQUAL_INT( 0xf6de0043u, data.guard_2 );
 }
 
 

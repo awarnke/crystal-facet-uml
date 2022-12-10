@@ -7,7 +7,8 @@
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
 #include "data_diagram_type.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 #include <stdio.h>
 
 static void set_up(void);
@@ -74,64 +75,64 @@ static void create_read_modify_read(void)
     {
         diagram_id = DATA_ROW_ID_VOID;
         ctrl_err = ctrl_diagram_controller_private_create_child_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ROW_ID_VOID != diagram_id );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT( DATA_ROW_ID_VOID != diagram_id );
     }
 
     /* read this record */
     {
         data_diagram_init_empty( &(read_diagrams[0]) );
         data_err = data_database_reader_get_diagram_by_id ( &db_reader, diagram_id, &(read_diagrams[0]) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
     }
 
     /* modify this record */
     {
         ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, diagram_id, "'new' diagram\ndescription" );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
         ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, diagram_id, "\"new\" diagram name" );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
         ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, diagram_id, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
         ctrl_err = ctrl_diagram_controller_update_diagram_list_order ( diag_ctrl, diagram_id, -4321 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* search several records, result array too small */
     {
         data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader, PARENT_ID, 0, &read_diagrams, &read_diagrams_count );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
-        TEST_ASSERT_EQUAL_INT( 0, read_diagrams_count );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
+        TEST_EXPECT_EQUAL_INT( 0, read_diagrams_count );
         /* check that old data is not overwritten: */
-        TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
     }
 
     /* search several records, result array sufficient */
     {
         data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader, PARENT_ID, 2, &read_diagrams, &read_diagrams_count );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 1, read_diagrams_count );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 1, read_diagrams_count );
         /* check that new data is available */
-        TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( -4321, data_diagram_get_list_order( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( -4321, data_diagram_get_list_order( &(read_diagrams[0]) ) );
     }
 
     /* search several record ids to a result set */
@@ -139,12 +140,12 @@ static void create_read_modify_read(void)
         data_small_set_t the_set;
         data_small_set_init( &the_set );
         data_err = data_database_reader_get_diagram_ids_by_parent_id ( &db_reader, PARENT_ID, &the_set );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 1, data_small_set_get_count( &the_set ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &the_set ) );
         /* check that new data is available */
         data_id_t the_set_entry = data_small_set_get_id( &the_set, 0 );
-        TEST_ASSERT_EQUAL_INT( diagram_id, data_id_get_row_id( &the_set_entry ) );
-        TEST_ASSERT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &the_set_entry ) );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_id_get_row_id( &the_set_entry ) );
+        TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &the_set_entry ) );
         data_small_set_destroy( &the_set );
     }
 }
@@ -175,8 +176,8 @@ static void create_diagramelements_and_delete(void)
                                                                                "root_diagram",
                                                                                &diagram_id
                                                                              );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_ASSERT( DATA_ROW_ID_VOID != diagram_id );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT( DATA_ROW_ID_VOID != diagram_id );
     }
 
     /* create a classifier */
@@ -191,15 +192,15 @@ static void create_diagramelements_and_delete(void)
                                               8800,
                                               880000
                                             );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                                   &new_classifier,
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                                   &classifier_id
                                                                 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_classifier_destroy ( &new_classifier );
-        TEST_ASSERT( DATA_ROW_ID_VOID != classifier_id );
+        TEST_EXPECT( DATA_ROW_ID_VOID != classifier_id );
     }
 
     /* create a diagramelement */
@@ -216,9 +217,9 @@ static void create_diagramelements_and_delete(void)
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
                                                                    &diag_element_id
                                                                  );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
-        TEST_ASSERT( DATA_ROW_ID_VOID != diag_element_id );
+        TEST_EXPECT( DATA_ROW_ID_VOID != diag_element_id );
     }
 
     /* get the id of the diagramelement */
@@ -229,22 +230,22 @@ static void create_diagramelements_and_delete(void)
                                                                        &read_vis_classifiers,
                                                                        &read_vis_classifiers_count
                                                                      );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 1, read_vis_classifiers_count );
         diag_element_ptr = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );
-        TEST_ASSERT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( diag_element_ptr ) );
-        TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( diag_element_ptr ) );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( diag_element_ptr ) );
+        TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( diag_element_ptr ) );
         diag_element_id = data_diagramelement_get_row_id( diag_element_ptr );
     }
 
     /* get the data_diagramelement_t by id */
     {
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diag_element_id, &diag_element );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( &diag_element ) );
-        TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( &diag_element ) );
-        TEST_ASSERT_EQUAL_INT( diag_element_id, data_diagramelement_get_row_id( &diag_element ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &diag_element ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( &diag_element ) );
+        TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( &diag_element ) );
+        TEST_EXPECT_EQUAL_INT( diag_element_id, data_diagramelement_get_row_id( &diag_element ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &diag_element ) );
     }
 
     /* get all diagrams by classifier id */
@@ -255,14 +256,14 @@ static void create_diagramelements_and_delete(void)
                                                                        &out_diagram,
                                                                        &out_diagram_count
                                                                      );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
-        TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram[0]) ) );
-        TEST_ASSERT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &(out_diagram[0]) ) );
-        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram[0]) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_const( &(out_diagram[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(out_diagram[0]) ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(out_diagram[0]) ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 1, out_diagram_count );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram[0]) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &(out_diagram[0]) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram[0]) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_const( &(out_diagram[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(out_diagram[0]) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(out_diagram[0]) ) );
     }
 
     /* delete the diagramelement */
@@ -271,20 +272,20 @@ static void create_diagramelements_and_delete(void)
                                                                   diag_element_id,
                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
     /* get the deleted data_diagramelement_t */
     {
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diag_element_id, &diag_element );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
     /* get all diagrams by classifier id */
     {
         data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader, classifier_id, 2, &out_diagram, &out_diagram_count );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 0, out_diagram_count );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 0, out_diagram_count );
     }
 }
 

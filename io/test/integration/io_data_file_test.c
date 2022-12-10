@@ -2,7 +2,7 @@
 
 #include "io_data_file_test.h"
 #include "io_data_file.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <stdio.h>
 
 static void set_up(void);
@@ -50,17 +50,17 @@ static void create_new_db(void)
     bool isopen;
 
     isopen = io_data_file_is_open( &data_file );
-    TEST_ASSERT_EQUAL_INT( false, isopen );
+    TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* create a new db */
     u8_error_info_t err_info;
     ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
     isopen = io_data_file_is_open( &data_file );
-    TEST_ASSERT_EQUAL_INT( true, isopen );
+    TEST_EXPECT_EQUAL_INT( true, isopen );
 }
 
 static void open_existing_db(void)
@@ -70,30 +70,30 @@ static void open_existing_db(void)
     bool isopen;
 
     isopen = io_data_file_is_open( &data_file );
-    TEST_ASSERT_EQUAL_INT( false, isopen );
+    TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* create a db first */
     u8_error_info_t err_info;
     data_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
     data_err = io_data_file_close ( &data_file );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     isopen = io_data_file_is_open( &data_file );
-    TEST_ASSERT_EQUAL_INT( false, isopen );
+    TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* open an existing db */
     u8_error_info_init_line( &err_info, U8_ERROR_PARSER_STRUCTURE, 123 /*line*/ );
     ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
     isopen = io_data_file_is_open( &data_file );
-    TEST_ASSERT_EQUAL_INT( true, isopen );
+    TEST_EXPECT_EQUAL_INT( true, isopen );
 }
 
 static void open_invalid_file(void)
@@ -105,29 +105,29 @@ static void open_invalid_file(void)
     /* create a file first */
     FILE *nondb;
     nondb = fopen( DATABASE_FILENAME, "w" );
-    TEST_ASSERT( NULL != nondb );
+    TEST_EXPECT( NULL != nondb );
 
     size_t written;
     written = fwrite( DATABASE_FILENAME, 1, sizeof(DATABASE_FILENAME), nondb );
-    TEST_ASSERT_EQUAL_INT( sizeof(DATABASE_FILENAME), written );
-    TEST_ASSERT_EQUAL_INT( 40, sizeof(DATABASE_FILENAME) );  /* check if sizeof works as expected */
+    TEST_EXPECT_EQUAL_INT( sizeof(DATABASE_FILENAME), written );
+    TEST_EXPECT_EQUAL_INT( 40, sizeof(DATABASE_FILENAME) );  /* check if sizeof works as expected */
 
     stdio_err = fclose( nondb );
-    TEST_ASSERT_EQUAL_INT( 0, stdio_err );
+    TEST_EXPECT_EQUAL_INT( 0, stdio_err );
 
     isopen = io_data_file_is_open( &data_file );
-    TEST_ASSERT_EQUAL_INT( false, isopen );
+    TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* open an existing non-db file */
     u8_error_info_t err_info;
     ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &err_info ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &err_info ) );
-    TEST_ASSERT_EQUAL_INT( 1, u8_error_info_get_position( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, ctrl_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( 1, u8_error_info_get_position( &err_info ) );
 
     isopen = io_data_file_is_open( &data_file );
-    TEST_ASSERT_EQUAL_INT( false, isopen );
+    TEST_EXPECT_EQUAL_INT( false, isopen );
 }
 
 

@@ -4,7 +4,7 @@
 #include "geometry/geometry_connector.h"
 #include "geometry/geometry_connector_segment.h"
 #include "geometry/geometry_rectangle.h"
-#include "test_assert.h"
+#include "test_expect.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -53,9 +53,9 @@ static void test_base_methods(void)
                                          30.0 /*destination_end_y*/,
                                          20.0 /*main_line_x*/
                                        );
-    TEST_ASSERT_EQUAL_DOUBLE( 40.0, geometry_connector_get_length( &my_connector ) );
-    TEST_ASSERT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 21.0, 9.0, 1.5 /* max_distance */ ) );
-    TEST_ASSERT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 21.0, 9.0, 0.5 /* max_distance */ ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 40.0, geometry_connector_get_length( &my_connector ) );
+    TEST_EXPECT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 21.0, 9.0, 1.5 /* max_distance */ ) );
+    TEST_EXPECT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 21.0, 9.0, 0.5 /* max_distance */ ) );
 
     /* init 1 segment line */
     geometry_connector_reinit_vertical ( &my_connector,
@@ -65,9 +65,9 @@ static void test_base_methods(void)
                                          30.0 /*destination_end_y*/,
                                          10.0 /*main_line_x*/
                                        );
-    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_connector_get_length( &my_connector ) );
-    TEST_ASSERT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 9.0, 20.0, 1.5 /* max_distance */ ) );
-    TEST_ASSERT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 10.0, 8.0, 1.5 /* max_distance */ ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_connector_get_length( &my_connector ) );
+    TEST_EXPECT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 9.0, 20.0, 1.5 /* max_distance */ ) );
+    TEST_EXPECT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 10.0, 8.0, 1.5 /* max_distance */ ) );
 
     geometry_connector_destroy ( &my_connector );
 }
@@ -86,7 +86,7 @@ static void test_bounding_rectangle(void)
                                        20.0 /*main_line_x*/
                                      );
     bounds = geometry_connector_get_bounding_rectangle ( &my_connector );
-    TEST_ASSERT_EQUAL_DOUBLE( 400.0, geometry_rectangle_get_area( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 400.0, geometry_rectangle_get_area( &bounds ) );
     geometry_rectangle_destroy ( &bounds );
 
     /* init 3 segments line, U-Form */
@@ -98,7 +98,7 @@ static void test_bounding_rectangle(void)
                                            10.0 /*main_line_y*/
                                          );
     bounds = geometry_connector_get_bounding_rectangle ( &my_connector );
-    TEST_ASSERT_EQUAL_DOUBLE( 400.0, geometry_rectangle_get_area( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 400.0, geometry_rectangle_get_area( &bounds ) );
     geometry_rectangle_destroy ( &bounds );
 
     /* init 1 segment line */
@@ -110,7 +110,7 @@ static void test_bounding_rectangle(void)
                                          10.0 /*main_line_x*/
                                        );
     bounds = geometry_connector_get_bounding_rectangle ( &my_connector );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &bounds ) );
     geometry_rectangle_destroy ( &bounds );
 
     geometry_connector_destroy ( &my_connector );
@@ -130,24 +130,24 @@ static void test_segment_bounds(void)
                                        10.0 /*main_line_x*/
                                      );
     bounds = geometry_connector_get_segment_bounds ( &my_connector, GEOMETRY_CONNECTOR_SEGMENT_SOURCE );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &bounds ) );
     geometry_rectangle_destroy ( &bounds );
 
     bounds = geometry_connector_get_segment_bounds ( &my_connector, GEOMETRY_CONNECTOR_SEGMENT_MAIN );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_rectangle_get_height( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_rectangle_get_height( &bounds ) );
     geometry_rectangle_destroy ( &bounds );
 
     bounds = geometry_connector_get_segment_bounds ( &my_connector, GEOMETRY_CONNECTOR_SEGMENT_DESTINATION );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 30.0, geometry_rectangle_get_top( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_rectangle_get_width( &bounds ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 30.0, geometry_rectangle_get_top( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_rectangle_get_width( &bounds ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &bounds ) );
     geometry_rectangle_destroy ( &bounds );
 
     geometry_connector_destroy ( &my_connector );
@@ -169,7 +169,7 @@ static void test_intersecting_rectangle_simple(void)
                                      );
     geometry_rectangle_init( &overlap, 19.0, 19.0, 5.0 /*W*/, 5.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &overlap );
-    TEST_ASSERT_EQUAL_INT( true, intersects );
+    TEST_EXPECT_EQUAL_INT( true, intersects );
 
     geometry_rectangle_destroy ( &overlap );
 
@@ -183,7 +183,7 @@ static void test_intersecting_rectangle_simple(void)
                                          );
     geometry_rectangle_init( &overlap, 11.0, 11.0, 18.0 /*W*/, 25.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &overlap );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     geometry_rectangle_destroy ( &overlap );
 
@@ -197,7 +197,7 @@ static void test_intersecting_rectangle_simple(void)
                                        );
     geometry_rectangle_init( &overlap, 9.0, 11.0, 10.0 /*W*/, 10.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &overlap );
-    TEST_ASSERT_EQUAL_INT( true, intersects );
+    TEST_EXPECT_EQUAL_INT( true, intersects );
 
     geometry_rectangle_destroy ( &overlap );
     geometry_connector_destroy ( &my_connector );
@@ -221,22 +221,22 @@ static void test_intersecting_rectangle_corner(void)
     /* touch source end */
     geometry_rectangle_init( &touching, 9.0, 9.0, 1.0 /*W*/, 2.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &touching );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     /* touch source end by 0-width */
     geometry_rectangle_init( &touching, 10.0, 9.0, 0.0 /*W*/, 2.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &touching );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     /* touch destination end */
     geometry_rectangle_reinit( &touching, 30.0, 29.0, 1.0 /*W*/, 2.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &touching );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     /* touch main line */
     geometry_rectangle_reinit( &touching, 20.0, 9.0, 1.0 /*W*/, 21.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &touching );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     /* init 1 segment line */
     geometry_connector_reinit_vertical ( &my_connector,
@@ -250,17 +250,17 @@ static void test_intersecting_rectangle_corner(void)
     /* touch source end */
     geometry_rectangle_reinit( &touching, 9.0, 9.0, 2.0 /*W*/, 1.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &touching );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     /* touch destination end */
     geometry_rectangle_reinit( &touching, 9.0, 30.0, 2.0 /*W*/, 1.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &touching );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     /* touch destination end by 0-height */
     geometry_rectangle_reinit( &touching, 9.0, 30.0, 2.0 /*W*/, 0.0 /*H*/ );
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &touching );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     geometry_rectangle_destroy ( &touching );
     geometry_connector_destroy ( &my_connector );
@@ -277,7 +277,7 @@ static void test_connector_intersects(void)
     geometry_connector_init_empty( &my_connector_2 );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
-    TEST_ASSERT_EQUAL_INT( 9, intersect_count );
+    TEST_EXPECT_EQUAL_INT( 9, intersect_count );
 
     geometry_connector_destroy ( &my_connector_1 );
     geometry_connector_destroy ( &my_connector_2 );
@@ -299,7 +299,7 @@ static void test_connector_intersects(void)
                                      );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
-    TEST_ASSERT_EQUAL_INT( 0, intersect_count );
+    TEST_EXPECT_EQUAL_INT( 0, intersect_count );
 
     geometry_connector_destroy ( &my_connector_1 );
     geometry_connector_destroy ( &my_connector_2 );
@@ -321,7 +321,7 @@ static void test_connector_intersects(void)
                                        );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
-    TEST_ASSERT_EQUAL_INT( 0, intersect_count );
+    TEST_EXPECT_EQUAL_INT( 0, intersect_count );
 
     geometry_connector_destroy ( &my_connector_1 );
     geometry_connector_destroy ( &my_connector_2 );
@@ -343,7 +343,7 @@ static void test_connector_intersects(void)
                                        );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
-    TEST_ASSERT_EQUAL_INT( 2, intersect_count );
+    TEST_EXPECT_EQUAL_INT( 2, intersect_count );
 
     geometry_connector_destroy ( &my_connector_1 );
     geometry_connector_destroy ( &my_connector_2 );
@@ -359,7 +359,7 @@ static void test_connector_intersects(void)
     geometry_connector_replace ( &my_connector_2, &my_connector_1 );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
-    TEST_ASSERT_EQUAL_INT( 7, intersect_count );
+    TEST_EXPECT_EQUAL_INT( 7, intersect_count );
 
     geometry_connector_destroy ( &my_connector_1 );
     geometry_connector_destroy ( &my_connector_2 );
@@ -381,7 +381,7 @@ static void test_connector_intersects(void)
                                      );
 
     intersect_count = geometry_connector_count_connector_intersects ( &my_connector_1, &my_connector_2 );
-    TEST_ASSERT_EQUAL_INT( 3, intersect_count );
+    TEST_EXPECT_EQUAL_INT( 3, intersect_count );
 
     geometry_connector_destroy ( &my_connector_1 );
     geometry_connector_destroy ( &my_connector_2 );
@@ -400,24 +400,24 @@ static void test_calc_waypoint_good(void)
                                      );
 
     geometry_point_t pos_before = geometry_connector_calculate_waypoint( &my_connector_1, -0.1 );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos_before ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos_before ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos_before ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos_before ) );
 
     geometry_point_t pos_first = geometry_connector_calculate_waypoint( &my_connector_1, 1.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 11.0, geometry_point_get_x( &pos_first ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos_first ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 11.0, geometry_point_get_x( &pos_first ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos_first ) );
 
     geometry_point_t pos_main = geometry_connector_calculate_waypoint( &my_connector_1, 29.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_point_get_x( &pos_main ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 29.0, geometry_point_get_y( &pos_main ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_point_get_x( &pos_main ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 29.0, geometry_point_get_y( &pos_main ) );
 
     geometry_point_t pos_third = geometry_connector_calculate_waypoint( &my_connector_1, 39.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 11.0, geometry_point_get_x( &pos_third ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 30.0, geometry_point_get_y( &pos_third ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 11.0, geometry_point_get_x( &pos_third ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 30.0, geometry_point_get_y( &pos_third ) );
 
     geometry_point_t pos_after = geometry_connector_calculate_waypoint( &my_connector_1, 40.1 );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos_after ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 30.0, geometry_point_get_y( &pos_after ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos_after ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 30.0, geometry_point_get_y( &pos_after ) );
 }
 
 static void test_calc_waypoint_zero(void)
@@ -441,16 +441,16 @@ static void test_calc_waypoint_zero(void)
                                      );
 
     geometry_point_t pos3_source = geometry_connector_calculate_waypoint( &my_connector_3, 0.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos3_source ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos3_source ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos3_source ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos3_source ) );
 
     geometry_point_t pos2_main = geometry_connector_calculate_waypoint( &my_connector_2, 10.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos2_main ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_point_get_y( &pos2_main ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos2_main ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_point_get_y( &pos2_main ) );
 
     geometry_point_t pos3_dest = geometry_connector_calculate_waypoint( &my_connector_3, 10.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_point_get_x( &pos3_dest ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos3_dest ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 20.0, geometry_point_get_x( &pos3_dest ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos3_dest ) );
 }
 
 

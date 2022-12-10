@@ -3,7 +3,7 @@
 #include "utf8codepoint_test.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8codepoint.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <string.h>
 #include <assert.h>
 
@@ -39,110 +39,110 @@ static void testInit1(void)
 {
     /* check initialization */
     utf8codepoint_t code_point1 = utf8codepoint( 'a' );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 97, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 97, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x00e4 );
-    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x20ac );
-    TEST_ASSERT_EQUAL_INT( 3, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x1d11e );
-    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( '\0' );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x7fffffff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0x7fffffff, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0x7fffffff, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x20ffff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0x20ffff, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0x20ffff, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xffffffff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0xffffffff, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0xffffffff, utf8codepoint_get_char( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
 }
 
 static void testInit2(void)
 {
     /* check init function */
     utf8codepoint_t code_point2 = utf8codepoint_init( "a", 1 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 97, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 97, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\0", 1 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xC3\xA4", 100 );
-    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xC3\xA4", 2 );
-    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT ( 0 != memcmp( &UTF8CODEPOINT_INVAL_CHAR, &code_point2, sizeof(utf8codepoint_t) ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT ( 0 != memcmp( &UTF8CODEPOINT_INVAL_CHAR, &code_point2, sizeof(utf8codepoint_t) ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xC3\xA4", 1 );
-    TEST_ASSERT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xC3\xA4", 0 );
-    TEST_ASSERT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT ( 0 == memcmp( &UTF8CODEPOINT_INVAL_CHAR, &code_point2, sizeof(utf8codepoint_t) ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT ( 0 == memcmp( &UTF8CODEPOINT_INVAL_CHAR, &code_point2, sizeof(utf8codepoint_t) ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( NULL, 2 );
-    TEST_ASSERT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xE2\x82\xAC", 3 );
-    TEST_ASSERT_EQUAL_INT( 3, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xF0\x9D\x84\x9E", 4 );
-    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xF0\x9D\x84\x9E", 3 );
-    TEST_ASSERT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\x9D\x84\x9E", 3 );
-    TEST_ASSERT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
 
     code_point2 = utf8codepoint_init( "\xF0\x9D\x84\x00", 4 );
-    TEST_ASSERT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
 
 }
 
@@ -154,77 +154,77 @@ static void testIntToUtf8ToInt(void) {
     /* check to convert a character to and back from utf8 */
     /* 0 */
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
 
     /* 1 byte code points */
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0x01 );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x01, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x01, utf8codepoint_get_char(result) );
 
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0x7f );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x7f, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x7f, utf8codepoint_get_char(result) );
 
     /* 2 byte code points */
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0x80 );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x80, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x80, utf8codepoint_get_char(result) );
 
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0x07ff );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x07ff, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x07ff, utf8codepoint_get_char(result) );
 
     /* 3 byte code points */
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0x800 );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 3, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x800, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x800, utf8codepoint_get_char(result) );
 
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0xffff );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 3, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0xffff, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0xffff, utf8codepoint_get_char(result) );
 
     /* 4 byte code points */
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0x10000 );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x10000, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x10000, utf8codepoint_get_char(result) );
 
     utf8stringbuf_clear( dynTestBuf1 );
     utf8stringbuf_append_char( dynTestBuf1, 0x10ffff );
     result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x10ffff, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x10ffff, utf8codepoint_get_char(result) );
 
     char invalid_1fffff[5] = "\xF7\xBF\xBF\xBF";
     utf8stringbuf_t invalidBuf = UTF8STRINGBUF(invalid_1fffff);
 
     result = utf8stringbuf_get_char_at( invalidBuf, 0 );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x1fffff, utf8codepoint_get_char(result) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length(result) );
+    TEST_EXPECT_EQUAL_INT( 0x1fffff, utf8codepoint_get_char(result) );
 }
 
 static void testIntToUtf8(void) {
@@ -235,122 +235,122 @@ static void testIntToUtf8(void) {
     /* check to convert a character to utf8 */
     /* 0 */
     probe = utf8codepoint( 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length(probe) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length(probe) );
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\0', '\0', '\0', '\0'}};
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
 
     /* 1 byte code points */
     probe = utf8codepoint( 0x24 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_get_length(probe) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length(probe) );
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\x24', '\0', '\0', '\0'}};
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
     
     /* 2 byte code points */
     probe = utf8codepoint( 0xa2 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
-    TEST_ASSERT_EQUAL_INT( 2, utf8codepoint_get_length(probe) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length(probe) );
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\xc2', '\xa2', '\0', '\0'}};
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
     
     /* 3 byte code points */
     probe = utf8codepoint( 0x20ac );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
-    TEST_ASSERT_EQUAL_INT( 3, utf8codepoint_get_length(probe) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length(probe) );
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\xe2', '\x82', '\xac', '\0'}};
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
 
     /* 4 byte code points */
     probe = utf8codepoint( 0x10348 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
-    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length(probe) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
+    TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length(probe) );
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\xf0', '\x90', '\x8d', '\x88'}};
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
 
     /* invalid */
     probe = utf8codepoint( 0x110000 );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid(probe) );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length(probe) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(probe) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length(probe) );
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\0', '\0', '\0', '\0'}};
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
 }
 
 static void testUnicode(void)
 {
     /* check valid code points */
     utf8codepoint_t code_point1 = utf8codepoint( '\0' );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xd7ff );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xe000 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xfdcf );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xfdf0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xfffc );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x10000 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x1fffc );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x100000 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x10fffc );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_unicode( code_point1 ) );
 
     /* check invalid code points */
     code_point1 = utf8codepoint( 0xd800 );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xdfff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xfdd0 );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xfdef );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xfffe );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xffff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x1fffe );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x1ffff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x10fffe );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x10ffff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x110000 );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xffffffff );
-    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
 }
 

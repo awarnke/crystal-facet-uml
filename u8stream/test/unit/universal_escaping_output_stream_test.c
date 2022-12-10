@@ -3,7 +3,7 @@
 #include "universal_escaping_output_stream_test.h"
 #include "u8stream/universal_escaping_output_stream.h"
 #include "u8stream/universal_memory_output_stream.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <string.h>
 #include <assert.h>
 
@@ -51,29 +51,29 @@ static void test_write_regular(void)
     /* get universal_output_stream_t */
     universal_output_stream_t *my_out_stream;
     my_out_stream = universal_escaping_output_stream_get_output_stream( &my_esc_out_stream );
-    TEST_ASSERT( my_out_stream != NULL );
+    TEST_EXPECT( my_out_stream != NULL );
 
     /* write */
     const char test_1[] = "&";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;" ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;" ) );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* write */
     const char test_2[] = "---4\n";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;- - -4  \n" ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;- - -4  \n" ) );
 
     /* write */
     const char test_3[] = "";
     err = universal_output_stream_write ( my_out_stream, test_3, strlen(test_3) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;- - -4  \n" ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "&amp;- - -4  \n" ) );
 }
 
 static void test_write_border_cases(void)
@@ -83,29 +83,29 @@ static void test_write_border_cases(void)
     /* get universal_output_stream_t */
     universal_output_stream_t *my_out_stream;
     my_out_stream = universal_escaping_output_stream_get_output_stream( &my_esc_out_stream );
-    TEST_ASSERT( my_out_stream != NULL );
+    TEST_EXPECT( my_out_stream != NULL );
 
     /* write */
     const char test_1[] = "0123456789abcdef";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), test_1, sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), test_1, sizeof(my_out_buffer) ) );
 
     /* reset underlying memory output stream */
     err = universal_memory_output_stream_reset( &my_mem_out_stream );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* write */
     const char test_2[] = "&&-----";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
 
     /* write */
     const char test_3[] = "\n";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "&amp;&amp;- - - ", sizeof(my_out_buffer) ) );
 }
 
 

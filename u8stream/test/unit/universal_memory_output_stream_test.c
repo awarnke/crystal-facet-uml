@@ -2,7 +2,7 @@
 
 #include "universal_memory_output_stream_test.h"
 #include "u8stream/universal_memory_output_stream.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <string.h>
 #include <assert.h>
 
@@ -43,40 +43,40 @@ static void test_insert_regular(void)
     /* get universal_output_stream_t */
     universal_output_stream_t *my_out_stream;
     my_out_stream = universal_memory_output_stream_get_output_stream( &my_mem_out_stream );
-    TEST_ASSERT( my_out_stream != NULL );
+    TEST_EXPECT( my_out_stream != NULL );
 
     /* get universal_output_stream_if_t */
     const universal_output_stream_if_t *my_out_if = universal_output_stream_get_interface ( my_out_stream );
-    TEST_ASSERT( my_out_if != NULL );
+    TEST_EXPECT( my_out_if != NULL );
 
     /* get objectdata */
     void *my_obj_data = universal_output_stream_get_objectdata ( my_out_stream );
-    TEST_ASSERT_EQUAL_PTR( &my_mem_out_stream, my_obj_data );
+    TEST_EXPECT_EQUAL_PTR( &my_mem_out_stream, my_obj_data );
 
     /* write */
     const char test_1[] = "Hello";
     err = universal_output_stream_write ( my_out_stream, test_1, sizeof(test_1) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* reset */
     err = universal_memory_output_stream_reset( &my_mem_out_stream );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* write */
     const char test_2[] = "Hel";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* write */
     const char test_3[] = "lo!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
 }
 
 static void test_insert_border_cases(void)
@@ -86,35 +86,35 @@ static void test_insert_border_cases(void)
     /* get universal_output_stream_t */
     universal_output_stream_t *my_out_stream;
     my_out_stream = universal_memory_output_stream_get_output_stream( &my_mem_out_stream );
-    TEST_ASSERT( my_out_stream != NULL );
+    TEST_EXPECT( my_out_stream != NULL );
 
     /* reset */
     err = universal_memory_output_stream_reset( &my_mem_out_stream );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* write */
     const char test_1[] = "123456";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
 
     /* write */
     const char test_2[] = "7890abc";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 
     /* write */
     const char test_3[] = "lo!";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 
     /* write */
     const char test_4[] = "";
     err = universal_output_stream_write ( my_out_stream, test_4, 0 );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
 }
 
 static void test_null_termination(void)
@@ -124,24 +124,24 @@ static void test_null_termination(void)
     /* write */
     const char test_1[] = "123456";
     err = universal_memory_output_stream_write ( &my_mem_out_stream, test_1, strlen(test_1) );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), test_1 ) );
 
     /* write null term*/
     err = universal_memory_output_stream_write_0term( &my_mem_out_stream );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), test_1, sizeof(test_1) ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), test_1, sizeof(test_1) ) );
 
     /* write */
     const char test_2[] = "7890abc";
     err = universal_memory_output_stream_write ( &my_mem_out_stream, test_2, strlen(test_2) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "789", sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "789", sizeof(my_out_buffer) ) );
 
     /* write null term*/
     err = universal_memory_output_stream_write_0term( &my_mem_out_stream );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "78" "\0", sizeof(my_out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "78" "\0", sizeof(my_out_buffer) ) );
 }
 
 

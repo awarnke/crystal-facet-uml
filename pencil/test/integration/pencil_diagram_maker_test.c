@@ -5,7 +5,8 @@
 #include "pencil_diagram_maker.h"
 #include "test_data/test_data_setup.h"
 #include "u8/u8_trace.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 
 static void set_up(void);
 static void tear_down(void);

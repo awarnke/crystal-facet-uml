@@ -9,7 +9,7 @@
 #include "storage/data_database_reader.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8/u8_trace.h"
-#include "test_assert.h"
+#include "test_expect.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -132,19 +132,19 @@ static void test_md_plain_mixed(void)
 
     /* plain */
     err = xml_writer_write_plain ( &xml_writer, "<!DTD><body>" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* xml enc */
     err = md_filter_transform ( &md_filter, "plain &amp; \"\'<>D3D#name#id" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* md */
     err = md_filter_transform ( &md_filter, "ln 1a\nln 1b\n\nln 2\n- ln 3\n4\n5 ln 5\n\n\nln 7a\n ln 7b\n> ln8\n" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* plain */
     err = xml_writer_write_plain ( &xml_writer, "</body>" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "<!DTD><body>plain &amp;amp; &quot;\'&lt;&gt;D3D#name#id"
         "ln 1a\nln 1b" TAG_BREAK "\nln 2" TAG_BREAK "- ln 3" TAG_BREAK "4" TAG_BREAK "5 ln 5" TAG_BREAK TAG_BREAK "\nln 7a\n ln 7b" TAG_BREAK "&gt; ln8\n"
@@ -153,7 +153,7 @@ static void test_md_plain_mixed(void)
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
     TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
 }
 
 static void test_valid_links(void)
@@ -164,7 +164,7 @@ static void test_valid_links(void)
 
     /* 2 valid links, 1 valid but half link */
     err = md_filter_transform ( &md_filter, ">D3DD0001#name#idD0001#id#nameD0001" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "&gt;D3D" TAG_LINK1 "D0001" TAG_LINK2 "Th&amp; &lt;root&gt; d&quot;agram" TAG_LINK3 "#id"
         TAG_LINK1 "D0001" TAG_LINK2 "D0001" TAG_LINK3;
@@ -172,7 +172,7 @@ static void test_valid_links(void)
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
     TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
 }
 
 static void test_invalid_links(void)
@@ -183,14 +183,14 @@ static void test_invalid_links(void)
 
     /* 2 invalid links, 1 valid but non-existig link, 1 valid but half link */
     err = md_filter_transform ( &md_filter, ">D3DD001#nameC0001#idD0002#id#nameD0001#nam" );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "&gt;D3DD001#nameC0001#idD0002#id#nameD0001#nam";
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
     TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
-    TEST_ASSERT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
 }
 
 

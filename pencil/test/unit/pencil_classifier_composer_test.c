@@ -2,7 +2,7 @@
 
 #include "pencil_classifier_composer_test.h"
 #include "pencil_classifier_composer.h"
-#include "test_assert.h"
+#include "test_expect.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -136,24 +136,24 @@ static void test_expand_space(void)
                                                            font_layout,
                                                            &layout_vis_classifier
                                                          );
-            TEST_ASSERT_EQUAL_INT( 0, err );
+            TEST_EXPECT_EQUAL_INT( 0, err );
 
             /* check that all layouted rectangles are outside space */
             const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( &layout_vis_classifier );
             if ( draw_classifier_icon_is_fix_sized_symbol( &draw_classifier_icon, classifier_type ) )
             {
                 /* no intesects if fix-size-symbol */
-                TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &in_space, symbol ) );
+                TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &in_space, symbol ) );
             }
-            TEST_ASSERT( ! geometry_rectangle_is_empty( symbol ) );
+            TEST_EXPECT( ! geometry_rectangle_is_empty( symbol ) );
             const geometry_rectangle_t *const label = layout_visible_classifier_get_label_box_const( &layout_vis_classifier );
-            TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &in_space, label ) );
-            TEST_ASSERT( ! geometry_rectangle_is_empty( label ) );
+            TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &in_space, label ) );
+            TEST_EXPECT( ! geometry_rectangle_is_empty( label ) );
             const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
-            TEST_ASSERT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( space ) );
-            TEST_ASSERT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_top( space ) );
-            TEST_ASSERT_EQUAL_DOUBLE( 420.0, geometry_rectangle_get_width( space ) );
-            TEST_ASSERT_EQUAL_DOUBLE( 104.0, geometry_rectangle_get_height( space ) );
+            TEST_EXPECT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( space ) );
+            TEST_EXPECT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_top( space ) );
+            TEST_EXPECT_EQUAL_DOUBLE( 420.0, geometry_rectangle_get_width( space ) );
+            TEST_EXPECT_EQUAL_DOUBLE( 104.0, geometry_rectangle_get_height( space ) );
         }
     }
 
@@ -184,18 +184,18 @@ static void test_set_envelope_box(void)
                                                                font_layout,
                                                                &layout_vis_classifier
                                                              );
-            TEST_ASSERT_EQUAL_INT( 0, err );
+            TEST_EXPECT_EQUAL_INT( 0, err );
 
             /* check that all layouted rectangles are within envelope */
             const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( &layout_vis_classifier );
-            TEST_ASSERT( geometry_rectangle_is_containing( &envelope, symbol ) );
-            TEST_ASSERT( ! geometry_rectangle_is_empty( symbol ) );
+            TEST_EXPECT( geometry_rectangle_is_containing( &envelope, symbol ) );
+            TEST_EXPECT( ! geometry_rectangle_is_empty( symbol ) );
             const geometry_rectangle_t *const label = layout_visible_classifier_get_label_box_const( &layout_vis_classifier );
-            TEST_ASSERT( geometry_rectangle_is_containing( &envelope, label ) );
-            TEST_ASSERT( ! geometry_rectangle_is_empty( label ) );
+            TEST_EXPECT( geometry_rectangle_is_containing( &envelope, label ) );
+            TEST_EXPECT( ! geometry_rectangle_is_empty( label ) );
             const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
-            TEST_ASSERT( geometry_rectangle_is_containing( &envelope, space ) );
-            TEST_ASSERT( ! geometry_rectangle_is_empty( space ) );
+            TEST_EXPECT( geometry_rectangle_is_containing( &envelope, space ) );
+            TEST_EXPECT( ! geometry_rectangle_is_empty( space ) );
         }
     }
 
@@ -226,15 +226,15 @@ static void test_set_envelope_box_too_small(void)
                                                                font_layout,
                                                                &layout_vis_classifier
                                                              );
-            TEST_ASSERT_EQUAL_INT( 1, err );
+            TEST_EXPECT_EQUAL_INT( 1, err );
 
             /* check that actual_envelope rectangle is bigger and is within small_envelope */
             const geometry_rectangle_t actual_envelope
                 = layout_visible_classifier_get_envelope_box( &layout_vis_classifier );
             geometry_rectangle_trace( &small_envelope );
             geometry_rectangle_trace( &actual_envelope );
-            TEST_ASSERT( geometry_rectangle_is_containing( &actual_envelope, &small_envelope ) );
-            TEST_ASSERT( ! geometry_rectangle_is_containing( &small_envelope, &actual_envelope ) );
+            TEST_EXPECT( geometry_rectangle_is_containing( &actual_envelope, &small_envelope ) );
+            TEST_EXPECT( ! geometry_rectangle_is_containing( &small_envelope, &actual_envelope ) );
 
             /* check that label and space are withing symbol (unless fix-sized-symbol) */
             if ( ! draw_classifier_icon_is_fix_sized_symbol( &draw_classifier_icon, classifier_type ) )
@@ -242,8 +242,8 @@ static void test_set_envelope_box_too_small(void)
                 const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( &layout_vis_classifier );
                 const geometry_rectangle_t *const label = layout_visible_classifier_get_label_box_const( &layout_vis_classifier );
                 const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
-                TEST_ASSERT( geometry_rectangle_is_containing( symbol, label ) );
-                TEST_ASSERT( geometry_rectangle_is_containing( symbol, space ) );
+                TEST_EXPECT( geometry_rectangle_is_containing( symbol, label ) );
+                TEST_EXPECT( geometry_rectangle_is_containing( symbol, space ) );
             }
         }
     }

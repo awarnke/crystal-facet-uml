@@ -3,7 +3,7 @@
 #include "universal_buffer_input_stream_test.h"
 #include "u8stream/universal_buffer_input_stream.h"
 #include "u8stream/universal_memory_input_stream.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <string.h>
 #include <assert.h>
 
@@ -49,35 +49,35 @@ static void test_read_chunks(void)
     /* get universal_input_stream_t */
     universal_input_stream_t *my_in_stream;
     my_in_stream = universal_buffer_input_stream_get_input_stream( &my_buf_in_stream );
-    TEST_ASSERT( my_in_stream != NULL );
+    TEST_EXPECT( my_in_stream != NULL );
 
     /* get universal_input_stream_if_t */
     const universal_input_stream_if_t *my_in_if = universal_input_stream_get_interface ( my_in_stream );
-    TEST_ASSERT( my_in_if != NULL );
+    TEST_EXPECT( my_in_if != NULL );
 
     /* get objectdata */
     void *my_obj_data = universal_input_stream_get_objectdata ( my_in_stream );
-    TEST_ASSERT_EQUAL_PTR( &my_buf_in_stream, my_obj_data );
+    TEST_EXPECT_EQUAL_PTR( &my_buf_in_stream, my_obj_data );
 
     /* read first 5 */
     size_t len;
     char buf5[5];
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( sizeof(buf5), len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "12345", sizeof(buf5) ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( sizeof(buf5), len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "12345", sizeof(buf5) ) );
 
     /* read last 5 */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( sizeof(buf5), len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( sizeof(buf5), len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
-    TEST_ASSERT_EQUAL_INT( 0, len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5)-1 ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
+    TEST_EXPECT_EQUAL_INT( 0, len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5)-1 ) );
 }
 
 static void test_read_all(void)
@@ -87,31 +87,31 @@ static void test_read_all(void)
     /* get universal_input_stream_t */
     universal_input_stream_t *my_in_stream;
     my_in_stream = universal_buffer_input_stream_get_input_stream( &my_buf_in_stream );
-    TEST_ASSERT( my_in_stream != NULL );
+    TEST_EXPECT( my_in_stream != NULL );
 
     /* read first 12 */
     size_t len;
     char buf12[12];
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( sizeof(my_in_buffer), len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( sizeof(my_in_buffer), len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
 
     /* reset */
     err = universal_memory_input_stream_reset ( &my_mem_in_stream );
     universal_buffer_input_stream_reset ( &my_buf_in_stream );
-    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* read first 12 */
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_INT( sizeof(my_in_buffer), len );
-    TEST_ASSERT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( sizeof(my_in_buffer), len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
-    TEST_ASSERT_EQUAL_INT( 0, len );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
+    TEST_EXPECT_EQUAL_INT( 0, len );
 }
 
 static void test_peek(void)
@@ -120,16 +120,16 @@ static void test_peek(void)
     for ( int idx = 0; idx < sizeof(my_in_buffer); idx ++ )
     {
         char nxt = universal_buffer_input_stream_peek_next( &my_buf_in_stream );
-        TEST_ASSERT_EQUAL_INT( my_in_buffer[idx], nxt );
+        TEST_EXPECT_EQUAL_INT( my_in_buffer[idx], nxt );
         char cur = universal_buffer_input_stream_read_next( &my_buf_in_stream );
-        TEST_ASSERT_EQUAL_INT( my_in_buffer[idx], cur );
+        TEST_EXPECT_EQUAL_INT( my_in_buffer[idx], cur );
     }
 
     /* peek+read after end */
     char last1 = universal_buffer_input_stream_peek_next( &my_buf_in_stream );
-    TEST_ASSERT_EQUAL_INT( '\0', last1 );
+    TEST_EXPECT_EQUAL_INT( '\0', last1 );
     char last2 = universal_buffer_input_stream_read_next( &my_buf_in_stream );
-    TEST_ASSERT_EQUAL_INT( '\0', last2 );
+    TEST_EXPECT_EQUAL_INT( '\0', last2 );
 }
 
 

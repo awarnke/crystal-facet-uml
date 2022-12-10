@@ -2,7 +2,7 @@
 
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf_performance.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <string.h>
 #include <time.h>
 #include <assert.h>
@@ -95,13 +95,13 @@ static void testClear(void)
 
     /* check the result */
     int equal = memcmp( posixBuf, utf8sbArr, TEST_BUF_SIZE );
-    TEST_ASSERT_EQUAL_INT( 0, equal );
+    TEST_EXPECT_EQUAL_INT( 0, equal );
 
     /* print the time measurement */
     printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for clear\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
-    TEST_ASSERT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
+    TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
 }
 
 static void testAppendStr(void)
@@ -143,13 +143,13 @@ static void testAppendStr(void)
     /* check the result */
     //int equal = strcmp( posixBuf, utf8sbArr );
     int equal = memcmp( posixBuf, utf8sbArr, TEST_BUF_SIZE );
-    TEST_ASSERT_EQUAL_INT( 0, equal );
+    TEST_EXPECT_EQUAL_INT( 0, equal );
 
     /* print the time measurement */
     printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for append string\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
-    TEST_ASSERT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
+    TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
 }
 
 static void testFindFirst(void)
@@ -182,14 +182,14 @@ static void testFindFirst(void)
     utf8sbDiff = utf8sbEnd - utf8sbStart;
 
     /* check the result */
-    TEST_ASSERT( posixLoc == NULL );
-    TEST_ASSERT_EQUAL_INT( -1, utf8sbLoc );
+    TEST_EXPECT( posixLoc == NULL );
+    TEST_EXPECT_EQUAL_INT( -1, utf8sbLoc );
 
     /* print the time measurement */
     printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for find string\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
-    TEST_ASSERT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
+    TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
 }
 
 const char EXAMPLE_DATA[] =
@@ -286,13 +286,13 @@ static void testInsertAndDelete(void) {
 
     /* check the result */
     int equal = memcmp( posixBuf, utf8sbArr, sizeof(EXAMPLE_DATA) );
-    TEST_ASSERT_EQUAL_INT( 0, equal );
+    TEST_EXPECT_EQUAL_INT( 0, equal );
 
     /* print the time measurement */
     printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for insert and delete\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
-    TEST_ASSERT( ( utf8sbDiff ) <= ( posixDiff * TEST_MAX_DURATION_FACTOR ) );
+    TEST_EXPECT( ( utf8sbDiff ) <= ( posixDiff * TEST_MAX_DURATION_FACTOR ) );
 }
 
 

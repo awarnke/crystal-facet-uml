@@ -2,7 +2,8 @@
 
 #include "data_uuid_test.h"
 #include "data_uuid.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -34,14 +35,14 @@ static void test_format(void)
     utf8string_t uuid_1 = data_uuid_get_string( &testee );
     /*printf("%s\n",uuid_1);*/
 
-    TEST_ASSERT_EQUAL_INT( 36, utf8string_get_length(uuid_1) );
+    TEST_EXPECT_EQUAL_INT( 36, utf8string_get_length(uuid_1) );
 
-    TEST_ASSERT_EQUAL_INT( 8, utf8string_find_next_str(uuid_1,"-",0) );
-    TEST_ASSERT_EQUAL_INT( 8+1+4, utf8string_find_next_str(uuid_1,"-",8+1) );
-    TEST_ASSERT_EQUAL_INT( 8+1+4+1, utf8string_find_next_str(uuid_1,"4",8+1+4) );
-    TEST_ASSERT_EQUAL_INT( 8+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1) );
-    TEST_ASSERT_EQUAL_INT( 8+1+4+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1) );
-    TEST_ASSERT_EQUAL_INT( -1, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1+4+1) );
+    TEST_EXPECT_EQUAL_INT( 8, utf8string_find_next_str(uuid_1,"-",0) );
+    TEST_EXPECT_EQUAL_INT( 8+1+4, utf8string_find_next_str(uuid_1,"-",8+1) );
+    TEST_EXPECT_EQUAL_INT( 8+1+4+1, utf8string_find_next_str(uuid_1,"4",8+1+4) );
+    TEST_EXPECT_EQUAL_INT( 8+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1) );
+    TEST_EXPECT_EQUAL_INT( 8+1+4+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1) );
+    TEST_EXPECT_EQUAL_INT( -1, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1+4+1) );
 
     data_uuid_destroy( &testee );
 }
@@ -56,12 +57,12 @@ static void test_unique(void)
     utf8string_t uuid_1 = data_uuid_get_string( &testee_1 );
     /*printf("%s\n",uuid_1);*/
 
-    TEST_ASSERT_EQUAL_INT( 1, utf8string_equals_str(uuid_1,uuid_1) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8string_equals_str(uuid_1,uuid_1) );
 
     utf8string_t uuid_2 = data_uuid_get_string( &testee_2 );
     /*printf("%s\n",uuid_2);*/
 
-    TEST_ASSERT_EQUAL_INT( 0, utf8string_equals_str(uuid_1,uuid_2) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8string_equals_str(uuid_1,uuid_2) );
 
     data_uuid_destroy( &testee_1 );
     data_uuid_destroy( &testee_2 );

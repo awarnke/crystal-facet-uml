@@ -2,7 +2,7 @@
 
 #include "geometry_rectangle_test.h"
 #include "geometry/geometry_rectangle.h"
-#include "test_assert.h"
+#include "test_expect.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -53,10 +53,10 @@ static void test_contain(void)
     geometry_rectangle_init ( &rect_b, 11.0, 11.0, 11.0 /*width*/, 11.0 /*height*/ );
 
     contains = geometry_rectangle_is_containing( &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( false, contains );
+    TEST_EXPECT_EQUAL_INT( false, contains );
 
     contains = geometry_rectangle_is_containing( &rect_b, &rect_a );
-    TEST_ASSERT_EQUAL_INT( false, contains );
+    TEST_EXPECT_EQUAL_INT( false, contains );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -67,16 +67,16 @@ static void test_contain(void)
     geometry_rectangle_init ( &rect_b, 10.0, 11.0, 9.0 /*width*/, 9.0 /*height*/ );
 
     contains = geometry_rectangle_is_containing( &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( true, contains );
+    TEST_EXPECT_EQUAL_INT( true, contains );
 
     contains = geometry_rectangle_is_containing( &rect_b, &rect_a );
-    TEST_ASSERT_EQUAL_INT( false, contains );
+    TEST_EXPECT_EQUAL_INT( false, contains );
 
     contains = geometry_rectangle_contains( &rect_a, 9.0, 9.0 );
-    TEST_ASSERT_EQUAL_INT( false, contains );
+    TEST_EXPECT_EQUAL_INT( false, contains );
 
     contains = geometry_rectangle_contains( &rect_a, 19.0, 19.0 );
-    TEST_ASSERT_EQUAL_INT( true, contains );
+    TEST_EXPECT_EQUAL_INT( true, contains );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -95,11 +95,11 @@ static void test_intersect(void)
     geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
     geometry_rectangle_init ( &rect_b, 10.0, 21.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &intersect_rect ) );
+    TEST_EXPECT_EQUAL_INT( -1, err );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &intersect_rect ) );
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -110,14 +110,14 @@ static void test_intersect(void)
     geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
     geometry_rectangle_init ( &rect_b, 20.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &intersect_rect ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &intersect_rect ) );
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( false, intersects );
+    TEST_EXPECT_EQUAL_INT( false, intersects );
 
     intersects = geometry_rectangle_is_contiguous( &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( true, intersects );
+    TEST_EXPECT_EQUAL_INT( true, intersects );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -128,11 +128,11 @@ static void test_intersect(void)
     geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
     geometry_rectangle_init ( &rect_b, 15.0, 15.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_DOUBLE( 25.0, geometry_rectangle_get_area( &intersect_rect ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_DOUBLE( 25.0, geometry_rectangle_get_area( &intersect_rect ) );
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( true, intersects );
+    TEST_EXPECT_EQUAL_INT( true, intersects );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -143,11 +143,11 @@ static void test_intersect(void)
     geometry_rectangle_init ( &rect_a, 10.0, 10.0, 20.0 /*width*/, 20.0 /*height*/ );
     geometry_rectangle_init ( &rect_b, 15.0, 15.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_area( &intersect_rect ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_area( &intersect_rect ) );
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( true, intersects );
+    TEST_EXPECT_EQUAL_INT( true, intersects );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -166,11 +166,11 @@ static void test_bounds(void)
     geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
     geometry_rectangle_init ( &rect_b, 18.0, 12.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_bounds( &bounds_rect, &rect_a, &rect_b );
-    TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds_rect ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 28.0, geometry_rectangle_get_right( &bounds_rect ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds_rect ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 22.0, geometry_rectangle_get_bottom( &bounds_rect ) );
+    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 28.0, geometry_rectangle_get_right( &bounds_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds_rect ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 22.0, geometry_rectangle_get_bottom( &bounds_rect ) );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -189,10 +189,10 @@ static void test_difference_basic(void)
         geometry_rectangle_init ( &rect_a, 9.0, 10.0, 1.0 /*width*/, 90.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, 11.0, 20.0, 10.0 /*width*/, 10.0 /*height*/ );
         geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
-        TEST_ASSERT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 1.0, geometry_rectangle_get_width( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_height( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 1.0, geometry_rectangle_get_width( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_height( &diff_rect ) );
 
         /* clean up */
         geometry_rectangle_destroy ( &rect_a );
@@ -205,10 +205,10 @@ static void test_difference_basic(void)
         geometry_rectangle_init ( &rect_a, 9.0, 10.0, 1.0 /*width*/, 90.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, 8.0, 11.0, 1.5 /*width*/, 1.0 /*height*/ );
         geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
-        TEST_ASSERT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 12.0, geometry_rectangle_get_top( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 1.0, geometry_rectangle_get_width( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 88.0, geometry_rectangle_get_height( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 12.0, geometry_rectangle_get_top( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 1.0, geometry_rectangle_get_width( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 88.0, geometry_rectangle_get_height( &diff_rect ) );
 
         /* clean up */
         geometry_rectangle_destroy ( &rect_a );
@@ -221,10 +221,10 @@ static void test_difference_basic(void)
         geometry_rectangle_init ( &rect_a, 9.0, 10.0, 1.0 /*width*/, 90.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, 8.0, 9.0, 3.0 /*width*/, 92.0 /*height*/ );
         geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
-        TEST_ASSERT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_left( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &diff_rect ) );
 
         /* clean up */
         geometry_rectangle_destroy ( &rect_a );
@@ -250,9 +250,9 @@ static void test_difference_4_candidates(void)
         //geometry_rectangle_trace( &rect_a );
         //geometry_rectangle_trace( &rect_b );
         //geometry_rectangle_trace( &diff_rect );
-        TEST_ASSERT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 15.0, geometry_rectangle_get_area( &diff_rect ) );
+        TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 15.0, geometry_rectangle_get_area( &diff_rect ) );
         geometry_rectangle_destroy ( &rect_a );
         geometry_rectangle_destroy ( &rect_b );
         geometry_rectangle_destroy ( &diff_rect );
@@ -275,9 +275,9 @@ static void test_difference_3_candidates(void)
         geometry_rectangle_init ( &rect_a, 1.0, 1.0, 8.0 /*width*/, 8.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], in_w[case_idx], in_h[case_idx] );
         geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
-        TEST_ASSERT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 48.0, geometry_rectangle_get_area( &diff_rect ) );
+        TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 48.0, geometry_rectangle_get_area( &diff_rect ) );
         geometry_rectangle_destroy ( &rect_a );
         geometry_rectangle_destroy ( &rect_b );
         geometry_rectangle_destroy ( &diff_rect );
@@ -311,9 +311,9 @@ static void test_difference_2_corner_candidates(void)
         geometry_rectangle_init ( &rect_a, 3.0, 3.0, 4.0 /*width*/, 4.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], 3.0, 3.0 );
         geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
-        TEST_ASSERT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 12.0, geometry_rectangle_get_area( &diff_rect ) );
+        TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 12.0, geometry_rectangle_get_area( &diff_rect ) );
         geometry_rectangle_destroy ( &rect_a );
         geometry_rectangle_destroy ( &rect_b );
         geometry_rectangle_destroy ( &diff_rect );
@@ -336,9 +336,9 @@ static void test_difference_2_stripe_candidates(void)
         geometry_rectangle_init ( &rect_a, 3.0, 3.0, 4.0 /*width*/, 4.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], in_w[case_idx], in_h[case_idx] );
         geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
-        TEST_ASSERT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 8.0, geometry_rectangle_get_area( &diff_rect ) );
+        TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 8.0, geometry_rectangle_get_area( &diff_rect ) );
         geometry_rectangle_destroy ( &rect_a );
         geometry_rectangle_destroy ( &rect_b );
         geometry_rectangle_destroy ( &diff_rect );
@@ -358,9 +358,9 @@ static void test_difference_1_candidate(void)
         geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
         geometry_rectangle_init ( &rect_b, in_x[case_idx], in_y[case_idx], 4.0 /*width*/, 4.0 /*height*/ );
         geometry_rectangle_init_by_difference( &diff_rect, &rect_a, &rect_b );
-        TEST_ASSERT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
-        TEST_ASSERT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_area( &diff_rect ) );
+        TEST_EXPECT( geometry_rectangle_is_containing( &rect_a, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &rect_b, &diff_rect ) );
+        TEST_EXPECT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_area( &diff_rect ) );
         geometry_rectangle_destroy ( &rect_a );
         geometry_rectangle_destroy ( &rect_b );
         geometry_rectangle_destroy ( &diff_rect );
@@ -374,19 +374,19 @@ static void test_expand_4d(void)
     /* good case */
     geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
     geometry_rectangle_expand_4dir ( &rect_a, 1.0, 2.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_left( &rect_a ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_top( &rect_a ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_width( &rect_a ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 6.0, geometry_rectangle_get_height( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 6.0, geometry_rectangle_get_height( &rect_a ) );
     geometry_rectangle_destroy ( &rect_a );
 
     /* negative-size case */
     geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
     geometry_rectangle_expand_4dir ( &rect_a, -3.0, -4.0 );
-    TEST_ASSERT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_left( &rect_a ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_top( &rect_a ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &rect_a ) );
-    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &rect_a ) );
     geometry_rectangle_destroy ( &rect_a );
 }
 

@@ -3,7 +3,8 @@
 #include "data_database_reader_test.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_writer.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 #include <errno.h>
 
 static void set_up(void);
@@ -301,15 +302,15 @@ static void test_search_diagrams(void)
 
     /* test 1 */
     data_err = data_database_reader_get_diagram_by_id ( &db_reader, 7, &(diagram_list[0]) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_diagram_by_uuid ( &db_reader,
                                                           "f6d0084a-5d5b-4c26-8c64-782c150feec8",
                                                           &(diagram_list[0])
                                                         );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 7, data_diagram_get_row_id( &(diagram_list[0]) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 7, data_diagram_get_row_id( &(diagram_list[0]) ) );
 
     /* test 2 */
     data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader,
@@ -318,8 +319,8 @@ static void test_search_diagrams(void)
                                                                 &(diagram_list),
                                                                 &out_diagram_count
                                                               );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 1, out_diagram_count );
 
     /* test 3 */
     data_small_set_t out_diagram_ids;
@@ -328,8 +329,8 @@ static void test_search_diagrams(void)
                                                                    6,
                                                                    &out_diagram_ids
                                                                  );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
 
     /* test 4 */
     data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader,
@@ -338,8 +339,8 @@ static void test_search_diagrams(void)
                                                                     &(diagram_list),
                                                                     &out_diagram_count
                                                                   );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 2, out_diagram_count );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 2, out_diagram_count );
 
     /* test 5 */
     data_small_set_t out_showing_diagram_ids;
@@ -348,8 +349,8 @@ static void test_search_diagrams(void)
                                                                        12,
                                                                        &out_showing_diagram_ids
                                                                      );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 2, data_small_set_get_count( &out_showing_diagram_ids ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 2, data_small_set_get_count( &out_showing_diagram_ids ) );
 }
 
 static void test_search_diagramelements(void)
@@ -359,15 +360,15 @@ static void test_search_diagramelements(void)
 
     /* test 1 */
     data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, 130, &out_diagramelement );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_diagramelement_by_uuid ( &db_reader,
                                                                  "02088b41-e71d-466d-a413-2551ba3bf10a",
                                                                  &out_diagramelement
                                                                );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
 }
 
 static void test_search_classifiers(void)
@@ -380,15 +381,15 @@ static void test_search_classifiers(void)
 
     /* test 1 */
     data_err = data_database_reader_get_classifier_by_id ( &db_reader, 13, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_classifier_by_uuid ( &db_reader,
                                                              "b9495b71-99c3-406d-88d5-1aa233b09e2d",
                                                              &out_classifier
                                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 2 */
     data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader,
@@ -397,23 +398,23 @@ static void test_search_classifiers(void)
                                                                     &(visible_classifier_list),
                                                                     &out_classifier_count
                                                                   );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 3, out_classifier_count );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 3, out_classifier_count );
 
     /* test 3 */
     data_err = data_database_reader_get_classifier_by_name ( &db_reader,
                                                              "name-12",
                                                              &out_classifier
                                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 4 */
     data_err = data_database_reader_get_classifier_by_name ( &db_reader,
                                                              "does not exist",
                                                              &out_classifier
                                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
 }
 
 static void test_search_features(void)
@@ -425,15 +426,15 @@ static void test_search_features(void)
 
     /* test 1 */
     data_err = data_database_reader_get_feature_by_id ( &db_reader, 19, &(feature_list[0]) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_feature_by_uuid ( &db_reader,
                                                           "17d8377a-cf84-402c-b4d8-0dbfc8f8222e",
                                                           &(feature_list[0])
                                                         );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 18, data_feature_get_row_id( &(feature_list[0]) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 18, data_feature_get_row_id( &(feature_list[0]) ) );
 
     /* test 2 */
     data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
@@ -442,8 +443,8 @@ static void test_search_features(void)
                                                                     &(feature_list),
                                                                     &out_feature_count
                                                                   );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 2, out_feature_count );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 2, out_feature_count );
 
     /* test 3 */
     data_err = data_database_reader_get_features_by_diagram_id ( &db_reader,
@@ -452,8 +453,8 @@ static void test_search_features(void)
                                                                  &(feature_list),
                                                                  &out_feature_count
                                                                );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 3, out_feature_count );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 3, out_feature_count );
 }
 
 static void test_search_relationships(void)
@@ -465,15 +466,15 @@ static void test_search_relationships(void)
 
     /* test 1 */
     data_err = data_database_reader_get_relationship_by_id ( &db_reader, 34, &(relation_list[0]) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_relationship_by_uuid ( &db_reader,
                                                                "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113",
                                                                &(relation_list[0])
                                                              );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 34, data_relationship_get_row_id( &(relation_list[0]) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 34, data_relationship_get_row_id( &(relation_list[0]) ) );
 
     /* test 2 */
     data_err = data_database_reader_get_relationships_by_classifier_id ( &db_reader,
@@ -482,8 +483,8 @@ static void test_search_relationships(void)
                                                                          &(relation_list),
                                                                          &out_relationship_count
                                                                        );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 2, out_relationship_count );
 
     /* test 3 */
     data_err = data_database_reader_get_relationships_by_diagram_id ( &db_reader,
@@ -492,8 +493,8 @@ static void test_search_relationships(void)
                                                                       &(relation_list),
                                                                       &out_relationship_count
                                                                     );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 2, out_relationship_count );
 }
 
 static void test_iterate_over_classifiers(void)
@@ -506,31 +507,31 @@ static void test_iterate_over_classifiers(void)
     /* test the iterator, init */
     data_database_iterator_classifiers_init_empty( &classifier_iterator );
     data_err = data_database_reader_get_all_classifiers_iterator ( &db_reader, true, &classifier_iterator );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test the iterator, step 1 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
-    TEST_ASSERT( has_next );
+    TEST_EXPECT( has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 2 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
-    TEST_ASSERT( has_next );
+    TEST_EXPECT( has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 3 */
     has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
-    TEST_ASSERT( ! has_next );
+    TEST_EXPECT( ! has_next );
     data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
 
     /* test the iterator, destroy */
     data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 }
 
 

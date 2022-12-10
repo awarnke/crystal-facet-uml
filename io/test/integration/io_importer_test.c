@@ -11,7 +11,7 @@
 #include "u8stream/universal_memory_input_stream.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8/u8_trace.h"
-#include "test_assert.h"
+#include "test_expect.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -302,11 +302,11 @@ static void insert_invalid_json(void)
                                              &stat,
                                              &read_line
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
+    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
 
     /* error happens at char 24 according to the log */
     /* but this happens in json_element_reader_get_type_of_next_element which does not advance the read pos */
@@ -318,11 +318,11 @@ static void insert_invalid_json(void)
                                              &stat,
                                              &read_line
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, data_err );
+    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -345,11 +345,11 @@ static void insert_invalid_parent_diag(void)
                                              &stat,
                                              &read_line
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, data_err );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, u8_error_info_get_error( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( 20, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, data_err );
+    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 20, u8_error_info_get_position( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -373,11 +373,11 @@ static void insert_empty_set(void)
                                              &stat,
                                              &read_line
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_ASSERT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -400,17 +400,17 @@ static void insert_new_classifier_to_existing_diagram(void)
                                              &stat,
                                              &read_pos
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
-    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
      /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped, because mode is PASTE to clipboard */
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
-    TEST_ASSERT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_ASSERT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -433,19 +433,19 @@ static void insert_new_classifier_to_new_diagram(void)
                                              &stat,
                                              &read_pos
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
     /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -469,11 +469,11 @@ static void insert_existing_feature_to_other_classifier(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
-        TEST_ASSERT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
+        TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -487,21 +487,21 @@ static void insert_existing_feature_to_other_classifier(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, data_err );  /* source of relationship does not exist */
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
         /* duplicate name for classifier */
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
         /* DATA_TABLE_FEATURE an already existing feature of an other classifier is dropped */
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
         /* DATA_TABLE_RELATIONSHIP: no names of auto-generated lifelines are mentioned, therefore only unconditional relationships */
-        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -526,11 +526,11 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -544,23 +544,23 @@ static void insert_existing_classifier_to_new_diagram(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED ) );
         /* a diagramelement is created when pasting an existing classifier */
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
         /* DATA_TABLE_FEATURE a new feature to an already existing classifier is created */
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
         /* DATA_TABLE_RELATIONSHIP: duplicate */
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED ) );
         /*data_stat_trace(&stat);*/
-        TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -585,11 +585,11 @@ static void insert_unconditional_relationships(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -603,18 +603,18 @@ static void insert_unconditional_relationships(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ) );
         /* DATA_TABLE_FEATURE: lifeline (type 3) is dropped */
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 66, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 66, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -715,17 +715,17 @@ static void insert_relationships_to_non_scenario(void)
                                              &stat,
                                              &read_pos
                                            );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
-    TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-    TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-    TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_ASSERT_EQUAL_INT( 76, u8_error_info_get_position( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 76, u8_error_info_get_position( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -793,11 +793,11 @@ static void insert_scenario_relationships_to_scenario(void)
                                               &read_pos,
                                               &report
                                             );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_ASSERT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram */
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram */
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
 
         universal_memory_input_stream_destroy( &mem_json );
         universal_utf8_writer_destroy( &report );
@@ -814,18 +814,18 @@ static void insert_scenario_relationships_to_scenario(void)
                                                  &stat,
                                                  &read_pos
                                                );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAMELEMENT ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_CLASSIFIER ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAM ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_DIAGRAMELEMENT ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_CLASSIFIER ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_stat_get_table_count( &stat, DATA_TABLE_FEATURE ) );
         /* DATA_TABLE_RELATIONSHIP: source+dst classifier are a lifeline */
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_total_count( &stat ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_ASSERT_EQUAL_INT( 34, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ) );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count( &stat ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 34, u8_error_info_get_position( &read_pos ) );
 
         data_stat_destroy(&stat);
     }

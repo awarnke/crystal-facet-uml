@@ -1,7 +1,7 @@
 /* File: test_result_check_xml.c; Copyright and License: see below */
 
 #include "u8/u8_trace.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <glib.h>
         
 int test_result_check_xml_validate_xml( const char* xml_string )

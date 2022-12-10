@@ -6,7 +6,7 @@
 #include "storage/data_database_reader.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include <glib.h>
 #include <assert.h>
 

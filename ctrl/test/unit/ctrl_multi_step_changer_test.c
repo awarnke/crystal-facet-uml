@@ -11,7 +11,8 @@
 #include "set/data_visible_classifier.h"
 #include "data_feature.h"
 #include "data_relationship.h"
-#include "test_assert.h"
+#include "test_expect.h"
+#include "test_environment_assert.h"
 
 static void set_up(void);
 static void tear_down(void);
@@ -81,15 +82,15 @@ static void delete_set_not_possible(void)
         data_small_set_init( &small_set );
 
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, test_classifier );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, (data_row_id_t)50000 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, (data_row_id_t)50000 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, (data_row_id_t)50000 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, root_diagram );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
 
         ctrl_multi_step_changer_t multi_stepper;
         ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
@@ -99,13 +100,13 @@ static void delete_set_not_possible(void)
         const u8_error_t ctrl_err
             = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
 
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE | U8_ERROR_OBJECT_STILL_REFERENCED, ctrl_err );
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR ));
-        TEST_ASSERT_EQUAL_INT( 5, data_stat_get_total_count ( &stat ));
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE | U8_ERROR_OBJECT_STILL_REFERENCED, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count ( &stat ));
 
         data_stat_destroy(&stat);
         ctrl_multi_step_changer_destroy( &multi_stepper );
@@ -148,15 +149,15 @@ static void delete_set_successfully(void)
         data_small_set_init( &small_set );
 
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, orphaned_classifier );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, test_feature );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, test_rel );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, test_diagele );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, test_diagram );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, add_ok );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
 
         ctrl_multi_step_changer_t multi_stepper;
         ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
@@ -166,14 +167,14 @@ static void delete_set_successfully(void)
         const u8_error_t ctrl_err
             = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
 
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
         /* The diagram type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM - therefore 1 lifeline is additionally deleted: */
-        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
-        TEST_ASSERT_EQUAL_INT( 8, data_stat_get_total_count ( &stat ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 8, data_stat_get_total_count ( &stat ));
 
         data_stat_destroy(&stat);
         ctrl_multi_step_changer_destroy( &multi_stepper );
@@ -184,13 +185,13 @@ static void delete_set_successfully(void)
         data_feature_t check2;
         const u8_error_t data_err2
             = data_database_reader_get_feature_by_id ( &db_reader, test_feature, &check2 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err2 );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err2 );
     }
     {
         data_diagramelement_t check3;
         const u8_error_t data_err3
             = data_database_reader_get_diagramelement_by_id ( &db_reader, test_diagele, &check3 );
-        TEST_ASSERT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err3 );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err3 );
     }
 }
 

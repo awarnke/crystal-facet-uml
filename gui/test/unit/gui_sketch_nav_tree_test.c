@@ -4,7 +4,7 @@
 #include "shape/shape_int_rectangle.h"
 #include "gui_resources.h"
 #include "data_diagram.h"
-#include "test_assert.h"
+#include "test_expect.h"
 #include "test_suite.h"
 
 static void set_up(void);
@@ -88,7 +88,7 @@ static void tear_down(void)
 void get_node_coords( const gui_sketch_nav_tree_t *testee, uint32_t idx, int32_t *out_x, int32_t *out_y )
 {
     const uint32_t cnt = gui_sketch_nav_tree_get_node_count( testee );
-    TEST_ASSERT( idx < cnt );
+    TEST_EXPECT( idx < cnt );
     const pos_nav_tree_node_t *pos = gui_sketch_nav_tree_get_node_pos_const( testee, idx );
     const shape_int_rectangle_t *pos_icon = pos_nav_tree_node_get_icon_box_const( pos );
     *out_x = shape_int_rectangle_get_left(pos_icon) + 1;
@@ -110,24 +110,24 @@ static void test_get_object_at_pos_on_no_diagram(void)
     int32_t x;
     int32_t y;
     get_node_coords( &testee, 0, &x, &y );
-    TEST_ASSERT_EQUAL_INT( 1, gui_sketch_nav_tree_get_node_count( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
     gui_sketch_action_t action_id;
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x, y, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x, (y-2), &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, LEFT-1, y, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     /* test object id */
     data_id_t selected_id;
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x, y, &selected_id );
-    TEST_ASSERT( ! data_id_is_valid(&selected_id) );
+    TEST_EXPECT( ! data_id_is_valid(&selected_id) );
 
     /* test gap info */
     gui_error_t g_err;
@@ -136,7 +136,7 @@ static void test_get_object_at_pos_on_no_diagram(void)
     shape_int_rectangle_t gap_line;
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x, y, &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_OUT_OF_BOUNDS, g_err );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_OUT_OF_BOUNDS, g_err );
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
@@ -166,26 +166,26 @@ static void test_get_object_at_pos_on_single_diagram(void)
     int32_t x1;
     int32_t y1;
     get_node_coords( &testee, 1, &x1, &y1 );
-    TEST_ASSERT_EQUAL_INT( 2, gui_sketch_nav_tree_get_node_count( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 2, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
     gui_sketch_action_t action_id;
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x0, y0, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x1, y1, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM, action_id );
 
     /* test object id */
     data_id_t selected_id;
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x0, y0, &selected_id );
-    TEST_ASSERT( data_id_is_valid(&selected_id) );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT( data_id_is_valid(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x1, y1, &selected_id );
-    TEST_ASSERT( ! data_id_is_valid(&selected_id) );
+    TEST_EXPECT( ! data_id_is_valid(&selected_id) );
 
     /* test gap info */
     gui_error_t g_err;
@@ -194,18 +194,18 @@ static void test_get_object_at_pos_on_single_diagram(void)
     shape_int_rectangle_t gap_line;
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x0, (y0-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT( ! data_id_is_valid(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT( ! data_id_is_valid(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, (y1-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT( data_id_is_valid(&parent_id) );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT( data_id_is_valid(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, y1+(y1-y0), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT( data_id_is_valid(&parent_id) );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );  /* same gap as above */
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT( data_id_is_valid(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );  /* same gap as above */
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
@@ -247,43 +247,43 @@ static void test_get_object_at_pos_on_1parent_1child_diagram(void)
     int32_t x4;
     int32_t y4;
     get_node_coords( &testee, 4, &x4, &y4 );
-    TEST_ASSERT_EQUAL_INT( 5, gui_sketch_nav_tree_get_node_count( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 5, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
     gui_sketch_action_t action_id;
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x0, y0, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x1, y1, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x2, y2, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x3, y3, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x4, y4, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM, action_id );
 
     /* test object id */
     data_id_t selected_id;
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x0, y0, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x1, y1, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x2, y2, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1002, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x3, y3, &selected_id );
-    TEST_ASSERT( ! data_id_is_valid(&selected_id) );
+    TEST_EXPECT( ! data_id_is_valid(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x4, y4, &selected_id );
-    TEST_ASSERT( ! data_id_is_valid(&selected_id) );
+    TEST_EXPECT( ! data_id_is_valid(&selected_id) );
 
     /* test gap info */
     gui_error_t g_err;
@@ -292,28 +292,28 @@ static void test_get_object_at_pos_on_1parent_1child_diagram(void)
     shape_int_rectangle_t gap_line;
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x0, (y0-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT( ! data_id_is_valid(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT( ! data_id_is_valid(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, (y1-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x2, (y2-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x3, (y3-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x4, (y4-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x4, y4+(y4-y3), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );  /* same gap as above */
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );  /* same gap as above */
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
@@ -362,55 +362,55 @@ static void test_get_object_at_pos_on_2parent_2siblings_diagram(void)
     int32_t x6;
     int32_t y6;
     get_node_coords( &testee, 6, &x6, &y6 );
-    TEST_ASSERT_EQUAL_INT( 7, gui_sketch_nav_tree_get_node_count( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 7, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
     gui_sketch_action_t action_id;
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x0, y0, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x1, y1, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x2, y2, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x3, y3, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x4, y4, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x5, y5, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NONE, action_id );
 
     gui_sketch_nav_tree_get_button_at_pos ( &testee, x6, y6, &action_id );
-    TEST_ASSERT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM, action_id );
+    TEST_EXPECT_EQUAL_INT( GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM, action_id );
 
     /* test object id */
     data_id_t selected_id;
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x0, y0, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x1, y1, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x2, y2, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1003, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1003, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x3, y3, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1002, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x4, y4, &selected_id );
-    TEST_ASSERT( ! data_id_is_valid(&selected_id) );
+    TEST_EXPECT( ! data_id_is_valid(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x5, y5, &selected_id );
-    TEST_ASSERT_EQUAL_INT( 1003, data_id_get_row_id(&selected_id) );
+    TEST_EXPECT_EQUAL_INT( 1003, data_id_get_row_id(&selected_id) );
 
     gui_sketch_nav_tree_get_object_id_at_pos ( &testee, x6, y6, &selected_id );
-    TEST_ASSERT( ! data_id_is_valid(&selected_id) );
+    TEST_EXPECT( ! data_id_is_valid(&selected_id) );
 
     /* test gap info */
     gui_error_t g_err;
@@ -419,36 +419,36 @@ static void test_get_object_at_pos_on_2parent_2siblings_diagram(void)
     shape_int_rectangle_t gap_line;
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x0, (y0-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT( ! data_id_is_valid(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT( ! data_id_is_valid(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x1, (y1-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1000, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x2, (y2-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x3, (y3-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x4, (y4-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1002, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1002, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x5, (y5-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x6, (y6-2), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );
 
     g_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &testee, x6, y6+(y6-y5), &parent_id, &list_order, &gap_line );
-    TEST_ASSERT_EQUAL_INT( GUI_ERROR_NONE, g_err );
-    TEST_ASSERT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );  /* same gap as above */
+    TEST_EXPECT_EQUAL_INT( GUI_ERROR_NONE, g_err );
+    TEST_EXPECT_EQUAL_INT( 1001, data_id_get_row_id(&parent_id) );  /* same gap as above */
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );

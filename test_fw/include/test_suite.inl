@@ -1,6 +1,6 @@
 /* File: test_suite.inl; Copyright and License: see below */
 
-#include "test_assert.h"
+#include "test_environment_assert.h"
 
 static inline void test_suite_init( test_suite_t *this_,
                                     const char *name,
