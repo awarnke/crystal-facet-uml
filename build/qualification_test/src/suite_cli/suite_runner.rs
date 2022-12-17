@@ -1,7 +1,7 @@
 use super::test_help::testcase_help;
 use super::test_help::testcase_version;
-use super::test_importexport::testcase_create_cfu1;
-use super::test_repair::testcase_repair_cfu1;
+use super::test_importexport::testcase_import_to_new_cfu1;
+use super::test_repair::testcase_repair_new_cfu1;
 use crate::test_tool::test_result::TestResult;
 use std::fs;
 
@@ -21,11 +21,11 @@ pub fn suite_cli_run(exe_to_test: &str, temp_dir: &str) -> TestResult {
     result += testcase_help(exe_to_test);
 
     setup(temp_dir);
-    result += testcase_repair_cfu1(exe_to_test, temp_dir);
+    result += testcase_repair_new_cfu1(exe_to_test, temp_dir);
     teardown(temp_dir);
 
     setup(temp_dir);
-    result += testcase_create_cfu1(exe_to_test, temp_dir);
+    result += testcase_import_to_new_cfu1(exe_to_test, temp_dir);
     teardown(temp_dir);
 
     result
