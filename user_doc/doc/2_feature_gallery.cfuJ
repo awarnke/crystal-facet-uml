@@ -1642,8 +1642,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1649596601,
-        "y_order": -985349068,
+        "x_order": 2009967865,
+        "y_order": -62732165,
         "list_order": 0,
         "uuid": "0f6ce44b-3dd9-4d97-ad69-bb0cc9c4eaa3",
         "features":
@@ -5041,7 +5041,7 @@
         "name": "<2 secs",
         "description": [
                 "For a user, \n",
-                "the preceived startup time \n",
+                "the perceived startup time \n",
                 "shall not exceed 2 secs\n",
                 ""
         ],

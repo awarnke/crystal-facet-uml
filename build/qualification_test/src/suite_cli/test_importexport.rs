@@ -27,7 +27,7 @@ fn simplejson() -> &'static str {
 "
 }
 
-/// Test that importing to a nely created sqlite3 based format is possible.
+/// Test that importing to a newly created sqlite3 based format is possible.
 ///
 /// Returns result of check if the result string looks like a version,
 /// panics if the test environment reports errors.
