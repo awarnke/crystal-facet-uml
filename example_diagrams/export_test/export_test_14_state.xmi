@@ -5,7 +5,7 @@
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
          xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.45.0"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.45.1"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_14_state" >
         <packagedElement xmi:type="uml:StateMachine" xmi:id="60001" name="Event Queue States" ><!--C0001-->
             <region xmi:type="uml:Region" xmi:id="60001#region" >

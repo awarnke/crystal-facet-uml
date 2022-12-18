@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.45.1"
   }
   ,
   "views":
@@ -2347,30 +2347,6 @@
             "uuid": "b99b01d2-fa42-4534-9f69-f1ce77f5a3b7"
           },
           {
-            "id": 49,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "81cf1538-9cc2-4c5c-9359-dbffa2d99576"
-          },
-          {
-            "id": 52,
-            "main_type": 4,
-            "type": "Interface",
-            "key": "Cmd_IF",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 63027407,
-            "uuid": "2bf08931-160a-408a-b1b9-5660ed659cfe"
-          },
-          {
             "id": 40,
             "main_type": 2,
             "type": "Port",
@@ -2393,6 +2369,30 @@
             ],
             "list_order": 1265019724,
             "uuid": "327a76b0-a019-4618-a15c-5a06bb18f6f1"
+          },
+          {
+            "id": 49,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "81cf1538-9cc2-4c5c-9359-dbffa2d99576"
+          },
+          {
+            "id": 52,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "Cmd_IF",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 63027407,
+            "uuid": "2bf08931-160a-408a-b1b9-5660ed659cfe"
           }
         ]
       }
@@ -2552,16 +2552,16 @@
             "uuid": "855a2464-0ec7-4a3a-9d63-5e772b40950d"
           },
           {
-            "id": 75,
-            "main_type": 2,
-            "type": "Port",
-            "key": "8443",
-            "value": "IP Port",
+            "id": 58,
+            "main_type": 5,
+            "type": "Interface",
+            "key": "Tun",
+            "value": "Cmd_IF",
             "description": [
                 ""
             ],
-            "list_order": 1147478186,
-            "uuid": "260a0431-47dd-4076-905c-669ae0f69c4d"
+            "list_order": 1332828983,
+            "uuid": "f645ef7e-2dc0-4b27-8aa8-2935abcc2c15"
           },
           {
             "id": 74,
@@ -2576,16 +2576,16 @@
             "uuid": "9b7121a8-7cea-4e0c-bd55-af1b8b372f64"
           },
           {
-            "id": 58,
-            "main_type": 5,
-            "type": "Interface",
-            "key": "Tun",
-            "value": "Cmd_IF",
+            "id": 75,
+            "main_type": 2,
+            "type": "Port",
+            "key": "8443",
+            "value": "IP Port",
             "description": [
                 ""
             ],
-            "list_order": 1332828983,
-            "uuid": "f645ef7e-2dc0-4b27-8aa8-2935abcc2c15"
+            "list_order": 1147478186,
+            "uuid": "260a0431-47dd-4076-905c-669ae0f69c4d"
           }
         ]
       }
@@ -2607,18 +2607,6 @@
         "features":
         [
           {
-            "id": 54,
-            "main_type": 4,
-            "type": "Interface",
-            "key": "Cmd_IF",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 187442834,
-            "uuid": "078b818f-2cef-4208-a636-ed4fa3d75ff9"
-          },
-          {
             "id": 53,
             "main_type": 2,
             "type": "Port",
@@ -2629,6 +2617,18 @@
             ],
             "list_order": 300343342,
             "uuid": "5bf3239f-343d-4ece-bffc-e3d22fefce6f"
+          },
+          {
+            "id": 54,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "Cmd_IF",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 187442834,
+            "uuid": "078b818f-2cef-4208-a636-ed4fa3d75ff9"
           }
         ]
       }
@@ -3103,16 +3103,52 @@
             "uuid": "0e2cce8d-9a82-4e4f-9a73-5a6ad45c098e"
           },
           {
-            "id": 59,
+            "id": 11,
             "main_type": 0,
             "type": "Property",
-            "key": "Parametric Diagram (SysML)",
+            "key": "Requirements (SysML)",
             "value": "",
             "description": [
                 ""
             ],
-            "list_order": 1536,
-            "uuid": "2c172c04-ba17-4ed4-b301-126eec77aaba"
+            "list_order": 2048,
+            "uuid": "9e686748-d9ef-45de-a6a0-2ab4e318f5c7"
+          },
+          {
+            "id": 12,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Use Case (UML)",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 3072,
+            "uuid": "5a326c6f-c3dd-42b9-b60c-e0f581da8d9b"
+          },
+          {
+            "id": 13,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Activity (UML)",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 4096,
+            "uuid": "69b155c8-bb19-4356-a4c1-6b0b68e71059"
+          },
+          {
+            "id": 14,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Statemachine (UML)",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 4352,
+            "uuid": "07ea7ffe-4146-40b2-a966-630212683438"
           },
           {
             "id": 16,
@@ -3163,66 +3199,6 @@
             "uuid": "d4c3ce64-203e-4ffe-95a7-dd5d094195ca"
           },
           {
-            "id": 11,
-            "main_type": 0,
-            "type": "Property",
-            "key": "Requirements (SysML)",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 2048,
-            "uuid": "9e686748-d9ef-45de-a6a0-2ab4e318f5c7"
-          },
-          {
-            "id": 12,
-            "main_type": 0,
-            "type": "Property",
-            "key": "Use Case (UML)",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 3072,
-            "uuid": "5a326c6f-c3dd-42b9-b60c-e0f581da8d9b"
-          },
-          {
-            "id": 13,
-            "main_type": 0,
-            "type": "Property",
-            "key": "Activity (UML)",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 4096,
-            "uuid": "69b155c8-bb19-4356-a4c1-6b0b68e71059"
-          },
-          {
-            "id": 14,
-            "main_type": 0,
-            "type": "Property",
-            "key": "Statemachine (UML)",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 4352,
-            "uuid": "07ea7ffe-4146-40b2-a966-630212683438"
-          },
-          {
-            "id": 46,
-            "main_type": 0,
-            "type": "Property",
-            "key": "Communication (UML)",
-            "value": "",
-            "description": [
-                ""
-            ],
-            "list_order": 4608,
-            "uuid": "277c4cf7-cad7-4bd6-9e09-e01654cb764b"
-          },
-          {
             "id": 44,
             "main_type": 0,
             "type": "Property",
@@ -3245,6 +3221,30 @@
             ],
             "list_order": 12288,
             "uuid": "886b9b27-795e-4351-922d-2af76eeff408"
+          },
+          {
+            "id": 46,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Communication (UML)",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 4608,
+            "uuid": "277c4cf7-cad7-4bd6-9e09-e01654cb764b"
+          },
+          {
+            "id": 59,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Parametric Diagram (SysML)",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 1536,
+            "uuid": "2c172c04-ba17-4ed4-b301-126eec77aaba"
           },
           {
             "id": 66,
@@ -3423,18 +3423,6 @@
         "features":
         [
           {
-            "id": 71,
-            "main_type": 7,
-            "type": "Port",
-            "key": "out",
-            "value": "i2s",
-            "description": [
-                ""
-            ],
-            "list_order": -1290156358,
-            "uuid": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4"
-          },
-          {
             "id": 22,
             "main_type": 0,
             "type": "Property",
@@ -3445,6 +3433,18 @@
             ],
             "list_order": 19456,
             "uuid": "93ced61a-ae31-43b9-bc4d-ae31e5f7f73e"
+          },
+          {
+            "id": 71,
+            "main_type": 7,
+            "type": "Port",
+            "key": "out",
+            "value": "i2s",
+            "description": [
+                ""
+            ],
+            "list_order": -1290156358,
+            "uuid": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4"
           }
         ]
       }
@@ -3466,18 +3466,6 @@
         "features":
         [
           {
-            "id": 70,
-            "main_type": 6,
-            "type": "Port",
-            "key": "in",
-            "value": "i2s",
-            "description": [
-                ""
-            ],
-            "list_order": -799492799,
-            "uuid": "2fd25990-9b40-460a-8659-ba2aba7fe4d8"
-          },
-          {
             "id": 21,
             "main_type": 1,
             "type": "Operation",
@@ -3488,6 +3476,18 @@
             ],
             "list_order": 18432,
             "uuid": "e1a0ffae-f6b6-4b31-936b-6d598f8f1040"
+          },
+          {
+            "id": 70,
+            "main_type": 6,
+            "type": "Port",
+            "key": "in",
+            "value": "i2s",
+            "description": [
+                ""
+            ],
+            "list_order": -799492799,
+            "uuid": "2fd25990-9b40-460a-8659-ba2aba7fe4d8"
           }
         ]
       }
@@ -4130,18 +4130,6 @@
         "features":
         [
           {
-            "id": 62,
-            "main_type": 2,
-            "type": "Port",
-            "key": "out_emergency_off",
-            "value": "bool",
-            "description": [
-                ""
-            ],
-            "list_order": -1608912381,
-            "uuid": "db8d3d78-3b63-42b7-a0ba-ee7b9574fa7d"
-          },
-          {
             "id": 60,
             "main_type": 2,
             "type": "Port",
@@ -4164,6 +4152,18 @@
             ],
             "list_order": 1184998267,
             "uuid": "3218f250-c091-4376-b0f9-063f9b5b65fb"
+          },
+          {
+            "id": 62,
+            "main_type": 2,
+            "type": "Port",
+            "key": "out_emergency_off",
+            "value": "bool",
+            "description": [
+                ""
+            ],
+            "list_order": -1608912381,
+            "uuid": "db8d3d78-3b63-42b7-a0ba-ee7b9574fa7d"
           }
         ]
       }

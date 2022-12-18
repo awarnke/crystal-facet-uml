@@ -7,25 +7,25 @@
             This section lists what kind of elements crystal-facet-uml can draw in diagrams.
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0003_Classifiers.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0003_Classifiers.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0003_Classifiers.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0024_Classifiers_II.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0024_Classifiers_II.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0024_Classifiers_II.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0004_Relationships.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0004_Relationships.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0004_Relationships.png" width="840px"/></imageobject>
             </mediaobject>
             <!--
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0005_Diagrams.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0005_Diagrams.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0005_Diagrams.png" width="840px"/></imageobject>
             </mediaobject>
             -->
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0006_Classifier_instances.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0006_Classifier_instances.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0006_Classifier_instances.png" width="840px"/></imageobject>
             </mediaobject>
         </para>
     </section>
@@ -36,31 +36,31 @@
             This section lists what kind of elements crystal-facet-uml can draw in diagrams.
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0007_Examples.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0007_Examples.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0007_Examples.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0008_Activities.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0008_Activities.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0008_Activities.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0012_System_States.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0012_System_States.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0012_System_States.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0013_Communication_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0013_Communication_Diagram.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0013_Communication_Diagram.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0020_Sequence.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0020_Sequence.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0020_Sequence.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0021_Timing.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0021_Timing.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0021_Timing.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0023_Interaction_Overview.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0023_Interaction_Overview.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0023_Interaction_Overview.png" width="840px"/></imageobject>
             </mediaobject>
         </para>
     </section>
@@ -71,19 +71,19 @@
             This section lists what kind of elements crystal-facet-uml can draw in diagrams.
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0014_Deployment_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0014_Deployment_Diagram.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0014_Deployment_Diagram.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0015_Component_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0015_Component_Diagram.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0015_Component_Diagram.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0016_Package_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0016_Package_Diagram.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0016_Package_Diagram.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0017_Class_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0017_Class_Diagram.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0017_Class_Diagram.png" width="840px"/></imageobject>
             </mediaobject>
         </para>
     </section>
@@ -94,15 +94,15 @@
             This section lists what kind of elements crystal-facet-uml can draw in diagrams.
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0018_Requirements.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0018_Requirements.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0018_Requirements.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0019_Block_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0019_Block_Diagram.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0019_Block_Diagram.png" width="840px"/></imageobject>
             </mediaobject>
             <mediaobject>
                 <imageobject><imagedata fileref="2_feature_gallery_export/D0022_Parametric_Diagram.pdf" width="12cm"/></imageobject>
-                <imageobject><imagedata fileref="2_feature_gallery_export/D0022_Parametric_Diagram.png"/></imageobject>
+                <imageobject><imagedata fileref="2_feature_gallery_export/D0022_Parametric_Diagram.png" width="840px"/></imageobject>
             </mediaobject>
         </para>
     </section>

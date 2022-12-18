@@ -21,7 +21,7 @@ void image_format_writer_init ( image_format_writer_t *this_,
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
-    geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 800.0, 600.0 );
+    geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 1680.0, 1260.0 );
     pencil_diagram_maker_init( &((*this_).painter), input_data );
 
     U8_TRACE_END();
@@ -150,7 +150,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
 #endif
         data_stat_add( io_render_stat, &temp_stat );
         data_stat_destroy( &temp_stat );
-        
+
         /* draw the current diagram */
         data_id_t void_id;
         data_id_init_void( &void_id );

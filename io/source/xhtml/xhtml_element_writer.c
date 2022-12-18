@@ -175,7 +175,7 @@ static const char *XHTML_DIAGRAM_TITLE_END[XHTML_DIAGRAM_MAX_DEPTH]
 static const char XHTML_DIAGRAM_IMG_START[]
     = "\n<div class=\"mediaobject\"><img src=\"";
 static const char XHTML_DIAGRAM_IMG_END[]
-    = ".png\" alt=\"\" /></div>";
+    = ".png\" width=\"840\" alt=\"\" /></div>";
 static const char XHTML_DIAGRAM_END[]
     = "\n</div>";
 

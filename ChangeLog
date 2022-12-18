@@ -1,7 +1,7 @@
 crystal-facet-uml (1.45.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * png images are 4 times more detailed to avoid scaling artifacts
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Dec 2022 11:00:00 +0200
 
