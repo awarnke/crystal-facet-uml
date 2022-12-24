@@ -1,4 +1,4 @@
-pub struct TestCase {
+pub struct TestCase<TestFixture> {
     pub name: &'static str,
-    pub run: fn() -> Result<(), ()>,
+    pub run: fn(environment: &TestFixture) -> Result<(), ()>,
 }

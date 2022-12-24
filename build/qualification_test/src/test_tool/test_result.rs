@@ -26,3 +26,16 @@ impl AddAssign for TestResult {
         }
     }
 }
+
+impl<T1, T2> AddAssign<Result<T1, T2>> for TestResult {
+    fn add_assign(&mut self, other: Result<T1, T2>) {
+        let other_failed: u32 = match other {
+            Ok(_) => 0,
+            Err(_) => 1,
+        };
+        *self = Self {
+            failed: self.failed + other_failed,
+            total: self.total + 1,
+        }
+    }
+}
