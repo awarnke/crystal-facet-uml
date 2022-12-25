@@ -2,7 +2,7 @@ pub mod suite_cli;
 pub mod suite_gui;
 pub mod test_tool;
 use suite_cli::suite::SuiteCli;
-use suite_gui::suite_runner::suite_gui_run;
+use suite_gui::suite::SuiteGui;
 use test_tool::test_result::TestResult;
 use test_tool::test_runner;
 
@@ -21,7 +21,8 @@ fn run_all_suites(exe_to_test: &str, temp_dir: &str) -> bool {
 
     let suite_1 = SuiteCli::new(exe_to_test, temp_dir);
     result += test_runner::run(&suite_1);
-    result += suite_gui_run(exe_to_test, temp_dir);
+    let suite_2 = SuiteGui::new(exe_to_test, temp_dir);
+    result += test_runner::run(&suite_2);
 
     println!("______________________________");
     println!(
@@ -54,3 +55,19 @@ fn main() {
     /* When on stable branch, one can replace the exitcode by std::process::ExitCode */
     std::process::exit(err_code)
 }
+
+/*
+Copyright 2022-2022 Andreas Warnke
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/

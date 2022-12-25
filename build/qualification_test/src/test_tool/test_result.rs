@@ -1,12 +1,15 @@
 use std::ops::Add;
 use std::ops::AddAssign;
 
+/// A TestResult is a set of statistical data on performed test cases
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct TestResult {
     pub failed: u32,
     pub total: u32,
 }
 
+/// The Add trait on a TestResult allows to combine the test results of
+/// several sets of performed test cases
 impl Add for TestResult {
     type Output = Self;
 
@@ -18,6 +21,8 @@ impl Add for TestResult {
     }
 }
 
+/// The AddAssign trait on a TestResult allows to combine the test results of
+/// several sets of performed test cases
 impl AddAssign for TestResult {
     fn add_assign(&mut self, other: Self) {
         *self = Self {
@@ -27,6 +32,8 @@ impl AddAssign for TestResult {
     }
 }
 
+/// The AddAssign trait on a TestResult and a Result allows to add the result
+/// of a single performed test case
 impl AddAssign<Result<(), ()>> for TestResult {
     fn add_assign(&mut self, other: Result<(), ()>) {
         let other_failed: u32 = match other {
@@ -39,3 +46,19 @@ impl AddAssign<Result<(), ()>> for TestResult {
         }
     }
 }
+
+/*
+Copyright 2022-2022 Andreas Warnke
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/

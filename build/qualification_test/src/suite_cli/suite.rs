@@ -7,6 +7,7 @@ use crate::test_tool::test_case::TestCase;
 use crate::test_tool::test_suite::TestSuite;
 use std::fs;
 
+/// A test suite consists of a name, a test fixture and an array of test cases
 pub struct SuiteCli<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
@@ -16,6 +17,7 @@ where
     cases: [TestCase<'during_run, FixtureCli<'during_run>>; 4],
 }
 
+/// A test suite comes with a constructor
 impl<'all_testing, 'during_run, 'a, 'b> SuiteCli<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
@@ -51,6 +53,7 @@ where
     }
 }
 
+/// A test suite implements the TestSuite trait
 impl<'all_testing, 'during_run> TestSuite<'all_testing, 'during_run, FixtureCli<'during_run>>
     for SuiteCli<'all_testing, 'during_run>
 where
@@ -82,3 +85,19 @@ where
         &self.cases
     }
 }
+
+/*
+Copyright 2022-2022 Andreas Warnke
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
