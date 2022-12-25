@@ -1,4 +1,4 @@
-use crate::test_tool::test_result::TestResult;
+use super::fixture::FixtureCli;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -9,26 +9,21 @@ use std::process::Command;
 ///
 /// # Arguments
 ///
-/// * `temp_dir` - A path to a directory that exists and can be used for testing
-pub(super) fn testcase_repair_new_cfu1(exe_to_test: &str, temp_dir: &str) -> TestResult {
+/// * `environment` - A test fixture stating the test environment
+pub(super) fn testcase_repair_new_cfu1(environment: &FixtureCli) -> Result<(), ()> {
     /* create the db_to_use_param string, panic in case an error occured */
-    let mut db_to_use = PathBuf::from(temp_dir);
+    let mut db_to_use = PathBuf::from(environment.temp_dir);
     db_to_use.push("sqlite3_db.cfu1");
     let db_to_use_param = db_to_use.into_os_string().into_string().unwrap();
 
-    let output = Command::new(exe_to_test)
+    let output = Command::new(environment.exe_to_test)
         .args(&["-r", &db_to_use_param])
         .output()
         .expect("Err at running process");
 
     let stdout = match std::string::String::from_utf8(output.stdout) {
         Ok(stdout) => stdout,
-        Err(_err) => {
-            return TestResult {
-                failed: 1,
-                total: 1,
-            }
-        }
+        Err(_err) => return Result::Err(()),
     };
 
     /* check if the returned string looks as expected */
@@ -43,8 +38,9 @@ pub(super) fn testcase_repair_new_cfu1(exe_to_test: &str, temp_dir: &str) -> Tes
         stdout,
         stdout.len()
     );
-    TestResult {
-        failed: if as_expected && !exit_ok { 0 } else { 1 },
-        total: 1,
+    if as_expected && !exit_ok {
+        Result::Ok(())
+    } else {
+        Result::Err(())
     }
 }

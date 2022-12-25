@@ -1,4 +1,4 @@
-use crate::test_tool::test_result::TestResult;
+use super::fixture::FixtureCli;
 use std::fs::File;
 use std::io::Write;
 use std::path::PathBuf;
@@ -34,33 +34,28 @@ fn simplejson() -> &'static str {
 ///
 /// # Arguments
 ///
-/// * `temp_dir` - A path to a directory that exists and can be used for testing
-pub(super) fn testcase_import_to_new_cfu1(exe_to_test: &str, temp_dir: &str) -> TestResult {
+/// * `environment` - A test fixture stating the test environment
+pub(super) fn testcase_import_to_new_cfu1(environment: &FixtureCli) -> Result<(), ()> {
     /* create the db_to_use_param string, panic in case an error occured */
-    let mut db_to_use = PathBuf::from(temp_dir);
+    let mut db_to_use = PathBuf::from(environment.temp_dir);
     db_to_use.push("sqlite3_db.cfu1");
     let db_to_use_param = db_to_use.into_os_string().into_string().unwrap();
 
     /* create the file to import, panic in case an error occured */
-    let mut json_to_use = PathBuf::from(temp_dir);
+    let mut json_to_use = PathBuf::from(environment.temp_dir);
     json_to_use.push("json.txt");
     let json_to_use_param = json_to_use.into_os_string().into_string().unwrap();
     let mut json_file = File::create(&json_to_use_param).unwrap();
     write!(json_file, "{}", simplejson()).expect("File could not be written");
 
-    let output1 = Command::new(exe_to_test)
+    let output1 = Command::new(environment.exe_to_test)
         .args(&["-i", &db_to_use_param, "add", &json_to_use_param])
         .output()
         .expect("Err at running process");
 
     let stdout1 = match std::string::String::from_utf8(output1.stdout) {
         Ok(stdout) => stdout,
-        Err(_err) => {
-            return TestResult {
-                failed: 1,
-                total: 1,
-            }
-        }
+        Err(_err) => return Result::Err(()),
     };
 
     /* check if the returned string looks as expected */
@@ -74,8 +69,9 @@ pub(super) fn testcase_import_to_new_cfu1(exe_to_test: &str, temp_dir: &str) -> 
         stdout1,
         stdout1.len()
     );
-    TestResult {
-        failed: if as_expected1 && exit_ok1 { 0 } else { 1 },
-        total: 1,
+    if as_expected1 && exit_ok1 {
+        Result::Ok(())
+    } else {
+        Result::Err(())
     }
 }

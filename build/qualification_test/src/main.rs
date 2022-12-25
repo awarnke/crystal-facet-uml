@@ -1,9 +1,10 @@
 pub mod suite_cli;
 pub mod suite_gui;
 pub mod test_tool;
-use suite_cli::suite_runner::suite_cli_run;
+use suite_cli::suite::SuiteCli;
 use suite_gui::suite_runner::suite_gui_run;
 use test_tool::test_result::TestResult;
+use test_tool::test_runner;
 
 extern crate exitcode;
 
@@ -18,7 +19,8 @@ fn run_all_suites(exe_to_test: &str, temp_dir: &str) -> bool {
         total: 0,
     };
 
-    result += suite_cli_run(exe_to_test, temp_dir);
+    let suite_1 = SuiteCli::new(exe_to_test, temp_dir);
+    result += test_runner::run(&suite_1);
     result += suite_gui_run(exe_to_test, temp_dir);
 
     println!("______________________________");

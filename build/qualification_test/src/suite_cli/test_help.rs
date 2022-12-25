@@ -1,4 +1,4 @@
-use crate::test_tool::test_result::TestResult;
+use super::fixture::FixtureCli;
 use regex::Regex;
 use std::process::Stdio;
 
@@ -6,8 +6,12 @@ use std::process::Stdio;
 ///
 /// Returns result of check if the result string looks like a version,
 /// panics if the test environment reports errors.
-pub(super) fn testcase_version(exe_to_test: &str) -> TestResult {
-    let output = match std::process::Command::new(exe_to_test)
+///
+/// # Arguments
+///
+/// * `environment` - A test fixture stating the test environment
+pub(super) fn testcase_version(environment: &FixtureCli) -> Result<(), ()> {
+    let output = match std::process::Command::new(environment.exe_to_test)
         .args(&["-v"])
         .output()
     {
@@ -28,9 +32,10 @@ pub(super) fn testcase_version(exe_to_test: &str) -> TestResult {
     let exit_ok: bool = output.status.success();
 
     print!("testcase_version: <<{}>>:{}\n", stdout, stdout.len());
-    TestResult {
-        failed: if success && exit_ok { 0 } else { 1 },
-        total: 1,
+    if success && exit_ok {
+        Result::Ok(())
+    } else {
+        Result::Err(())
     }
 }
 
@@ -38,8 +43,12 @@ pub(super) fn testcase_version(exe_to_test: &str) -> TestResult {
 ///
 /// Returns result of check if the result string looks like a help string,
 /// panics if the test environment reports errors.
-pub(super) fn testcase_help(exe_to_test: &str) -> TestResult {
-    let process = match std::process::Command::new(exe_to_test)
+///
+/// # Arguments
+///
+/// * `environment` - A test fixture stating the test environment
+pub(super) fn testcase_help(environment: &FixtureCli) -> Result<(), ()> {
+    let process = match std::process::Command::new(environment.exe_to_test)
         .args(&["-h"])
         .stdout(Stdio::piped())
         .spawn()
@@ -65,8 +74,9 @@ pub(super) fn testcase_help(exe_to_test: &str) -> TestResult {
     let exit_ok: bool = output.status.success();
 
     println!("testcase_help: <<{}>>:{}", stdout, stdout.len());
-    TestResult {
-        failed: if success && exit_ok { 0 } else { 1 },
-        total: 1,
+    if success && exit_ok {
+        Result::Ok(())
+    } else {
+        Result::Err(())
     }
 }
