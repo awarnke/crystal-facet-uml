@@ -18,7 +18,15 @@ where
         total: 0,
     };
 
+    print!(
+        "________________________________________ {}\n",
+        suite.name()
+    );
     for case in suite.testcases() {
+        print!(
+            "________________________________________    {}\n",
+            case.name
+        );
         let environment = suite.setup();
         result += (case.run)(&environment);
         suite.teardown(environment);

@@ -1,11 +1,11 @@
 /// A test case consists of a name and a run function
-pub struct TestCase<'during_run, TestFixture> {
-    pub name: &'static str,
+pub struct TestCase<'all_testing, 'during_run, TestFixture> {
+    pub name: &'all_testing str,
     pub run: fn(environment: &'during_run TestFixture) -> Result<(), ()>,
 }
 
 /// A test case comes with a constructor
-impl<'during_run, TestFixture> TestCase<'during_run, TestFixture> {
+impl<'all_testing, 'during_run, TestFixture> TestCase<'all_testing, 'during_run, TestFixture> {
     /// Defines a test fixture (the test environment)
     ///
     /// # Arguments
@@ -15,7 +15,7 @@ impl<'during_run, TestFixture> TestCase<'during_run, TestFixture> {
     pub fn new(
         name: &'static str,
         run: fn(environment: &'during_run TestFixture) -> Result<(), ()>,
-    ) -> TestCase<'during_run, TestFixture> {
+    ) -> TestCase<'all_testing, 'during_run, TestFixture> {
         TestCase {
             name: name,
             run: run,

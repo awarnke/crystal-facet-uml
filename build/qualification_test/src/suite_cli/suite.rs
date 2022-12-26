@@ -14,7 +14,7 @@ where
 {
     pub name: &'all_testing str,
     environment: FixtureCli<'during_run>,
-    cases: [TestCase<'during_run, FixtureCli<'during_run>>; 4],
+    cases: [TestCase<'all_testing, 'during_run, FixtureCli<'during_run>>; 4],
 }
 
 /// A test suite comes with a constructor
@@ -59,6 +59,11 @@ impl<'all_testing, 'during_run> TestSuite<'all_testing, 'during_run, FixtureCli<
 where
     'all_testing: 'during_run,
 {
+    /// The name of the test suite
+    fn name(self: &'all_testing Self) -> &'all_testing str {
+        self.name
+    }
+
     /// Creates a test directory
     ///
     /// Panics if the test environment reports errors.
@@ -81,7 +86,7 @@ where
 
     fn testcases(
         self: &'all_testing Self,
-    ) -> &'all_testing [TestCase<'during_run, FixtureCli<'during_run>>] {
+    ) -> &'all_testing [TestCase<'all_testing, 'during_run, FixtureCli<'during_run>>] {
         &self.cases
     }
 }

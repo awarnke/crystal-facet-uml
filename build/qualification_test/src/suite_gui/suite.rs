@@ -8,7 +8,7 @@ where
 {
     pub name: &'all_testing str,
     environment: (),
-    cases: [TestCase<'during_run, ()>; 0],
+    cases: [TestCase<'all_testing, 'during_run, ()>; 0],
 }
 
 /// A test suite comes with a constructor
@@ -39,6 +39,11 @@ impl<'all_testing, 'during_run> TestSuite<'all_testing, 'during_run, ()>
 where
     'all_testing: 'during_run,
 {
+    /// The name of the test suite
+    fn name(self: &'all_testing Self) -> &'all_testing str {
+        self.name
+    }
+
     /// Creates a test directory
     ///
     /// Panics if the test environment reports errors.
@@ -54,7 +59,9 @@ where
     /// Panics if the test environment reports errors.
     fn teardown(self: &'all_testing Self, _environment: &'during_run ()) -> () {}
 
-    fn testcases(self: &'all_testing Self) -> &'all_testing [TestCase<'during_run, ()>] {
+    fn testcases(
+        self: &'all_testing Self,
+    ) -> &'all_testing [TestCase<'all_testing, 'during_run, ()>] {
         &self.cases
     }
 }
