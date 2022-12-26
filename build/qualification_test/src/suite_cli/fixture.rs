@@ -10,7 +10,7 @@ pub struct FixtureCli<'me> {
     pub(super) temp_dir: &'me str,
 }
 
-/// A test fixture comes with a constructor
+/// The `FixtureCli` test fixture comes with a constructor
 impl<'a, 'b, 'me> FixtureCli<'me> {
     /// Defines a test fixture (the test environment) for command line tests
     ///

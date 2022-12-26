@@ -20,7 +20,7 @@ where
     cases: [TestCase<'all_testing, 'during_run, FixtureCli<'during_run>>; 4],
 }
 
-/// A test suite comes with a constructor
+/// The `SuiteCli` test suite comes with a constructor
 impl<'all_testing, 'during_run, 'a, 'b> SuiteCli<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
@@ -47,7 +47,7 @@ where
     }
 }
 
-/// A test suite implements the TestSuite trait
+/// The `SuiteCli` test suite implements the `TestSuite` trait
 impl<'all_testing, 'during_run> TestSuite<'all_testing, 'during_run, FixtureCli<'during_run>>
     for SuiteCli<'all_testing, 'during_run>
 where

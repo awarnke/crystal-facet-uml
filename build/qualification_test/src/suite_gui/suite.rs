@@ -36,7 +36,7 @@ where
     }
 }
 
-/// A test suite implements the TestSuite trait
+/// The `SuiteGui` test suite implements the `TestSuite` trait
 impl<'all_testing, 'during_run> TestSuite<'all_testing, 'during_run, ()>
     for SuiteGui<'all_testing, 'during_run>
 where

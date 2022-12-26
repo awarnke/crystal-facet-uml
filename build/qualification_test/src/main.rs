@@ -1,6 +1,9 @@
 //! This crate performs qualification tests on a binary executable
 //! of crystal-facet-uml.
-
+//!
+//! # Examples
+//!
+//! Run the test cases by calling `cargo run` from the current directory.
 #![warn(missing_docs)]
 
 pub mod suite_cli;
@@ -14,8 +17,6 @@ use test_tool::test_runner;
 extern crate exitcode;
 
 use std::env;
-
-/* Run this test by calling "cargo run" from the current directory. */
 
 /// Runs all test suites and returns true if all cases succeeded.
 fn run_all_suites(exe_to_test: &str, temp_dir: &str) -> bool {
@@ -37,8 +38,8 @@ fn run_all_suites(exe_to_test: &str, temp_dir: &str) -> bool {
     result.failed == 0
 }
 
-/// Parses the command line parameters, uses these as test environment input,
-/// runs the test cases and returns 0 in case of success.
+/// Parses the command line parameters, uses these to configure the test
+/// environment, runs the test cases and returns 0 in case of success.
 fn main() {
     let err_code;
     println!("This is the qualification test for crystal-facet-uml.");
