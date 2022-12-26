@@ -1,3 +1,8 @@
+//! This crate performs qualification tests on a binary executable
+//! of crystal-facet-uml.
+
+#![warn(missing_docs)]
+
 pub mod suite_cli;
 pub mod suite_gui;
 pub mod test_tool;

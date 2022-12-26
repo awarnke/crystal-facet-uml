@@ -1,3 +1,6 @@
+//! This module tests the graphical user interface of a binary executable
+//! of crystal-facet-uml.
+
 pub mod suite;
 
 /*

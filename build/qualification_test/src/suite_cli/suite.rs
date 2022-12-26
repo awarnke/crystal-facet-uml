@@ -1,3 +1,6 @@
+//! This module implements a TestSuite for testing the command line interface
+//! of crystal-facet-uml.
+
 use super::fixture::FixtureCli;
 use super::test_help::testcase_help;
 use super::test_help::testcase_version;
@@ -12,7 +15,7 @@ pub struct SuiteCli<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
 {
-    pub name: &'all_testing str,
+    name: &'all_testing str,
     environment: FixtureCli<'during_run>,
     cases: [TestCase<'all_testing, 'during_run, FixtureCli<'during_run>>; 4],
 }
@@ -36,18 +39,9 @@ where
             environment: FixtureCli::new(exe_to_test, temp_dir),
             cases: [
                 TestCase::new("testcase_version", testcase_version),
-                TestCase::<FixtureCli> {
-                    name: "testcase_help",
-                    run: testcase_help,
-                },
-                TestCase::<FixtureCli> {
-                    name: "testcase_repair_new_cfu1",
-                    run: testcase_repair_new_cfu1,
-                },
-                TestCase::<FixtureCli> {
-                    name: "testcase_import_to_new_cfu1",
-                    run: testcase_import_to_new_cfu1,
-                },
+                TestCase::new("testcase_help", testcase_help),
+                TestCase::new("testcase_repair_new_cfu1", testcase_repair_new_cfu1),
+                TestCase::new("testcase_import_to_new_cfu1", testcase_import_to_new_cfu1),
             ],
         }
     }

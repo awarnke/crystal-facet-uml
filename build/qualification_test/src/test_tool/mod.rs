@@ -1,3 +1,6 @@
+//! This module provides a generic test framework to setup
+//! test environments of test suites and to run their test cases.
+
 pub mod test_case;
 pub mod test_result;
 pub mod test_runner;

@@ -1,3 +1,6 @@
+//! This module tests the command line interface of a binary executable
+//! of crystal-facet-uml.
+
 mod fixture;
 pub mod suite;
 mod test_help;

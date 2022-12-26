@@ -1,3 +1,6 @@
+//! This module implements a test runner which sets up test fixtures, runs test
+//! cases and collects statistics on test results for one TestSuite
+
 use super::test_result::TestResult;
 use super::test_suite::TestSuite;
 
@@ -18,13 +21,13 @@ where
         total: 0,
     };
 
-    print!(
-        "________________________________________ {}\n",
+    println!(
+        "                                        [__ {} __]",
         suite.name()
     );
     for case in suite.testcases() {
-        print!(
-            "________________________________________    {}\n",
+        println!(
+            "                                        [__ > {} __]",
             case.name
         );
         let environment = suite.setup();

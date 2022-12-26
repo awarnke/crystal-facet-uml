@@ -1,7 +1,10 @@
+//! This module implements a TestCase that is run in a generic test
+//! environment TestFixture
+
 /// A test case consists of a name and a run function
 pub struct TestCase<'all_testing, 'during_run, TestFixture> {
-    pub name: &'all_testing str,
-    pub run: fn(environment: &'during_run TestFixture) -> Result<(), ()>,
+    pub(super) name: &'all_testing str,
+    pub(super) run: fn(environment: &'during_run TestFixture) -> Result<(), ()>,
 }
 
 /// A test case comes with a constructor

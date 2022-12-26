@@ -1,3 +1,6 @@
+//! This module implements a test suite which defines how to set up test
+//! fixtures (test environments) and provides a list of test cases.
+
 use super::test_case::TestCase;
 
 /// A test suite is an object that provides functions to

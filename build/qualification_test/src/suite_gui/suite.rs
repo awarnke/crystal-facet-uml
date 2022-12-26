@@ -1,3 +1,6 @@
+//! This module implements a TestSuite for testing the graphical user interface
+//! of crystal-facet-uml.
+
 use crate::test_tool::test_case::TestCase;
 use crate::test_tool::test_suite::TestSuite;
 
@@ -6,7 +9,7 @@ pub struct SuiteGui<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
 {
-    pub name: &'all_testing str,
+    name: &'all_testing str,
     environment: (),
     cases: [TestCase<'all_testing, 'during_run, ()>; 0],
 }

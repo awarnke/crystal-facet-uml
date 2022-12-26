@@ -1,7 +1,9 @@
+//! This module implements a TestResult to collect statistics on a performed
+//! test run
 use std::ops::Add;
 use std::ops::AddAssign;
 
-/// A TestResult is a set of statistical data on performed test cases
+/// A TestResult is a set of statistical data on a performed test run
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct TestResult {
     pub failed: u32,

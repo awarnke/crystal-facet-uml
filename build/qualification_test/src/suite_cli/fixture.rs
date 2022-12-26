@@ -1,3 +1,6 @@
+//! This module implements a TestFixture (test environment) for testing the
+//! command line interface of crystal-facet-uml.
+
 /// A test fixture allows to access the test environment;
 /// it consists of paths to the executable under test and to a directory to
 /// store temporary data
