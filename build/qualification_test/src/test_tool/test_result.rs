@@ -6,7 +6,9 @@ use std::ops::AddAssign;
 /// A TestResult is a set of statistical data on a performed test run
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct TestResult {
+    /// The number of failed test cases in a test run
     pub failed: u32,
+    /// The number of total test cases in a test run
     pub total: u32,
 }
 
