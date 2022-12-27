@@ -7,20 +7,18 @@
 ///
 /// * `'all_testing` refers to the lifetime of `TestSuite` and `TestCase`
 ///   objects: They exist during the whole test run.
-/// * `'during_run` refers to the lifetime of a `TestFixture`: This is set up
-///   for the duration of executing one test case.
 ///
 /// # Generics
 ///
 /// * `TestFixture` is a generic test environment. The exact type may differ
 ///   between different `TestSuite`s.
-pub struct TestCase<'all_testing, 'during_run, TestFixture> {
+pub struct TestCase<'all_testing, TestFixture> {
     pub(super) name: &'all_testing str,
-    pub(super) run: fn(environment: &'during_run TestFixture) -> Result<(), ()>,
+    pub(super) run: fn(environment: &mut TestFixture) -> Result<(), ()>,
 }
 
 /// The `TestCase` struct comes with a constructor
-impl<'all_testing, 'during_run, TestFixture> TestCase<'all_testing, 'during_run, TestFixture> {
+impl<'all_testing, TestFixture> TestCase<'all_testing, TestFixture> {
     /// Defines a test fixture (the test environment)
     ///
     /// # Arguments
@@ -32,8 +30,8 @@ impl<'all_testing, 'during_run, TestFixture> TestCase<'all_testing, 'during_run,
     ///   the expected observation, `Result::Ok(())` in case of success.
     pub fn new(
         name: &'static str,
-        run: fn(environment: &'during_run TestFixture) -> Result<(), ()>,
-    ) -> TestCase<'all_testing, 'during_run, TestFixture> {
+        run: fn(environment: &mut TestFixture) -> Result<(), ()>,
+    ) -> TestCase<'all_testing, TestFixture> {
         TestCase {
             name: name,
             run: run,

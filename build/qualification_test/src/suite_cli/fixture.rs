@@ -4,6 +4,11 @@
 /// A test fixture allows to access the test environment;
 /// it consists of paths to the executable under test and to a directory to
 /// store temporary data
+///
+/// # Lifetimes
+///
+/// * `'me` refers to the lifetime of a `TestFixture`: This is set up
+///   for the duration of executing one test case.
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct FixtureCli<'me> {
     pub(super) exe_to_test: &'me str,

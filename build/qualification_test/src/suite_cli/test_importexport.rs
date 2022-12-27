@@ -35,7 +35,7 @@ fn simplejson() -> &'static str {
 /// # Arguments
 ///
 /// * `environment` - A test fixture stating the test environment
-pub(super) fn testcase_import_to_new_cfu1(environment: &FixtureCli) -> Result<(), ()> {
+pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
     /* create the db_to_use_param string, panic in case an error occured */
     let mut db_to_use = PathBuf::from(environment.temp_dir);
     db_to_use.push("sqlite3_db.cfu1");

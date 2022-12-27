@@ -10,7 +10,7 @@ use std::process::Stdio;
 /// # Arguments
 ///
 /// * `environment` - A test fixture stating the test environment
-pub(super) fn testcase_version(environment: &FixtureCli) -> Result<(), ()> {
+pub(super) fn testcase_version(environment: &mut FixtureCli) -> Result<(), ()> {
     let output = match std::process::Command::new(environment.exe_to_test)
         .args(&["-v"])
         .output()
@@ -47,7 +47,7 @@ pub(super) fn testcase_version(environment: &FixtureCli) -> Result<(), ()> {
 /// # Arguments
 ///
 /// * `environment` - A test fixture stating the test environment
-pub(super) fn testcase_help(environment: &FixtureCli) -> Result<(), ()> {
+pub(super) fn testcase_help(environment: &mut FixtureCli) -> Result<(), ()> {
     let process = match std::process::Command::new(environment.exe_to_test)
         .args(&["-h"])
         .stdout(Stdio::piped())

@@ -15,19 +15,14 @@ use super::test_suite::TestSuite;
 ///
 /// * `'all_testing` refers to the lifetime of `TestSuite` and `TestCase`
 ///   objects: They exist during the whole test run.
-/// * `'during_run` refers to the lifetime of a `TestFixture`: This is set up
-///   for the duration of executing one test case.
 ///
 /// # Generics
 ///
 /// * `TestFixture` is a generic test environment. The exact type may differ
 ///   between different `TestSuite`s.
-pub fn run<'all_testing, 'during_run, TestFixture>(
-    suite: &'all_testing (dyn TestSuite<'all_testing, 'during_run, TestFixture> + 'all_testing),
-) -> TestResult
-where
-    'all_testing: 'during_run,
-{
+pub fn run<'all_testing, TestFixture>(
+    suite: &'all_testing (dyn TestSuite<'all_testing, TestFixture> + 'all_testing),
+) -> TestResult {
     let mut result: TestResult = TestResult {
         failed: 0,
         total: 0,
@@ -42,8 +37,8 @@ where
             "                                        [__ > {} __]",
             case.name
         );
-        let environment = suite.setup();
-        result += (case.run)(&environment);
+        let mut environment = suite.setup();
+        result += (case.run)(&mut environment);
         suite.teardown(environment);
     }
 

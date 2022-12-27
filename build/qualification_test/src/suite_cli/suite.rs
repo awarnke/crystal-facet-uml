@@ -11,13 +11,21 @@ use crate::test_tool::test_suite::TestSuite;
 use std::fs;
 
 /// A test suite consists of a name, a test fixture and an array of test cases
+///
+/// # Lifetimes
+///
+/// * `'all_testing` refers to the lifetime of `TestSuite` and `TestCase`
+///   objects: They exist during the whole test run.
+/// * `'during_run` refers to the lifetime of a `TestFixture`: This is set up
+///   for the duration of executing one single test case.
 pub struct SuiteCli<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
 {
     name: &'all_testing str,
-    environment: FixtureCli<'during_run>,
-    cases: [TestCase<'all_testing, 'during_run, FixtureCli<'during_run>>; 4],
+    exe_to_test: &'all_testing str,
+    temp_dir: &'all_testing str,
+    cases: [TestCase<'all_testing, FixtureCli<'during_run>>; 4],
 }
 
 /// The `SuiteCli` test suite comes with a constructor
@@ -36,7 +44,8 @@ where
     pub fn new(exe_to_test: &'a str, temp_dir: &'b str) -> SuiteCli<'all_testing, 'during_run> {
         SuiteCli {
             name: "SuiteCli",
-            environment: FixtureCli::new(exe_to_test, temp_dir),
+            exe_to_test: exe_to_test,
+            temp_dir: temp_dir,
             cases: [
                 TestCase::new("testcase_version", testcase_version),
                 TestCase::new("testcase_help", testcase_help),
@@ -48,7 +57,7 @@ where
 }
 
 /// The `SuiteCli` test suite implements the `TestSuite` trait
-impl<'all_testing, 'during_run> TestSuite<'all_testing, 'during_run, FixtureCli<'during_run>>
+impl<'all_testing, 'during_run> TestSuite<'all_testing, FixtureCli<'during_run>>
     for SuiteCli<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
@@ -61,26 +70,27 @@ where
     /// Creates a test directory
     ///
     /// Panics if the test environment reports errors.
-    fn setup(self: &'all_testing Self) -> &'during_run FixtureCli<'during_run>
+    fn setup(self: &'all_testing Self) -> FixtureCli<'during_run>
     where
         'all_testing: 'during_run,
     {
+        let environment = FixtureCli::new(self.exe_to_test, self.temp_dir);
         /* create the temp directory, panic in case an error occured */
-        fs::create_dir_all(self.environment.temp_dir).unwrap();
-        &self.environment
+        fs::create_dir_all(environment.temp_dir).unwrap();
+        environment
     }
 
     /// Removes the test directory
     ///
     /// Panics if the test environment reports errors.
-    fn teardown(self: &'all_testing Self, environment: &'during_run FixtureCli<'during_run>) -> () {
+    fn teardown(self: &'all_testing Self, environment: FixtureCli<'during_run>) -> () {
         /* delete the temp directory in case of successful test result, panic in case an error occured */
         fs::remove_dir_all(environment.temp_dir).unwrap();
     }
 
     fn testcases(
         self: &'all_testing Self,
-    ) -> &'all_testing [TestCase<'all_testing, 'during_run, FixtureCli<'during_run>>] {
+    ) -> &'all_testing [TestCase<'all_testing, FixtureCli<'during_run>>] {
         &self.cases
     }
 }
