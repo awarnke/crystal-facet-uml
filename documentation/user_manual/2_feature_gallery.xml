@@ -110,7 +110,7 @@
     <section>
         <title>More Examples</title>
         <para>
-            There are further examples available as html:
+            There are further examples available as html/pdf:
             <itemizedlist>
             <listitem><para>
                     <ulink url="https://andreaswarnke.de/crystal-facet-uml/mouse_droid/mouse_droid.xhtml">mouse_droid.xhtml</ulink> /
@@ -125,13 +125,13 @@
                 <ulink url="https://andreaswarnke.de/crystal-facet-uml/quality/quality.pdf">quality.pdf</ulink>
             </para></listitem>
             </itemizedlist>
-            And in crystal-facet-uml binary format:
+            And in crystal-facet-uml json format:
             <itemizedlist>
             <listitem><para>
                 <ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/example_diagrams"/>
             </para></listitem>
             <listitem><para>
-                <ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/architecture/doc"/>
+                <ulink url="https://github.com/awarnke/crystal-facet-uml/tree/master/documentation/architecture"/>
             </para></listitem>
             </itemizedlist>
         </para>
