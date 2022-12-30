@@ -4,12 +4,18 @@ use std::process::Stdio;
 
 /// Test that requesting the version is possible.
 ///
-/// Returns result of check if the result string looks like a version,
-/// panics if the test environment reports errors.
-///
 /// # Arguments
 ///
 /// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the result string does not look like a version.
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
 pub(super) fn testcase_version(environment: &mut FixtureCli) -> Result<(), ()> {
     let output = match std::process::Command::new(environment.exe_to_test)
         .args(&["-v"])
@@ -41,12 +47,18 @@ pub(super) fn testcase_version(environment: &mut FixtureCli) -> Result<(), ()> {
 
 /// Test that requesting a help string is possible.
 ///
-/// Returns result of check if the result string looks like a help string,
-/// panics if the test environment reports errors.
-///
 /// # Arguments
 ///
 /// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the result string does not look like a help string.
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
 pub(super) fn testcase_help(environment: &mut FixtureCli) -> Result<(), ()> {
     let process = match std::process::Command::new(environment.exe_to_test)
         .args(&["-h"])

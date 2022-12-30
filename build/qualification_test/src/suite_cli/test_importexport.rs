@@ -29,12 +29,18 @@ fn simplejson() -> &'static str {
 
 /// Test that importing to a newly created sqlite3 based format is possible.
 ///
-/// Returns result of check if the result string looks like a version,
-/// panics if the test environment reports errors.
-///
 /// # Arguments
 ///
 /// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the test case produced an unexpected result
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
 pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
     /* create the db_to_use_param string, panic in case an error occured */
     let mut db_to_use = PathBuf::from(environment.temp_dir);
@@ -45,8 +51,15 @@ pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Resul
     let mut json_to_use = PathBuf::from(environment.temp_dir);
     json_to_use.push("json.txt");
     let json_to_use_param = json_to_use.into_os_string().into_string().unwrap();
-    let mut json_file = File::create(&json_to_use_param).unwrap();
-    write!(json_file, "{}", simplejson()).expect("File could not be written");
+    {
+        let mut json_file = File::create(&json_to_use_param).unwrap();
+        write!(json_file, "{}", simplejson()).expect("File could not be written");
+        let mut json_perms = json_file.metadata().expect("no metadata").permissions();
+        json_perms.set_readonly(true);
+        json_file
+            .set_permissions(json_perms)
+            .expect("cannot set readonly flag");
+    }
 
     let output1 = Command::new(environment.exe_to_test)
         .args(&["-i", &db_to_use_param, "add", &json_to_use_param])

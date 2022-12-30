@@ -2,22 +2,80 @@ use super::fixture::FixtureCli;
 use std::path::PathBuf;
 use std::process::Command;
 
+/// A switch for test or repair
+enum Repair {
+    TestOnly,
+    TestAndRepair,
+}
+
 /// Test that creating an sqlite3 based format is possible and can be repaired.
-///
-/// Returns result of check if the result string looks like a version,
-/// panics if the test environment reports errors.
 ///
 /// # Arguments
 ///
 /// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the test case produced an unexpected result
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
 pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
+    test_repair_or_test(Repair::TestAndRepair, "Errors found: 1", environment)
+}
+
+/// Test that creating an sqlite3 based format is possible and can be repaired.
+///
+/// # Arguments
+///
+/// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the test case produced an unexpected result
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
+pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
+    test_repair_or_test(Repair::TestOnly, "error opening database_file", environment)
+}
+
+/// Test that creating an sqlite3 based format is possible and can be repaired.
+///
+/// # Arguments
+///
+/// * `repair` - Indicator if the test case shall repair or only test the database
+/// * `expected_output` - String that is expected to be contained in the output
+/// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the test case produced an unexpected result
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
+fn test_repair_or_test(
+    repair: Repair,
+    expected_output: &str,
+    environment: &mut FixtureCli,
+) -> Result<(), ()> {
     /* create the db_to_use_param string, panic in case an error occured */
     let mut db_to_use = PathBuf::from(environment.temp_dir);
     db_to_use.push("sqlite3_db.cfu1");
     let db_to_use_param = db_to_use.into_os_string().into_string().unwrap();
 
+    let repair_param: &str = match repair {
+        Repair::TestOnly => "-t",
+        Repair::TestAndRepair => "-r",
+    };
     let output = Command::new(environment.exe_to_test)
-        .args(&["-r", &db_to_use_param])
+        .args(&[repair_param, &db_to_use_param])
         .output()
         .expect("Err at running process");
 
@@ -28,7 +86,7 @@ pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(
 
     /* check if the returned string looks as expected */
     /* 1 error should be found which is the missing root diagram */
-    let as_expected = stdout.contains("Errors found: 1");
+    let as_expected = stdout.contains(expected_output);
 
     /* check that the exit code is 0 */
     let exit_ok: bool = output.status.success();
