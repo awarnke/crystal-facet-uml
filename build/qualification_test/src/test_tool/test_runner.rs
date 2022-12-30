@@ -20,6 +20,7 @@ use super::test_suite::TestSuite;
 ///
 /// * `TestFixture` is a generic test environment. The exact type may differ
 ///   between different `TestSuite`s.
+///
 pub fn run<'all_testing, TestFixture>(
     suite: &'all_testing (dyn TestSuite<'all_testing, TestFixture> + 'all_testing),
 ) -> TestResult {

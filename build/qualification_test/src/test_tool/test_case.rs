@@ -12,6 +12,7 @@
 ///
 /// * `TestFixture` is a generic test environment. The exact type may differ
 ///   between different `TestSuite`s.
+///
 pub struct TestCase<'all_testing, TestFixture> {
     pub(super) name: &'all_testing str,
     pub(super) run: fn(environment: &mut TestFixture) -> Result<(), ()>,
@@ -28,6 +29,7 @@ impl<'all_testing, TestFixture> TestCase<'all_testing, TestFixture> {
     ///   This function may panic in case of an error in the test environment;
     ///   it shall return `Result::Err(())` if the test case did not produce
     ///   the expected observation, `Result::Ok(())` in case of success.
+    ///
     pub fn new(
         name: &'static str,
         run: fn(environment: &mut TestFixture) -> Result<(), ()>,

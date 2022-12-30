@@ -2,7 +2,8 @@ use super::fixture::FixtureCli;
 use std::path::PathBuf;
 use std::process::Command;
 
-/// A switch for test or repair
+/// A switch to distinguish test and repair modes
+#[derive(Debug, Copy, Clone, PartialEq)]
 enum Repair {
     TestOnly,
     TestAndRepair,
@@ -26,7 +27,7 @@ pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(
     test_repair_or_test(Repair::TestAndRepair, "Errors found: 1", environment)
 }
 
-/// Test that creating an sqlite3 based format is possible and can be repaired.
+/// Test that creating an sqlite3 based format is not done with -t option.
 ///
 /// # Arguments
 ///

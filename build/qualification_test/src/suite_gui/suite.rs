@@ -10,6 +10,7 @@ use crate::test_tool::test_suite::TestSuite;
 ///
 /// * `'all_testing` refers to the lifetime of `TestSuite` and `TestCase`
 ///   objects: They exist during the whole test run.
+///
 pub struct SuiteGui<'all_testing> {
     name: &'all_testing str,
     cases: [TestCase<'all_testing, ()>; 0],
@@ -27,6 +28,7 @@ where
     ///
     /// * `exe_to_test` - A path to the executable to be tested
     /// * `temp_dir` - A path to a directory that exists and can be used for testing
+    ///
     pub fn new(_exe_to_test: &'a str, _temp_dir: &'b str) -> SuiteGui<'all_testing> {
         SuiteGui {
             name: "SuiteGui",

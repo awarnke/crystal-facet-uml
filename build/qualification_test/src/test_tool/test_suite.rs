@@ -16,6 +16,7 @@ use super::test_case::TestCase;
 ///
 /// * `TestFixture` is a generic test environment. The exact type may differ
 ///   between different `TestSuite`s.
+///
 pub trait TestSuite<'all_testing, TestFixture> {
     /// The name of this test suite
     fn name(self: &'all_testing Self) -> &'all_testing str;

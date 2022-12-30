@@ -19,6 +19,7 @@ use std::fs;
 ///   objects: They exist during the whole test run.
 /// * `'during_run` refers to the lifetime of a `TestFixture`: This is set up
 ///   for the duration of executing one single test case.
+///
 pub struct SuiteCli<'all_testing, 'during_run>
 where
     'all_testing: 'during_run,
@@ -42,6 +43,7 @@ where
     ///
     /// * `exe_to_test` - A path to the executable to be tested
     /// * `temp_dir` - A path to a directory that exists and can be used for testing
+    ///
     pub fn new(exe_to_test: &'a str, temp_dir: &'b str) -> SuiteCli<'all_testing, 'during_run> {
         SuiteCli {
             name: "SuiteCli",
