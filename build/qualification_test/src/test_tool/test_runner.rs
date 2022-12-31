@@ -39,8 +39,14 @@ pub fn run<'all_testing, TestFixture>(
             case.name
         );
         let mut environment = suite.setup();
-        result += (case.run)(&mut environment);
+        let testcase_result = (case.run)(&mut environment);
+        result += testcase_result;
         suite.teardown(environment);
+        println!(
+            "                                        [__ > {}: {} __]\n",
+            case.name,
+            match testcase_result{ Ok(())=>"Ok",Err(())=>"Err"}
+        );
     }
 
     result

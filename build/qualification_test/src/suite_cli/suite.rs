@@ -5,8 +5,7 @@ use super::fixture::FixtureCli;
 use super::test_help::testcase_help;
 use super::test_help::testcase_version;
 use super::test_importexport::testcase_import_to_new_cfu1;
-use super::test_repair::testcase_repair_new_cfu1;
-use super::test_repair::testcase_test_new_cfu1;
+use super::test_repair;
 use crate::test_tool::test_case::TestCase;
 use crate::test_tool::test_suite::TestSuite;
 use std::fs;
@@ -27,7 +26,7 @@ where
     name: &'all_testing str,
     exe_to_test: &'all_testing str,
     temp_dir: &'all_testing str,
-    cases: [TestCase<'all_testing, FixtureCli<'during_run>>; 5],
+    cases: [TestCase<'all_testing, FixtureCli<'during_run>>; 7],
 }
 
 /// The `SuiteCli` test suite comes with a constructor
@@ -52,8 +51,10 @@ where
             cases: [
                 TestCase::new("testcase_version", testcase_version),
                 TestCase::new("testcase_help", testcase_help),
-                TestCase::new("testcase_repair_new_cfu1", testcase_repair_new_cfu1),
-                TestCase::new("testcase_test_new_cfu1", testcase_test_new_cfu1),
+                TestCase::new("testcase_repair_new_cfu1", test_repair::testcase_repair_new_cfu1),
+                TestCase::new("testcase_test_new_cfu1", test_repair::testcase_test_new_cfu1),
+                TestCase::new("testcase_repair_json_rw", test_repair::testcase_repair_json_rw),
+                TestCase::new("testcase_test_json_ro", test_repair::testcase_test_json_ro),
                 TestCase::new("testcase_import_to_new_cfu1", testcase_import_to_new_cfu1),
             ],
         }

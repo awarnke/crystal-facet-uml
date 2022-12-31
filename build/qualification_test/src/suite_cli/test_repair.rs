@@ -9,6 +9,40 @@ enum Repair {
     TestAndRepair,
 }
 
+/// A string containing valid json format but the crystal-facet-uml model is damaged
+static JSON_BAD_CONTENT: &'static str = "\
+  {
+    \"head\": {
+      \"encoding\": \"utf-8\"
+    }
+    ,
+    \"views\":
+    [
+    ]
+    ,
+    \"nodes\":
+    [
+      {
+        \"classifier\": {
+          \"id\": 1,
+          \"main_type\": 121,
+          \"type\": \"Component\",
+          \"stereotype\": \"subsystem\",
+          \"name\": \"AngleSteering\",
+          \"uuid\": \"8190a2ed-df2e-4427-8ebb-0272cd62149a\",
+          \"features\":
+          [
+          ]
+        }
+      }
+    ]
+    ,
+    \"edges\":
+    [
+    ]
+  }
+";
+
 /// Test that creating an sqlite3 based format is possible and can be repaired.
 ///
 /// # Arguments
@@ -24,7 +58,7 @@ enum Repair {
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
-    test_repair_or_test(Repair::TestAndRepair, "Errors found: 1", environment)
+    test_repair_or_test(Repair::TestAndRepair, "sqlite3_db.cfu1", "Errors found: 1", environment)
 }
 
 /// Test that creating an sqlite3 based format is not done with -t option.
@@ -42,7 +76,45 @@ pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
-    test_repair_or_test(Repair::TestOnly, "error opening database_file", environment)
+    test_repair_or_test(Repair::TestOnly, "sqlite3_db.cfu1", "error opening database_file", environment)
+}
+
+/// Test that repairing an existing, writeable json file is possible.
+///
+/// # Arguments
+///
+/// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the test case produced an unexpected result
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
+pub(super) fn testcase_repair_json_rw(environment: &mut FixtureCli) -> Result<(), ()> {
+    environment.create_file("test.cfuJ", JSON_BAD_CONTENT, super::fixture::Permissions::ReadWrite );
+    test_repair_or_test(Repair::TestAndRepair, "test.cfuJ", "Errors fixed: 1", environment)
+}
+
+/// Test that testing an existing, read-only json file is possible.
+///
+/// # Arguments
+///
+/// * `environment` - A test fixture stating the test environment
+///
+/// # Errors
+///
+/// This function returns `Err()` if the test case produced an unexpected result
+///
+/// # Panics
+///
+/// This function panics if the test environment causes errors.
+///
+pub(super) fn testcase_test_json_ro(environment: &mut FixtureCli) -> Result<(), ()> {
+    environment.create_file("test.cfuJ", JSON_BAD_CONTENT, super::fixture::Permissions::ReadOnly );
+    test_repair_or_test(Repair::TestOnly, "test.cfuJ", "Errors found: 2", environment)
 }
 
 /// Test that creating an sqlite3 based format is possible and can be repaired.
@@ -50,6 +122,7 @@ pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(),
 /// # Arguments
 ///
 /// * `repair` - Indicator if the test case shall repair or only test the database
+/// * `file_name` - Filename to use for test case
 /// * `expected_output` - String that is expected to be contained in the output
 /// * `environment` - A test fixture stating the test environment
 ///
@@ -63,12 +136,13 @@ pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(),
 ///
 fn test_repair_or_test(
     repair: Repair,
+    file_name: &str,
     expected_output: &str,
     environment: &mut FixtureCli,
 ) -> Result<(), ()> {
     /* create the db_to_use_param string, panic in case an error occured */
     let mut db_to_use = PathBuf::from(environment.temp_dir);
-    db_to_use.push("sqlite3_db.cfu1");
+    db_to_use.push(file_name);
     let db_to_use_param = db_to_use.into_os_string().into_string().unwrap();
 
     let repair_param: &str = match repair {
@@ -93,7 +167,7 @@ fn test_repair_or_test(
     let exit_ok: bool = output.status.success();
 
     print!(
-        "testcase_repair_new_cfu1: <<{}>>:{}\n",
+        "stdout: <<{}>>:{}\n",
         stdout,
         stdout.len()
     );
