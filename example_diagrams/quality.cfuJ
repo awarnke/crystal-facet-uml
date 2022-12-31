@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.1"
+    "generator_version": "1.45.0"
   }
   ,
   "views":
@@ -521,7 +521,8 @@
         "type": "SysMLRequirementDiagram",
         "name": "Quality Subcharacteristics I",
         "description": [
-                ""
+                "Subcharactersitics I of Ext/Int Product Quality \n",
+                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
         "list_order": 0,
         "display_flags": 0,
@@ -1106,7 +1107,8 @@
         "type": "SysMLRequirementDiagram",
         "name": "Quality Subcharacteristics II",
         "description": [
-                ""
+                "Subcharactersitics II of Ext/Int Product Quality \n",
+                "according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -1922,7 +1924,7 @@
         "type": "UMLComponentDiagram",
         "name": "Quality Subcharacteristics III",
         "description": [
-                ""
+                "Subcharactersitics of quality in use according to ISO/IEC 25010:2011 (C0167), see D0023#name."
         ],
         "list_order": 65536,
         "display_flags": 0,

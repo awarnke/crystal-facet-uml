@@ -1,4 +1,4 @@
-//! This module implements a test suite which defines how to set up test
+//! This module implements a test suite which sets up test
 //! fixtures (test environments) and provides a list of test cases.
 
 use super::test_case::TestCase;
