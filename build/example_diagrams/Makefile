@@ -1,7 +1,7 @@
 .PHONY: all
 all: all_export_test mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.xhtml quality/quality.pdf quality/quality.xhtml self_architecture/self_architecture.pdf self_architecture/self_architecture.xhtml pencil_tests/pencil_tests.xhtml info
 
-ARCDIR=../../architecture/doc
+ARCDIR=../../documentation/architecture
 SRCDIR=../../example_diagrams
 INSTALLDIR=../../example_diagrams
 

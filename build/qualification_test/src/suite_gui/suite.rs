@@ -5,19 +5,20 @@ use crate::test_tool::test_case::TestCase;
 use crate::test_tool::test_suite::TestSuite;
 
 /// A test suite consists of a name, a test fixture and an array of test cases
-pub struct SuiteGui<'all_testing, 'during_run>
-where
-    'all_testing: 'during_run,
-{
+///
+/// # Lifetimes
+///
+/// * `'all_testing` refers to the lifetime of `TestSuite` and `TestCase`
+///   objects: They exist during the whole test run.
+///
+pub struct SuiteGui<'all_testing> {
     name: &'all_testing str,
-    environment: (),
-    cases: [TestCase<'all_testing, 'during_run, ()>; 0],
+    cases: [TestCase<'all_testing, ()>; 0],
 }
 
 /// A test suite comes with a constructor
-impl<'all_testing, 'during_run, 'a, 'b> SuiteGui<'all_testing, 'during_run>
+impl<'all_testing, 'a, 'b> SuiteGui<'all_testing>
 where
-    'all_testing: 'during_run,
     'a: 'all_testing,
     'b: 'all_testing,
 {
@@ -27,21 +28,17 @@ where
     ///
     /// * `exe_to_test` - A path to the executable to be tested
     /// * `temp_dir` - A path to a directory that exists and can be used for testing
-    pub fn new(_exe_to_test: &'a str, _temp_dir: &'b str) -> SuiteGui<'all_testing, 'during_run> {
+    ///
+    pub fn new(_exe_to_test: &'a str, _temp_dir: &'b str) -> SuiteGui<'all_testing> {
         SuiteGui {
             name: "SuiteGui",
-            environment: (),
             cases: [],
         }
     }
 }
 
 /// The `SuiteGui` test suite implements the `TestSuite` trait
-impl<'all_testing, 'during_run> TestSuite<'all_testing, 'during_run, ()>
-    for SuiteGui<'all_testing, 'during_run>
-where
-    'all_testing: 'during_run,
-{
+impl<'all_testing> TestSuite<'all_testing, ()> for SuiteGui<'all_testing> {
     /// The name of the test suite
     fn name(self: &'all_testing Self) -> &'all_testing str {
         self.name
@@ -50,21 +47,16 @@ where
     /// Creates a test directory
     ///
     /// Panics if the test environment reports errors.
-    fn setup(self: &'all_testing Self) -> &'during_run ()
-    where
-        'all_testing: 'during_run,
-    {
-        &self.environment
+    fn setup(self: &'all_testing Self) -> () {
+        ()
     }
 
     /// Removes the test directory
     ///
     /// Panics if the test environment reports errors.
-    fn teardown(self: &'all_testing Self, _environment: &'during_run ()) -> () {}
+    fn teardown(self: &'all_testing Self, _environment: ()) -> () {}
 
-    fn testcases(
-        self: &'all_testing Self,
-    ) -> &'all_testing [TestCase<'all_testing, 'during_run, ()>] {
+    fn testcases(self: &'all_testing Self) -> &'all_testing [TestCase<'all_testing, ()>] {
         &self.cases
     }
 }

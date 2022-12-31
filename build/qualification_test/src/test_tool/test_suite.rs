@@ -11,33 +11,27 @@ use super::test_case::TestCase;
 ///
 /// * `'all_testing` refers to the lifetime of `TestSuite` and `TestCase`
 ///   objects: They exist during the whole test run.
-/// * `'during_run` refers to the lifetime of a `TestFixture`: This is set up
-///   for the duration of executing one test case.
 ///
 /// # Generics
 ///
 /// * `TestFixture` is a generic test environment. The exact type may differ
 ///   between different `TestSuite`s.
-pub trait TestSuite<'all_testing, 'during_run, TestFixture>
-where
-    'all_testing: 'during_run,
-{
+///
+pub trait TestSuite<'all_testing, TestFixture> {
     /// The name of this test suite
     fn name(self: &'all_testing Self) -> &'all_testing str;
     /// This function sets up the test environment (`TestFixture`) for the test
     /// cases in this test suite.
-    fn setup(self: &'all_testing Self) -> &'during_run TestFixture;
+    fn setup(self: &'all_testing Self) -> TestFixture;
     /// This function cleans up the test environment (`TestFixture`) for the
     /// test cases in this test suite.
     ///
     /// # Arguments
     ///
     /// * `environment` - A test fixture to be cleaned up
-    fn teardown(self: &'all_testing Self, environment: &'during_run TestFixture) -> ();
+    fn teardown(self: &'all_testing Self, environment: TestFixture) -> ();
     /// List of test cases in this test suite
-    fn testcases(
-        self: &'all_testing Self,
-    ) -> &'all_testing [TestCase<'all_testing, 'during_run, TestFixture>];
+    fn testcases(self: &'all_testing Self) -> &'all_testing [TestCase<'all_testing, TestFixture>];
 }
 
 /*

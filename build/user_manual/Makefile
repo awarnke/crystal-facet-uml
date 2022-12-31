@@ -1,18 +1,18 @@
 .PHONY: all
 all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz info
 
-SOURCE="../../user_doc"
+SOURCE=../../documentation/user_manual
 
-crystal-facet-uml_documentation.pdf: ../../user_doc/doc/*.xml ../../user_doc/doc/2_feature_gallery_export/*.pdf ../../user_doc/doc/*.pdf ../../user_doc/doc/*.png
+crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.pdf ${SOURCE}/*.pdf ${SOURCE}/*.png
 	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
-	dblatex --type=pdf ${SOURCE}/doc/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
+	dblatex --type=pdf ${SOURCE}/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
 
-html: ../../user_doc/doc/*.xml ../../user_doc/doc/2_feature_gallery_export/*.png ../../user_doc/doc/*.png
-	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
-	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml ${SOURCE}/doc/crystal-facet-uml_documentation.xml &&\
+html: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.png ${SOURCE}/*.png
+	echo "PLEASE UPDATE DIAGRAMS IN ${SOURCE}/2_feature_gallery_export/ MANUALLY" &&\
+	xmlto --stringparam html.stylesheet=html.css -o ./html/ xhtml ${SOURCE}/crystal-facet-uml_documentation.xml &&\
 	echo relocate image files &&\
-	cat ${SOURCE}/doc/*.xml | grep -e 'fileref.*png' | sed -e 's/^[^"]*"\([^"]*\)".*/..\/..\/user_doc\/doc\/\1/' | xargs cp --target-directory=./html &&\
-	cp ${SOURCE}/doc/html.css ./html &&\
+	cat ${SOURCE}/*.xml | grep -e 'fileref.*png' | sed -e 's#^[^"]*"\([^"]*\)".*#${SOURCE}/\1#' | xargs cp --target-directory=./html &&\
+	cp ${SOURCE}/html.css ./html &&\
 	find ./html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g' &&\
 	find ./html -name '*.html' | xargs sed -i -e 's/2_feature_gallery_export\///g'
 
@@ -22,11 +22,11 @@ MAN_STYLESHEET_ROOT=`find /usr/share/xml/docbook/stylesheet -name manpages`
 #MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl"
 MANPAGE_FILE="crystal-facet-uml.1"
 
-crystal-facet-uml.1.gz: ../../user_doc/doc/manpage.xml ../../user_doc/doc/1_non_tech_intro_para.xml ../../user_doc/doc/6_command_line_example_para.xml
+crystal-facet-uml.1.gz: ${SOURCE}/manpage.xml ${SOURCE}/1_non_tech_intro_para.xml ${SOURCE}/6_command_line_example_para.xml
 	rm -f ${MANPAGE_FILE}.gz ${MAPGAPE_FILE}i &&\
 	if [ -e "${MAN_STYLESHEET_ROOT}/docbook.xsl" ] ; then\
 	  echo "using ${MAN_STYLESHEET_ROOT}/docbook.xsl ...\n" &&\
-	  xsltproc --nonet --param man.charmap.use.subset "0" --xinclude "${MAN_STYLESHEET_ROOT}/docbook.xsl" ${SOURCE}/doc/manpage.xml &&\
+	  xsltproc --nonet --param man.charmap.use.subset "0" --xinclude "${MAN_STYLESHEET_ROOT}/docbook.xsl" ${SOURCE}/manpage.xml &&\
 	  gzip --quiet ${MANPAGE_FILE} ;\
 	else \
 	  echo "ERROR: find an appropriate xsl file for the manapge at /usr/share/xml/docbook/stylesheet" ;\
