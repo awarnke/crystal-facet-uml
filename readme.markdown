@@ -1,5 +1,5 @@
 
-![ScreenShot](user_doc/doc/1_introduction_banner.png)
+![ScreenShot](documentation/user_manual/1_introduction_banner.png)
 
 crystal-facet-uml
 =============
@@ -9,7 +9,7 @@ crystal-facet-uml creates sysml/uml diagrams to document system and software arc
 
 Like a crystal shows different facets of the same thing, this application shows different views of the same system.
 
-![ScreenShot](user_doc/doc/screenshot_1.png)
+![ScreenShot](documentation/user_manual/screenshot_1.png)
 
 <!-- For Whom? What can one do with it? Why does it help? -->
 As software architect, you create a set of diagrams describing
@@ -23,11 +23,11 @@ crystal-facet-uml exports the model to json and xmi format; json can also be imp
 The json-based data file can be stored to git, branched and merged together with your source code.
 This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 
-![ScreenShot](user_doc/doc/screenshot_2.png)
+![ScreenShot](documentation/user_manual/screenshot_2.png)
 
-![ScreenShot](user_doc/doc/screenshot_3.png)
+![ScreenShot](documentation/user_manual/screenshot_3.png)
 
-How to use this program is described in the [User Manual](user_doc/crystal-facet-uml_documentation.pdf) .
+How to use this program is described in the [User Manual](https://andreaswarnke.de/crystal-facet-uml/crystal-facet-uml_documentation.pdf) .
 
 Install crystal-facet-uml
 -----------
