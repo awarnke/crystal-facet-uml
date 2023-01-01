@@ -12,7 +12,7 @@
  *  \li the length of the array.
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2021-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author Copyright 2021-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "utf8stringbuf/utf8codepoint.h"
@@ -137,7 +137,7 @@ static inline int utf8stringview_find_first_str( const utf8stringview_t this_, c
 
 
 /*
- * Copyright 2021-2022 Andreas Warnke
+ * Copyright 2021-2023 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

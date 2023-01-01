@@ -224,7 +224,7 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
 
 
 /*
-Copyright 2016-2022 Andreas Warnke
+Copyright 2016-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

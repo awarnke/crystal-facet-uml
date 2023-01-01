@@ -58,7 +58,12 @@ static JSON_BAD_CONTENT: &'static str = "\
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
-    test_repair_or_test(Repair::TestAndRepair, "sqlite3_db.cfu1", "Errors found: 1", environment)
+    test_repair_or_test(
+        Repair::TestAndRepair,
+        "sqlite3_db.cfu1",
+        "Errors found: 1",
+        environment,
+    )
 }
 
 /// Test that creating an sqlite3 based format is not done with -t option.
@@ -76,7 +81,12 @@ pub(super) fn testcase_repair_new_cfu1(environment: &mut FixtureCli) -> Result<(
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(), ()> {
-    test_repair_or_test(Repair::TestOnly, "sqlite3_db.cfu1", "error opening database_file", environment)
+    test_repair_or_test(
+        Repair::TestOnly,
+        "sqlite3_db.cfu1",
+        "error opening database_file",
+        environment,
+    )
 }
 
 /// Test that repairing an existing, writeable json file is possible.
@@ -94,8 +104,17 @@ pub(super) fn testcase_test_new_cfu1(environment: &mut FixtureCli) -> Result<(),
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_repair_json_rw(environment: &mut FixtureCli) -> Result<(), ()> {
-    environment.create_file("test.cfuJ", JSON_BAD_CONTENT, super::fixture::Permissions::ReadWrite );
-    test_repair_or_test(Repair::TestAndRepair, "test.cfuJ", "Errors fixed: 1", environment)
+    environment.create_file(
+        "test.cfuJ",
+        JSON_BAD_CONTENT,
+        super::fixture::Permissions::ReadWrite,
+    );
+    test_repair_or_test(
+        Repair::TestAndRepair,
+        "test.cfuJ",
+        "Errors fixed: 1",
+        environment,
+    )
 }
 
 /// Test that testing an existing, read-only json file is possible.
@@ -113,8 +132,17 @@ pub(super) fn testcase_repair_json_rw(environment: &mut FixtureCli) -> Result<()
 /// This function panics if the test environment causes errors.
 ///
 pub(super) fn testcase_test_json_ro(environment: &mut FixtureCli) -> Result<(), ()> {
-    environment.create_file("test.cfuJ", JSON_BAD_CONTENT, super::fixture::Permissions::ReadOnly );
-    test_repair_or_test(Repair::TestOnly, "test.cfuJ", "Errors found: 2", environment)
+    environment.create_file(
+        "test.cfuJ",
+        JSON_BAD_CONTENT,
+        super::fixture::Permissions::ReadOnly,
+    );
+    test_repair_or_test(
+        Repair::TestOnly,
+        "test.cfuJ",
+        "Errors found: 2",
+        environment,
+    )
 }
 
 /// Test that creating an sqlite3 based format is possible and can be repaired.
@@ -166,11 +194,7 @@ fn test_repair_or_test(
     /* check that the exit code is 0 */
     let exit_ok: bool = output.status.success();
 
-    print!(
-        "stdout: <<{}>>:{}\n",
-        stdout,
-        stdout.len()
-    );
+    print!("stdout: <<{}>>:{}\n", stdout, stdout.len());
     if as_expected && !exit_ok {
         Result::Ok(())
     } else {
@@ -179,7 +203,7 @@ fn test_repair_or_test(
 }
 
 /*
-Copyright 2022-2022 Andreas Warnke
+Copyright 2022-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

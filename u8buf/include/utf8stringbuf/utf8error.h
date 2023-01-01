@@ -8,7 +8,7 @@
  *  \brief utf8error is an enumeration of error constants.
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "u8/u8_error_cat.h"
@@ -58,7 +58,7 @@ typedef enum utf8error_enum utf8error_t;
 
 
 /*
- * Copyright 2012-2022 Andreas Warnke
+ * Copyright 2012-2023 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

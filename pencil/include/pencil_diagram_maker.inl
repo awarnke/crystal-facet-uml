@@ -115,7 +115,7 @@ static inline void pencil_diagram_maker_get_grid_lines ( const pencil_diagram_ma
 
 
 /*
-Copyright 2016-2022 Andreas Warnke
+Copyright 2016-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -4,7 +4,7 @@
  *  \file utf8codepoint.c
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "utf8stringbuf/utf8codepoint.h"
@@ -14,7 +14,7 @@ const utf8codepoint_t UTF8CODEPOINT_INVAL_CHAR = { UTF8CODEPOINT_INVALID_LEN, 0x
 
 
 /*
- * Copyright 2012-2022 Andreas Warnke
+ * Copyright 2012-2023 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

@@ -8,7 +8,7 @@
  *  \brief utf8string provides functions to search and compare c-strings.
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2022 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "utf8stringbuf/utf8codepoint.h"
@@ -263,7 +263,7 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
 
 
 /*
- * Copyright 2012-2022 Andreas Warnke
+ * Copyright 2012-2023 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

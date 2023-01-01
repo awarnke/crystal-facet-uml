@@ -4,9 +4,8 @@ use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
 
-/// Returns a string slice containting json data.
-fn simplejson() -> &'static str {
-    "\
+/// A string containing valid json format but no model data
+static JSON_EMPTY_CONTENT: &'static str = "\
 {
   \"head\": {
     \"encoding\": \"utf-8\"
@@ -24,8 +23,7 @@ fn simplejson() -> &'static str {
   [
   ]
 }
-"
-}
+";
 
 /// Test that importing to a newly created sqlite3 based format is possible.
 ///
@@ -53,7 +51,7 @@ pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Resul
     let json_to_use_param = json_to_use.into_os_string().into_string().unwrap();
     {
         let mut json_file = File::create(&json_to_use_param).unwrap();
-        write!(json_file, "{}", simplejson()).expect("File could not be written");
+        write!(json_file, "{}", JSON_EMPTY_CONTENT).expect("File could not be written");
         let mut json_perms = json_file.metadata().expect("no metadata").permissions();
         json_perms.set_readonly(true);
         json_file
@@ -90,7 +88,7 @@ pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Resul
 }
 
 /*
-Copyright 2022-2022 Andreas Warnke
+Copyright 2022-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

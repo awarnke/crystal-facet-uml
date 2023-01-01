@@ -580,7 +580,7 @@ static inline int xmi_element_info_map_get_relationship ( const xmi_element_info
 
 
 /*
-Copyright 2020-2022 Andreas Warnke
+Copyright 2020-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

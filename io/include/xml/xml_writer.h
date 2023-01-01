@@ -223,7 +223,7 @@ static inline bool xml_writer_private_is_xml_tag_name_character ( xml_writer_t *
 
 
 /*
-Copyright 2019-2022 Andreas Warnke
+Copyright 2019-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -45,7 +45,10 @@ pub fn run<'all_testing, TestFixture>(
         println!(
             "                                        [__ > {}: {} __]\n",
             case.name,
-            match testcase_result{ Ok(())=>"Ok",Err(())=>"Err"}
+            match testcase_result {
+                Ok(()) => "Ok",
+                Err(()) => "Err",
+            }
         );
     }
 
@@ -53,7 +56,7 @@ pub fn run<'all_testing, TestFixture>(
 }
 
 /*
-Copyright 2022-2022 Andreas Warnke
+Copyright 2022-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

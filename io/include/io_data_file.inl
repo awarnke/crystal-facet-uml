@@ -56,7 +56,7 @@ static inline utf8error_t io_data_file_private_replace_file_extension ( const io
 
 
 /*
-Copyright 2022-2022 Andreas Warnke
+Copyright 2022-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

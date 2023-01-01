@@ -72,7 +72,7 @@ static inline int xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_t
 
 
 /*
-Copyright 2020-2022 Andreas Warnke
+Copyright 2020-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

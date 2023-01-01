@@ -67,7 +67,7 @@ if ( fabs(exp-act) > ((fabs(exp)*TEST_FLOAT_EPSILON)+TEST_FLOAT_TINIEST) ) \
 
 
 /*
-Copyright 2019-2022 Andreas Warnke
+Copyright 2019-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

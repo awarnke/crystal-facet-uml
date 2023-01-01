@@ -169,7 +169,7 @@ int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
 
 
 /*
-Copyright 2017-2022 Andreas Warnke
+Copyright 2017-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

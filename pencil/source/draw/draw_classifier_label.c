@@ -377,7 +377,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
 
 
 /*
-Copyright 2016-2022 Andreas Warnke
+Copyright 2016-2023 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

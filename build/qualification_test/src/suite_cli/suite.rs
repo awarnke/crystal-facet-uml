@@ -51,9 +51,18 @@ where
             cases: [
                 TestCase::new("testcase_version", testcase_version),
                 TestCase::new("testcase_help", testcase_help),
-                TestCase::new("testcase_repair_new_cfu1", test_repair::testcase_repair_new_cfu1),
-                TestCase::new("testcase_test_new_cfu1", test_repair::testcase_test_new_cfu1),
-                TestCase::new("testcase_repair_json_rw", test_repair::testcase_repair_json_rw),
+                TestCase::new(
+                    "testcase_repair_new_cfu1",
+                    test_repair::testcase_repair_new_cfu1,
+                ),
+                TestCase::new(
+                    "testcase_test_new_cfu1",
+                    test_repair::testcase_test_new_cfu1,
+                ),
+                TestCase::new(
+                    "testcase_repair_json_rw",
+                    test_repair::testcase_repair_json_rw,
+                ),
                 TestCase::new("testcase_test_json_ro", test_repair::testcase_test_json_ro),
                 TestCase::new("testcase_import_to_new_cfu1", testcase_import_to_new_cfu1),
             ],
@@ -101,7 +110,7 @@ where
 }
 
 /*
-Copyright 2022-2022 Andreas Warnke
+Copyright 2022-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

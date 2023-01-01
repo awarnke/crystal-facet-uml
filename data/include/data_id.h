@@ -203,7 +203,7 @@ static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, univer
 
 
 /*
-Copyright 2016-2022 Andreas Warnke
+Copyright 2016-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

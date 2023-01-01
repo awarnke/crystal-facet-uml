@@ -18,7 +18,7 @@ const data_feature_type_t DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT]
 
 
 /*
-Copyright 2021-2022 Andreas Warnke
+Copyright 2021-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

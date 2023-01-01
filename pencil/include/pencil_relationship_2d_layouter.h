@@ -284,7 +284,7 @@ void pencil_relationship_2d_layouter_layout_for_communication( pencil_relationsh
 
 
 /*
-Copyright 2017-2022 Andreas Warnke
+Copyright 2017-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

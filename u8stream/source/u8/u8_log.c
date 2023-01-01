@@ -6,7 +6,7 @@ unsigned int u8_log_debug_mode = U8_LOG_DEBUG_MODE_CONTINUE;
 
 
 /*
-Copyright 2022-2022 Andreas Warnke
+Copyright 2022-2023 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
