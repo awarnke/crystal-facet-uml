@@ -74,7 +74,7 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 /*!
  *  \brief defines coordinates
  *
- *  Resets internal caches, changes in input_data are ok.
+ *  Resets internal caches, any changes in input_data are ok.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
@@ -86,7 +86,8 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
 /*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
  *
- *  No reset of internal caches, no structural changes in input_data are allowed - only updates of attributes.
+ *  No reset of internal caches, no structural changes in input_data are allowed;
+ *  only updates of attributes like order values.
  *
  *  \param this_ pointer to own object attributes
  *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
@@ -99,7 +100,23 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
                                                         );
 
 /*!
+ *  \brief draws markers where diagram elements and relationships overlap
+ *
+ *  This function may be called only after a call to pencil_diagram_maker_layout_elements()
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
+ *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
+ */
+void pencil_diagram_maker_show_overlaps ( pencil_diagram_maker_t *this_,
+                                          cairo_t *cr,
+                                          data_stat_t *io_layout_stat
+                                        );
+
+/*!
  *  \brief draws the chosen diagram contents into the diagram_bounds area of the cairo drawing context
+ *
+ *  This function may be called only after a call to pencil_diagram_maker_layout_elements()
  *
  *  \param this_ pointer to own object attributes
  *  \param mark_focused id of the object that is to be marked as "focused"

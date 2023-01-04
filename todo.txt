@@ -11,7 +11,6 @@ ideas for future versions:
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] scrolling through search list missing if result list is too long
-  @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   @pencil
@@ -22,7 +21,8 @@ ideas for future versions:
   [?] more relationship types needed: undirected ---- and one-way x--> and no x--x dependency (non-navigateable ends)
   [?] more relationship types needed: undirected ---- and one-way x--> and no x--x association (maybe x is a feature?)
   [?] sequence diagrams need if/loop-boxes
-  [?] activity diagrams need swimlanes/partitions
+  [?] activity diagrams need swimlanes/partition
+! [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()
   @io
   [ ] export formats: enhance xmi standard compliance
   [?] import XMI format

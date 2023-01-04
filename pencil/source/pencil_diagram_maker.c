@@ -7,6 +7,39 @@
 #include <stdlib.h>
 #include <math.h>
 
+static void draw_rects(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b)
+{
+    assert( NULL != data );
+    assert( NULL != a );
+    assert( NULL != b );
+    cairo_t *cr = data;
+    cairo_set_source_rgba( cr, 1.0, 0.7, 1.0, 1.0 );
+    cairo_rectangle ( cr,
+                      geometry_rectangle_get_left ( a ),
+                      geometry_rectangle_get_top ( a ),
+                      geometry_rectangle_get_width ( a ),
+                      geometry_rectangle_get_height ( a )
+                    );
+    cairo_rectangle ( cr,
+                      geometry_rectangle_get_left ( b ),
+                      geometry_rectangle_get_top ( b ),
+                      geometry_rectangle_get_width ( b ),
+                      geometry_rectangle_get_height ( b )
+                    );
+    cairo_stroke (cr);
+}
+
+void pencil_diagram_maker_show_overlaps ( pencil_diagram_maker_t *this_,
+                                          cairo_t *cr,
+                                          data_stat_t *io_layout_stat )
+{
+    pencil_layout_data_analyze( pencil_layouter_get_layout_data_const( &((*this_).layouter) ),
+                                io_layout_stat,
+                                cr,
+                                draw_rects
+                              );
+}
+
 void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                  data_id_t mark_focused,
                                  data_id_t mark_highlighted,

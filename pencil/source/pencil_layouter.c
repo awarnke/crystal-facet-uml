@@ -155,7 +155,7 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     U8_TRACE_END();
 }
 
-void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout, data_stat_t *io_layout_stat )
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
     assert( font_layout != NULL );
@@ -255,10 +255,6 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         pencil_rel_label_layouter_do_layout( &((*this_).relationship_label_layouter), font_layout );
     }
 
-    if ( io_layout_stat != NULL )
-    {
-        pencil_layout_data_get_statistics( &((*this_).layout_data), io_layout_stat );
-    }
     U8_TRACE_END();
 }
 

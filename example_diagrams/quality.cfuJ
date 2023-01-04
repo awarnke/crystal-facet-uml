@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.45.1"
   }
   ,
   "views":
@@ -30,7 +30,7 @@
                 "Also, the developed and operated product has to encompass\n",
                 "technical measures to provide expected quality characteristics.\n",
                 "\n",
-                "(c) 2019-2022 Andreas Warnke\n",
+                "Copyright 2019-2023 Andreas Warnke\n",
                 "License:\n",
                 "Choose either Apache-2.0\n",
                 "or Creative Commons Attribution (BY) Licence"

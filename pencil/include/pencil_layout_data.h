@@ -284,6 +284,20 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ );
 void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat );
 
 /*!
+ *  \brief analyzes pencil_layout_data: gets statistics and calls back a function in case of overlaps
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
+ *  \param data pointer that is passed to overlap_callback
+ *  \param overlap_callback pointer to a function that is called in case of overlaps
+ */
+void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
+                                  data_stat_t *io_layout_stat,
+                                  void *data,
+                                  void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b)
+                                );
+
+/*!
  *  \brief initializes the diagram_layout member
  *
  *  \param this_ pointer to own object attributes, input_data shall be already initialized

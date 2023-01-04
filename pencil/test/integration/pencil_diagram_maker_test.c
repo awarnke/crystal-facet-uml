@@ -141,7 +141,8 @@ static void layout_good_cases(void)
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, cr, &layout_stats );
+        pencil_diagram_maker_layout_elements( &painter, cr, NULL );
+        pencil_diagram_maker_show_overlaps( &painter, cr, &layout_stats );
         pencil_diagram_maker_draw ( &painter,
                                     void_id,
                                     void_id,
@@ -177,7 +178,8 @@ static void layout_challenging_cases(void)
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, cr, &layout_stats );
+        pencil_diagram_maker_layout_elements( &painter, cr, NULL );
+        pencil_diagram_maker_show_overlaps( &painter, cr, &layout_stats );
         pencil_diagram_maker_draw ( &painter,
                                     void_id,
                                     void_id,
@@ -214,7 +216,8 @@ static void layout_edge_cases(void)
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, cr, &layout_stats );
+        pencil_diagram_maker_layout_elements( &painter, cr, NULL );
+        pencil_diagram_maker_show_overlaps( &painter, cr, &layout_stats );
         pencil_diagram_maker_draw ( &painter,
                                     void_id,
                                     void_id,

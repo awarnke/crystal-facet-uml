@@ -532,7 +532,19 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
 #define PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
 #endif
 
+static void do_nothing(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b)
+{
+}
+
 void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat )
+{
+    pencil_layout_data_analyze( this_, io_layout_stat, NULL, do_nothing );
+}
+
+void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
+                                  data_stat_t *io_layout_stat,
+                                  void *data,
+                                  void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b) )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
@@ -618,6 +630,10 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         else
                         {
                             data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
+                            (*overlap_callback)( data, probe_space, c_symbox );
+                            (*overlap_callback)( data, probe_space, c_label );
+                            (*overlap_callback)( data, c_space, probe_symbox );
+                            (*overlap_callback)( data, c_space, probe_label );
                         }
                     }
                 }
@@ -629,10 +645,13 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
+                (*overlap_callback)( data, diag_bounds, c_symbox );
+                (*overlap_callback)( data, diag_bounds, c_label );
             }
             else
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
+                (*overlap_callback)( data, diag_space, diag_space );
             }
 
         }
@@ -680,8 +699,11 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                     if ( f_sym_overlaps_c_label || f_label_overlaps_c_sym || label_overlaps )
                     {
                         data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                        (*overlap_callback)( data, f_symbox, probe_label );
+                        (*overlap_callback)( data, f_label, probe_symbox );
+                        (*overlap_callback)( data, f_label, probe_label );
                     }
-                    else if ( symbox_overlaps  )
+                    else if ( symbox_overlaps )
                     {
                         const layout_visible_classifier_t *const f_parent
                             = layout_feature_get_classifier_const ( feature );
@@ -694,6 +716,7 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         else
                         {
                             data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                            (*overlap_callback)( data, f_symbox, probe_symbox );
                         }
                     }
                 }
@@ -723,6 +746,9 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         if ( mixed_overlaps || label_overlaps )
                         {
                             data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                            (*overlap_callback)( data, f_symbox, probe_label );
+                            (*overlap_callback)( data, f_label, probe_symbox );
+                            (*overlap_callback)( data, f_label, probe_label );
                         }
                         else if ( symbox_overlaps )
                         {
@@ -740,6 +766,7 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                             else
                             {
                                 data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                                (*overlap_callback)( data, f_symbox, probe_symbox );
                             }
                         }
                     }
@@ -752,10 +779,13 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                (*overlap_callback)( data, diag_bounds, f_symbox );
+                (*overlap_callback)( data, diag_bounds, f_label );
             }
             else
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
+                (*overlap_callback)( data, diag_space, diag_space );
             }
         }
 
@@ -799,6 +829,9 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                     if ( label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
                     {
                         data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                        (*overlap_callback)( data, r_label, probe_label );
+                        (*overlap_callback)( data, r_label, probe_symbox );
+                        (*overlap_callback)( data, &r_bounds, probe_label );
                     }
                 }
 
@@ -826,6 +859,9 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                         if (  label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
                         {
                             data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                            (*overlap_callback)( data, r_label, probe_label );
+                            (*overlap_callback)( data, r_label, probe_symbox );
+                            (*overlap_callback)( data, &r_bounds, probe_label );
                         }
                     }
                 }
@@ -849,6 +885,10 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
                     if ( label_overlaps || mixed_overlaps )
                     {
                         data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                        (*overlap_callback)( data, r_label, probe_label );
+                        (*overlap_callback)( data, &r_bounds, probe_label );
+                        const geometry_rectangle_t probe_bounds = geometry_connector_get_bounding_rectangle( probe_shape );
+                        (*overlap_callback)( data, &probe_bounds, r_label );
                     }
                 }
 #endif
@@ -859,10 +899,13 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                (*overlap_callback)( data, diag_bounds, &r_bounds );
+                (*overlap_callback)( data, diag_bounds, r_label );
             }
             else
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+                (*overlap_callback)( data, diag_space, diag_space );
             }
         }
     }

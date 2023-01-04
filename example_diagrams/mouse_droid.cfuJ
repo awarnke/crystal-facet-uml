@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.45.1"
   }
   ,
   "views":
@@ -25,7 +25,7 @@
                 "The document follows the arc42.org template\n",
                 "proposed by Gernot Starke and Peter Hruschka,\n",
                 "\n",
-                "(c) 2020-2022 Andreas Warnke\n",
+                "Copyright 2020-2023 Andreas Warnke\n",
                 "License:\n",
                 "Choose either Apache-2.0\n",
                 "or Creative Commons Attribution (BY) Licence"

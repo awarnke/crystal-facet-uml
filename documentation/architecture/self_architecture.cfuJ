@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.45.1"
   }
   ,
   "views":
@@ -1656,6 +1656,13 @@
             "classifier_name": "r2 :data_data base_reader",
             "node": "e938d652-cad1-44d0-bea5-bf45cecd0f4a",
             "uuid": "092b843c-35b9-4f10-b40a-ff40c64415e3"
+          },
+          {
+            "id": 683,
+            "display_flags": 0,
+            "classifier_name": "Locks needed here",
+            "node": "93a8c233-2f67-40f5-b3d6-e66f4404522c",
+            "uuid": "3858032f-f557-4cfa-a29e-597a19e4931d"
           }
         ]
       }
@@ -14683,6 +14690,39 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 425,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "",
+        "name": "Locks needed here",
+        "description": [
+                "The data_database_writer\n",
+                "can handle only one\n",
+                "client-thread at a time."
+        ],
+        "x_order": 1134005365,
+        "y_order": 0,
+        "list_order": 1381382324,
+        "uuid": "80f3d4d4-00cc-44b2-a8c9-e6c5ee63c731",
+        "features":
+        [
+          {
+            "id": 103,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "93a8c233-2f67-40f5-b3d6-e66f4404522c"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -16568,8 +16608,8 @@
     {
       "relationship": {
         "id": 335,
-        "main_type": 200,
-        "type": "Association",
+        "main_type": 221,
+        "type": "Message",
         "name": "get_feature",
         "description": [
                 ""
@@ -16612,7 +16652,7 @@
         "description": [
                 ""
         ],
-        "list_order": 702620392,
+        "list_order": 754476676,
         "from_classifier_name": "data_database _writer",
         "from_feature_key": "",
         "to_classifier_name": "data_database",
@@ -20561,7 +20601,7 @@
         "description": [
                 ""
         ],
-        "list_order": 588464326,
+        "list_order": 699541645,
         "from_classifier_name": "r1 :data_data base_reader",
         "from_feature_key": "",
         "to_classifier_name": "data_database _writer",
@@ -24191,6 +24231,25 @@
         "from_node": "d19d23ae-52cd-4fb8-a759-1fb15dd239f5",
         "to_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
         "uuid": "fa6c96f0-9dd6-47a1-9eff-d4c47d18cc0f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 659,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 450718269,
+        "from_classifier_name": "Locks needed here",
+        "from_feature_key": "",
+        "to_classifier_name": "data_database _writer",
+        "to_feature_key": "",
+        "from_node": "93a8c233-2f67-40f5-b3d6-e66f4404522c",
+        "to_node": "32e71cf6-be4e-413e-bf1b-3321ef52c0d1",
+        "uuid": "a9600f19-40f9-4a8a-94f7-a98168fe33ac"
       }
     }
   ]

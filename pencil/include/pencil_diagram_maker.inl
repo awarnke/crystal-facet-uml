@@ -64,7 +64,11 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
     PangoLayout *font_layout;
     font_layout = pango_cairo_create_layout (cr);
 
-    pencil_layouter_layout_elements ( &((*this_).layouter), font_layout, io_layout_stat );
+    pencil_layouter_layout_elements ( &((*this_).layouter), font_layout );
+    if ( io_layout_stat != NULL )
+    {
+        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &((*this_).layouter) ), io_layout_stat );
+    }
 
     g_object_unref (font_layout);
 }

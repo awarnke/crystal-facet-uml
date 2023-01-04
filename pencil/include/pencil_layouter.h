@@ -107,10 +107,8 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
  *
  *  \param this_ pointer to own object attributes
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
- *                        or NULL if no statistics of interest
  */
-void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout, data_stat_t *io_layout_stat );
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout );
 
 /* !
  *  \brief returns the pencil_layout_data_t object

@@ -94,7 +94,8 @@ static void layout_good_cases(void)
         /* perform test */
         pencil_layouter_prepare ( &layouter );
         pencil_layouter_define_grid ( &layouter, diagram_bounds );
-        pencil_layouter_layout_elements ( &layouter, font_layout, &layout_stats );
+        pencil_layouter_layout_elements ( &layouter, font_layout );
+        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &layouter ), &layout_stats );
 
         /* check result */
         const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
@@ -156,7 +157,8 @@ static void layout_challenging_cases(void)
         /* perform test */
         pencil_layouter_prepare ( &layouter );
         pencil_layouter_define_grid ( &layouter, diagram_bounds );
-        pencil_layouter_layout_elements ( &layouter, font_layout, &layout_stats );
+        pencil_layouter_layout_elements ( &layouter, font_layout );
+        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &layouter ), &layout_stats );
 
         /* check result */
         const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
@@ -198,7 +200,7 @@ static void layout_edge_cases(void)
         /* perform test */
         pencil_layouter_prepare ( &layouter );
         pencil_layouter_define_grid ( &layouter, diagram_bounds );
-        pencil_layouter_layout_elements ( &layouter, font_layout, NULL );
+        pencil_layouter_layout_elements ( &layouter, font_layout );
 
         /* check result */
         const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &layouter );
