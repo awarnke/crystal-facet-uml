@@ -58,7 +58,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         /* layout elements if necessary */
         if ( (*this_).dirty_elements_layout )
         {
-            pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, NULL );
+            pencil_diagram_maker_layout_elements ( &((*this_).painter), NULL, cr );
             (*this_).dirty_elements_layout = false;
         }
 
@@ -66,6 +66,11 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
         cairo_rectangle ( cr, left, top, width, height );
         cairo_fill (cr);
+
+#ifndef NDEBUG
+        /* draw warnings at overlaps in debug mode */
+        pencil_diagram_maker_show_overlaps ( &((*this_).painter), NULL, cr );
+#endif
 
         /* draw highlighting */
         const data_diagram_t *const diag = data_visible_set_get_diagram_const ( &((*this_).painter_input_data) );

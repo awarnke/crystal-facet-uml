@@ -56,8 +56,8 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
 }
 
 static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_,
-                                                          cairo_t *cr,
-                                                          data_stat_t *io_layout_stat )
+                                                          data_stat_t *io_layout_stat,
+                                                          cairo_t *cr )
 {
     assert( cr != NULL );
 

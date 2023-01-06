@@ -288,14 +288,26 @@ void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data
  *
  *  \param this_ pointer to own object attributes
  *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
- *  \param data pointer that is passed to overlap_callback
  *  \param overlap_callback pointer to a function that is called in case of overlaps
+ *  \param data pointer that is passed to overlap_callback
  */
 void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                                   data_stat_t *io_layout_stat,
-                                  void *data,
-                                  void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b)
+                                  void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b),
+                                  void *data
                                 );
+
+/*!
+ *  \brief analyzes pencil_layout_data: gets statistics and calls back a function in case of overlaps
+ *
+ *  \param data pointer that is passed to overlap_callback
+ *  \param rect_a pointer to a rectangle that overlaps with rect_b
+ *  \param rect_b pointer to a rectangle that overlaps with rect_a
+ */
+void pencil_layout_data_private_analyze_nothing_callback ( void *data,
+                                                           const geometry_rectangle_t *rect_a,
+                                                           const geometry_rectangle_t *rect_b
+                                                         );
 
 /*!
  *  \brief initializes the diagram_layout member

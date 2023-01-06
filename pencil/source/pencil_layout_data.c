@@ -532,19 +532,21 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
 #define PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
 #endif
 
-static void do_nothing(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b)
+void pencil_layout_data_private_analyze_nothing_callback ( void *data,
+                                                           const geometry_rectangle_t *rect_a,
+                                                           const geometry_rectangle_t *rect_b)
 {
 }
 
 void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat )
 {
-    pencil_layout_data_analyze( this_, io_layout_stat, NULL, do_nothing );
+    pencil_layout_data_analyze( this_, io_layout_stat, pencil_layout_data_private_analyze_nothing_callback, NULL );
 }
 
 void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                                   data_stat_t *io_layout_stat,
-                                  void *data,
-                                  void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b) )
+                                  void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b),
+                                  void *data )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );

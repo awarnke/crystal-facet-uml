@@ -143,7 +143,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
         data_stat_t temp_stat;
         data_stat_init( &temp_stat );
         pencil_diagram_maker_define_grid ( &((*this_).painter), (*this_).bounds );
-        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr, &temp_stat );
+        pencil_diagram_maker_layout_elements ( &((*this_).painter), &temp_stat, cr );
 #ifdef NDEBUG
         /* in release mode, do not report layouting warnings to the user */
         data_stat_reset_series( &temp_stat, DATA_STAT_SERIES_WARNING );
