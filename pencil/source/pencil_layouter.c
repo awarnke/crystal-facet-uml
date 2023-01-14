@@ -161,12 +161,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     assert( font_layout != NULL );
 
     /* get the diagram data */
-    const layout_diagram_t *const the_diagram
-        = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    const data_diagram_t *const diagram_data
-        = layout_diagram_get_data_const ( the_diagram );
-    const data_diagram_type_t diag_type
-        = data_diagram_get_diagram_type ( diagram_data );
+    const layout_diagram_t *const the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    const data_diagram_t *const diagram_data = layout_diagram_get_data_const ( the_diagram );
+    const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diagram_data );
 
     /* adjust the default classifier rectangle */
     pencil_layouter_private_propose_default_classifier_size( this_ );

@@ -2,6 +2,20 @@ crystal-facet-uml (1.45.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * png images are 4 times more detailed to reduce scaling effects
+  * pencil_layout_data_get_statistics() takes into account if features and
+    relationships are visible; also lifelines may not overlap classifiers in
+    sequence and timing diagrams anymore; this may influence export statistics.
+    old:
+    #Diag=432, total=1629 |  ERR=0, W/C=7, W/F=167, W/R=72
+    #Diag=432, total=12448 |  ERR=35, W/C=7361, W/F=7607, W/R=4799
+    intermediate:
+    - if DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( probe_data )
+    + if probe_visible
+    #Diag=432, total=1629 |  ERR=0, W/C=7, W/F=175, W/R=72
+    #Diag=432, total=12448 |  ERR=35, W/C=7361, W/F=9801, W/R=4799
+    new:
+    #Diag=432, total=1629 |  ERR=0, W/C=7, W/F=67, W/R=72
+    #Diag=432, total=12448 |  ERR=35, W/C=7361, W/F=8796, W/R=4799
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 99 Jan 2023 11:00:00 +0200
 
