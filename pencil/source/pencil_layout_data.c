@@ -1,6 +1,7 @@
 /* File: pencil_layout_data.c; Copyright and License: see below */
 
 #include "pencil_layout_data.h"
+#include "filter/pencil_rules.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <assert.h>
@@ -555,6 +556,8 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
     assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
     assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     assert( io_layout_stat != NULL );
+    pencil_rules_t pencil_rules;
+    pencil_rules_init( &pencil_rules );
 
     /* check if diagram is valid */
 
@@ -697,12 +700,11 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                 for ( uint_fast32_t probe_idx = 0; probe_idx < (*this_).visible_classifier_count; probe_idx ++ )
                 {
                     const layout_visible_classifier_t *const probe = &((*this_).visible_classifier_layout[probe_idx]);
+                    const data_classifier_t *const probe_data = layout_visible_classifier_get_classifier_const( probe );
+                    const data_classifier_type_t probe_type = data_classifier_get_main_type( probe_data );
                     /* determine if this probe classifier shall be drawn in the same rectangle as the lifeline */
                     const bool feature_is_proxy_for_probe
-                        = ( feature_type == DATA_FEATURE_TYPE_LIFELINE )
-                        && ( layout_feature_get_classifier_const( feature ) == probe )
-                        && ( diag_type != DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-                        && ( diag_type != DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM );
+                        = pencil_rules_feature_is_implicit_proxy( &pencil_rules, feature_type, probe_type, diag_type );
                     const geometry_rectangle_t *const probe_symbox
                         = layout_visible_classifier_get_symbol_box_const( probe );
                     const geometry_rectangle_t *const probe_label
@@ -972,6 +974,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
         data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
     }
 
+    pencil_rules_destroy( &pencil_rules );
     U8_TRACE_END();
 }
 

@@ -23,7 +23,7 @@
 #include "pencil_classifier_2d_layouter.h"
 #include "pencil_classifier_1d_layouter.h"
 #include "pencil_error.h"
-#include "option/pencil_type_filter.h"
+#include "filter/pencil_type_filter.h"
 #include "layout/layout_order.h"
 #include "set/data_full_id.h"
 #include "geometry/geometry_rectangle.h"
