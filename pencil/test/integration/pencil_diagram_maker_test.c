@@ -10,20 +10,26 @@
 
 static void set_up(void);
 static void tear_down(void);
-static void layout_good_cases(void);
-static void layout_challenging_cases(void);
+static void render_good_cases(void);
 #ifndef NDEBUG
-static void layout_edge_cases(void);
+static void render_challenging_cases(void);
+static void render_edge_cases(void);
+#endif
+
+#ifndef NDEBUG
+#define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
+#else
 #endif
 
 test_suite_t pencil_diagram_maker_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "pencil_diagram_maker_test_get_suite", &set_up, &tear_down );
-    test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
-    test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
-#ifndef NDEBUG
-    test_suite_add_test_case( &result, "layout_edge_cases", &layout_edge_cases );
+    test_suite_add_test_case( &result, "render_good_cases", &render_good_cases );
+#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
+    /* no need to test more drawing if the diagrams are not generated to files */
+    test_suite_add_test_case( &result, "render_challenging_cases", &render_challenging_cases );
+    test_suite_add_test_case( &result, "render_edge_cases", &render_edge_cases );
 #endif
     return result;
 }
@@ -33,11 +39,6 @@ static pencil_diagram_maker_t painter;
 static cairo_surface_t *surface;
 static cairo_t *cr;
 static geometry_rectangle_t diagram_bounds;
-
-#ifndef NDEBUG
-#define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-#else
-#endif
 
 static void set_up(void)
 {
@@ -65,6 +66,7 @@ static void tear_down(void)
 
 static void draw_background()
 {
+    U8_TRACE_BEGIN();
     /* draw paper */
     cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
     cairo_rectangle ( cr,
@@ -74,11 +76,13 @@ static void draw_background()
                       geometry_rectangle_get_height( &diagram_bounds )
                     );
     cairo_fill (cr);
+    U8_TRACE_END();
 }
 
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
 static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t *render_stats )
 {
+    U8_TRACE_BEGIN();
     /* create filename */
     char filename_buf[48]="";
     utf8stringbuf_t filename = UTF8STRINGBUF(filename_buf);
@@ -115,15 +119,17 @@ static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t 
     utf8stringbuf_append_str( filename, "ok_" );
     utf8stringbuf_append_int( filename, variant );
     utf8stringbuf_append_str( filename, ".png" );
+    U8_TRACE_INFO_STR("filename:", utf8stringbuf_get_string( filename ));
 
     /* finish surface */
     const cairo_status_t png_result
         = cairo_surface_write_to_png ( surface, utf8stringbuf_get_string( filename ) );
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == png_result );
+    U8_TRACE_END();
 }
 #endif
 
-static void layout_good_cases(void)
+static void render_good_cases(void)
 {
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
@@ -160,7 +166,8 @@ static void layout_good_cases(void)
     test_data_setup_destroy( &ts_setup );
 }
 
-static void layout_challenging_cases(void)
+#ifndef NDEBUG
+static void render_challenging_cases(void)
 {
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
@@ -188,7 +195,7 @@ static void layout_challenging_cases(void)
                                   );
 
         /* check result */
-        /* TODO, manual chack for now */
+        /* TODO, manual check for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
         render_to_file( &ts_setup, &layout_stats );
 #endif
@@ -197,8 +204,7 @@ static void layout_challenging_cases(void)
     test_data_setup_destroy( &ts_setup );
 }
 
-#ifndef NDEBUG
-static void layout_edge_cases(void)
+static void render_edge_cases(void)
 {
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
@@ -226,7 +232,7 @@ static void layout_edge_cases(void)
                                   );
 
         /* check result */
-        /* TODO, manual chack for now */
+        /* TODO, manual check for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
         render_to_file( &ts_setup, &layout_stats );
 #endif

@@ -18,18 +18,7 @@ static void layout_edge_cases(void);
 #endif
 
 /*
-STATISTICS OF VERSION: 1.28.0
-test suite: pencil_layouter_test_get_suite
-    test case: layout_good_cases
-    #Diag=432, total=1624 |  ERR=0, W/C=10, W/F=181, W/R=125
-  test case: layout_challenging_cases
-    #Diag=432, total=11793 |  ERR=617, W/C=7833, W/F=9706, W/R=11167
-STATISTICS OF VERSION: 1.28.0 - other fonts installed:
-[  337s] test suite: pencil_layouter_test_get_suite
-[  337s]   test case: layout_good_cases
-[  337s]     #Diag=432, total=1596 |  ERR=28, W/C=10, W/F=174, W/R=139
-[  337s]   test case: layout_challenging_cases
-[  337s]     #Diag=432, total=11205 |  ERR=1205, W/C=8675, W/F=13081, W/R=15725
+Note that the test results/statistics stronly depend on the installed fonts.
 */
 
 test_suite_t pencil_layouter_test_get_suite(void)
@@ -109,10 +98,10 @@ static void layout_good_cases(void)
         TEST_EXPECT_EQUAL_INT( 0, rel_cnt );
         */
 
-        /*
+#ifndef NDEBUG
         const unsigned int variant = test_data_setup_get_variant( &ts_setup );
         fprintf( stdout,
-             "    v=%i, #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
+             "    variant=%i, #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
              variant,
              data_stat_get_count( &layout_stats, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
              data_stat_get_series_count( &layout_stats, DATA_STAT_SERIES_EXPORTED ),
@@ -121,7 +110,7 @@ static void layout_good_cases(void)
              data_stat_get_count( &layout_stats, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ),
              data_stat_get_count( &layout_stats, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
            );
-        */
+#endif
 
         data_stat_add( &total_stats, &layout_stats );
         data_stat_destroy( &layout_stats );
