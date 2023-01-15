@@ -68,6 +68,8 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 
         const geometry_rectangle_t *const c_symbol_box
             = layout_visible_classifier_get_symbol_box_const ( layout_classifier );
+        const geometry_rectangle_t *const c_envelope_box
+            = layout_visible_classifier_get_envelope_box_const ( layout_classifier );
         switch ( data_feature_get_main_type (the_feature) )
         {
             case DATA_FEATURE_TYPE_LIFELINE:
@@ -78,6 +80,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                                                   diag_type,
                                                                   classifier_type,
                                                                   c_symbol_box,
+                                                                  c_envelope_box,
                                                                   feature_layout
                                                                 );
             }
@@ -146,11 +149,13 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                                        data_diagram_type_t diagram_type,
                                                        data_classifier_type_t classifier_type,
                                                        const geometry_rectangle_t *classifier_symbol_box,
+                                                       const geometry_rectangle_t *classifier_envelope_box,
                                                        layout_feature_t *out_feature_layout )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != diagram_space );
     assert ( NULL != classifier_symbol_box );
+    assert ( NULL != classifier_envelope_box );
     assert ( NULL != out_feature_layout );
 
     /* get preferred object distance */
@@ -166,9 +171,9 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type ) && lifeline_has_semantics )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_RIGHT );
-        const double c_right = geometry_rectangle_get_right( classifier_symbol_box );
-        const double c_top = geometry_rectangle_get_top( classifier_symbol_box );
-        const double c_height = geometry_rectangle_get_height( classifier_symbol_box );
+        const double c_right = geometry_rectangle_get_right( classifier_envelope_box );
+        const double c_top = geometry_rectangle_get_top( classifier_envelope_box );
+        const double c_height = geometry_rectangle_get_height( classifier_envelope_box );
         const double dda_right = geometry_rectangle_get_right ( diagram_space );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
@@ -183,9 +188,9 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     else if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type ) && lifeline_has_semantics )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_DOWN );
-        const double c_bottom = geometry_rectangle_get_bottom( classifier_symbol_box );
-        const double c_left = geometry_rectangle_get_left( classifier_symbol_box );
-        const double c_width = geometry_rectangle_get_width( classifier_symbol_box );
+        const double c_bottom = geometry_rectangle_get_bottom( classifier_envelope_box );
+        const double c_left = geometry_rectangle_get_left( classifier_envelope_box );
+        const double c_width = geometry_rectangle_get_width( classifier_envelope_box );
         const double dda_bottom = geometry_rectangle_get_bottom ( diagram_space );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,

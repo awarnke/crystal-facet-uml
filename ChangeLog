@@ -7,6 +7,7 @@ crystal-facet-uml (1.45.1) UNRELEASED; urgency=medium
     sequence and timing diagrams anymore; this may influence export statistics.
     layout_good_cases: ERR=0, W/C=7, W/F=34, W/R=72
     layout_challenging_cases: ERR=35, W/C=7361, W/F=6398, W/R=4799
+  * less overlaps in sequence diagrams between classifiers and their lifelines
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 99 Jan 2023 11:00:00 +0200
 

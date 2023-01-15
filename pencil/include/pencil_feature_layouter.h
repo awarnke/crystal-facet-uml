@@ -30,7 +30,8 @@
 struct pencil_feature_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to external layout data */
 
-    pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
+    pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
+                                 /*!< defining pen sizes, gap sizes, font sizes and colors */
     data_rules_t rules;  /*!< own instance of modelling rules */
 
     pencil_feature_painter_t feature_painter;  /*!< own instance of a painter object to ask for display dimensions */
@@ -87,6 +88,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
  *  \param diagram_type diagram type of the diagram
  *  \param classifier_type type of the parent classifier
  *  \param classifier_symbol_box symbol box of the classifier
+ *  \param classifier_envelope_box envelope box of the classifier
  *  \param out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t *this_,
@@ -94,6 +96,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                                        data_diagram_type_t diagram_type,
                                                        data_classifier_type_t classifier_type,
                                                        const geometry_rectangle_t *classifier_symbol_box,
+                                                       const geometry_rectangle_t *classifier_envelope_box,
                                                        layout_feature_t *out_feature_layout
                                                      );
 
