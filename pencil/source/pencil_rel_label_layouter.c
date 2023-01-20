@@ -120,8 +120,7 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
         simpleness -= utf8string_get_length( data_relationship_get_name_const( relation_data ) );
 
         /* insert relation to sorted array, the simpler the more to the back */
-        if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility ( current_relation ) )
-            || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility ( current_relation ) ))
+        if ( PENCIL_VISIBILITY_HIDE != layout_relationship_get_visibility ( current_relation ) )
         {
             int insert_error;
             insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );

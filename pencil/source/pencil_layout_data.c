@@ -535,7 +535,7 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
 
 void pencil_layout_data_private_analyze_nothing_callback ( void *data,
                                                            const geometry_rectangle_t *rect_a,
-                                                           const geometry_rectangle_t *rect_b)
+                                                           const geometry_rectangle_t *rect_b )
 {
 }
 
@@ -845,7 +845,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                 /* nothing to do, relationship is not visible in this diagram */
             }
             else if ( geometry_rectangle_is_containing( diag_space, &r_bounds )
-                && geometry_rectangle_is_containing( diag_space, r_label ) )
+                 && geometry_rectangle_is_containing( diag_space, r_label ) )
             {
                 data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
 

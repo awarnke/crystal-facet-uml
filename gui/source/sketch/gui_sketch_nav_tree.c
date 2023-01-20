@@ -87,17 +87,22 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
         }
     }
 
-    if ( (*this_).ancestors_count == 0 )
+    if ( diagram_id != DATA_ROW_ID_VOID )
     {
-        db_err = U8_ERROR_INVALID_REQUEST;
-        U8_LOG_ANOMALY_INT( "gui_sketch_nav_tree_load_data cannot load diagram", diagram_id );
+        if ( (*this_).ancestors_count == 0 )
+        {
+            db_err = U8_ERROR_INVALID_REQUEST;
+            U8_LOG_ANOMALY_INT( "gui_sketch_nav_tree_load_data cannot load diagram", diagram_id );
+        }
     }
 
     /* get siblings */
     if ( db_err == U8_ERROR_NONE )
     {
-        data_row_id_t parent_id;
-        parent_id = data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
+        const data_row_id_t parent_id
+            = ( (*this_).ancestors_count == 0 )
+            ? DATA_ROW_ID_VOID
+            : data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
         db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,
                                                                   parent_id,
                                                                   GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS,
@@ -123,7 +128,6 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
     /* get children */
     if ( db_err == U8_ERROR_NONE )
     {
-
         db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,
                                                                   diagram_id,
                                                                   GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN,

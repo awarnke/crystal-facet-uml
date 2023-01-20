@@ -23,6 +23,7 @@ ideas for future versions:
   [?] sequence diagrams need if/loop-boxes
   [?] activity diagrams need swimlanes/partition
 ! [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()
+! [ ] allow linebreaks in feature and relationship labels
   @io
   [ ] export formats: enhance xmi standard compliance
   [?] import XMI format

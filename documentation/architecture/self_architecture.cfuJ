@@ -13800,7 +13800,7 @@
         "stereotype": "",
         "name": "Database File",
         "description": [
-                ""
+                "Data models of crystal-facet-uml are stored to and read from sqlite database files."
         ],
         "x_order": 592378170,
         "y_order": -1973868655,
@@ -13819,7 +13819,7 @@
         "stereotype": "",
         "name": "JSON Data Exchange",
         "description": [
-                ""
+                "Data models of crystal-facet-uml are stored to and read from json files."
         ],
         "x_order": 592378170,
         "y_order": -872428942,
@@ -13857,7 +13857,7 @@
         "stereotype": "",
         "name": "Other export formats",
         "description": [
-                ""
+                "Data models of crystal-facet-uml are exported as rendered images and/or text-based data files."
         ],
         "x_order": -550118132,
         "y_order": -872428942,

@@ -39,16 +39,14 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
 
     /* get diagram draw area */
-    const geometry_rectangle_t *diagram_draw_area;
-    data_diagram_type_t diag_type;
-    {
-        layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
-        diagram_draw_area = layout_diagram_get_draw_area_const( diagram_layout );
-        const data_diagram_t *diagram_data;
-        diagram_data = layout_diagram_get_data_const ( diagram_layout );
-        diag_type = data_diagram_get_diagram_type ( diagram_data );
-    }
+    const layout_diagram_t *const diagram_layout
+        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( diagram_layout );
+    const data_diagram_t *const diagram_data
+        = layout_diagram_get_data_const ( diagram_layout );
+    const data_diagram_type_t diag_type
+        = data_diagram_get_diagram_type ( diagram_data );
 
     /* layout the unsorted features */
     const uint32_t count_features
@@ -161,6 +159,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     /* get preferred object distance */
     const double obj_dist
         = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    const double feature_width = obj_dist;
 
     const bool lifeline_has_semantics
         = data_rules_classifier_has_scenario_semantics( &((*this_).rules),
@@ -178,9 +177,9 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
                                   c_right,
-                                  c_top + (0.375 * c_height),
+                                  c_top + ( 0.5 * ( c_height - feature_width ) ),
                                   dda_right - c_right - obj_dist,
-                                  0.25 * c_height
+                                  feature_width
                                 );
         layout_feature_set_symbol_box ( out_feature_layout, &lifeline_bounds );
         layout_feature_set_label_box ( out_feature_layout, &lifeline_bounds );
@@ -194,9 +193,9 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
         const double dda_bottom = geometry_rectangle_get_bottom ( diagram_space );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
-                                  c_left + (0.375 * c_width),
+                                  c_left + ( 0.5 * ( c_width - feature_width ) ),
                                   c_bottom,
-                                  0.25 * c_width,
+                                  feature_width,
                                   dda_bottom - c_bottom - obj_dist
                                 );
         layout_feature_set_symbol_box ( out_feature_layout, &lifeline_bounds );
@@ -548,7 +547,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
     }
 
     const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-    const double sum_of_gaps = 4.0 * gap;  /* gaps above and below the compartment lines */
+    const double sum_of_gaps = 4.0 * gap;  /* gaps above and below each compartment line */
 
     geometry_dimensions_reinit( out_features_bounds, width, height + sum_of_gaps );
     U8_TRACE_END();
