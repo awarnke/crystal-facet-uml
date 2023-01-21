@@ -36,7 +36,7 @@ enum data_database_max_enum {
  */
 struct data_database_struct {
     sqlite3 *db;
-    data_change_notifier_t notifier;  /*!< sends notifications at every change to the database */
+    data_change_notifier_t notifier;  /*!< sends notifications at every change in the database */
 
     GMutex private_lock; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
     utf8stringbuf_t db_file_name;

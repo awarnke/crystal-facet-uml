@@ -527,6 +527,9 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
 
     if ( notify_listeners )
     {
+        /* do sent notifications is active by default on a newly opened db */
+        data_change_notifier_disable_stealth_mode( &((*this_).notifier) );
+
         /* inform readers and writers on open */
         result |= data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED );
 
@@ -555,6 +558,9 @@ u8_error_t data_database_close ( data_database_t *this_ )
 
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
+        /* do sent notifications when closing: */
+        data_change_notifier_disable_stealth_mode( &((*this_).notifier) );
+
         /* prepare close */
         data_change_notifier_emit_signal( &((*this_).notifier),
                                           DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE,
@@ -802,7 +808,7 @@ u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, da
 u8_error_t data_database_transaction_begin ( data_database_t *this_ )
 {
     U8_TRACE_BEGIN();
-    /* nestnig of transactions should not be greater than 2. You may increase this limit if needed. */
+    /* nesting of transactions should not be greater than 2. You may increase this limit if needed. */
     assert( (*this_).transaction_recursion < 2 );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;

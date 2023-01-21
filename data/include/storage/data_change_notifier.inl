@@ -21,6 +21,29 @@ static inline void data_change_notifier_emit_signal_without_parent ( data_change
                                      );
 }
 
+static inline void data_change_notifier_enable_stealth_mode ( data_change_notifier_t *this_ )
+{
+    (*this_).stealth_mode = true;
+}
+
+static inline void data_change_notifier_disable_stealth_mode ( data_change_notifier_t *this_ )
+{
+    const bool send_notification = (*this_).stealth_mode;
+    (*this_).stealth_mode = false;
+
+    if ( send_notification )
+    {
+        /* send notification that things have changed */
+        data_change_notifier_emit_signal( this_,
+                                          DATA_CHANGE_EVENT_TYPE_MULTI,
+                                          DATA_TABLE_VOID,
+                                          DATA_ROW_ID_VOID,
+                                          DATA_TABLE_VOID,
+                                          DATA_ROW_ID_VOID
+                                        );
+    }
+}
+
 
 /*
 Copyright 2018-2023 Andreas Warnke

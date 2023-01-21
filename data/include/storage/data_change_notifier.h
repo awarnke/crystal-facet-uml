@@ -30,6 +30,7 @@ enum data_change_notifier_max_enum {
 struct data_change_notifier_struct {
     int32_t num_listeners;
     GObject *(listener_array[DATA_CHANGE_NOTIFIER_MAX_LISTENERS]);
+    bool stealth_mode;  /*!< in stealth mode, no notifications are sent. */
 };
 
 typedef struct data_change_notifier_struct data_change_notifier_t;
@@ -117,6 +118,20 @@ u8_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GO
  *          U8_ERROR_INVALID_REQUEST if the object was no listener or data_change_notifier_t not initialized.
  */
 u8_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener );
+
+/*!
+ *  \brief disables notifications for future emit signal calls
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_change_notifier_enable_stealth_mode ( data_change_notifier_t *this_ );
+
+/*!
+ *  \brief enables notifications for future emit signal calls
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_change_notifier_disable_stealth_mode ( data_change_notifier_t *this_ );
 
 #include "storage/data_change_notifier.inl"
 

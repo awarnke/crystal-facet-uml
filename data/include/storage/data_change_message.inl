@@ -64,6 +64,12 @@ static inline void data_change_message_trace ( const data_change_message_t *this
         }
         break;
 
+        case DATA_CHANGE_EVENT_TYPE_MULTI:
+        {
+            U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_MULTI");
+        }
+        break;
+
         case DATA_CHANGE_EVENT_TYPE_DB_OPENED:
         {
             U8_TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_OPENED");

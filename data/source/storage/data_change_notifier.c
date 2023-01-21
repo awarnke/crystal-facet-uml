@@ -20,6 +20,7 @@ void data_change_notifier_init ( data_change_notifier_t *this_ )
 
     (*this_).num_listeners = 0;
     memset( (*this_).listener_array, '\0', sizeof( (*this_).listener_array ) );
+    (*this_).stealth_mode = false;
 
     /* define a new signal */
     if ( ! data_change_notifier_glib_signal_initialized )
@@ -59,32 +60,39 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
 {
     U8_TRACE_BEGIN();
 
-    /* prepare */
-    data_id_t modified_element_id;
-    data_id_t parent_element_id;
-    data_change_message_t message;
-
-    data_id_init( &modified_element_id, table, row_id );
-    data_id_init( &parent_element_id, parent_table, parent_row_id );
-    data_change_message_init ( &message,
-                               event_type,
-                               modified_element_id,
-                               parent_element_id
-                             );
-
-    data_change_message_trace( &message );
-
-    /* send messages */
-    for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
+    if ( (*this_).stealth_mode )
     {
-        U8_TRACE_INFO_INT( "g_signal_emit to listener", pos );
-        g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, &message );
+        U8_TRACE_INFO( "stealth mode: no signal sent" );
     }
+    else
+    {
+        /* prepare */
+        data_id_t modified_element_id;
+        data_id_t parent_element_id;
+        data_change_message_t message;
 
-    /* clean up */
-    data_id_destroy( &modified_element_id );
-    data_id_destroy( &parent_element_id );
-    data_change_message_destroy( &message );
+        data_id_init( &modified_element_id, table, row_id );
+        data_id_init( &parent_element_id, parent_table, parent_row_id );
+        data_change_message_init ( &message,
+                                event_type,
+                                modified_element_id,
+                                parent_element_id
+                                );
+
+        data_change_message_trace( &message );
+
+        /* send messages */
+        for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
+        {
+            U8_TRACE_INFO_INT( "g_signal_emit to listener", pos );
+            g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, &message );
+        }
+
+        /* clean up */
+        data_id_destroy( &modified_element_id );
+        data_id_destroy( &parent_element_id );
+        data_change_message_destroy( &message );
+    }
 
     U8_TRACE_END();
 }

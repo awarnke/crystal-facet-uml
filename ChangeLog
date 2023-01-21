@@ -9,6 +9,7 @@ crystal-facet-uml (1.45.1) UNRELEASED; urgency=medium
     layout_challenging_cases: ERR=35, W/C=7361, W/F=6398, W/R=4799
   * less overlaps in sequence diagrams between classifiers and their lifelines
   * less overlaps in sequence diagrams between neighbor lifelines
+  * opening json-based database files is faster by factor 5
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 99 Jan 2023 11:00:00 +0200
 

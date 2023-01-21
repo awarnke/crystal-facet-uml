@@ -12,12 +12,20 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr
 
 static inline u8_error_t ctrl_controller_transaction_begin ( ctrl_controller_t *this_ )
 {
+    /* do not sent notifications while an explicitly requested transaction is active */
+    data_change_notifier_enable_stealth_mode( data_database_get_notifier_ptr( (*this_).database ) );
+
     return data_database_transaction_begin( (*this_).database );
 }
 
 static inline u8_error_t ctrl_controller_transaction_commit ( ctrl_controller_t *this_ )
 {
-    return data_database_transaction_commit( (*this_).database );
+    const u8_error_t result = data_database_transaction_commit( (*this_).database );
+
+    /* do sent notifications when committing an explicitly requested transaction */
+    data_change_notifier_disable_stealth_mode( data_database_get_notifier_ptr( (*this_).database ) );
+
+    return result;
 }
 
 /* ================================ interface for undo redo ================================ */
