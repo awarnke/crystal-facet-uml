@@ -99,7 +99,7 @@ void gui_sketch_nav_tree_destroy ( gui_sketch_nav_tree_t *this_ );
  *  and calls gui_sketch_nav_tree_private_do_layout to ensure consistency of own attributes
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to load
+ *  \param diagram_id id of the diagram to load, DATA_ROW_ID_VOID to set empty data
  *  \param db_reader pointer to a database reader object
  */
 void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );

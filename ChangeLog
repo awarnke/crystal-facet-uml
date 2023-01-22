@@ -10,6 +10,8 @@ crystal-facet-uml (1.45.1) UNRELEASED; urgency=medium
   * less overlaps in sequence diagrams between classifiers and their lifelines
   * less overlaps in sequence diagrams between neighbor lifelines
   * opening json-based database files is faster by factor 5
+  * less anomaly messages in syslog (linux only)
+  * rust-based qualification test framework introduced
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 99 Jan 2023 11:00:00 +0200
 
