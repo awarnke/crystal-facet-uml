@@ -1,4 +1,4 @@
-crystal-facet-uml (1.45.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.46.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * png images are 4 times more detailed to reduce scaling effects
