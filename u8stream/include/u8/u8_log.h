@@ -71,10 +71,10 @@ extern unsigned int u8_log_debug_mode;
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_WARN FMT "\n\n", P1, P2); fflush(U8_LOG_OUT_STREAM_);\
     syslog(LOG_WARNING, "WARN: " FMT, P1, P2); sleep(u8_log_debug_mode);
 #define U8_LOG_PRINTF_ANOM_1_(FMT,P1) \
-    fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ANOM FMT "\n\n", P1);\
+    fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ANOM FMT "\n\n", P1); fflush(U8_LOG_OUT_STREAM_);\
     syslog(LOG_INFO, "ANOM: " FMT, P1); sleep(u8_log_debug_mode);
 #define U8_LOG_PRINTF_ANOM_2_(FMT,P1,P2) \
-    fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ANOM FMT "\n\n", P1, P2);\
+    fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ANOM FMT "\n\n", P1, P2); fflush(U8_LOG_OUT_STREAM_);\
     syslog(LOG_INFO, "ANOM: " FMT, P1, P2); sleep(u8_log_debug_mode);
 #define U8_LOG_PRINTF_EVT_1_(FMT,P1) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_EVT FMT "\n\n", P1);\
