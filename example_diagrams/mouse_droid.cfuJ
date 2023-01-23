@@ -1949,6 +1949,20 @@
             "classifier_name": "Health States",
             "node": "972434aa-e165-4a40-b79d-e01d495fc4b7",
             "uuid": "4e872f32-765b-4532-be0e-1844362021e3"
+          },
+          {
+            "id": 265,
+            "display_flags": 0,
+            "classifier_name": "start operation",
+            "node": "7f6ac622-aad8-4ebc-a143-d8c781e8671a",
+            "uuid": "47c9054b-e8b6-4660-a1b0-e47b245ce4fc"
+          },
+          {
+            "id": 266,
+            "display_flags": 0,
+            "classifier_name": "orthogonal",
+            "node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
+            "uuid": "9221c45a-dd36-4cc0-b7c6-a86486e9c218"
           }
         ]
       }
@@ -5937,6 +5951,68 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 153,
+        "main_type": 151,
+        "type": "InitialNode",
+        "stereotype": "",
+        "name": "start operation",
+        "description": [
+                ""
+        ],
+        "x_order": -418684660,
+        "y_order": -1137380574,
+        "list_order": -1422318476,
+        "uuid": "24e76ea1-2e6d-4cbe-994b-cb6683dcd59e",
+        "features":
+        [
+          {
+            "id": 28,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "7f6ac622-aad8-4ebc-a143-d8c781e8671a"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 154,
+        "main_type": 154,
+        "type": "ForkNode",
+        "stereotype": "",
+        "name": "orthogonal",
+        "description": [
+                ""
+        ],
+        "x_order": -601749482,
+        "y_order": -914544445,
+        "list_order": -1060722435,
+        "uuid": "15f7b753-25fd-4594-a6de-0bf345470fee",
+        "features":
+        [
+          {
+            "id": 29,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "value": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -9860,6 +9936,63 @@
         "from_node": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
         "uuid": "3a931cae-b951-439f-a5a5-a75b4ac9c0b9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 262,
+        "main_type": 221,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "start operation",
+        "from_feature_key": "",
+        "to_classifier_name": "orthogonal",
+        "to_feature_key": "",
+        "from_node": "7f6ac622-aad8-4ebc-a143-d8c781e8671a",
+        "to_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
+        "uuid": "c6bc73ee-6869-4fe6-a819-c7d2bf2ba1a2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 263,
+        "main_type": 221,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "orthogonal",
+        "from_feature_key": "",
+        "to_classifier_name": "Health States",
+        "to_feature_key": "",
+        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
+        "to_node": "972434aa-e165-4a40-b79d-e01d495fc4b7",
+        "uuid": "ee88c556-de22-4a0e-b6a8-5047e7ce87a9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 264,
+        "main_type": 221,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "orthogonal",
+        "from_feature_key": "",
+        "to_classifier_name": "Power Modes",
+        "to_feature_key": "",
+        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
+        "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
+        "uuid": "46084291-15d8-4b38-bfc2-01ea3d4fc46e"
       }
     }
   ]

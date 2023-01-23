@@ -14,8 +14,11 @@
  *  DATA_TABLE_FEATURE (primary) and DATA_TABLE_CLASSIFIER (secondary);
  *  DATA_TABLE_RELATIONSHIP (primary) and DATA_TABLE_VOID (secondary);
  *  DATA_TABLE_DIAGRAM (primary) and DATA_TABLE_VOID (secondary);
+ *  DATA_TABLE_CLASSIFIER (primary) and DATA_TABLE_VOID (secondary);
  *
- *  The primary_id is never of type DATA_TABLE_CLASSIFIER.
+ *  Note that some combinations may refer to multiple layout artifacts:
+ *  E.g. a feature or classifier can occur several times within one diagram,
+ *  a relationship also may occur multiple times if the source or destination exists multiple times.
  */
 
 #include "data_id.h"
