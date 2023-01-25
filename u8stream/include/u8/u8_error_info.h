@@ -28,8 +28,8 @@ enum u8_error_info_max_enum {
  *  In case of an error, the function shall return an error code and fill in the u8_error_info_struct.
  *  There is no need that return error code and error info refer to the same error code, especially since
  *  the return error may be a bitwise-or of several errors whereas the error info struct refers to exactly one error.
- *  In case of an error, a function may return an error code as return value and set u8_error_info_t.error to
- *  U8_ERROR_NONE.
+ *  In case of an error, a function may return an error code as return value and nonetheless set u8_error_info_t.error
+ *  to U8_ERROR_NONE (e.g. when there is no additional information available).
  */
 struct u8_error_info_struct {
     u8_error_t error;

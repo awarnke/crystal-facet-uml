@@ -17,15 +17,23 @@ u8_error_t dir_file_remove( dir_file_t this_ )
     if ( 0 != remove_err )
     {
         /* This error may have happened on purpose or by an unexpected condition */
-        U8_TRACE_INFO_STR( "error at removing file:", this_ );
         if (errno == ENOENT)
         {
+            U8_TRACE_INFO_STR( "tried to remove non-existing file:", this_ );
+            U8_LOG_EVENT("remove() called on non-existing file.");
             err |= U8_ERROR_FILE_ALREADY_REMOVED;
         }
         else
         {
+            U8_TRACE_INFO_STR( "error at removing file:", this_ );
+            U8_LOG_EVENT("remove() failed to remove a file.");
             err |= U8_ERROR_AT_FILE_WRITE;
         }
+    }
+    else
+    {
+        U8_TRACE_INFO_STR( "removed file:", this_ );
+        U8_LOG_EVENT("remove() removed a file.");
     }
 
     U8_TRACE_END_ERR(err);

@@ -257,6 +257,9 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
             U8_TRACE_INFO_STR("File exists and is not of type sqlite3:", filename);
             *out_json = true;
         }
+
+        /* close file */
+        scan_head_error |= universal_file_input_stream_close( &in_file );
     }
     else
     {
@@ -272,8 +275,7 @@ u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const cha
         }
     }
 
-    /* close file */
-    scan_head_error |= universal_file_input_stream_close( &in_file );
+    /* cleanup */
     scan_head_error |= universal_file_input_stream_destroy( &in_file );
 
     U8_TRACE_END_ERR( scan_head_error );

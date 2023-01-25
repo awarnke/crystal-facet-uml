@@ -41,6 +41,9 @@ u8_error_t universal_file_output_stream_destroy ( universal_file_output_stream_t
 /*!
  *  \brief opens a file
  *
+ *  It is recommended to use this function even if it is unclear if this program can write to path to ensure that
+ *  time-of-check is time-of-use (TOCTOU).
+ *
  *  \param this_ pointer to own object attributes
  *  \param path file path identifying the file to open for writing
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
@@ -49,6 +52,8 @@ u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *t
 
 /*!
  *  \brief writes a buffer (e.g. a stringview) to a file
+ *
+ *  Do not write to a file if open was not successful (otherwise an error message is logged).
  *
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
@@ -60,6 +65,8 @@ u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *
 /*!
  *  \brief flushes buffers
  *
+ *  Do not flush a file if open was not successful (otherwise an error message is logged).
+ *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
@@ -67,6 +74,8 @@ u8_error_t universal_file_output_stream_flush ( universal_file_output_stream_t *
 
 /*!
  *  \brief closes the universal_file_output_stream_t
+ *
+ *  Do not close a file if open was not successful (otherwise an error message is logged).
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise

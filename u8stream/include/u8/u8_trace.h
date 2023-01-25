@@ -9,7 +9,10 @@
  *  \brief Prints traces to a byte (u8) stream
  *
  *  Target audience is the developer of the application.
- *  Use logs to address the operator.
+ *
+ *  Use logs to address the operator
+ *  or to explain the history of events in bug reports to the developer.
+ *
  *  Return error codes to address the user of the application
  *  or to defer the decision to the calling function.
  */
@@ -33,6 +36,8 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
     (&(u8_trace_indent_pattern_end[((U8_TRACE_INDENT_MAX-u8_trace_indent_depth)%U8_TRACE_INDENT_MOD)*U8_TRACE_INDENT_STEP]))
 #define U8_TRACE_INDENT_INFO \
     (&(u8_trace_indent_pattern_info[((U8_TRACE_INDENT_MAX-u8_trace_indent_depth)%U8_TRACE_INDENT_MOD)*U8_TRACE_INDENT_STEP]))
+#define U8_TRACE_RED_ "\033[37;1;41m"
+#define U8_TRACE_NORM_ "\033[0m"
 
 #ifndef NDEBUG  /* SWITCH */
 
@@ -91,7 +96,7 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 /*!
  *  \brief traces a function return and an error code if the error does not equal 0
  */
-#define U8_TRACE_END_ERR(e) { const int int_test = (e); if ( int_test==0 ) {U8_TRACE_END();} else { u8_trace_indent_depth--; fprintf(U8_TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",U8_TRACE_INDENT_END,__func__,int_test); } (void)u8_trace_symmetry_test; }
+#define U8_TRACE_END_ERR(e) { const int int_test = (e); if ( int_test==0 ) {U8_TRACE_END();} else { u8_trace_indent_depth--; fprintf(U8_TRACE_OUT_STREAM,"%s%s [end] "U8_TRACE_RED_"ERR="U8_TRACE_NORM_"0x%x\n",U8_TRACE_INDENT_END,__func__,int_test); } (void)u8_trace_symmetry_test; }
 
 /*!
  *  \brief ensures to flush all data.

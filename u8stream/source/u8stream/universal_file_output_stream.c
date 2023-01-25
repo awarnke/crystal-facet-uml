@@ -57,7 +57,8 @@ u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *t
     (*this_).output = fopen( path, "w" );
     if ( NULL == (*this_).output )
     {
-        U8_LOG_ERROR_STR( "error at opening file for writing:", strerror(errno) );
+        /* Note: This need not be an error, could be intentionally to avoid TOCTOU issues. */
+        U8_LOG_EVENT_STR( "could not open file for writing:", strerror(errno) );
         err |= U8_ERROR_AT_FILE_WRITE;
     }
 

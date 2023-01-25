@@ -42,30 +42,6 @@ u8_error_t universal_file_input_stream_destroy( universal_file_input_stream_t *t
     return err;
 }
 
-u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t err = U8_ERROR_NONE;
-
-    if ( (*this_).input != NULL )
-    {
-        const int seek_err = fseek( (*this_).input, 0, SEEK_SET );
-        if ( seek_err != 0 )
-        {
-            U8_LOG_ERROR("error at resetting the read-cursor in a file.");
-            err = U8_ERROR_AT_FILE_READ;
-        }
-    }
-    else
-    {
-        U8_LOG_ERROR("cannot reset/seek a file that is not open.");
-        err = U8_ERROR_LOGIC_STATE;
-    }
-
-    U8_TRACE_END_ERR(err);
-    return err;
-}
-
 u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path )
 {
     U8_TRACE_BEGIN();
@@ -81,7 +57,8 @@ u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *thi
     (*this_).input = fopen( path, "r" );
     if ( NULL == (*this_).input )
     {
-        U8_LOG_ERROR_STR("error at opening file for reading:", strerror(errno) );
+        /* Note: This need not be an error, could be intentionally to avoid TOCTOU issues. */
+        U8_LOG_EVENT_STR("could not open file for reading:", strerror(errno) );
         err |= U8_ERROR_AT_FILE_READ;
     }
 
@@ -118,6 +95,30 @@ u8_error_t universal_file_input_stream_read ( universal_file_input_stream_t *thi
     }
 
     /*U8_TRACE_END_ERR(err);*/
+    return err;
+}
+
+u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t err = U8_ERROR_NONE;
+
+    if ( (*this_).input != NULL )
+    {
+        const int seek_err = fseek( (*this_).input, 0, SEEK_SET );
+        if ( seek_err != 0 )
+        {
+            U8_LOG_ERROR("error at resetting the read-cursor in a file.");
+            err = U8_ERROR_AT_FILE_READ;
+        }
+    }
+    else
+    {
+        U8_LOG_ERROR("cannot reset/seek a file that is not open.");
+        err = U8_ERROR_LOGIC_STATE;
+    }
+
+    U8_TRACE_END_ERR(err);
     return err;
 }
 

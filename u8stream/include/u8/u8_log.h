@@ -8,9 +8,10 @@
  *  \file
  *  \brief Prints error and event logs to a byte (u8) stream
  *
- *  In contrast to syslog and printf, these macros are typesafe.
+ *  In contrast to syslog and printf, these macros are typesafe
+ *  even when used with older compilers.
  *
- *  An error is a condition that leads to an observalbe malfunction.
+ *  An error is a condition that leads to an observable malfunction.
  *  E.g. removing the device on which the database is stored.
  *
  *  A warning is issued when a condition may possibly lead to a malfunction.
@@ -21,8 +22,11 @@
  *
  *  An event is a signal that is send to or received from external software parts.
  *
- *  Target audience is the operator of the application.
+ *  Target audience is the operator of the application
+ *  or the developer if the history of events is attached to bug reports.
+ *
  *  Use traces for developing.
+ *
  *  Return error codes to address the user of the application
  *  or to defer the decision to the calling function.
  */

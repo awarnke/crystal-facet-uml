@@ -20,6 +20,9 @@ typedef const char * dir_file_t;
 /*!
  *  \brief removes the file from the file system
  *
+ *  It is recommended to use this function even if it is unclear if this program can remove this_ file to ensure that
+ *  time-of-check is time-of-use (TOCTOU).
+ *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success,
  *          U8_ERROR_FILE_ALREADY_REMOVED if file was not there,

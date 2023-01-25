@@ -25,7 +25,7 @@
 #include "data_row_id.h"
 
 /*!
- *  \brief the pair of visible object id and secondary object id, e.g. diagramelement and classifier of feature and classifier
+ *  \brief the pair of visible object id and secondary object id, e.g. diagramelement and classifier or feature and classifier
  */
 struct data_full_id_struct {
     data_id_t primary_id;  /*!< the primary object id */
