@@ -159,8 +159,8 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID[] =
     "ORDER BY diagrams.list_order ASC;";
 
 u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagram_reader_t *this_,
-                                                              data_row_id_t id,
-                                                              data_diagram_t *out_diagram )
+                                                            data_row_id_t id,
+                                                            data_diagram_t *out_diagram )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagram );
@@ -177,7 +177,8 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            U8_LOG_ANOMALY( "sqlite3_step did not find a row." );
+            /* This may happen e.g. when a diagram is deleted and a window still tries to show it. */
+            U8_TRACE_INFO_INT( "sqlite3_step did not find a row for id", id );
             result |= U8_ERROR_DB_STRUCTURE;
         }
 
@@ -214,10 +215,11 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
 }
 
 u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diagram_reader_t *this_,
-                                                                const char *uuid,
-                                                                data_diagram_t *out_diagram )
+                                                              const char *uuid,
+                                                              data_diagram_t *out_diagram )
 {
     U8_TRACE_BEGIN();
+    assert( NULL != uuid );
     assert( NULL != out_diagram );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -233,7 +235,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
         if ( SQLITE_ROW != sqlite_err )
         {
             /* Do not log this incident, the caller may not expect to find a row. */
-            U8_TRACE_INFO( "sqlite3_step did not find a row." );
+            U8_TRACE_INFO_STR( "sqlite3_step did not find a row for uuid", uuid );
             result |= U8_ERROR_NOT_FOUND;
         }
 
@@ -270,10 +272,10 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
 }
 
 u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_database_diagram_reader_t *this_,
-                                                                      data_row_id_t parent_id,
-                                                                      uint32_t max_out_array_size,
-                                                                      data_diagram_t (*out_diagram)[],
-                                                                      uint32_t *out_diagram_count )
+                                                                    data_row_id_t parent_id,
+                                                                    uint32_t max_out_array_size,
+                                                                    data_diagram_t (*out_diagram)[],
+                                                                    uint32_t *out_diagram_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagram_count );
@@ -345,10 +347,10 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                          data_row_id_t classifier_id,
-                                                                          uint32_t max_out_array_size,
-                                                                          data_diagram_t (*out_diagram)[],
-                                                                          uint32_t *out_diagram_count )
+                                                                        data_row_id_t classifier_id,
+                                                                        uint32_t max_out_array_size,
+                                                                        data_diagram_t (*out_diagram)[],
+                                                                        uint32_t *out_diagram_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagram_count );
@@ -413,8 +415,8 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
 #endif
 
 u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_database_diagram_reader_t *this_,
-                                                                         data_row_id_t parent_id,
-                                                                         data_small_set_t *out_diagram_ids )
+                                                                       data_row_id_t parent_id,
+                                                                       data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagram_ids );
@@ -469,8 +471,8 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_data
 }
 
 u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                             data_row_id_t classifier_id,
-                                                                             data_small_set_t *out_diagram_ids )
+                                                                           data_row_id_t classifier_id,
+                                                                           data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagram_ids );
@@ -579,8 +581,8 @@ static const int RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN = 4;
 static const int RESULT_DIAGRAMELEMENT_UUID_COLUMN = 5;
 
 u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database_diagram_reader_t *this_,
-                                                                     data_row_id_t id,
-                                                                     data_diagramelement_t *out_diagramelement )
+                                                                   data_row_id_t id,
+                                                                   data_diagramelement_t *out_diagramelement )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement );
@@ -597,7 +599,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            U8_LOG_ANOMALY( "sqlite3_step did not find a row." );
+            U8_TRACE_INFO_INT( "sqlite3_step did not find a row for id", id );
             result |= U8_ERROR_DB_STRUCTURE;
         }
 
@@ -632,10 +634,11 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
 }
 
 u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_database_diagram_reader_t *this_,
-                                                                       const char *uuid,
-                                                                       data_diagramelement_t *out_diagramelement )
+                                                                     const char *uuid,
+                                                                     data_diagramelement_t *out_diagramelement )
 {
     U8_TRACE_BEGIN();
+    assert( NULL != uuid );
     assert( NULL != out_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
     int sqlite_err;
@@ -651,7 +654,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
         if ( SQLITE_ROW != sqlite_err )
         {
             /* Do not log this incident, the caller may not expect to find a row. */
-            U8_TRACE_INFO( "sqlite3_step did not find a row." );
+            U8_TRACE_INFO_STR( "sqlite3_step did not find a row for uuid", uuid );
             result |= U8_ERROR_NOT_FOUND;
         }
 
@@ -686,10 +689,10 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
 }
 
 u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data_database_diagram_reader_t *this_,
-                                                                              data_row_id_t diagram_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_diagramelement_t (*out_diagramelement)[],
-                                                                              uint32_t *out_diagramelement_count )
+                                                                            data_row_id_t diagram_id,
+                                                                            uint32_t max_out_array_size,
+                                                                            data_diagramelement_t (*out_diagramelement)[],
+                                                                            uint32_t *out_diagramelement_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement_count );
@@ -750,11 +753,11 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data
     return result;
 }
 
-u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( data_database_diagram_reader_t *this_,
-                                                                                data_row_id_t classifier_id,
-                                                                                uint32_t max_out_array_size,
-                                                                                data_diagramelement_t (*out_diagramelement)[],
-                                                                                uint32_t *out_diagramelement_count )
+u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id ( data_database_diagram_reader_t *this_,
+                                                                               data_row_id_t classifier_id,
+                                                                               uint32_t max_out_array_size,
+                                                                               data_diagramelement_t (*out_diagramelement)[],
+                                                                               uint32_t *out_diagramelement_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_diagramelement_count );

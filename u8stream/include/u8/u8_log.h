@@ -22,6 +22,9 @@
  *
  *  An event is a signal that is send to or received from external software parts.
  *
+ *  Only non-confidential information may be logged, the program flow for example,
+ *  but not the data a user entered, like names or descriptions of elements.
+ *
  *  Target audience is the operator of the application
  *  or the developer if the history of events is attached to bug reports.
  *

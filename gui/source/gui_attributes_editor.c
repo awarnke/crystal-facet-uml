@@ -579,7 +579,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -611,7 +611,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -643,7 +643,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -686,7 +686,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_NONE != (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -963,9 +963,9 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -996,9 +996,9 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1067,9 +1067,9 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1093,9 +1093,9 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1119,9 +1119,9 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1152,9 +1152,9 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1223,9 +1223,9 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1244,7 +1244,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_feature_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                ctrl_err = ctrl_classifier_controller_update_feature_description( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                 if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1256,9 +1256,9 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1277,7 +1277,7 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                ctrl_err = ctrl_classifier_controller_update_relationship_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                ctrl_err = ctrl_classifier_controller_update_relationship_description( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                 if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -1289,9 +1289,9 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {
@@ -1329,9 +1329,9 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                        );
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                           );
                 }
                 else if ( U8_ERROR_NONE != ctrl_err )
                 {

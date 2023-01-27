@@ -667,15 +667,15 @@ u8_error_t data_database_flush_caches ( data_database_t *this_ )
             }
 #else
             U8_LOG_WARNING_INT( "The compile-time version of sqlite3 did not provide the sqlite3_db_cacheflush() function.",
-                               SQLITE_VERSION_NUMBER
-                             );
+                                SQLITE_VERSION_NUMBER
+                              );
 #endif
         }
         else
         {
             U8_LOG_WARNING_INT( "The runtime-time version of sqlite3 does not provide the sqlite3_db_cacheflush() function.",
-                               sqlite3_libversion_number()
-                             );
+                                sqlite3_libversion_number()
+                              );
         }
     }
 
