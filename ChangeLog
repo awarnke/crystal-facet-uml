@@ -16,7 +16,7 @@ crystal-facet-uml (1.46.0) UNRELEASED; urgency=medium
     layout_challenging_cases: ERR=35, W/C=7361, W/F=6398, W/R=4799
   * rust-based qualification test framework introduced
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 29 Jan 2023 11:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 28 Jan 2023 08:00:00 +0100
 
 crystal-facet-uml (1.45.0) UNRELEASED; urgency=medium
 
@@ -30,28 +30,28 @@ crystal-facet-uml (1.45.0) UNRELEASED; urgency=medium
   * Application id changed from desktop.crystal-facet-uml to
     de.andreaswarnke.crystal-facet-uml
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Nov 2022 16:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Nov 2022 16:00:00 +0100
 
 crystal-facet-uml (1.44.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Find-Occurrence button added for faster navigation in the model
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 12 Nov 2022 11:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 12 Nov 2022 11:00:00 +0100
 
 crystal-facet-uml (1.43.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * License of file metainfo.xml changed from MIT to CC0-1.0
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 02 Nov 2022 20:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 02 Nov 2022 20:30:00 +0100
 
 crystal-facet-uml (1.43.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Typos fixed as proposed by Mike Gabriel
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Nov 2022 06:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Nov 2022 06:00:00 +0100
 
 crystal-facet-uml (1.43.0) UNRELEASED; urgency=medium
 
@@ -63,7 +63,7 @@ crystal-facet-uml (1.43.0) UNRELEASED; urgency=medium
   * json export omits ids of linked objects, only uuids are exported
   * subsystems/boundaries and interruptable regions can have features
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Nov 2022 05:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Nov 2022 05:00:00 +0100
 
 crystal-facet-uml (1.42.0) UNRELEASED; urgency=medium
 

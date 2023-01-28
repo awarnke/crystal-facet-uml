@@ -1,3 +1,23 @@
+crystal-facet-uml (1.46.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * png images are 4 times more detailed to reduce scaling effects
+  * less overlaps in sequence diagrams between classifiers and their lifelines
+  * less overlaps in sequence diagrams between neighbor lifelines
+  * opening json-based database files is faster by factor 5
+  * less anomaly and error messages in syslog (linux only)
+    e.g. when loading a json based database, when creating a classifier or when
+    undoing a create-action.
+  * Removed false alarm ERR : U8_ERROR_STRING_BUFFER_EXCEEDED at loading a ...
+  * pencil_layout_data_get_statistics() takes into account if features and
+    relationships are visible; also lifelines may not overlap classifiers in
+    sequence and timing diagrams anymore; this may influence export statistics.
+    layout_good_cases: ERR=0, W/C=7, W/F=34, W/R=72
+    layout_challenging_cases: ERR=35, W/C=7361, W/F=6398, W/R=4799
+  * rust-based qualification test framework introduced
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 28 Jan 2023 08:00:00 +0100
+
 crystal-facet-uml (1.45.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

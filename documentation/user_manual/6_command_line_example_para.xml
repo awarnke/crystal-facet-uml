@@ -1,44 +1,28 @@
 <!DOCTYPE para>
 <para>
+    To store a database in a version control system (vcs) like svn or git,
+    store the json file format <command>*.cfuJ</command> to your vcs.
 
-To store a database in a version control system (vcs) like svn or git,
-you have two options:
-<itemizedlist>
-  <listitem>
-    <para>
-        Store the binary database format <command>*.cfu1</command> to your vcs,
-        lock the file while modifying it.
-    </para>
-    <para>
-        Advantage is
-        a) the simple usage and
-        b) the option to view read-only files.
-    </para>
-    <para>
-        Disadvantage is the lack of
-        a) diff and merge of files,
-        b) identify who changed which line when and with which commit message,
-        c) concurrent modifications.
-    </para>
-  </listitem>
-  <listitem>
-    <para>
-        Store the json file format <command>*.cfuJ</command> to your vcs.
-    </para>
-    <para>
-        Note that this feature requires at least version 1.35.0, better version 1.39.0 to work smoothly.
-    </para>
-    <para>
-        Do not synchronize the file with your vcs while you modify it at the same time.
-    </para>
-    <para>
-        In case of merge conflicts in <command>*.cfuJ</command> files,
-        note that uuid strings do uniquely identify all json objects.
-        Relations between objects are defined by these uuid strings.
-        Integer-id can be changed
-        as long as they are unique among all objects of same type within the file.
-    </para>
-  </listitem>
-</itemizedlist>
-
+    <itemizedlist>
+        <listitem>
+            <para>
+                Note that this feature requires at least version 1.35.0, better version 1.39.0 to work smoothly.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                Do not synchronize the file with your vcs while you modify it at the same time;
+                save your changes first and re-open the json file afterwards.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                In case of merge conflicts in <command>*.cfuJ</command> files,
+                note that uuid strings do uniquely identify all json objects.
+                Relations between objects are defined by these uuid strings.
+                In contrast to uuids, integer-id can be changed
+                as long as they are unique among all objects of same type within the file.
+            </para>
+        </listitem>
+    </itemizedlist>
 </para>

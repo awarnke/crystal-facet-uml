@@ -19,7 +19,7 @@ cd crystal-facet-uml-$VERSIONSTR/build/source_code_doc
 cd ../../..
 
 echo "building user doc and man page"
-cd crystal-facet-uml-$VERSIONSTR/build/user_doc
+cd crystal-facet-uml-$VERSIONSTR/build/user_manual
 make
 cd ../../..
 
