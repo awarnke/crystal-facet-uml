@@ -74,9 +74,9 @@ static inline void data_classifier_reinit_empty ( data_classifier_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param main_type type of the classifier.
- *  \param stereotype name of the classifier. classifier_name must not be NULL.
- *  \param name name of the classifier. classifier_name must not be NULL.
- *  \param description description of the classifier. classifier_description must not be NULL.
+ *  \param stereotype stereotype of the classifier. stereotype must not be NULL.
+ *  \param name name of the classifier. name must not be NULL.
+ *  \param description description of the classifier. description must not be NULL.
  *  \param x_order sequence order of objects in x-direction
  *  \param y_order sequence order of objects in y direction
  *  \param list_order sequence order of objects in lists
@@ -98,9 +98,9 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param id id of the classifier
  *  \param main_type type of the classifier.
- *  \param stereotype name of the classifier. classifier_name must not be NULL.
- *  \param name name of the classifier. classifier_name must not be NULL.
- *  \param description description of the classifier. classifier_description must not be NULL.
+ *  \param stereotype stereotype of the classifier. stereotype must not be NULL.
+ *  \param name name of the classifier. name must not be NULL.
+ *  \param description description of the classifier. description must not be NULL.
  *  \param x_order sequence order of objects in x-direction
  *  \param y_order sequence order of objects in y direction
  *  \param list_order sequence order of objects in lists

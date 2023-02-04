@@ -80,6 +80,7 @@ static void lifeline_to_diagramelement_consistency(void)
         data_err = data_diagram_init_new( &root_diagram,
                                           DATA_ROW_ID_VOID, /*=parent_diagram_id*/
                                           DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                          "stereo_t", /* stereotype */
                                           "the_root_diag",
                                           "diagram_description-root",
                                           10555, /*=list_order*/

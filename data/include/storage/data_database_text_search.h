@@ -117,6 +117,7 @@ u8_error_t data_database_text_search_get_objects_by_textfragment ( data_database
  *
  *  \param this_ pointer to own object attributes
  *  \param name_fragment text pattern for the objects which to search in the database, sql encoded for like statement
+ *  \param stereo_fragment text pattern for the objects which to search in the database, sql encoded for like statement
  *  \param descr_fragment text pattern for the objects which to search in the database, sql encoded for like statement
  *  \param io_results the list where to append the object ids found in the database
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
@@ -124,6 +125,7 @@ u8_error_t data_database_text_search_get_objects_by_textfragment ( data_database
  */
 u8_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
                                                                             const char *name_fragment,
+                                                                            const char *stereo_fragment,
                                                                             const char *descr_fragment,
                                                                             data_search_result_list_t *io_results
                                                                           );
@@ -169,6 +171,7 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment ( data
  *
  *  \param this_ pointer to own object attributes
  *  \param name_fragment text pattern for the objects which to search in the database, sql encoded for like statement
+ *  \param stereo_fragment text pattern for the objects which to search in the database, sql encoded for like statement
  *  \param descr_fragment text pattern for the objects which to search in the database, sql encoded for like statement
  *  \param io_results the list where to append the object ids found in the database
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
@@ -176,6 +179,7 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment ( data
  */
 u8_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
                                                                                  const char *name_fragment,
+                                                                                 const char *stereo_fragment,
                                                                                  const char *descr_fragment,
                                                                                  data_search_result_list_t *io_results
                                                                                );
@@ -222,6 +226,7 @@ static inline u8_error_t data_database_text_search_private_finalize_statement ( 
                                                                                 sqlite3_stmt *statement_ptr
                                                                               );
 
+#if 0
 /*!
  *  \brief binds two strings to a prepared statement (after reset).
  *
@@ -238,6 +243,7 @@ static inline u8_error_t data_database_text_search_private_bind_two_texts_to_sta
                                                                                          const char *text_1,
                                                                                          const char *text_2
                                                                                        );
+#endif
 
 /*!
  *  \brief binds three strings to a prepared statement (after reset).

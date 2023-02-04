@@ -220,8 +220,9 @@ u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_obj
                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           parent_classifier_id,
                                           *out_classifier_id,
-                                          "", /* =relationship_name */
-                                          "", /* =relationship_description */
+                                          "", /* =stereotype */
+                                          "", /* =name */
+                                          "", /* =description */
                                           y_order,  /* =list_order */
                                           DATA_ROW_ID_VOID,
                                           DATA_ROW_ID_VOID
@@ -268,6 +269,7 @@ u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_
         = data_diagram_init_new( &((*this_).private_temp_diagram),
                                  parent_diagram_id,
                                  DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
+                                 "",
                                  utf8stringbuf_get_string(new_name),
                                  "",
                                  list_order,
@@ -372,8 +374,9 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
                                       new_rel_type,
                                       from_classifier_id,
                                       to_classifier_id,
-                                      "", /* =relationship_name */
-                                      "", /* =relationship_description */
+                                      "", /* =stereotype */
+                                      "", /* =name */
+                                      "", /* =description */
                                       list_order,
                                       from_feature_id,
                                       to_feature_id

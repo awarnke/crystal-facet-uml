@@ -105,6 +105,7 @@ static data_row_id_t create_root_diag()
     data_err = data_diagram_init_new( &root_diagram,
                                       DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                      "stereo_t",  /* stereotype */
                                       "Th& <root> d\"agram",
                                       "diagram_description-root",
                                       10555 ,/*=list_order*/

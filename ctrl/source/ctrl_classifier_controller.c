@@ -250,6 +250,35 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
     return result;
 }
 
+u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
+                                                                    data_row_id_t classifier_id,
+                                                                    data_classifier_type_t new_classifier_main_type )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
+    data_classifier_t old_classifier;
+
+    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, &old_classifier );
+    if ( U8_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_main_type( &new_classifier, new_classifier_main_type );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
+    }
+    result = (u8_error_t) data_result;
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
                                                                      data_row_id_t classifier_id,
                                                                      const char* new_classifier_stereotype )
@@ -266,35 +295,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
         data_classifier_t new_classifier;
         data_classifier_copy( &new_classifier, &old_classifier );
         data_classifier_set_stereotype( &new_classifier, new_classifier_stereotype );
-        /* store the change of the classifier to the undo redo list */
-        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
-        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-
-        data_classifier_destroy( &new_classifier );
-        data_classifier_destroy( &old_classifier );
-    }
-    result = (u8_error_t) data_result;
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
-u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
-                                                                      data_row_id_t classifier_id,
-                                                                      const char* new_classifier_description )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
-    data_classifier_t old_classifier;
-
-    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, &old_classifier );
-    if (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
-    {
-        /* prepare the new classifier */
-        data_classifier_t new_classifier;
-        data_classifier_copy( &new_classifier, &old_classifier );
-        data_classifier_set_description( &new_classifier, new_classifier_description );
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
@@ -337,22 +337,22 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
     return result;
 }
 
-u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
-                                                                    data_row_id_t classifier_id,
-                                                                    data_classifier_type_t new_classifier_main_type )
+u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
+                                                                      data_row_id_t classifier_id,
+                                                                      const char* new_classifier_description )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, &old_classifier );
-    if ( U8_ERROR_NONE == data_result )
+    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, &old_classifier );
+    if (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
         data_classifier_copy( &new_classifier, &old_classifier );
-        data_classifier_set_main_type( &new_classifier, new_classifier_main_type );
+        data_classifier_set_description( &new_classifier, new_classifier_description );
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
@@ -874,6 +874,35 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
         data_relationship_t new_relation;
         data_relationship_copy( &new_relation, &old_relation );
         data_relationship_set_main_type( &new_relation, new_relationship_type );
+        /* store the change of the relation to the undo redo list */
+        ctrl_undo_redo_list_add_update_relationship( (*this_).undo_redo_list, &old_relation, &new_relation );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_relationship_destroy( &new_relation );
+        data_relationship_destroy( &old_relation );
+    }
+    result = (u8_error_t) data_result;
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t ctrl_classifier_controller_update_relationship_stereotype ( ctrl_classifier_controller_t *this_,
+                                                                       data_row_id_t relationship_id,
+                                                                       const char* new_relationship_stereotype )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
+    data_relationship_t old_relation;
+
+    data_result = data_database_writer_update_relationship_stereotype( (*this_).db_writer, relationship_id, new_relationship_stereotype, &old_relation );
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
+    {
+        /* prepare the new relation */
+        data_relationship_t new_relation;
+        data_relationship_copy( &new_relation, &old_relation );
+        data_relationship_set_stereotype( &new_relation, new_relationship_stereotype );
         /* store the change of the relation to the undo redo list */
         ctrl_undo_redo_list_add_update_relationship( (*this_).undo_redo_list, &old_relation, &new_relation );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );

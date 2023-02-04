@@ -59,13 +59,13 @@ void data_database_sql_builder_destroy ( data_database_sql_builder_t *this_ )
  *  \brief prefix string constant to insert a diagram
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX =
-    "INSERT INTO diagrams (parent_id,diagram_type,name,description,list_order,display_flags,uuid) VALUES (";
+    "INSERT INTO diagrams (parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a diagram with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX =
-    "INSERT INTO diagrams (id,parent_id,diagram_type,name,description,list_order,display_flags,uuid) VALUES (";
+    "INSERT INTO diagrams (id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a diagram
@@ -97,6 +97,11 @@ static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_PARENT_ID = "par
  *  \brief field name string constant to be used for updating a diagram
  */
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_TYPE = "diagram_type=";
+
+/*!
+ *  \brief field name string constant to be used for updating a diagram
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_STEREOTYPE = "stereotype=";
 
 /*!
  *  \brief field name string constant to be used for updating a diagram
@@ -152,6 +157,19 @@ u8_error_t data_database_sql_builder_build_create_diagram_command ( data_databas
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagram_get_diagram_type( diagram ) );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
+    /* stereotype */
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagram_get_stereotype_const( diagram ) );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    /* name */
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
@@ -163,6 +181,7 @@ u8_error_t data_database_sql_builder_build_create_diagram_command ( data_databas
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
+    /* description */
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
@@ -210,6 +229,45 @@ u8_error_t data_database_sql_builder_build_delete_diagram_command ( data_databas
     strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_PREFIX );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return( result );
+}
+
+u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, const char *new_diagram_stereotype )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != new_diagram_stereotype );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_STEREOTYPE );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_diagram_stereotype, 0, DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH );
+        /* do not evaluate the result of above call, it may be UTF8ERROR_OUT_OF_RANGE but this is expected. */
+        if ( utf8string_get_length( new_diagram_stereotype ) > DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -1326,7 +1384,7 @@ u8_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX =
     "INSERT INTO relationships "
-    "(main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id,uuid) "
+    "(main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,from_feature_id,to_feature_id,uuid) "
     "VALUES (";
 
 /*!
@@ -1334,7 +1392,7 @@ static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX =
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX =
     "INSERT INTO relationships "
-    "(id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id,uuid) "
+    "(id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,from_feature_id,to_feature_id,uuid) "
     "VALUES (";
 
 /*!
@@ -1362,6 +1420,11 @@ static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX = "UPDAT
  *  \brief field name string constant to be used for updating a relationship
  */
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_MAIN_TYPE = "main_type=";
+
+/*!
+ *  \brief field name string constant to be used for updating a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_STEREOTYPE = "stereotype=";
 
 /*!
  *  \brief field name string constant to be used for updating a relationship
@@ -1412,6 +1475,19 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_to_classifier_row_id( relationship ) );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
+    /* stereotype */
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_relationship_get_stereotype_const( relationship ) );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    /* name */
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
@@ -1423,6 +1499,7 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
+    /* description*/
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
@@ -1525,7 +1602,51 @@ u8_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( d
     return( result );
 }
 
-u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, const char *new_relationship_name )
+u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( data_database_sql_builder_t *this_,
+                                                                                data_row_id_t relationship_id,
+                                                                                const char *new_relationship_stereotype )
+{
+
+    U8_TRACE_BEGIN();
+    assert( NULL != new_relationship_stereotype );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t result = U8_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_STEREOTYPE );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_relationship_stereotype, 0, DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH );
+        /* do not evaluate the result of above call, it may be UTF8ERROR_OUT_OF_RANGE but this is expected. */
+        if ( utf8string_get_length( new_relationship_stereotype ) > DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return( result );
+}
+
+u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_,
+                                                                          data_row_id_t relationship_id,
+                                                                          const char *new_relationship_name )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_relationship_name );

@@ -195,6 +195,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
                                                   (*this_).variant, /* diagram_id */
                                                   DATA_ROW_ID_VOID, /* parent_diagram_id */
                                                   diagram_type,
+                                                  "stereo_t",  /* stereotype */
                                                   diagram_name,
                                                   diagram_description,
                                                   (*this_).variant, /* list_order */
@@ -697,6 +698,7 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
                                                             rel_type,
                                                             from_classifier_row_id,
                                                             to_classifier_row_id,
+                                                            "stereo_t",  /* stereotype */
                                                             relationship_name,
                                                             relationship_description,
                                                             list_order,

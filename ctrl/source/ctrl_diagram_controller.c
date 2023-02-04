@@ -98,7 +98,7 @@ u8_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_c
     u8_error_t data_result;
     data_row_id_t new_id;
 
-    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "", 0, DATA_DIAGRAM_FLAG_NONE );
+    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, "", diagram_name, "", 0, DATA_DIAGRAM_FLAG_NONE );
 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
     if ( U8_ERROR_NONE == data_result )
@@ -249,22 +249,60 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
     return result;
 }
 
-u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
-                                                                data_row_id_t diagram_id,
-                                                                const char* new_diagram_description )
+u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
+                                                         data_row_id_t diagram_id,
+                                                         data_diagram_type_t new_diagram_type )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t old_diagram;
 
-    data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description, &old_diagram );
+    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
+    if ( U8_ERROR_NONE == data_result )
+    {
+        /* prepare the new diagram */
+        data_diagram_t new_diagram;
+        data_diagram_copy( &new_diagram, &old_diagram );
+        data_diagram_set_diagram_type( &new_diagram, new_diagram_type );
+
+        /* store the change of the diagram to the undo redo list */
+        ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        /* apply policy rules */
+        result |= ctrl_diagram_policy_enforcer_post_update_diagram_type( (*this_).policy_enforcer,
+                                                                         &new_diagram
+                                                                       );
+
+        data_diagram_destroy( &new_diagram );
+        data_diagram_destroy( &old_diagram );
+    }
+    else
+    {
+        result = (u8_error_t) data_result;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t ctrl_classifier_controller_update_diagram_stereotype ( ctrl_diagram_controller_t *this_,
+                                                                  data_row_id_t diagram_id,
+                                                                  const char* new_diagram_stereotype )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_t data_result;
+    data_diagram_t old_diagram;
+
+    data_result = data_database_writer_update_diagram_stereotype( (*this_).db_writer, diagram_id, new_diagram_stereotype, &old_diagram );
     if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
         data_diagram_copy( &new_diagram, &old_diagram );
-        data_diagram_set_description( &new_diagram, new_diagram_description );
+        data_diagram_set_stereotype( &new_diagram, new_diagram_stereotype );
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
@@ -307,39 +345,30 @@ u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller
     return result;
 }
 
-u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
-                                                         data_row_id_t diagram_id,
-                                                         data_diagram_type_t new_diagram_type )
+u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
+                                                                data_row_id_t diagram_id,
+                                                                const char* new_diagram_description )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
     data_diagram_t old_diagram;
 
-    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
-    if ( U8_ERROR_NONE == data_result )
+    data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description, &old_diagram );
+    if  (( U8_ERROR_NONE == data_result ) || ( U8_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
         data_diagram_copy( &new_diagram, &old_diagram );
-        data_diagram_set_diagram_type( &new_diagram, new_diagram_type );
-
+        data_diagram_set_description( &new_diagram, new_diagram_description );
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
-        /* apply policy rules */
-        result |= ctrl_diagram_policy_enforcer_post_update_diagram_type( (*this_).policy_enforcer,
-                                                                         &new_diagram
-                                                                       );
-
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
     }
-    else
-    {
-        result = (u8_error_t) data_result;
-    }
+    result = (u8_error_t) data_result;
 
     U8_TRACE_END_ERR( result );
     return result;

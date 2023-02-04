@@ -72,6 +72,7 @@ static void set_up(void)
                                   6, /*=diagram_id*/
                                   DATA_ROW_ID_VOID, /*=parent_diagram_id*/
                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                  "st_t",  /* stereotype */
                                   "diagram_name-6",
                                   "diagram_description-6",
                                   10444, /*=list_order*/
@@ -89,6 +90,7 @@ static void set_up(void)
                                   7, /*=diagram_id*/
                                   6, /*=parent_diagram_id*/
                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                  "st_t",  /* stereotype */
                                   "diagram_name-7",
                                   "diagram_description-7",
                                   10555, /*=list_order*/
@@ -199,6 +201,7 @@ static void set_up(void)
                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                        12, /* from_classifier_id */
                                        13, /* to_classifier_id */
+                                       "st_t",  /* stereotype */
                                        "the composition is more", /* relationship_name */
                                        "than the sum of its parts", /* relationship_description */
                                        -66000, /* list_order */
@@ -217,6 +220,7 @@ static void set_up(void)
                                        DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, /* relationship_main_type */
                                        13, /* from_classifier_id */
                                        13, /* to_classifier_id */
+                                       "st_t",  /* stereotype */
                                        "the composition is more", /* relationship_name */
                                        "than the sum of its parts", /* relationship_description */
                                        -77000, /* list_order */

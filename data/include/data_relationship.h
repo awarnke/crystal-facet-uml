@@ -24,6 +24,8 @@
 enum data_relationship_max_enum {
     DATA_RELATIONSHIP_MAX_NAME_SIZE = 48,
     DATA_RELATIONSHIP_MAX_NAME_LENGTH = 47,
+    DATA_RELATIONSHIP_MAX_STEREOTYPE_SIZE = 48,
+    DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH = 47,
     DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE = 1024,
     DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH = 1023,
 };
@@ -40,6 +42,8 @@ struct data_relationship_struct {
     data_row_id_t to_classifier_id;
     data_row_id_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_ID_VOID if not used */
     data_relationship_type_t main_type;
+    utf8stringbuf_t stereotype;
+    char private_stereotype_buffer[DATA_RELATIONSHIP_MAX_STEREOTYPE_SIZE];
     utf8stringbuf_t name;
     char private_name_buffer[DATA_RELATIONSHIP_MAX_NAME_SIZE];
     utf8stringbuf_t description;
@@ -74,8 +78,9 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
  *  \param relationship_main_type type of the relationship
  *  \param from_classifier_id id of the source classifier
  *  \param to_classifier_id id of the destination classifier
- *  \param relationship_name name of the relationship. relationship_name must not be NULL.
- *  \param relationship_description description of the relationship. relationship_description must not be NULL.
+ *  \param stereotype stereotype of the relationship. stereotype must not be NULL.
+ *  \param name name of the relationship. name must not be NULL.
+ *  \param description description of the relationship. description must not be NULL.
  *  \param list_order list_order of the relationship
  *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
  *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
@@ -85,8 +90,9 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
                                                       data_relationship_type_t relationship_main_type,
                                                       data_row_id_t from_classifier_id,
                                                       data_row_id_t to_classifier_id,
-                                                      const char* relationship_name,
-                                                      const char* relationship_description,
+                                                      const char* stereotype,
+                                                      const char* name,
+                                                      const char* description,
                                                       int32_t list_order,
                                                       data_row_id_t from_feature_id,
                                                       data_row_id_t to_feature_id
@@ -100,8 +106,9 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
  *  \param relationship_main_type type of the relationship
  *  \param from_classifier_id id of the source classifier
  *  \param to_classifier_id id of the destination classifier
- *  \param relationship_name name of the relationship. relationship_name must not be NULL.
- *  \param relationship_description description of the relationship. relationship_description must not be NULL.
+ *  \param stereotype stereotype of the relationship. stereotype must not be NULL.
+ *  \param name name of the relationship. name must not be NULL.
+ *  \param description description of the relationship. description must not be NULL.
  *  \param list_order list_order of the relationship
  *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
  *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
@@ -114,13 +121,14 @@ static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
                                                   data_relationship_type_t relationship_main_type,
                                                   data_row_id_t from_classifier_id,
                                                   data_row_id_t to_classifier_id,
-                                                  const char* relationship_name,
-                                                  const char* relationship_description,
+                                                  const char* stereotype,
+                                                  const char* name,
+                                                  const char* description,
                                                   int32_t list_order,
                                                   data_row_id_t from_feature_id,
                                                   data_row_id_t to_feature_id,
                                                   const char* uuid
-                                                  );
+                                                );
 
 /*!
  *  \brief initializes the data_relationship_t struct with a copy
@@ -280,6 +288,33 @@ static inline data_relationship_type_t data_relationship_get_main_type ( const d
  *  \param main_type new main_type of this object
  */
 static inline void data_relationship_set_main_type ( data_relationship_t *this_, data_relationship_type_t main_type );
+
+/*!
+ *  \brief gets the attribute stereotype
+ *
+ *  A stereotype is a marker-attribute which can be used to assign the relationship to a group
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline const char *data_relationship_get_stereotype_const ( const data_relationship_t *this_ );
+
+/*!
+ *  \brief checks if the attribute stereotype is empty
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the stereotype string is not empty
+ */
+static inline bool data_relationship_has_stereotype ( data_relationship_t *this_ );
+
+/*!
+ *  \brief sets the attribute stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param stereotype new main_type of this object
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline u8_error_t data_relationship_set_stereotype ( data_relationship_t *this_, const char *stereotype );
 
 /*!
  *  \brief gets the attribute name

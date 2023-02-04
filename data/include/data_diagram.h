@@ -25,6 +25,8 @@
 enum data_diagram_max_enum {
     DATA_DIAGRAM_MAX_NAME_SIZE = 48,
     DATA_DIAGRAM_MAX_NAME_LENGTH = 47,
+    DATA_DIAGRAM_MAX_STEREOTYPE_SIZE = 48,
+    DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH = 47,
     DATA_DIAGRAM_MAX_DESCRIPTION_SIZE = 8192,
     DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH = 8191,
 };
@@ -36,6 +38,8 @@ struct data_diagram_struct {
     data_row_id_t id;
     data_row_id_t parent_id;
     data_diagram_type_t diagram_type;
+    utf8stringbuf_t stereotype;
+    char private_stereotype_buffer[DATA_DIAGRAM_MAX_STEREOTYPE_SIZE];
     utf8stringbuf_t name;
     char private_name_buffer[DATA_DIAGRAM_MAX_NAME_SIZE];
     utf8stringbuf_t description;
@@ -69,8 +73,9 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram
  *  \param diagram_type type of the diagram
- *  \param diagram_name name of the diagram. diagram_name must not be NULL.
- *  \param diagram_description description of the diagram. diagram_description must not be NULL.
+ *  \param stereotype stereotype of the diagram. stereotype must not be NULL.
+ *  \param name name of the diagram. name must not be NULL.
+ *  \param description description of the diagram. description must not be NULL.
  *  \param list_order list_order of the diagram
  *  \param display_flags flags how to display this diagram. \see data_diagram_flag_enum
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
@@ -79,8 +84,9 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
 static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
                                                  data_row_id_t parent_diagram_id,
                                                  data_diagram_type_t diagram_type,
-                                                 const char* diagram_name,
-                                                 const char* diagram_description,
+                                                 const char* stereotype,
+                                                 const char* name,
+                                                 const char* description,
                                                  int32_t list_order,
                                                  data_diagram_flag_t display_flags
                                                );
@@ -92,8 +98,9 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
  *  \param diagram_id id of the diagram
  *  \param parent_diagram_id id of the parent diagram
  *  \param diagram_type type of the diagram
- *  \param diagram_name name of the diagram. diagram_name must not be NULL.
- *  \param diagram_description description of the diagram. diagram_description must not be NULL.
+ *  \param stereotype stereotype of the diagram. stereotype must not be NULL.
+ *  \param name name of the diagram. name must not be NULL.
+ *  \param description description of the diagram. description must not be NULL.
  *  \param list_order list_order of the diagram
  *  \param display_flags flags how to display this diagram. \see data_diagram_flag_enum
  *  \param uuid a universal unique identifier according to rfc4122
@@ -104,8 +111,9 @@ static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
                                              data_row_id_t diagram_id,
                                              data_row_id_t parent_diagram_id,
                                              data_diagram_type_t diagram_type,
-                                             const char* diagram_name,
-                                             const char* diagram_description,
+                                             const char* stereotype,
+                                             const char* name,
+                                             const char* description,
                                              int32_t list_order,
                                              data_diagram_flag_t display_flags,
                                              const char* uuid
@@ -203,6 +211,33 @@ static inline data_diagram_type_t data_diagram_get_diagram_type ( const data_dia
  *  \param diagram_type new diagram_type of this object
  */
 static inline void data_diagram_set_diagram_type ( data_diagram_t *this_, data_diagram_type_t diagram_type );
+
+/*!
+ *  \brief gets the attribute stereotype
+ *
+ *  A stereotype is a marker-attribute which can be used to assign the diagram to a group
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline const char *data_diagram_get_stereotype_const ( const data_diagram_t *this_ );
+
+/*!
+ *  \brief checks if the attribute stereotype is empty
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the stereotype string is not empty
+ */
+static inline bool data_diagram_has_stereotype ( data_diagram_t *this_ );
+
+/*!
+ *  \brief sets the attribute stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param stereotype new main_type of this object
+ *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline u8_error_t data_diagram_set_stereotype ( data_diagram_t *this_, const char *stereotype );
 
 /*!
  *  \brief gets the attribute name

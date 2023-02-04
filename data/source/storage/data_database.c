@@ -93,6 +93,7 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIP_TABLE =
         "main_type INTEGER, "
         "from_classifier_id INTEGER, "
         "to_classifier_id INTEGER, "
+        "stereotype TEXT DEFAULT \'\', "  /* since 1.47.0, DEFAULT needed in case a new DB is modified by an old program version */
         "name TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
@@ -164,6 +165,18 @@ static const char *DATA_DATABASE_UPDATE_RELATIONSHIP_UUID =
     "UPDATE relationships SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE relationships.id!=-1) WHERE uuid=\'\';";
 
 /*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
+ *
+ *  This command extends relationships by a stereotype field.
+ */
+static const char *DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_STEREOTYPE =
+    "ALTER TABLE relationships "
+    "ADD COLUMN stereotype TEXT DEFAULT \'\';";
+
+/*!
  *  \brief string constant to create an sql database table
  *
  *  This table contains instances of attributes (which are properties which are features).
@@ -221,6 +234,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
         "id INTEGER PRIMARY KEY ASC, "
         "parent_id INTEGER, "  /* is NULL for the root diagram */
         "diagram_type INTEGER, "
+        "stereotype TEXT DEFAULT \'\', "  /* since 1.47.0, DEFAULT needed in case a new DB is modified by an old program version */
         "name TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
@@ -281,6 +295,18 @@ static const char *DATA_DATABASE_UPDATE_DIAGRAM_UUID =
 static const char *DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT =
     "UPDATE diagrams SET parent_id=NULL WHERE parent_id=-1;";
 #endif
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format
+ *  and in case a new database is modified by an old program version.
+ *
+ *  This command extends diagrams by a stereotype field.
+ */
+static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_STEREOTYPE =
+    "ALTER TABLE diagrams "
+    "ADD COLUMN stereotype TEXT DEFAULT \'\';";
 
 /*!
  *  \brief string constant to create an sql database table
@@ -414,6 +440,11 @@ u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_UUID, true );
     data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID, true );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID, true );
+
+    /* update table diagrams and relationships from version 1.46.0 or earlier to later versions with stereotype */
+    /* do not care for "already existed" errors: */
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_STEREOTYPE, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_STEREOTYPE, true );
 
     if ( ( result & U8_ERROR_READ_ONLY_DB ) != U8_ERROR_NONE )
     {

@@ -278,11 +278,13 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             data_row_id_t diag_id = data_diagram_get_row_id ( diag );
             data_row_id_t diag_parent_id = data_diagram_get_parent_row_id ( diag );
             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag );
+            const char* diag_stereotype = data_diagram_get_stereotype_const ( diag );
             const char* diag_name = data_diagram_get_name_const ( diag );
             const char* diag_description = data_diagram_get_description_const ( diag );
             int32_t diag_list_oder = data_diagram_get_list_order ( diag );
             result |= (u8_error_t) data_database_writer_update_diagram_parent_id ( (*this_).db_writer, diag_id, diag_parent_id, NULL );
             result |= (u8_error_t) data_database_writer_update_diagram_type ( (*this_).db_writer, diag_id, diag_type, NULL );
+            result |= (u8_error_t) data_database_writer_update_diagram_stereotype ( (*this_).db_writer, diag_id, diag_stereotype, NULL );
             result |= (u8_error_t) data_database_writer_update_diagram_name ( (*this_).db_writer, diag_id, diag_name, NULL );
             result |= (u8_error_t) data_database_writer_update_diagram_description ( (*this_).db_writer, diag_id, diag_description, NULL );
             result |= (u8_error_t) data_database_writer_update_diagram_list_order ( (*this_).db_writer, diag_id, diag_list_oder, NULL );
@@ -507,10 +509,12 @@ u8_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_,
             }
             data_row_id_t relationship_id = data_relationship_get_row_id ( relation );
             data_relationship_type_t new_relationship_type = data_relationship_get_main_type ( relation );
+            const char* new_relationship_stereotype = data_relationship_get_stereotype_const ( relation );
             const char* new_relationship_name = data_relationship_get_name_const ( relation );
             const char* new_relationship_description = data_relationship_get_description_const ( relation );
             int32_t new_relationship_list_order = data_relationship_get_list_order ( relation );
             result |= (u8_error_t) data_database_writer_update_relationship_main_type ( (*this_).db_writer, relationship_id, new_relationship_type, NULL );
+            result |= (u8_error_t) data_database_writer_update_relationship_stereotype ( (*this_).db_writer, relationship_id, new_relationship_stereotype, NULL );
             result |= (u8_error_t) data_database_writer_update_relationship_name ( (*this_).db_writer, relationship_id, new_relationship_name, NULL );
             result |= (u8_error_t) data_database_writer_update_relationship_description ( (*this_).db_writer, relationship_id, new_relationship_description, NULL );
             result |= (u8_error_t) data_database_writer_update_relationship_list_order ( (*this_).db_writer, relationship_id, new_relationship_list_order, NULL );

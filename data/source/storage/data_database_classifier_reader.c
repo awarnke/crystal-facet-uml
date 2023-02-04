@@ -733,7 +733,7 @@ u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_dat
  *  \brief predefined search statement to find a relationship by id
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid "
     "FROM relationships WHERE id=?;";
 
@@ -741,7 +741,7 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID[] =
  *  \brief predefined search statement to find a relationship by uuid
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_UUID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid "
     "FROM relationships WHERE uuid=?;";
 
@@ -750,7 +750,7 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_UUID[] =
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
     "SELECT relationships.id,relationships.main_type,relationships.from_classifier_id,relationships.to_classifier_id,"
-    "relationships.name,relationships.description,relationships.list_order,"
+    "relationships.stereotype,relationships.name,relationships.description,relationships.list_order,"
     "relationships.from_feature_id,relationships.to_feature_id,relationships.uuid,"
     "source.id, dest.id " /* source.id, dest.id needed only for debugging */
     "FROM relationships "
@@ -768,7 +768,7 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
  *  Order by id to ensure a defined, non-changeing order of relationships in json export
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid "
     "FROM relationships "
     "WHERE from_classifier_id=? OR to_classifier_id=? "
@@ -778,7 +778,7 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
  *  \brief predefined search statement to find relationships by feature-id
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid "
     "FROM relationships "
     "WHERE from_feature_id=? OR to_feature_id=?;";
@@ -806,42 +806,47 @@ static const int RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN = 3;
 /*!
  *  \brief the column id of the result where this parameter is stored: name
  */
-static const int RESULT_RELATIONSHIP_NAME_COLUMN = 4;
+static const int RESULT_RELATIONSHIP_STEREOTYPE_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: name
+ */
+static const int RESULT_RELATIONSHIP_NAME_COLUMN = 5;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: description
  */
-static const int RESULT_RELATIONSHIP_DESCRIPTION_COLUMN = 5;
+static const int RESULT_RELATIONSHIP_DESCRIPTION_COLUMN = 6;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: list_order
  */
-static const int RESULT_RELATIONSHIP_LIST_ORDER_COLUMN = 6;
+static const int RESULT_RELATIONSHIP_LIST_ORDER_COLUMN = 7;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: from_feature_id
  */
-static const int RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN = 7;
+static const int RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN = 8;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: to_feature_id
  */
-static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 8;
+static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 9;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: uuid
  */
-static const int RESULT_RELATIONSHIP_UUID_COLUMN = 9;
+static const int RESULT_RELATIONSHIP_UUID_COLUMN = 10;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: source diagramelements.id
  */
-static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 10;
+static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 11;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: dest diagramelements.id
  */
-static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 11;
+static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 12;
 
 u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_, data_row_id_t id, data_relationship_t *out_relationship )
 {
@@ -871,6 +876,7 @@ u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_databas
                                               sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
                                               sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
                                               sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
                                               (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                               (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
                                               sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
@@ -934,6 +940,7 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
                                               sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
                                               sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
                                               sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
                                               (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                               (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
                                               sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
@@ -1005,6 +1012,7 @@ u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( 
                                                   sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
                                                   sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
@@ -1079,6 +1087,7 @@ u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( dat
                                                   sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
                                                   sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
@@ -1153,6 +1162,7 @@ u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( dat
                                                   sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
                                                   sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),

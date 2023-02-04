@@ -55,28 +55,28 @@ u8_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader_t
  *  \brief predefined search statement to find a diagram by id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order,display_flags,uuid "
+    "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find a diagram by uuid
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_UUID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order,display_flags,uuid "
+    "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE uuid=?;";
 
 /*!
  *  \brief predefined search statement to find diagrams by parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order,display_flags,uuid "
+    "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find diagrams by NULL parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order,display_flags,uuid "
+    "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
 #ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
@@ -84,7 +84,7 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
  *  \brief predefined search statement to find diagrams by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
-    "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
+    "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,diagrams.stereotype,"
     "diagrams.name,diagrams.description,diagrams.list_order,diagrams.display_flags,diagrams.uuid "
     "FROM diagrams "
     "INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
@@ -109,29 +109,34 @@ static const int RESULT_DIAGRAM_PARENT_ID_COLUMN = 1;
 static const int RESULT_DIAGRAM_TYPE_COLUMN = 2;
 
 /*!
+ *  \brief the column id of the result where this parameter is stored: stereotype
+ */
+static const int RESULT_DIAGRAM_STEREOTYPE_COLUMN = 3;
+
+/*!
  *  \brief the column id of the result where this parameter is stored: name
  */
-static const int RESULT_DIAGRAM_NAME_COLUMN = 3;
+static const int RESULT_DIAGRAM_NAME_COLUMN = 4;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: description
  */
-static const int RESULT_DIAGRAM_DESCRIPTION_COLUMN = 4;
+static const int RESULT_DIAGRAM_DESCRIPTION_COLUMN = 5;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: list_order
  */
-static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 5;
+static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 6;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: display_flags
  */
-static const int RESULT_DIAGRAM_DISPLAY_FLAGS_COLUMN = 6;
+static const int RESULT_DIAGRAM_DISPLAY_FLAGS_COLUMN = 7;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: uuid
  */
-static const int RESULT_DIAGRAM_UUID_COLUMN = 7;
+static const int RESULT_DIAGRAM_UUID_COLUMN = 8;
 
 /*!
  *  \brief predefined search statement to find diagram ids by parent-id
@@ -188,6 +193,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ),
                                          sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                                         (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_STEREOTYPE_COLUMN ),
                                          (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
                                          (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
                                          sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN ),
@@ -245,6 +251,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ),
                                          sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                                         (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_STEREOTYPE_COLUMN ),
                                          (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
                                          (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
                                          sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN ),
@@ -316,6 +323,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
                                              sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
                                              sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ),
                                              sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_STEREOTYPE_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
                                              sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN ),
@@ -384,6 +392,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
                                              sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
                                              sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ),
                                              sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_STEREOTYPE_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
                                              sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN ),

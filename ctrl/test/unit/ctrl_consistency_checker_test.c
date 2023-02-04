@@ -109,6 +109,7 @@ static void set_up(void)
                                          6 /*=diagram_id*/,
                                          DATA_ROW_ID_VOID /*=parent_diagram_id*/,
                                          DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                         "diag_stereo_t", /* stereotype */
                                          "diagram_name-6",
                                          "diagram_description-6",
                                          10444 /*=list_order*/,
@@ -209,6 +210,7 @@ static void diagram_two_roots_consistency(void)
                                       2, /*=diagram_id*/
                                       DATA_ROW_ID_VOID, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "stereo_t", /* stereotype */
                                       "diagram_name",
                                       "diagram_description",
                                       10222, /*=list_order*/
@@ -261,6 +263,7 @@ static void diagram_missing_parent_consistency(void)
                                       2, /*=diagram_id*/
                                       0, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "stereo_t", /* stereotype */
                                       "diagram_name",
                                       "diagram_description",
                                       10222, /*=list_order*/
@@ -280,6 +283,7 @@ static void diagram_missing_parent_consistency(void)
                                       4, /*=diagram_id*/
                                       17, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "3stereo_t", /* stereotype */
                                       "diagram_name-4",
                                       "diagram_description-4",
                                       10333, /*=list_order*/
@@ -332,6 +336,7 @@ static void diagram_circular_referenced_diagrams_consistency( void )
                                       2, /*=diagram_id*/
                                       4 ,/*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "2stereo_t", /* stereotype */
                                       "diagram_name-2",
                                       "diagram_description-2",
                                       10222, /*=list_order*/
@@ -351,6 +356,7 @@ static void diagram_circular_referenced_diagrams_consistency( void )
                                       4, /*=diagram_id*/
                                       2, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                      "3stereo_t", /* stereotype */
                                       "diagram_name-4",
                                       "diagram_description-4",
                                       10333, /*=list_order*/
@@ -686,6 +692,7 @@ static void repair_unreferenced_classifiers_2(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            6, /* from_classifier_id */
                                            6, /* to_classifier_id */
+                                           "rel_stereo_t", /* stereotype */
                                            "the composition is more", /* relationship_name */
                                            "than the sum of its parts", /* relationship_description */
                                            -66000, /* list_order */
@@ -811,8 +818,9 @@ static void repair_invalid_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12, /* from_classifier_id */
                                            12, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "3stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            -66000, /* list_order */
                                            DATA_ROW_ID_VOID, /* from_feature_id */
                                            DATA_ROW_ID_VOID, /* to_feature_id */
@@ -832,8 +840,9 @@ static void repair_invalid_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12, /* from_classifier_id */
                                            12121212, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "4stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            -66000, /* list_order */
                                            DATA_ROW_ID_VOID, /* from_feature_id */
                                            DATA_ROW_ID_VOID, /* to_feature_id */
@@ -853,8 +862,9 @@ static void repair_invalid_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12121212, /* from_classifier_id */
                                            12, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "5stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            -66000, /* list_order */
                                            DATA_ROW_ID_VOID, /* from_feature_id */
                                            DATA_ROW_ID_VOID, /* to_feature_id */
@@ -874,8 +884,9 @@ static void repair_invalid_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12121212, /* from_classifier_id */
                                            12121212, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "6stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            -66000, /* list_order */
                                            DATA_ROW_ID_VOID, /* from_feature_id */
                                            DATA_ROW_ID_VOID, /* to_feature_id */
@@ -1003,8 +1014,9 @@ static void repair_ill_feature_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
                                            12, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "3stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            1600, /* list_order */
                                            17, /* from_feature_id */
                                            18, /* to_feature_id */
@@ -1024,8 +1036,9 @@ static void repair_ill_feature_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
                                            12, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "2stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            1700, /* list_order */
                                            170, /* from_feature_id */
                                            18, /* to_feature_id */
@@ -1045,8 +1058,9 @@ static void repair_ill_feature_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
                                            12, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "1stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            1800, /* list_order */
                                            17, /* from_feature_id */
                                            17, /* to_feature_id */
@@ -1066,8 +1080,9 @@ static void repair_ill_feature_relationship(void)
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
                                            12, /* to_classifier_id */
-                                           "the composition is more", /* relationship_name */
-                                           "than the sum of its parts", /* relationship_description */
+                                           "0stereo_t", /* stereotype */
+                                           "the composition is more", /* name */
+                                           "than the sum of its parts", /* description */
                                            1900, /* list_order */
                                            18, /* from_feature_id */
                                            180, /* to_feature_id */

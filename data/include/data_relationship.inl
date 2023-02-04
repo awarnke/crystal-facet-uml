@@ -12,6 +12,8 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ )
     (*this_).to_feature_id = DATA_ROW_ID_VOID;
     (*this_).main_type = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
 
+    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    utf8stringbuf_clear( (*this_).stereotype );
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     utf8stringbuf_clear( (*this_).name );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
@@ -31,14 +33,16 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
                                                       data_relationship_type_t relationship_main_type,
                                                       data_row_id_t from_classifier_id,
                                                       data_row_id_t to_classifier_id,
-                                                      const char* relationship_name,
-                                                      const char* relationship_description,
+                                                      const char* stereotype,
+                                                      const char* name,
+                                                      const char* description,
                                                       int32_t list_order,
                                                       data_row_id_t from_feature_id,
                                                       data_row_id_t to_feature_id )
 {
-    assert( NULL != relationship_name );
-    assert( NULL != relationship_description );
+    assert( NULL != stereotype );
+    assert( NULL != name );
+    assert( NULL != description );
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
@@ -49,8 +53,16 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
     (*this_).to_feature_id = to_feature_id;
     (*this_).main_type = relationship_main_type;
 
+    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).name, relationship_name );
+    strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -58,7 +70,7 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).description, relationship_description );
+    strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -76,15 +88,17 @@ static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
                                                   data_relationship_type_t relationship_main_type,
                                                   data_row_id_t from_classifier_id,
                                                   data_row_id_t to_classifier_id,
-                                                  const char* relationship_name,
-                                                  const char* relationship_description,
+                                                  const char* stereotype,
+                                                  const char* name,
+                                                  const char* description,
                                                   int32_t list_order,
                                                   data_row_id_t from_feature_id,
                                                   data_row_id_t to_feature_id,
                                                   const char* uuid )
 {
-    assert( NULL != relationship_name );
-    assert( NULL != relationship_description );
+    assert( NULL != stereotype );
+    assert( NULL != name );
+    assert( NULL != description );
     assert( NULL != uuid );
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
@@ -96,8 +110,16 @@ static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
     (*this_).to_feature_id = to_feature_id;
     (*this_).main_type = relationship_main_type;
 
+    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).name, relationship_name );
+    strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -105,7 +127,7 @@ static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
-    strerr = utf8stringbuf_copy_str( (*this_).description, relationship_description );
+    strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -124,6 +146,7 @@ static inline void data_relationship_copy ( data_relationship_t *this_, const da
 
     (*this_) = (*original);
     /* repair the overwritten pointers */
+    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
     data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
@@ -135,6 +158,7 @@ static inline void data_relationship_replace ( data_relationship_t *this_, const
 
     (*this_) = (*that);
     /* repair the overwritten pointers */
+    (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
     data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
@@ -241,6 +265,31 @@ static inline void data_relationship_set_main_type ( data_relationship_t *this_,
     (*this_).main_type = main_type;
 }
 
+static inline const char *data_relationship_get_stereotype_const ( const data_relationship_t *this_ )
+{
+    return utf8stringbuf_get_string( (*this_).stereotype );
+}
+
+static inline bool data_relationship_has_stereotype ( data_relationship_t *this_ )
+{
+    return ( ! utf8stringbuf_equals_str( (*this_).stereotype, "" ) );
+}
+
+static inline u8_error_t data_relationship_set_stereotype ( data_relationship_t *this_, const char *stereotype )
+{
+    assert( NULL != stereotype );
+
+    u8_error_t result = U8_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+        result = U8_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
 static inline const char *data_relationship_get_name_const ( const data_relationship_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).name );
@@ -329,6 +378,7 @@ static inline void data_relationship_trace ( const data_relationship_t *this_ )
     U8_TRACE_INFO_INT( "- main_type:", (*this_).main_type );
     U8_TRACE_INFO_INT( "- from_classifier_id:", (*this_).from_classifier_id );
     U8_TRACE_INFO_INT( "- to_classifier_id:", (*this_).to_classifier_id );
+    U8_TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string((*this_).stereotype) );
     U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
     U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
     U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );

@@ -81,6 +81,15 @@ u8_error_t data_database_sql_builder_build_delete_diagram_command ( data_databas
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_stereotype new stereotype of the diagram
+ */
+u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, const char *new_diagram_stereotype );
+
+/*!
+ *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_name new name of the diagram
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
@@ -353,6 +362,15 @@ u8_error_t data_database_sql_builder_build_delete_relationship_command ( data_da
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 u8_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type );
+
+/*!
+ *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_stereotype new stereotype of the relationship
+ */
+u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, const char *new_relationship_stereotype );
 
 /*!
  *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.

@@ -137,6 +137,7 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
 
     result |= data_database_text_search_private_get_diagrams_by_textfragment( this_,
                                                                               search_name,
+                                                                              search_type,
                                                                               search_descr,
                                                                               io_results
                                                                             );
@@ -157,6 +158,7 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
 
     result |= data_database_text_search_private_get_relationships_by_textfragment( this_,
                                                                                    search_name,
+                                                                                   search_type,
                                                                                    search_descr,
                                                                                    io_results
                                                                                  );
@@ -176,6 +178,7 @@ static const char data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT[] =
     "SELECT id,diagram_type,name "
     "FROM diagrams "
     "WHERE name LIKE ? ESCAPE \"\\\" "
+    "OR stereotype LIKE ? ESCAPE \"\\\" "
     "OR description LIKE ? ESCAPE \"\\\";";
 
 /*!
@@ -196,12 +199,14 @@ static const int RESULT_DIAGRAM_NAME_COLUMN = 2;
 
 u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_database_text_search_t *this_,
                                                                            const char *name_fragment,
+                                                                           const char *stereo_fragment,
                                                                            const char *descr_fragment,
                                                                            data_search_result_list_t *io_results )
 {
     U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != name_fragment );
+    assert( NULL != stereo_fragment );
     assert( NULL != descr_fragment );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -212,7 +217,12 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
     {
         prepared_statement = (*this_).statement_diagram_ids_by_textfragment;
 
-        result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, name_fragment, descr_fragment );
+        result |= data_database_text_search_private_bind_three_texts_to_statement( this_,
+                                                                                   prepared_statement,
+                                                                                   name_fragment,
+                                                                                   stereo_fragment,
+                                                                                   descr_fragment
+                                                                                 );
 
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )
@@ -547,6 +557,7 @@ static const char data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT[
     "ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id==source.diagram_id) "
     "INNER JOIN diagrams ON source.diagram_id=diagrams.id "
     "WHERE relationships.name LIKE ? ESCAPE \"\\\" "
+    "OR relationships.stereotype LIKE ? ESCAPE \"\\\" "
     "OR relationships.description LIKE ? ESCAPE \"\\\" "
     "GROUP BY relationships.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
 
@@ -597,12 +608,14 @@ static const int RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN = 8;
 
 u8_error_t data_database_text_search_private_get_relationships_by_textfragment( data_database_text_search_t *this_,
                                                                                 const char *name_fragment,
+                                                                                const char *stereo_fragment,
                                                                                 const char *descr_fragment,
                                                                                 data_search_result_list_t *io_results )
 {
     U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != name_fragment );
+    assert( NULL != stereo_fragment );
     assert( NULL != descr_fragment );
     u8_error_t result = U8_ERROR_NONE;
 
@@ -614,11 +627,12 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
     {
         prepared_statement = (*this_).statement_relationship_ids_by_textfragment;
 
-        result |= data_database_text_search_private_bind_two_texts_to_statement( this_,
-                                                                                 prepared_statement,
-                                                                                 name_fragment,
-                                                                                 descr_fragment
-                                                                               );
+        result |= data_database_text_search_private_bind_three_texts_to_statement( this_,
+                                                                                   prepared_statement,
+                                                                                   name_fragment,
+                                                                                   stereo_fragment,
+                                                                                   descr_fragment
+                                                                                 );
 
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (U8_ERROR_NONE == result); row_index ++ )

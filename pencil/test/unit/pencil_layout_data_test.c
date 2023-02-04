@@ -57,6 +57,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                       3,  /* diagram_id */
                                       DATA_ROW_ID_VOID,  /* parent_diagram_id */
                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,  /* diagram_type */
+                                      "stereo_t",  /* stereotype */
                                       "diagram_name",
                                       "diagram_description",
                                       32000,  /* list_order */
@@ -137,6 +138,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                            DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,  /* relationship_main_type */
                                            r_idx % classifier_mod,  /* from_classifier_id */
                                            (r_idx*r_idx) % classifier_mod,  /* to_classifier_id */
+                                           "stereo_t",  /* stereotype */
                                            "relationship_name",
                                            "relationship_description",
                                            1500*r_idx,  /* list_order */

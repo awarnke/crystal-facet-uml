@@ -86,6 +86,7 @@ static void diagram_to_lifeline_consistency(void)
                                       DATA_ROW_ID_VOID, /*=diagram_id is ignored*/
                                       DATA_ROW_ID_VOID, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                      "diag:stereo_t", /* stereotype */
                                       "the_root_diag",
                                       "diagram_description-root",
                                       10555, /*=list_order*/
@@ -113,6 +114,7 @@ static void diagram_to_lifeline_consistency(void)
                                       DATA_ROW_ID_VOID, /*=diagram_id is ignored*/
                                       root_diag_id, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                      "diag:stereo_t", /* stereotype */
                                       "the_child_diag",
                                       "diagram_description-child",
                                       20666, /*=list_order*/
@@ -293,6 +295,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                       DATA_ROW_ID_VOID, /*=diagram_id is ignored*/
                                       DATA_ROW_ID_VOID, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                      "diagIIstereo_t", /* stereotype */
                                       "the_root_diag",
                                       "diagram_description-root",
                                       10555, /*=list_order*/

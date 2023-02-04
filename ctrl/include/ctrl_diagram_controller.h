@@ -153,17 +153,30 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
                                                             );
 
 /*!
- *  \brief updates the diagram attribute: description
+ *  \brief updates the diagram attribute: diagram_type
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
- *  \param new_diagram_description new description text of the diagram
+ *  \param new_diagram_type new diagram_type of the diagram
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
-                                                                data_row_id_t diagram_id,
-                                                                const char* new_diagram_description
-                                                              );
+u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
+                                                         data_row_id_t diagram_id,
+                                                         data_diagram_type_t new_diagram_type
+                                                       );
+
+/*!
+ *  \brief updates the diagram attribute: stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_stereotype new description text of the diagram
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_classifier_controller_update_diagram_stereotype ( ctrl_diagram_controller_t *this_,
+                                                                  data_row_id_t diagram_id,
+                                                                  const char* new_diagram_stereotype
+                                                                );
 
 /*!
  *  \brief updates the diagram attribute: name
@@ -179,17 +192,17 @@ u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller
                                                        );
 
 /*!
- *  \brief updates the diagram attribute: diagram_type
+ *  \brief updates the diagram attribute: description
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
- *  \param new_diagram_type new diagram_type of the diagram
+ *  \param new_diagram_description new description text of the diagram
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
-                                                         data_row_id_t diagram_id,
-                                                         data_diagram_type_t new_diagram_type
-                                                       );
+u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
+                                                                data_row_id_t diagram_id,
+                                                                const char* new_diagram_description
+                                                              );
 
 /*!
  *  \brief updates the diagram attribute: list_order

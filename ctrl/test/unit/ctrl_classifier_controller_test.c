@@ -358,8 +358,9 @@ static void relationship_CRURDR(void)
                                             DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                             86000, /* from_classifier_id */
                                             86001, /* to_classifier_id */
-                                            "the composition is more", /* relationship_name */
-                                            "than the sum of its parts", /* relationship_description */
+                                            "stereo_t", /* stereotype */
+                                            "the composition is more", /* name */
+                                            "than the sum of its parts", /* description */
                                             -66000, /* list_order */
                                             DATA_ROW_ID_VOID, /* from_feature_id */
                                             100666, /* to_feature_id */
@@ -384,6 +385,7 @@ static void relationship_CRURDR(void)
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check ) );
         TEST_EXPECT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check ) );
         TEST_EXPECT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "stereo_t", data_relationship_get_stereotype_const( &check ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_const( &check ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_const( &check ) ) );
         TEST_EXPECT_EQUAL_INT( -66000, data_relationship_get_list_order( &check ) );
@@ -398,6 +400,12 @@ static void relationship_CRURDR(void)
                                                                               new_relationship_id,
                                                                               DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL
                                                                             );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+
+        ctrl_err = ctrl_classifier_controller_update_relationship_stereotype ( classifier_ctrl,
+                                                                               new_relationship_id,
+                                                                               "stereo_2"
+                                                                             );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
         ctrl_err = ctrl_classifier_controller_update_relationship_name ( classifier_ctrl,
@@ -428,6 +436,7 @@ static void relationship_CRURDR(void)
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, data_relationship_get_main_type( &check2 ) );
         TEST_EXPECT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check2 ) );
         TEST_EXPECT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check2 ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "stereo_2", data_relationship_get_stereotype_const( &check2 ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "async message", data_relationship_get_name_const( &check2 ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_const( &check2 ) ) );
         TEST_EXPECT_EQUAL_INT( -88000, data_relationship_get_list_order( &check2 ) );

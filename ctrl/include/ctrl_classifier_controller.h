@@ -105,6 +105,19 @@ u8_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_contro
                                                         );
 
 /*!
+ *  \brief updates the classifier attribute: main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_main_type new main_type of the classifier
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
+                                                                    data_row_id_t classifier_id,
+                                                                    data_classifier_type_t new_classifier_main_type
+                                                                  );
+
+/*!
  *  \brief updates the classifier attribute: stereotype
  *
  *  \param this_ pointer to own object attributes
@@ -116,19 +129,6 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
                                                                      data_row_id_t classifier_id,
                                                                      const char* new_classifier_stereotype
                                                                    );
-
-/*!
- *  \brief updates the classifier attribute: description
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to be updated
- *  \param new_classifier_description new description text of the classifier
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
- */
-u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
-                                                                      data_row_id_t classifier_id,
-                                                                      const char* new_classifier_description
-                                                                    );
 
 /*!
  *  \brief updates the classifier attribute: name
@@ -144,17 +144,17 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
                                                              );
 
 /*!
- *  \brief updates the classifier attribute: main_type
+ *  \brief updates the classifier attribute: description
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
- *  \param new_classifier_main_type new main_type of the classifier
+ *  \param new_classifier_description new description text of the classifier
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
-                                                                    data_row_id_t classifier_id,
-                                                                    data_classifier_type_t new_classifier_main_type
-                                                                  );
+u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
+                                                                      data_row_id_t classifier_id,
+                                                                      const char* new_classifier_description
+                                                                    );
 
 /*!
  *  \brief updates the classifier attribute: x_order
@@ -362,6 +362,19 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
                                                                       data_row_id_t relationship_id,
                                                                       data_relationship_type_t new_relationship_type
                                                                     );
+
+/*!
+ *  \brief updates the relationship attribute: stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_stereotype new description text of the relationship
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_classifier_controller_update_relationship_stereotype ( ctrl_classifier_controller_t *this_,
+                                                                       data_row_id_t relationship_id,
+                                                                       const char* new_relationship_stereotype
+                                                                     );
 
 /*!
  *  \brief updates the relationship attribute: name

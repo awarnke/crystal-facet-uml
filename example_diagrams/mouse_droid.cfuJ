@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 0,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.1"
+    "generator_version": "1.46.0"
   }
   ,
   "views":
@@ -2794,7 +2794,7 @@
         "stereotype": "quality characteristic",
         "name": "Usability",
         "description": [
-                ""
+                "Usability defines a set of attributes that measures how easy to learn and use the program is."
         ],
         "x_order": -416937143,
         "y_order": -1440268883,
@@ -2832,7 +2832,7 @@
         "stereotype": "quality characteristic",
         "name": "Reliability",
         "description": [
-                ""
+                "Reliability defines a set of attributes that measures how mature and fault-tolerant the software is."
         ],
         "x_order": 1210000491,
         "y_order": -1394625593,
@@ -3764,7 +3764,9 @@
                 "- HW watchdog\n",
                 "- clock\n",
                 "- temperature sensor\n",
-                "- io ports"
+                "- io ports\n",
+                "\n",
+                "This block is optimized for providing a reliable execution of algorithms, see D0011#name."
         ],
         "x_order": -858822106,
         "y_order": -1137259057,
@@ -3925,7 +3927,7 @@
         "stereotype": "",
         "name": "High Performance SoC",
         "description": [
-                ""
+                "This block provides an execution environment for algorithms that is optimized for high performance."
         ],
         "x_order": -1600853608,
         "y_order": -1137259057,
@@ -5277,7 +5279,7 @@
         "stereotype": "quality characteristic",
         "name": "Compatibility",
         "description": [
-                ""
+                "Compatibility defines a set of attributes that measures how well data and messages can be exchanged with other programs and/or versions."
         ],
         "x_order": -416937143,
         "y_order": -1394625593,

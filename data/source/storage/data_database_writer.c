@@ -167,13 +167,12 @@ u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
     return result;
 }
 
-u8_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_,
-                                                             data_row_id_t diagram_id,
-                                                             const char* new_diagram_description,
-                                                             data_diagram_t *out_old_diagram )
+u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_,
+                                                      data_row_id_t diagram_id,
+                                                      data_diagram_type_t new_diagram_type,
+                                                      data_diagram_t *out_old_diagram )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != new_diagram_description );
     u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_transaction_begin ( (*this_).database );
@@ -184,11 +183,47 @@ u8_error_t data_database_writer_update_diagram_description ( data_database_write
         result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, out_old_diagram );
     }
 
-    result |= data_database_sql_builder_build_update_diagram_description_cmd( &((*this_).sql_builder), diagram_id, new_diagram_description );
+    result |= data_database_sql_builder_build_update_diagram_type_cmd( &((*this_).sql_builder), diagram_id, new_diagram_type );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
-    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET description ... ->", diagram_id );  /* do not log confidential information, only id */
+    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET diagram_type ... ->", diagram_id );  /* do not log confidential information, only id */
+
+    result |= data_database_transaction_commit ( (*this_).database );
+
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_DIAGRAM,
+                                                     diagram_id
+                                                   );
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_writer_update_diagram_stereotype ( data_database_writer_t *this_,
+                                                            data_row_id_t diagram_id,
+                                                            const char* new_diagram_stereotype,
+                                                            data_diagram_t *out_old_diagram )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != new_diagram_stereotype );
+    u8_error_t result = U8_ERROR_NONE;
+
+    result |= data_database_transaction_begin ( (*this_).database );
+
+    /* Note: out_old_diagram is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagram )
+    {
+        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, out_old_diagram );
+    }
+
+    result |= data_database_sql_builder_build_update_diagram_stereotype_cmd( &((*this_).sql_builder), diagram_id, new_diagram_stereotype );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET stereotype ... ->", diagram_id );  /* do not log confidential information, only id */
 
     result |= data_database_transaction_commit ( (*this_).database );
 
@@ -239,12 +274,13 @@ u8_error_t data_database_writer_update_diagram_name ( data_database_writer_t *th
     return result;
 }
 
-u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_,
-                                                      data_row_id_t diagram_id,
-                                                      data_diagram_type_t new_diagram_type,
-                                                      data_diagram_t *out_old_diagram )
+u8_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_,
+                                                             data_row_id_t diagram_id,
+                                                             const char* new_diagram_description,
+                                                             data_diagram_t *out_old_diagram )
 {
     U8_TRACE_BEGIN();
+    assert( NULL != new_diagram_description );
     u8_error_t result = U8_ERROR_NONE;
 
     result |= data_database_transaction_begin ( (*this_).database );
@@ -255,11 +291,11 @@ u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *th
         result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, out_old_diagram );
     }
 
-    result |= data_database_sql_builder_build_update_diagram_type_cmd( &((*this_).sql_builder), diagram_id, new_diagram_type );
+    result |= data_database_sql_builder_build_update_diagram_description_cmd( &((*this_).sql_builder), diagram_id, new_diagram_description );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
-    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET diagram_type ... ->", diagram_id );  /* do not log confidential information, only id */
+    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET description ... ->", diagram_id );  /* do not log confidential information, only id */
 
     result |= data_database_transaction_commit ( (*this_).database );
 
@@ -456,6 +492,41 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
     return result;
 }
 
+u8_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_,
+                                                              data_row_id_t classifier_id,
+                                                              data_classifier_type_t new_classifier_main_type,
+                                                              data_classifier_t *out_old_classifier )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    result |= data_database_transaction_begin ( (*this_).database );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
+    }
+
+    result |= data_database_sql_builder_build_update_classifier_main_type_cmd( &((*this_).sql_builder), classifier_id, new_classifier_main_type );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET main_type ... ->", classifier_id );  /* do not log confidential information, only id */
+
+    result |= data_database_transaction_commit ( (*this_).database );
+
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 u8_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_,
                                                                data_row_id_t classifier_id,
                                                                const char* new_classifier_stereotype,
@@ -477,41 +548,6 @@ u8_error_t data_database_writer_update_classifier_stereotype ( data_database_wri
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
     U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET stereotype ... ->", classifier_id );  /* do not log confidential information, only id */
-
-    result |= data_database_transaction_commit ( (*this_).database );
-
-    /* notify listeners */
-    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
-                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
-                                                     DATA_TABLE_CLASSIFIER,
-                                                     classifier_id
-                                                   );
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
-u8_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_,
-                                                                data_row_id_t classifier_id,
-                                                                const char* new_classifier_description,
-                                                                data_classifier_t *out_old_classifier )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-
-    result |= data_database_transaction_begin ( (*this_).database );
-
-    /* Note: out_old_classifier is NULL if old data shall not be returned */
-    if ( NULL != out_old_classifier )
-    {
-        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
-    }
-
-    result |= data_database_sql_builder_build_update_classifier_description_cmd( &((*this_).sql_builder), classifier_id, new_classifier_description );
-    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
-
-    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
-    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET description ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_transaction_commit ( (*this_).database );
 
@@ -561,10 +597,10 @@ u8_error_t data_database_writer_update_classifier_name ( data_database_writer_t 
     return result;
 }
 
-u8_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_,
-                                                              data_row_id_t classifier_id,
-                                                              data_classifier_type_t new_classifier_main_type,
-                                                              data_classifier_t *out_old_classifier )
+u8_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_,
+                                                                data_row_id_t classifier_id,
+                                                                const char* new_classifier_description,
+                                                                data_classifier_t *out_old_classifier )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -577,11 +613,11 @@ u8_error_t data_database_writer_update_classifier_main_type ( data_database_writ
         result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
     }
 
-    result |= data_database_sql_builder_build_update_classifier_main_type_cmd( &((*this_).sql_builder), classifier_id, new_classifier_main_type );
+    result |= data_database_sql_builder_build_update_classifier_description_cmd( &((*this_).sql_builder), classifier_id, new_classifier_description );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
-    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET main_type ... ->", classifier_id );  /* do not log confidential information, only id */
+    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET description ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_transaction_commit ( (*this_).database );
 
@@ -1136,7 +1172,10 @@ u8_error_t data_database_writer_delete_relationship ( data_database_writer_t *th
     return result;
 }
 
-u8_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship )
+u8_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_,
+                                                                data_row_id_t relationship_id,
+                                                                data_relationship_type_t new_relationship_type,
+                                                                data_relationship_t *out_old_relationship )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -1168,7 +1207,45 @@ u8_error_t data_database_writer_update_relationship_main_type ( data_database_wr
     return result;
 }
 
-u8_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship )
+u8_error_t data_database_writer_update_relationship_stereotype ( data_database_writer_t *this_,
+                                                                 data_row_id_t relationship_id,
+                                                                 const char* new_relationship_stereotype,
+                                                                 data_relationship_t *out_old_relationship )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    result |= data_database_transaction_begin ( (*this_).database );
+
+    /* Note: out_old_relationship is NULL if old data shall not be returned */
+    if ( NULL != out_old_relationship )
+    {
+        result |= data_database_reader_get_relationship_by_id ( (*this_).db_reader, relationship_id, out_old_relationship );
+    }
+
+    result |= data_database_sql_builder_build_update_relationship_stereotype_cmd( &((*this_).sql_builder), relationship_id, new_relationship_stereotype );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    U8_LOG_EVENT_INT( "sqlite3_exec: UPDATE relationships SET stereotype ... ->", relationship_id );  /* do not log confidential information, only id */
+
+    result |= data_database_transaction_commit ( (*this_).database );
+
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relationship_id
+                                                   );
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_,
+                                                           data_row_id_t relationship_id,
+                                                           const char* new_relationship_name,
+                                                           data_relationship_t *out_old_relationship )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

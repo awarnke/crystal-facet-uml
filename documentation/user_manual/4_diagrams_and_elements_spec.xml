@@ -1188,6 +1188,7 @@
             Relationships:
             <itemizedlist>
                 <listitem><para>DATA_RELATIONSHIP_MAX_NAME_LENGTH = 47,</para></listitem>
+                <listitem><para>DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH = 47,</para></listitem>
                 <listitem><para>DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH = 1023,</para></listitem>
             </itemizedlist>
         </para>
@@ -1196,6 +1197,7 @@
             Diagrams:
             <itemizedlist>
                 <listitem><para>DATA_DIAGRAM_MAX_NAME_LENGTH = 47,</para></listitem>
+                <listitem><para>DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH = 47,</para></listitem>
                 <listitem><para>DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH = 8191,</para></listitem>
             </itemizedlist>
         </para>

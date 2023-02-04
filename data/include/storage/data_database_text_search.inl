@@ -87,6 +87,7 @@ static inline u8_error_t data_database_text_search_private_finalize_statement ( 
     return result;
 }
 
+#if 0
 static inline u8_error_t data_database_text_search_private_bind_two_texts_to_statement ( data_database_text_search_t *this_,
                                                                                          sqlite3_stmt *statement_ptr,
                                                                                          const char *text_1,
@@ -127,6 +128,7 @@ static inline u8_error_t data_database_text_search_private_bind_two_texts_to_sta
 
     return result;
 }
+#endif
 
 static inline u8_error_t data_database_text_search_private_bind_three_texts_to_statement ( data_database_text_search_t *this_,
                                                                                            sqlite3_stmt *statement_ptr,

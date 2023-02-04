@@ -66,6 +66,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                        TEST_DIAG_ID,  /* diagram_id */
                                        70,  /* parent_diagram_id */
                                        diag_type,  /* diagram_type */
+                                       "st_t",  /* stereotype */
                                        "diagram_name",
                                        "diagram_description",
                                        32000,  /* list_order */
@@ -159,6 +160,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                            DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
                                            TEST_CLASSIFIER_ID_OFFSET + ( r_idx % TEST_CLASSIFIER_REF_MOD ),  /* from_classifier_id */
                                            TEST_CLASSIFIER_ID_OFFSET + ( (r_idx+1) % TEST_CLASSIFIER_REF_MOD ),  /* to_classifier_id */
+                                           "st_t",  /* stereotype */
                                            "relationship_name",
                                            "relationship_description",
                                            1500*r_idx,  /* list_order */

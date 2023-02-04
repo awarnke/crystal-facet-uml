@@ -26,6 +26,7 @@ static data_row_id_t test_env_setup_data_create_diagram( data_row_id_t parent_di
                                       DATA_ROW_ID_VOID, /* diagram_id is ignored */
                                       parent_diagram_id,
                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,  /* default is an interaction diagram */
+                                      "diag:stereo_t", /* stereotype */
                                       name,
                                       "diagram_description-root",
                                       -13, /* list_order */
@@ -180,8 +181,9 @@ static data_row_id_t test_env_setup_data_create_relationship( data_row_id_t from
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            from_classifier_id,
                                            to_classifier_id,
+                                           "rel:stereo_t", /* stereotype */
                                            name,
-                                           "my description", /* relationship_description */
+                                           "my description", /* description */
                                            -66000, /* list_order */
                                            from_feature_id,
                                            to_feature_id,

@@ -484,8 +484,9 @@ static void undo_redo_feature_and_relationship(void)
                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                        86000, /* from_classifier_id */
                                        86001, /* to_classifier_id */
-                                       "the composition is more", /* relationship_name */
-                                       "than the sum of its parts", /* relationship_description */
+                                       "rel:stereo_t", /* stereotype */
+                                       "the composition is more", /* name */
+                                       "than the sum of its parts", /* description */
                                        -66000, /* list_order */
                                        DATA_ROW_ID_VOID, /* from_feature_id */
                                        150160, /* to_feature_id */
@@ -571,6 +572,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "rel:stereo_t", data_relationship_get_stereotype_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
@@ -755,6 +757,7 @@ static void undo_redo_feature_and_relationship(void)
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 86000, data_relationship_get_from_classifier_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 86001, data_relationship_get_to_classifier_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "rel:stereo_t", data_relationship_get_stereotype_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
