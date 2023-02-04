@@ -229,7 +229,7 @@ static inline const char *data_diagram_get_stereotype_const ( const data_diagram
     return utf8stringbuf_get_string( (*this_).stereotype );
 }
 
-static inline bool data_diagram_has_stereotype ( data_diagram_t *this_ )
+static inline bool data_diagram_has_stereotype ( const data_diagram_t *this_ )
 {
     return ( ! utf8stringbuf_equals_str( (*this_).stereotype, "" ) );
 }

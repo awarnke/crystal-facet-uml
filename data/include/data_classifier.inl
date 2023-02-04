@@ -227,7 +227,7 @@ static inline const char *data_classifier_get_stereotype_const ( const data_clas
     return utf8stringbuf_get_string( (*this_).stereotype );
 }
 
-static inline bool data_classifier_has_stereotype ( data_classifier_t *this_ )
+static inline bool data_classifier_has_stereotype ( const data_classifier_t *this_ )
 {
     return ( ! utf8stringbuf_equals_str( (*this_).stereotype, "" ) );
 }

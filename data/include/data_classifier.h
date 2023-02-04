@@ -237,7 +237,7 @@ static inline const char *data_classifier_get_stereotype_const ( const data_clas
  *  \param this_ pointer to own object attributes
  *  \return true if the stereotype string is not empty
  */
-static inline bool data_classifier_has_stereotype ( data_classifier_t *this_ );
+static inline bool data_classifier_has_stereotype ( const data_classifier_t *this_ );
 
 /*!
  *  \brief sets the attribute stereotype

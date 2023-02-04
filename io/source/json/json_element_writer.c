@@ -126,8 +126,9 @@ int json_element_writer_write_header( json_element_writer_t *this_, const char *
     /* two of these 6-byte sequences may form a surrogate pair */
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "structure_format", "rfc-8259 w/o hexadecimal escapes", true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "format", "cfu-json", true );
+    /* version 1.1 stores stereotypes for diagrams and relationships */
     out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "major_version", 1, true );
-    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 0, true );
+    out_err |= json_writer_write_member_int( &((*this_).json_writer), 2, "minor_version", 1, true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_name", META_INFO_PROGRAM_ID_STR, true );
     out_err |= json_writer_write_member_string( &((*this_).json_writer), 2, "generator_version", META_VERSION_STR, false );
 
@@ -323,12 +324,15 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
                                                   );
 
         /* stereotype */
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    4,
-                                                    JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE,
-                                                    data_classifier_get_stereotype_const( classifier_ptr ),
-                                                    true
-                                                  );
+        if ( data_classifier_has_stereotype( classifier_ptr ) )
+        {
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,
+                                                        JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE,
+                                                        data_classifier_get_stereotype_const( classifier_ptr ),
+                                                        true
+                                                      );
+        }
 
         /* name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -558,12 +562,15 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                   );
 
         /* value */
-        out_err |= json_writer_write_member_string( &((*this_).json_writer),
-                                                    6,
-                                                    JSON_CONSTANTS_KEY_FEATURE_VALUE,
-                                                    data_feature_get_value_const( feature_ptr ),
-                                                    true
-                                                  );
+        if ( data_feature_has_value( feature_ptr ) )
+        {
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        6,
+                                                        JSON_CONSTANTS_KEY_FEATURE_VALUE,
+                                                        data_feature_get_value_const( feature_ptr ),
+                                                        true
+                                                      );
+        }
 
         /* description */
         out_err |= json_writer_write_member_string_array( &((*this_).json_writer) ,
@@ -744,6 +751,17 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                     type_name,
                                                     true
                                                   );
+
+        /* stereotype */
+        if ( data_relationship_has_stereotype( relation_ptr ) )
+        {
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,
+                                                        JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE,
+                                                        data_relationship_get_stereotype_const( relation_ptr ),
+                                                        true
+                                                      );
+        }
 
         /* name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),
@@ -1023,6 +1041,17 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                                     type_name,
                                                     true
                                                   );
+
+        /* stereotype */
+        if ( data_diagram_has_stereotype( diag_ptr ) )
+        {
+            out_err |= json_writer_write_member_string( &((*this_).json_writer),
+                                                        4,
+                                                        JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE,
+                                                        data_diagram_get_stereotype_const( diag_ptr ),
+                                                        true
+                                                      );
+        }
 
         /* name */
         out_err |= json_writer_write_member_string( &((*this_).json_writer),

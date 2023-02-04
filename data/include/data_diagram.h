@@ -228,7 +228,7 @@ static inline const char *data_diagram_get_stereotype_const ( const data_diagram
  *  \param this_ pointer to own object attributes
  *  \return true if the stereotype string is not empty
  */
-static inline bool data_diagram_has_stereotype ( data_diagram_t *this_ );
+static inline bool data_diagram_has_stereotype ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute stereotype

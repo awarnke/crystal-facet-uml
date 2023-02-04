@@ -562,8 +562,11 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE ) )
                     {
-                        /* new in 1.43.0: stereotype */
-                        result = json_element_reader_skip_next_string( this_ );
+                        /* new in 1.43.0: stereotype; imported since 1.47.0 */
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        result |= data_diagram_set_stereotype( out_object,
+                                                               utf8stringbuf_get_string( (*this_).temp_string )
+                                                             );
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
                     {
@@ -690,8 +693,11 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE ) )
                     {
-                        /* new in 1.43.0: stereotype */
-                        result = json_element_reader_skip_next_string( this_ );
+                        /* new in 1.43.0: stereotype; imported since 1.47.0 */
+                        result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
+                        data_relationship_set_stereotype( out_object,
+                                                          utf8stringbuf_get_string( (*this_).temp_string )
+                                                        );
                     }
                     else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER ) )
                     {

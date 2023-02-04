@@ -305,7 +305,7 @@ static inline const char *data_relationship_get_stereotype_const ( const data_re
  *  \param this_ pointer to own object attributes
  *  \return true if the stereotype string is not empty
  */
-static inline bool data_relationship_has_stereotype ( data_relationship_t *this_ );
+static inline bool data_relationship_has_stereotype ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute stereotype

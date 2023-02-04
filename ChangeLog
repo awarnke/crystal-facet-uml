@@ -1,4 +1,4 @@
-crystal-facet-uml (1.46.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.47.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * diagrams and relationships have stereotypes
