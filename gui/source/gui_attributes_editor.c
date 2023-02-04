@@ -932,7 +932,9 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
 
     U8_TRACE_INFO_STR( "text:", text );
 
-    u8_error_t ctrl_err;
+    ctrl_classifier_controller_t *const class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+    ctrl_diagram_controller_t *const diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+    u8_error_t ctrl_update_err = U8_ERROR_NONE;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
@@ -944,73 +946,40 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
 
         case DATA_TABLE_CLASSIFIER:
         {
-            const char* unchanged_text;
-            unchanged_text = data_classifier_get_stereotype_const( &((*this_).private_classifier_cache) );
+            const char *const unchanged_text = data_classifier_get_stereotype_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                                           );
-                }
-                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
-                {
-                    /* notify read-only warning to user */
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                           );
-                }
-                else if ( U8_ERROR_NONE != ctrl_err )
-                {
-                    U8_LOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
-                }
+                ctrl_update_err = ctrl_classifier_controller_update_classifier_stereotype( class_ctrl,
+                                                                                           data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                           text
+                                                                                         );
             }
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            const char* unchanged_text;
-            unchanged_text = data_feature_get_value_const( &((*this_).private_feature_cache) );
+            const char *const unchanged_text = data_feature_get_value_const( &((*this_).private_feature_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_feature_value ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                                           );
-                }
-                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
-                {
-                    /* notify read-only warning to user */
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                           );
-                }
-                else if ( U8_ERROR_NONE != ctrl_err )
-                {
-                    U8_LOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
-                }
+                ctrl_update_err = ctrl_classifier_controller_update_feature_value( class_ctrl,
+                                                                                   data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                   text
+                                                                                 );
             }
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            U8_TRACE_INFO( "no object selected where stereotype can be updated." );
+            const char *const unchanged_text = data_relationship_get_stereotype_const( &((*this_).private_relationship_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_update_err = ctrl_classifier_controller_update_relationship_stereotype( class_ctrl,
+                                                                                             data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                             text
+                                                                                           );
+            }
         }
         break;
 
@@ -1023,7 +992,14 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
 
         case DATA_TABLE_DIAGRAM:
         {
-            U8_TRACE_INFO( "no object selected where stereotype can be updated." );
+            const char *const unchanged_text = data_diagram_get_stereotype_const( &((*this_).private_diagram_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_update_err = ctrl_diagram_controller_update_diagram_stereotype( diag_ctrl,
+                                                                                     data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                     text
+                                                                                   );
+            }
         }
         break;
 
@@ -1032,6 +1008,27 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
             U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
+    }
+
+    /* show warning to user in case of error: */
+    if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_update_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                                               );
+    }
+    else if ( U8_ERROR_READ_ONLY_DB == ctrl_update_err )
+    {
+        /* notify read-only warning to user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                               );
+    }
+    else if ( U8_ERROR_NONE != ctrl_update_err )
+    {
+        U8_LOG_ERROR_HEX( "update stereotype failed:", ctrl_update_err );
     }
 
     U8_TRACE_END();
@@ -1192,7 +1189,9 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
 
     U8_TRACE_INFO_STR( "text:", text );
 
-    u8_error_t ctrl_err;
+    ctrl_classifier_controller_t *const class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+    ctrl_diagram_controller_t *const diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+    u8_error_t ctrl_update_err = U8_ERROR_NONE;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
@@ -1208,29 +1207,10 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             unchanged_text = data_classifier_get_description_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_classifier_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                                           );
-                }
-                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
-                {
-                    /* notify read-only warning to user */
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                           );
-                }
-                else if ( U8_ERROR_NONE != ctrl_err )
-                {
-                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
-                }
+                ctrl_update_err = ctrl_classifier_controller_update_classifier_description( class_ctrl,
+                                                                                            data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                            text
+                                                                                          );
             }
         }
         break;
@@ -1241,29 +1221,10 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             unchanged_text = data_feature_get_description_const( &((*this_).private_feature_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_feature_description( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                                           );
-                }
-                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
-                {
-                    /* notify read-only warning to user */
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                           );
-                }
-                else if ( U8_ERROR_NONE != ctrl_err )
-                {
-                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
-                }
+                ctrl_update_err = ctrl_classifier_controller_update_feature_description( class_ctrl,
+                                                                                         data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                         text
+                                                                                       );
             }
         }
         break;
@@ -1274,29 +1235,10 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             unchanged_text = data_relationship_get_description_const( &((*this_).private_relationship_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_relationship_description( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                                           );
-                }
-                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
-                {
-                    /* notify read-only warning to user */
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                           );
-                }
-                else if ( U8_ERROR_NONE != ctrl_err )
-                {
-                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
-                }
+                ctrl_update_err = ctrl_classifier_controller_update_relationship_description( class_ctrl,
+                                                                                              data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                              text
+                                                                                            );
             }
         }
         break;
@@ -1314,29 +1256,10 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             unchanged_text = data_diagram_get_description_const( &((*this_).private_diagram_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
-                ctrl_diagram_controller_t *diag_ctrl;
-                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                                           );
-                }
-                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
-                {
-                    /* notify read-only warning to user */
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
-                                                           );
-                }
-                else if ( U8_ERROR_NONE != ctrl_err )
-                {
-                    U8_LOG_ERROR_HEX( "update description failed:", ctrl_err );
-                }
+                ctrl_update_err = ctrl_diagram_controller_update_diagram_description( diag_ctrl,
+                                                                                      data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                                      text
+                                                                                    );
             }
         }
         break;
@@ -1346,6 +1269,27 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
             U8_LOG_ERROR( "invalid data in data_id_t." );
         }
         break;
+    }
+
+    /* show warning to user in case of error: */
+    if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_update_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                    GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                                                );
+    }
+    else if ( U8_ERROR_READ_ONLY_DB == ctrl_update_err )
+    {
+        /* notify read-only warning to user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                    GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
+                                                );
+    }
+    else if ( U8_ERROR_NONE != ctrl_update_err )
+    {
+        U8_LOG_ERROR_HEX( "update description failed:", ctrl_update_err );
     }
 
     U8_TRACE_END();
@@ -1521,39 +1465,40 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            /*gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );*/
-            /* -- do not hide - otherwise the user interface looks inhomogenous -- */
             gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
+
+            const char *const text
+                = data_relationship_get_stereotype_const( &((*this_).private_relationship_cache) );
 #if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
-            gtk_entry_buffer_set_text( stereotype_buf, "    -- n/a --", -1 /* = n_chars */ );
+            gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
 #else
-            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );
+            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
 #endif
-            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );
-            /*gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );*/
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            /*gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );*/
-            /* -- do not hide - otherwise the user interface looks inhomogenous -- */
             gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
+
+            const char *const text
+                = data_diagram_get_stereotype_const( &((*this_).private_diagram_cache) );
 #if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
-            gtk_entry_buffer_set_text( stereotype_buf, "    -- n/a --", -1 /* = n_chars */ );
+            gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
 #else
-            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );
+            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
 #endif
-            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;
 

@@ -287,9 +287,9 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
     return result;
 }
 
-u8_error_t ctrl_classifier_controller_update_diagram_stereotype ( ctrl_diagram_controller_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  const char* new_diagram_stereotype )
+u8_error_t ctrl_diagram_controller_update_diagram_stereotype ( ctrl_diagram_controller_t *this_,
+                                                               data_row_id_t diagram_id,
+                                                               const char* new_diagram_stereotype )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

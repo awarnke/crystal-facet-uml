@@ -173,10 +173,10 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
  *  \param new_diagram_stereotype new description text of the diagram
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t ctrl_classifier_controller_update_diagram_stereotype ( ctrl_diagram_controller_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  const char* new_diagram_stereotype
-                                                                );
+u8_error_t ctrl_diagram_controller_update_diagram_stereotype ( ctrl_diagram_controller_t *this_,
+                                                               data_row_id_t diagram_id,
+                                                               const char* new_diagram_stereotype
+                                                             );
 
 /*!
  *  \brief updates the diagram attribute: name
