@@ -121,6 +121,9 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_comment = gui_resources_get_type_clas_comment( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_COMMENT, "Comment", icon_clas_comment );
+        current = &((*this_).type_name_icon_list[idx]); idx++;
+        const GdkPixbuf *icon_clas_stereotype = gui_resources_get_type_clas_stereotype( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_STEREOTYPE, "Stereotype (profile)", icon_clas_stereotype );
         /* requirements classifiers: */
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_requirement = gui_resources_get_type_clas_requirement( (*this_).resources );
@@ -215,6 +218,9 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_feat_exit = gui_resources_get_type_feat_exit( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_EXIT, "State Exit", icon_feat_exit );
+        current = &((*this_).type_name_icon_list[idx]); idx++;
+        const GdkPixbuf *icon_feat_tag = gui_resources_get_type_feat_tag( (*this_).resources );
+        gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_TAGGED_VALUE, "Tagged Value", icon_feat_tag );
 
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;

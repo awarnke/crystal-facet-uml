@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.46.0"
+    "generator_version": "1.47.0"
   }
   ,
   "views":
@@ -5937,7 +5937,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "pencil_diagram_maker",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5994,7 +5993,6 @@
         "id": 5,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "gtk3/gtk4",
         "description": [
                 "Toolkit which provides\n",
@@ -6015,7 +6013,6 @@
         "id": 7,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "sqlite3",
         "description": [
                 "SQL database"
@@ -6034,7 +6031,6 @@
         "id": 8,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Design consistent architecture diagrams",
         "description": [
                 "The main goal of crystal facet uml is to create a set of consistent uml diagrams.\n",
@@ -6059,7 +6055,6 @@
         "id": 9,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Show Classifiers",
         "description": [
                 "Classifiers are drawn to diagrams\n",
@@ -6079,7 +6074,6 @@
         "id": 10,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Classifier is contained (child)",
         "description": [
                 "A Classifier can either exist stand-alone or be a sub-element of another classifier."
@@ -6098,7 +6092,6 @@
         "id": 11,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Show multiple instances in same diagram",
         "description": [
                 "One and the same classifier can be shown in a diagram multiple times (either as class/type or as instance)"
@@ -6117,7 +6110,6 @@
         "id": 12,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Classifier has relations",
         "description": [
                 "A classifier can have zero, one or many relations; these may be of one or of differnet types.\n",
@@ -6137,7 +6129,6 @@
         "id": 13,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Mark Classifiers",
         "description": [
                 "A classifier can be highlighted in one or several diagrams.\n",
@@ -6154,7 +6145,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "highlight",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6166,7 +6156,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "grey out",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6181,7 +6170,6 @@
         "id": 14,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Classifier is explicit instance",
         "description": [
                 "A classifier can be an explicitly modelled instance of another classifier"
@@ -6200,7 +6188,6 @@
         "id": 15,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Classifier is implicit instance",
         "description": [
                 "A classifier can represent an anonymous (implicit) instance without defining an explicit instance relation"
@@ -6219,7 +6206,6 @@
         "id": 16,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Diagrams are hierarchical",
         "description": [
                 "There is one root diagram. All other diagrams shall have a parent diagram."
@@ -6238,7 +6224,6 @@
         "id": 17,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "test_fw",
         "description": [
                 "Test framework\n",
@@ -6259,7 +6244,6 @@
         "id": 18,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "main/test",
         "description": [
                 "Each SW-moldule may have a subfolder named unittest which contains a set of tests; these\n",
@@ -6279,7 +6263,6 @@
         "id": 19,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8log",
         "description": [
                 "- provides macros for event-logging and error-logging\n",
@@ -6304,7 +6287,6 @@
         "id": 20,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8trace",
         "description": [
                 "- provides trace macros\n",
@@ -6331,7 +6313,6 @@
         "id": 21,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "main",
         "description": [
                 "- starts the software\n",
@@ -6451,7 +6432,6 @@
         "id": 26,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "glib",
         "description": [
                 "Platform abstraction layer"
@@ -6470,7 +6450,6 @@
         "id": 27,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "gdk",
         "description": [
                 "Drawing library"
@@ -6489,7 +6468,6 @@
         "id": 28,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "cairo",
         "description": [
                 "Library providing drawing primitives"
@@ -6508,7 +6486,6 @@
         "id": 29,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "pango",
         "description": [
                 "Font rendering engine"
@@ -6527,7 +6504,6 @@
         "id": 30,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8stream/",
         "description": [
                 "provides small, generic utility classes that are independant of the project"
@@ -6546,7 +6522,6 @@
         "id": 31,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Draw Diagrams",
         "description": [
                 ""
@@ -6565,7 +6540,6 @@
         "id": 32,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_diagram_maker",
         "description": [
                 "- coordinates layouting and drawing of a diagram\n",
@@ -6625,7 +6599,6 @@
         "id": 35,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "data_visible_set",
         "description": [
                 "- caches data from the database needed to draw a diagram"
@@ -6644,7 +6617,6 @@
         "id": 36,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_layout_data",
         "description": [
                 "- stores locations of layouted elements (in the current diagram)"
@@ -6663,7 +6635,6 @@
         "id": 37,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "data_database",
         "description": [
                 "- wraps the sqlite database\n",
@@ -6682,7 +6653,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6697,7 +6667,6 @@
         "id": 38,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "data_database _reader",
         "description": [
                 "- reads data from the database"
@@ -6713,7 +6682,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6728,7 +6696,6 @@
         "id": 39,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "data_database _writer",
         "description": [
                 "- writes changes to the database\n",
@@ -6746,7 +6713,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6761,7 +6727,6 @@
         "id": 40,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ctrl_controller",
         "description": [
                 "- changes the database contents\n",
@@ -6781,7 +6746,6 @@
         "id": 41,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ctrl_consistency_checker",
         "description": [
                 "- checks and repairs a database"
@@ -6800,7 +6764,6 @@
         "id": 42,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "gui_main_window",
         "description": [
                 "- represents an application window"
@@ -6819,7 +6782,6 @@
         "id": 43,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "gui_sketch_area",
         "description": [
                 "Manages the main drawing area:\n",
@@ -6841,7 +6803,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "tool_changed_callback",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6868,7 +6829,6 @@
         "id": 44,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "gui_sketch _card",
         "description": [
                 "- maintains the data of one diagram\n",
@@ -6885,7 +6845,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6900,7 +6859,6 @@
         "id": 45,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "gui_window_manager",
         "description": [
                 "- starts and stops application windows"
@@ -6919,7 +6877,6 @@
         "id": 46,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Architect",
         "description": [
                 ""
@@ -6935,7 +6892,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6950,7 +6906,6 @@
         "id": 47,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Configuration Manager",
         "description": [
                 ""
@@ -6969,7 +6924,6 @@
         "id": 48,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Developer",
         "description": [
                 "A software developer understands the requirements and architecture; creates the software parts and performs reviews and unit-tests."
@@ -6988,7 +6942,6 @@
         "id": 49,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Integrator",
         "description": [
                 ""
@@ -7007,7 +6960,6 @@
         "id": 50,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Integration Tester",
         "description": [
                 ""
@@ -7026,7 +6978,6 @@
         "id": 52,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Error",
         "description": [
                 "An error is a condition that leads to an observalbe malfunction."
@@ -7045,7 +6996,6 @@
         "id": 53,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Warning",
         "description": [
                 "A warning is issued when a condition may possibly lead to a malfunction."
@@ -7064,7 +7014,6 @@
         "id": 54,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Anomaly",
         "description": [
                 "An anomaly is a condition that is expected to not cause a malfunction but that should be logged to easier analyze issues."
@@ -7083,7 +7032,6 @@
         "id": 55,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Event",
         "description": [
                 " An event is a signal that is send to or received from external software parts."
@@ -7102,7 +7050,6 @@
         "id": 58,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Array Index Sorter",
         "description": [
                 ""
@@ -7121,7 +7068,6 @@
         "id": 59,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "data/test/unit",
         "description": [
                 ""
@@ -7140,7 +7086,6 @@
         "id": 60,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "ctrl/test/unit",
         "description": [
                 ""
@@ -7159,7 +7104,6 @@
         "id": 61,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "test_main",
         "description": [
                 ""
@@ -7178,7 +7122,6 @@
         "id": 62,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "pencil/test/*",
         "description": [
                 ""
@@ -7197,7 +7140,6 @@
         "id": 63,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "universal/test/unit",
         "description": [
                 ""
@@ -7216,7 +7158,6 @@
         "id": 64,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "mode?",
         "description": [
                 ""
@@ -7235,7 +7176,6 @@
         "id": 65,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "show GUI, no DB file selected",
         "description": [
                 ""
@@ -7254,7 +7194,6 @@
         "id": 66,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "run test /repair /export / import via CLI",
         "description": [
                 ""
@@ -7273,7 +7212,6 @@
         "id": 67,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "end",
         "description": [
                 ""
@@ -7292,7 +7230,6 @@
         "id": 68,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "show GUI, show+alter DB",
         "description": [
                 ""
@@ -7311,7 +7248,6 @@
         "id": 69,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Begin (function)",
         "description": [
                 ""
@@ -7330,7 +7266,6 @@
         "id": 70,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "End (function)",
         "description": [
                 ""
@@ -7349,7 +7284,6 @@
         "id": 71,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Info",
         "description": [
                 ""
@@ -7368,7 +7302,6 @@
         "id": 72,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Timestamp",
         "description": [
                 ""
@@ -7387,7 +7320,6 @@
         "id": 73,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "main.c",
         "description": [
                 ""
@@ -7406,7 +7338,6 @@
         "id": 74,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "XML DB",
         "description": [
                 "The database is stored in XML format.\n",
@@ -7430,7 +7361,6 @@
         "id": 75,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "How to store data persistently?",
         "description": [
                 "The UML Model\n",
@@ -7450,7 +7380,6 @@
         "id": 76,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Json DB",
         "description": [
                 "The database is stored in Json format.\n",
@@ -7474,7 +7403,6 @@
         "id": 77,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "SQLite DB",
         "description": [
                 "The database is stored in sqlite3 format.\n",
@@ -7498,7 +7426,6 @@
         "id": 78,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Key-Value Pairs DB",
         "description": [
                 "The database is stored as key-value pairs.\n",
@@ -7522,7 +7449,6 @@
         "id": 79,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "SQLite is chosen",
         "description": [
                 "Rationale:\n",
@@ -7543,7 +7469,6 @@
         "id": 80,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "classifiers",
         "description": [
                 ""
@@ -7583,7 +7508,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "stereotype",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7595,7 +7519,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "name",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7607,7 +7530,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "description",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7622,7 +7544,6 @@
         "id": 81,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "relationships",
         "description": [
                 ""
@@ -7662,7 +7583,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "name",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7674,7 +7594,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "description",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7689,7 +7608,6 @@
         "id": 82,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "diagramelements",
         "description": [
                 ""
@@ -7717,7 +7635,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "display_flags",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7732,7 +7649,6 @@
         "id": 83,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "features",
         "description": [
                 ""
@@ -7772,7 +7688,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "key (name)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7784,7 +7699,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "value (type)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7796,7 +7710,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "description",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7811,7 +7724,6 @@
         "id": 84,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "diagrams",
         "description": [
                 ""
@@ -7851,7 +7763,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "name",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7863,7 +7774,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "description",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7878,7 +7788,6 @@
         "id": 85,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Question, Alternatives, selected Decision",
         "description": [
                 ""
@@ -7897,7 +7806,6 @@
         "id": 86,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "How to structure persistent data?",
         "description": [
                 "The database structure shall be simple\n",
@@ -7918,7 +7826,6 @@
         "id": 87,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "How can diagrams select the parts to show?",
         "description": [
                 "Each diagram shall show selected parts of the UML-Model, \n",
@@ -7940,7 +7847,6 @@
         "id": 88,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Simple data structure",
         "description": [
                 "The data is structured with focus on simplicity.\n",
@@ -7964,7 +7870,6 @@
         "id": 89,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Copy of the OMG UML Defintion Model",
         "description": [
                 "The data is structured according to the UML meta model defined by OMG.\n",
@@ -7989,7 +7894,6 @@
         "id": 90,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Classifier selection defines view",
         "description": [
                 "Diagramelements define which classifiers are visible in which diagram.\n",
@@ -8017,7 +7921,6 @@
         "id": 91,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Simple structure is chosen",
         "description": [
                 "The OMG UML definition model is quite complex\n",
@@ -8038,7 +7941,6 @@
         "id": 92,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Classifier or Relationship selection def. view",
         "description": [
                 "Depending on the diagram type, either classifiers determine what is visble or relationships determine what is visible.\n",
@@ -8062,7 +7964,6 @@
         "id": 95,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "diagramrelationships",
         "description": [
                 ""
@@ -8081,7 +7982,6 @@
         "id": 96,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Diagrams have filters",
         "description": [
                 "Either diagrams filter ranges of x-order/y-order/list-order\n",
@@ -8107,7 +8007,6 @@
         "id": 97,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Classifier+Lifeline solution is chosen",
         "description": [
                 "This solution allows with few additional relationships\n",
@@ -8128,7 +8027,6 @@
         "id": 98,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_layouter",
         "description": [
                 "- layouts multiple elements within the bounds of a diagram\n",
@@ -8150,7 +8048,6 @@
         "id": 99,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_classifier_layouter",
         "description": [
                 ""
@@ -8169,7 +8066,6 @@
         "id": 100,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_feature_layouter",
         "description": [
                 ""
@@ -8188,7 +8084,6 @@
         "id": 101,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_relationship_layouter",
         "description": [
                 ""
@@ -8207,7 +8102,6 @@
         "id": 102,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_classifier_composer",
         "description": [
                 ""
@@ -8226,7 +8120,6 @@
         "id": 103,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_diagram_painter",
         "description": [
                 ""
@@ -8245,7 +8138,6 @@
         "id": 104,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_feature_painter",
         "description": [
                 ""
@@ -8264,7 +8156,6 @@
         "id": 105,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "pencil_relationship_painter",
         "description": [
                 ""
@@ -8283,7 +8174,6 @@
         "id": 106,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Classifier and port/lifeline selection def view",
         "description": [
                 ""
@@ -8302,7 +8192,6 @@
         "id": 111,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "MOF (M3)",
         "description": [
                 ""
@@ -8321,7 +8210,6 @@
         "id": 112,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "UML (M2)",
         "description": [
                 ""
@@ -8340,7 +8228,6 @@
         "id": 113,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "User Model (M1)",
         "description": [
                 ""
@@ -8359,7 +8246,6 @@
         "id": 114,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Objects of Reality (M0)",
         "description": [
                 ""
@@ -8378,7 +8264,6 @@
         "id": 115,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "MOF::Class",
         "description": [
                 ""
@@ -8397,7 +8282,6 @@
         "id": 116,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "MOF::Feature",
         "description": [
                 ""
@@ -8416,7 +8300,6 @@
         "id": 117,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "MOF::Association",
         "description": [
                 "This diagram shows some example classes of the MOF Meta Model."
@@ -8986,7 +8869,6 @@
         "id": 152,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "diagramelements_simple",
         "description": [
                 ""
@@ -9014,7 +8896,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "display_flags",
-            "value": "",
             "description": [
                 ""
             ],
@@ -9029,7 +8910,6 @@
         "id": 153,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ctrl_undo_redo_list",
         "description": [
                 "manages a list of actions to be undone or/and redone."
@@ -9048,7 +8928,6 @@
         "id": 154,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ctrl_diagram _policy_enforcer",
         "description": [
                 "ensures that application level policies on the model are adhered whenever diagrams are modified."
@@ -9067,7 +8946,6 @@
         "id": 155,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ctrl_classifier_controller",
         "description": [
                 "performs changes on classifier, feature and relationship tables"
@@ -9086,7 +8964,6 @@
         "id": 156,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ctrl_diagram_controller",
         "description": [
                 "performs changes on diagram and diagramelement tables"
@@ -9105,7 +8982,6 @@
         "id": 157,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ctrl_classifier _policy_enforcer",
         "description": [
                 "ensures that application level policies on the model are adhered whenever classifiers are modified."
@@ -9124,7 +9000,6 @@
         "id": 158,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Understand Problem",
         "description": [
                 "Understand\n",
@@ -9146,7 +9021,6 @@
         "id": 159,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "gui_toolbox",
         "description": [
                 "controller for the buttons in the tool bar:\n",
@@ -9165,7 +9039,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "set_selected_tool",
-            "value": "",
             "description": [
                 ""
             ],
@@ -9177,7 +9050,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "notify_listeners",
-            "value": "",
             "description": [
                 ""
             ],
@@ -9192,7 +9064,6 @@
         "id": 160,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "gui_attributes_editor",
         "description": [
                 "This class manages 5 widgets.\n",
@@ -9279,7 +9150,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "object_changed",
-            "value": "",
             "description": [
                 ""
             ],
@@ -9294,7 +9164,6 @@
         "id": 161,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "This Document",
         "description": [
                 "describes\n",
@@ -9316,7 +9185,6 @@
         "id": 162,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Standards: UML, SysML",
         "description": [
                 "crystal-facet-uml shall draw diagrams that are compliant (subset) to UML or SysML."
@@ -9335,7 +9203,6 @@
         "id": 163,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Output: png, svg, pdf, ps, txt / db, xhtml, xmi",
         "description": [
                 "crystal-facet-uml shall produce output suitable to be processed by text layout engines:\n",
@@ -9534,7 +9401,6 @@
         "id": 175,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "PC: Hardware",
         "description": [
                 "The physical or virtual environment within the software runs."
@@ -9553,7 +9419,6 @@
         "id": 176,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Linux/Win: OS",
         "description": [
                 "The operating system that allows to run crystal-facet-uml."
@@ -9572,7 +9437,6 @@
         "id": 177,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "crystal-facet-uml process",
         "description": [
                 ""
@@ -9591,7 +9455,6 @@
         "id": 178,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "crystal-facet-uml application",
         "description": [
                 ""
@@ -9610,7 +9473,6 @@
         "id": 179,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "focused element (yellow corners)",
         "description": [
                 "a focused element is the one element to which input is directed:\n",
@@ -9630,7 +9492,6 @@
         "id": 180,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "selected element (pink corners)",
         "description": [
                 "a selected element is an element that belongs to the selected set"
@@ -9649,7 +9510,6 @@
         "id": 181,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "highlighted element (green color)",
         "description": [
                 "the highlightes element is the one on which the mouse arrow hovers.\n",
@@ -9669,7 +9529,6 @@
         "id": 182,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "logging",
         "description": [
                 "In RELEASE/NDEBUG mode, the program logs only important events, anomalies, warnings and errors.\n",
@@ -9690,7 +9549,6 @@
         "id": 183,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "tracing",
         "description": [
                 "In DEBUG mode, the program writes abundant information to a trace channel.\n",
@@ -9710,7 +9568,6 @@
         "id": 184,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "assertions",
         "description": [
                 "- assert() from assert.h checks during runtime (in DEBUG-mode) if assumptions on the code are valid.\n",
@@ -9731,7 +9588,6 @@
         "id": 185,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "technical strategy",
         "description": [
                 "crystal-facet-uml shall be portable,\n",
@@ -9754,7 +9610,6 @@
         "id": 186,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "user interface strategy",
         "description": [
                 "The user shall\n",
@@ -9781,7 +9636,6 @@
         "id": 187,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "see Todo list",
         "description": [
                 "A Todo-list exists in the git repository for things that shall be changed."
@@ -9800,7 +9654,6 @@
         "id": 188,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Static Memory Allocation",
         "description": [
                 "Except for the libraries gtk and sqlite (sqlite is configured for dynamic allocations),\n",
@@ -9822,7 +9675,6 @@
         "id": 189,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Interoperability",
         "description": [
                 "crystal-facet-uml has its strenghts.\n",
@@ -9847,7 +9699,6 @@
         "id": 190,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "SysML (M2)",
         "description": [
                 ""
@@ -9885,7 +9736,6 @@
         "id": 192,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "start",
         "description": [
                 ""
@@ -9904,7 +9754,6 @@
         "id": 193,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "GUI-mode",
         "description": [
                 ""
@@ -9923,7 +9772,6 @@
         "id": 194,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "utf8stringbuf",
         "description": [
                 "String library"
@@ -9982,7 +9830,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "export_trigger",
-            "value": "",
             "description": [
                 ""
             ],
@@ -10021,7 +9868,6 @@
         "id": 196,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "pencil.layout",
         "description": [
                 ""
@@ -10040,7 +9886,6 @@
         "id": 200,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "layout_diagram",
         "description": [
                 ""
@@ -10083,7 +9928,6 @@
         "id": 201,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "layout_feature",
         "description": [
                 ""
@@ -10126,7 +9970,6 @@
         "id": 202,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "layout _visible_classifier",
         "description": [
                 ""
@@ -10181,7 +10024,6 @@
         "id": 203,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "layout _relationship",
         "description": [
                 "\t"
@@ -10236,7 +10078,6 @@
         "id": 204,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "visible_classifier",
         "description": [
                 ""
@@ -10255,7 +10096,6 @@
         "id": 205,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "pencil.draw",
         "description": [
                 "Encapulates drawing routines for\n",
@@ -10277,7 +10117,6 @@
         "id": 206,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "image_format_writer",
         "description": [
                 ""
@@ -10296,7 +10135,6 @@
         "id": 207,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "io_export_model_traversal",
         "description": [
                 "cares about\n",
@@ -10316,7 +10154,6 @@
         "id": 208,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "io_exporter",
         "description": [
                 "cases about \n",
@@ -10334,7 +10171,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -10349,7 +10185,6 @@
         "id": 209,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "xhtml_element_writer (and xml/docbook)",
         "description": [
                 "cares about\n",
@@ -10367,7 +10202,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -10382,7 +10216,6 @@
         "id": 210,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "io/test/*",
         "description": [
                 ""
@@ -10401,7 +10234,6 @@
         "id": 211,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "utf8stringbuf/test/unit",
         "description": [
                 ""
@@ -10420,7 +10252,6 @@
         "id": 217,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Crosscutting Concepts",
         "description": [
                 "Trace, \n",
@@ -10443,7 +10274,6 @@
         "id": 218,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Trace",
         "description": [
                 "Performance:\n",
@@ -10465,7 +10295,6 @@
         "id": 219,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Log",
         "description": [
                 "Security:\n",
@@ -10485,7 +10314,6 @@
         "id": 220,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Program Assert",
         "description": [
                 "Use \"if(COND) {...}\n",
@@ -10511,7 +10339,6 @@
         "id": 221,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Assert-Goal",
         "description": [
                 "Maintainability:\n",
@@ -10544,7 +10371,6 @@
         "id": 222,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Log-Goal",
         "description": [
                 "Log Messages are written during operation\n",
@@ -10564,7 +10390,6 @@
         "id": 223,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Trace-Goal",
         "description": [
                 "Trace messages shall be activated for debugging\n",
@@ -10584,7 +10409,6 @@
         "id": 224,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Local Assert",
         "description": [
                 "Use \"assert(COND);\" statements\n",
@@ -10606,7 +10430,6 @@
         "id": 225,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "External Data Check",
         "description": [
                 "Use \"if(COND) {...} else {LOG(\"error\");}\"\n",
@@ -10629,7 +10452,6 @@
         "id": 226,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Test Environment Assert",
         "description": [
                 "Use \"TEST_ENVIRONMENT_ASSERT()\"\n",
@@ -10651,7 +10473,6 @@
         "id": 227,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "test_suite",
         "description": [
                 ""
@@ -10679,7 +10500,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "setup()",
-            "value": "",
             "description": [
                 ""
             ],
@@ -10691,7 +10511,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "tear_down()",
-            "value": "",
             "description": [
                 ""
             ],
@@ -10706,7 +10525,6 @@
         "id": 228,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "test_runner",
         "description": [
                 ""
@@ -10725,7 +10543,6 @@
         "id": 229,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "test_result",
         "description": [
                 ""
@@ -10744,7 +10561,6 @@
         "id": 230,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "test_assert",
         "description": [
                 ""
@@ -10763,7 +10579,6 @@
         "id": 231,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "test_fixture",
         "description": [
                 "The set of preconditions and cleanup-routines"
@@ -10782,7 +10597,6 @@
         "id": 232,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Export diagrams",
         "description": [
                 "Export diagrams for use in architecture Documents."
@@ -10801,7 +10615,6 @@
         "id": 233,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Use identical classifier in multiple diagrams",
         "description": [
                 "Provide means to use the identical classifier in multiple diagrams"
@@ -10836,7 +10649,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "sign",
-            "value": "",
             "description": [
                 ""
             ],
@@ -10851,7 +10663,6 @@
         "id": 235,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "data",
         "description": [
                 ""
@@ -10870,7 +10681,6 @@
         "id": 236,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "atk",
         "description": [
                 "Accessibility Toolkit, \n",
@@ -10890,7 +10700,6 @@
         "id": 237,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "gio",
         "description": [
                 "file system abstraction,\n",
@@ -10910,7 +10719,6 @@
         "id": 238,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "GUI Terms",
         "description": [
                 "see D0043#name."
@@ -10929,7 +10737,6 @@
         "id": 239,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Code Terms",
         "description": [
                 "see D0044#name."
@@ -10948,7 +10755,6 @@
         "id": 240,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Structure",
         "description": [
                 "The glossary is split into sections for contexts\n",
@@ -10970,7 +10776,6 @@
         "id": 241,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "thread-1",
         "description": [
                 ""
@@ -10986,7 +10791,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11001,7 +10805,6 @@
         "id": 242,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "thread-2",
         "description": [
                 ""
@@ -11017,7 +10820,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11032,7 +10834,6 @@
         "id": 244,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "r1 :data_data base_reader",
         "description": [
                 ""
@@ -11048,7 +10849,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11063,7 +10863,6 @@
         "id": 245,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "r2 :data_data base_reader",
         "description": [
                 "\n",
@@ -11094,7 +10893,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11109,7 +10907,6 @@
         "id": 246,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Stack Mem",
         "description": [
                 "On stack, only small data structures (<10kB) shall be stored."
@@ -11128,7 +10925,6 @@
         "id": 247,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Heap",
         "description": [
                 "Only the external libraries may use the heap."
@@ -11147,7 +10943,6 @@
         "id": 248,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Static Allocations",
         "description": [
                 "All data structures of crystal-facet-uml\n",
@@ -11167,7 +10962,6 @@
         "id": 249,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Error Codes",
         "description": [
                 "When a failure is detected, it shall be logged.\n",
@@ -11192,7 +10986,6 @@
         "id": 250,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Bitmask",
         "description": [
                 "The error bitmask shall be designed in a way\n",
@@ -11311,7 +11104,6 @@
         "id": 257,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "sketch",
         "description": [
                 "This component is the view and controller for the central sketch widget.\n",
@@ -11329,7 +11121,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11344,7 +11135,6 @@
         "id": 258,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "gui_search_request",
         "description": [
                 "This class manages\n",
@@ -11380,7 +11170,6 @@
         "id": 259,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Search Classifiers, find diagrams",
         "description": [
                 ""
@@ -11399,7 +11188,6 @@
         "id": 260,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "search_entry",
         "description": [
                 ""
@@ -11415,7 +11203,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11430,7 +11217,6 @@
         "id": 261,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "gui_search _runner",
         "description": [
                 ""
@@ -11446,7 +11232,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11461,7 +11246,6 @@
         "id": 262,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "gui_sketch _result_list",
         "description": [
                 ""
@@ -11477,7 +11261,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11492,7 +11275,6 @@
         "id": 263,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "search",
         "description": [
                 ""
@@ -11511,7 +11293,6 @@
         "id": 264,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "navigate",
         "description": [
                 ""
@@ -11530,7 +11311,6 @@
         "id": 265,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "edit",
         "description": [
                 ""
@@ -11549,7 +11329,6 @@
         "id": 266,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "create",
         "description": [
                 ""
@@ -11568,7 +11347,6 @@
         "id": 267,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Array List",
         "description": [
                 ""
@@ -11587,7 +11365,6 @@
         "id": 268,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "io_importer",
         "description": [
                 ""
@@ -11606,7 +11383,6 @@
         "id": 269,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "pencil::start",
         "description": [
                 ""
@@ -11625,7 +11401,6 @@
         "id": 270,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::draw",
         "description": [
                 ""
@@ -11644,7 +11419,6 @@
         "id": 271,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::define grid",
         "description": [
                 "implemented in pencil_diagram_maker"
@@ -11663,7 +11437,6 @@
         "id": 272,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::layout elements",
         "description": [
                 "implemented in pencil_diagram_maker"
@@ -11682,7 +11455,6 @@
         "id": 273,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "gui/io select operations",
         "description": [
                 ""
@@ -11701,7 +11473,6 @@
         "id": 274,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "pencil::finish",
         "description": [
                 ""
@@ -11720,7 +11491,6 @@
         "id": 275,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::classifier_layouter layout_*",
         "description": [
                 ""
@@ -11739,7 +11509,6 @@
         "id": 276,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::feature_layouter do_layout",
         "description": [
                 ""
@@ -11758,7 +11527,6 @@
         "id": 277,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::relationship_layouter layout_*",
         "description": [
                 ""
@@ -11777,7 +11545,6 @@
         "id": 278,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "pencil::begin",
         "description": [
                 ""
@@ -11796,7 +11563,6 @@
         "id": 279,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "pencil::end",
         "description": [
                 ""
@@ -11815,7 +11581,6 @@
         "id": 280,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::rel_label_layouter do_layout",
         "description": [
                 ""
@@ -11834,7 +11599,6 @@
         "id": 281,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::feat_label_layouter do_layout",
         "description": [
                 ""
@@ -11869,7 +11633,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -11884,7 +11647,6 @@
         "id": 283,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "data_id",
         "description": [
                 "A data-id is an identifier that refers to a table and a row-id in the database.\n",
@@ -11904,7 +11666,6 @@
         "id": 284,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "row_id",
         "description": [
                 "A row-id is an identifier for a data row within one table.\n",
@@ -11924,7 +11685,6 @@
         "id": 285,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Database Terms",
         "description": [
                 "see D0066#name."
@@ -11943,7 +11703,6 @@
         "id": 286,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Performance of User Interface",
         "description": [
                 ""
@@ -11981,7 +11740,6 @@
         "id": 288,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Degradation Mode Scenario",
         "description": [
                 "If memory resources are low,\n",
@@ -12049,7 +11807,6 @@
         "id": 291,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Aesthetics of Auto-layouted diagrams",
         "description": [
                 ""
@@ -12087,7 +11844,6 @@
         "id": 293,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Compatibility of Export-Formats",
         "description": [
                 ""
@@ -12106,7 +11862,6 @@
         "id": 294,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Data migration at SW Updates",
         "description": [
                 ""
@@ -12125,7 +11880,6 @@
         "id": 295,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Degradation Mode",
         "description": [
                 "In case of low memory,\n",
@@ -12170,7 +11924,6 @@
         "id": 298,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "How to traverse the model for XMI export?",
         "description": [
                 ""
@@ -12189,7 +11942,6 @@
         "id": 299,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "same as doc export is chosen in 1.23.0",
         "description": [
                 ""
@@ -12208,7 +11960,6 @@
         "id": 300,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "traverse diagram tree",
         "description": [
                 "as for other document exports,\n",
@@ -12234,7 +11985,6 @@
         "id": 301,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "sort classifiers by number of parents",
         "description": [
                 "traverse the list of classifiers,\n",
@@ -12260,7 +12010,6 @@
         "id": 302,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8stream",
         "description": [
                 ""
@@ -12279,7 +12028,6 @@
         "id": 303,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "File Output Stream",
         "description": [
                 ""
@@ -12298,7 +12046,6 @@
         "id": 304,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Memory Output Stream",
         "description": [
                 ""
@@ -12317,7 +12064,6 @@
         "id": 305,
         "main_type": 123,
         "type": "Interface",
-        "stereotype": "",
         "name": "Output Stream",
         "description": [
                 ""
@@ -12333,7 +12079,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -12348,7 +12093,6 @@
         "id": 306,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "documents",
         "description": [
                 "documents implements several strategies to traverse the model and diagram trees.\n",
@@ -12368,7 +12112,6 @@
         "id": 307,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "io_export_diagram_traversal",
         "description": [
                 "This class traverses the model in the database.\n",
@@ -12386,7 +12129,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -12401,7 +12143,6 @@
         "id": 308,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "xmi_element_writer",
         "description": [
                 ""
@@ -12420,7 +12161,6 @@
         "id": 309,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "txt_writer",
         "description": [
                 ""
@@ -12439,7 +12179,6 @@
         "id": 310,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "xml_writer",
         "description": [
                 ""
@@ -12458,7 +12197,6 @@
         "id": 311,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "md_filter",
         "description": [
                 ""
@@ -12477,7 +12215,6 @@
         "id": 312,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "pencil::activities",
         "description": [
                 ""
@@ -12496,7 +12233,6 @@
         "id": 313,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "runmodes",
         "description": [
                 ""
@@ -12515,7 +12251,6 @@
         "id": 314,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "classifier list is iterated in 1.24.0",
         "description": [
                 "classifier list is \n",
@@ -12538,7 +12273,6 @@
         "id": 315,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "How to generate the Interactions?",
         "description": [
                 "Interactions are\n",
@@ -12562,7 +12296,6 @@
         "id": 316,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Create an new \"Interaction\" Classifier",
         "description": [
                 "This solution is in line with the UML specification:\n",
@@ -12583,7 +12316,6 @@
         "id": 317,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Traverse the corresponding diagram",
         "description": [
                 "Traverse the corresponding diagram\n",
@@ -12604,7 +12336,6 @@
         "id": 318,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "planned solution",
         "description": [
                 "pro:\n",
@@ -12629,7 +12360,6 @@
         "id": 319,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Export model",
         "description": [
                 "The model can be exported in a machine-readable format."
@@ -12648,7 +12378,6 @@
         "id": 320,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Export document",
         "description": [
                 ""
@@ -12667,7 +12396,6 @@
         "id": 321,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "Widget States",
         "description": [
                 ""
@@ -12686,7 +12414,6 @@
         "id": 322,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "uninitialized",
         "description": [
                 ""
@@ -12705,7 +12432,6 @@
         "id": 323,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "data available",
         "description": [
                 ""
@@ -12724,7 +12450,6 @@
         "id": 324,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "layouted",
         "description": [
                 ""
@@ -12743,7 +12468,6 @@
         "id": 325,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "not-yet-layouted",
         "description": [
                 ""
@@ -12762,7 +12486,6 @@
         "id": 326,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "invalid layout",
         "description": [
                 ""
@@ -12781,7 +12504,6 @@
         "id": 327,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "icon",
         "description": [
                 "An icon is a small picture representing an element-type"
@@ -12800,7 +12522,6 @@
         "id": 328,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "contour",
         "description": [
                 "A countour is an outer line around an element.\n",
@@ -12820,7 +12541,6 @@
         "id": 329,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "label",
         "description": [
                 "A label is the text attached to the visual representation of an element.\n",
@@ -12840,7 +12560,6 @@
         "id": 330,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "symbol",
         "description": [
                 "A symbol is a drawing/picture representing the type of an element"
@@ -12859,7 +12578,6 @@
         "id": 331,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Label Compartment",
         "description": [
                 "The rectangular area containing\n",
@@ -12901,7 +12619,6 @@
         "id": 333,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "envelope",
         "description": [
                 "the rectangular outer bounds of \n",
@@ -12921,7 +12638,6 @@
         "id": 334,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "space",
         "description": [
                 "the rectangular area of \n",
@@ -13009,7 +12725,6 @@
         "id": 338,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Quality Tree",
         "description": [
                 ""
@@ -13028,7 +12743,6 @@
         "id": 339,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Quality Scenarios",
         "description": [
                 ""
@@ -13047,7 +12761,6 @@
         "id": 340,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Ordering by Quality Attributes",
         "description": [
                 "This section shows\n",
@@ -13068,7 +12781,6 @@
         "id": 341,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Ordering by Use Cases / Scenarios",
         "description": [
                 "This section shows\n",
@@ -13154,7 +12866,6 @@
         "id": 345,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Program Start and About Window",
         "description": [
                 ""
@@ -13173,7 +12884,6 @@
         "id": 346,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Open a Model Database",
         "description": [
                 ""
@@ -13192,7 +12902,6 @@
         "id": 347,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Export (Model and/or Diagrams)",
         "description": [
                 ""
@@ -13211,7 +12920,6 @@
         "id": 348,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Navigate and Search and Open multiple Windows",
         "description": [
                 ""
@@ -13230,7 +12938,6 @@
         "id": 349,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Modify / Create / Delete Diagrams and Elements",
         "description": [
                 ""
@@ -13249,7 +12956,6 @@
         "id": 350,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Undo and Redo",
         "description": [
                 ""
@@ -13268,7 +12974,6 @@
         "id": 351,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Check and Repair Database",
         "description": [
                 ""
@@ -13287,7 +12992,6 @@
         "id": 352,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Modify / Create / Delete Diagrams and Element",
         "description": [
                 ""
@@ -13306,7 +13010,6 @@
         "id": 353,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "layouting:start",
         "description": [
                 ""
@@ -13325,7 +13028,6 @@
         "id": 354,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "layouting:finish",
         "description": [
                 ""
@@ -13344,7 +13046,6 @@
         "id": 355,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "propose processing order",
         "description": [
                 "For the list of elements to be layouted, define the processing order."
@@ -13363,7 +13064,6 @@
         "id": 356,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "propose solutions",
         "description": [
                 "This step creates a set of possible solutions for 1 element to be layouted."
@@ -13382,7 +13082,6 @@
         "id": 357,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "select solution",
         "description": [
                 "This step selects the most promising of solutions for 1 element to be layouted."
@@ -13420,7 +13119,6 @@
         "id": 359,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "end of list?",
         "description": [
                 ""
@@ -13439,7 +13137,6 @@
         "id": 360,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Json as second/optional storage format",
         "description": [
                 "Rationale:\n",
@@ -13465,7 +13162,6 @@
         "id": 361,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "git merge",
         "description": [
                 ""
@@ -13484,7 +13180,6 @@
         "id": 362,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "git mergetool (manual)",
         "description": [
                 ""
@@ -13503,7 +13198,6 @@
         "id": 363,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "git blame",
         "description": [
                 ""
@@ -13522,7 +13216,6 @@
         "id": 368,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Disambiguation of non-unique IDs",
         "description": [
                 "Disambiguation of non-unique IDs of\n",
@@ -13546,7 +13239,6 @@
         "id": 369,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "human readable foreign keys",
         "description": [
                 "Foreign keys shall be human readable.\n",
@@ -13566,7 +13258,6 @@
         "id": 370,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "data exchange with external scripts",
         "description": [
                 ""
@@ -13585,7 +13276,6 @@
         "id": 371,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "git support",
         "description": [
                 "The model shall be stored in git in a way that\n",
@@ -13607,7 +13297,6 @@
         "id": 372,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "line-based data entries",
         "description": [
                 ""
@@ -13645,7 +13334,6 @@
         "id": 374,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "gui_sketch_nav_tree",
         "description": [
                 ""
@@ -13664,7 +13352,6 @@
         "id": 375,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Input Stream",
         "description": [
                 ""
@@ -13683,7 +13370,6 @@
         "id": 376,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Memory Input Stream",
         "description": [
                 ""
@@ -13702,7 +13388,6 @@
         "id": 377,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "File input stream",
         "description": [
                 ""
@@ -13721,7 +13406,6 @@
         "id": 378,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Utf8 Writer",
         "description": [
                 ""
@@ -13740,7 +13424,6 @@
         "id": 379,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Simple Random",
         "description": [
                 "Pseudo random number generator, not suitable for security appliances."
@@ -13759,7 +13442,6 @@
         "id": 380,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Escaping Output Stream",
         "description": [
                 ""
@@ -13778,7 +13460,6 @@
         "id": 381,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Stream Output Stream",
         "description": [
                 "Wrapper around posix output streams"
@@ -13797,7 +13478,6 @@
         "id": 382,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "Database File",
         "description": [
                 "Data models of crystal-facet-uml are stored to and read from sqlite database files."
@@ -13816,7 +13496,6 @@
         "id": 383,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "JSON Data Exchange",
         "description": [
                 "Data models of crystal-facet-uml are stored to and read from json files."
@@ -13835,7 +13514,6 @@
         "id": 384,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Version Control System",
         "description": [
                 ""
@@ -13854,7 +13532,6 @@
         "id": 385,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "Other export formats",
         "description": [
                 "Data models of crystal-facet-uml are exported as rendered images and/or text-based data files."
@@ -13873,7 +13550,6 @@
         "id": 386,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "ERROR",
         "description": [
                 ""
@@ -13892,7 +13568,6 @@
         "id": 387,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Error-Categories by Reaction",
         "description": [
                 ""
@@ -13911,7 +13586,6 @@
         "id": 388,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "CONTINUE",
         "description": [
                 ""
@@ -13930,7 +13604,6 @@
         "id": 389,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "NO_START",
         "description": [
                 ""
@@ -13949,7 +13622,6 @@
         "id": 390,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "TERMINATE",
         "description": [
                 ""
@@ -13968,7 +13640,6 @@
         "id": 391,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "USR_ERROR",
         "description": [
                 ""
@@ -13999,7 +13670,6 @@
         "id": 392,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "OP1_ERROR",
         "description": [
                 ""
@@ -14030,7 +13700,6 @@
         "id": 393,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "OP0_ERROR",
         "description": [
                 ""
@@ -14046,7 +13715,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "notify operator",
-            "value": "",
             "description": [
                 ""
             ],
@@ -14061,7 +13729,6 @@
         "id": 394,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "LOGIC_ERROR",
         "description": [
                 ""
@@ -14077,7 +13744,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "notify developer",
-            "value": "",
             "description": [
                 ""
             ],
@@ -14168,7 +13834,6 @@
         "id": 399,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Error-Categories by Cause",
         "description": [
                 ""
@@ -14320,7 +13985,6 @@
         "id": 407,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "ctrl_multi_step_changer",
         "description": [
                 "performs multi-step operations:\n",
@@ -14344,7 +14008,6 @@
         "id": 408,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Import model",
         "description": [
                 "The model can be imported from a machine-readable data format.\n",
@@ -14383,7 +14046,6 @@
         "id": 410,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8arena",
         "description": [
                 "This package provides functions to provide dynamic-sized data structures which are allocated within a fixed-size memory region."
@@ -14402,7 +14064,6 @@
         "id": 411,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "u8_error",
         "description": [
                 "An error mask representing one or multiple errors"
@@ -14421,7 +14082,6 @@
         "id": 412,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8list",
         "description": [
                 "This package is a collection of functinos to handle variable-length lists in statically allocated fixed-sized buffers."
@@ -14440,7 +14100,6 @@
         "id": 413,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8buf",
         "description": [
                 ""
@@ -14459,7 +14118,6 @@
         "id": 414,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "utf8stream",
         "description": [
                 "readers and writers that stream unicode code points instead of bytes."
@@ -14478,7 +14136,6 @@
         "id": 415,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "main_commands",
         "description": [
                 ""
@@ -14497,7 +14154,6 @@
         "id": 416,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "io_data_file",
         "description": [
                 ""
@@ -14513,7 +14169,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "database",
-            "value": "",
             "description": [
                 ""
             ],
@@ -14525,7 +14180,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "controller",
-            "value": "",
             "description": [
                 ""
             ],
@@ -14540,7 +14194,6 @@
         "id": 417,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "uuid",
         "description": [
                 "A uuid identifies a data record.\n",
@@ -14562,7 +14215,6 @@
         "id": 418,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "u8_error_info",
         "description": [
                 "An error info struct representing one error with detailed information"
@@ -14581,7 +14233,6 @@
         "id": 419,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "gui_simple_message_to_user",
         "description": [
                 "This class is the controller for the status bar widgets"
@@ -14600,7 +14251,6 @@
         "id": 420,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Constant order for unchanged parts",
         "description": [
                 "When merging two text files that have parts in common (the unchanged parts), then it is important that these unchanged parts occur in the same order in both files.\n",
@@ -14620,7 +14270,6 @@
         "id": 421,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "io_export_flat_traversal",
         "description": [
                 ""
@@ -14639,7 +14288,6 @@
         "id": 422,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "json_element_writer",
         "description": [
                 ""
@@ -14658,7 +14306,6 @@
         "id": 423,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8dir",
         "description": [
                 ""
@@ -14677,7 +14324,6 @@
         "id": 424,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "u8",
         "description": [
                 ""
@@ -14696,7 +14342,6 @@
         "id": 425,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Locks needed here",
         "description": [
                 "The data_database_writer\n",
@@ -14714,7 +14359,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],

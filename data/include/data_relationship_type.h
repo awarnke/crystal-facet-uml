@@ -44,7 +44,7 @@ enum data_relationship_type_enum {
     DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT = 300,
     /* requirement diagram, SysML: */
     DATA_RELATIONSHIP_TYPE_UML_REFINE = 400,  /*!< adapts the original requirement */
-    DATA_RELATIONSHIP_TYPE_UML_TRACE = 401,   /*!< linkt to the unmodified requirement */
+    DATA_RELATIONSHIP_TYPE_UML_TRACE = 401,   /*!< links to the unmodified requirement */
     /* DATA_RELATIONSHIP_TYPE_UML_COPY = 402, */  /* is a specialization of DATA_RELATIONSHIP_TYPE_UML_TRACE */
     /* DATA_RELATIONSHIP_TYPE_UML_VERIFY = 403, */  /* is a specialization of DATA_RELATIONSHIP_TYPE_UML_TRACE */
     /* DATA_RELATIONSHIP_TYPE_UML_SATISFY = 404, */  /* is a specialization of DATA_RELATIONSHIP_TYPE_UML_TRACE */

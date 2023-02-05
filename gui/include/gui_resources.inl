@@ -390,6 +390,11 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_state ( gui_resources
     return (*this_).type_clas_state;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_clas_stereotype ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_stereotype;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_clas_subsystem ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_subsystem;
@@ -448,6 +453,11 @@ static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resourc
 static inline const GdkPixbuf *gui_resources_get_type_feat_rx ( gui_resources_t *this_ )
 {
     return (*this_).type_feat_rx;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_feat_tag ( gui_resources_t *this_ )
+{
+    return (*this_).type_feat_tag;
 }
 
 static inline const GdkPixbuf *gui_resources_get_type_feat_tx ( gui_resources_t *this_ )

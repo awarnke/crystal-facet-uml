@@ -97,6 +97,7 @@ struct gui_resources_struct {
     GdkPixbuf *type_clas_requirement;
     GdkPixbuf *type_clas_send;
     GdkPixbuf *type_clas_state;
+    GdkPixbuf *type_clas_stereotype;
     GdkPixbuf *type_clas_subsystem;
     GdkPixbuf *type_clas_time;
     GdkPixbuf *type_clas_usecase;
@@ -110,6 +111,7 @@ struct gui_resources_struct {
     GdkPixbuf *type_feat_provide;
     GdkPixbuf *type_feat_require;
     GdkPixbuf *type_feat_rx;
+    GdkPixbuf *type_feat_tag;
     GdkPixbuf *type_feat_tx;
 
     GdkPixbuf *type_rel_aggregate;
@@ -693,6 +695,13 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_send ( gui_resources_
 static inline const GdkPixbuf *gui_resources_get_type_clas_state ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_clas_stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_stereotype ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_clas_subsystem
  *
  *  \param this_ pointer to own object attributes
@@ -775,6 +784,13 @@ static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resourc
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_feat_rx ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_feat_tag
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_feat_tag ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_tx

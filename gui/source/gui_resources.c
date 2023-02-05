@@ -73,7 +73,6 @@
 #include "resources/type_clas_actor.c"
 #include "resources/type_clas_artifact.c"
 #include "resources/type_clas_block.c"
-#include "resources/type_clas_subsystem.c"
 #include "resources/type_clas_class.c"
 #include "resources/type_clas_comment.c"
 #include "resources/type_clas_component.c"
@@ -93,6 +92,8 @@
 #include "resources/type_clas_requirement.c"
 #include "resources/type_clas_send.c"
 #include "resources/type_clas_state.c"
+#include "resources/type_clas_stereotype.c"
+#include "resources/type_clas_subsystem.c"
 #include "resources/type_clas_time.c"
 #include "resources/type_clas_usecase.c"
 
@@ -105,6 +106,7 @@
 #include "resources/type_feat_provide.c"
 #include "resources/type_feat_require.c"
 #include "resources/type_feat_rx.c"
+#include "resources/type_feat_tag.c"
 #include "resources/type_feat_tx.c"
 
 #include "resources/type_rel_aggregate.c"
@@ -226,6 +228,7 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_clas_requirement = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_requirement ) );
     (*this_).type_clas_send = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_send ) );
     (*this_).type_clas_state = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_state ) );
+    (*this_).type_clas_stereotype = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_stereotype ) );
     (*this_).type_clas_subsystem = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_subsystem ) );
     (*this_).type_clas_time = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_time ) );
     (*this_).type_clas_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_usecase ) );
@@ -239,6 +242,7 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_feat_provide = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_provide ) );
     (*this_).type_feat_require = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_require ) );
     (*this_).type_feat_rx = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_rx ) );
+    (*this_).type_feat_tag = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_tag ) );
     (*this_).type_feat_tx = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_tx ) );
 
     (*this_).type_rel_aggregate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_aggregate ) );
@@ -358,6 +362,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_clas_requirement);
     g_object_unref ((*this_).type_clas_send);
     g_object_unref ((*this_).type_clas_state);
+    g_object_unref ((*this_).type_clas_stereotype);
     g_object_unref ((*this_).type_clas_subsystem);
     g_object_unref ((*this_).type_clas_time);
     g_object_unref ((*this_).type_clas_usecase);
@@ -371,6 +376,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_feat_provide);
     g_object_unref ((*this_).type_feat_require);
     g_object_unref ((*this_).type_feat_rx);
+    g_object_unref ((*this_).type_feat_tag);
     g_object_unref ((*this_).type_feat_tx);
 
     g_object_unref ((*this_).type_rel_aggregate);

@@ -24,12 +24,12 @@ enum data_feature_type_enum {
     DATA_FEATURE_TYPE_OUT_PORT_PIN = 7,  /* port with SysML-ItemFlow, activity output pin */
     DATA_FEATURE_TYPE_ENTRY = 8,  /* control flow pseudostate for state entry */
     DATA_FEATURE_TYPE_EXIT = 9,  /* control flow pseudostate for state exit */
-    /*DATA_FEATURE_TYPE_TAG = 10,*/  /* tagged value, update DATA_FEATURE_TYPE_COUNT when enabled */
+    DATA_FEATURE_TYPE_TAGGED_VALUE = 10,  /* tagged value, since 1.47.0 */
 };
 
 typedef enum data_feature_type_enum data_feature_type_t;
 
-#define DATA_FEATURE_TYPE_COUNT (10)
+#define DATA_FEATURE_TYPE_COUNT (11)
 
 /*!
  *  \brief lists all values of data_feature_type_t, excluding DATA_FEATURE_TYPE_VOID
