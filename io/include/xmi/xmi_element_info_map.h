@@ -39,6 +39,7 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_CLASS,
     XMI_ELEMENT_INFO_MAP_INDEX_ARTIFACT,
     XMI_ELEMENT_INFO_MAP_INDEX_COMMENT,
+    XMI_ELEMENT_INFO_MAP_INDEX_STEREOTYPE,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_ACTIVITY_INITIAL_NODE,
     XMI_ELEMENT_INFO_MAP_INDEX_DYN_STATE_INITIAL_NODE,
@@ -67,6 +68,7 @@ enum xmi_element_info_map_index_enum {
     XMI_ELEMENT_INFO_MAP_INDEX_LIFELINE,
     XMI_ELEMENT_INFO_MAP_INDEX_PROVIDED_INTERFACE,
     XMI_ELEMENT_INFO_MAP_INDEX_REQUIRED_INTERFACE,
+    XMI_ELEMENT_INFO_MAP_INDEX_TAGGED_VALUE,
 
     /* ================================ RELATIONSHIP ================================ */
     XMI_ELEMENT_INFO_MAP_INDEX_DEPENDENCY,
@@ -93,7 +95,7 @@ enum xmi_element_info_map_index_enum {
 
 typedef enum xmi_element_info_map_index_enum xmi_element_info_map_index_t;
 
-#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (64)
+#define XMI_ELEMENT_INFO_MAP_INDEX_MAX (66)
 
 typedef xmi_element_info_t xmi_element_info_map_t[XMI_ELEMENT_INFO_MAP_INDEX_MAX];
 

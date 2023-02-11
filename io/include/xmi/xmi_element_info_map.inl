@@ -164,6 +164,13 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
         }
         break;
 
+        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STEREOTYPE]);
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_STEREOTYPE );
+        }
+        break;
+
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION]);
@@ -389,6 +396,13 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_REQUIRED_INTERFACE]);
             assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_REQUIRED_INTERFACE );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_TAGGED_VALUE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_TAGGED_VALUE]);
+            assert ( (*result).data_type_checksum == (int)DATA_FEATURE_TYPE_TAGGED_VALUE );
         }
         break;
 

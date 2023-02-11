@@ -222,6 +222,17 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = NULL,
     },
+    [XMI_ELEMENT_INFO_MAP_INDEX_STEREOTYPE] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.1.3 */
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_STEREOTYPE,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "Stereotype",
+        .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
     [XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 15.7.19 */
@@ -541,6 +552,17 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .profile_name             = NULL,
         .base_name                = "Interface",
         .is_a                     = (XMI_ELEMENT_IS_A_CLASSIFIER),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
+    [XMI_ELEMENT_INFO_MAP_INDEX_TAGGED_VALUE] = {
+        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF TODO lookup spec is t.b.d. */
+        .data_type_checksum       = (int) DATA_FEATURE_TYPE_TAGGED_VALUE,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "TaggedValue",
+        .is_a                     = (XMI_ELEMENT_IS_A_PROPERTY),
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,

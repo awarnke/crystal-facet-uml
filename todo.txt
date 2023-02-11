@@ -24,6 +24,7 @@ ideas for future versions:
   [?] activity diagrams need swimlanes/partition
 ! [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()
 ! [ ] allow linebreaks in feature and relationship labels
+  [ ] Draw unknown classifier and feature and relationship types nicely, unlike stereotypes and tagged-values in 1.46.0
   @io
   [ ] export formats: enhance xmi standard compliance
   [?] import XMI format

@@ -1,0 +1,160 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 1,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.47.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Database-Profile",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "b4ecb19f-61eb-4c15-ad72-514da9d02e8c",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "Component",
+            "node": "1abe459d-2d6d-4ed2-9202-2eee0b5d02e4",
+            "uuid": "1ffce329-315e-4e68-9c6a-a860891d5b95"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "database",
+            "node": "20587e28-788f-4817-a25a-f0be7af7c098",
+            "uuid": "839e8d7e-7607-45c3-b4ba-8a35097d704d"
+          },
+          {
+            "id": 3,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Example-DB",
+            "node": "ab6d7b53-3170-4703-b97f-8700f5792938",
+            "uuid": "1717a422-520f-4883-93ac-9e9bbf980aab"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "metamodel",
+        "name": "Component",
+        "description": [
+                ""
+        ],
+        "x_order": -321127626,
+        "y_order": -1209119167,
+        "list_order": -1209119167,
+        "uuid": "1abe459d-2d6d-4ed2-9202-2eee0b5d02e4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 139,
+        "type": "Stereotype",
+        "stereotype": "stereotype",
+        "name": "database",
+        "description": [
+                ""
+        ],
+        "x_order": -274984128,
+        "y_order": 705318536,
+        "list_order": 705318536,
+        "uuid": "20587e28-788f-4817-a25a-f0be7af7c098",
+        "features":
+        [
+          {
+            "id": 2,
+            "main_type": 0,
+            "type": "Property",
+            "key": "impl",
+            "value": "string",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "e57f54e5-7123-4e6f-9929-1e70e0e38d51"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 121,
+        "type": "Component",
+        "stereotype": "database",
+        "name": "Example-DB",
+        "description": [
+                ""
+        ],
+        "x_order": 667862918,
+        "y_order": -1209119167,
+        "list_order": -1209119167,
+        "uuid": "ab6d7b53-3170-4703-b97f-8700f5792938",
+        "features":
+        [
+          {
+            "id": 1,
+            "main_type": 10,
+            "type": "TaggedValue",
+            "key": "impl",
+            "value": "sqlite3",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "fe9b12ef-85dd-4544-a921-9a39ea79f562"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "database",
+        "to_classifier_name": "Component",
+        "from_node": "20587e28-788f-4817-a25a-f0be7af7c098",
+        "to_node": "1abe459d-2d6d-4ed2-9202-2eee0b5d02e4",
+        "uuid": "a5c5ea89-d33e-48d3-baa9-22b62966f4e0"
+      }
+    }
+  ]
+}

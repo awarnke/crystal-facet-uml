@@ -237,6 +237,12 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
             }
             break;
 
+            case DATA_CLASSIFIER_TYPE_STEREOTYPE:
+            {
+                result = DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION;
+            }
+            break;
+
             default:
             {
                 U8_LOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_relationship_type");
@@ -350,6 +356,14 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         }
         break;
 
+        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
+        {
+             /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.4 */
+             /* a property of a stereotype-class is a tagged-value definition */
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+
         default:
         {
             U8_LOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_feature_type");
@@ -400,6 +414,7 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         case DATA_CLASSIFIER_TYPE_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_STATE:
+        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
         {
             result = true;
         }
