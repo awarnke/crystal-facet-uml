@@ -98,6 +98,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
         case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
         {
             /* standard size */
             geometry_rectangle_replace( &result, outer_bounds );
@@ -239,6 +240,7 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
         case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
         {
             /* standard size */
             geometry_rectangle_replace( &result, inner_area );

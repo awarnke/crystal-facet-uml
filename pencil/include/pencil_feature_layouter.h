@@ -135,7 +135,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                                       );
 
 /*!
- *  \brief determines the symbol box of a property or operation
+ *  \brief determines the symbol box of a property or operation or tagged-value
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_space space area in the classifier
@@ -143,12 +143,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_feature_layout output parameter: feature layout coordinates
  */
-void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter_t *this_,
-                                                         const geometry_rectangle_t *classifier_space,
-                                                         const data_feature_t *the_feature,
-                                                         PangoLayout *font_layout,
-                                                         layout_feature_t *out_feature_layout
-                                                       );
+void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layouter_t *this_,
+                                                          const geometry_rectangle_t *classifier_space,
+                                                          const data_feature_t *the_feature,
+                                                          PangoLayout *font_layout,
+                                                          layout_feature_t *out_feature_layout
+                                                        );
 
 #endif  /* PENCIL_FEATURE_LAYOUTER_H */
 

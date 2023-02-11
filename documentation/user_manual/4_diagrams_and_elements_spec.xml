@@ -183,6 +183,7 @@
                             <entry><para>* / unconditional features</para></entry>
                             <entry>
                                 <para>Exists since version 1.47.0; cannot be used in version 1.46.0 and older.</para>
+                                <para>The description field is reserved and shall not be used. Use an additional comment instead.</para>
                             </entry>
                         </row>
                         <row>
@@ -1085,7 +1086,7 @@
                                 Profile Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>not supported</para></entry>
+                            <entry><para>Image elements are not yet supported</para></entry>
                         </row>
                         <row>
                             <entry><para>

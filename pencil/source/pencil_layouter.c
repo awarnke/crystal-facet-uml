@@ -774,7 +774,8 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
             switch (feature_type)
             {
                 case DATA_FEATURE_TYPE_PROPERTY:  /* or */
-                case DATA_FEATURE_TYPE_OPERATION:
+                case DATA_FEATURE_TYPE_OPERATION:  /* or */
+                case DATA_FEATURE_TYPE_TAGGED_VALUE:
                 {
                     int32_t max_order_above = INT32_MIN;
                     int32_t min_order_below = INT32_MAX;

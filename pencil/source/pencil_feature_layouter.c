@@ -115,16 +115,17 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             break;
 
             case DATA_FEATURE_TYPE_PROPERTY:  /* or */
-            case DATA_FEATURE_TYPE_OPERATION:
+            case DATA_FEATURE_TYPE_OPERATION:  /* or */
+            case DATA_FEATURE_TYPE_TAGGED_VALUE:
             {
-                /* layout property or operation feature within the space area */
+                /* layout property or operation feature within the space area, also the tagged values */
                 const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const ( layout_classifier );
-                pencil_feature_layouter_private_layout_prop_or_op ( this_,
-                                                                    c_space,
-                                                                    the_feature,
-                                                                    font_layout,
-                                                                    feature_layout
-                                                                  );
+                pencil_feature_layouter_private_layout_compartment ( this_,
+                                                                     c_space,
+                                                                     the_feature,
+                                                                     font_layout,
+                                                                     feature_layout
+                                                                   );
             }
             break;
 
@@ -408,11 +409,11 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
     U8_TRACE_END();
 }
 
-void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter_t *this_,
-                                                         const geometry_rectangle_t *classifier_space,
-                                                         const data_feature_t *the_feature,
-                                                         PangoLayout *font_layout,
-                                                         layout_feature_t *out_feature_layout )
+void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layouter_t *this_,
+                                                          const geometry_rectangle_t *classifier_space,
+                                                          const data_feature_t *the_feature,
+                                                          PangoLayout *font_layout,
+                                                          layout_feature_t *out_feature_layout )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != classifier_space );
@@ -448,10 +449,12 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
                 f_probe_data = layout_feature_get_data_const ( f_probe_layout );
                 assert ( NULL != f_probe_data );
                 const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
-                const bool property_or_operation = ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
-                    || ( DATA_FEATURE_TYPE_OPERATION == f_probe_type );
+                const bool layout_in_compartment
+                    = ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
+                    || ( DATA_FEATURE_TYPE_OPERATION == f_probe_type )
+                    || ( DATA_FEATURE_TYPE_TAGGED_VALUE == f_probe_type );
 
-                if ( property_or_operation )
+                if ( layout_in_compartment )
                 {
                     const bool is_above = (( data_feature_get_list_order( f_probe_data ) < data_feature_get_list_order( the_feature ))
                         || (( data_feature_get_list_order( f_probe_data ) == data_feature_get_list_order( the_feature ) )
@@ -467,7 +470,12 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
 
     /* determine compartments above the current */
     const data_feature_type_t f_type = data_feature_get_main_type (the_feature);
-    const uint32_t count_compartments_above = (DATA_FEATURE_TYPE_OPERATION==f_type)?1:0;  /* first compartment for properties, second for operations */
+    const uint32_t count_compartments_above
+        = ( DATA_FEATURE_TYPE_PROPERTY == f_type )
+        ? 0
+        : ( DATA_FEATURE_TYPE_OPERATION == f_type )
+        ? 1
+        : 2;  /* first compartment for properties, second for operations, third for tagged values */
 
     /* determine the minimum bounds of the feature */
     geometry_dimensions_t f_min_bounds;
@@ -522,12 +530,13 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
             = layout_feature_get_data_const ( feature_layout );
         const layout_visible_classifier_t *const layout_classifier
             = layout_feature_get_classifier_const ( feature_layout );
-        const bool property_or_operation
+        const bool layout_in_compartment
             = ( DATA_FEATURE_TYPE_PROPERTY == data_feature_get_main_type ( the_feature ) )
-            || ( DATA_FEATURE_TYPE_OPERATION == data_feature_get_main_type ( the_feature ) );
+            || ( DATA_FEATURE_TYPE_OPERATION == data_feature_get_main_type ( the_feature ) )
+            || ( DATA_FEATURE_TYPE_TAGGED_VALUE == data_feature_get_main_type ( the_feature ) );
 
         if (( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
-            && property_or_operation )
+            && layout_in_compartment )
         {
             geometry_dimensions_t min_feature_bounds;
             geometry_dimensions_init_empty( &min_feature_bounds );

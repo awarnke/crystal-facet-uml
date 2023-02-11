@@ -150,6 +150,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             case DATA_CLASSIFIER_TYPE_CLASS:
             case DATA_CLASSIFIER_TYPE_OBJECT:
             case DATA_CLASSIFIER_TYPE_INTERFACE:
+            case DATA_CLASSIFIER_TYPE_STEREOTYPE:
             {
                 draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
                 pencil_classifier_composer_private_draw_feature_compartments( this_,
@@ -887,6 +888,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     /* determine number of properties and operations */
     uint32_t count_properties = 0;
     uint32_t count_operations = 0;
+    uint32_t count_tagged_values = 0;
     {
         /* define names for input data */
         const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
@@ -916,12 +918,16 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
                 {
                     count_operations ++;
                 }
+                else if ( DATA_FEATURE_TYPE_TAGGED_VALUE == f_probe_type )
+                {
+                    count_tagged_values ++;
+                }
             }
         }
     }
 
     /* draw compartments if there are features */
-    if (( count_properties != 0 )||( count_operations != 0 ))
+    if (( count_properties != 0 )||( count_operations != 0 )||( count_tagged_values != 0 ))
     {
         /* define names for input data */
         const geometry_rectangle_t *const classifier_symbol_box
@@ -931,24 +937,22 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
         const double feature_height = pencil_size_get_standard_font_size( pencil_size )
             + pencil_size_get_font_line_gap( pencil_size );
         const double gap = pencil_size_get_standard_object_border( pencil_size );
+
         const double y_coordinate_1 = geometry_rectangle_get_top( classifier_space );
-        const double y_coordinate_2 = geometry_rectangle_get_top( classifier_space )
-            + ( count_properties * feature_height ) + ( 2.0 * gap );
-
-
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
                                                         classifier_symbol_box,
                                                         y_coordinate_1,
                                                         pencil_size,
                                                         cr
                                                       );
+        const double y_coordinate_2 = geometry_rectangle_get_top( classifier_space )
+            + ( count_properties * feature_height ) + ( 2.0 * gap );
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
                                                         classifier_symbol_box,
                                                         y_coordinate_2,
                                                         pencil_size,
                                                         cr
                                                       );
-        /*
         const double y_coordinate_3 = geometry_rectangle_get_top( classifier_space )
             + ( (count_properties+count_operations) * feature_height ) + ( 4.0 * gap );
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
@@ -957,7 +961,6 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
                                                         pencil_size,
                                                         cr
                                                       );
-        */
     }
 
     U8_TRACE_END();

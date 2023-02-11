@@ -300,6 +300,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
         case DATA_CLASSIFIER_TYPE_ARTIFACT:
         case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
+        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
         {
             /* there is a border line */
             x_gap = 2*gap;

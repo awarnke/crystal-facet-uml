@@ -478,7 +478,7 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
     {
         list_order = port_list_order;
     }
-    else  /* DATA_FEATURE_TYPE_PROPERTY or DATA_FEATURE_TYPE_OPERATION */
+    else  /* DATA_FEATURE_TYPE_PROPERTY or DATA_FEATURE_TYPE_OPERATION or DATA_FEATURE_TYPE_TAGGED_VALUE */
     {
         list_order = std_list_order;
     }
@@ -582,6 +582,7 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
     static char *(CLASS_NAMES[8]) = {"New Serializer","New Deserializer","New CompressionAlg","New Transformer","New Wrapper","New EventLoop","New RingBuffer","New Multiplexer"};
     static char *(PACKAGE_NAMES[8]) = {"New Drivers","New Platform Services","New User Applications","New Utilities","New Debug Tools","New Authentication and Authorization","New Controller","New Maintenance Tools"};
     static char *(NOTE_NAMES[8]) = {"New Note","New Comment","New Hint","New Todo","New Remark","New Question","New Rationale","New Proposal"};
+    static char *(STEREOTYPE_NAMES[8]) = {"New transient","New persistent","New 3rd-party","New entity","New database","New decision","New testcase","New copy-of"};
 
     cycle_names ++;
 
@@ -701,6 +702,12 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         }
         break;
 
+        case DATA_CLASSIFIER_TYPE_STEREOTYPE:
+        {
+            utf8stringbuf_copy_str( out_name, STEREOTYPE_NAMES[cycle_names&0x07] );
+        }
+        break;
+
         default:
         {
             U8_LOG_ERROR("data_classifier_type_t out of range in gui_sketch_object_creator_private_propose_classifier_name");
@@ -728,6 +735,7 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
     switch ( f_type )
     {
         case DATA_FEATURE_TYPE_PROPERTY:
+        case DATA_FEATURE_TYPE_TAGGED_VALUE:
         {
             utf8stringbuf_copy_str( out_name, PROPERTY_NAMES[cycle_names&0x07] );
         }
@@ -762,22 +770,26 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
             utf8stringbuf_copy_str( out_name, IF_NAMES[cycle_names&0x07] );
         }
         break;
+
         case DATA_FEATURE_TYPE_IN_PORT_PIN:
         case DATA_FEATURE_TYPE_OUT_PORT_PIN:
         {
             utf8stringbuf_copy_str( out_name, IO_PORT_NAMES[cycle_names&0x07] );
         }
         break;
+
         case DATA_FEATURE_TYPE_ENTRY:
         {
             utf8stringbuf_copy_str( out_name, ENTRY_NAMES[cycle_names&0x07] );
         }
         break;
+
         case DATA_FEATURE_TYPE_EXIT:
         {
             utf8stringbuf_copy_str( out_name, EXIT_NAMES[cycle_names&0x07] );
         }
         break;
+
         default:
         {
             U8_LOG_ERROR("data_feature_type_t out of range in gui_sketch_object_creator_private_propose_feature_name");

@@ -104,7 +104,8 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             break;
 
             case DATA_FEATURE_TYPE_PROPERTY: /* or */
-            case DATA_FEATURE_TYPE_OPERATION:
+            case DATA_FEATURE_TYPE_OPERATION: /* or */
+            case DATA_FEATURE_TYPE_TAGGED_VALUE:
             {
                 /* no icon */
             }

@@ -123,7 +123,7 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
 
         case DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM:
         {
-            result = DATA_CLASSIFIER_TYPE_CLASS;
+            result = DATA_CLASSIFIER_TYPE_STEREOTYPE;
         }
         break;
 
@@ -265,7 +265,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
 
         case DATA_CLASSIFIER_TYPE_REQUIREMENT:
         {
-            result = DATA_FEATURE_TYPE_PROPERTY;
+            result = DATA_FEATURE_TYPE_TAGGED_VALUE;
         }
         break;
 
@@ -340,20 +340,20 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
 
         case DATA_CLASSIFIER_TYPE_PACKAGE:
         {
-            result = DATA_FEATURE_TYPE_PROPERTY;
+            result = DATA_FEATURE_TYPE_TAGGED_VALUE;
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_COMMENT:
         {
-            result = DATA_FEATURE_TYPE_PROPERTY;
+            result = DATA_FEATURE_TYPE_TAGGED_VALUE;
         }
         break;
 
         default:
         {
             U8_LOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_feature_type");
-            result = DATA_FEATURE_TYPE_PROPERTY;
+            result = DATA_FEATURE_TYPE_TAGGED_VALUE;
             /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
         }
         break;
