@@ -194,12 +194,12 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
  *  \brief writes constents of a a feature
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_type type of the owning host classifier
+ *  \param parent the owning host classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
  *  \return 0 in case of success, -1 otherwise
  */
 int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
+                                         const data_classifier_t *parent,
                                          const data_feature_t *feature_ptr
                                        );
 

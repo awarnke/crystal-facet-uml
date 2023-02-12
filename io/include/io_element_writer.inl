@@ -103,33 +103,33 @@ static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
 }
 
 static inline int io_element_writer_start_feature( io_element_writer_t *this_,
-                                                   data_classifier_type_t host_type,
+                                                   data_classifier_type_t parent_type,
                                                    const data_feature_t *feature_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     assert( (*((*this_).interface)).start_feature != NULL );
-    return (*(  (*((*this_).interface)).start_feature  )) ( (*this_).objectdata, host_type, feature_ptr );
+    return (*(  (*((*this_).interface)).start_feature  )) ( (*this_).objectdata, parent_type, feature_ptr );
 }
 
 static inline int io_element_writer_assemble_feature( io_element_writer_t *this_,
-                                                      data_classifier_type_t host_type,
+                                                      const data_classifier_t *parent,
                                                       const data_feature_t *feature_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     assert( (*((*this_).interface)).assemble_feature != NULL );
-    return (*(  (*((*this_).interface)).assemble_feature  )) ( (*this_).objectdata, host_type, feature_ptr );
+    return (*(  (*((*this_).interface)).assemble_feature  )) ( (*this_).objectdata, parent, feature_ptr );
 }
 
 static inline int io_element_writer_end_feature( io_element_writer_t *this_,
-                                                 data_classifier_type_t host_type,
+                                                 data_classifier_type_t parent_type,
                                                  const data_feature_t *feature_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
     assert( (*((*this_).interface)).end_feature != NULL );
-    return (*(  (*((*this_).interface)).end_feature  )) ( (*this_).objectdata, host_type, feature_ptr );
+    return (*(  (*((*this_).interface)).end_feature  )) ( (*this_).objectdata, parent_type, feature_ptr );
 }
 
 static inline int io_element_writer_start_relationship( io_element_writer_t *this_,

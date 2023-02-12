@@ -782,11 +782,12 @@ int xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
 }
 
 int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
-                                           data_classifier_type_t parent_type,
+                                           const data_classifier_t *parent,
                                            const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
+    assert( parent != NULL );
     int export_err = 0;
 
     const char *const feature_key = data_feature_get_key_const( feature_ptr );

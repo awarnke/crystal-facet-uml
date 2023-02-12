@@ -72,6 +72,7 @@ static const char XMI2_ENC[]
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a,1e,1f */
 /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.1.3 */
 /* spec-ref: https://www.omg.org/spec/SysML/1.6/PDF chapter G.3 */
+/* spec-ref: https://www.omg.org/spec/MOF/2.5.1/PDF annex A */
 //static const char XMI2_DOC_START[]
 //    = "\n<xmi:XMI xmlns:xmi=\"http://www.omg.org/spec/XMI/20131001\""
 //      "\n         xmlns:uml=\"http://www.omg.org/spec/UML/20161101\""
@@ -82,8 +83,9 @@ static const char XMI2_DOC_START[]
       "\n         xmlns:StandardProfile=\"http://www.omg.org/spec/UML/20131001/StandardProfile\""
       "\n         xmlns:xmi=\"http://www.omg.org/spec/XMI/20110701\""
       "\n         xmlns:SysML=\"http://www.omg.org/spec/SysML/20131001/SysML.xmi\""
+      "\n         xmlns:mofext=\"http://www.omg.org/spec/MOF/20131001\""
       "\n         xmlns:LocalProfile=\"http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4\">"
-      "\n         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->";
+      "\n         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4, MOF 2.5.1 -->";
 /* spec-ref: https://www.omg.org/spec/XMI/2.5.1/PDF chapter 9.5.1 : 1,1a */
 static const char XMI2_DOC_END[]
     = "\n</xmi:XMI>";
@@ -254,26 +256,26 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     const xmi_element_info_t *classifier_info;
-    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                       host_type,
-                                                       classifier_type,
-                                                       &classifier_info
-                                                     );
+    const int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                             host_type,
+                                                             classifier_type,
+                                                             &classifier_info
+                                                           );
 
-    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    if ( map_err != 0 )
     {
-        if ( map_err != 0 )
-        {
-            /* The caller requested to write a classifier of unknown type */
-            U8_TRACE_INFO("xmi_element_writer: request to write a classifier of unknown type!")
-            /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
-            /* inform the user via an XML comment: */
-            export_err |= xmi_atom_writer_report_unknown_classifier( &((*this_).atom_writer),
-                                                                     classifier_id,
-                                                                     classifier_type
-                                                                   );
-        }
+        /* The caller requested to write a classifier of unknown type */
+        U8_TRACE_INFO("xmi_element_writer: request to write a classifier of unknown type!")
+        /* update export statistics */
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+        /* inform the user via an XML comment: */
+        export_err |= xmi_atom_writer_report_unknown_classifier( &((*this_).atom_writer),
+                                                                 classifier_id,
+                                                                 classifier_type
+                                                               );
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    {
 
         /* determine nesting tag */
         const char* nesting_property;
@@ -328,20 +330,19 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
     const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     const xmi_element_info_t *classifier_info;
-    int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                       host_type,
-                                                       classifier_type,
-                                                       &classifier_info
-                                                     );
+    const int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                             host_type,
+                                                             classifier_type,
+                                                             &classifier_info
+                                                           );
 
-    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    if ( map_err != 0 )
     {
-        if ( map_err != 0 )
-        {
-            /* The caller requested to write a classifier of unknown type, error was already logged at xmi_element_writer_start_classifier */
-            U8_TRACE_INFO_INT("xmi_element_writer: request to write a classifier of unknown type", classifier_type );
-        }
-
+        /* The caller requested to write a classifier of unknown type, error was already logged at xmi_element_writer_start_classifier */
+        U8_TRACE_INFO_INT("xmi_element_writer: request to write a classifier of unknown type", classifier_type );
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    {
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
         const char* c_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
@@ -612,10 +613,22 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
 {
     U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
-    const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
     int export_err = 0;
 
-    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier_ptr);
+    const xmi_element_info_t *classifier_info;
+    const int map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
+                                                             host_type,
+                                                             classifier_type,
+                                                             &classifier_info
+                                                           );
+
+    if ( map_err != 0 )
+    {
+        /* The caller requested to write a classifier of unknown type, error was already logged at xmi_element_writer_start_classifier */
+        U8_TRACE_INFO_INT("xmi_element_writer: request to write a classifier of unknown type", classifier_type );
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         /* generate end to pseudo subelement region to statemachines and states */
         if ( classifier_type == DATA_CLASSIFIER_TYPE_STATE )
@@ -666,91 +679,140 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info;
-    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
-                                                    parent_type,
-                                                    feature_type,
-                                                    &feature_info
-                                                  );
+    const int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                          parent_type,
+                                                          feature_type,
+                                                          &feature_info
+                                                        );
 
-    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    if ( map_err != 0 )
     {
-        if ( map_err != 0 )
-        {
-            /* The caller requested to write a feature of unknown type */
-            U8_TRACE_INFO("xmi_element_writer: request to write a feature of unknown type!")
-            /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
-            /* inform the user via an XML comment: */
-            export_err |= xmi_atom_writer_report_unknown_feature( &((*this_).atom_writer),
-                                                                  feature_id,
-                                                                  feature_type
-                                                                );
-        }
-
-        /* determine nesting tag */
-        const char* owning_type;
-        const int owning_err
-            = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types),
-                                                                     parent_type,
-                                                                     feature_type,
-                                                                     &owning_type
-                                                                   );
-        if ( owning_err != 0 )
-        {
-            /* The caller requested to write a feature to an illegal place */
-            U8_TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!")
-            /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
-            /* inform the user via an XML comment: */
-            export_err |= xmi_atom_writer_report_illegal_parent( &((*this_).atom_writer),
-                                                                 feature_id,
-                                                                 feature_type,
-                                                                 parent_type
-                                                               );
-            owning_type = XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
-        }
-
-        /* write nesting tag */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-
-        /* write type attribute */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
-        const char* f_type = xmi_type_converter_get_xmi_type_of_feature ( &((*this_).xmi_types),
-                                                                          parent_type,
-                                                                          feature_type,
-                                                                          XMI_SPEC_UML
-                                                                        );
-        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
-
-        /* write id attribute */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
-
-        /* write name attribute */
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
-        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
-
-        if ( NULL != xmi_element_info_get_additional_properties( feature_info ) )
-        {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
-                                                   xmi_element_info_get_additional_properties( feature_info )
-                                                 );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-        }
-
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
-
-        xml_writer_increase_indent ( &((*this_).xml_writer) );
-
+        /* The caller requested to write a feature of unknown type */
+        U8_TRACE_INFO("xmi_element_writer: request to write a feature of unknown type!")
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
+        /* inform the user via an XML comment: */
+        export_err |= xmi_atom_writer_report_unknown_feature( &((*this_).atom_writer),
+                                                              feature_id,
+                                                              feature_type
+                                                            );
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    {
+        if ( ! xmi_element_info_is_a_tagged_value( feature_info ) )
+        {
+            /* determine nesting tag */
+            const char* owning_type;
+            const int owning_err
+                = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types),
+                                                                         parent_type,
+                                                                         feature_type,
+                                                                         &owning_type
+                                                                       );
+            if ( owning_err != 0 )
+            {
+                /* The caller requested to write a feature to an illegal place */
+                U8_TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!")
+                /* update export statistics */
+                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                /* inform the user via an XML comment: */
+                export_err |= xmi_atom_writer_report_illegal_parent( &((*this_).atom_writer),
+                                                                     feature_id,
+                                                                     feature_type,
+                                                                     parent_type
+                                                                   );
+                owning_type = XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
+            }
+
+            /* write nesting tag */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+            /* write type attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+            const char* f_type = xmi_type_converter_get_xmi_type_of_feature ( &((*this_).xmi_types),
+                                                                              parent_type,
+                                                                              feature_type,
+                                                                              XMI_SPEC_UML
+                                                                            );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+            /* write id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+            /* write name attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
+
+            if ( NULL != xmi_element_info_get_additional_properties( feature_info ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer),
+                                                       xmi_element_info_get_additional_properties( feature_info )
+                                                     );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+            }
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
+
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+        }
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
+    {
+        if ( xmi_element_info_is_a_tagged_value( feature_info ) )
+        {
+            /* write nesting tag */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_MOFEXT );
+            const char* f_type = xmi_type_converter_get_xmi_type_of_feature ( &((*this_).xmi_types),
+                                                                              parent_type,
+                                                                              feature_type,
+                                                                              XMI_SPEC_MOF
+                                                                            );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+            /* write type attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_MOFEXT );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+
+            /* write id attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+            /* write name attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
+
+            /* write value attribute */
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_VALUE_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer),
+                                                     data_feature_get_value_const( feature_ptr )
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_VALUE_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
+
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+            /* update export statistics */
+            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+        }
     }
 
     U8_TRACE_END_ERR( export_err );
@@ -758,13 +820,15 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
 }
 
 int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
-                                         data_classifier_type_t parent_type,
+                                         const data_classifier_t *parent,
                                          const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
+    assert( parent != NULL );
     int export_err = 0;
 
+    const data_classifier_type_t parent_type = data_classifier_get_main_type( parent );
     const char *const feature_value = data_feature_get_value_const( feature_ptr );
     const size_t feature_value_len = utf8string_get_length(feature_value);
     const char *const feature_descr = data_feature_get_description_const( feature_ptr );
@@ -772,65 +836,89 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
     const xmi_element_info_t *feature_info;
-    int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
-                                                    parent_type,
-                                                    feature_type,
-                                                    &feature_info
-                                                  );
+    const int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                          parent_type,
+                                                          feature_type,
+                                                          &feature_info
+                                                        );
 
-    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    if ( map_err != 0 )
     {
-        if ( 0 != feature_value_len )
+        /* The caller requested to write a feature of unknown type, error was already logged at xmi_element_writer_start_feature */
+        U8_TRACE_INFO_INT("xmi_element_writer: request to write a feature of unknown type", feature_type );
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    {
+        if ( ! xmi_element_info_is_a_tagged_value( feature_info ) )
         {
-            if (( map_err == 0 )&&( xmi_element_info_is_a_typed_element( feature_info ) ))
+            if ( 0 != feature_value_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "type" );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+                if ( xmi_element_info_is_a_typed_element( feature_info ) )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "type" );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "DataType" );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_START );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_UML );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "DataType" );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_TYPE_END );
 
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-                export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#type" );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+                    export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), feature_id );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#type" );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_START );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_NAME_END );
 
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+                }
+                else
+                {
+                    export_err |= xmi_atom_writer_report_illegal_datatype( &((*this_).atom_writer),
+                                                                           feature_id,
+                                                                           feature_value
+                                                                         );
+                }
             }
-            else
+
+            if ( 0 != feature_descr_len )
             {
-                export_err |= xmi_atom_writer_report_illegal_datatype( &((*this_).atom_writer),
-                                                                       feature_id,
-                                                                       feature_value
+                export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
+                                                                 feature_id,
+                                                                 "specification",
+                                                                 feature_descr
+                                                               );
+            }
+
+            if ( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION )
+            {
+                const data_id_t classifier_id = data_feature_get_classifier_data_id ( feature_ptr );
+                export_err |= xmi_interaction_writer_assemble_feature( &((*this_).interaction_writer),
+                                                                       classifier_id,
+                                                                       DATA_CLASSIFIER_TYPE_INTERACTION,
+                                                                       feature_ptr
                                                                      );
             }
         }
-
-        if ( 0 != feature_descr_len )
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
+    {
+        if ( xmi_element_info_is_a_tagged_value( feature_info ) )
         {
-            export_err |= xmi_atom_writer_write_xmi_comment( &((*this_).atom_writer),
-                                                             feature_id,
-                                                             "specification",
-                                                             feature_descr
-                                                           );
-        }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "element" );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
-        if ( parent_type == DATA_CLASSIFIER_TYPE_INTERACTION )
-        {
-            const data_id_t classifier_id = data_feature_get_classifier_data_id ( feature_ptr );
-            export_err |= xmi_interaction_writer_assemble_feature( &((*this_).interaction_writer),
-                                                                   classifier_id,
-                                                                   DATA_CLASSIFIER_TYPE_INTERACTION,
-                                                                   feature_ptr
-                                                                 );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_START );
+            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), data_classifier_get_data_id( parent ) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_IDREF_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
         }
     }
 
@@ -847,29 +935,60 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
     int export_err = 0;
 
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
+    const xmi_element_info_t *feature_info;
+    const int map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
+                                                          parent_type,
+                                                          feature_type,
+                                                          &feature_info
+                                                        );
 
-    if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    if ( map_err != 0 )
     {
-        /* determine nesting tag */
-        const char* owning_type;
-        const int owning_err
-            = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types),
-                                                                     parent_type,
-                                                                     feature_type,
-                                                                     &owning_type
-                                                                   );
-        if ( owning_err != 0 )
+        /* The caller requested to write a feature of unknown type, error was already logged at xmi_element_writer_start_feature */
+        U8_TRACE_INFO_INT("xmi_element_writer: request to write a feature of unknown type", feature_type );
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_BASE )
+    {
+        if ( ! xmi_element_info_is_a_tagged_value( feature_info ) )
         {
-            /* The caller requested to write a feature to an illegal place */
-            U8_TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
-            owning_type = XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
-        }
+            /* determine nesting tag */
+            const char* owning_type;
+            const int owning_err
+                = xmi_type_converter_get_xmi_owning_property_of_feature( &((*this_).xmi_types),
+                                                                         parent_type,
+                                                                         feature_type,
+                                                                         &owning_type
+                                                                       );
+            if ( owning_err != 0 )
+            {
+                /* The caller requested to write a feature to an illegal place */
+                U8_TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
+                owning_type = XMI_ELEMENT_PART_FALLBACK_OWNED_FEATURE;
+            }
 
-        xml_writer_decrease_indent ( &((*this_).xml_writer) );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
-        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), owning_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+        }
+    }
+    else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
+    {
+        if ( xmi_element_info_is_a_tagged_value( feature_info ) )
+        {
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_MOFEXT );
+            const char* f_type = xmi_type_converter_get_xmi_type_of_feature ( &((*this_).xmi_types),
+                                                                              parent_type,
+                                                                              feature_type,
+                                                                              XMI_SPEC_MOF
+                                                                            );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), f_type );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+        }
     }
 
     U8_TRACE_END_ERR( export_err );
@@ -890,11 +1009,11 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
     const xmi_element_info_t *relation_info;
-    int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
-                                                         (host_type==DATA_CLASSIFIER_TYPE_STATE),
-                                                         relation_type,
-                                                         &relation_info
-                                                       );
+    const int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
+                                                               (host_type==DATA_CLASSIFIER_TYPE_STATE),
+                                                               relation_type,
+                                                               &relation_info
+                                                             );
     const bool is_annotated_element
         = (( host_type == DATA_CLASSIFIER_TYPE_COMMENT )&&( relation_type == DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY ));
 

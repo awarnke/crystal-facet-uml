@@ -500,12 +500,15 @@ int json_element_writer_start_feature( json_element_writer_t *this_,
 }
 
 int json_element_writer_assemble_feature( json_element_writer_t *this_,
-                                          data_classifier_type_t parent_type,
+                                          const data_classifier_t *parent,
                                           const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
+    assert( parent != NULL );
     int out_err = 0;
+
+    const data_classifier_type_t parent_type = data_classifier_get_main_type( parent );
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {

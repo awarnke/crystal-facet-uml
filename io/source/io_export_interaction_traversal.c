@@ -277,21 +277,22 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
 
                 if ( is_visible && is_lifeline )
                 {
-                    /* add the lifeline to the duplicates list */
-                    write_err |= universal_array_list_append( (*this_).written_id_set, &feat_id );
+                    const data_classifier_t *const parent_classifier
+                        = data_visible_set_get_classifier_by_id_const( diagram_data, data_feature_get_classifier_row_id( feature ));
+                    if ( parent_classifier != NULL )
+                    {
+                        /* add the lifeline to the duplicates list */
+                        write_err |= universal_array_list_append( (*this_).written_id_set, &feat_id );
 
-                    write_err |= io_element_writer_start_feature( (*this_).element_writer,
-                                                                   DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                   feature
-                                                                 );
-                    write_err |= io_element_writer_assemble_feature( (*this_).element_writer,
-                                                                      DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                      feature
-                                                                    );
-                    write_err |= io_element_writer_end_feature( (*this_).element_writer,
-                                                                 DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                 feature
-                                                               );
+                        const data_classifier_type_t parent_type = data_classifier_get_main_type( parent_classifier );
+                        write_err |= io_element_writer_start_feature( (*this_).element_writer, parent_type, feature );
+                        write_err |= io_element_writer_assemble_feature( (*this_).element_writer, parent_classifier, feature );
+                        write_err |= io_element_writer_end_feature( (*this_).element_writer, parent_type, feature );
+                    }
+                    else
+                    {
+                        assert ( false );  /* is_visible should not be true if parent_classifier == NULL */
+                    }
                 }
             }
         }

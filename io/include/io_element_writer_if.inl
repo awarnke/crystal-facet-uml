@@ -23,15 +23,15 @@
                            const data_classifier_t *classifier_ptr
                          );  /*!< \see io_element_writer_t */
     int (*start_feature)( io_element_writer_impl_t *this_,
-                          data_classifier_type_t host_type,
+                          data_classifier_type_t parent_type,
                           const data_feature_t *feature_ptr
                         );  /*!< \see io_element_writer_t */
     int (*assemble_feature)( io_element_writer_impl_t *this_,
-                              data_classifier_type_t host_type,
+                              const data_classifier_t *parent,
                               const data_feature_t *feature_ptr
                            );  /*!< \see io_element_writer_t */
     int (*end_feature)( io_element_writer_impl_t *this_,
-                        data_classifier_type_t host_type,
+                        data_classifier_type_t parent_type,
                         const data_feature_t *feature_ptr
                       );  /*!< \see io_element_writer_t */
     int (*start_relationship)( io_element_writer_impl_t *this_,

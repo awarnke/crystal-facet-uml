@@ -17,7 +17,8 @@
  */
 enum xmi_element_is_a_enum {
     /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF */
-    XMI_ELEMENT_IS_A_ELEMENT                 = 0x00000000,                                           /*!< anything is a decendant of uml:Element */
+    XMI_ELEMENT_IS_A_ELEMENT                 = 0x40000000,                                           /*!< anything except tagged values is a decendant of uml:Element */
+    XMI_ELEMENT_IS_A_TAGGED_VALUE            = 0x00000000,                                           /*!< the type is a MOF tagged value */
 
     XMI_ELEMENT_IS_A_COMMENT                 = 0x00000001 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:Comment */
     XMI_ELEMENT_IS_A_NAMED_ELEMENT           = 0x00000002 | XMI_ELEMENT_IS_A_ELEMENT,                /*!< the type is a decendant of uml:NamedElement */
@@ -58,7 +59,7 @@ enum xmi_element_is_a_enum {
                                                           | XMI_ELEMENT_IS_A_PACKAGEABLE_ELEMENT,    /*!< the type is a decendant of uml:Dependency */
     XMI_ELEMENT_IS_A_ABSTRACTION             = 0x08000000 | XMI_ELEMENT_IS_A_DEPENDENCY,             /*!< the type is a decendant of uml:Abstraction */
     XMI_ELEMENT_IS_A_TRANSITION              = 0x10000000 | XMI_ELEMENT_IS_A_REDEFINEABLE_ELEMENT,   /*!< the type is a decendant of uml:Transition */
-    XMI_ELEMENT_IS_A_MESSAGE                 = 0x40000000 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:Message */
+    XMI_ELEMENT_IS_A_MESSAGE                 = 0x20000000 | XMI_ELEMENT_IS_A_NAMED_ELEMENT,          /*!< the type is a decendant of uml:Message */
 };
 
 typedef enum xmi_element_is_a_enum xmi_element_is_a_t;

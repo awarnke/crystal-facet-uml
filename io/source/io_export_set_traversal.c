@@ -243,7 +243,7 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
                                                                   );
 
                 serialize_error |= io_element_writer_assemble_feature( (*this_).element_writer,
-                                                                       parent_type,
+                                                                       &out_classifier,
                                                                        feature_ptr
                                                                      );
 
@@ -321,7 +321,7 @@ int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t
                                                               );
 
             serialize_error |= io_element_writer_assemble_feature( (*this_).element_writer,
-                                                                   parent_type,
+                                                                   &out_classifier,
                                                                    feature_ptr
                                                                  );
 

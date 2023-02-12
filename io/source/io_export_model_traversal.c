@@ -437,18 +437,10 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
 
             if ( ! is_lifeline )
             {
-                write_err |= io_element_writer_start_feature( (*this_).element_writer,
-                                                               data_classifier_get_main_type( classifier ),
-                                                               feature
-                                                             );
-                write_err |= io_element_writer_assemble_feature( (*this_).element_writer,
-                                                                  data_classifier_get_main_type( classifier ),
-                                                                  feature
-                                                                );
-                write_err |= io_element_writer_end_feature( (*this_).element_writer,
-                                                             data_classifier_get_main_type( classifier ),
-                                                             feature
-                                                           );
+                const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
+                write_err |= io_element_writer_start_feature( (*this_).element_writer, classifier_type, feature );
+                write_err |= io_element_writer_assemble_feature( (*this_).element_writer, classifier, feature );
+                write_err |= io_element_writer_end_feature( (*this_).element_writer, classifier_type, feature );
             }
         }
         else

@@ -3,13 +3,14 @@
          xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
          xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
+         xmlns:mofext="http://www.omg.org/spec/MOF/20131001"
          xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
-         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
+         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4, MOF 2.5.1 -->
     <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.47.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_12_profile" >
         <packagedElement xmi:type="uml:Class" xmi:id="60001" name="Component" ><!--C0001-->
         </packagedElement>
-        <packagedElement xmi:type="uml:Stereotype" xmi:id="60002" name="database" ><!--C0002-->
+        <packagedElement xmi:type="uml:Stereotype" xmi:id="60002" name="database" profile="LocalProfile" ><!--C0002-->
             <ownedAttribute xmi:type="uml:Property" xmi:id="40002" name="impl" aggregation="composite" >
                 <type xmi:type="uml:DataType" xmi:id="40002#type" name="string" />
             </ownedAttribute>
@@ -18,12 +19,12 @@
             </generalization>
         </packagedElement>
         <packagedElement xmi:type="uml:Component" xmi:id="60003" name="Example-DB" ><!--C0003-->
-            <ownedAttribute xmi:type="uml:TaggedValue" xmi:id="40001" name="impl" >
-                <type xmi:type="uml:DataType" xmi:id="40001#type" name="sqlite3" />
-            </ownedAttribute>
         </packagedElement>
     </uml:Model>
     <LocalProfile:metamodel xmi:id="160001#metamodel" base_Class="60001" />
     <LocalProfile:stereotype xmi:id="160002#stereotype" base_Stereotype="60002" />
     <LocalProfile:database xmi:id="160003#database" base_Component="60003" />
+    <mofext:Tag xmi:type="mofext:Tag" xmi:id="40001" name="impl" value="sqlite3" >
+        <element xmi:idref="60003" />
+    </mofext:Tag>
 </xmi:XMI>

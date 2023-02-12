@@ -6,6 +6,8 @@ const char XMI_XML_NS_UML[5]
     = "uml:";
 const char XMI_XML_NS_SYSML[7]
     = "SysML:";
+const char XMI_XML_NS_MOFEXT[8]
+    = "mofext:";
 const char XMI_XML_NS_STDPROF[17]
     = "StandardProfile:";
 const char XMI_XML_NS_LOCALPROF[14]
@@ -26,6 +28,10 @@ const char XMI_XML_ATTR_IDREF_END[3]
 const char XMI_XML_ATTR_NAME_START[7]
     = "name=\"";
 const char XMI_XML_ATTR_NAME_END[3]
+    = "\" ";
+const char XMI_XML_ATTR_VALUE_START[8]
+    = "value=\"";
+const char XMI_XML_ATTR_VALUE_END[3]
     = "\" ";
 
 /*

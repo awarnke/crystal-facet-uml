@@ -438,7 +438,7 @@ const char* xmi_type_converter_get_xmi_type_of_feature ( xmi_type_converter_t *t
     assert ( feature_info != NULL );
 
     const char* result
-        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD)) != 0 )&&( (*feature_info).profile_name != NULL ))
+        = (( (spec & (XMI_SPEC_SYSML|XMI_SPEC_STANDARD|XMI_SPEC_MOF)) != 0 )&&( (*feature_info).profile_name != NULL ))
         ? (*feature_info).profile_name
         : (*feature_info).base_name;
     assert ( result != NULL );

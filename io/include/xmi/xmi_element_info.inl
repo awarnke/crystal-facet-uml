@@ -161,6 +161,11 @@ static inline bool xmi_element_info_is_a_property ( const xmi_element_info_t *th
     return ( ((*this_).is_a) & XMI_ELEMENT_IS_A_PROPERTY ) == XMI_ELEMENT_IS_A_PROPERTY;
 }
 
+static inline bool xmi_element_info_is_a_tagged_value ( const xmi_element_info_t *this_ )
+{
+    return (*this_).is_a == XMI_ELEMENT_IS_A_TAGGED_VALUE;
+}
+
 /*
 Copyright 2020-2023 Andreas Warnke
 

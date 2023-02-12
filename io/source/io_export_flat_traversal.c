@@ -151,18 +151,10 @@ int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal
         feature = data_node_set_get_feature_const ( node_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            write_err |= io_element_writer_start_feature( (*this_).element_writer,
-                                                          data_classifier_get_main_type( classifier ),
-                                                          feature
-                                                        );
-            write_err |= io_element_writer_assemble_feature( (*this_).element_writer,
-                                                             data_classifier_get_main_type( classifier ),
-                                                             feature
-                                                           );
-            write_err |= io_element_writer_end_feature( (*this_).element_writer,
-                                                        data_classifier_get_main_type( classifier ),
-                                                        feature
-                                                      );
+            const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
+            write_err |= io_element_writer_start_feature( (*this_).element_writer, classifier_type, feature );
+            write_err |= io_element_writer_assemble_feature( (*this_).element_writer, classifier, feature );
+            write_err |= io_element_writer_end_feature( (*this_).element_writer, classifier_type, feature );
         }
         else
         {

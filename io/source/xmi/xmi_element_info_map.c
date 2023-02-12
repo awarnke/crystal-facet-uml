@@ -231,7 +231,7 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .is_a                     = (XMI_ELEMENT_IS_A_CLASS),
         .property_from            = NULL,
         .property_to              = NULL,
-        .additional_properties    = NULL,
+        .additional_properties    = "profile=\"LocalProfile\"",
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_DYN_INTERRUPTABLE_REGION] = {
         /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: Activities */
@@ -557,12 +557,12 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .additional_properties    = NULL,
     },
     [XMI_ELEMENT_INFO_MAP_INDEX_TAGGED_VALUE] = {
-        /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF TODO lookup spec is t.b.d. */
+        /* spec-ref: https://www.omg.org/spec/MOF/2.5.1/PDF annex A */
         .data_type_checksum       = (int) DATA_FEATURE_TYPE_TAGGED_VALUE,
-        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .specification            = (XMI_SPEC_MOF),
         .profile_name             = NULL,
-        .base_name                = "TaggedValue",
-        .is_a                     = (XMI_ELEMENT_IS_A_PROPERTY),
+        .base_name                = "Tag",
+        .is_a                     = XMI_ELEMENT_IS_A_TAGGED_VALUE,
         .property_from            = NULL,
         .property_to              = NULL,
         .additional_properties    = NULL,

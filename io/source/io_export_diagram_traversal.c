@@ -256,10 +256,19 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
 
                 if ( is_visible && ( ! is_lifeline ) )
                 {
-                    write_err |=  io_element_writer_assemble_feature( (*this_).element_writer,
-                                                                      DATA_CLASSIFIER_TYPE_VOID,  /* not needed */
-                                                                      feature
-                                                                    );
+                    const data_classifier_t *const parent_classifier
+                        = data_visible_set_get_classifier_by_id_const( diagram_data, data_id_get_row_id( &classifier_id ));
+                    if ( parent_classifier != NULL )
+                    {
+                        write_err |=  io_element_writer_assemble_feature( (*this_).element_writer,
+                                                                          parent_classifier,
+                                                                          feature
+                                                                        );
+                    }
+                    else
+                    {
+                        assert ( false );  /* is_visible should not be true if parent_classifier == NULL */
+                    }
                 }
             }
         }
@@ -306,9 +315,8 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
                 if ( is_visible /* no filter for duplicates */ )
                 {
                     const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
-                    const data_classifier_t *dest_classifier = data_visible_set_get_classifier_by_id_const ( diagram_data,
-                                                                                                             to_classifier_id
-                                                                                                           );
+                    const data_classifier_t *const dest_classifier
+                        = data_visible_set_get_classifier_by_id_const ( diagram_data, to_classifier_id );
                     if ( dest_classifier != NULL )
                     {
                         /* destination classifier found, print the relation */

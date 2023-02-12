@@ -272,6 +272,14 @@ static inline bool xmi_element_info_is_a_dependency ( const xmi_element_info_t *
  */
 static inline bool xmi_element_info_is_a_property ( const xmi_element_info_t *this_ );
 
+/*!
+ *  \brief checks if the type is a tagged value (which is not even a uml element in uml 2).
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if is_a is exactly XMI_ELEMENT_IS_A_TAGGED_VALUE
+ */
+static inline bool xmi_element_info_is_a_tagged_value ( const xmi_element_info_t *this_ );
+
 #include "xmi_element_info.inl"
 
 #endif  /* XMI_ELEMENT_INFO_H */
