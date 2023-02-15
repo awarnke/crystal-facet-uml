@@ -184,6 +184,10 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                                                      );
 }
 
+enum io_export_model_traversal_test_future_enum {
+    IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE = 470063,  /*!< downwards compatibility check */
+};
+
 static const data_classifier_type_t classifier_types[]
 ={
     DATA_CLASSIFIER_TYPE_BLOCK,
@@ -195,7 +199,7 @@ static const data_classifier_type_t classifier_types[]
     DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION,
     DATA_CLASSIFIER_TYPE_BLOCK,
     DATA_CLASSIFIER_TYPE_PACKAGE,
-    /* unexpected */
+    DATA_CLASSIFIER_TYPE_STEREOTYPE,
     DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK,
     DATA_CLASSIFIER_TYPE_REQUIREMENT,
     DATA_CLASSIFIER_TYPE_USE_CASE,
@@ -211,7 +215,8 @@ static const data_classifier_type_t classifier_types[]
     DATA_CLASSIFIER_TYPE_INTERACTION,  /* is fake id only */
     DATA_CLASSIFIER_TYPE_PART,
     DATA_CLASSIFIER_TYPE_ACTOR,
-    470063,  /* downwards compatibility check, equivilent to DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE */
+    /* unexpected */
+    (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE,  /* downwards compatibility check, equivilent to DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE */
 };
 
 static const data_feature_type_t feature_types[]
@@ -226,8 +231,9 @@ static const data_feature_type_t feature_types[]
     DATA_FEATURE_TYPE_OUT_PORT_PIN,
     DATA_FEATURE_TYPE_ENTRY,
     DATA_FEATURE_TYPE_EXIT,
+    DATA_FEATURE_TYPE_TAGGED_VALUE,
     /* unexpected */
-    470063,  /* downwards compatibility check, equivilent to DATA_FEATURE_TYPE_VOID */
+    (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE,  /* downwards compatibility check, equivilent to DATA_FEATURE_TYPE_VOID */
 };
 
 static const data_relationship_type_t relationship_types[]
@@ -246,7 +252,7 @@ static const data_relationship_type_t relationship_types[]
     DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
     DATA_RELATIONSHIP_TYPE_UML_TRACE, /* equivilent to DATA_RELATIONSHIP_TYPE_UML_REFINE */
     /* unexpected */
-    470063,  /* downwards compatibility check */
+    (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE,  /* downwards compatibility check */
 };
 
 static void iterate_types_on_mini_model(void)
@@ -289,40 +295,37 @@ static void iterate_types_on_mini_model(void)
                 {
                     U8_LOG_ANOMALY_INT("variation_idx",variation_idx);
                     /* update types in database */
-                    {
-                        ctrl_classifier_controller_t *c_ctrl;
-                        c_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+                    ctrl_classifier_controller_t *const c_ctrl
+                        = ctrl_controller_get_classifier_control_ptr( &controller );
 
+                    /* determine if all 4 relationships between from_classifier and to_classifier shall have the same type */
+                    const unsigned int rel2_idx
+                        = (variation_idx==0)
+                        ? rel1_idx  /* same relationship type for all relationships */
+                        : ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % rel_cnt;  /* high variation otherwise */
+                    /* determine if all 4 classifiers shall have the same type */
+                    const unsigned int clas2_idx
+                        = (variation_idx==0)
+                        ? clas1_idx  /* same classifier type for all classifiers */
+                        : ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % clas_cnt;  /* high variation otherwise */
+                    /* determine if both features at from_classifier and to_classifier shall have the same type */
+                    const unsigned int feat2_idx
+                        = (variation_idx==0)
+                        ? feat1_idx  /* same feature type for all features */
+                        : ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % feat_cnt;  /* high variation otherwise */
 
-                        /* determine if all 4 relationships between from_classifier and to_classifier shall have the same type */
-                        const unsigned int rel2_idx
-                            = (variation_idx==0)
-                            ? rel1_idx  /* same relationship type for all relationships */
-                            : ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % rel_cnt;  /* high variation otherwise */
-                        /* determine if all 4 classifiers shall have the same type */
-                        const unsigned int clas2_idx
-                            = (variation_idx==0)
-                            ? clas1_idx  /* same classifier type for all classifiers */
-                            :  ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % clas_cnt;  /* high variation otherwise */
-                        /* determine if both features at from_classifier and to_classifier shall have the same type */
-                        const unsigned int feat2_idx
-                            = (variation_idx==0)
-                            ? feat1_idx  /* same feature type for all features */
-                            :  ( rel1_idx + clas1_idx + feat1_idx + variation_idx ) % feat_cnt;  /* high variation otherwise */
-
-                        u8_error_t c_err = U8_ERROR_NONE;
-                        c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_clas, relationship_types[rel1_idx] );
-                        c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_feat, relationship_types[rel2_idx] );
-                        c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_clas, relationship_types[rel1_idx] );
-                        c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_feat, relationship_types[rel1_idx] );
-                        c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier_parent, classifier_types[clas1_idx] );
-                        c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier, classifier_types[clas1_idx] );
-                        c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier_parent, classifier_types[clas1_idx] );
-                        c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier, classifier_types[clas2_idx] );
-                        c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, from_feature, feature_types[feat1_idx] );
-                        c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, to_feature, feature_types[feat2_idx] );
-                        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
-                    }
+                    u8_error_t c_err = U8_ERROR_NONE;
+                    c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_clas, relationship_types[rel1_idx] );
+                    c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_clas_feat, relationship_types[rel2_idx] );
+                    c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_clas, relationship_types[rel1_idx] );
+                    c_err |= ctrl_classifier_controller_update_relationship_main_type ( c_ctrl, relation_feat_feat, relationship_types[rel1_idx] );
+                    c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier_parent, classifier_types[clas1_idx] );
+                    c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, from_classifier, classifier_types[clas1_idx] );
+                    c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier_parent, classifier_types[clas1_idx] );
+                    c_err |= ctrl_classifier_controller_update_classifier_main_type ( c_ctrl, to_classifier, classifier_types[clas2_idx] );
+                    c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, from_feature, feature_types[feat1_idx] );
+                    c_err |= ctrl_classifier_controller_update_feature_main_type ( c_ctrl, to_feature, feature_types[feat2_idx] );
+                    TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
 
                     data_stat_t stat;
                     data_stat_init( &stat );
@@ -385,7 +388,14 @@ static void iterate_types_on_mini_model(void)
                     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_DELETED ) );
                     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_IGNORED ) );
                     //TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_WARNING ) );
-                    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
+                    const int expected_errors
+                        = (( relationship_types[rel1_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
+                        + (( relationship_types[rel2_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
+                        + (( classifier_types[clas1_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
+                        + (( classifier_types[clas2_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
+                        + (( feature_types[feat1_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
+                        + (( feature_types[feat2_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
+                    TEST_EXPECT_EQUAL_INT( expected_errors, data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
                     data_stat_destroy( &stat );
                 }
             }
@@ -395,7 +405,7 @@ static void iterate_types_on_mini_model(void)
 
 
 /*
- * Copyright 2020-2023 Andreas Warnke
+ * Copyright 2020-2023 Andreas Warnk e
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

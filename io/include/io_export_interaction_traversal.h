@@ -115,11 +115,13 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data that contains the classifier of which the features are written, not NULL
  *  \param focused_feature_id id of the  focused feature (lifeline) which shall be written
+ *  \param fake_interaction fake classifier of type DATA_CLASSIFIER_TYPE_INTERACTION derived from the diagram
  *  \return -1 in case of error, 0 in case of success
  */
 int io_export_interaction_traversal_private_look_for_focused_feature ( io_export_interaction_traversal_t *this_,
                                                                        const data_visible_set_t *diagram_data,
-                                                                       data_id_t focused_feature_id
+                                                                       data_id_t focused_feature_id,
+                                                                       const data_classifier_t *fake_interaction
                                                                      );
 
 /*!
@@ -151,6 +153,22 @@ int io_export_interaction_traversal_private_fake_interaction ( io_export_interac
                                                                const data_diagram_t *interaction_diagram,
                                                                data_classifier_t *out_fake_classifier
                                                              );
+
+/*!
+ *  \brief iterates over features of a classifier.
+ *
+ *  These are written to (*this_).element_writer except for lifelines.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_data diagram data that contains the parent_classifier of which the features are written, not NULL
+ *  \param parent_classifier the classifier of which the features are written, not NULL
+ *  \return -1 in case of error, 0 in case of success.
+ */
+int io_export_interaction_traversal_private_iterate_node_features( io_export_interaction_traversal_t *this_,
+                                                                   const data_visible_set_t *diagram_data,
+                                                                   const data_classifier_t *parent_classifier
+                                                                 );
+
 
 #endif  /* IO_EXPORT_INTERACTION_TRAVERSAL_H */
 

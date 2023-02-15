@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.0"
+    "generator_version": "1.47.0"
   }
   ,
   "views":
@@ -66,7 +66,6 @@
         "id": 1,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "Event Queue States",
         "description": [
                 ""
@@ -85,7 +84,6 @@
         "id": 2,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "queue::idle",
         "description": [
                 ""
@@ -104,7 +102,6 @@
         "id": 3,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "queue::init",
         "description": [
                 ""
@@ -123,7 +120,6 @@
         "id": 4,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "queue::end",
         "description": [
                 ""

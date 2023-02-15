@@ -14,7 +14,7 @@
  */
 enum xmi_writer_pass_enum {
     XMI_WRITER_PASS_BASE = 0,  /*!< mode for basic type output: xmi, uml and mof */
-    XMI_WRITER_PASS_PROFILE = 1,  /*!< mode for profile type output: StandardProfile or SysML */
+    XMI_WRITER_PASS_PROFILE = 1,  /*!< mode for profile type output: StandardProfile, mofext or SysML */
 };
 
 typedef enum xmi_writer_pass_enum xmi_writer_pass_t;

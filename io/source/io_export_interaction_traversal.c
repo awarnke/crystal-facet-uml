@@ -67,15 +67,15 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
     data_small_set_init( &out_showing_diagram_ids );
     {
         const u8_error_t data_err = data_database_reader_get_diagram_ids_by_classifier_id ( (*this_).db_reader,
-                                                                                              data_id_get_row_id( &classifier_id ),
-                                                                                              &out_showing_diagram_ids
-                                                                                            );
+                                                                                            data_id_get_row_id( &classifier_id ),
+                                                                                            &out_showing_diagram_ids
+                                                                                          );
         if( data_err == U8_ERROR_NONE )
         {
             const uint32_t diag_count = data_small_set_get_count( &out_showing_diagram_ids );
             for ( uint32_t diag_idx = 0; diag_idx < diag_count; diag_idx ++ )
             {
-                const data_id_t diag_id = data_small_set_get_id(  &out_showing_diagram_ids, diag_idx );
+                const data_id_t diag_id = data_small_set_get_id( &out_showing_diagram_ids, diag_idx );
 
                 const bool duplicate_diagram
                     =( -1 != universal_array_list_get_index_of( (*this_).written_id_set, &diag_id ) );
@@ -212,6 +212,10 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
                     /* print */
                     write_err |= io_element_writer_start_classifier( (*this_).element_writer, parent_type, classifier );
                     write_err |= io_element_writer_assemble_classifier( (*this_).element_writer, parent_type, classifier );
+                    write_err |= io_export_interaction_traversal_private_iterate_node_features( this_,
+                                                                                                diagram_data,
+                                                                                                classifier
+                                                                                              );
                     write_err |= io_element_writer_end_classifier( (*this_).element_writer, parent_type, classifier );
                 }
             }
@@ -221,7 +225,8 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
             {
                 write_err |= io_export_interaction_traversal_private_look_for_focused_feature( this_,
                                                                                                diagram_data,
-                                                                                               focused_feature_id
+                                                                                               focused_feature_id,
+                                                                                               fake_interaction
                                                                                              );
 
                 /* print all relationships starting from focused feature (lifeline) of classifier_id */
@@ -245,13 +250,15 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
 
 int io_export_interaction_traversal_private_look_for_focused_feature ( io_export_interaction_traversal_t *this_,
                                                                        const data_visible_set_t *diagram_data,
-                                                                       data_id_t focused_feature_id )
+                                                                       data_id_t focused_feature_id,
+                                                                       const data_classifier_t *fake_interaction )
 {
     U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_FEATURE == data_id_get_table( &focused_feature_id ) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id( &focused_feature_id) );
+    assert( fake_interaction != NULL );
     int write_err = 0;
 
     /* iterate over all features */
@@ -284,10 +291,10 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
                         /* add the lifeline to the duplicates list */
                         write_err |= universal_array_list_append( (*this_).written_id_set, &feat_id );
 
-                        const data_classifier_type_t parent_type = data_classifier_get_main_type( parent_classifier );
-                        write_err |= io_element_writer_start_feature( (*this_).element_writer, parent_type, feature );
-                        write_err |= io_element_writer_assemble_feature( (*this_).element_writer, parent_classifier, feature );
-                        write_err |= io_element_writer_end_feature( (*this_).element_writer, parent_type, feature );
+                        const data_classifier_type_t fake_type = data_classifier_get_main_type( fake_interaction );
+                        write_err |= io_element_writer_start_feature( (*this_).element_writer, fake_type, feature );
+                        write_err |= io_element_writer_assemble_feature( (*this_).element_writer, fake_interaction, feature );
+                        write_err |= io_element_writer_end_feature( (*this_).element_writer, fake_type, feature );
                     }
                     else
                     {
@@ -320,13 +327,12 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
     int write_err = 0;
 
     /* iterate over all relationships */
-    uint32_t count;
-    count = data_visible_set_get_relationship_count ( diagram_data );
+    const uint32_t count = data_visible_set_get_relationship_count ( diagram_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get relationship */
-        const data_relationship_t *relation;
-        relation = data_visible_set_get_relationship_const ( diagram_data, index );
+        const data_relationship_t *const relation
+            = data_visible_set_get_relationship_const ( diagram_data, index );
         if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
         {
             /*const data_id_t r_from_classifier_id = data_relationship_get_from_classifier_data_id( relation );*/
@@ -419,6 +425,53 @@ int io_export_interaction_traversal_private_fake_interaction( io_export_interact
     data_classifier_set_y_order( out_fake_classifier, data_diagram_get_list_order( interaction_diagram ) );
     data_classifier_set_list_order( out_fake_classifier, data_diagram_get_list_order( interaction_diagram ) );
     write_err |= data_classifier_set_uuid( out_fake_classifier, data_diagram_get_uuid_const( interaction_diagram ) );
+
+    U8_TRACE_END_ERR( write_err );
+    return write_err;
+}
+
+int io_export_interaction_traversal_private_iterate_node_features( io_export_interaction_traversal_t *this_,
+                                                                   const data_visible_set_t *diagram_data,
+                                                                   const data_classifier_t *parent_classifier )
+{
+    U8_TRACE_BEGIN();
+    assert( diagram_data != NULL );
+    assert( data_visible_set_is_valid( diagram_data ) );
+    assert( parent_classifier != NULL );
+    int write_err = 0;
+
+    /* get parent classifier if */
+    const data_row_id_t classifier_id = data_classifier_get_row_id( parent_classifier );
+
+    /* iterate over all features */
+    const uint32_t count = data_visible_set_get_feature_count ( diagram_data );
+    for ( uint32_t index = 0; index < count; index ++ )
+    {
+        /* get feature */
+        const data_feature_t *const feature
+            = data_visible_set_get_feature_const ( diagram_data, index );
+        if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
+        {
+            const bool is_lifeline
+                =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
+            const bool is_child
+                =( classifier_id == data_feature_get_row_id( feature ) );
+
+            if (( ! is_lifeline )&&( is_child ))
+            {
+                const data_classifier_type_t classifier_type = data_classifier_get_main_type( parent_classifier );
+                write_err |= io_element_writer_start_feature( (*this_).element_writer, classifier_type, feature );
+                write_err |= io_element_writer_assemble_feature( (*this_).element_writer, parent_classifier, feature );
+                write_err |= io_element_writer_end_feature( (*this_).element_writer, classifier_type, feature );
+            }
+            /* else: */
+            /* lifelines are handled in io_export_interaction_traversal_private_look_for_focused_feature */
+        }
+        else
+        {
+            assert( false );
+        }
+    }
 
     U8_TRACE_END_ERR( write_err );
     return write_err;

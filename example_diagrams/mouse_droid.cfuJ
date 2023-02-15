@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.46.0"
+    "generator_version": "1.47.0"
   }
   ,
   "views":
@@ -2603,7 +2603,6 @@
         "id": 1,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Introduction",
         "description": [
                 "The mouse droid is a repair droid.\n",
@@ -2631,7 +2630,6 @@
         "id": 2,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Cosmic Rays",
         "description": [
                 "The droid shall ensure data and program integrity.\n",
@@ -2654,7 +2652,6 @@
         "id": 3,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Operating Temperatures",
         "description": [
                 "The droid shall be fully functional in the range 240K..360K,\n",
@@ -2674,7 +2671,6 @@
         "id": 4,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "Mouse Droid (MoD5G)",
         "description": [
                 "The Mouse Droid (MoD5G) is a repair droid that can be instructed to perform a mission and which then autonomously selects tactics to achieve the mission goals."
@@ -2693,7 +2689,6 @@
         "id": 5,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Commander",
         "description": [
                 "The commander instructs the MoD5G on the mission to perform."
@@ -2712,7 +2707,6 @@
         "id": 6,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Perform a 1-day Mission",
         "description": [
                 "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one terrestrial day.\n",
@@ -2738,7 +2732,6 @@
         "id": 7,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Drive to Location",
         "description": [
                 "The mouse droid can explore its environment and calculate a route from its actual position to the target location.\n",
@@ -2764,7 +2757,6 @@
         "id": 8,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Use Tools",
         "description": [
                 "The mouse droid has a couple of tools inside its chassis.\n",
@@ -3058,7 +3050,6 @@
         "id": 21,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Power Modes",
         "description": [
                 "refers to D0020#name"
@@ -3074,7 +3065,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3089,7 +3079,6 @@
         "id": 22,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Health States",
         "description": [
                 "refers to D0021#name"
@@ -3105,7 +3094,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3120,7 +3108,6 @@
         "id": 23,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "power::startup",
         "description": [
                 ""
@@ -3136,7 +3123,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3151,7 +3137,6 @@
         "id": 24,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "power::booting",
         "description": [
                 ""
@@ -3167,7 +3152,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3182,7 +3166,6 @@
         "id": 25,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "power::full_operation",
         "description": [
                 "While the MoD5G is in full_operation state, all software parts are running and able to react on input data."
@@ -3198,7 +3181,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3213,7 +3195,6 @@
         "id": 26,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "power::energy_saving",
         "description": [
                 ""
@@ -3229,7 +3210,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3244,7 +3224,6 @@
         "id": 27,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "power::off",
         "description": [
                 ""
@@ -3260,7 +3239,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3275,7 +3253,6 @@
         "id": 28,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "health::factory",
         "description": [
                 ""
@@ -3294,7 +3271,6 @@
         "id": 29,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "health::disassembly",
         "description": [
                 ""
@@ -3313,7 +3289,6 @@
         "id": 30,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "health::healthy",
         "description": [
                 ""
@@ -3332,7 +3307,6 @@
         "id": 31,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "health::slightly_damaged",
         "description": [
                 ""
@@ -3351,7 +3325,6 @@
         "id": 32,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "health::limp_home",
         "description": [
                 "In case the full operation is not possible anymore, the MoD5G shall drive back to the home charging station."
@@ -3370,7 +3343,6 @@
         "id": 33,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "health::damaged",
         "description": [
                 ""
@@ -3389,7 +3361,6 @@
         "id": 34,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "health::operation",
         "description": [
                 ""
@@ -3405,7 +3376,6 @@
             "main_type": 9,
             "type": "Pseudostate",
             "key": "no_op",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3417,7 +3387,6 @@
             "main_type": 8,
             "type": "Pseudostate",
             "key": "op_start",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3432,7 +3401,6 @@
         "id": 35,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Chassis",
         "description": [
                 ""
@@ -3451,7 +3419,6 @@
         "id": 36,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Cargo Bin",
         "description": [
                 ""
@@ -3470,7 +3437,6 @@
         "id": 37,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Screw Driver",
         "description": [
                 ""
@@ -3489,7 +3455,6 @@
         "id": 38,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Wheels (4)",
         "description": [
                 ""
@@ -3508,7 +3473,6 @@
         "id": 39,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Fan",
         "description": [
                 "A fan prevents overheating in hot environment conditions."
@@ -3527,7 +3491,6 @@
         "id": 40,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Motors",
         "description": [
                 ""
@@ -3546,7 +3509,6 @@
         "id": 41,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Camera",
         "description": [
                 ""
@@ -3565,7 +3527,6 @@
         "id": 42,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Microphone",
         "description": [
                 ""
@@ -3584,7 +3545,6 @@
         "id": 43,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Loud Speaker",
         "description": [
                 ""
@@ -3603,7 +3563,6 @@
         "id": 44,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Programming and Diagnostic Connector",
         "description": [
                 ""
@@ -3622,7 +3581,6 @@
         "id": 45,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Charging Connector",
         "description": [
                 ""
@@ -3641,7 +3599,6 @@
         "id": 46,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Energy Cell",
         "description": [
                 ""
@@ -3660,7 +3617,6 @@
         "id": 47,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Main Logic Board",
         "description": [
                 "The main logic board consists of several electronic parts shown in D0022#name."
@@ -3700,7 +3656,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "Base Board Connector",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3715,7 +3670,6 @@
         "id": 48,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Base Logic Board",
         "description": [
                 "The base logic board consists of several electronic parts shown in D0035#name."
@@ -3734,7 +3688,6 @@
         "id": 49,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "PMIC",
         "description": [
                 "Power Management Integrated Circuit"
@@ -3753,7 +3706,6 @@
         "id": 51,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Base Micro Controller",
         "description": [
                 "The base micro controller consists of\n",
@@ -3815,7 +3767,6 @@
             "main_type": 7,
             "type": "Port",
             "key": "reset cmd",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3839,7 +3790,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "Main Board Connector",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3866,7 +3816,6 @@
         "id": 53,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Clock",
         "description": [
                 ""
@@ -3885,7 +3834,6 @@
         "id": 54,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Gripper",
         "description": [
                 "A tool that allows to grab objects and move them."
@@ -3904,7 +3852,6 @@
         "id": 55,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Tool-Window (2)",
         "description": [
                 "A tool window is a flap in the chassis that protects screw driver, gripper and cargo bin when unused.\n",
@@ -3924,7 +3871,6 @@
         "id": 56,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "High Performance SoC",
         "description": [
                 "This block provides an execution environment for algorithms that is optimized for high performance."
@@ -3943,7 +3889,6 @@
         "id": 57,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "RAM",
         "description": [
                 ""
@@ -3962,7 +3907,6 @@
         "id": 58,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "ROM",
         "description": [
                 ""
@@ -3981,7 +3925,6 @@
         "id": 59,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Motivator",
         "description": [
                 "A motivator is a basic component needed to keep going on."
@@ -4000,7 +3943,6 @@
         "id": 60,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Real Time Video Processing Chip",
         "description": [
                 ""
@@ -4019,7 +3961,6 @@
         "id": 61,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Watchdog Execution Environment",
         "description": [
                 ""
@@ -4038,7 +3979,6 @@
         "id": 62,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "General Purpose Partition 1",
         "description": [
                 ""
@@ -4057,7 +3997,6 @@
         "id": 63,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "General Purpose Partition 2",
         "description": [
                 ""
@@ -4076,7 +4015,6 @@
         "id": 64,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Base Logic SW Partition",
         "description": [
                 ""
@@ -4095,7 +4033,6 @@
         "id": 67,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Explore Environment",
         "description": [
                 "When the mouse droid is missing relevant data on the environment, it plans a list of actions that suits the purpose of gaining the missing knowledge."
@@ -4114,7 +4051,6 @@
         "id": 68,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Perform Movement",
         "description": [
                 ""
@@ -4133,7 +4069,6 @@
         "id": 69,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Steer motors of tools",
         "description": [
                 ""
@@ -4152,7 +4087,6 @@
         "id": 70,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Plan tasks",
         "description": [
                 "The mouse droid creates a list of actions to fulfill the given mission.\n",
@@ -4172,7 +4106,6 @@
         "id": 71,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Temperature Sensor",
         "description": [
                 ""
@@ -4191,7 +4124,6 @@
         "id": 72,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "sw::boot_base_board",
         "description": [
                 ""
@@ -4210,7 +4142,6 @@
         "id": 73,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "sw::boot_main_board",
         "description": [
                 ""
@@ -4229,7 +4160,6 @@
         "id": 74,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "sw::start",
         "description": [
                 ""
@@ -4248,7 +4178,6 @@
         "id": 75,
         "main_type": 154,
         "type": "ForkNode",
-        "stereotype": "",
         "name": "sw::par",
         "description": [
                 ""
@@ -4267,7 +4196,6 @@
         "id": 76,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "sw::run_main",
         "description": [
                 ""
@@ -4286,7 +4214,6 @@
         "id": 77,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "sw::run_base",
         "description": [
                 ""
@@ -4305,7 +4232,6 @@
         "id": 78,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "sw::run_base_only",
         "description": [
                 ""
@@ -4324,7 +4250,6 @@
         "id": 79,
         "main_type": 155,
         "type": "JoinNode",
-        "stereotype": "",
         "name": "sw::sync",
         "description": [
                 ""
@@ -4343,7 +4268,6 @@
         "id": 80,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "sw::booted",
         "description": [
                 ""
@@ -4362,7 +4286,6 @@
         "id": 81,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Self-Preservation",
         "description": [
                 "In case a wookiee growls at the MoD5G,\n",
@@ -4382,7 +4305,6 @@
         "id": 82,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Imperial Operator",
         "description": [
                 ""
@@ -4401,7 +4323,6 @@
         "id": 83,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Operator of the old republic",
         "description": [
                 ""
@@ -4420,7 +4341,6 @@
         "id": 84,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "sw::op_start",
         "description": [
                 ""
@@ -4439,7 +4359,6 @@
         "id": 85,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "sw::op_end",
         "description": [
                 ""
@@ -4458,7 +4377,6 @@
         "id": 86,
         "main_type": 154,
         "type": "ForkNode",
-        "stereotype": "",
         "name": "sw::op_par",
         "description": [
                 ""
@@ -4477,7 +4395,6 @@
         "id": 87,
         "main_type": 155,
         "type": "JoinNode",
-        "stereotype": "",
         "name": "sw::op_sync",
         "description": [
                 ""
@@ -4496,7 +4413,6 @@
         "id": 88,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "Development and Production Context",
         "description": [
                 "This boundary encompasses the topics that are in scope during development and production."
@@ -4515,7 +4431,6 @@
         "id": 89,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "Operational Context",
         "description": [
                 "This boundary encompasses the topics that are in scope during operation and maintenance."
@@ -4613,7 +4528,6 @@
         "id": 94,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Outer World",
         "description": [
                 "The main logic\n",
@@ -4637,7 +4551,6 @@
         "id": 95,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Space Station",
         "description": [
                 ""
@@ -4656,7 +4569,6 @@
         "id": 96,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Programming Terminal",
         "description": [
                 ""
@@ -4675,7 +4587,6 @@
         "id": 97,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Charging Terminal",
         "description": [
                 ""
@@ -4694,7 +4605,6 @@
         "id": 98,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Maintenance Booth",
         "description": [
                 ""
@@ -4713,7 +4623,6 @@
         "id": 99,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Motor Type",
         "description": [
                 "All motors are electrical step motors.\n",
@@ -4742,7 +4651,6 @@
         "id": 100,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "2 of 3 Voter",
         "description": [
                 "In order to support integrity of the system, the logic boards and the data storages are deployed three times as three identical parts.\n",
@@ -4765,7 +4673,6 @@
         "id": 101,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Cosmic Rays Information",
         "description": [
                 "When a cosmic ray interferes with the system, \n",
@@ -4785,7 +4692,6 @@
         "id": 102,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Watchdog Supervision",
         "description": [
                 "In order to support integrity of the logic and data,\n",
@@ -4840,7 +4746,6 @@
         "id": 104,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Maintenance booth",
         "description": [
                 "A room in a star ship or on a planet\n",
@@ -4864,7 +4769,6 @@
         "id": 105,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Limp home mode may fail",
         "description": [
                 "In case of a single fault, the MoD5G shall return\n",
@@ -4889,7 +4793,6 @@
         "id": 106,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Video Capture",
         "description": [
                 ""
@@ -4905,7 +4808,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4920,7 +4822,6 @@
         "id": 107,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Audio Capture",
         "description": [
                 ""
@@ -4936,7 +4837,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4967,7 +4867,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4982,7 +4881,6 @@
         "id": 109,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Motor Controller",
         "description": [
                 "Move motors according to calculated tactics"
@@ -4998,7 +4896,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5070,7 +4967,6 @@
         "id": 113,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Real Situation",
         "description": [
                 "The real situation refers to the reality of system status and environment."
@@ -5089,7 +4985,6 @@
         "id": 114,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Real Environment",
         "description": [
                 "The real environment refers to the physical environment of the system."
@@ -5108,7 +5003,6 @@
         "id": 115,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Real Status",
         "description": [
                 "The real status refers to the real system status. This may differ from what the sensors report."
@@ -5127,7 +5021,6 @@
         "id": 116,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Guiding Main Principles",
         "description": [
                 "The functions of the MoD5G are divided\n",
@@ -5158,7 +5051,6 @@
         "id": 117,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Inner World",
         "description": [
                 "The base logic addresses the following tasks:\n",
@@ -5223,7 +5115,6 @@
         "id": 120,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Environment Model Composer",
         "description": [
                 ""
@@ -5239,7 +5130,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5254,7 +5144,6 @@
         "id": 121,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Base Software Structure",
         "description": [
                 "The software is basically structured into three parts:\n",
@@ -5379,7 +5268,6 @@
         "id": 127,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Fault Detection (main logic)",
         "description": [
                 "Logic and data is supervised\n",
@@ -5406,7 +5294,6 @@
         "id": 128,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Fault Detection (base logic)",
         "description": [
                 "The hardware of the Base Micro Controller\n",
@@ -5428,7 +5315,6 @@
         "id": 129,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "SW Watchdog",
         "description": [
                 "The SW Watchdog shall check\n",
@@ -5455,7 +5341,6 @@
         "id": 130,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Fault Detection Strategy may fail",
         "description": [
                 "The fault detection strategy for \n",
@@ -5535,7 +5420,6 @@
         "id": 134,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Risk: Wrong tactic is calculated",
         "description": [
                 "- cause/fault: Due to cosmic rays, \n",
@@ -5596,7 +5480,6 @@
         "id": 137,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "health::all",
         "description": [
                 "The statemachine of all health states"
@@ -5615,7 +5498,6 @@
         "id": 138,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "power::all",
         "description": [
                 "The statemachine of all power states"
@@ -5634,7 +5516,6 @@
         "id": 139,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "max 2300 msec",
         "description": [
                 ""
@@ -5650,7 +5531,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5665,7 +5545,6 @@
         "id": 140,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "max 500 msec",
         "description": [
                 ""
@@ -5681,7 +5560,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5696,7 +5574,6 @@
         "id": 141,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Scope",
         "description": [
                 "This document describes\n",
@@ -5718,7 +5595,6 @@
         "id": 142,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Persist List",
         "description": [
                 "the action list\n",
@@ -5739,7 +5615,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5754,7 +5629,6 @@
         "id": 143,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Base location",
         "description": [
                 "The location where the MoD5G droid returns to when its mission is finished.\n",
@@ -5775,7 +5649,6 @@
         "id": 144,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Environmental Constraints",
         "description": [
                 "This package lists technical/physical constraints imposed by the environment in which to operate."
@@ -5794,7 +5667,6 @@
         "id": 145,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Mixed standards of terminals",
         "description": [
                 "precondition:\n",
@@ -5823,7 +5695,6 @@
         "id": 146,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Skeleton Frame",
         "description": [
                 "The skeleton frame provides stability to the assembly of parts.\n",
@@ -5883,7 +5754,6 @@
         "id": 149,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "L1Req: Recognize paths",
         "description": [
                 "The MoDG5 shall use redundant sensor data to calculate paths that it can drive along."
@@ -5902,7 +5772,6 @@
         "id": 150,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "L1Req: Position screw driver",
         "description": [
                 "The MoDG5 shall bring the screw driver into a given 3D position."
@@ -5921,7 +5790,6 @@
         "id": 151,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "L3Req: Calc 3D scene from 2 cameras",
         "description": [
                 "The Main Logic Board shall create a 3D model of the environment based on 2 camera images."
@@ -5940,7 +5808,6 @@
         "id": 152,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "L3Req: Operate motors of tool-arm",
         "description": [
                 "The Base Logic Board shall steer the motors of the tool-arm to a given 3D position."
@@ -5959,7 +5826,6 @@
         "id": 153,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "start operation",
         "description": [
                 ""
@@ -5975,7 +5841,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5990,7 +5855,6 @@
         "id": 154,
         "main_type": 154,
         "type": "ForkNode",
-        "stereotype": "",
         "name": "orthogonal",
         "description": [
                 ""
@@ -6006,7 +5870,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],

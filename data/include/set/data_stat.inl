@@ -115,27 +115,6 @@ static void inline data_stat_reset_series( data_stat_t *this_, data_stat_series_
     }
 }
 
-static inline void data_stat_trace ( const data_stat_t *this_ )
-{
-    for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
-    {
-        const char prefix[] = "data_stat_t[";
-        const char infix1[] = "]: ";
-        char stat_buf[sizeof(prefix)+sizeof(infix1)+3+5*DATA_STAT_TABLES_MAX];
-        utf8stringbuf_t stat_str = UTF8STRINGBUF( stat_buf );
-        utf8stringbuf_copy_str( stat_str, prefix );
-        utf8stringbuf_append_int( stat_str, series_idx );
-        utf8stringbuf_append_str( stat_str, infix1 );
-
-        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
-        {
-            utf8stringbuf_append_str( stat_str, (tables_idx==0)?"":"," );
-            utf8stringbuf_append_int( stat_str, (*this_).data[tables_idx][series_idx] );
-        }
-        U8_TRACE_INFO( utf8stringbuf_get_string( stat_str ) );
-    }
-}
-
 
 /*
 Copyright 2020-2023 Andreas Warnke

@@ -204,7 +204,6 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
     switch ( feature_type )
     {
         case DATA_FEATURE_TYPE_PROPERTY:
-        case DATA_FEATURE_TYPE_TAGGED_VALUE:  /* TODO is a tagged value an attribute? */
         {
             const bool p_is_interface = ( parent_type == DATA_CLASSIFIER_TYPE_INTERFACE );
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 11.8.3.6 */
@@ -287,6 +286,14 @@ int xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t
             /* spec: https://www.omg.org/spec/UML/2.5.1/PDF chapter 14.5.8 (note: states have an implicit Region) */
             result = "subvertex";
             result_err = ( p_is_state ) ? 0 : -1;
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_TAGGED_VALUE:
+        {
+            /* tagges values belong to the profile section, not to the parent classifier */
+            result = NULL;
+            result_err = -1;
         }
         break;
 

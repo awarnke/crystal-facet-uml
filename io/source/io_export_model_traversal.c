@@ -442,6 +442,8 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
                 write_err |= io_element_writer_assemble_feature( (*this_).element_writer, classifier, feature );
                 write_err |= io_element_writer_end_feature( (*this_).element_writer, classifier_type, feature );
             }
+            /* else: */
+            /* lifelines are handled in io_export_model_traversal_private_fake_interactions_of_node */
         }
         else
         {
@@ -726,10 +728,10 @@ int io_export_model_traversal_private_fake_interactions_of_node ( io_export_mode
 
                 if ( is_interaction_compliant_here )
                 {
-                    write_err |=  io_export_interaction_traversal_iterate_classifier_occurrences( &((*this_).interaction_helper),
-                                                                                                  nesting_type,
-                                                                                                  classifier_id
-                                                                                                );
+                    write_err |= io_export_interaction_traversal_iterate_classifier_occurrences( &((*this_).interaction_helper),
+                                                                                                 nesting_type,
+                                                                                                 classifier_id
+                                                                                               );
                 }
             }
         }

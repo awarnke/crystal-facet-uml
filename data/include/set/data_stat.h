@@ -149,7 +149,7 @@ static void inline data_stat_reset_series( data_stat_t *this_, data_stat_series_
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_stat_trace ( const data_stat_t *this_ );
+void data_stat_trace ( const data_stat_t *this_ );
 
 #include "set/data_stat.inl"
 

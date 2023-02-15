@@ -267,7 +267,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         if ( from_type_err != 0 )
         {
             /* The caller requested to write a relationship of illegal source end type */
-            U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal source end type!")
+            U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal source end type!");
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
@@ -333,7 +333,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
         if ( to_type_err != 0 )
         {
             /* The caller requested to write a relationship of illegal target end type */
-            U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal target end type!")
+            U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal target end type!");
             /* update export statistics */
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
