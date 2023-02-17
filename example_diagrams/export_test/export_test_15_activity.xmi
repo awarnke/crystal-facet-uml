@@ -3,9 +3,10 @@
          xmlns:StandardProfile="http://www.omg.org/spec/UML/20131001/StandardProfile"
          xmlns:xmi="http://www.omg.org/spec/XMI/20110701"
          xmlns:SysML="http://www.omg.org/spec/SysML/20131001/SysML.xmi"
+         xmlns:mofext="http://www.omg.org/spec/MOF/20131001"
          xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
-         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.45.1"/>
+         <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4, MOF 2.5.1 -->
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.47.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_15_activity" >
         <packagedElement xmi:type="uml:Activity" xmi:id="60017" name="all" ><!--C0017-->
             <group xmi:type="uml:InterruptibleActivityRegion" xmi:id="60003" name="while there is time" ><!--C0003-->

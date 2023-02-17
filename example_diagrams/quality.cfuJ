@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.1"
+    "generator_version": "1.47.0"
   }
   ,
   "views":
@@ -2608,7 +2608,6 @@
         "id": 1,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Process Quality",
         "description": [
                 "Process quality can be measured by analyzing the reports and other workproducts\n",
@@ -2628,7 +2627,6 @@
         "id": 2,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Product Quality",
         "description": [
                 "Product quality refers to characteristics that can be measured\n",
@@ -2645,7 +2643,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "ISO/IEC 25010:2011",
-            "value": "",
             "description": [
                 "see D0023#name"
             ],
@@ -2660,7 +2657,6 @@
         "id": 3,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Ext/Int Product Quality ",
         "description": [
                 "Product quality are internal and externally visible qualities, \n",
@@ -2680,7 +2676,6 @@
         "id": 4,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Quality in Use",
         "description": [
                 "Quality in use can be measured when the product is already in use, \n",
@@ -2700,7 +2695,6 @@
         "id": 5,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Process",
         "description": [
                 ""
@@ -2716,7 +2710,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Name",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2728,7 +2721,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Description",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2743,7 +2735,6 @@
         "id": 6,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "With What",
         "description": [
                 ""
@@ -2759,7 +2750,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Tools",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2771,7 +2761,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Resources",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2786,7 +2775,6 @@
         "id": 7,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Output",
         "description": [
                 "Process output,\n",
@@ -2803,7 +2791,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Software/Documentation",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2815,7 +2802,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Evidence/Reports",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2830,7 +2816,6 @@
         "id": 8,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "How",
         "description": [
                 "Guidelines, Checklists,\n",
@@ -2847,7 +2832,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Guidelines/Templates",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2859,7 +2843,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Tutorials",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2874,7 +2857,6 @@
         "id": 9,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "What Results",
         "description": [
                 ""
@@ -2890,7 +2872,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Metrics",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2902,7 +2883,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Definition of Done",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2917,7 +2897,6 @@
         "id": 10,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Who",
         "description": [
                 "Roles,\n",
@@ -2935,7 +2914,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Roles + Responsibilities",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2947,7 +2925,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Knowledge/Skills",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2962,7 +2939,6 @@
         "id": 11,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Input",
         "description": [
                 ""
@@ -2978,7 +2954,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Requirements/Design",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2990,7 +2965,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Software/Data",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3005,7 +2979,6 @@
         "id": 12,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Maintainability",
         "description": [
                 ""
@@ -3024,7 +2997,6 @@
         "id": 13,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Appropriate-ness",
         "description": [
                 ""
@@ -3043,7 +3015,6 @@
         "id": 14,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Correctness",
         "description": [
                 ""
@@ -3062,7 +3033,6 @@
         "id": 15,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Functional Suitability",
         "description": [
                 ""
@@ -3081,7 +3051,6 @@
         "id": 16,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Complete-ness",
         "description": [
                 ""
@@ -3100,7 +3069,6 @@
         "id": 17,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Usability",
         "description": [
                 ""
@@ -3119,7 +3087,6 @@
         "id": 18,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Security",
         "description": [
                 ""
@@ -3138,7 +3105,6 @@
         "id": 19,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Resource Utilization",
         "description": [
                 ""
@@ -3157,7 +3123,6 @@
         "id": 20,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Portability",
         "description": [
                 ""
@@ -3176,7 +3141,6 @@
         "id": 21,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Reliability",
         "description": [
                 ""
@@ -3195,7 +3159,6 @@
         "id": 22,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Compatibility",
         "description": [
                 ""
@@ -3214,7 +3177,6 @@
         "id": 23,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Performance Efficiency",
         "description": [
                 ""
@@ -3233,7 +3195,6 @@
         "id": 24,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Operability",
         "description": [
                 ""
@@ -3252,7 +3213,6 @@
         "id": 25,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Time Behaviour",
         "description": [
                 ""
@@ -3271,7 +3231,6 @@
         "id": 26,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Capacity",
         "description": [
                 ""
@@ -3290,7 +3249,6 @@
         "id": 27,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Co-existence",
         "description": [
                 ""
@@ -3309,7 +3267,6 @@
         "id": 28,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Inter-operability",
         "description": [
                 ""
@@ -3328,7 +3285,6 @@
         "id": 29,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Accessibility",
         "description": [
                 ""
@@ -3347,7 +3303,6 @@
         "id": 30,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Recogni-zability",
         "description": [
                 ""
@@ -3366,7 +3321,6 @@
         "id": 31,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Aesthetics",
         "description": [
                 ""
@@ -3385,7 +3339,6 @@
         "id": 32,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Learnability",
         "description": [
                 ""
@@ -3404,7 +3357,6 @@
         "id": 33,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "User Error Protection",
         "description": [
                 ""
@@ -3423,7 +3375,6 @@
         "id": 34,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Availability",
         "description": [
                 ""
@@ -3442,7 +3393,6 @@
         "id": 35,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Maturity",
         "description": [
                 ""
@@ -3461,7 +3411,6 @@
         "id": 36,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Fault Tolerance",
         "description": [
                 ""
@@ -3480,7 +3429,6 @@
         "id": 37,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Recover-ability",
         "description": [
                 ""
@@ -3499,7 +3447,6 @@
         "id": 38,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Non-Repudiation",
         "description": [
                 ""
@@ -3518,7 +3465,6 @@
         "id": 39,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Confidentiality",
         "description": [
                 ""
@@ -3537,7 +3483,6 @@
         "id": 40,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Integrity",
         "description": [
                 ""
@@ -3556,7 +3501,6 @@
         "id": 41,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Accountability",
         "description": [
                 ""
@@ -3575,7 +3519,6 @@
         "id": 42,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Authenticity",
         "description": [
                 ""
@@ -3594,7 +3537,6 @@
         "id": 43,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Modularity",
         "description": [
                 ""
@@ -3613,7 +3555,6 @@
         "id": 44,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Reusability",
         "description": [
                 ""
@@ -3632,7 +3573,6 @@
         "id": 45,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Analyzability",
         "description": [
                 ""
@@ -3651,7 +3591,6 @@
         "id": 46,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Modifyability",
         "description": [
                 ""
@@ -3670,7 +3609,6 @@
         "id": 47,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Testability",
         "description": [
                 ""
@@ -3689,7 +3627,6 @@
         "id": 51,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Aerospace",
         "description": [
                 ""
@@ -3708,7 +3645,6 @@
         "id": 52,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Automotive",
         "description": [
                 ""
@@ -3727,7 +3663,6 @@
         "id": 53,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Defense",
         "description": [
                 ""
@@ -3746,7 +3681,6 @@
         "id": 54,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Avionics",
         "description": [
                 ""
@@ -3765,7 +3699,6 @@
         "id": 55,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Industrial Machinery",
         "description": [
                 ""
@@ -3784,7 +3717,6 @@
         "id": 56,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Medical",
         "description": [
                 ""
@@ -3803,7 +3735,6 @@
         "id": 57,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Backend Server",
         "description": [
                 ""
@@ -3822,7 +3753,6 @@
         "id": 58,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "CMMI",
         "description": [
                 ""
@@ -3841,7 +3771,6 @@
         "id": 60,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Medical SPICE",
         "description": [
                 ""
@@ -3860,7 +3789,6 @@
         "id": 61,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Layered Architecture",
         "description": [
                 ""
@@ -3879,7 +3807,6 @@
         "id": 62,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Coding Guidelines",
         "description": [
                 "Coding guidelines define how to get reproducible behavior of software.\n",
@@ -3908,7 +3835,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "no dynamic Memory",
-            "value": "",
             "description": [
                 "When the program is running, \n",
                 "- it must not fail due to \n",
@@ -3924,7 +3850,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "valid Memory Addresses",
-            "value": "",
             "description": [
                 "Only valid memory addresses may be read/written.\n",
                 "\n",
@@ -3941,7 +3866,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "no endless loops",
-            "value": "",
             "description": [
                 "Every loop shall have a counter to ensures that \n",
                 "after a predefined maximum value the loop is definitely quit"
@@ -3954,7 +3878,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "consistent error handling",
-            "value": "",
             "description": [
                 "Inconsistencies in error handling make \n",
                 "bugs in error handling more likely"
@@ -3967,7 +3890,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "static thread model",
-            "value": "",
             "description": [
                 "Execution threads shall not be started/stopped dynamically"
             ],
@@ -3991,7 +3913,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "lock critical sections",
-            "value": "",
             "description": [
                 "Always lock critical sections."
             ],
@@ -4006,7 +3927,6 @@
         "id": 63,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Fault injection Tests",
         "description": [
                 ""
@@ -4025,7 +3945,6 @@
         "id": 64,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Requirements Definition",
         "description": [
                 "System Requirements Definition consists of\n",
@@ -4046,7 +3965,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "elicitation",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4058,7 +3976,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "analysis",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4073,7 +3990,6 @@
         "id": 65,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "System Architecture",
         "description": [
                 ""
@@ -4092,7 +4008,6 @@
         "id": 66,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Requirements Refinement",
         "description": [
                 "Software Requirements Refinement\n",
@@ -4118,7 +4033,6 @@
         "id": 67,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Software Architecture",
         "description": [
                 "Template: arc42, see D0023#name.\n",
@@ -4139,7 +4053,6 @@
         "id": 68,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Construction",
         "description": [
                 "This process group consists of\n",
@@ -4163,7 +4076,6 @@
         "id": 69,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Software Integration and Test",
         "description": [
                 "Software integration consists of\n",
@@ -4185,7 +4097,6 @@
         "id": 70,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Software Qualification Test",
         "description": [
                 ""
@@ -4204,7 +4115,6 @@
         "id": 71,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "System Integration and Test",
         "description": [
                 "System integration consists of\n",
@@ -4227,7 +4137,6 @@
         "id": 72,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "System Qualification Test",
         "description": [
                 ""
@@ -4246,7 +4155,6 @@
         "id": 74,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Redundancy",
         "description": [
                 ""
@@ -4262,7 +4170,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "2 of 3 voter",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4274,7 +4181,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "duo-duplex",
-            "value": "",
             "description": [
                 "duo-duplex is a concept that consists of 4 independant parts: Two functions (F1 and F2) and two monitors (M1 and M2).\n",
                 "\n",
@@ -4293,7 +4199,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "limp home",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4305,7 +4210,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "function migration",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4320,7 +4224,6 @@
         "id": 75,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Partitioning",
         "description": [
                 "synonym for Compartments\n",
@@ -4341,7 +4244,6 @@
         "id": 76,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Network Partitioniong",
         "description": [
                 ""
@@ -4357,7 +4259,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Network Zones (VLANs)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4369,7 +4270,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Gateways/Firewalls/Proxies",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4384,7 +4284,6 @@
         "id": 77,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "SW Partitions",
         "description": [
                 ""
@@ -4400,7 +4299,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Hypervisor Partitions",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4412,7 +4310,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "OS-Process Boundaries",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4424,7 +4321,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Microkernel OS",
-            "value": "",
             "description": [
                 "for Device Driver Partitioning"
             ],
@@ -4436,7 +4332,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Containers",
-            "value": "",
             "description": [
                 "Linux-Containers,\n",
                 "QNX-Partitions,\n",
@@ -4453,7 +4348,6 @@
         "id": 78,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Over-the-Air Updates",
         "description": [
                 ""
@@ -4469,7 +4363,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "Security Updates in Time",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4484,7 +4377,6 @@
         "id": 79,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Cryptographic Signatures",
         "description": [
                 ""
@@ -4500,7 +4392,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "asymmetric",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4512,7 +4403,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "shared key (symmetric)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4527,7 +4417,6 @@
         "id": 80,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Encryption",
         "description": [
                 ""
@@ -4543,7 +4432,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "symmetric",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4555,7 +4443,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "public/private",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4570,7 +4457,6 @@
         "id": 81,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Functional Safety",
         "description": [
                 ""
@@ -4589,7 +4475,6 @@
         "id": 82,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Trusted Data Paths",
         "description": [
                 ""
@@ -4605,7 +4490,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "Dual Data Paths",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4617,7 +4501,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "End to End Protection",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4632,7 +4515,6 @@
         "id": 83,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Input Signal Validation",
         "description": [
                 "Precondition is a specification of valid input signals.\n",
@@ -4659,7 +4541,6 @@
         "id": 84,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Monitoring",
         "description": [
                 ""
@@ -4675,7 +4556,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "Function Monitoring (L2)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4687,7 +4567,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "System Monitoring (L3)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4699,7 +4578,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "- alive Monitoring",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4711,7 +4589,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "- control flow supervision",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4726,7 +4603,6 @@
         "id": 85,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Real Time Execution",
         "description": [
                 ""
@@ -4742,7 +4618,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "Guaranteed Calculation Time",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4754,7 +4629,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "Real Time Clock",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4769,7 +4643,6 @@
         "id": 86,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Static Code Analysis",
         "description": [
                 ""
@@ -4788,7 +4661,6 @@
         "id": 87,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Code Generation",
         "description": [
                 "An understandable model and a small code generator\n",
@@ -4903,7 +4775,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "use Abstractions",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4994,7 +4865,6 @@
         "id": 98,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Simplicity",
         "description": [
                 ""
@@ -5089,7 +4959,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Conformity of style and concepts",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5101,7 +4970,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Clear semantics of names",
-            "value": "",
             "description": [
                 "Module names, Interface names, Message names, Port names:\n",
                 "The name shall state what the data/function represents.\n",
@@ -5137,7 +5005,6 @@
         "id": 105,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Finance",
         "description": [
                 ""
@@ -5156,7 +5023,6 @@
         "id": 106,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Tele- communication",
         "description": [
                 ""
@@ -5175,7 +5041,6 @@
         "id": 107,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Rail",
         "description": [
                 ""
@@ -5194,7 +5059,6 @@
         "id": 108,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Secure Boot",
         "description": [
                 ""
@@ -5213,7 +5077,6 @@
         "id": 109,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Mature Platform",
         "description": [
                 ""
@@ -5229,7 +5092,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "OS provides resource limits+guarantees",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5241,7 +5103,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "OS does not swap, does not overcommit",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5253,7 +5114,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "OS has mature peripheral-drivers",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5265,7 +5125,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "HW provides supervision",
-            "value": "",
             "description": [
                 "E.g.\n",
                 "- timer trigger OS-interrupts\n",
@@ -5282,7 +5141,6 @@
         "id": 110,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Energy",
         "description": [
                 ""
@@ -5301,7 +5159,6 @@
         "id": 111,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Transport and Logistics",
         "description": [
                 ""
@@ -5320,7 +5177,6 @@
         "id": 112,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Government",
         "description": [
                 ""
@@ -5360,7 +5216,6 @@
         "id": 114,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Certificates",
         "description": [
                 ""
@@ -5376,7 +5231,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "chain of certificates",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5391,7 +5245,6 @@
         "id": 115,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "How to create?",
         "description": [
                 "Process quality is defined by\n",
@@ -5412,7 +5265,6 @@
         "id": 116,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "What characteristics?",
         "description": [
                 "Product quality is defined by\n",
@@ -5433,7 +5285,6 @@
         "id": 117,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Unit Test",
         "description": [
                 ""
@@ -5452,7 +5303,6 @@
         "id": 118,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "automated Tests",
         "description": [
                 ""
@@ -5468,7 +5318,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Code Coverage",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5480,7 +5329,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Requirements Coverage",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5492,7 +5340,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Variant Coverage",
-            "value": "",
             "description": [
                 "HW variants, Feature Variants, Compiler/OS Variants"
             ],
@@ -5507,7 +5354,6 @@
         "id": 119,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Travel / Tourism",
         "description": [
                 ""
@@ -5526,7 +5372,6 @@
         "id": 120,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Media/Press/Publishing",
         "description": [
                 "\t"
@@ -5545,7 +5390,6 @@
         "id": 121,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "SoC HW Partitions",
         "description": [
                 "The HW provides e.g.\n",
@@ -5565,7 +5409,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Monitoring CPU",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5577,7 +5420,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Trusted Execution Environment",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5676,7 +5518,6 @@
         "id": 129,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "FMEA (Technical Risk Management)",
         "description": [
                 "Failure Mode and Effects Analysis\n",
@@ -5697,7 +5538,6 @@
         "id": 130,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "TARA (Security Analysis)",
         "description": [
                 "Threat and Risk Analysis"
@@ -5716,7 +5556,6 @@
         "id": 131,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Goal Structured Notation (Safety Case)",
         "description": [
                 "Goal Structured Notation"
@@ -5735,7 +5574,6 @@
         "id": 132,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Trust Levels",
         "description": [
                 "Create a Multi-Layer security,\n",
@@ -5760,7 +5598,6 @@
         "id": 133,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Fail Secure",
         "description": [
                 "Do not expose data or system details when a fault occurs."
@@ -5798,7 +5635,6 @@
         "id": 135,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Secure Defaults",
         "description": [
                 "The default settings/configuratoin of a system shall be tuned for security."
@@ -5817,7 +5653,6 @@
         "id": 136,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Reduce Attack Surface",
         "description": [
                 "Remove unused functions"
@@ -5836,7 +5671,6 @@
         "id": 137,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "start analysis",
         "description": [
                 ""
@@ -5855,7 +5689,6 @@
         "id": 138,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define Assets to Protect",
         "description": [
                 "This step\n",
@@ -5877,7 +5710,6 @@
         "id": 139,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define System Context",
         "description": [
                 ""
@@ -5896,7 +5728,6 @@
         "id": 140,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Show Locations of Assets",
         "description": [
                 "Show the components where assets are located\n",
@@ -5916,7 +5747,6 @@
         "id": 141,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define Attack Vectors",
         "description": [
                 "Define attack vectors, likelihoods and impacts. Based on this criticality, the mitigations are defined."
@@ -5935,7 +5765,6 @@
         "id": 142,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define Mitigations",
         "description": [
                 ""
@@ -5951,7 +5780,6 @@
             "main_type": 7,
             "type": "OutputPin",
             "key": "security requirements",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5966,7 +5794,6 @@
         "id": 143,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Re-evaluate Risks",
         "description": [
                 ""
@@ -5985,7 +5812,6 @@
         "id": 144,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "finish analysis",
         "description": [
                 ""
@@ -6004,7 +5830,6 @@
         "id": 145,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Entertainment, Sports",
         "description": [
                 ""
@@ -6023,7 +5848,6 @@
         "id": 146,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Home Automation",
         "description": [
                 "Construction / Home Automation"
@@ -6042,7 +5866,6 @@
         "id": 147,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Education",
         "description": [
                 ""
@@ -6179,7 +6002,6 @@
         "id": 152,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Adaptability",
         "description": [
                 ""
@@ -6198,7 +6020,6 @@
         "id": 153,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Replace-ability",
         "description": [
                 ""
@@ -6217,7 +6038,6 @@
         "id": 154,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Installability",
         "description": [
                 ""
@@ -6258,7 +6078,6 @@
         "id": 156,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Quality Characteristic",
         "description": [
                 "A characteristic is a set of subcharacteristics."
@@ -6277,7 +6096,6 @@
         "id": 157,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Quality Subcharacteristic",
         "description": [
                 "A subcharacterstic is a\n",
@@ -6299,7 +6117,6 @@
         "id": 158,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Quality Attribute",
         "description": [
                 "An attribute is an internal property of an entity (e.g. software)."
@@ -6381,7 +6198,6 @@
         "id": 162,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Solution Strategy",
         "description": [
                 ""
@@ -6400,7 +6216,6 @@
         "id": 163,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Topic/Group (Quality tree)",
         "description": [
                 "A quality tree starts at the quality characteristics as the main branches and ends at detailed quality requirements as the leaves.\n",
@@ -6446,7 +6261,6 @@
         "id": 165,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Software Architecture in Practice",
         "description": [
                 "Software Architecture in Practice (3rd Edition)\n",
@@ -6468,7 +6282,6 @@
         "id": 166,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "ISO/IEC 9126",
         "description": [
                 "ISO/IEC 9126 Software engineering — Product quality"
@@ -6487,7 +6300,6 @@
         "id": 167,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "ISO/IEC 25010:2011",
         "description": [
                 "ISO/IEC 25010:2011"
@@ -6506,7 +6318,6 @@
         "id": 168,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "arc42",
         "description": [
                 "https://arc42.org"
@@ -6567,7 +6378,6 @@
         "id": 171,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Software Estimation",
         "description": [
                 "Software Estimation - Demystifying the Black Art\n",
@@ -6589,7 +6399,6 @@
         "id": 172,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Internet Security",
         "description": [
                 "Internet-Security aus Software-Sicht\n",
@@ -6611,7 +6420,6 @@
         "id": 173,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "High Integrity Software",
         "description": [
                 "High Integrity Software - The Spark Approach to Saftey and Security\n",
@@ -6633,7 +6441,6 @@
         "id": 174,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Engineering a Safer World",
         "description": [
                 "Engineering a Safer World - Systems Thinking Applied to Safety\n",
@@ -6655,7 +6462,6 @@
         "id": 175,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Control and Manage Resources",
         "description": [
                 "see D0024#name."
@@ -6674,7 +6480,6 @@
         "id": 176,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Example Guidelines",
         "description": [
                 ""
@@ -6714,7 +6519,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "SecureC",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6741,7 +6545,6 @@
         "id": 177,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "ATAM (Architecture Tradeoff Analysis)",
         "description": [
                 "Architecture Tradeoff Analysis\n",
@@ -6762,7 +6565,6 @@
         "id": 178,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Effectiveness",
         "description": [
                 ""
@@ -6781,7 +6583,6 @@
         "id": 179,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Efficiency",
         "description": [
                 ""
@@ -6800,7 +6601,6 @@
         "id": 180,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Satisfaction",
         "description": [
                 ""
@@ -6819,7 +6619,6 @@
         "id": 181,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Freedom from Risk",
         "description": [
                 "see D0025#name."
@@ -6838,7 +6637,6 @@
         "id": 182,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Context Coverage",
         "description": [
                 ""
@@ -6971,7 +6769,6 @@
         "id": 189,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Software Quality Engineering",
         "description": [
                 "Software Quality Engineering - A practitioners approach by\n",
@@ -6993,7 +6790,6 @@
         "id": 190,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "entity",
         "description": [
                 ""
@@ -7031,7 +6827,6 @@
         "id": 192,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "security analysis",
         "description": [
                 ""
@@ -7117,7 +6912,6 @@
         "id": 197,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Concepts to plan and control memory usage",
         "description": [
                 ""
@@ -7136,7 +6930,6 @@
         "id": 198,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Concepts to manage memory on the fly",
         "description": [
                 ""
@@ -7221,7 +7014,6 @@
         "id": 202,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Access Memory immediately",
         "description": [
                 "For dedicated use cases and functions, the software shall access required memory within 1 usec."
@@ -7240,7 +7032,6 @@
         "id": 203,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Sufficient Memory",
         "description": [
                 "For dedicated use cases and functions, the software shall be able to access sufficient memory."
@@ -7259,7 +7050,6 @@
         "id": 204,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Delay Function",
         "description": [
                 "For dedicated use cases and functions, the software shall delay processing till enough memory is available."
@@ -7278,7 +7068,6 @@
         "id": 205,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Degrade Result",
         "description": [
                 "For dedicated use cases and functions, the software shall calculate a result where accuracy may degrade if memory is sparse."
@@ -7297,7 +7086,6 @@
         "id": 206,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Stop and Restart Later",
         "description": [
                 "In case of insufficient amount of memory, the software shall stop operating and be started again at a later point in time."
@@ -7316,7 +7104,6 @@
         "id": 207,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Abort Function",
         "description": [
                 "In case of insufficient memory, the software shall abort the function."
@@ -7356,7 +7143,6 @@
         "id": 209,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Quality Requirement",
         "description": [
                 ""
@@ -7375,7 +7161,6 @@
         "id": 210,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define Trust Boundaries",
         "description": [
                 "Trust boundaries are measures to keep attackers out."
@@ -7394,7 +7179,6 @@
         "id": 211,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "start planning",
         "description": [
                 ""
@@ -7413,7 +7197,6 @@
         "id": 212,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define activities to observe the operation",
         "description": [
                 "Plan to actively identify events and weaknesses."
@@ -7432,7 +7215,6 @@
         "id": 213,
         "main_type": 154,
         "type": "ForkNode",
-        "stereotype": "",
         "name": "par",
         "description": [
                 ""
@@ -7451,7 +7233,6 @@
         "id": 214,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define rating for observed events",
         "description": [
                 "Plan analysis and assessment of events."
@@ -7470,7 +7251,6 @@
         "id": 215,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Define reactions based on rating",
         "description": [
                 "Plan corrective measures."
@@ -7489,7 +7269,6 @@
         "id": 216,
         "main_type": 155,
         "type": "JoinNode",
-        "stereotype": "",
         "name": "end par",
         "description": [
                 ""
@@ -7508,7 +7287,6 @@
         "id": 217,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "start operation",
         "description": [
                 ""
@@ -7527,7 +7305,6 @@
         "id": 218,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "incident management",
         "description": [
                 ""
@@ -7546,7 +7323,6 @@
         "id": 219,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Automotive SPICE",
         "description": [
                 ""
@@ -7562,7 +7338,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "ISO/IEC 33001:2015",
-            "value": "",
             "description": [
                 ""
             ],
@@ -7577,7 +7352,6 @@
         "id": 220,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Error Handling Concept",
         "description": [
                 "An error handling concept\n",
@@ -7611,7 +7385,6 @@
         "id": 221,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Agriculture",
         "description": [
                 ""
@@ -7630,7 +7403,6 @@
         "id": 222,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": " Mobile Devices / Wearables",
         "description": [
                 "Clothes / Wearables"
@@ -7649,7 +7421,6 @@
         "id": 223,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "TOCTOU",
         "description": [
                 "Design and use interfaces in a way that time of check (TOC) (e.g. access rights, existance, ...) is not different from the time of use (TOU)"
