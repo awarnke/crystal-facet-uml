@@ -363,8 +363,6 @@ static void iterate_types_on_mini_model(void)
                             io_export_model_traversal_destroy( &temp_model_traversal );
                             xmi_element_writer_destroy( &temp_xmi_writer );
                         }
-
-
                     }
                     //static const char TERM2[4]="qQe\n";
                     //universal_memory_output_stream_write( &mem_output_stream, &TERM2, sizeof(TERM2) );
@@ -380,7 +378,24 @@ static void iterate_types_on_mini_model(void)
                     TEST_EXPECT_EQUAL_INT( 0, xml_is_error );
 
                     data_stat_trace( &stat );
-                    TEST_EXPECT_EQUAL_INT( 5, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED ) );
+                    const int expected_rel_errors
+                        = (( relationship_types[rel1_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
+                        + (( relationship_types[rel2_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
+                    const int expected_clas_errors
+                        = (( classifier_types[clas1_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
+                        + (( classifier_types[clas2_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
+                    const int expected_feat_errors
+                        = (( feature_types[feat1_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
+                        + (( feature_types[feat2_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
+                    TEST_EXPECT_EQUAL_INT( expected_clas_errors, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ) );
+                    TEST_EXPECT_EQUAL_INT( expected_feat_errors, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ) );
+                    TEST_EXPECT_EQUAL_INT( expected_rel_errors, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
+                    TEST_EXPECT_EQUAL_INT( expected_clas_errors + expected_feat_errors + expected_rel_errors,
+                                           data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR )
+                                         );
+                    TEST_EXPECT_EQUAL_INT( 5 - expected_clas_errors,
+                                           data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED )
+                                         );
                     //TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED ) );
                     //TEST_EXPECT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ) );
                     //TEST_EXPECT_EQUAL_INT( 10, data_stat_get_series_count( &stat, DATA_STAT_SERIES_EXPORTED ) );
@@ -388,14 +403,6 @@ static void iterate_types_on_mini_model(void)
                     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_DELETED ) );
                     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_IGNORED ) );
                     //TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_WARNING ) );
-                    const int expected_errors
-                        = (( relationship_types[rel1_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
-                        + (( relationship_types[rel2_idx] == (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
-                        + (( classifier_types[clas1_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 3 : 0 )
-                        + (( classifier_types[clas2_idx] == (data_classifier_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
-                        + (( feature_types[feat1_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
-                        + (( feature_types[feat2_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
-                    TEST_EXPECT_EQUAL_INT( expected_errors, data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR ) );
                     data_stat_destroy( &stat );
                 }
             }

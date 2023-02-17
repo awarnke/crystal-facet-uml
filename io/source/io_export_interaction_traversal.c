@@ -112,9 +112,9 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
         /* load data to be drawn */
         data_visible_set_init( (*this_).input_data );
         const u8_error_t d_err = data_visible_set_load( (*this_).input_data,
-                                                          data_id_get_row_id( &diagram_id ),
-                                                          (*this_).db_reader
-                                                        );
+                                                        data_id_get_row_id( &diagram_id ),
+                                                        (*this_).db_reader
+                                                      );
         if( d_err != U8_ERROR_NONE )
         {
             write_err = -1;
@@ -198,10 +198,10 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
             {
                 const data_classifier_type_t parent_type = DATA_CLASSIFIER_TYPE_INTERACTION;  /* fake parent type */
                 const data_classifier_type_t classifier_type = data_classifier_get_main_type(classifier);
-                const bool is_classifier_compliant_here = io_element_writer_can_classifier_nest_classifier ( (*this_).element_writer,
-                                                                                                              parent_type,
-                                                                                                              classifier_type
-                                                                                                            );
+                const bool is_classifier_compliant_here = io_element_writer_can_classifier_nest_classifier( (*this_).element_writer,
+                                                                                                            parent_type,
+                                                                                                            classifier_type
+                                                                                                          );
                 const bool is_duplicate
                     = ( -1 != universal_array_list_get_index_of( (*this_).written_id_set, &classifier_id ) );
                 if ( is_classifier_compliant_here && ( ! is_duplicate ) )
@@ -343,21 +343,22 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
                 ||( data_id_equals( &focused_feature_id, &rel_to_feature_id ) ))
             {
                 const data_id_t relation_id = data_relationship_get_data_id( relation );
-                const bool is_visible = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
-                                                                                diagram_data,
-                                                                                data_id_get_row_id( &relation_id )
-                                                                              );
+                const bool is_visible = data_rules_diagram_shows_relationship( &((*this_).filter_rules),
+                                                                               diagram_data,
+                                                                               data_id_get_row_id( &relation_id )
+                                                                             );
 
                 const bool is_relationship_compliant_here
-                    = io_element_writer_can_classifier_nest_relationship ( (*this_).element_writer,
-                                                                            DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                            data_relationship_get_main_type( relation )
-                                                                          );
+                    = io_element_writer_can_classifier_nest_relationship( (*this_).element_writer,
+                                                                          DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                          data_relationship_get_main_type( relation )
+                                                                        );
 
                 const bool duplicate_relationship
                     = ( -1 != universal_array_list_get_index_of( (*this_).written_id_set, &relation_id ) );
 
                 /* is message */
+#if 0
                 const data_relationship_type_t relation_type = data_relationship_get_main_type( relation );
                 const xmi_element_info_t *relation_info;
                 int map_err = xmi_element_info_map_get_relationship( &xmi_element_info_map_standard,
@@ -369,7 +370,7 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
                 {
                     U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", relation_type );
                 }
-
+#endif
 
                 if ( is_visible && ( ! duplicate_relationship ) && is_relationship_compliant_here )
                 {
@@ -378,9 +379,9 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
 
                     /* destination classifier found, print the relation */
                     write_err |= io_element_writer_start_relationship( (*this_).element_writer,
-                                                                        DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                        relation
-                                                                      );
+                                                                       DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                       relation
+                                                                     );
                     write_err |= io_element_writer_assemble_relationship( (*this_).element_writer,
                                                                           fake_interaction,
                                                                           relation,
@@ -390,9 +391,9 @@ int io_export_interaction_traversal_private_iterate_feature_relationships( io_ex
                                                                           &((*this_).fake_lifeline_feature)  /* guess to feature type */
                                                                         );
                     write_err |= io_element_writer_end_relationship( (*this_).element_writer,
-                                                                      DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
-                                                                      relation
-                                                                    );
+                                                                     DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake parent type */
+                                                                     relation
+                                                                   );
                 }
             }
         }
@@ -455,7 +456,7 @@ int io_export_interaction_traversal_private_iterate_node_features( io_export_int
             const bool is_lifeline
                 =( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( feature ) );
             const bool is_child
-                =( classifier_id == data_feature_get_row_id( feature ) );
+                =( classifier_id == data_feature_get_classifier_row_id( feature ) );
 
             if (( ! is_lifeline )&&( is_child ))
             {

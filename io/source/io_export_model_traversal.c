@@ -575,12 +575,12 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
 }
 
 u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
-                                                                      const data_relationship_t *relation,
-                                                                      const data_node_set_t *node_data,
-                                                                      data_classifier_t *out_from_c,
-                                                                      data_feature_t *out_from_f,
-                                                                      data_classifier_t *out_to_c,
-                                                                      data_feature_t *out_to_f )
+                                                                    const data_relationship_t *relation,
+                                                                    const data_node_set_t *node_data,
+                                                                    data_classifier_t *out_from_c,
+                                                                    data_feature_t *out_from_f,
+                                                                    data_classifier_t *out_to_c,
+                                                                    data_feature_t *out_to_f )
 {
     U8_TRACE_BEGIN();
     assert( relation != NULL );

@@ -1040,9 +1040,9 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
             data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_unknown_relationship( &((*this_).atom_writer),
-                                                                        relation_id,
-                                                                        relation_type
-                                                                        );
+                                                                       relation_id,
+                                                                       relation_type
+                                                                     );
         }
     }
     else if ( (*this_).mode == XMI_WRITER_PASS_BASE )
