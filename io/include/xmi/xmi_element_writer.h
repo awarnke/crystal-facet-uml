@@ -408,6 +408,40 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
                                                 bool is_target_end
                                               );
 
+/*!
+ *  \brief writes a stereotype start-element
+ *
+ *  This starts a division that represents a stereotype instance
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param profile_ns namespace of the stereotype, e.g. XMI_XML_NS_SYSML
+ *  \param profile_type type name of the stereotype
+ *  \param base_type type name of the UML base type (which is extended by this stereotype)
+ *  \param element_id the id of the element for which a stereotype is written
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
+                                                 const char* profile_ns,
+                                                 const char* profile_type,
+                                                 const char* base_type,
+                                                 data_id_t element_id
+                                               );
+
+/*!
+ *  \brief writes a stereotype end-element
+ *
+ *  This ends a division that represents a stereotype instance
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param profile_ns namespace of the stereotype, e.g. XMI_XML_NS_SYSML
+ *  \param profile_type type of the stereotype
+ *  \return 0 in case of success, -1 otherwise
+ */
+int xmi_element_writer_private_end_stereotype( xmi_element_writer_t *this_,
+                                               const char* profile_ns,
+                                               const char* profile_type
+                                             );
+
 #endif  /* XMI_ELEMENT_WRITER_H */
 
 

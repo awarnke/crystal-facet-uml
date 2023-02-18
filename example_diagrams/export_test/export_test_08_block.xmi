@@ -61,16 +61,16 @@
             </ownedEnd>
         </packagedElement>
     </uml:Model>
-    <SysML:Block xmi:id="160001" base_Class="60001" >
+    <SysML:Block xmi:id="60001#Block" base_Class="60001" >
     </SysML:Block>
-    <SysML:Block xmi:id="160002" base_Class="60002" >
+    <SysML:Block xmi:id="60002#Block" base_Class="60002" >
     </SysML:Block>
-    <SysML:Block xmi:id="160003" base_Class="60003" >
+    <SysML:Block xmi:id="60003#Block" base_Class="60003" >
     </SysML:Block>
-    <SysML:Block xmi:id="160004" base_Class="60004" >
+    <SysML:Block xmi:id="60004#Block" base_Class="60004" >
     </SysML:Block>
-    <SysML:Block xmi:id="160005" base_Class="60005" >
+    <SysML:Block xmi:id="60005#Block" base_Class="60005" >
     </SysML:Block>
-    <SysML:Block xmi:id="160006" base_Class="60006" >
+    <SysML:Block xmi:id="60006#Block" base_Class="60006" >
     </SysML:Block>
 </xmi:XMI>

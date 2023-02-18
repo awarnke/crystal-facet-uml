@@ -469,24 +469,11 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         /* write profile tag if sysml/standardprofile-only extension */
         if ( xmi_type_converter_get_xmi_spec_of_classifier( &((*this_).xmi_types), classifier_type ) == XMI_SPEC_SYSML )
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
             const char* profile_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                        host_type,
                                                                                        classifier_type,
                                                                                        XMI_SPEC_SYSML
                                                                                      );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
-            /*export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "#profile" );*/
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
-
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
             const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                     host_type,
                                                                                     classifier_type,
@@ -498,20 +485,22 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                 base_type = "NamedElement";
                 /* but: one could understand differently the SysML 1.6 chapter 16.3.2.5 Requirement */
             }
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_END );
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
-            xml_writer_increase_indent ( &((*this_).xml_writer) );
+            export_err |=  xmi_element_writer_private_start_stereotype( this_,
+                                                                        XMI_XML_NS_SYSML,
+                                                                        profile_type,
+                                                                        base_type,
+                                                                        classifier_id
+                                                                      );
 
             if ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "<id>" );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
+                /* for postfix: see xmi_element_writer_private_start_stereotype */
                 export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#" );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "</id>" );
 
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
@@ -539,12 +528,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
             */
 
-            xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_SYSML, profile_type );
         }
 
         /* write user-defined stereotypes */
@@ -563,20 +547,6 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                     bool is_name = xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), stereotype_view );
                     if ( is_name )
                     {
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_LOCALPROF );
-                        export_err |= xml_writer_write_xml_tag_name_characters ( &((*this_).xml_writer), stereotype_view );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
-                        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
-                        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "#" );
-                        export_err |= xml_writer_write_xml_enc_view ( &((*this_).xml_writer), stereotype_view );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
-
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
                         const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                                 host_type,
                                                                                                 classifier_type,
@@ -588,6 +558,20 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                             base_type = "NamedElement";
                             /* but: one could understand differently the SysML 1.6 chapter 16.3.2.5 Requirement */
                         }
+
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_LOCALPROF );
+                        export_err |= xml_writer_write_xml_tag_name_characters ( &((*this_).xml_writer), stereotype_view );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+                        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#" );
+                        export_err |= xml_writer_write_xml_enc_view ( &((*this_).xml_writer), stereotype_view );
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
                         export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
                         export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
                         export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
@@ -1757,6 +1741,61 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_ELEMENT_PART_ELEMENT_OWNED_END );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
+                                                 const char* profile_ns,
+                                                 const char* profile_type,
+                                                 const char* base_type,
+                                                 data_id_t element_id )
+{
+    U8_TRACE_BEGIN();
+    assert( profile_type != NULL );
+    assert( base_type != NULL );
+    int export_err = 0;
+
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
+
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
+    export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), element_id );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#" );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
+
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
+    export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), element_id );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_END );
+
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_END );
+    xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int xmi_element_writer_private_end_stereotype( xmi_element_writer_t *this_,
+                                               const char* profile_ns,
+                                               const char* profile_type )
+{
+    U8_TRACE_BEGIN();
+    assert( profile_type != NULL );
+    int export_err = 0;
+
+    xml_writer_decrease_indent ( &((*this_).xml_writer) );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
+    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
 
     U8_TRACE_END_ERR( export_err );

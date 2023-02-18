@@ -40,7 +40,7 @@ pencil_tests/pencil_tests.xhtml: $(SRCDIR)/pencil_tests.cfuJ
 	crystal-facet-uml -e $(SRCDIR)/pencil_tests.cfuJ xhtml pencil_tests
 
 .PHONY: all_export_test
-all_export_test: export_test/export_test_08_block.xmi export_test/export_test_11_component.xmi export_test/export_test_15_activity.xmi export_test/export_test_18_usecase.xmi export_test/export_test_10_constraint.xmi export_test/export_test_12_package.xmi export_test/export_test_16_requirement.xmi export_test/export_test_19_deployment.xmi export_test/export_test_11_class.xmi export_test/export_test_14_state.xmi export_test/export_test_17_sequence.xmi export_test/export_test_17_interaction.xmi
+all_export_test: export_test/export_test_08_block.xmi export_test/export_test_11_component.xmi export_test/export_test_12_profile.xmi export_test/export_test_15_activity.xmi export_test/export_test_18_usecase.xmi export_test/export_test_10_constraint.xmi export_test/export_test_12_package.xmi export_test/export_test_16_requirement.xmi export_test/export_test_19_deployment.xmi export_test/export_test_11_class.xmi export_test/export_test_14_state.xmi export_test/export_test_17_sequence.xmi export_test/export_test_17_interaction.xmi
 
 export_test/export_test_08_block.xmi: $(SRCDIR)/export_test_08_block.cfuJ
 	mkdir -p export_test
@@ -50,9 +50,13 @@ export_test/export_test_11_component.xmi: $(SRCDIR)/export_test_11_component.cfu
 	mkdir -p export_test
 	crystal-facet-uml -e $(SRCDIR)/export_test_11_component.cfuJ xmi export_test
 
-export_test/export_test_15_activity.xmi: $(SRCDIR)/export_test_15_activity.cfuJ
+export_test/export_test_11_component.xmi: $(SRCDIR)/export_test_11_component.cfuJ
 	mkdir -p export_test
-	crystal-facet-uml -e $(SRCDIR)/export_test_15_activity.cfuJ xmi export_test
+	crystal-facet-uml -e $(SRCDIR)/export_test_11_component.cfuJ xmi export_test
+
+export_test/export_test_12_profile.xmi: $(SRCDIR)/export_test_12_profile.cfuJ
+	mkdir -p export_test
+	crystal-facet-uml -e $(SRCDIR)/export_test_12_profile.cfuJ xmi export_test
 
 export_test/export_test_18_usecase.xmi: $(SRCDIR)/export_test_18_usecase.cfuJ
 	mkdir -p export_test

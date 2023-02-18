@@ -53,6 +53,6 @@
             <memberEnd xmi:idref="40003" />
         </packagedElement>
     </uml:Model>
-    <SysML:ConstraintBlock xmi:id="160001" base_Class="60001" >
+    <SysML:ConstraintBlock xmi:id="60001#ConstraintBlock" base_Class="60001" >
     </SysML:ConstraintBlock>
 </xmi:XMI>

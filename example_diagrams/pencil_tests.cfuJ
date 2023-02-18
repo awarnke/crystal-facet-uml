@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.46.1"
+    "generator_version": "1.47.0"
   }
   ,
   "views":
@@ -2580,7 +2580,6 @@
         "id": 1,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Test the pencil rendering",
         "description": [
                 ""
@@ -2599,7 +2598,6 @@
         "id": 2,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Test Relationship Rendering",
         "description": [
                 ""
@@ -2618,7 +2616,6 @@
         "id": 3,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Test Feature Rendering",
         "description": [
                 ""
@@ -2637,7 +2634,6 @@
         "id": 4,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Test Classifier Rendering",
         "description": [
                 ""
@@ -2656,7 +2652,6 @@
         "id": 5,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Test Diagram Rendering",
         "description": [
                 ""
@@ -2675,7 +2670,6 @@
         "id": 6,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Human Tester",
         "description": [
                 ""
@@ -2694,7 +2688,6 @@
         "id": 7,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Empty Name Diagram",
         "description": [
                 ""
@@ -2713,7 +2706,6 @@
         "id": 8,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Block",
         "description": [
                 ""
@@ -2729,7 +2721,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2744,7 +2735,6 @@
         "id": 9,
         "main_type": 96,
         "type": "ConstraintBlock",
-        "stereotype": "",
         "name": "Constraint Property",
         "description": [
                 ""
@@ -2760,7 +2750,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2775,7 +2764,6 @@
         "id": 10,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Node",
         "description": [
                 ""
@@ -2791,7 +2779,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2806,7 +2793,6 @@
         "id": 11,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Component",
         "description": [
                 ""
@@ -2822,7 +2808,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2837,7 +2822,6 @@
         "id": 12,
         "main_type": 122,
         "type": "Component",
-        "stereotype": "",
         "name": "Part",
         "description": [
                 ""
@@ -2853,7 +2837,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2868,7 +2851,6 @@
         "id": 13,
         "main_type": 123,
         "type": "Interface",
-        "stereotype": "",
         "name": "Interface",
         "description": [
                 ""
@@ -2884,7 +2866,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2899,7 +2880,6 @@
         "id": 14,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Package",
         "description": [
                 ""
@@ -2918,7 +2898,6 @@
         "id": 15,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Class",
         "description": [
                 ""
@@ -2934,7 +2913,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2949,7 +2927,6 @@
         "id": 16,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Object",
         "description": [
                 ""
@@ -2965,7 +2942,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2980,7 +2956,6 @@
         "id": 17,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "Artifact",
         "description": [
                 ""
@@ -2996,7 +2971,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3011,7 +2985,6 @@
         "id": 18,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Comment",
         "description": [
                 ""
@@ -3027,7 +3000,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3042,7 +3014,6 @@
         "id": 19,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Feature",
         "description": [
                 ""
@@ -3058,7 +3029,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3073,7 +3043,6 @@
         "id": 20,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Requirement",
         "description": [
                 ""
@@ -3089,7 +3058,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3104,7 +3072,6 @@
         "id": 21,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Use Case",
         "description": [
                 ""
@@ -3120,7 +3087,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3135,7 +3101,6 @@
         "id": 22,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Actor",
         "description": [
                 ""
@@ -3151,7 +3116,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3166,7 +3130,6 @@
         "id": 23,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "System Boundary",
         "description": [
                 ""
@@ -3182,7 +3145,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3197,7 +3159,6 @@
         "id": 24,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Diagram Reference",
         "description": [
                 ""
@@ -3213,7 +3174,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3228,7 +3188,6 @@
         "id": 25,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Activity",
         "description": [
                 ""
@@ -3244,7 +3203,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3259,7 +3217,6 @@
         "id": 26,
         "main_type": 150,
         "type": "InterruptibleActivityRegion",
-        "stereotype": "",
         "name": "Interruptable Region",
         "description": [
                 ""
@@ -3275,7 +3232,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3290,7 +3246,6 @@
         "id": 27,
         "main_type": 154,
         "type": "ForkNode",
-        "stereotype": "",
         "name": "Fork",
         "description": [
                 ""
@@ -3306,7 +3261,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3321,7 +3275,6 @@
         "id": 28,
         "main_type": 155,
         "type": "JoinNode",
-        "stereotype": "",
         "name": "Join",
         "description": [
                 ""
@@ -3337,7 +3290,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3352,7 +3304,6 @@
         "id": 29,
         "main_type": 167,
         "type": "AcceptEventAction",
-        "stereotype": "",
         "name": "Accept Event",
         "description": [
                 ""
@@ -3368,7 +3319,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3383,7 +3333,6 @@
         "id": 30,
         "main_type": 168,
         "type": "AcceptEventAction",
-        "stereotype": "",
         "name": "Accept Time Event",
         "description": [
                 ""
@@ -3399,7 +3348,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3414,7 +3362,6 @@
         "id": 31,
         "main_type": 170,
         "type": "SendSignalAction",
-        "stereotype": "",
         "name": "Send Signal",
         "description": [
                 ""
@@ -3430,7 +3377,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3445,7 +3391,6 @@
         "id": 32,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "Decision",
         "description": [
                 ""
@@ -3461,7 +3406,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3476,7 +3420,6 @@
         "id": 33,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "Initial Node",
         "description": [
                 ""
@@ -3492,7 +3435,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3507,7 +3449,6 @@
         "id": 34,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "Final Node",
         "description": [
                 ""
@@ -3523,7 +3464,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3538,7 +3478,6 @@
         "id": 35,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "State",
         "description": [
                 ""
@@ -3554,7 +3493,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3569,7 +3507,6 @@
         "id": 36,
         "main_type": 158,
         "type": "Pseudostate",
-        "stereotype": "",
         "name": "Shallow History",
         "description": [
                 ""
@@ -3585,7 +3522,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3600,7 +3536,6 @@
         "id": 37,
         "main_type": 159,
         "type": "Pseudostate",
-        "stereotype": "",
         "name": "Deep History",
         "description": [
                 ""
@@ -3616,7 +3551,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3631,7 +3565,6 @@
         "id": 38,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Class with Features",
         "description": [
                 ""
@@ -3683,7 +3616,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "Provided Interface",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3695,7 +3627,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3707,7 +3638,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface 2",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3719,7 +3649,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface 3",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3731,7 +3660,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface 4",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3746,7 +3674,6 @@
         "id": 39,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Actor with Features",
         "description": [
                 ""
@@ -3798,7 +3725,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "Provided Interface",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3810,7 +3736,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3822,7 +3747,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface 2",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3834,7 +3758,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface 3",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3846,7 +3769,6 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface 4",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3861,7 +3783,6 @@
         "id": 40,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Object with many Operations and Features",
         "description": [
                 ""
@@ -3877,7 +3798,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_resume",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3901,7 +3821,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_handle_event",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3961,7 +3880,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_pause",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3973,7 +3891,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_resume",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3997,7 +3914,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_handle_event",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4057,7 +3973,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_pause",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4069,7 +3984,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_resume",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4093,7 +4007,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_handle_event",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4153,7 +4066,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_pause",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4165,7 +4077,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_resume",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4189,7 +4100,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_handle_event",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4249,7 +4159,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_pause",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4261,7 +4170,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_resume",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4285,7 +4193,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_handle_event",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4345,7 +4252,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_pause",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4357,7 +4263,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_resume",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4372,7 +4277,6 @@
         "id": 41,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "c long long long long long long name 1",
         "description": [
                 ""
@@ -4388,7 +4292,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4400,7 +4303,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4412,7 +4314,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4427,7 +4328,6 @@
         "id": 42,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "c2",
         "description": [
                 ""
@@ -4443,7 +4343,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4455,7 +4354,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4467,7 +4365,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4479,7 +4376,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4491,7 +4387,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4506,7 +4401,6 @@
         "id": 43,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "c3",
         "description": [
                 ""
@@ -4525,7 +4419,6 @@
         "id": 44,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "c4",
         "description": [
                 ""
@@ -4541,7 +4434,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4553,7 +4445,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4565,7 +4456,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4580,7 +4470,6 @@
         "id": 45,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "c5",
         "description": [
                 "[100%] Built target crystal-facet-uml\n",
@@ -4600,7 +4489,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4612,7 +4500,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4624,7 +4511,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4639,7 +4525,6 @@
         "id": 46,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "c6",
         "description": [
                 ""
@@ -4655,7 +4540,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4667,7 +4551,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4679,7 +4562,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4694,7 +4576,6 @@
         "id": 47,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "c7.jar",
         "description": [
                 ""
@@ -4713,7 +4594,6 @@
         "id": 48,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "c8",
         "description": [
                 ""
@@ -4729,7 +4609,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4741,7 +4620,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4753,7 +4631,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4768,7 +4645,6 @@
         "id": 49,
         "main_type": 123,
         "type": "Interface",
-        "stereotype": "",
         "name": "i9",
         "description": [
                 ""
@@ -4787,7 +4663,6 @@
         "id": 50,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "s1",
         "description": [
                 ""
@@ -4806,7 +4681,6 @@
         "id": 51,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "e2",
         "description": [
                 ""
@@ -4825,7 +4699,6 @@
         "id": 52,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "a1",
         "description": [
                 ""
@@ -4844,7 +4717,6 @@
         "id": 53,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "a2",
         "description": [
                 ""
@@ -4863,7 +4735,6 @@
         "id": 54,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "customer data",
         "description": [
                 ""
@@ -4882,7 +4753,6 @@
         "id": 55,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "req-1",
         "description": [
                 ""
@@ -4901,7 +4771,6 @@
         "id": 56,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "req-1b",
         "description": [
                 ""
@@ -4920,7 +4789,6 @@
         "id": 57,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "user",
         "description": [
                 ""
@@ -4939,7 +4807,6 @@
         "id": 58,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "use radio",
         "description": [
                 ""
@@ -4958,7 +4825,6 @@
         "id": 59,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "tune to station",
         "description": [
                 ""
@@ -4977,7 +4843,6 @@
         "id": 60,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "use audio sources",
         "description": [
                 ""
@@ -4996,7 +4861,6 @@
         "id": 61,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New ErrorLogger-1",
         "description": [
                 ""
@@ -5015,7 +4879,6 @@
         "id": 62,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New UserInterface-2",
         "description": [
                 ""
@@ -5034,7 +4897,6 @@
         "id": 63,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New PeripheralControl-3",
         "description": [
                 ""
@@ -5053,7 +4915,6 @@
         "id": 64,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New Monitor-4",
         "description": [
                 ""
@@ -5072,7 +4933,6 @@
         "id": 65,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New ServiceDiscovery-5",
         "description": [
                 ""
@@ -5091,7 +4951,6 @@
         "id": 66,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New LifecycleManager-6",
         "description": [
                 ""
@@ -5110,7 +4969,6 @@
         "id": 67,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New Controller-7",
         "description": [
                 ""
@@ -5129,7 +4987,6 @@
         "id": 68,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New Persistence-8",
         "description": [
                 ""
@@ -5148,7 +5005,6 @@
         "id": 69,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "New ErrorLogger-9",
         "description": [
                 ""
@@ -5167,7 +5023,6 @@
         "id": 70,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "New Background Scan-10",
         "description": [
                 ""
@@ -5186,7 +5041,6 @@
         "id": 71,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "New Sleep-11",
         "description": [
                 ""
@@ -5205,7 +5059,6 @@
         "id": 72,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "New User Input-12",
         "description": [
                 ""
@@ -5224,7 +5077,6 @@
         "id": 73,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "New Normal Operation-13",
         "description": [
                 ""
@@ -5243,7 +5095,6 @@
         "id": 74,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "New Error Reporting-14",
         "description": [
                 ""
@@ -5262,7 +5113,6 @@
         "id": 75,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "New Idle-15",
         "description": [
                 ""
@@ -5281,7 +5131,6 @@
         "id": 76,
         "main_type": 155,
         "type": "JoinNode",
-        "stereotype": "",
         "name": "New Startup-16",
         "description": [
                 ""
@@ -5300,7 +5149,6 @@
         "id": 77,
         "main_type": 154,
         "type": "ForkNode",
-        "stereotype": "",
         "name": "New SW Update-17",
         "description": [
                 ""
@@ -5319,7 +5167,6 @@
         "id": 78,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "New Background Scan-18",
         "description": [
                 ""
@@ -5338,7 +5185,6 @@
         "id": 79,
         "main_type": 170,
         "type": "SendSignalAction",
-        "stereotype": "",
         "name": "New Sleep-19",
         "description": [
                 ""
@@ -5357,7 +5203,6 @@
         "id": 80,
         "main_type": 167,
         "type": "AcceptEventAction",
-        "stereotype": "",
         "name": "New User Input-20",
         "description": [
                 ""
@@ -5376,7 +5221,6 @@
         "id": 81,
         "main_type": 168,
         "type": "AcceptEventAction",
-        "stereotype": "",
         "name": "New Normal Operation-21",
         "description": [
                 ""
@@ -5395,7 +5239,6 @@
         "id": 82,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "New Error Reporting-22",
         "description": [
                 ""
@@ -5414,7 +5257,6 @@
         "id": 83,
         "main_type": 158,
         "type": "Pseudostate",
-        "stereotype": "",
         "name": "New Idle-23",
         "description": [
                 ""
@@ -5433,7 +5275,6 @@
         "id": 84,
         "main_type": 159,
         "type": "Pseudostate",
-        "stereotype": "",
         "name": "New Startup-24",
         "description": [
                 ""
@@ -5452,7 +5293,6 @@
         "id": 85,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "gray",
         "description": [
                 ""
@@ -5468,7 +5308,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5480,7 +5319,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5492,7 +5330,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5507,7 +5344,6 @@
         "id": 86,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Mr. Gray",
         "description": [
                 ""
@@ -5526,7 +5362,6 @@
         "id": 87,
         "main_type": 123,
         "type": "Interface",
-        "stereotype": "",
         "name": "My Interface",
         "description": [
                 ""
@@ -5554,7 +5389,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_pause",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5566,7 +5400,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_resume",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5581,7 +5414,6 @@
         "id": 88,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "New LifecycleManager-7",
         "description": [
                 ""
@@ -5609,7 +5441,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "new_handle_event",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5636,7 +5467,6 @@
         "id": 89,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "SysML-Block",
         "description": [
                 "Block"
@@ -5652,7 +5482,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "new_in_a",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5691,7 +5520,6 @@
         "id": 90,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "New Use Case",
         "description": [
                 ""
@@ -5731,7 +5559,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_type",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5758,7 +5585,6 @@
         "id": 91,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "New PeripheralControl-11",
         "description": [
                 ""
@@ -5786,7 +5612,6 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_in_a",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5801,7 +5626,6 @@
         "id": 92,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "New SW Update-1",
         "description": [
                 ""
@@ -5820,7 +5644,6 @@
         "id": 93,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Info on empty boxes",
         "description": [
                 "This is a box diagram.\n",
@@ -5840,7 +5663,6 @@
         "id": 94,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Deserializer",
         "description": [
                 ""
@@ -5859,7 +5681,6 @@
         "id": 95,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "CompressionAlg",
         "description": [
                 ""
@@ -5878,7 +5699,6 @@
         "id": 96,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Never",
         "description": [
                 ""
@@ -5897,7 +5717,6 @@
         "id": 97,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Cool Blue",
         "description": [
                 ""
@@ -5916,7 +5735,6 @@
         "id": 98,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Homemade",
         "description": [
                 ""
@@ -5935,7 +5753,6 @@
         "id": 99,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Set of Things",
         "description": [
                 ""
@@ -5954,7 +5771,6 @@
         "id": 100,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "The Universe",
         "description": [
                 ""
@@ -5973,7 +5789,6 @@
         "id": 101,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Attribute",
         "description": [
                 ""
@@ -5992,7 +5807,6 @@
         "id": 102,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Software Component",
         "description": [
                 ""
@@ -6011,7 +5825,6 @@
         "id": 103,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Animal",
         "description": [
                 ""
@@ -6030,7 +5843,6 @@
         "id": 104,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Whale",
         "description": [
                 ""
@@ -6049,7 +5861,6 @@
         "id": 105,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Fish",
         "description": [
                 ""
@@ -6068,7 +5879,6 @@
         "id": 106,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Water",
         "description": [
                 ""
@@ -6087,7 +5897,6 @@
         "id": 107,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Air",
         "description": [
                 ""
@@ -6106,7 +5915,6 @@
         "id": 108,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Earth",
         "description": [
                 ""
@@ -6125,7 +5933,6 @@
         "id": 109,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Fire",
         "description": [
                 ""
@@ -6144,7 +5951,6 @@
         "id": 110,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "My Activity",
         "description": [
                 ""
@@ -6175,7 +5981,6 @@
         "id": 111,
         "main_type": 96,
         "type": "ConstraintBlock",
-        "stereotype": "",
         "name": "Constraint My",
         "description": [
                 ""
@@ -6206,7 +6011,6 @@
         "id": 112,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Count Bytes",
         "description": [
                 ""
@@ -6249,7 +6053,6 @@
         "id": 113,
         "main_type": 96,
         "type": "ConstraintBlock",
-        "stereotype": "",
         "name": "Emergency Off",
         "description": [
                 ""
@@ -6265,7 +6068,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "in_value",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6277,7 +6079,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "out_flag",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6292,7 +6093,6 @@
         "id": 114,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "WaitState",
         "description": [
                 ""
@@ -6308,7 +6108,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "entry",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6323,7 +6122,6 @@
         "id": 115,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "CPU",
         "description": [
                 ""
@@ -6339,7 +6137,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "out_LVDS",
-            "value": "",
             "description": [
                 ""
             ],
@@ -6354,7 +6151,6 @@
         "id": 116,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "System Boundary has no features",
         "description": [
                 ""

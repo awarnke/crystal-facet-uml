@@ -37,35 +37,35 @@
             </packagedElement>
         </packagedElement>
     </uml:Model>
-    <SysML:Requirement xmi:id="160001" base_NamedElement="60001" >
-        <id>160001</id>
+    <SysML:Requirement xmi:id="60001#Requirement" base_NamedElement="60001" >
+        <id>60001#Requirement</id>
         <text>
             The system shall start up in 3 seconds
         </text>
     </SysML:Requirement>
-    <SysML:Requirement xmi:id="160003" base_NamedElement="60003" >
-        <id>160003</id>
+    <SysML:Requirement xmi:id="60003#Requirement" base_NamedElement="60003" >
+        <id>60003#Requirement</id>
         <text>
             The system shall reboot in 4 seconds
         </text>
     </SysML:Requirement>
     <StandardProfile:Trace xmi:id="180001" base_Abstraction="80001" />
-    <SysML:Requirement xmi:id="160002" base_NamedElement="60002" >
-        <id>160002</id>
+    <SysML:Requirement xmi:id="60002#Requirement" base_NamedElement="60002" >
+        <id>60002#Requirement</id>
         <text>
             The controller-hardware shall initialize in 1 second
         </text>
     </SysML:Requirement>
     <StandardProfile:Refine xmi:id="180002" base_Abstraction="80002" />
-    <SysML:Requirement xmi:id="160004" base_NamedElement="60004" >
-        <id>160004</id>
+    <SysML:Requirement xmi:id="60004#Requirement" base_NamedElement="60004" >
+        <id>60004#Requirement</id>
         <text>
             The operating system shall boot in 1 second
         </text>
     </SysML:Requirement>
     <StandardProfile:Refine xmi:id="180004" base_Abstraction="80004" />
-    <SysML:Requirement xmi:id="160005" base_NamedElement="60005" >
-        <id>160005</id>
+    <SysML:Requirement xmi:id="60005#Requirement" base_NamedElement="60005" >
+        <id>60005#Requirement</id>
         <text>
             The application shall start up in 1 second
         </text>
