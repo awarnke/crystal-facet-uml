@@ -2783,7 +2783,7 @@
         "id": 9,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "quality characteristic",
+        "stereotype": "quality_characteristic",
         "name": "Usability",
         "description": [
                 "Usability defines a set of attributes that measures how easy to learn and use the program is."
@@ -2802,7 +2802,7 @@
         "id": 10,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "quality characteristic",
+        "stereotype": "quality_characteristic",
         "name": "Maintainability",
         "description": [
                 "Maintainability defines a set of attributes that influence how to analyze and mitigate defects that occur during operation."
@@ -2821,7 +2821,7 @@
         "id": 11,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "quality characteristic",
+        "stereotype": "quality_characteristic",
         "name": "Reliability",
         "description": [
                 "Reliability defines a set of attributes that measures how mature and fault-tolerant the software is."
@@ -2840,7 +2840,7 @@
         "id": 12,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "HW sub-characteristic",
+        "stereotype": "HW_sub-characteristic",
         "name": "Repairability",
         "description": [
                 "The MoD5 hardware parts shall be exchangeable\n",
@@ -2881,7 +2881,7 @@
         "id": 14,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "SW sub-characteristic",
+        "stereotype": "SW_sub-characteristic",
         "name": "Analyzability",
         "description": [
                 "The MoD5G shall allow to analyze faults\n",
@@ -2924,7 +2924,7 @@
         "id": 16,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "quality scenario",
+        "stereotype": "quality_scenario",
         "name": "Motor defect",
         "description": [
                 "pre-condition:\n",
@@ -2954,7 +2954,7 @@
         "id": 17,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "quality scenario",
+        "stereotype": "quality_scenario",
         "name": "Spare Parts Supply",
         "description": [
                 "pre-condition:\n",
@@ -4651,6 +4651,7 @@
         "id": 100,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "rejected_alternative",
         "name": "2 of 3 Voter",
         "description": [
                 "In order to support integrity of the system, the logic boards and the data storages are deployed three times as three identical parts.\n",
@@ -4722,7 +4723,7 @@
         "id": 103,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "design decision",
+        "stereotype": "design_decision",
         "name": "Decision: Watchdog",
         "description": [
                 "Arguments:\n",
@@ -4851,7 +4852,7 @@
         "id": 108,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "main logic",
+        "stereotype": "main_logic",
         "name": "Tactics Calculator",
         "description": [
                 "Calculate tactics based on given strategy and current situation model"
@@ -5077,7 +5078,7 @@
         "id": 118,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "main logic",
+        "stereotype": "main_logic",
         "name": "Environment Capture",
         "description": [
                 ""
@@ -5096,7 +5097,7 @@
         "id": 119,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "base logic",
+        "stereotype": "base_logic",
         "name": "System Control",
         "description": [
                 ""
@@ -5165,7 +5166,7 @@
         "id": 122,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "quality characteristic",
+        "stereotype": "quality_characteristic",
         "name": "Compatibility",
         "description": [
                 "Compatibility defines a set of attributes that measures how well data and messages can be exchanged with other programs and/or versions."
@@ -5364,7 +5365,7 @@
         "id": 131,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "design decision",
+        "stereotype": "design_decision",
         "name": "Wookiee Detection",
         "description": [
                 "Challenge: Detect presense of a Wookiee\n",
@@ -5442,7 +5443,7 @@
         "id": 135,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "hw design",
+        "stereotype": "hw_design",
         "name": "Design Hardware",
         "description": [
                 "A team of engineers designs, produces and tests the mechanical hardware parts of the droids."
@@ -5461,7 +5462,7 @@
         "id": 136,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "electronics design",
+        "stereotype": "electronics_design",
         "name": "Electrical Engineering",
         "description": [
                 "A team of engineers designs, produces and tests the electrical and electronic parts of the droids."
@@ -8469,6 +8470,7 @@
         "id": 135,
         "main_type": 401,
         "type": "Trace",
+        "stereotype": "could_trace",
         "name": "rejected alternative",
         "description": [
                 ""

@@ -190,10 +190,8 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_diagram_policy_enforcer_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_suite() );
         /* pencil */
-#if 0
         test_runner_run_suite( &runner, pencil_layouter_test_get_suite() );
         test_runner_run_suite( &runner, pencil_diagram_maker_test_get_suite() );
-#endif
         /* gui */
         /* io */
         test_runner_run_suite( &runner, io_data_file_test_get_suite() );

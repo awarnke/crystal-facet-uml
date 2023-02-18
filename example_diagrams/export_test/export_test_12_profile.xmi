@@ -21,9 +21,12 @@
         <packagedElement xmi:type="uml:Component" xmi:id="60003" name="Example-DB" ><!--C0003-->
         </packagedElement>
     </uml:Model>
-    <LocalProfile:metamodel xmi:id="60001#metamodel" base_Class="60001" />
-    <LocalProfile:stereotype xmi:id="60002#stereotype" base_Stereotype="60002" />
-    <LocalProfile:database xmi:id="60003#database" base_Component="60003" />
+    <LocalProfile:metamodel xmi:id="60001#metamodel" base_Class="60001" >
+    </LocalProfile:metamodel>
+    <LocalProfile:stereotype xmi:id="60002#stereotype" base_Stereotype="60002" >
+    </LocalProfile:stereotype>
+    <LocalProfile:database xmi:id="60003#database" base_Component="60003" >
+    </LocalProfile:database>
     <mofext:Tag xmi:type="mofext:Tag" xmi:id="40001" name="impl" value="sqlite3" >
         <element xmi:idref="60003" />
     </mofext:Tag>

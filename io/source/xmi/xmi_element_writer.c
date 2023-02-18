@@ -474,6 +474,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                                                                        classifier_type,
                                                                                        XMI_SPEC_SYSML
                                                                                      );
+            assert( profile_type != NULL );
             const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                     host_type,
                                                                                     classifier_type,
@@ -488,7 +489,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 
             export_err |=  xmi_element_writer_private_start_stereotype( this_,
                                                                         XMI_XML_NS_SYSML,
-                                                                        profile_type,
+                                                                        UTF8STRINGVIEW_STR(profile_type),
                                                                         base_type,
                                                                         classifier_id
                                                                       );
@@ -528,7 +529,7 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
             */
 
-            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_SYSML, profile_type );
+            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_SYSML, UTF8STRINGVIEW_STR(profile_type) );
         }
 
         /* write user-defined stereotypes */
@@ -559,25 +560,13 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                             /* but: one could understand differently the SysML 1.6 chapter 16.3.2.5 Requirement */
                         }
 
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_LOCALPROF );
-                        export_err |= xml_writer_write_xml_tag_name_characters ( &((*this_).xml_writer), stereotype_view );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-                        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#" );
-                        export_err |= xml_writer_write_xml_enc_view ( &((*this_).xml_writer), stereotype_view );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
-
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
-                        export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
-                        export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), classifier_id );
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_END );
-
-                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
+                        export_err |=  xmi_element_writer_private_start_stereotype( this_,
+                                                                                    XMI_XML_NS_LOCALPROF,
+                                                                                    stereotype_view,
+                                                                                    base_type,
+                                                                                    classifier_id
+                                                                                );
+                        export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_LOCALPROF, stereotype_view );
                     }
                     else
                     {
@@ -1001,6 +990,7 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
 
     const char *const relation_name = data_relationship_get_name_const( relation_ptr );
     const size_t relation_name_len = utf8string_get_length(relation_name);
+    const char *const relation_stereo = data_relationship_get_stereotype_const(relation_ptr);
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
     const xmi_element_info_t *relation_info;
@@ -1133,40 +1123,67 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         /* write profile tag if sysml/standardprofile-only extention */
         if ( xmi_type_converter_get_xmi_spec_of_relationship( &((*this_).xmi_types), relation_type ) == XMI_SPEC_STANDARD )
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_NS_STDPROF );
             const char* profile_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
                                                                                          host_type,
                                                                                          relation_type,
                                                                                          XMI_SPEC_STANDARD
                                                                                        );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
-
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "1" );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),relation_id );
-            /*export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), "#profile" );*/
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
-
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
+            assert( profile_type != NULL );
             const char* base_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
                                                                                       host_type,
                                                                                       relation_type,
                                                                                       XMI_SPEC_UML
                                                                                     );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), base_type );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_MIDDLE );
-            export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer),relation_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_END );
+            export_err |=  xmi_element_writer_private_start_stereotype( this_,
+                                                                        XMI_XML_NS_STDPROF,
+                                                                        UTF8STRINGVIEW_STR(profile_type),
+                                                                        base_type,
+                                                                        relation_id
+                                                                      );
+            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_STDPROF, UTF8STRINGVIEW_STR(profile_type) );
+        }
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_EMPTY_TAG_END );
-            /*
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_START );
-            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_COMMENT_END );
-            */
+        /* write user-defined stereotypes */
+        {
+            utf8stringviewiterator_t stereo_iterator;
+            utf8stringviewiterator_init( &stereo_iterator,
+                                         UTF8STRINGVIEW_STR(relation_stereo),
+                                         ","
+                                       );
+            while( utf8stringviewiterator_has_next( &stereo_iterator ) )
+            {
+                const utf8stringview_t stereotype_view = utf8stringviewiterator_next( &stereo_iterator );
+                size_t stereotype_len = utf8stringview_get_length( stereotype_view );
+                if ( stereotype_len != 0 )
+                {
+                    bool is_name = xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), stereotype_view );
+                    if ( is_name )
+                    {
+                        const char* base_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
+                                                                                                  host_type,
+                                                                                                  relation_type,
+                                                                                                  XMI_SPEC_UML
+                                                                                                );
+
+                        export_err |=  xmi_element_writer_private_start_stereotype( this_,
+                                                                                    XMI_XML_NS_LOCALPROF,
+                                                                                    stereotype_view,
+                                                                                    base_type,
+                                                                                    relation_id
+                                                                                  );
+                        export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_LOCALPROF, stereotype_view );
+                    }
+                    else
+                    {
+                        export_err |= xmi_atom_writer_report_illegal_stereotype( &((*this_).atom_writer),
+                                                                                 relation_id,
+                                                                                 stereotype_view
+                                                                               );
+                        /* update export statistics */
+                        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                    }
+                }
+            }
         }
     }
 
@@ -1749,25 +1766,24 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
 
 int xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
                                                  const char* profile_ns,
-                                                 const char* profile_type,
+                                                 const utf8stringview_t profile_type,
                                                  const char* base_type,
                                                  data_id_t element_id )
 {
     U8_TRACE_BEGIN();
-    assert( profile_type != NULL );
     assert( base_type != NULL );
     int export_err = 0;
 
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_START_TAG_START );
-    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
-    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_ns );
+    export_err |= xml_writer_write_xml_enc_view ( &((*this_).xml_writer), profile_type );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_ATTR_SEPARATOR );
 
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_START );
     export_err |= xmi_atom_writer_encode_xmi_id( &((*this_).atom_writer), element_id );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), "#" );
-    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
+    export_err |= xml_writer_write_xml_enc_view ( &((*this_).xml_writer), profile_type );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI_XML_ATTR_ID_END );
 
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XMI2_EXT_BASE_ELEMENT_START );
@@ -1785,17 +1801,16 @@ int xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
 
 int xmi_element_writer_private_end_stereotype( xmi_element_writer_t *this_,
                                                const char* profile_ns,
-                                               const char* profile_type )
+                                               const utf8stringview_t profile_type )
 {
     U8_TRACE_BEGIN();
-    assert( profile_type != NULL );
     int export_err = 0;
 
     xml_writer_decrease_indent ( &((*this_).xml_writer) );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_NL );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_START );
-    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), XMI_XML_NS_SYSML );
-    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_type );
+    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), profile_ns );
+    export_err |= xml_writer_write_xml_enc_view ( &((*this_).xml_writer), profile_type );
     export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XML_WRITER_END_TAG_END );
 
     U8_TRACE_END_ERR( export_err );

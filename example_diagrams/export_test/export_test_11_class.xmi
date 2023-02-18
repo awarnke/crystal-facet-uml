@@ -45,5 +45,6 @@
         <packagedElement xmi:type="uml:Class" xmi:id="60004" name="Roots" ><!--C0004-->
         </packagedElement>
     </uml:Model>
-    <LocalProfile:environment xmi:id="60002#environment" base_Class="60002" />
+    <LocalProfile:environment xmi:id="60002#environment" base_Class="60002" >
+    </LocalProfile:environment>
 </xmi:XMI>
