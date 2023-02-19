@@ -1,8 +1,8 @@
 #
 # spec file for package crystal-facet-uml
 #
-# Copyright (c) 2019-2022 SUSE LLC
-# Copyright (c) 2017-2022 Andreas Warnke cfu@andreaswarnke.de
+# Copyright (c) 2019-2023 SUSE LLC
+# Copyright (c) 2017-2023 Andreas Warnke cfu@andreaswarnke.de
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -18,7 +18,7 @@
 
 
 Name:           crystal-facet-uml
-Version:        1.46.0
+Version:        1.47.0
 Release:        0
 Summary:        Draws UML/SysML Diagrams
 License:        Apache-2.0

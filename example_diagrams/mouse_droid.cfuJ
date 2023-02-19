@@ -1653,6 +1653,7 @@
         "id": 31,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
+        "stereotype": "decision",
         "name": "Architecture Decisions",
         "description": [
                 "This section documents the major design decisions. (Solution Space, Software Level L3)"
@@ -2258,6 +2259,7 @@
         "id": 10,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
+        "stereotype": "decision",
         "name": "Architecture Decisions",
         "description": [
                 "This section documents the major design decisions. (Solution Space, System Level L1)"
@@ -2644,6 +2646,18 @@
         "uuid": "a165b404-76ec-4eec-a34b-9648249f774f",
         "features":
         [
+          {
+            "id": 30,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "constraint",
+            "value": "environment",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "8690f1a3-60ea-44df-b869-7c481105d691"
+          }
         ]
       }
     },

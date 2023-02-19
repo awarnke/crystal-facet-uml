@@ -2,11 +2,11 @@ crystal-facet-uml (1.47.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * diagrams and relationships have stereotypes
-  * stereotype (classifier) and tagged value (feature) defined
-  * Rare issue fix: XMI export exports also the non-lifeline features of
+  * stereotype (as classifier) and tagged value (as feature) defined
+  * Rare issue fix: XMI-export exports also the non-lifeline features of
     interaction-ownedBehaviors (e.g. port of state in sequence)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 32 Mar 2023 11:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 19 Feb 2023 08:00:00 +0100
 
 crystal-facet-uml (1.46.0) UNRELEASED; urgency=medium
 

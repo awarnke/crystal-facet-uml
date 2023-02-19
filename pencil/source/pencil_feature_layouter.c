@@ -556,7 +556,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
     }
 
     const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-    const double sum_of_gaps = 4.0 * gap;  /* gaps above and below each compartment line */
+    const double sum_of_gaps = 6.0 * gap;  /* gaps above and below each of the 3 compartment lines */
 
     geometry_dimensions_reinit( out_features_bounds, width, height + sum_of_gaps );
     U8_TRACE_END();
