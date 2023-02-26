@@ -138,12 +138,14 @@ static void testCharAtLoops(void);
 #ifdef __cplusplus
 static void testCrossLanguage(void);
 #endif
+#ifdef UTF8STRINGBUF_ENABLE_DEPRECATED
 static void testSplitIn2(void);
 static void testSplitIn3(void);
 static void testSplitIn4(void);
 static void testSplitIn5(void);
 static void testJoin(void);
 static void testSplitAndJoin(void);
+#endif
 static void testGetEnd(void);
 
 test_suite_t utf8stringbuf_test_get_suite(void)
@@ -188,12 +190,14 @@ test_suite_t utf8stringbuf_test_get_suite(void)
 #ifdef __cplusplus
     test_suite_add_test_case( &result, "testCrossLanguage", &testCrossLanguage );
 #endif
+#ifdef UTF8STRINGBUF_ENABLE_DEPRECATED
     test_suite_add_test_case( &result, "testSplitIn2", &testSplitIn2 );
     test_suite_add_test_case( &result, "testSplitIn3", &testSplitIn3 );
     test_suite_add_test_case( &result, "testSplitIn4", &testSplitIn4 );
     test_suite_add_test_case( &result, "testSplitIn5", &testSplitIn5 );
     test_suite_add_test_case( &result, "testJoin", &testJoin );
     test_suite_add_test_case( &result, "testSplitAndJoin", &testSplitAndJoin );
+#endif
     test_suite_add_test_case( &result, "testGetEnd", &testGetEnd );
     return result;
 }
@@ -1665,6 +1669,7 @@ static void testCrossLanguage(void) {
 
 #endif
 
+#ifdef UTF8STRINGBUF_ENABLE_DEPRECATED
 static void testSplitIn2(void) {
     utf8string2tuple_t tuple;
     int equals;
@@ -2383,6 +2388,7 @@ static void testSplitAndJoin(void) {
         TEST_EXPECT_EQUAL_STRING( "Hello ", dynTestBuf3.buf );
     }
 }
+#endif
 
 static void testGetEnd(void)
 {

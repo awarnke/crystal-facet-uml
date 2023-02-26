@@ -89,10 +89,10 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_,
-                                                    data_row_id_t id,
-                                                    data_diagram_t *out_diagram
-                                                  );
+static inline u8_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_,
+                                                                  data_row_id_t id,
+                                                                  data_diagram_t *out_diagram
+                                                                );
 
 /*!
  *  \brief reads a diagram from the database
@@ -103,10 +103,10 @@ u8_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *this_,
-                                                      const char *uuid,
-                                                      data_diagram_t *out_diagram
-                                                    );
+static inline u8_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *this_,
+                                                                    const char *uuid,
+                                                                    data_diagram_t *out_diagram
+                                                                  );
 
 /*!
  *  \brief reads all child-diagrams from the database
@@ -120,12 +120,12 @@ u8_error_t data_database_reader_get_diagram_by_uuid ( data_database_reader_t *th
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
-                                                            data_row_id_t parent_id,
-                                                            uint32_t max_out_array_size,
-                                                            data_diagram_t (*out_diagram)[],
-                                                            uint32_t *out_diagram_count
-                                                          );
+static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
+                                                                          data_row_id_t parent_id,
+                                                                          uint32_t max_out_array_size,
+                                                                          data_diagram_t (*out_diagram)[],
+                                                                          uint32_t *out_diagram_count
+                                                                        );
 
 /*!
  *  \brief reads all classifier-displaying diagrams from the database
@@ -141,12 +141,12 @@ u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
-                                                                data_row_id_t classifier_id,
-                                                                uint32_t max_out_array_size,
-                                                                data_diagram_t (*out_diagram)[],
-                                                                uint32_t *out_diagram_count
-                                                              );
+static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
+                                                                              data_row_id_t classifier_id,
+                                                                              uint32_t max_out_array_size,
+                                                                              data_diagram_t (*out_diagram)[],
+                                                                              uint32_t *out_diagram_count
+                                                                            );
 
 /*!
  *  \brief reads all child-diagram ids from the database
@@ -157,10 +157,10 @@ u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_re
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
-                                                               data_row_id_t parent_id,
-                                                               data_small_set_t *out_diagram_ids
-                                                             );
+static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
+                                                                             data_row_id_t parent_id,
+                                                                             data_small_set_t *out_diagram_ids
+                                                                           );
 
 /*!
  *  \brief reads all classifier-displaying diagrams ids from the database
@@ -173,10 +173,10 @@ u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_rea
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
-                                                                   data_row_id_t classifier_id,
-                                                                   data_small_set_t *out_diagram_ids
-                                                                 );
+static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
+                                                                                 data_row_id_t classifier_id,
+                                                                                 data_small_set_t *out_diagram_ids
+                                                                               );
 
 /* ================================ CLASSIFIER ================================ */
 
@@ -189,10 +189,10 @@ u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_,
-                                                       data_row_id_t id,
-                                                       data_classifier_t *out_classifier
-                                                     );
+static inline u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_,
+                                                                     data_row_id_t id,
+                                                                     data_classifier_t *out_classifier
+                                                                   );
 
 /*!
  *  \brief reads a classifier from the database
@@ -203,10 +203,10 @@ u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *t
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if name does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_,
-                                                         const char *name,
-                                                         data_classifier_t *out_classifier
-                                                       );
+static inline u8_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_,
+                                                                       const char *name,
+                                                                       data_classifier_t *out_classifier
+                                                                     );
 
 /*!
  *  \brief reads a classifier from the database
@@ -217,10 +217,10 @@ u8_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t 
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t *this_,
-                                                         const char *uuid,
-                                                         data_classifier_t *out_classifier
-                                                       );
+static inline u8_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t *this_,
+                                                                       const char *uuid,
+                                                                       data_classifier_t *out_classifier
+                                                                     );
 
 /*!
  *  \brief reads all classifiers of a diagram from the database.
@@ -236,12 +236,12 @@ u8_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t 
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
-                                                                data_row_id_t diagram_id,
-                                                                uint32_t max_out_array_size,
-                                                                data_visible_classifier_t (*out_visible_classifier)[],
-                                                                uint32_t *out_visible_classifier_count
-                                                              );
+static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
+                                                                              data_row_id_t diagram_id,
+                                                                              uint32_t max_out_array_size,
+                                                                              data_visible_classifier_t (*out_visible_classifier)[],
+                                                                              uint32_t *out_visible_classifier_count
+                                                                            );
 
 /*!
  *  \brief iterates over all classifiers from the database.
@@ -255,10 +255,10 @@ u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_re
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
-                                                               bool hierarchical,
-                                                               data_database_iterator_classifiers_t *io_classifier_iterator
-                                                             );
+static inline u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
+                                                                             bool hierarchical,
+                                                                             data_database_iterator_classifiers_t *io_classifier_iterator
+                                                                           );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
@@ -271,10 +271,10 @@ u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_rea
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
-                                                           data_row_id_t id,
-                                                           data_diagramelement_t *out_diagramelement
-                                                         );
+static inline u8_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
+                                                                         data_row_id_t id,
+                                                                         data_diagramelement_t *out_diagramelement
+                                                                       );
 
 /*!
  *  \brief reads a diagramelement from the database
@@ -285,10 +285,10 @@ u8_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_reader_t *this_,
-                                                             const char *uuid,
-                                                             data_diagramelement_t *out_diagramelement
-                                                           );
+static inline u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_reader_t *this_,
+                                                                           const char *uuid,
+                                                                           data_diagramelement_t *out_diagramelement
+                                                                         );
 
 /*!
  *  \brief reads all diagramelements of a diagram from the database
@@ -302,12 +302,12 @@ u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_reade
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
-                                                                    data_row_id_t diagram_id,
-                                                                    uint32_t max_out_array_size,
-                                                                    data_diagramelement_t (*out_diagramelement)[],
-                                                                    uint32_t *out_diagramelement_count
-                                                                  );
+static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
+                                                                                  data_row_id_t diagram_id,
+                                                                                  uint32_t max_out_array_size,
+                                                                                  data_diagramelement_t (*out_diagramelement)[],
+                                                                                  uint32_t *out_diagramelement_count
+                                                                                );
 
 /*!
  *  \brief reads all diagramelements of a classifier from the database
@@ -321,12 +321,12 @@ u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_databas
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
-                                                                       data_row_id_t classifier_id,
-                                                                       uint32_t max_out_array_size,
-                                                                       data_diagramelement_t (*out_diagramelement)[],
-                                                                       uint32_t *out_diagramelement_count
-                                                                     );
+static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
+                                                                                     data_row_id_t classifier_id,
+                                                                                     uint32_t max_out_array_size,
+                                                                                     data_diagramelement_t (*out_diagramelement)[],
+                                                                                     uint32_t *out_diagramelement_count
+                                                                                   );
 
 /* ================================ FEATURE ================================ */
 
@@ -339,10 +339,10 @@ u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_data
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
-                                                    data_row_id_t id,
-                                                    data_feature_t *out_feature
-                                                  );
+static inline u8_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
+                                                                  data_row_id_t id,
+                                                                  data_feature_t *out_feature
+                                                                );
 
 /*!
  *  \brief reads a feature from the database
@@ -353,10 +353,10 @@ u8_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *this_,
-                                                      const char *uuid,
-                                                      data_feature_t *out_feature
-                                                    );
+static inline u8_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *this_,
+                                                                    const char *uuid,
+                                                                    data_feature_t *out_feature
+                                                                  );
 
 /*!
  *  \brief reads all features of a classifier from the database
@@ -370,12 +370,12 @@ u8_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *th
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
-                                                                data_row_id_t classifier_id,
-                                                                uint32_t max_out_array_size,
-                                                                data_feature_t (*out_feature)[],
-                                                                uint32_t *out_feature_count
-                                                              );
+static inline u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
+                                                                              data_row_id_t classifier_id,
+                                                                              uint32_t max_out_array_size,
+                                                                              data_feature_t (*out_feature)[],
+                                                                              uint32_t *out_feature_count
+                                                                            );
 
 /*!
  *  \brief reads all features of a diagram from the database
@@ -391,12 +391,12 @@ u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_re
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
-                                                             data_row_id_t diagram_id,
-                                                             uint32_t max_out_array_size,
-                                                             data_feature_t (*out_feature)[],
-                                                             uint32_t *out_feature_count
-                                                           );
+static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
+                                                                           data_row_id_t diagram_id,
+                                                                           uint32_t max_out_array_size,
+                                                                           data_feature_t (*out_feature)[],
+                                                                           uint32_t *out_feature_count
+                                                                         );
 
 /* ================================ RELATIONSHIP ================================ */
 
@@ -409,10 +409,10 @@ u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reade
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
-                                                         data_row_id_t id,
-                                                         data_relationship_t *out_relationship
-                                                       );
+static inline u8_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
+                                                                       data_row_id_t id,
+                                                                       data_relationship_t *out_relationship
+                                                                     );
 
 /*!
  *  \brief reads a relationship from the database
@@ -423,10 +423,10 @@ u8_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t 
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_DB_STRUCTURE if uuid does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_reader_get_relationship_by_uuid ( data_database_reader_t *this_,
-                                                           const char *uuid,
-                                                           data_relationship_t *out_relationship
-                                                         );
+static inline u8_error_t data_database_reader_get_relationship_by_uuid ( data_database_reader_t *this_,
+                                                                         const char *uuid,
+                                                                         data_relationship_t *out_relationship
+                                                                       );
 
 /*!
  *  \brief reads all relationships of a classifier from the database
@@ -442,12 +442,12 @@ u8_error_t data_database_reader_get_relationship_by_uuid ( data_database_reader_
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
-                                                                     data_row_id_t classifier_id,
-                                                                     uint32_t max_out_array_size,
-                                                                     data_relationship_t (*out_relationship)[],
-                                                                     uint32_t *out_relationship_count
-                                                                   );
+static inline u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
+                                                                                   data_row_id_t classifier_id,
+                                                                                   uint32_t max_out_array_size,
+                                                                                   data_relationship_t (*out_relationship)[],
+                                                                                   uint32_t *out_relationship_count
+                                                                                 );
 
 /*!
  *  \brief reads all relationships of a feature from the database
@@ -463,12 +463,12 @@ u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_databa
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t feature_id,
-                                                                  uint32_t max_out_array_size,
-                                                                  data_relationship_t (*out_relationship)[],
-                                                                  uint32_t *out_relationship_count
-                                                                );
+static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
+                                                                                data_row_id_t feature_id,
+                                                                                uint32_t max_out_array_size,
+                                                                                data_relationship_t (*out_relationship)[],
+                                                                                uint32_t *out_relationship_count
+                                                                              );
 
 /*!
  *  \brief reads all relationships of a diagram from the database
@@ -484,12 +484,12 @@ u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_
  *          U8_ERROR_NO_DB if the database is not open,
  *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
  */
-u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  uint32_t max_out_array_size,
-                                                                  data_relationship_t (*out_relationship)[],
-                                                                  uint32_t *out_relationship_count
-                                                                );
+static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
+                                                                                data_row_id_t diagram_id,
+                                                                                uint32_t max_out_array_size,
+                                                                                data_relationship_t (*out_relationship)[],
+                                                                                uint32_t *out_relationship_count
+                                                                              );
 
 /* ================================ private ================================ */
 

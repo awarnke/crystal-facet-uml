@@ -27,7 +27,6 @@ ideas for future versions:
   [ ] Draw unknown classifier and feature and relationship types nicely, unlike stereotypes and tagged-values in 1.46.0
   @io
   [ ] export formats: enhance xmi standard compliance
-  [?] import XMI format
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
   [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
@@ -42,16 +41,14 @@ ideas for future versions:
   [ ] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
       show/hide relationships-of-other-diag-types
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
-  [ ] diagrams need some kind of category/classification/stereotype like idea-for-future, rejected-alternative, ...
-      --> add a "stereotype" field to "diagrams"
   [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag);
       part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   @ctrl
-  [ ] delete features immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)
-  [ ] delete relationships immediately when they become invisible in all diagrams (note: the search+xmi+json export find them)
+  [ ] delete features immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
+  [ ] delete relationships immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
   @u8stream
   @u8buf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
@@ -61,5 +58,4 @@ ideas for future versions:
 
 ideas for a version 2
   - drop gtk3 support (use gtk4 only)
-  - add profiles to the storage formats (json and sqlite)
   - support rust in application code

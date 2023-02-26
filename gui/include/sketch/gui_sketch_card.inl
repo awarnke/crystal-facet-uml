@@ -264,8 +264,9 @@ static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_ske
     {
         for ( uint32_t f_idx = 0; f_idx < data_visible_set_get_feature_count( &((*this_).painter_input_data) ); f_idx ++ )
         {
-            const data_feature_t *feat;
-            feat = data_visible_set_get_feature_const ( &((*this_).painter_input_data), f_idx );
+            const data_feature_t *const feat
+                = data_visible_set_get_feature_const ( &((*this_).painter_input_data), f_idx );
+            assert( feat != NULL );
             const data_feature_type_t f_type = data_feature_get_main_type( feat );
             if (( f_type == DATA_FEATURE_TYPE_PROPERTY )||( f_type == DATA_FEATURE_TYPE_OPERATION ))
             {

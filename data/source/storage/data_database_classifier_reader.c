@@ -260,8 +260,8 @@ u8_error_t data_database_classifier_reader_get_classifier_by_name( data_database
 }
 
 u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_database_classifier_reader_t *this_,
-                                                                      const char *uuid,
-                                                                      data_classifier_t *out_classifier )
+                                                                    const char *uuid,
+                                                                    data_classifier_t *out_classifier )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_classifier );
@@ -314,10 +314,10 @@ u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_databas
 }
 
 u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data_database_classifier_reader_t *this_,
-                                                                            data_row_id_t diagram_id,
-                                                                            uint32_t max_out_array_size,
-                                                                            data_visible_classifier_t (*out_visible_classifier)[],
-                                                                            uint32_t *out_visible_classifier_count )
+                                                                          data_row_id_t diagram_id,
+                                                                          uint32_t max_out_array_size,
+                                                                          data_visible_classifier_t (*out_visible_classifier)[],
+                                                                          uint32_t *out_visible_classifier_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_visible_classifier_count );
@@ -495,8 +495,8 @@ static const int RESULT_FEATURE_LIST_UUID_COLUMN = 7;
 static const int RESULT_FEATURE_DIAGRAMELEMENTS_ID_COLUMN = 8;
 
 u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
-                                                                 data_row_id_t id,
-                                                                 data_feature_t *out_feature )
+                                                               data_row_id_t id,
+                                                               data_feature_t *out_feature )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_feature );
@@ -546,8 +546,8 @@ u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_cla
 }
 
 u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_classifier_reader_t *this_,
-                                                                   const char *uuid,
-                                                                   data_feature_t *out_feature )
+                                                                 const char *uuid,
+                                                                 data_feature_t *out_feature )
 {
     U8_TRACE_BEGIN();
     assert( NULL != uuid );
@@ -599,10 +599,10 @@ u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_c
 }
 
 u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                             data_row_id_t classifier_id,
-                                                                             uint32_t max_out_array_size,
-                                                                             data_feature_t (*out_feature)[],
-                                                                             uint32_t *out_feature_count )
+                                                                           data_row_id_t classifier_id,
+                                                                           uint32_t max_out_array_size,
+                                                                           data_feature_t (*out_feature)[],
+                                                                           uint32_t *out_feature_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_feature_count );
@@ -663,10 +663,10 @@ u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_
 }
 
 u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                          data_row_id_t diagram_id,
-                                                                          uint32_t max_out_array_size,
-                                                                          data_feature_t (*out_feature)[],
-                                                                          uint32_t *out_feature_count )
+                                                                        data_row_id_t diagram_id,
+                                                                        uint32_t max_out_array_size,
+                                                                        data_feature_t (*out_feature)[],
+                                                                        uint32_t *out_feature_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_feature_count );
@@ -848,7 +848,9 @@ static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 11;
  */
 static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 12;
 
-u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_, data_row_id_t id, data_relationship_t *out_relationship )
+u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_,
+                                                                    data_row_id_t id,
+                                                                    data_relationship_t *out_relationship )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_relationship );
@@ -909,8 +911,8 @@ u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_databas
 }
 
 u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_database_classifier_reader_t *this_,
-                                                                        const char *uuid,
-                                                                        data_relationship_t *out_relationship )
+                                                                      const char *uuid,
+                                                                      data_relationship_t *out_relationship )
 {
     U8_TRACE_BEGIN();
     assert( NULL != uuid );
@@ -973,10 +975,10 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
 }
 
 u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                                  data_row_id_t classifier_id,
-                                                                                  uint32_t max_out_array_size,
-                                                                                  data_relationship_t (*out_relationship)[],
-                                                                                  uint32_t *out_relationship_count )
+                                                                                data_row_id_t classifier_id,
+                                                                                uint32_t max_out_array_size,
+                                                                                data_relationship_t (*out_relationship)[],
+                                                                                uint32_t *out_relationship_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_relationship_count );
@@ -1048,10 +1050,10 @@ u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( 
 }
 
 u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
-                                                                               data_row_id_t feature_id,
-                                                                               uint32_t max_out_array_size,
-                                                                               data_relationship_t (*out_relationship)[],
-                                                                               uint32_t *out_relationship_count )
+                                                                             data_row_id_t feature_id,
+                                                                             uint32_t max_out_array_size,
+                                                                             data_relationship_t (*out_relationship)[],
+                                                                             uint32_t *out_relationship_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_relationship_count );
@@ -1123,10 +1125,10 @@ u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( dat
 }
 
 u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                               data_row_id_t diagram_id,
-                                                                               uint32_t max_out_array_size,
-                                                                               data_relationship_t (*out_relationship)[],
-                                                                               uint32_t *out_relationship_count )
+                                                                             data_row_id_t diagram_id,
+                                                                             uint32_t max_out_array_size,
+                                                                             data_relationship_t (*out_relationship)[],
+                                                                             uint32_t *out_relationship_count )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_relationship_count );

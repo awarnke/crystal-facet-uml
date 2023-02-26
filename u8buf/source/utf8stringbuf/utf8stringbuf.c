@@ -309,6 +309,8 @@ utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *
     return result;
 }
 
+#ifdef UTF8STRINGBUF_ENABLE_DEPRECATED
+
 static const int SIZE_OF_TERM0 = 1; /*!< Size of the terminating zero */
 
 utf8string2tuple_t utf8stringbuf_split_in_2( utf8stringbuf_t this_, int start2 ) {
@@ -642,6 +644,8 @@ void utf8stringbuf_join( utf8stringbuf_t this_ ) {
     const size_t trailing_space = (size_t)( this_.size - confirmedLength );
     memset( &(this_.buf[confirmedLength]), '\0', trailing_space );
 }
+
+#endif
 
 
 /*

@@ -17,6 +17,8 @@
 extern "C" {
 #endif
 
+#ifdef UTF8STRINGBUF_ENABLE_DEPRECATED
+
 /*!
  *  \brief A pair of standard utf8-encoded C-Strings.
  */
@@ -82,6 +84,8 @@ struct utf8string5tuple_struct {
  *  \brief A quintuple of standard utf8-encoded C-Strings.
  */
 typedef struct utf8string5tuple_struct utf8string5tuple_t;
+
+#endif
 
 #ifdef __cplusplus
 }

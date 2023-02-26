@@ -14,9 +14,13 @@
 #include "utf8stringbuf/utf8stringview.h"
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*!
  *  \brief all data attributes needed for the code point iterator functions
- * 
+ *
  *  The iterator works similar to the J2SE-ListIterator, hibernate-query-Iterator and QT-QListIterator:
  *  while ( hasNext() ) { element = next() };
  */
@@ -46,7 +50,7 @@ static inline void utf8codepointiterator_destroy ( utf8codepointiterator_t *this
 
 /*!
  *  \brief checks if a next code point-element exists in the iterator - does not modify the iterator state
- * 
+ *
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param this_ pointer to own object attributes
  *  \return true if there is a next element in the iterator
@@ -55,7 +59,7 @@ static inline bool utf8codepointiterator_has_next ( const utf8codepointiterator_
 
 /*!
  *  \brief reads the next code point-element from the stringview.
- * 
+ *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param this_ pointer to own object attributes
  *  \return the next code point-element parsed from the stringview;
@@ -70,6 +74,10 @@ static inline utf8codepoint_t utf8codepointiterator_next ( utf8codepointiterator
  *  \param this_ pointer to own object attributes
  */
 static inline void utf8codepointiterator_private_step_to_next ( utf8codepointiterator_t *this_ );
+
+#ifdef __cplusplus
+}
+#endif
 
 #include "utf8codepointiterator.inl"
 

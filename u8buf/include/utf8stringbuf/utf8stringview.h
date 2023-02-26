@@ -11,6 +11,9 @@
  *  \li a pointer to an character array (non null-terminated) and
  *  \li the length of the array.
  *
+ *  In case the string view is empty, the length is zero.
+ *  There is no representation for "invalid" or "NULL" even if the internal pointer may have that value.
+ *
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author Copyright 2021-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
@@ -40,7 +43,7 @@ extern "C" {
  *  \brief Macro to facilitate static initialisation of an utf8stringview_t from a null-terminated string
  *
  *  \n
- *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  */
 #define UTF8STRINGVIEW_STR(string_param) (utf8stringview_t){.start=string_param,.length=(string_param==NULL)?0:strlen(string_param)}
 
@@ -66,7 +69,7 @@ struct utf8stringview_struct {
 /*!
  *  \typedef utf8stringview_t
  *  \brief The string view object
- * 
+ *
  *  It represents a non-null terminated immutable sequence of utf8 characters.
  */
 typedef struct utf8stringview_struct utf8stringview_t;
@@ -105,7 +108,7 @@ static inline utf8stringview_t utf8stringview_init_region( const char* string, s
  * \brief Gets the pointer to the start of the character array
  * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  * \param this_ The string view object
- * \return Pointer to the start of the character array
+ * \return Pointer to the start of the character array. Undefined if the length is 0.
  */
 static inline const char* utf8stringview_get_start( const utf8stringview_t this_ );
 
@@ -116,6 +119,36 @@ static inline const char* utf8stringview_get_start( const utf8stringview_t this_
  * \return Length of the character array.
  */
 static inline size_t utf8stringview_get_length( const utf8stringview_t this_ );
+
+/*!
+ * \brief Checks if two strings are equal.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ A string view object
+ * \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ * \return 1 if the strings are equal, 0 if not.
+ */
+static inline int utf8stringview_equals_str( const utf8stringview_t this_, const char *that );
+
+/*!
+ * \brief Checks if two strings are equal.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ A string view object
+ * \param that A string buffer object
+ * \return 1 if the strings are equal, 0 if not.
+ */
+static inline int utf8stringview_equals_buf( const utf8stringview_t this_, const utf8stringbuf_t that );
+
+/*!
+ * \brief Checks if two strings are equal.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ A string view object
+ * \param that Another string view object.
+ * \return 1 if the strings are equal, 0 if not.
+ */
+static inline int utf8stringview_equals_view( const utf8stringview_t this_, const utf8stringview_t that );
 
 /*!
  * \brief Searches a pattern within a stringview

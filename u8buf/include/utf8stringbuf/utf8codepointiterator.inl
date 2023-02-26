@@ -1,5 +1,9 @@
 /* File: utf8codepointiterator.inl; Copyright and License: see below */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 static inline void utf8codepointiterator_init ( utf8codepointiterator_t *this_, utf8stringview_t string )
 {
     (*this_).remaining = string;
@@ -35,7 +39,7 @@ static inline void utf8codepointiterator_private_step_to_next ( utf8codepointite
         if ( utf8codepoint_is_valid( (*this_).next ) )
         {
             const unsigned int next_len = utf8codepoint_get_length( (*this_).next );
-            (*this_).remaining = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ), 
+            (*this_).remaining = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ),
                                                              next_len,
                                                              (remaining_len - next_len )
                                                            );
@@ -46,6 +50,10 @@ static inline void utf8codepointiterator_private_step_to_next ( utf8codepointite
         }
     }
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 
 /*

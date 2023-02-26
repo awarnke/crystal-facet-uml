@@ -135,8 +135,8 @@ struct utf8stringbuf_struct {
 /*!
  *  \typedef utf8stringbuf_t
  *  \brief The string buffer object
- * 
- *  It encapsulates memory-pointers (char*), memory-sizes (size_t) and indices (ptrdiff_t) 
+ *
+ *  It encapsulates memory-pointers (char*), memory-sizes (size_t) and indices (ptrdiff_t)
  *  so that the calling code only sees a pointer-like utf8stringbuf_t struct and integer-indices.
  *  Errors are reported via an utf8error_t, in some exceptional cases via -1 as special-index.
  */
@@ -646,14 +646,16 @@ static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int s
  * \brief Splits a string buffer into an ignored first part and the unfilled terminating part
  *
  * This function may be useful when building an string using the append functions:
- * Future append calls are faster because the utf8stringbuf is smaller and you may modify the last
- * appended part by the replace functions without touching the first part.
+ * Future append calls are faster because the utf8stringbuf is smaller.
+ * Also you may modify the last appended part by the replace functions without touching the first part.
  * Do not call \link utf8stringbuf_join(utf8stringbuf_t) utf8stringbuf_join \endlink after this operation.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  * \param this_ The string buffer
  * \return an utf8stringbuf containing only the end
  */
 static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ );
+
+#ifdef UTF8STRINGBUF_ENABLE_DEPRECATED
 
 /*!
  * \brief Splits a string buffer into two substrings
@@ -743,6 +745,8 @@ extern utf8string5tuple_t utf8stringbuf_split_in_5( utf8stringbuf_t this_, int s
  * \param this_ The string buffer
  */
 extern void utf8stringbuf_join( utf8stringbuf_t this_ );
+
+#endif
 
 /*!
  * \brief Appends a string to a string buffer

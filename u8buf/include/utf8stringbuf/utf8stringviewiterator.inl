@@ -1,5 +1,9 @@
 /* File: utf8stringviewiterator.inl; Copyright and License: see below */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, utf8stringview_t element_list, utf8string_t separator )
 {
     (*this_).remaining = element_list;
@@ -45,17 +49,21 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
         else
         {
             const size_t separator_len = utf8string_get_length( (*this_).separator );
-            (*this_).next = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ), 
-                                                        0, 
-                                                        next_sep 
+            (*this_).next = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ),
+                                                        0,
+                                                        next_sep
                                                       );
-            (*this_).remaining = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ), 
+            (*this_).remaining = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ),
                                                              (next_sep + separator_len ),
                                                              (remaining_len - next_sep - separator_len )
                                                            );
         }
     }
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 
 /*

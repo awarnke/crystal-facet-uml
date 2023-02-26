@@ -13,15 +13,19 @@
 #include "utf8stringbuf/utf8stringview.h"
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*!
  *  \brief all data attributes needed for the character-separated iterator functions
- * 
+ *
  *  The iterator works similar to the J2SE-ListIterator, hibernate-query-Iterator and QT-QListIterator:
  *  while ( hasNext() ) { element = next() };
  */
 struct utf8stringviewiterator_struct {
     bool has_next;  /*!< true if there is a next stringview-element, even in case of a possibly empty end */
-    bool next_is_end;  /*!< true if next stringview-element is the last one */
+    bool next_is_end;  /*!< true if next stringview-element is the last one; needed to distinguish empty next elements from the end */
     utf8stringview_t next;  /*!< the next stringview-element */
     utf8stringview_t remaining;  /*!< remaining part of the element_list which is not yet processed */
     utf8string_t separator;  /*!< character-sequence that separates the stringviews */
@@ -49,7 +53,7 @@ static inline void utf8stringviewiterator_destroy ( utf8stringviewiterator_t *th
 
 /*!
  *  \brief checks if a next stringview-element exists in the iterator - does not modify the iterator state
- * 
+ *
  *  Note that even an empty string contains one empty stringview-element
  *
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
@@ -60,12 +64,12 @@ static inline bool utf8stringviewiterator_has_next ( const utf8stringviewiterato
 
 /*!
  *  \brief reads the next stringview-element from the character-separated list of stringviews.
- * 
+ *
  *  Internally advances to the stringview-element after next.
  *
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:remaining_len, m:separator_len
  *  \param this_ pointer to own object attributes
- *  \return the next stringview-element parsed from the character-separated list of stringviews, 
+ *  \return the next stringview-element parsed from the character-separated list of stringviews,
  *          in case there is no next stringview-element, utf8stringview_get_length() of the result is 0
  */
 static inline utf8stringview_t utf8stringviewiterator_next ( utf8stringviewiterator_t *this_ );
@@ -77,6 +81,10 @@ static inline utf8stringview_t utf8stringviewiterator_next ( utf8stringviewitera
  *  \param this_ pointer to own object attributes
  */
 static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewiterator_t *this_ );
+
+#ifdef __cplusplus
+}
+#endif
 
 #include "utf8stringviewiterator.inl"
 
