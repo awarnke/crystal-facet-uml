@@ -12,10 +12,10 @@ static void tearDown(void);
 static void testIntEmpty(void);
 static void testIntSpaceSeparators(void);
 static void testIntMixedCodepoints(void);
-static void testEmptyListUseCase(void);
+static void testIntIntegers(void);
 static void testFloatEmpty(void);
-static void testFloatMixedCodepoints(void);
-static void testNullSeparatorUseCase(void);
+static void testFloatValidFloats(void);
+static void testFloatInvalidFloats(void);
 
 test_suite_t utf8stringviewtokenizer_test_get_suite(void)
 {
@@ -24,10 +24,10 @@ test_suite_t utf8stringviewtokenizer_test_get_suite(void)
     test_suite_add_test_case( &result, "testIntEmpty", &testIntEmpty );
     test_suite_add_test_case( &result, "testIntSpaceSeparators", &testIntSpaceSeparators );
     test_suite_add_test_case( &result, "testIntMixedCodepoints", &testIntMixedCodepoints );
-    test_suite_add_test_case( &result, "testEmptyListUseCase", &testEmptyListUseCase );
+    test_suite_add_test_case( &result, "testIntIntegers", &testIntIntegers );
     test_suite_add_test_case( &result, "testFloatEmpty", &testFloatEmpty );
-    test_suite_add_test_case( &result, "testFloatMixedCodepoints", &testFloatMixedCodepoints );
-    test_suite_add_test_case( &result, "testNullSeparatorUseCase", &testNullSeparatorUseCase );
+    test_suite_add_test_case( &result, "testFloatValidFloats", &testFloatValidFloats );
+    test_suite_add_test_case( &result, "testFloatInvalidFloats", &testFloatInvalidFloats );
     return result;
 }
 
@@ -201,28 +201,46 @@ static void testIntMixedCodepoints(void)
     utf8stringviewtokenizer_destroy( &tok );
 }
 
-static void testEmptyListUseCase(void)
+static void testIntIntegers(void)
 {
     bool has_next;
     utf8stringview_t next;
-    static const char *const my_list = "";
+    static const char *const my_list = " int+32.23,-32e23-Infinity";
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT );
-
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( true, has_next );
+    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "int" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+32" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "23" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "," ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-32" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "e23" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "Infinity" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-
-    next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
@@ -273,55 +291,118 @@ static void testFloatEmpty(void)
     utf8stringviewtokenizer_destroy( &tok );
 }
 
-static void testFloatMixedCodepoints(void)
+static void testFloatValidFloats(void)
 {
     bool has_next;
     utf8stringview_t next;
-
-    /* init */
-    utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_NULL, UTF8STRINGVIEWTOKENMODE_FLOAT );
-
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( true, has_next );
-
-    next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( false, has_next );
-
-    next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-
-    /* finish */
-    utf8stringviewtokenizer_destroy( &tok );
-}
-
-static void testNullSeparatorUseCase(void)
-{
-    bool has_next;
-    utf8stringview_t next;
-    static const char *const my_list = "1,2,3";
+    static const char *const my_list = " int+3EUR+32.23e+1,-InfinityNaN5.e05INFINITY5e-20";
 
     /* init */
     utf8stringviewtokenizer_t tok;
     utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT );
 
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( true, has_next );
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "int" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( my_list, utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( strlen( my_list ), utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+3" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "EUR" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+32.23e+1" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "," ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 9, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-Infinity" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "NaN" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "5.e05" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "INFINITY" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "5e-20" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
+    /* finish */
+    utf8stringviewtokenizer_destroy( &tok );
+}
+
+static void testFloatInvalidFloats(void)
+{
+    bool has_next;
+    utf8stringview_t next;
+    static const char *const my_list = "+nan +-.3e++4 +3.e 3.3.3e3.3E3i";
+
+    /* init */
+    utf8stringviewtokenizer_t tok;
+    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT );
+
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "nan" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "e" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+4" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+3." ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "e" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3.3" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3e3" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3E3" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "i" ) );
+
+    has_next = utf8stringviewtokenizer_has_next( &tok );
+    TEST_EXPECT_EQUAL_INT( false, has_next );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );

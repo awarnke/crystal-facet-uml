@@ -75,6 +75,31 @@ static inline bool utf8stringviewtokenizer_has_next ( const utf8stringviewtokeni
 static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtokenizer_t *this_ );
 
 /*!
+ *  \brief checks if the provideed ascii code point is a space or a control character, this includes 0x7f
+ *
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ pointer to own object attributes
+ */
+static inline bool utf8stringviewtokenizer_private_is_space( utf8stringviewtokenizer_t *this_, char ascii );
+
+/*!
+ *  \brief checks if the provideed ascii code point is a standalone token, see utf8stringviewtokenmode_enum
+ *
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ pointer to own object attributes
+ */
+static inline bool utf8stringviewtokenizer_private_is_standalone( utf8stringviewtokenizer_t *this_, char ascii );
+
+/*!
+ *  \brief checks if the next token is a number and returns its length
+ *
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:remaining_input_text_len
+ *  \param this_ pointer to own object attributes
+ *  \return length of the integer or floatingpoint number, 0 if there is no number
+ */
+static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringviewtokenizer_t *this_ );
+
+/*!
  *  \brief moves the iterator to the next token start, updates (*this_).remaining_input_text
  *
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:remaining_input_text_len
