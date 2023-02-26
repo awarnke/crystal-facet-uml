@@ -33,11 +33,11 @@ extern "C" {
 /*!
  *  \typedef utf8string_t
  *  \brief The string object: A const char pointer.
- * 
+ *
  *  utf8string_t objects point to immutable strings, use a utf8stringbuf_t to modify the string object.
  */
 typedef const char* utf8string_t;
-    
+
 /* Note: If optimization level is zero, inline might not work. */
 /*       You possibly have to append the following string      */
 /*       after every function prototype for gcc:               */
@@ -252,6 +252,20 @@ static inline utf8codepoint_t utf8string_get_char_at( const char *this_, unsigne
  *         UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
  */
 static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int *out_byte_length, int64_t *out_number );
+
+/*!
+ * \brief Parses a floating point number from a string in decimal mantissa, optional fraction and optional exponent format
+ *
+ * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ A 0-terminated c string. In case of NULL, this function returns UTF8ERROR_NULL_PARAM.
+ * \param out_byte_length The number of bytes parsed. (In utf8, this is identical to the number of code points)
+ * \param out_number The parsed floating point number
+ * \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
+ *         UTF8ERROR_NOT_FOUND in case there is no decimal integer.
+ *         UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
+ *         UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
+ */
+static inline utf8error_t utf8string_parse_float( const char *this_, unsigned int *out_byte_length, double *out_number );
 
 #ifdef __cplusplus
 }

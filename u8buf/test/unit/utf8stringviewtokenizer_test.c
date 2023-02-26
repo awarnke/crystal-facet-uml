@@ -295,7 +295,7 @@ static void testFloatValidFloats(void)
 {
     bool has_next;
     utf8stringview_t next;
-    static const char *const my_list = " int+3EUR+32.23e+1,-InfinityNaN5.e05INFINITY5e-20 5.EUR0";
+    static const char *const my_list = " int+3EUR+32.23e+1,-InfinityNaN5.e05INFINITY5e-20 5.sec";
 
     /* init */
     utf8stringviewtokenizer_t tok;
@@ -336,7 +336,7 @@ static void testFloatValidFloats(void)
     TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "5." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "EUR0" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "sec" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );

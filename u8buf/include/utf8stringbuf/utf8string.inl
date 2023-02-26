@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <limits.h>
+#include <locale.h>
+#include <math.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -243,6 +245,7 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
         }
         unsigned int length;
         if ( endptr == NULL ) {
+            assert(false);  /* this should not happen */
             length = utf8string_get_length( this_ );
         }
         else {
@@ -255,7 +258,7 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
         {
             result = UTF8ERROR_NOT_FOUND;
         }
-        *out_number = parseResult;            
+        *out_number = parseResult;
     }
     else {
         result = UTF8ERROR_NULL_PARAM;
@@ -263,6 +266,48 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
     return result;
 }
 
+static inline utf8error_t utf8string_parse_float( const char *this_, unsigned int *out_byte_length, double *out_number )
+{
+    utf8error_t result = UTF8ERROR_SUCCESS;
+    if (( this_ != NULL )&&( out_number != NULL )) {
+        char *endptr;
+        errno=0;
+        const char *const default_locale = setlocale( LC_NUMERIC, NULL );  /* get the current locale */
+        const char *const c_locale = setlocale( LC_NUMERIC, "C" );  /* set separator to point (by C locale) */
+        assert ( c_locale != NULL );
+        (void) c_locale;
+        double parseResult = strtod( this_, &endptr );
+        const char *const us_locale = setlocale( LC_NUMERIC, default_locale );  /* set separator back to previous character */
+        assert ( us_locale != NULL );
+        (void) us_locale;
+        if ((parseResult==INFINITY)||(parseResult==-INFINITY)||(parseResult==0.0)||(parseResult==-0.0))
+        {
+            if (( errno == ERANGE )||( errno == EINVAL )) {
+                result = UTF8ERROR_OUT_OF_RANGE;
+            }
+        }
+        unsigned int length;
+        if ( endptr == NULL ) {
+            assert(false);  /* this should not happen */
+            length = utf8string_get_length( this_ );
+        }
+        else {
+            length = (int)(endptr-this_);
+        }
+        if ( out_byte_length != NULL ) {
+            *out_byte_length = length;
+        }
+        if ( length == 0 )
+        {
+            result = UTF8ERROR_NOT_FOUND;
+        }
+        *out_number = parseResult;
+    }
+    else {
+        result = UTF8ERROR_NULL_PARAM;
+    }
+    return result;
+}
 
 #ifdef __cplusplus
 }

@@ -50,7 +50,7 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
                 end_found = true;
             }
         }
-        /* check for alphanumerical tokens */
+        /* check for alphanumerical tokens, end when other token found */
         for ( size_t probe_idx = 1; ( probe_idx < len )&&( ! end_found ); probe_idx ++ )
         {
             end_found

@@ -21,6 +21,7 @@ static void testFindLast(void);
 static void testCharAt(void);
 static void testCharAtLoops(void);
 static void testParseInt(void);
+static void testParseFloat(void);
 
 test_suite_t utf8string_test_get_suite(void)
 {
@@ -38,6 +39,7 @@ test_suite_t utf8string_test_get_suite(void)
     test_suite_add_test_case( &result, "testCharAt", &testCharAt );
     test_suite_add_test_case( &result, "testCharAtLoops", &testCharAtLoops );
     test_suite_add_test_case( &result, "testParseInt", &testParseInt );
+    test_suite_add_test_case( &result, "testParseFloat", &testParseFloat );
     return result;
 }
 
@@ -548,6 +550,70 @@ static void testParseInt(void)
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_EXPECT_EQUAL_INT( 5, byte_length );
     TEST_EXPECT_EQUAL_INT( -15, number );
+}
+
+static void testParseFloat(void)
+{
+    unsigned int byte_length;
+    double number;
+    utf8error_t u8err;
+
+    u8err = utf8string_parse_float( NULL, &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, u8err );
+
+    u8err = utf8string_parse_float( "", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_EXPECT_EQUAL_INT( 0, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
+
+    u8err = utf8string_parse_float( " void", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_EXPECT_EQUAL_INT( 0, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
+
+    u8err = utf8string_parse_float( "0", NULL, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
+
+    u8err = utf8string_parse_float( "-9.999e99999", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_EXPECT_EQUAL_INT( 12, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( -INFINITY, number );
+
+    u8err = utf8string_parse_float( "+9.999e-99999", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_EXPECT_EQUAL_INT( 13, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( -0.0, number );
+
+    u8err = utf8string_parse_float( "15.3", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( 4, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( 15.3, number );
+
+    u8err = utf8string_parse_float( "-15.e-1", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( 7, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( -1.5, number );
+
+    u8err = utf8string_parse_float( "+3.4E38", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( 7, byte_length );
+    TEST_EXPECT( 3.4E38 == number );
+
+    u8err = utf8string_parse_float( "-1.2E-38", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( 8, byte_length );
+    TEST_EXPECT( -1.2E-38 == number );
+
+    u8err = utf8string_parse_float( "  15.0E+1 cm", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( 9, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( 150.0, number );
+
+    u8err = utf8string_parse_float( " -015e-1 cm", &byte_length, &number );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_EXPECT_EQUAL_INT( 8, byte_length );
+    TEST_EXPECT_EQUAL_DOUBLE( -1.5, number );
 }
 
 
