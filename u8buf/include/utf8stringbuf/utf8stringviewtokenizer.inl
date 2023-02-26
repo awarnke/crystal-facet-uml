@@ -22,16 +22,24 @@ static inline bool utf8stringviewtokenizer_has_next ( const utf8stringviewtokeni
     return ( utf8stringview_get_length( (*this_).remaining_input_text ) != 0 );
 }
 
-static inline bool utf8stringviewtokenizer_private_is_space( char ascii )
+static inline bool utf8stringviewtokenizer_private_is_space( utf8stringviewtokenizer_t *this_, char ascii )
 {
     const unsigned char u_asc = (unsigned char) ascii;
-    return ( u_asc < 0x21 );
+    /* 0x0 - 0x19 are control chars like line break and tab, 0x20 is space, 0x7f is a control character */
+    return ( u_asc <= 0x20 )||( u_asc == 0x7f );
 }
 
-static inline bool utf8stringviewtokenizer_private_is_standalone( char ascii )
+static inline bool utf8stringviewtokenizer_private_is_standalone( utf8stringviewtokenizer_t *this_, char ascii )
 {
     const unsigned char u_asc = (unsigned char) ascii;
-    return (( u_asc > 0x20 )&&( u_asc < 0x30 )) || (( u_asc > 0x39 )&&( u_asc < 0x41 )) || (( u_asc > 0x5a )&&( u_asc < 0x61 )) || (( u_asc > 0x7a )&&( u_asc <= 0x7f ));
+    return (( u_asc >= 0x21 )&&( u_asc <= 0x2f )) || (( u_asc >= 0x3a )&&( u_asc <= 0x40 )) || (( u_asc >= 0x5b )&&( u_asc <= 0x5e ))
+        || (( u_asc == 0x60 )) || (( u_asc >= 0x7b )&&( u_asc <= 0x7e ));
+}
+
+static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringviewtokenizer_t *this_ )
+{
+    const unsigned char u_asc = (unsigned char) *(utf8stringview_get_start( (*this_).remaining_input_text ));
+    return (size_t) 13;
 }
 
 static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtokenizer_t *this_ )
@@ -41,15 +49,14 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
     const size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
     if ( len > 0 )
     {
-        const char tok_first = *tok_start;
-        bool end_found = false;
+        bool end_found = utf8stringviewtokenizer_private_is_standalone( this_, tok_start[0] );
         size_t tok_len = 1;
-        for ( size_t probe_idx = 0; ( probe_idx < len )&&( ! end_found ); probe_idx ++ )
+        for ( size_t probe_idx = 1; ( probe_idx < len )&&( ! end_found ); probe_idx ++ )
         {
             end_found
-                = utf8stringviewtokenizer_private_is_space( tok_start[probe_idx] )
-                || utf8stringviewtokenizer_private_is_standalone( tok_start[probe_idx] );
-            tok_len = (probe_idx==0) ? 1 : probe_idx;
+                = utf8stringviewtokenizer_private_is_space( this_, tok_start[probe_idx] )
+                || utf8stringviewtokenizer_private_is_standalone( this_, tok_start[probe_idx] );
+            tok_len = probe_idx;
         }
         if ( end_found )
         {
@@ -72,9 +79,9 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
 
 static inline void utf8stringviewtokenizer_private_skip_space ( utf8stringviewtokenizer_t *this_ )
 {
-    const  char *start = utf8stringview_get_start( (*this_).remaining_input_text );
+    const char *start = utf8stringview_get_start( (*this_).remaining_input_text );
     size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
-    while ( ( len > 0 ) && ( ((unsigned char)(*start)) < 0x21 ) ) /* 0x0 - 0x19 are control chars like line break and tab, 0x20 is space */
+    while ( ( len > 0 ) && ( utf8stringviewtokenizer_private_is_space( this_, *start ) ) )
     {
         len --;
         start ++;

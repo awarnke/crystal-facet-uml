@@ -11,10 +11,10 @@ static void setUp(void);
 static void tearDown(void);
 static void testIntEmpty(void);
 static void testIntSpaceSeparators(void);
-static void testEmptyElementsUseCase(void);
+static void testIntMixedCodepoints(void);
 static void testEmptyListUseCase(void);
 static void testFloatEmpty(void);
-static void testNullListUseCase(void);
+static void testFloatMixedCodepoints(void);
 static void testNullSeparatorUseCase(void);
 
 test_suite_t utf8stringviewtokenizer_test_get_suite(void)
@@ -23,15 +23,11 @@ test_suite_t utf8stringviewtokenizer_test_get_suite(void)
     test_suite_init( &result, "utf8stringviewtokenizer_test", &setUp, &tearDown );
     test_suite_add_test_case( &result, "testIntEmpty", &testIntEmpty );
     test_suite_add_test_case( &result, "testIntSpaceSeparators", &testIntSpaceSeparators );
-/*
-    test_suite_add_test_case( &result, "testEmptyElementsUseCase", &testEmptyElementsUseCase );
+    test_suite_add_test_case( &result, "testIntMixedCodepoints", &testIntMixedCodepoints );
     test_suite_add_test_case( &result, "testEmptyListUseCase", &testEmptyListUseCase );
-    */
     test_suite_add_test_case( &result, "testFloatEmpty", &testFloatEmpty );
-    /*
-    test_suite_add_test_case( &result, "testNullListUseCase", &testNullListUseCase );
+    test_suite_add_test_case( &result, "testFloatMixedCodepoints", &testFloatMixedCodepoints );
     test_suite_add_test_case( &result, "testNullSeparatorUseCase", &testNullSeparatorUseCase );
-    */
     return result;
 }
 
@@ -92,7 +88,7 @@ static void testIntSpaceSeparators(void)
 {
     bool has_next;
     utf8stringview_t next;
-    static const char *const my_list = "\nab 12\tab12 \r^$  ";
+    static const char *const my_list = "\nab 12\tab12 \r^$\x7f  ";
 
     /* init */
     utf8stringviewtokenizer_t tok;
@@ -132,11 +128,11 @@ static void testIntSpaceSeparators(void)
     utf8stringviewtokenizer_destroy( &tok );
 }
 
-static void testEmptyElementsUseCase(void)
+static void testIntMixedCodepoints(void)
 {
     bool has_next;
     utf8stringview_t next;
-    static const char *const my_list = ",23,, 24,";
+    static const char *const my_list = " !\"+-./09:@AZ[`_az{~\x7f\xc2\xa0\xc2\xa1";
 
     /* init */
     utf8stringviewtokenizer_t tok;
@@ -146,42 +142,59 @@ static void testEmptyElementsUseCase(void)
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( (my_list+0), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( true, has_next );
-
-    next = utf8stringviewtokenizer_next( &tok );
     TEST_EXPECT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( next ) );
-
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( true, has_next );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "!" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( (my_list+4), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( true, has_next );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "\"" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( (my_list+5), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( next ) );
-
-    has_next = utf8stringviewtokenizer_has_next( &tok );
-    TEST_EXPECT_EQUAL_INT( true, has_next );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( (my_list+9), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "/" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "09" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, ":" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "@" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "AZ" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "[" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "`" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "_az" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "{" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "~" ) );
+
+    next = utf8stringviewtokenizer_next( &tok );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "\xc2\xa0\xc2\xa1" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
 
     /* finish */
@@ -260,7 +273,7 @@ static void testFloatEmpty(void)
     utf8stringviewtokenizer_destroy( &tok );
 }
 
-static void testNullListUseCase(void)
+static void testFloatMixedCodepoints(void)
 {
     bool has_next;
     utf8stringview_t next;
