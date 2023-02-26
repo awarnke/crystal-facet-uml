@@ -34,7 +34,6 @@
 
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8error.h"
-#include "utf8stringbuf/utf8stringntuple.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -654,99 +653,6 @@ static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int s
  * \return an utf8stringbuf containing only the end
  */
 static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ );
-
-#ifdef UTF8STRINGBUF_ENABLE_DEPRECATED
-
-/*!
- * \brief Splits a string buffer into two substrings
- *
- * This function changes the string buffer in a way that every substring is null-terminated.
- * Therefore, some '\\0' characters have to be inserted.
- * The resulting substrings are only valid as long as you do not modify the string buffer.
- * To restore the original content, call \link utf8stringbuf_join(utf8stringbuf_t) utf8stringbuf_join \endlink.
- *
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \param start2 Start index within the string buffer, where the second substring shall start.
- * \return a tuple of several substrings and an error code.
- *         UTF8ERROR_SUCCESS in case of success: All substrings were successfully created.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
- *         UTF8ERROR_TRUNCATED if splitting this string caused the last characters of this string to be dropped.
- */
-extern utf8string2tuple_t utf8stringbuf_split_in_2( utf8stringbuf_t this_, int start2 );
-
-/*!
- * \brief Splits a string buffer into three substrings
- *
- * This function changes the string buffer in a way that every substring is null-terminated.
- * Therefore, some '\\0' characters have to be inserted.
- * The resulting substrings are only valid as long as you do not modify the string buffer.
- * To restore the original content, call \link utf8stringbuf_join(utf8stringbuf_t) utf8stringbuf_join \endlink.
- *
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \param start2 Start index within the string buffer, where the second substring shall start.
- * \param start3 Start index within the string buffer, where the third substring shall start.
- * \return a tuple of several substrings and an error code.
- *         UTF8ERROR_SUCCESS in case of success: All substrings were successfully created.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
- *         UTF8ERROR_TRUNCATED if splitting this string caused the last characters of this string to be dropped.
- */
-extern utf8string3tuple_t utf8stringbuf_split_in_3( utf8stringbuf_t this_, int start2, int start3 );
-
-/*!
- * \brief Splits a string buffer into four substrings
- *
- * This function changes the string buffer in a way that every substring is null-terminated.
- * Therefore, some '\\0' characters have to be inserted.
- * The resulting substrings are only valid as long as you do not modify the string buffer.
- * To restore the original content, call \link utf8stringbuf_join(utf8stringbuf_t) utf8stringbuf_join \endlink.
- *
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \param start2 Start index within the string buffer, where the second substring shall start.
- * \param start3 Start index within the string buffer, where the third substring shall start.
- * \param start4 Start index within the string buffer, where the fourth substring shall start.
- * \return a tuple of several substrings and an error code.
- *         UTF8ERROR_SUCCESS in case of success: All substrings were successfully created.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
- *         UTF8ERROR_TRUNCATED if splitting this string caused the last characters of this string to be dropped.
- */
-extern utf8string4tuple_t utf8stringbuf_split_in_4( utf8stringbuf_t this_, int start2, int start3, int start4 );
-
-/*!
- * \brief Splits a string buffer into five substrings
- *
- * This function changes the string buffer in a way that every substring is null-terminated.
- * Therefore, some '\\0' characters have to be inserted.
- * The resulting substrings are only valid as long as you do not modify the string buffer.
- * To restore the original content, call \link utf8stringbuf_join(utf8stringbuf_t) utf8stringbuf_join \endlink.
- *
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \param start2 Start index within the string buffer, where the second substring shall start.
- * \param start3 Start index within the string buffer, where the third substring shall start.
- * \param start4 Start index within the string buffer, where the fourth substring shall start.
- * \param start5 Start index within the string buffer, where the fifth substring shall start.
- * \return a tuple of several substrings and an error code.
- *         UTF8ERROR_SUCCESS in case of success: All substrings were successfully created.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
- *         UTF8ERROR_TRUNCATED if splitting this string caused the last characters of this string to be dropped.
- */
-extern utf8string5tuple_t utf8stringbuf_split_in_5( utf8stringbuf_t this_, int start2, int start3, int start4, int start5 );
-
-/*!
- * \brief Joins all substrings within a string buffer that was split before.
- *
- * Any non-zero character before the last terminating zero will be joined.
- * \n
- * All trailing characters are set to zero.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n), n:size
- * \param this_ The string buffer
- */
-extern void utf8stringbuf_join( utf8stringbuf_t this_ );
-
-#endif
 
 /*!
  * \brief Appends a string to a string buffer
