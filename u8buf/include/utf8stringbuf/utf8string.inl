@@ -273,7 +273,7 @@ static inline utf8error_t utf8string_parse_float( const char *this_, unsigned in
         char *endptr;
         errno=0;
         const char *const default_locale_temp = setlocale( LC_NUMERIC, NULL );  /* get the current locale */
-        char default_locale_buf[20];
+        char default_locale_buf[20];  /* expecting max length = 19: sr_YU.utf8@cyrillic */
         utf8stringbuf_t default_locale = UTF8STRINGBUF( default_locale_buf );
         utf8stringbuf_copy_str( default_locale, default_locale_temp );
         const char *const c_locale = setlocale( LC_NUMERIC, "C" );  /* set separator to point (by C locale) */

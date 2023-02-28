@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.47.0"
+    "generator_version": "1.47.1"
   }
   ,
   "views":
@@ -415,6 +415,13 @@
             "classifier_name": "Requirement",
             "node": "4a292d44-399f-42f3-a4de-818e891f7dca",
             "uuid": "8ae4055b-154f-4eb5-935e-c25d570ff2aa"
+          },
+          {
+            "id": 264,
+            "display_flags": 0,
+            "classifier_name": "copy",
+            "node": "e3178835-0981-496b-bdc8-da694de2aab4",
+            "uuid": "98d4d46b-4f3f-406d-a98f-4e59aa21b2d1"
           }
         ]
       }
@@ -6163,6 +6170,115 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 117,
+        "main_type": 139,
+        "type": "Stereotype",
+        "stereotype": "metaclass:Dependency",
+        "name": "copy",
+        "description": [
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n",
+                "<!-- Created with Inkscape (http://www.inkscape.org/) -->\n",
+                "\n",
+                "<svg\n",
+                "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n",
+                "   xmlns:cc=\"http://creativecommons.org/ns#\"\n",
+                "   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n",
+                "   xmlns:svg=\"http://www.w3.org/2000/svg\"\n",
+                "   xmlns=\"http://www.w3.org/2000/svg\"\n",
+                "   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n",
+                "   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n",
+                "   width=\"32\"\n",
+                "   height=\"32\"\n",
+                "   id=\"svg2\"\n",
+                "   version=\"1.1\"\n",
+                "   inkscape:version=\"0.92.2 5c3e80d, 2017-08-06\"\n",
+                "   sodipodi:docname=\"edit_copy.svg\"\n",
+                "   inkscape:export-filename=\"/home/andi/Code/crystal_facet_uml/gui/source/resources/edit_copy.png\"\n",
+                "   inkscape:export-xdpi=\"96\"\n",
+                "   inkscape:export-ydpi=\"96\">\n",
+                "  <defs\n",
+                "     id=\"defs4\">\n",
+                "    <inkscape:path-effect\n",
+                "       effect=\"bspline\"\n",
+                "       id=\"path-effect4600\"\n",
+                "       is_visible=\"true\"\n",
+                "       weight=\"33.333333\"\n",
+                "       steps=\"2\"\n",
+                "       helper_size=\"0\"\n",
+                "       apply_no_weight=\"true\"\n",
+                "       apply_with_weight=\"true\"\n",
+                "       only_selected=\"false\" />\n",
+                "  </defs>\n",
+                "  <sodipodi:namedview\n",
+                "     id=\"base\"\n",
+                "     pagecolor=\"#ffffff\"\n",
+                "     bordercolor=\"#666666\"\n",
+                "     borderopacity=\"1.0\"\n",
+                "     inkscape:pageopacity=\"0.0\"\n",
+                "     inkscape:pageshadow=\"2\"\n",
+                "     inkscape:zoom=\"21.32\"\n",
+                "     inkscape:cx=\"14.038339\"\n",
+                "     inkscape:cy=\"15.862411\"\n",
+                "     inkscape:document-units=\"px\"\n",
+                "     inkscape:current-layer=\"layer1\"\n",
+                "     showgrid=\"false\"\n",
+                "     inkscape:window-width=\"1803\"\n",
+                "     inkscape:window-height=\"1328\"\n",
+                "     inkscape:window-x=\"92\"\n",
+                "     inkscape:window-y=\"37\"\n",
+                "     inkscape:window-maximized=\"0\" />\n",
+                "  <metadata\n",
+                "     id=\"metadata7\">\n",
+                "    <rdf:RDF>\n",
+                "      <cc:Work\n",
+                "         rdf:about=\"\">\n",
+                "        <dc:format>image/svg+xml</dc:format>\n",
+                "        <dc:type\n",
+                "           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n",
+                "        <dc:title />\n",
+                "      </cc:Work>\n",
+                "    </rdf:RDF>\n",
+                "  </metadata>\n",
+                "  <g\n",
+                "     inkscape:label=\"Ebene 1\"\n",
+                "     inkscape:groupmode=\"layer\"\n",
+                "     id=\"layer1\"\n",
+                "     transform=\"translate(0,-1020.3622)\">\n",
+                "    <path\n",
+                "       style=\"fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"\n",
+                "       d=\"m 12.007501,1043.6376 0.09381,-3.3771 2.814259,0.094 0,-11.6322 -9.6622883,0 -10e-7,14.9155 6.7542203,-0.094 2.908068,-3.1895\"\n",
+                "       id=\"path3058\"\n",
+                "       inkscape:connector-curvature=\"0\"\n",
+                "       sodipodi:nodetypes=\"cccccccc\" />\n",
+                "    <path\n",
+                "       style=\"fill:#02ffb0;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1\"\n",
+                "       d=\"m 24.155721,1043.5909 0.09381,-3.3771 2.814259,0.094 0,-11.6322 -9.662288,0 -1e-6,14.9155 6.75422,-0.094 2.908068,-3.1895\"\n",
+                "       id=\"path3058-4\"\n",
+                "       inkscape:connector-curvature=\"0\"\n",
+                "       sodipodi:nodetypes=\"cccccccc\" />\n",
+                "    <path\n",
+                "       style=\"fill:none;fill-rule:evenodd;stroke:#ff3cd2;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"\n",
+                "       d=\"m 0.38944832,1049.4615 c 0.69648768,0.807 1.39298708,1.6141 2.08948058,2.4211 0,0 27.0305821,0 27.0305821,0 0,0 2.023148,-2.3548 2.023148,-2.3548\"\n",
+                "       id=\"path4598\"\n",
+                "       inkscape:connector-curvature=\"0\"\n",
+                "       inkscape:path-effect=\"#path-effect4600\"\n",
+                "       inkscape:original-d=\"m 0.38944832,1049.4615 c 0.69756128,0.8061 2.08948058,2.4211 2.08948058,2.4211 H 29.509511 l 2.023148,-2.3548\"\n",
+                "       sodipodi:nodetypes=\"cccc\" />\n",
+                "  </g>\n",
+                "</svg>\n",
+                ""
+        ],
+        "x_order": 104820094,
+        "y_order": 684999566,
+        "list_order": 684999566,
+        "uuid": "e3178835-0981-496b-bdc8-da694de2aab4",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -6909,6 +7025,23 @@
     },
     {
       "relationship": {
+        "id": 89,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "implements",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "a1",
+        "to_classifier_name": "req-1b",
+        "from_node": "60f85a37-9cb7-4e95-bd1c-37030b7b4455",
+        "to_node": "a5fd3b9f-e0a2-4b4b-a805-ca29862a2be8",
+        "uuid": "990aa1cd-0f41-42d8-9441-779c7aecfc13"
+      }
+    },
+    {
+      "relationship": {
         "id": 20,
         "main_type": 240,
         "type": "ControlFlow",
@@ -6956,23 +7089,6 @@
         "from_node": "a5fd3b9f-e0a2-4b4b-a805-ca29862a2be8",
         "to_node": "6ca141b3-72c5-47a8-8eb3-db5efb0e1075",
         "uuid": "311db2dd-a5c7-46d3-ba9f-7c35bf3d3e20"
-      }
-    },
-    {
-      "relationship": {
-        "id": 22,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 196608,
-        "from_classifier_name": "req-1b",
-        "to_classifier_name": "a1",
-        "from_node": "a5fd3b9f-e0a2-4b4b-a805-ca29862a2be8",
-        "to_node": "60f85a37-9cb7-4e95-bd1c-37030b7b4455",
-        "uuid": "f0bfd84c-84e2-4f78-957e-a3f6103b321b"
       }
     },
     {
