@@ -272,12 +272,15 @@ static inline utf8error_t utf8string_parse_float( const char *this_, unsigned in
     if (( this_ != NULL )&&( out_number != NULL )) {
         char *endptr;
         errno=0;
-        const char *const default_locale = setlocale( LC_NUMERIC, NULL );  /* get the current locale */
+        const char *const default_locale_temp = setlocale( LC_NUMERIC, NULL );  /* get the current locale */
+        char default_locale_buf[20];
+        utf8stringbuf_t default_locale = UTF8STRINGBUF( default_locale_buf );
+        utf8stringbuf_copy_str( default_locale, default_locale_temp );
         const char *const c_locale = setlocale( LC_NUMERIC, "C" );  /* set separator to point (by C locale) */
         assert ( c_locale != NULL );
         (void) c_locale;
         double parseResult = strtod( this_, &endptr );
-        const char *const us_locale = setlocale( LC_NUMERIC, default_locale );  /* set separator back to previous character */
+        const char *const us_locale = setlocale( LC_NUMERIC, utf8stringbuf_get_string( default_locale ) );  /* set separator back to previous character */
         assert ( us_locale != NULL );
         (void) us_locale;
         if ((parseResult==INFINITY)||(parseResult==-INFINITY)||(parseResult==0.0)||(parseResult==-0.0))

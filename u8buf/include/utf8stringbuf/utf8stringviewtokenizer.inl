@@ -22,6 +22,11 @@ static inline bool utf8stringviewtokenizer_has_next ( const utf8stringviewtokeni
     return ( utf8stringview_get_length( (*this_).remaining_input_text ) != 0 );
 }
 
+static inline void utf8stringviewtokenizer_set_mode ( utf8stringviewtokenizer_t *this_, utf8stringviewtokenmode_t mode )
+{
+    (*this_).mode = mode;
+}
+
 static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtokenizer_t *this_ )
 {
     utf8stringview_t result;
@@ -32,6 +37,7 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
         size_t tok_len = 0;
         bool end_found = false;
         /* check for numbers */
+        if ( (*this_).mode != UTF8STRINGVIEWTOKENMODE_TEXT )
         {
             const size_t num_len = utf8stringviewtokenizer_private_get_number_len( this_ );
             if ( num_len != 0 )

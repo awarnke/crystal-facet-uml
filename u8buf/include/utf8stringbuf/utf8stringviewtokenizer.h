@@ -75,6 +75,15 @@ static inline bool utf8stringviewtokenizer_has_next ( const utf8stringviewtokeni
 static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtokenizer_t *this_ );
 
 /*!
+ *  \brief sets the token mode
+ *
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ pointer to own object attributes
+ *  \param mode defines how tokens are separated
+ */
+static inline void utf8stringviewtokenizer_set_mode ( utf8stringviewtokenizer_t *this_, utf8stringviewtokenmode_t mode );
+
+/*!
  *  \brief checks if the provideed ascii code point is a space or a control character, this includes 0x7f
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
