@@ -18,6 +18,7 @@ void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ )
     draw_classifier_icon_init( &((*this_).draw_classifier_icon) );
     draw_classifier_label_init( &((*this_).draw_classifier_label) );
     draw_classifier_contour_init( &((*this_).draw_classifier_contour) );
+    draw_stereotype_image_init( &((*this_).draw_stereotype_image) );
 
     U8_TRACE_END();
 }
@@ -29,6 +30,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
     draw_classifier_icon_destroy( &((*this_).draw_classifier_icon) );
     draw_classifier_label_destroy( &((*this_).draw_classifier_label) );
     draw_classifier_contour_destroy( &((*this_).draw_classifier_contour) );
+    draw_stereotype_image_destroy( &((*this_).draw_stereotype_image) );
     data_rules_destroy ( &((*this_).data_rules) );
     pencil_marker_destroy( &((*this_).marker) );
 
@@ -72,6 +74,18 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                    font_layout,
                                    cr
                                  );
+
+    /* draw the stereotype image */
+    const bool has_stereotype = data_classifier_has_stereotype( classifier );
+    if ( has_stereotype )
+    {
+        geometry_rectangle_t stereotype_box = *classifier_symbol_box;
+        draw_stereotype_image_draw( &((*this_).draw_stereotype_image),
+                                    "d=\"m 2 0 l 8 10 m 0 8 l 10 2\"",
+                                    &stereotype_box,
+                                    cr
+                                  );
+    }
 
     /* draw the classifier */
     {

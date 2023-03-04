@@ -280,9 +280,9 @@ static inline utf8error_t utf8string_parse_float( const char *this_, unsigned in
         assert ( c_locale != NULL );
         (void) c_locale;
         double parseResult = strtod( this_, &endptr );
-        const char *const us_locale = setlocale( LC_NUMERIC, utf8stringbuf_get_string( default_locale ) );  /* set separator back to previous character */
-        assert ( us_locale != NULL );
-        (void) us_locale;
+        const char *const restored_locale = setlocale( LC_NUMERIC, utf8stringbuf_get_string( default_locale ) );  /* set separator back to previous character */
+        assert ( restored_locale != NULL );
+        (void) restored_locale;
         if ((parseResult==INFINITY)||(parseResult==-INFINITY)||(parseResult==0.0)||(parseResult==-0.0))
         {
             if (( errno == ERANGE )||( errno == EINVAL )) {

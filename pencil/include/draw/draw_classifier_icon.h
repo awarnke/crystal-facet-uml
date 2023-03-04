@@ -65,7 +65,7 @@ static inline bool draw_classifier_icon_is_fix_sized_symbol ( const draw_classif
  *  \param this_ pointer to own object attributes
  *  \param classifier_type type of the classifier to draw
  *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \return of the icon.
+ *  \return dimension of the icon.
  */
 static inline geometry_dimensions_t draw_classifier_icon_get_icon_dimensions ( const draw_classifier_icon_t *this_,
                                                                                data_classifier_type_t classifier_type,

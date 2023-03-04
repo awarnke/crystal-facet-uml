@@ -17,6 +17,7 @@
 #include "draw/draw_classifier_icon.h"
 #include "draw/draw_classifier_label.h"
 #include "draw/draw_classifier_contour.h"
+#include "draw/draw_stereotype_image.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_h_align.h"
@@ -38,6 +39,7 @@ struct pencil_classifier_composer_struct {
     draw_classifier_icon_t draw_classifier_icon;  /*!< collection of draw symbol/icon functions */
     draw_classifier_label_t draw_classifier_label;  /*!< collection of draw label functions */
     draw_classifier_contour_t draw_classifier_contour;  /*!< collection of draw contour functions */
+    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custome stereotype images */
 };
 
 typedef struct pencil_classifier_composer_struct pencil_classifier_composer_t;

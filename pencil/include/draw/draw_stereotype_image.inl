@@ -13,15 +13,7 @@ static inline void draw_stereotype_image_destroy( draw_stereotype_image_t *this_
 
 }
 
-static inline bool draw_stereotype_image_is_fix_sized_symbol ( const draw_stereotype_image_t *this_, data_classifier_type_t classifier_type )
-{
-    bool result;
-    result = false;
-
-    return result;
-}
-
-static inline geometry_dimensions_t draw_stereotype_image_get_icon_dimensions( const draw_stereotype_image_t *this_,
+static inline geometry_dimensions_t draw_stereotype_image_get_dimensions( const draw_stereotype_image_t *this_,
                                                                               data_classifier_type_t classifier_type,
                                                                               const pencil_size_t *pencil_size )
 {
@@ -31,7 +23,7 @@ static inline geometry_dimensions_t draw_stereotype_image_get_icon_dimensions( c
     if ( classifier_type == DATA_CLASSIFIER_TYPE_ARTIFACT )
     {
         const double type_icon_height = pencil_size_get_title_font_size( pencil_size );
-        geometry_dimensions_init ( &result, DRAW_STEREOTYPE_IMAGE_ARTIFACT_ICON_WIDTH_TO_HEIGHT * type_icon_height, type_icon_height );
+        geometry_dimensions_init ( &result, DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * type_icon_height, type_icon_height );
     }
     else
     {
@@ -41,7 +33,7 @@ static inline geometry_dimensions_t draw_stereotype_image_get_icon_dimensions( c
     return result;
 }
 
-static inline geometry_rectangle_t draw_stereotype_image_get_artifact_bounds ( const draw_stereotype_image_t *this_,
+static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw_stereotype_image_t *this_,
                                                                               double x,
                                                                               double y,
                                                                               geometry_h_align_t h_align,
@@ -50,7 +42,7 @@ static inline geometry_rectangle_t draw_stereotype_image_get_artifact_bounds ( c
 {
     geometry_rectangle_t result;
 
-    const double width = DRAW_STEREOTYPE_IMAGE_ARTIFACT_ICON_WIDTH_TO_HEIGHT * height;
+    const double width = DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * height;
     geometry_rectangle_init ( &result,
                               geometry_h_align_get_left( &h_align, width, x, 0.0 ),
                               geometry_v_align_get_top( &v_align, height, y, 0.0 ),

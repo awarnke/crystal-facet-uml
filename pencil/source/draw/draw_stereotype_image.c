@@ -7,32 +7,32 @@
 #include <stdlib.h>
 #include <assert.h>
 
-const double DRAW_STEREOTYPE_IMAGE_ARTIFACT_ICON_WIDTH_TO_HEIGHT = 0.7;
+const double DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT = 1.0;
 
-void draw_stereotype_image_draw_artifact ( const draw_stereotype_image_t *this_,
-                                          geometry_rectangle_t bounds,
-                                          cairo_t *cr )
+void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
+                                  const char *image_description,
+                                  const geometry_rectangle_t *bounds,
+                                  cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
+    assert( NULL != image_description );
+    assert( NULL != bounds );
 
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
-    {
-        const double ln_w = cairo_get_line_width( cr );
-        geometry_rectangle_enlarge( &bounds, -ln_w, -ln_w );
-        geometry_rectangle_shift( &bounds, ln_w/2.0, ln_w/2.0 );
-    }
+    const double ln_w = cairo_get_line_width( cr );
 
     /* calculate artifact bounds */
-    const double art_left = geometry_rectangle_get_left( &bounds );
-    const double art_right = geometry_rectangle_get_right( &bounds );
-    const double art_top = geometry_rectangle_get_top( &bounds );
-    const double art_bottom = geometry_rectangle_get_bottom( &bounds );
-    const double art_height = geometry_rectangle_get_height( &bounds );
-    //const double art_width = geometry_rectangle_get_width( &bounds );
+    const double art_left = geometry_rectangle_get_left( bounds );
+    const double art_right = geometry_rectangle_get_right( bounds );
+    const double art_top = geometry_rectangle_get_top( bounds );
+    const double art_bottom = geometry_rectangle_get_bottom( bounds );
+    const double art_height = geometry_rectangle_get_height( bounds );
+    //const double art_width = geometry_rectangle_get_width( bounds );
     const double art_corner_edge = art_height * 0.3;
 
     /* draw the icon */
+    cairo_set_source_rgba( cr, 0.0, 0.5, 0.0, 1.0 );
     cairo_move_to ( cr, art_right, art_top + art_corner_edge );
     cairo_line_to ( cr, art_right - art_corner_edge, art_top + art_corner_edge );
     cairo_line_to ( cr, art_right - art_corner_edge, art_top );
@@ -48,10 +48,10 @@ void draw_stereotype_image_draw_artifact ( const draw_stereotype_image_t *this_,
         {
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
             cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( &bounds ),
-                              geometry_rectangle_get_top ( &bounds ),
-                              geometry_rectangle_get_width ( &bounds ),
-                              geometry_rectangle_get_height ( &bounds )
+                              geometry_rectangle_get_left ( bounds ),
+                              geometry_rectangle_get_top ( bounds ),
+                              geometry_rectangle_get_width ( bounds ),
+                              geometry_rectangle_get_height ( bounds )
                             );
             cairo_stroke (cr);
             cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );

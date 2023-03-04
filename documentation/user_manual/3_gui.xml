@@ -593,9 +593,7 @@
                     <para>Stereotype names may consist of characters that are valid XML tokens (Nmtoken).
                         <!-- see Nmtoken in XML 1.1 spec -->
                     </para>
-                    <para>This field is deactivated for diagrams and relationships.
-                    </para>
-                    <para>For classifiers, multiple stereotypes shall be separated by comma.
+                    <para>Multiple stereotypes shall be separated by comma.
                     </para>
                 </listitem>
                 <listitem>
