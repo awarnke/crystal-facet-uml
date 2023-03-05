@@ -17,6 +17,7 @@
 #include "pencil_diagram_maker.h"
 #include "set/data_visible_set.h"
 #include "set/data_full_id.h"
+#include "set/data_profile_part.h"
 #include "filter/pencil_type_filter.h"
 #include "layout/layout_order.h"
 #include <gtk/gtk.h>
@@ -30,6 +31,7 @@ struct gui_sketch_card_struct {
     bool visible;  /*!< is the card visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the card */
     data_visible_set_t painter_input_data;  /*!< caches the diagram data */
+    data_profile_part_t profile;  /*!< caches the stereotypes referenced from the current diagram */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
     bool dirty_elements_layout;  /*!< marker that elements need to be layouted */
 

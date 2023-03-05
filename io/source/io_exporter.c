@@ -247,7 +247,11 @@ int io_exporter_export_image_file( io_exporter_t *this_,
         || ( IO_FILE_FORMAT_PS == export_type )
         || ( IO_FILE_FORMAT_PNG == export_type ) )
     {
-        image_format_writer_init( &((*this_).temp_image_format_exporter ), (*this_).db_reader, &((*this_).temp_input_data) );
+        image_format_writer_init( &((*this_).temp_image_format_exporter ),
+                                  (*this_).db_reader,
+                                  &((*this_).temp_input_data),
+                                  &((*this_).temp_profile)
+                                );
         result |= image_format_writer_render_diagram_to_file( &((*this_).temp_image_format_exporter ),
                                                               diagram_id,
                                                               export_type,

@@ -11,18 +11,21 @@
 #include <stdbool.h>
 #include <assert.h>
 
-void image_format_writer_init ( image_format_writer_t *this_,
-                                data_database_reader_t *db_reader,
-                                data_visible_set_t *input_data )
+void image_format_writer_init( image_format_writer_t *this_,
+                               data_database_reader_t *db_reader,
+                               data_visible_set_t *input_data,
+                               data_profile_part_t *profile )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     assert( NULL != input_data );
+    assert( NULL != profile );
 
     (*this_).db_reader = db_reader;
     (*this_).input_data = input_data;
+    (*this_).profile = profile;
     geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 1680.0, 1260.0 );
-    pencil_diagram_maker_init( &((*this_).painter), input_data );
+    pencil_diagram_maker_init( &((*this_).painter), input_data, profile );
 
     U8_TRACE_END();
 }
@@ -34,6 +37,7 @@ void image_format_writer_destroy( image_format_writer_t *this_ )
     pencil_diagram_maker_destroy( &((*this_).painter) );
     geometry_rectangle_destroy(&((*this_).bounds));
     (*this_).input_data = NULL;
+    (*this_).profile = NULL;
     (*this_).db_reader = NULL;
 
     U8_TRACE_END();
@@ -69,7 +73,16 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
         assert(false);
     }
     assert( data_visible_set_is_valid ( (*this_).input_data ) );
+    data_profile_part_init( (*this_).profile );
+    const u8_error_t p_err
+        = data_profile_part_load( (*this_).profile, (*this_).input_data, (*this_).db_reader );
+    if( p_err != U8_ERROR_NONE )
+    {
+        result = -1;
+        assert(false);
+    }
     result |= image_format_writer_private_render_surface_to_file( this_, export_type, target_filename, io_render_stat );
+    data_profile_part_destroy( (*this_).profile );
     data_visible_set_destroy( (*this_).input_data );
 
     U8_TRACE_END_ERR( result );

@@ -15,11 +15,19 @@ static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_,
     {
         U8_TRACE_INFO( "gui_sketch_card_load_data called on invalid database." );
     }
+    const u8_error_t p_err
+        = data_profile_part_load( &((*this_).profile), &((*this_).painter_input_data), db_reader );
+    if ( p_err != U8_ERROR_NONE )
+    {
+        U8_TRACE_INFO( "data_profile_part_load() returned error." );
+    }
 }
 
 static inline void gui_sketch_card_invalidate_data( gui_sketch_card_t *this_ )
 {
     data_visible_set_invalidate( &((*this_).painter_input_data) );
+    data_profile_part_reinit( &((*this_).profile) );
+
 }
 
 static inline bool gui_sketch_card_is_valid( const gui_sketch_card_t *this_ )

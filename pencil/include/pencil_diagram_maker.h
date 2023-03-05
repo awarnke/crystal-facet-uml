@@ -22,6 +22,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
+#include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_stat.h"
 #include "data_id.h"
@@ -33,7 +34,8 @@
  *  \brief attributes of the diagram painter
  */
 struct pencil_diagram_maker_struct {
-    const data_visible_set_t *input_data;  /*!< pointer to an external data cache */
+    const data_visible_set_t *input_data;  /*!< pointer to an external elements-data cache */
+    const data_profile_part_t *profile;  /*!< pointer to an external stereotype-data cache */
 
     pencil_layouter_t layouter;  /* own instance of a layouter */
 
@@ -53,28 +55,36 @@ typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
+ *  \param profile pointer to the profile-part that provided the stereotypes of the elements to be drawn
  */
-static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data );
+static inline void pencil_diagram_maker_init ( pencil_diagram_maker_t *this_,
+                                               const data_visible_set_t *input_data,
+                                               const data_profile_part_t *profile
+                                             );
 
 /*!
  *  \brief re-initializes the painter
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
+ *  \param profile pointer to the profile-part that provided the stereotypes of the elements to be drawn
  */
-static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data );
+static inline void pencil_diagram_maker_reinit ( pencil_diagram_maker_t *this_,
+                                                 const data_visible_set_t *input_data,
+                                                 const data_profile_part_t *profile
+                                               );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ );
+static inline void pencil_diagram_maker_destroy ( pencil_diagram_maker_t *this_ );
 
 /*!
  *  \brief defines coordinates
  *
- *  Resets internal caches, any changes in input_data are ok.
+ *  Resets internal caches, any changes in input_data are ok, the profile needs to be updated accordingly.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
@@ -294,7 +304,7 @@ pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diag
 void pencil_diagram_maker_draw_rects_callback ( void *data,
                                                 const geometry_rectangle_t *rect_a,
                                                 const geometry_rectangle_t *rect_b
-                                               );
+                                              );
 
 #include "pencil_diagram_maker.inl"
 

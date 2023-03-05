@@ -3,6 +3,9 @@
 #include "pencil_diagram_maker_test.h"
 #include "pencil_layouter.h"
 #include "pencil_diagram_maker.h"
+#include "geometry/geometry_rectangle.h"
+#include "set/data_visible_set.h"
+#include "set/data_profile_part.h"
 #include "test_data/test_data_setup.h"
 #include "u8/u8_trace.h"
 #include "test_expect.h"
@@ -35,6 +38,7 @@ test_suite_t pencil_diagram_maker_test_get_suite(void)
 }
 
 static data_visible_set_t data_set;
+static data_profile_part_t profile;
 static pencil_diagram_maker_t painter;
 static cairo_surface_t *surface;
 static cairo_t *cr;
@@ -42,8 +46,9 @@ static geometry_rectangle_t diagram_bounds;
 
 static void set_up(void)
 {
+    data_profile_part_init( &profile );
     data_visible_set_init( &data_set );
-    pencil_diagram_maker_init( &painter, &data_set );
+    pencil_diagram_maker_init( &painter, &data_set, &profile );
     geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
     surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
                                           (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
@@ -62,6 +67,7 @@ static void tear_down(void)
     geometry_rectangle_destroy( &diagram_bounds );
     pencil_diagram_maker_destroy( &painter );
     data_visible_set_destroy( &data_set );
+    data_profile_part_destroy( &profile );
 }
 
 static void draw_background()

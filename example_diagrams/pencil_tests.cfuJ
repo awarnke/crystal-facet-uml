@@ -4652,6 +4652,7 @@
         "id": 49,
         "main_type": 123,
         "type": "Interface",
+        "stereotype": "copy",
         "name": "i9",
         "description": [
                 ""
@@ -6681,6 +6682,7 @@
         "id": 7,
         "main_type": 200,
         "type": "Association",
+        "stereotype": "copy",
         "name": "",
         "description": [
                 ""

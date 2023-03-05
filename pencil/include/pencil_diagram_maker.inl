@@ -4,10 +4,13 @@
 #include "u8/u8_trace.h"
 #include <assert.h>
 
-static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data )
+static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_,
+                                              const data_visible_set_t *input_data,
+                                              const data_profile_part_t *profile )
 {
     U8_TRACE_BEGIN();
     assert( NULL != input_data );
+    assert( NULL != profile );
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
     pencil_classifier_composer_init( &((*this_).classifier_painter) );
@@ -15,6 +18,7 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, con
     pencil_feature_painter_init( &((*this_).feature_painter) );
 
     (*this_).input_data = input_data;
+    (*this_).profile = profile;
     pencil_layouter_init( &((*this_).layouter), input_data );
 
     (*this_).snap_to_grid_distance = 5.000001;
@@ -22,12 +26,16 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, con
     U8_TRACE_END();
 }
 
-static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data )
+static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_,
+                                                const data_visible_set_t *input_data,
+                                                const data_profile_part_t *profile )
 {
     U8_TRACE_BEGIN();
     assert( NULL != input_data );
+    assert( NULL != profile );
 
     (*this_).input_data = input_data;
+    (*this_).profile = profile;
     pencil_layouter_reinit( &((*this_).layouter), input_data );
 
     U8_TRACE_END();
@@ -51,15 +59,25 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
                                                       geometry_rectangle_t diagram_bounds )
 {
+    U8_TRACE_BEGIN();
+
     pencil_layouter_prepare ( &((*this_).layouter) );
     pencil_layouter_define_grid ( &((*this_).layouter), diagram_bounds );
+
+    U8_TRACE_END();
 }
 
 static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_,
                                                           data_stat_t *io_layout_stat,
                                                           cairo_t *cr )
 {
+    U8_TRACE_BEGIN();
     assert( cr != NULL );
+
+    /* trace input data: */
+    const data_id_t diag_id = data_diagram_get_data_id( data_visible_set_get_diagram_const( (*this_).input_data ) );
+    data_id_trace( &diag_id );
+    data_profile_part_trace( (*this_).profile );
 
     PangoLayout *font_layout;
     font_layout = pango_cairo_create_layout (cr);
@@ -71,6 +89,8 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
     }
 
     g_object_unref (font_layout);
+
+    U8_TRACE_END();
 }
 
 static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const pencil_diagram_maker_t *this_,

@@ -20,6 +20,7 @@
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
 #include "set/data_visible_set.h"
+#include "set/data_profile_part.h"
 #include "set/data_stat.h"
 #include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
@@ -36,6 +37,7 @@ struct io_exporter_struct {
 
     /* temporary member attributes, only valid during exporting */
     data_visible_set_t temp_input_data;  /*!< buffer to cache the diagram data */
+    data_profile_part_t temp_profile;  /*!< caches the stereotypes referenced from the current diagram */
 
     image_format_writer_t temp_image_format_exporter;  /*!< exports single diagram images to one given file */
     io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */

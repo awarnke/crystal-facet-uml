@@ -94,6 +94,13 @@ static inline const data_classifier_t *data_profile_part_get_stereotype_const ( 
  */
 static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_const ( const data_profile_part_t *this_, utf8stringview_t stereotype_name );
 
+/*!
+ *  \brief traces the stereotype names
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_profile_part_trace ( const data_profile_part_t *this_ );
+
 #include "data_profile_part.inl"
 
 #endif  /* DATA_PROFILE_PART_H */

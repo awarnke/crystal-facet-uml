@@ -46,6 +46,17 @@ static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_
     return result;
 }
 
+static inline void data_profile_part_trace ( const data_profile_part_t *this_ )
+{
+    U8_TRACE_INFO_INT( "data_profile_part_t: [length]", (*this_).stereotype_count );
+    for ( uint32_t index = 0; index < (*this_).stereotype_count; index ++ )
+    {
+        const data_classifier_t *const stereotype = &((*this_).stereotypes[index]);
+        assert ( data_classifier_is_valid( stereotype ) );
+        U8_TRACE_INFO_STR( "-", data_classifier_get_name_const( stereotype ) );
+    }
+}
+
 
 /*
 Copyright 2023-2023 Andreas Warnke

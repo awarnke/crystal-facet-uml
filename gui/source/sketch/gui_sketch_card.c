@@ -15,7 +15,8 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     (*this_).dirty_elements_layout = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     data_visible_set_init( &((*this_).painter_input_data) );
-    pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data) );
+    data_profile_part_init( &((*this_).profile) );
+    pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data), &((*this_).profile) );
     gui_sketch_marker_init( &((*this_).sketch_marker), false );
 
     U8_TRACE_END();
@@ -27,6 +28,7 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
 
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     pencil_diagram_maker_destroy( &((*this_).painter) );
+    data_profile_part_destroy( &((*this_).profile) );
     data_visible_set_destroy( &((*this_).painter_input_data) );
     shape_int_rectangle_destroy(&((*this_).bounds));
 
