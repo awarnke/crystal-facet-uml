@@ -23,7 +23,7 @@
 struct image_format_writer_struct {
     data_database_reader_t *db_reader;  /* !< pointer to external database reader */
     data_visible_set_t *input_data;  /*!< pointer to an external buffer for private use as data cache */
-    data_profile_part_t *profile;  /*!< caches the stereotypes referenced from the current diagram */
+    data_profile_part_t *profile;  /*!< the stereotypes referenced from the current diagram */
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
 };
@@ -36,6 +36,7 @@ typedef struct image_format_writer_struct image_format_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
  *  \param input_data pointer to an external buffer for private use as data cache
+ *  \param profile the stereotypes referenced from the current diagram
  */
 void image_format_writer_init( image_format_writer_t *this_,
                                data_database_reader_t *db_reader,

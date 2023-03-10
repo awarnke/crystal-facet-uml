@@ -440,36 +440,41 @@ static void no_hidden_relationships(void)
 {
     ctrl_diagram_controller_t *diagram_ctrl;
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    test_env_setup_t test_env;
+    test_env_setup_init( &test_env, &controller );
 
     /* create 2 diagrams */
-    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
-    const data_row_id_t local_diagram = test_env_setup_data_create_diagram( root_diagram, "local diag", &controller );
+    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_env, DATA_ROW_ID_VOID, "root diag" );
+    const data_row_id_t local_diagram = test_env_setup_data_create_diagram( &test_env, root_diagram, "local diag" );
 
     /* create 3 classifiers */
-    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );
-    const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( "omni classifier", &controller );
-    const data_row_id_t local_classifier = test_env_setup_data_create_classifier( "local classifier", &controller );
+    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( &test_env, "test classifier" );
+    const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( &test_env, "omni classifier" );
+    const data_row_id_t local_classifier = test_env_setup_data_create_classifier( &test_env, "local classifier" );
 
     /* create 5 diagramelements */
     const data_row_id_t test_local_diagele
-        = test_env_setup_data_create_diagramelement( local_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
-    test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
-    test_env_setup_data_create_diagramelement( local_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
-    test_env_setup_data_create_diagramelement( root_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
-    test_env_setup_data_create_diagramelement( local_diagram, local_classifier, DATA_ROW_ID_VOID, &controller );
+        = test_env_setup_data_create_diagramelement( &test_env, local_diagram, test_classifier, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_env, root_diagram, test_classifier, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_env, local_diagram, omni_classifier, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_env, root_diagram, omni_classifier, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_env, local_diagram, local_classifier, DATA_ROW_ID_VOID );
 
     /* create 1 feature */
-    const data_row_id_t test_feature = test_env_setup_data_create_feature( test_classifier, "test feature", &controller );
+    const data_row_id_t test_feature = test_env_setup_data_create_feature( &test_env, test_classifier, "test feature" );
 
     /* create 2 relationships */
     const data_row_id_t double_rel
-        = test_env_setup_data_create_relationship( test_classifier, test_feature,
+        = test_env_setup_data_create_relationship( &test_env,
+                                                   test_classifier, test_feature,
                                                    omni_classifier, DATA_ROW_ID_VOID,
-                                                   "double relation", &controller );
+                                                   "double relation" );
     const data_row_id_t local_rel
-        = test_env_setup_data_create_relationship( test_classifier, test_feature,
+        = test_env_setup_data_create_relationship( &test_env,
+                                                   test_classifier, test_feature,
                                                    local_classifier, DATA_ROW_ID_VOID,
-                                                   "local relation", &controller );
+                                                   "local relation" );
+    test_env_setup_destroy( &test_env );
 
     /* delete the local diagramelement of the test classifier */
     const u8_error_t c_err

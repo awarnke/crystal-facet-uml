@@ -65,15 +65,20 @@ static void tear_down(void)
 
 static void delete_set_not_possible(void)
 {
+    test_env_setup_t test_env;
+    test_env_setup_init( &test_env, &controller );
+
     /* create 2 diagrams */
-    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
-    test_env_setup_data_create_diagram( root_diagram, "test diag", &controller );
+    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_env, DATA_ROW_ID_VOID, "root diag" );
+    test_env_setup_data_create_diagram( &test_env, root_diagram, "test diag" );
 
     /* create 1 classifiers */
-    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );
+    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( &test_env, "test classifier" );
 
     /* create 1 diagramelement */
-    test_env_setup_data_create_diagramelement( root_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
+    test_env_setup_data_create_diagramelement( &test_env, root_diagram, test_classifier, DATA_ROW_ID_VOID );
+
+    test_env_setup_destroy( &test_env );
 
     /* try to delete each type once from the database */
     {
@@ -115,32 +120,39 @@ static void delete_set_not_possible(void)
 
 static void delete_set_successfully(void)
 {
+    test_env_setup_t test_env;
+    test_env_setup_init( &test_env, &controller );
+
     /* create 2 diagrams */
-    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( DATA_ROW_ID_VOID, "root diag", &controller );
-    const data_row_id_t test_diagram = test_env_setup_data_create_diagram( root_diagram, "test diag", &controller );
+    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_env, DATA_ROW_ID_VOID, "root diag" );
+    const data_row_id_t test_diagram = test_env_setup_data_create_diagram( &test_env, root_diagram, "test diag" );
 
     /* create 3 classifiers */
-    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( "test classifier", &controller );
-    const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( "omni classifier", &controller );
-    const data_row_id_t orphaned_classifier = test_env_setup_data_create_classifier( "orphaned classifier", &controller );
+    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( &test_env, "test classifier" );
+    const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( &test_env, "omni classifier" );
+    const data_row_id_t orphaned_classifier = test_env_setup_data_create_classifier( &test_env, "orphaned classifier" );
 
     /* create 2 diagramelements */
-    test_env_setup_data_create_diagramelement( root_diagram, omni_classifier, DATA_ROW_ID_VOID, &controller );
+    test_env_setup_data_create_diagramelement( &test_env, root_diagram, omni_classifier, DATA_ROW_ID_VOID );
     const data_row_id_t test_diagele
-        = test_env_setup_data_create_diagramelement( test_diagram, test_classifier, DATA_ROW_ID_VOID, &controller );
+        = test_env_setup_data_create_diagramelement( &test_env, test_diagram, test_classifier, DATA_ROW_ID_VOID );
 
     /* create 2 features */
-    const data_row_id_t test_feature = test_env_setup_data_create_feature( test_classifier, "test feature", &controller );
-    const data_row_id_t omni_feature = test_env_setup_data_create_feature( omni_classifier, "omni feature", &controller );
+    const data_row_id_t test_feature = test_env_setup_data_create_feature( &test_env, test_classifier, "test feature" );
+    const data_row_id_t omni_feature = test_env_setup_data_create_feature( &test_env, omni_classifier, "omni feature" );
 
     /* create 2 relationships */
     const data_row_id_t test_rel
-        = test_env_setup_data_create_relationship( omni_classifier, DATA_ROW_ID_VOID,
+        = test_env_setup_data_create_relationship( &test_env,
+                                                   omni_classifier, DATA_ROW_ID_VOID,
                                                    omni_classifier, omni_feature,
-                                                   "test relation", &controller );
-    test_env_setup_data_create_relationship( test_classifier, test_feature,
+                                                   "test relation" );
+    test_env_setup_data_create_relationship( &test_env,
+                                             test_classifier, test_feature,
                                              omni_classifier, DATA_ROW_ID_VOID,
-                                             "collateral relation", &controller );
+                                             "collateral relation" );
+
+    test_env_setup_destroy( &test_env );
 
     /* delete each type once from the database */
     {

@@ -60,7 +60,7 @@ u8_error_t data_profile_part_load( data_profile_part_t *this_, const data_visibl
         if ( data_classifier_has_stereotype( clsfy ) )
         {
             const char *const clsfy_stereotype = data_classifier_get_stereotype_const( clsfy );
-            if (true)  /* TODO: filter duplicates, filter non-stereotypes, filter similar-names-only (ENTITY != Entity) */
+            if (true)  /* TODO: filter duplicates */
             {
                 if ( (*this_).stereotype_count < DATA_PROFILE_PART_MAX_STEREOTYPES )
                 {
@@ -69,6 +69,7 @@ u8_error_t data_profile_part_load( data_profile_part_t *this_, const data_visibl
                                                                        clsfy_stereotype,  /* : name */
                                                                        &((*this_).stereotypes[(*this_).stereotype_count])
                                                                      );
+                    /* TODO: filter non-stereotypes, filter similar-names-only (ENTITY != Entity) */
                     if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
                     {
                         U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading stereotypes of a diagram" );

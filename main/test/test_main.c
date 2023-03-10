@@ -6,15 +6,16 @@
 #include "unit/data_uuid_test.h"
 #include "unit/data_rules_test.h"
 #include "unit/data_database_listener_test.h"
+#include "integration/data_profile_part_test.h"
 #include "integration/data_database_reader_test.h"
 /* ctrl */
-#include "unit/ctrl_diagram_controller_test.h"
-#include "unit/ctrl_multi_step_changer_test.h"
-#include "unit/ctrl_classifier_controller_test.h"
-#include "unit/ctrl_consistency_checker_test.h"
-#include "unit/ctrl_undo_redo_list_test.h"
-#include "unit/ctrl_diagram_policy_enforcer_test.h"
-#include "unit/ctrl_classifier_policy_enforcer_test.h"
+#include "integration/ctrl_diagram_controller_test.h"
+#include "integration/ctrl_multi_step_changer_test.h"
+#include "integration/ctrl_classifier_controller_test.h"
+#include "integration/ctrl_consistency_checker_test.h"
+#include "integration/ctrl_undo_redo_list_test.h"
+#include "integration/ctrl_diagram_policy_enforcer_test.h"
+#include "integration/ctrl_classifier_policy_enforcer_test.h"
 /* pencil */
 #include "unit/geometry_rectangle_test.h"
 #include "unit/geometry_connector_test.h"
@@ -155,6 +156,7 @@ int main (int argc, char *argv[]) {
         /* io */
         test_runner_run_suite( &runner, txt_writer_test_get_suite() );
         test_runner_run_suite( &runner, json_token_reader_test_get_suite() );
+        test_runner_run_suite( &runner, md_filter_test_get_suite() );
         test_runner_run_suite( &runner, io_import_elements_test_get_suite() );
         /* universal */
         test_runner_run_suite( &runner, universal_array_index_sorter_test_get_suite() );
@@ -183,6 +185,7 @@ int main (int argc, char *argv[]) {
     {
         /* data */
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
+        test_runner_run_suite( &runner, data_profile_part_test_get_suite() );
         /* ctrl */
         test_runner_run_suite( &runner, ctrl_multi_step_changer_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_suite() );
@@ -198,7 +201,6 @@ int main (int argc, char *argv[]) {
         /* io */
         test_runner_run_suite( &runner, io_data_file_test_get_suite() );
         test_runner_run_suite( &runner, io_importer_test_get_suite() );
-        test_runner_run_suite( &runner, md_filter_test_get_suite() );
         test_runner_run_suite( &runner, io_export_model_traversal_test_get_suite() );
         /* universal */
         /* utf8stringbuf */

@@ -4335,6 +4335,7 @@
         "id": 42,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "copy",
         "name": "c2",
         "description": [
                 ""
