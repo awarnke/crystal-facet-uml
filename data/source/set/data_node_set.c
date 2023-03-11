@@ -54,15 +54,15 @@ u8_error_t data_node_set_load( data_node_set_t *this_, data_row_id_t classifier_
         /* load classifier */
         db_err = data_database_reader_get_classifier_by_id ( db_reader, classifier_id, &((*this_).classifier) );
 
-        if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+        if ( u8_error_contains(db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
         {
             U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
-        if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
+        if ( u8_error_contains( db_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
-        if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             /* error at loading */
             data_classifier_reinit_empty( &((*this_).classifier) );
@@ -77,15 +77,15 @@ u8_error_t data_node_set_load( data_node_set_t *this_, data_row_id_t classifier_
                                                                       &((*this_).feature_count)
                                                                     );
 
-        if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+        if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
         {
             U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
         }
-        if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
+        if ( u8_error_contains( db_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
         }
-        if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             /* error at loading */
             (*this_).feature_count = 0;
@@ -100,15 +100,15 @@ u8_error_t data_node_set_load( data_node_set_t *this_, data_row_id_t classifier_
                                                                            &((*this_).relationship_count)
                                                                          );
 
-        if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+        if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
         {
             U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
-        if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == (db_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED) )
+        if ( u8_error_contains( db_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
-        if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             /* error at loading */
             (*this_).relationship_count = 0;

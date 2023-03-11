@@ -125,14 +125,14 @@ u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
 
     /* Note: This function fails if the diagram is still referenced. */
     reference_check_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
-    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED ) != 0 ) )
+    if ( ( 0 != referencing_diagram_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
     {
         object_still_referenced = true;
     }
     else
     {
         reference_check_err = data_database_reader_get_classifiers_by_diagram_id ( (*this_).db_reader, obj_id, 1, &referencing_classifier, &referencing_classifier_count );
-        if ( ( 0 != referencing_classifier_count ) || ( ( reference_check_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED ) != 0 ) )
+        if ( ( 0 != referencing_classifier_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             object_still_referenced = true;
         }
@@ -442,21 +442,21 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
 
     /* Note: This function fails if the classifier is still referenced. */
     reference_check_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
-    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED ) != 0 ) )
+    if ( ( 0 != referencing_diagram_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
     {
         object_still_referenced = true;
     }
     else
     {
         reference_check_err = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_feature, &referencing_feature_count );
-        if ( ( 0 != referencing_feature_count ) || ( ( reference_check_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED ) != 0 ) )
+        if ( ( 0 != referencing_feature_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
         {
             object_still_referenced = true;
         }
         else
         {
             reference_check_err = data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_relationship, &referencing_relationship_count );
-            if ( ( 0 != referencing_relationship_count ) || ( ( reference_check_err & U8_ERROR_ARRAY_BUFFER_EXCEEDED ) != 0 ) )
+            if ( ( 0 != referencing_relationship_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
             {
                 object_still_referenced = true;
             }

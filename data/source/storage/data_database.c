@@ -446,10 +446,10 @@ u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
     data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_STEREOTYPE, true );
     data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_STEREOTYPE, true );
 
-    if ( ( result & U8_ERROR_READ_ONLY_DB ) != U8_ERROR_NONE )
+    if ( u8_error_contains( result, U8_ERROR_READ_ONLY_DB ) )
     {
         U8_LOG_EVENT( "sqlite3 database is read only." );
-        result = result & ~U8_ERROR_READ_ONLY_DB;
+        result = u8_error_more_than( result, U8_ERROR_READ_ONLY_DB ) ? U8_ERROR_AT_DB : U8_ERROR_NONE;
     }
 
     U8_TRACE_END_ERR( result );

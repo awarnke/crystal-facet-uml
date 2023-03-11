@@ -207,7 +207,7 @@ u8_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier( 
                                                                    CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                  );
 
-    if ( U8_ERROR_NONE != ( my_ctrl_result & U8_ERROR_OBJECT_STILL_REFERENCED ))
+    if ( u8_error_contains( my_ctrl_result, U8_ERROR_OBJECT_STILL_REFERENCED ) )
     {
         U8_LOG_ANOMALY( "The classifier cannot be deleted because it is still referenced." );
     }

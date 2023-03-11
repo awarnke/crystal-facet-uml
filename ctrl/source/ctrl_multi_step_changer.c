@@ -293,7 +293,7 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_diagram_set_row_id( new_diagram, new_diagram_id );
     }
-    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
+    else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE ) )
     {
         data_diagram_set_row_id( new_diagram, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -356,7 +356,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_diagramelement_set_row_id( new_diagramelement, new_diagramelement_id );
     }
-    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
+    else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE ) )
     {
         data_diagramelement_set_row_id( new_diagramelement, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -419,7 +419,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_classifier_set_row_id( new_classifier, new_classifier_id );
     }
-    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
+    else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE ) )
     {
         data_classifier_set_row_id( new_classifier, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -531,7 +531,7 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_feature_set_row_id( new_feature, new_feature_id );
     }
-    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
+    else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE) )
     {
         data_feature_set_row_id( new_feature, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err
@@ -594,7 +594,7 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
         (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
         data_relationship_set_row_id( new_relationship, new_relationship_id );
     }
-    else if ( (create_err & U8_ERROR_DUPLICATE) == U8_ERROR_DUPLICATE )
+    else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE) )
     {
         data_relationship_set_row_id( new_relationship, DATA_ROW_ID_VOID );
         const u8_error_t alt_create_err

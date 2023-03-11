@@ -579,7 +579,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -587,7 +587,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     /* error at loading */
                     data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
@@ -611,7 +611,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -619,7 +619,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     /* error at loading */
                     data_feature_reinit_empty( &((*this_).private_feature_cache) );
@@ -643,7 +643,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -651,7 +651,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     /* error at loading */
                     data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
@@ -686,7 +686,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+                if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -694,7 +694,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
+                if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     /* error at loading */
                     data_diagram_reinit_empty( &((*this_).private_diagram_cache) );

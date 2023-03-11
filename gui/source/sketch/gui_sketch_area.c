@@ -266,7 +266,7 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
                                                                  &roots
                                                                );
         const uint32_t count = data_small_set_get_count( &roots );
-        if ( U8_ERROR_NONE != ( db_err & U8_ERROR_NO_DB ) )
+        if ( u8_error_contains( db_err, U8_ERROR_NO_DB ) )
         {
             U8_TRACE_INFO( "database not open.");
         }
@@ -426,7 +426,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
                                                                          selected_diagram_row_id,
                                                                          &children
                                                                        );
-                if ( U8_ERROR_NONE != ( db_err & U8_ERROR_NO_DB ) )
+                if ( u8_error_contains( db_err, U8_ERROR_NO_DB ) )
                 {
                     U8_TRACE_INFO( "database not open.");
                 }

@@ -24,7 +24,6 @@ void data_profile_part_reinit( data_profile_part_t *this_ )
     data_profile_part_init( this_ );
 
     U8_TRACE_END();
-
 }
 
 void data_profile_part_destroy( data_profile_part_t *this_ )

@@ -278,7 +278,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                  DATA_TABLE_DIAGRAM,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
-            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
                 /* warn on changed diagram ids. This is important because links in description texts may be affected. */
                 data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_WARNING );
@@ -299,7 +299,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             }
 
             /* write report in case of anomalies */
-            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
                 io_import_elements_private_report_id_differs( this_,
                                                               data_diagram_get_data_id( diagram_ptr ),
@@ -462,7 +462,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
             }
 
             /* write report in case of anomalies */
-            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
                 io_import_elements_private_report_id_differs( this_,
                                                               data_diagramelement_get_data_id( diagramelement_ptr ),
@@ -570,7 +570,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                  DATA_TABLE_CLASSIFIER,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
-            if ( (U8_ERROR_DUPLICATE_NAME & modified_info) == U8_ERROR_DUPLICATE_NAME )
+            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_NAME ) )
             {
                 /* warn on changed classifier names. */
                 data_stat_inc_count( (*this_).stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
@@ -582,14 +582,14 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
             }
 
             /* write report in case of anomalies */
-            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
                 io_import_elements_private_report_id_differs( this_,
                                                               data_classifier_get_data_id( classifier_ptr ),
                                                               data_classifier_get_data_id( &((*this_).temp_classifier ) )
                                                             );
             }
-            if ( (U8_ERROR_DUPLICATE_NAME & modified_info) == U8_ERROR_DUPLICATE_NAME )
+            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_NAME ) )
             {
                 io_import_elements_private_report_name_differs( this_,
                                                                 data_classifier_get_name_const( classifier_ptr ),
@@ -704,7 +704,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                 }
 
                 /* write report in case of anomalies */
-                if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+                if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
                 {
                     io_import_elements_private_report_id_differs( this_,
                                                                   data_feature_get_data_id( feature_ptr ),
@@ -904,7 +904,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
                                );
 
             /* write report in case of anomalies */
-            if ( (U8_ERROR_DUPLICATE_ID & modified_info) == U8_ERROR_DUPLICATE_ID )
+            if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
                 io_import_elements_private_report_id_differs( this_,
                                                               data_relationship_get_data_id( relation_ptr ),

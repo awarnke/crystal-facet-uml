@@ -274,7 +274,7 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
-    else if ( U8_ERROR_NONE != ( ctrl_err & U8_ERROR_OBJECT_STILL_REFERENCED ))
+    else if ( u8_error_contains( ctrl_err, U8_ERROR_OBJECT_STILL_REFERENCED ) )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -434,7 +434,7 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
-    else if ( U8_ERROR_NONE != ( ctrl_err & U8_ERROR_OBJECT_STILL_REFERENCED ))
+    else if ( u8_error_contains( ctrl_err, U8_ERROR_OBJECT_STILL_REFERENCED ) )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
