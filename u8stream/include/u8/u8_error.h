@@ -13,6 +13,7 @@
 
 #include "u8/u8_error_cat.h"
 #include "u8/u8_error_orig.h"
+#include <stdbool.h>
 
 /*!
  *  \brief error constants which explain and categorize errors
@@ -110,6 +111,32 @@ enum u8_error_enum {
 };
 
 typedef enum u8_error_enum u8_error_t;
+
+/*!
+ *  \brief checks if this_ error bitmask mask contains all bits of that error to compare
+ *
+ *  The inner logic is trivial,
+ *  the name of the function shall increase understandability of the outer logic when used.
+ *
+ *  \param this_ own object
+ *  \param that object (error mask) to compare
+ *  \return true if all bits of that are set in this_
+ */
+static inline bool u8_error_contains ( const u8_error_t this_,  const u8_error_t that );
+
+/*!
+ *  \brief checks if this_ error bitmask mask contains other bits than that error to compare
+ *
+ *  The inner logic is trivial,
+ *  the name of the function shall increase understandability of the outer logic when used.
+ *
+ *  \param this_ own object
+ *  \param that object (error mask) to compare
+ *  \return true if this_ has bit set that are not in that
+ */
+static inline bool u8_error_more_than ( const u8_error_t this_,  const u8_error_t that );
+
+#include "u8/u8_error.inl"
 
 #endif  /* U8_ERROR_H */
 

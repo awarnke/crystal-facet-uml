@@ -213,7 +213,74 @@ static void search_and_filter(void)
 
 static void too_much_input(void)
 {
-    TEST_EXPECT_EQUAL_INT( 5, 3+1 );
+    test_vector_db_t setup_env;
+    test_vector_db_init( &setup_env, &db_writer );
+
+    /* create the root diagram */
+    const data_row_id_t root_diag_id
+        = test_vector_db_create_diagram( &setup_env,
+                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         "root_diagram",  /* name */
+                                         "Any-Blue-Item"  /* stereotype */
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+
+    const uint_fast16_t test_count = DATA_PROFILE_PART_MAX_STEREOTYPES + 1;
+    for ( uint_fast16_t index = 0; index < test_count; index ++ )
+    {
+        /* create a stereotype (which references itself as stereotype) */
+        char name_buf[16];
+        utf8stringbuf_t name = UTF8STRINGBUF( name_buf );
+        utf8stringbuf_copy_str( name, "Kind-" );
+        utf8stringbuf_append_int( name, index );
+        const data_row_id_t stereotype_id
+            = test_vector_db_create_classifier( &setup_env,
+                                                utf8stringbuf_get_string( name ),  /* name */
+                                                DATA_CLASSIFIER_TYPE_STEREOTYPE,
+                                                utf8stringbuf_get_string( name )  /* stereotype */
+                                              );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != stereotype_id );
+        (void) test_vector_db_create_diagramelement( &setup_env,
+                                                     root_diag_id,
+                                                     stereotype_id
+                                                   );
+    }
+
+    test_vector_db_destroy( &setup_env );
+    /* ^^^^ creating the test vector / input data finished here. */
+
+    /* load a visible set of elements */
+    {
+        data_visible_set_t elements;
+        data_visible_set_init( &elements );
+
+        const u8_error_t init_err = data_visible_set_load( &elements, root_diag_id, &db_reader );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
+        const uint32_t diag_classifier_count
+            = data_visible_set_get_visible_classifier_count( &elements );
+        TEST_ENVIRONMENT_ASSERT( test_count == diag_classifier_count );
+
+        /* load a profile */
+        {
+            data_profile_part_t profile;
+            data_profile_part_init( &profile );
+
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &elements, &db_reader );
+            TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, fetch_err );
+
+            const uint32_t count = data_profile_part_get_stereotype_count( &profile );
+            TEST_EXPECT_EQUAL_INT( DATA_PROFILE_PART_MAX_STEREOTYPES, count );
+
+            utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "Kind-0" );
+            const data_classifier_t *const classifier
+                = data_profile_part_get_stereotype_by_name_const( &profile, stereotype_name );
+            TEST_EXPECT_EQUAL_STRING( "Kind-0", data_classifier_get_stereotype_const( classifier ) );
+
+            data_profile_part_destroy( &profile );
+        }
+
+        data_visible_set_destroy(  &elements );
+    }
 }
 
 

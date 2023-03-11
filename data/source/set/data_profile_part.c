@@ -76,17 +76,18 @@ u8_error_t data_profile_part_load( data_profile_part_t *this_,
                                                                      );
                     const data_classifier_type_t c_type
                         = data_classifier_get_main_type( &((*this_).stereotypes[(*this_).stereotype_count]) );
-                    if ( U8_ERROR_STRING_BUFFER_EXCEEDED == (db_err & U8_ERROR_STRING_BUFFER_EXCEEDED) )
+
+                    if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                     {
                         U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading stereotypes of a diagram" );
                     }
-                    if ( U8_ERROR_NOT_FOUND == (db_err & U8_ERROR_NOT_FOUND) )
+                    if ( u8_error_contains( db_err, U8_ERROR_NOT_FOUND ) )
                     {
                         /* no entry found. */
                         U8_LOG_EVENT( "A stereotype does not exist." );
                         U8_TRACE_INFO_STR( "stereotype does not exist:", clsfy_stereotype );
                     }
-                    else if ( U8_ERROR_NONE != (db_err & ~(U8_ERROR_STRING_BUFFER_EXCEEDED)) )
+                    else if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                     {
                         /* error at loading */
                         U8_LOG_ERROR( "A stereotype could not be loaded!" );
