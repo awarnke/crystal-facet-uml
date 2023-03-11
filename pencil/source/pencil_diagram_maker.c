@@ -157,6 +157,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                          mark_highlighted,
                                          mark_selected,
                                          layout_data,
+                                         (*this_).profile,
                                          pencil_size,
                                          layout,
                                          cr
@@ -267,6 +268,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                                                data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),
                                                data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id( the_relationship ) ),
                                                data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),
+                                               (*this_).profile,
                                                pencil_size,
                                                layout,
                                                cr

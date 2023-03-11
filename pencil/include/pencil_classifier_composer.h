@@ -24,9 +24,10 @@
 #include "geometry/geometry_v_align.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
+#include "set/data_profile_part.h"
+#include "set/data_visible_set.h"
 #include "data_id.h"
 #include "data_rules.h"
-#include "set/data_visible_set.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -67,6 +68,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param layout_data pointer to the diagrams layout-information needed to calculate the feature compartments
+ *  \param profile pointer to the profile-part that provided the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
@@ -77,6 +79,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                        data_id_t mark_highlighted,
                                        const data_small_set_t *mark_selected,
                                        const pencil_layout_data_t *layout_data,
+                                       const data_profile_part_t *profile,
                                        const pencil_size_t *pencil_size,
                                        PangoLayout *font_layout,
                                        cairo_t *cr

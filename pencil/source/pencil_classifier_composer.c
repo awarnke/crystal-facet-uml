@@ -43,14 +43,17 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                        data_id_t mark_highlighted,
                                        const data_small_set_t *mark_selected,
                                        const pencil_layout_data_t *layout_data,
+                                       const data_profile_part_t *profile,
                                        const pencil_size_t *pencil_size,
                                        PangoLayout *font_layout,
                                        cairo_t *cr )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != pencil_size );
     assert( NULL != layouted_classifier );
+    assert( NULL != mark_selected );
     assert( NULL != layout_data );
+    assert( NULL != profile );
+    assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != cr );
 

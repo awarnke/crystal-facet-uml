@@ -34,13 +34,15 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                                         bool mark_focused,
                                         bool mark_highlighted,
                                         bool mark_selected,
+                                        const data_profile_part_t *profile,
                                         const pencil_size_t *pencil_size,
                                         PangoLayout *layout,
                                         cairo_t *cr )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != pencil_size );
     assert( NULL != layouted_relationship );
+    assert( NULL != profile );
+    assert( NULL != pencil_size );
     assert( NULL != layout );
     assert( NULL != cr );
 
