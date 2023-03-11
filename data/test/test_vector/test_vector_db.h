@@ -56,11 +56,13 @@ static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param name name of the newly created element
+ *  \param classifier_type type of the newly created element
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created classifier
  */
 static data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
                                                        const char* name,
+                                                       data_classifier_type_t classifier_type,
                                                        const char* stereotype
                                                      );
 

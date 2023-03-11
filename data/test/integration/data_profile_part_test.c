@@ -3,9 +3,9 @@
 #include "data_profile_part_test.h"
 #include "set/data_profile_part.h"
 #include "set/data_visible_set.h"
-#include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_writer.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
 #include "test_vector/test_vector_db.h"
@@ -27,14 +27,12 @@ static data_database_t database;
 static data_database_reader_t db_reader;
 
 /*!
- *  \brief controller instance on which the tests are performed
+ *  \brief db_writer instance to write to the database.
+ *
+ *  Typically this should by done via a controller.
+ *  But here, this test cases should not use layers above the currently tested one.
  */
-static ctrl_controller_t controller;
-
-/*!
- *  \brief row id of the root diagram
- */
-static data_row_id_t diagram_id;
+static data_database_writer_t db_writer;
 
 test_suite_t data_profile_part_test_get_suite(void)
 {
@@ -52,29 +50,12 @@ static void set_up(void)
     data_database_open_in_memory( &database );
 
     data_database_reader_init( &db_reader, &database );
-
-    ctrl_controller_init( &controller, &database );
-    ctrl_diagram_controller_t *const diagram_ctrl
-        = ctrl_controller_get_diagram_control_ptr( &controller );
-
-    /* create the root diagram */
-    {
-        diagram_id = DATA_ROW_ID_VOID;
-        const u8_error_t ctrl_err
-            = ctrl_diagram_controller_create_root_diagram_if_not_exists( diagram_ctrl,
-                                                                         DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
-                                                                         "root_diagram",
-                                                                         &diagram_id
-                                                                       );
-        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != diagram_id );
-    }
+    data_database_writer_init( &db_writer, &db_reader, &database );
 }
 
 static void tear_down(void)
 {
-    ctrl_controller_destroy( &controller );
-
+    data_database_writer_destroy( &db_writer );
     data_database_reader_destroy( &db_reader );
 
     data_database_close( &database );
@@ -83,67 +64,129 @@ static void tear_down(void)
 
 static void no_results(void)
 {
-    ctrl_classifier_controller_t *const classifier_ctrl
-        = ctrl_controller_get_classifier_control_ptr( &controller );
-    ctrl_diagram_controller_t *const diagram_ctrl
-        = ctrl_controller_get_diagram_control_ptr( &controller );
+    test_vector_db_t setup_env;
+    test_vector_db_init( &setup_env, &db_writer );
 
-    /* create a classifier */
-    data_row_id_t classifier_id = DATA_ROW_ID_VOID;
-    {
-        static data_classifier_t new_classifier;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
-        const u8_error_t data_err = data_classifier_init( &new_classifier,
-                                                          DATA_ROW_ID_VOID /* classifier_id is ignored */,
-                                                          DATA_CLASSIFIER_TYPE_COMPONENT,
-                                                          "The-Blue-Stone",  /* stereotype */
-                                                          "The-Blue-Stone",  /* name */
-                                                          "my_descr",  /* description */
-                                                          45,
-                                                          4500,
-                                                          450000,
-                                                          "7958d381-1859-49fc-b6c5-49fbc2bfebe8"
-                                                        );
-        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
-        const u8_error_t ctrl_err = ctrl_classifier_controller_create_classifier( classifier_ctrl,
-                                                                                  &new_classifier,
-                                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                                                  &classifier_id
-                                                                                );
-        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
-        data_classifier_destroy ( &new_classifier );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
-    }
+    /* create the root diagram */
+    const data_row_id_t root_diag_id
+        = test_vector_db_create_diagram( &setup_env,
+                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         "root_diagram",  /* name */
+                                         "Any-Blue-Item"  /* stereotype */
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
 
-    /* create a diagramelement for the classifier */
-    data_row_id_t first_diag_element_id = DATA_ROW_ID_VOID;
-    {
-        data_diagramelement_t new_diagele;
-        data_diagramelement_init_new( &new_diagele,
-                                      diagram_id,
-                                      classifier_id,
-                                      DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                      DATA_ROW_ID_VOID
-                                    );
+    /* create a classifier with stereotype which name exists but is no stereotype */
+    const data_row_id_t classifier_1_id
+        = test_vector_db_create_classifier( &setup_env,
+                                            "The-Blue-Stone",  /* name */
+                                            DATA_CLASSIFIER_TYPE_COMPONENT,
+                                            "The-Blue-Stone"  /* stereotype */
+                                          );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_1_id );
+    (void) test_vector_db_create_diagramelement( &setup_env,
+                                                 root_diag_id,
+                                                 classifier_1_id
+                                               );
 
-        first_diag_element_id = DATA_ROW_ID_VOID;
-        const u8_error_t ctrl_err
-            = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
-                                                             &new_diagele,
-                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
-                                                             &first_diag_element_id
-                                                           );
-        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
-        data_diagramelement_destroy ( &new_diagele );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != first_diag_element_id );
-    }
+    /* create a classifier with stereotype which does not exist */
+    const data_row_id_t classifier_2_id
+        = test_vector_db_create_classifier( &setup_env,
+                                            "non_existing_stereotype",  /* name */
+                                            DATA_CLASSIFIER_TYPE_COMPONENT,
+                                            "ThE-Blue-Stone"  /* stereotype */
+                                          );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_2_id );
+    (void) test_vector_db_create_diagramelement( &setup_env,
+                                                 root_diag_id,
+                                                 classifier_2_id
+                                               );
+
+    test_vector_db_destroy( &setup_env );
+    /* ^^^^ creating the test vector / input data finished here. */
 
     /* load a visible set of elements */
     {
         data_visible_set_t elements;
         data_visible_set_init( &elements );
 
-        const u8_error_t init_err = data_visible_set_load( &elements, diagram_id, &db_reader );
+        const u8_error_t init_err = data_visible_set_load( &elements, root_diag_id, &db_reader );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
+        const uint32_t diag_classifier_count
+            = data_visible_set_get_visible_classifier_count( &elements );
+        TEST_ENVIRONMENT_ASSERT( 2 == diag_classifier_count );
+
+        /* load a profile */
+        {
+            data_profile_part_t profile;
+            data_profile_part_init( &profile );
+
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &elements, &db_reader );
+            TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, fetch_err );
+
+            const uint32_t count = data_profile_part_get_stereotype_count( &profile );
+            TEST_EXPECT_EQUAL_INT( 0, count );
+
+            data_profile_part_destroy( &profile );
+        }
+
+        data_visible_set_destroy(  &elements );
+    }
+}
+
+static void search_and_filter(void)
+{
+    test_vector_db_t setup_env;
+    test_vector_db_init( &setup_env, &db_writer );
+
+    /* create the root diagram */
+    const data_row_id_t root_diag_id
+        = test_vector_db_create_diagram( &setup_env,
+                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         "root_diagram",  /* name */
+                                         "Any-Blue-Item"  /* stereotype */
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+
+    /* create a stereotype (which references itself as stereotype) */
+    const data_row_id_t stereotype_id
+        = test_vector_db_create_classifier( &setup_env,
+                                            "Any-Blue-Item",  /* name */
+                                            DATA_CLASSIFIER_TYPE_STEREOTYPE,
+                                            "Any-Blue-Item"  /* stereotype */
+                                          );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != stereotype_id );
+    (void) test_vector_db_create_diagramelement( &setup_env,
+                                                 root_diag_id,
+                                                 stereotype_id
+                                               );
+
+    /* create a classifier */
+    const data_row_id_t classifier_id
+        = test_vector_db_create_classifier( &setup_env,
+                                            "The-Blue-Stone",  /* name */
+                                            DATA_CLASSIFIER_TYPE_COMPONENT,
+                                            "Any-Blue-Item"  /* stereotype */
+                                          );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
+    (void) test_vector_db_create_diagramelement( &setup_env,
+                                                 root_diag_id,
+                                                 classifier_id
+                                               );
+
+    test_vector_db_destroy( &setup_env );
+    /* ^^^^ creating the test vector / input data finished here. */
+
+    /* load a visible set of elements */
+    {
+        data_visible_set_t elements;
+        data_visible_set_init( &elements );
+
+        const u8_error_t init_err = data_visible_set_load( &elements, root_diag_id, &db_reader );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
+        const uint32_t diag_classifier_count
+            = data_visible_set_get_visible_classifier_count( &elements );
+        TEST_ENVIRONMENT_ASSERT( 2 == diag_classifier_count );
 
         /* load a profile */
         {
@@ -156,10 +199,10 @@ static void no_results(void)
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
             TEST_EXPECT_EQUAL_INT( 1, count );
 
-            utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "The-Blue-Stone" );
+            utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "Any-Blue-Item" );
             const data_classifier_t *const classifier
                 = data_profile_part_get_stereotype_by_name_const( &profile, stereotype_name );
-            TEST_EXPECT_EQUAL_STRING( "my_descr", data_classifier_get_description_const( classifier ) );
+            TEST_EXPECT_EQUAL_INT( stereotype_id, data_classifier_get_row_id( classifier ) );
 
             data_profile_part_destroy( &profile );
         }
@@ -168,45 +211,9 @@ static void no_results(void)
     }
 }
 
-static void search_and_filter(void)
-{
-    ctrl_classifier_controller_t *const classifier_ctrl
-        = ctrl_controller_get_classifier_control_ptr( &controller );
-    ctrl_diagram_controller_t *const diagram_ctrl
-        = ctrl_controller_get_diagram_control_ptr( &controller );
-
-    /* create a classifier */
-    {
-        static data_classifier_t new_classifier;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
-        const u8_error_t data_err = data_classifier_init( &new_classifier,
-                                                          DATA_ROW_ID_VOID /* classifier_id is ignored */,
-                                                          DATA_CLASSIFIER_TYPE_STEREOTYPE,
-                                                          "",  /* stereotype */
-                                                          "Any-Blue-Item",
-                                                          "",  /* description */
-                                                          45,
-                                                          4500,
-                                                          450000,
-                                                          "7958d381-1859-49fc-b6c5-49fbc2bfebe8"
-                                                        );
-        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
-        data_row_id_t classifier_id;
-        const u8_error_t ctrl_err = ctrl_classifier_controller_create_classifier( classifier_ctrl,
-                                                                                  &new_classifier,
-                                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                                                  &classifier_id
-                                                                                );
-        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
-        data_classifier_destroy ( &new_classifier );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
-    }
-
-    TEST_EXPECT_EQUAL_INT( 5, 4+1 );
-}
-
 static void too_much_input(void)
 {
-    TEST_EXPECT_EQUAL_INT( 5, 4+1 );
+    TEST_EXPECT_EQUAL_INT( 5, 3+1 );
 }
 
 

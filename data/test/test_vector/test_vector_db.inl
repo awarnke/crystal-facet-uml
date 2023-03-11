@@ -26,8 +26,8 @@ static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
                                                     const char* name,
                                                     const char* stereotype )
 {
-    assert( name != null );
-    assert( stereotype != null );
+    assert( name != NULL );
+    assert( stereotype != NULL );
     u8_error_t data_err;
 
     /* create a diagram */
@@ -49,9 +49,9 @@ static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
 
         root_diag_id = DATA_ROW_ID_VOID;
         data_err = data_database_writer_create_diagram ( (*this_).db_writer,
-                                                            &new_diagram,
-                                                            &root_diag_id
-                                                        );
+                                                         &new_diagram,
+                                                         &root_diag_id
+                                                       );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
         data_diagram_destroy ( &new_diagram );
     }
@@ -62,10 +62,11 @@ static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
 
 static data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
                                                        const char* name,
+                                                       data_classifier_type_t classifier_type,
                                                        const char* stereotype )
 {
-    assert( name != null );
-    assert( stereotype != null );
+    assert( name != NULL );
+    assert( stereotype != NULL );
     u8_error_t data_err;
 
     /* create a classifier */
@@ -74,7 +75,7 @@ static data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
         static data_classifier_t new_classifier;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_classifier_init( &new_classifier,
                                          DATA_ROW_ID_VOID /* classifier_id is ignored */,
-                                         DATA_CLASSIFIER_TYPE_COMPONENT,
+                                         classifier_type,
                                          stereotype,  /* stereotype */
                                          name,
                                          "",  /* description */

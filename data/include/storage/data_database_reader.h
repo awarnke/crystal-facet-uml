@@ -201,7 +201,7 @@ static inline u8_error_t data_database_reader_get_classifier_by_id ( data_databa
  *  \param name the classifier to be read from the database
  *  \param[out] out_classifier the classifier read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          E.g. U8_ERROR_DB_STRUCTURE if name does not exist or U8_ERROR_NO_DB if the database is not open.
+ *          E.g. U8_ERROR_NOT_FOUND if name does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_,
                                                                        const char *name,
