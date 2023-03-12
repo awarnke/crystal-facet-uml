@@ -66,7 +66,7 @@ static inline geometry_dimensions_t draw_stereotype_image_get_dimensions ( const
  *  \param y y location where to draw the stereotype image
  *  \param h_align alignment of the stereotype image versus the given x coordinate
  *  \param v_align alignment of the stereotype image versus the given y coordinate
- *  \param height size of the stereotype image
+ *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \return bounding box rectangle of the stereotype image
  */
 static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw_stereotype_image_t *this_,
@@ -74,7 +74,7 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
                                                                       double y,
                                                                       geometry_h_align_t h_align,
                                                                       geometry_v_align_t v_align,
-                                                                      double height
+                                                                      const pencil_size_t *pencil_size
                                                                     );
 
 /*!
@@ -85,13 +85,15 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param bounds bounding rectangle of the stereotype image
  *  \param cr a cairo drawing context
+ *  \return U8_ERROR_NONE if one (or more) images were drawn, U8_ERROR_NOT_FOUND if no image was found,
+ *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
  */
-void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
-                                  const char *stereotype,
-                                  const data_profile_part_t *profile,
-                                  const geometry_rectangle_t *bounds,
-                                  cairo_t *cr
-                                );
+u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
+                                        const char *stereotype,
+                                        const data_profile_part_t *profile,
+                                        const geometry_rectangle_t *bounds,
+                                        cairo_t *cr
+                                      );
 
 #include "draw_stereotype_image.inl"
 

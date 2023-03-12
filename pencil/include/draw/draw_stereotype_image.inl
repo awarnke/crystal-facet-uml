@@ -19,8 +19,8 @@ static inline geometry_dimensions_t draw_stereotype_image_get_dimensions( const 
     assert( pencil_size != NULL );
     geometry_dimensions_t result;
 
-    const double type_icon_height = pencil_size_get_title_font_size( pencil_size );
-    geometry_dimensions_init ( &result, DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * type_icon_height, type_icon_height );
+    const double image_height = pencil_size_get_title_font_size( pencil_size );
+    geometry_dimensions_init ( &result, DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * image_height, image_height );
 
     return result;
 }
@@ -30,16 +30,17 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
                                                                       double y,
                                                                       geometry_h_align_t h_align,
                                                                       geometry_v_align_t v_align,
-                                                                      double height )
+                                                                      const pencil_size_t *pencil_size )
 {
     geometry_rectangle_t result;
 
-    const double width = DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * height;
+    const double image_height = pencil_size_get_title_font_size( pencil_size );
+    const double image_width = DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * image_height;
     geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
-                              width,
-                              height
+                              geometry_h_align_get_left( &h_align, image_width, x, 0.0 ),
+                              geometry_v_align_get_top( &v_align, image_height, y, 0.0 ),
+                              image_width,
+                              image_height
                             );
 
     return result;

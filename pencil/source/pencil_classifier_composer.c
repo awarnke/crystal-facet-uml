@@ -82,38 +82,29 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
     /* draw the stereotype image */
     const bool has_stereotype = data_classifier_has_stereotype( classifier );
+    u8_error_t stereotype_err = U8_ERROR_INPUT_EMPTY;
     if ( has_stereotype )
     {
-        /* check if the image is an small icon within a countour or if it is the full symbol */
-        bool has_contour = geometry_rectangle_is_containing( classifier_symbol_box, classifier_label_box );
-        if ( has_contour )
-        {
-            /* draw icon */
-            const double component_icon_height = pencil_size_get_title_font_size( pencil_size );
-            const geometry_rectangle_t stereotype_box
-                = draw_stereotype_image_get_bounds( &((*this_).draw_stereotype_image),
-                                                    geometry_rectangle_get_right( classifier_symbol_box ) - 2.0 * gap,  /* x */
-                                                    geometry_rectangle_get_top( classifier_symbol_box ) + 2.0 * gap,  /* y */
-                                                    GEOMETRY_H_ALIGN_RIGHT,
-                                                    GEOMETRY_V_ALIGN_TOP,
-                                                    component_icon_height
-                                                  );
-            draw_stereotype_image_draw( &((*this_).draw_stereotype_image),
-                                        data_classifier_get_stereotype_const( classifier ),
-                                        profile,
-                                        &stereotype_box,
-                                        cr
-                                      );
-        }
-        else
-        {
-            draw_stereotype_image_draw( &((*this_).draw_stereotype_image),
-                                        data_classifier_get_stereotype_const( classifier ),
-                                        profile,
-                                        classifier_symbol_box,
-                                        cr
-                                      );
-        }
+        /* check if the image is an small icon within a contour or if it is the full symbol */
+        const bool has_contour = geometry_rectangle_is_containing( classifier_symbol_box, classifier_label_box );
+
+        /* draw icon */
+        const geometry_rectangle_t stereotype_box
+            = has_contour
+            ? draw_stereotype_image_get_bounds( &((*this_).draw_stereotype_image),
+                                                geometry_rectangle_get_right( classifier_symbol_box ) - 2.0 * gap,  /* x */
+                                                geometry_rectangle_get_top( classifier_symbol_box ) + 2.0 * gap,  /* y */
+                                                GEOMETRY_H_ALIGN_RIGHT,
+                                                GEOMETRY_V_ALIGN_TOP,
+                                                pencil_size
+                                              )
+            : (*classifier_symbol_box);
+        stereotype_err = draw_stereotype_image_draw( &((*this_).draw_stereotype_image),
+                                                     data_classifier_get_stereotype_const( classifier ),
+                                                     profile,
+                                                     &stereotype_box,
+                                                     cr
+                                                   );
     }
 
     /* draw the classifier */

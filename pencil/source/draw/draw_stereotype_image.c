@@ -9,17 +9,18 @@
 
 const double DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT = 1.0;
 
-void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
-                                  const char *stereotype,
-                                  const data_profile_part_t *profile,
-                                  const geometry_rectangle_t *bounds,
-                                  cairo_t *cr )
+u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
+                                        const char *stereotype,
+                                        const data_profile_part_t *profile,
+                                        const geometry_rectangle_t *bounds,
+                                        cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != stereotype );
     assert( NULL != profile );
     assert( NULL != bounds );
     assert( NULL != cr );
+    u8_error_t result = U8_ERROR_NOT_FOUND;
 
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     const double ln_w = cairo_get_line_width( cr );
@@ -69,7 +70,8 @@ void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
     }
 #endif
 
-    U8_TRACE_END();
+    U8_TRACE_END_ERR(result);
+    return result;
 }
 
 
