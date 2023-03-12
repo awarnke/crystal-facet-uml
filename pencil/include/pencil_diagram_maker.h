@@ -18,15 +18,15 @@
 #include "pencil_error.h"
 #include "filter/pencil_type_filter.h"
 #include "layout/layout_order.h"
-#include "set/data_full_id.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
-#include "data_diagram.h"
+#include "set/data_full_id.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_stat.h"
-#include "data_id.h"
 #include "set/data_visible_set.h"
+#include "data_diagram.h"
+#include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -55,7 +55,7 @@ typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
- *  \param profile pointer to the profile-part that provided the stereotypes of the elements to be drawn
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  */
 static inline void pencil_diagram_maker_init ( pencil_diagram_maker_t *this_,
                                                const data_visible_set_t *input_data,

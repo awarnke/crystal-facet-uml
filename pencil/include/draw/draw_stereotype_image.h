@@ -15,6 +15,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "data_classifier_type.h"
+#include "set/data_profile_part.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -50,12 +51,10 @@ static inline void draw_stereotype_image_destroy( draw_stereotype_image_t *this_
  *  Type icons are e.g. artifact-icon or component-icon.
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_type type of the classifier to draw
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \return dimension of the stereotype image.
  */
 static inline geometry_dimensions_t draw_stereotype_image_get_dimensions ( const draw_stereotype_image_t *this_,
-                                                                           data_classifier_type_t classifier_type,
                                                                            const pencil_size_t *pencil_size
                                                                          );
 
@@ -82,12 +81,14 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *  \brief draws the stereotype image into the bounds rect
  *
  *  \param this_ pointer to own object attributes
- *  \param image_description textual drawing directives to be parsed and executed
+ *  \param stereotype name of the stereotype(s) to be drawn
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param bounds bounding rectangle of the stereotype image
  *  \param cr a cairo drawing context
  */
 void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
-                                  const char *image_description,
+                                  const char *stereotype,
+                                  const data_profile_part_t *profile,
                                   const geometry_rectangle_t *bounds,
                                   cairo_t *cr
                                 );

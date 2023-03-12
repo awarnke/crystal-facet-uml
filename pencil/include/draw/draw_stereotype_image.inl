@@ -14,31 +14,23 @@ static inline void draw_stereotype_image_destroy( draw_stereotype_image_t *this_
 }
 
 static inline geometry_dimensions_t draw_stereotype_image_get_dimensions( const draw_stereotype_image_t *this_,
-                                                                              data_classifier_type_t classifier_type,
-                                                                              const pencil_size_t *pencil_size )
+                                                                          const pencil_size_t *pencil_size )
 {
     assert( pencil_size != NULL );
     geometry_dimensions_t result;
 
-    if ( classifier_type == DATA_CLASSIFIER_TYPE_ARTIFACT )
-    {
-        const double type_icon_height = pencil_size_get_title_font_size( pencil_size );
-        geometry_dimensions_init ( &result, DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * type_icon_height, type_icon_height );
-    }
-    else
-    {
-        geometry_dimensions_init ( &result, 0.0, 0.0 );
-    }
+    const double type_icon_height = pencil_size_get_title_font_size( pencil_size );
+    geometry_dimensions_init ( &result, DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * type_icon_height, type_icon_height );
 
     return result;
 }
 
 static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw_stereotype_image_t *this_,
-                                                                              double x,
-                                                                              double y,
-                                                                              geometry_h_align_t h_align,
-                                                                              geometry_v_align_t v_align,
-                                                                              double height )
+                                                                      double x,
+                                                                      double y,
+                                                                      geometry_h_align_t h_align,
+                                                                      geometry_v_align_t v_align,
+                                                                      double height )
 {
     geometry_rectangle_t result;
 

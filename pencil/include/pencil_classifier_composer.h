@@ -68,7 +68,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param layout_data pointer to the diagrams layout-information needed to calculate the feature compartments
- *  \param profile pointer to the profile-part that provided the stereotypes of the elements to be drawn
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context

@@ -10,14 +10,16 @@
 const double DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT = 1.0;
 
 void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
-                                  const char *image_description,
+                                  const char *stereotype,
+                                  const data_profile_part_t *profile,
                                   const geometry_rectangle_t *bounds,
                                   cairo_t *cr )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != cr );
-    assert( NULL != image_description );
+    assert( NULL != stereotype );
+    assert( NULL != profile );
     assert( NULL != bounds );
+    assert( NULL != cr );
 
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     const double ln_w = cairo_get_line_width( cr );
@@ -29,10 +31,19 @@ void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
     const double art_bottom = geometry_rectangle_get_bottom( bounds );
     const double art_height = geometry_rectangle_get_height( bounds );
     //const double art_width = geometry_rectangle_get_width( bounds );
-    const double art_corner_edge = art_height * 0.3;
+    const double art_corner_edge = art_height * 0.6;
 
     /* draw the icon */
-    cairo_set_source_rgba( cr, 0.0, 0.5, 0.0, 1.0 );
+    cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 1.0 );
+    cairo_rectangle ( cr,
+                      geometry_rectangle_get_left ( bounds ),
+                      geometry_rectangle_get_top ( bounds ),
+                      geometry_rectangle_get_width ( bounds ),
+                      geometry_rectangle_get_height ( bounds )
+                    );
+    cairo_fill (cr);
+
+    cairo_set_source_rgba( cr, 0.8, 0.5, 0.0, 1.0 );
     cairo_move_to ( cr, art_right, art_top + art_corner_edge );
     cairo_line_to ( cr, art_right - art_corner_edge, art_top + art_corner_edge );
     cairo_line_to ( cr, art_right - art_corner_edge, art_top );
@@ -44,18 +55,18 @@ void draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
     cairo_stroke (cr);
 
 #ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
-        /* draw the rectangle */
-        {
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( bounds ),
-                              geometry_rectangle_get_top ( bounds ),
-                              geometry_rectangle_get_width ( bounds ),
-                              geometry_rectangle_get_height ( bounds )
-                            );
-            cairo_stroke (cr);
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        }
+    /* draw the rectangle */
+    {
+        cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
+        cairo_rectangle ( cr,
+                          geometry_rectangle_get_left ( bounds ),
+                          geometry_rectangle_get_top ( bounds ),
+                          geometry_rectangle_get_width ( bounds ),
+                          geometry_rectangle_get_height ( bounds )
+                        );
+        cairo_stroke (cr);
+        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+    }
 #endif
 
     U8_TRACE_END();
