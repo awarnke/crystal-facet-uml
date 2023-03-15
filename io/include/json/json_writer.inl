@@ -5,10 +5,10 @@
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8codepointiterator.h"
 
-static inline int json_writer_write_plain ( json_writer_t *this_, utf8string_t text )
+static inline u8_error_t json_writer_write_plain ( json_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
-    int write_err;
+    u8_error_t write_err;
 
     const size_t text_len = utf8string_get_length(text);
     write_err = universal_output_stream_write ( (*this_).output, text, text_len );
@@ -16,9 +16,9 @@ static inline int json_writer_write_plain ( json_writer_t *this_, utf8string_t t
     return ( write_err );
 }
 
-static inline int json_writer_write_plain_view ( json_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t json_writer_write_plain_view ( json_writer_t *this_, utf8stringview_t string_view )
 {
-    int write_err;
+    u8_error_t write_err;
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
@@ -27,10 +27,10 @@ static inline int json_writer_write_plain_view ( json_writer_t *this_, utf8strin
     return ( write_err );
 }
 
-static inline int json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text )
+static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
-    int write_err;
+    u8_error_t write_err;
 
     const size_t text_len = utf8string_get_length(text);
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_string_encode_table );
@@ -40,9 +40,9 @@ static inline int json_writer_write_string_enc ( json_writer_t *this_, utf8strin
     return write_err;
 }
 
-static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t json_writer_write_string_view_enc ( json_writer_t *this_, utf8stringview_t string_view )
 {
-    int write_err;
+    u8_error_t write_err;
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
@@ -53,10 +53,10 @@ static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8
     return write_err;
 }
 
-static inline int json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text )
+static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
-    int write_err;
+    u8_error_t write_err;
 
     const size_t text_len = utf8string_get_length(text);
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).json_stringlist_encode_table );
@@ -66,9 +66,9 @@ static inline int json_writer_write_stringlist_enc ( json_writer_t *this_, utf8s
     return write_err;
 }
 
-static inline int json_writer_write_stringlist_view_enc ( json_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t json_writer_write_stringlist_view_enc ( json_writer_t *this_, utf8stringview_t string_view )
 {
-    int write_err;
+    u8_error_t write_err;
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
@@ -79,7 +79,7 @@ static inline int json_writer_write_stringlist_view_enc ( json_writer_t *this_, 
     return write_err;
 }
 
-static inline int json_writer_write_member_int ( json_writer_t *this_,
+static inline u8_error_t json_writer_write_member_int ( json_writer_t *this_,
                                                  unsigned int indent,
                                                  utf8string_t enc_name,
                                                  int64_t number_value,
@@ -87,7 +87,7 @@ static inline int json_writer_write_member_int ( json_writer_t *this_,
 {
     assert( 7 == JSON_WRITER_MAX_INDENT );
     assert( indent <= JSON_WRITER_MAX_INDENT );
-    int write_err;
+    u8_error_t write_err;
 
     write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT_QUOTE[2*(JSON_WRITER_MAX_INDENT-indent)]) );
     write_err |= json_writer_write_plain( this_, enc_name );
@@ -105,7 +105,7 @@ static inline int json_writer_write_member_int ( json_writer_t *this_,
     return write_err;
 }
 
-static inline int json_writer_write_member_string ( json_writer_t *this_,
+static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
                                                     unsigned int indent,
                                                     utf8string_t enc_name,
                                                     utf8string_t unenc_value,
@@ -113,7 +113,7 @@ static inline int json_writer_write_member_string ( json_writer_t *this_,
 {
     assert( 7 == JSON_WRITER_MAX_INDENT );
     assert( indent <= JSON_WRITER_MAX_INDENT );
-    int write_err;
+    u8_error_t write_err;
 
     write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT_QUOTE[2*(JSON_WRITER_MAX_INDENT-indent)]) );
     write_err |= json_writer_write_plain( this_, enc_name );
@@ -132,7 +132,7 @@ static inline int json_writer_write_member_string ( json_writer_t *this_,
     return write_err;
 }
 
-static inline int json_writer_write_member_string_array ( json_writer_t *this_,
+static inline u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
                                                           unsigned int indent,
                                                           utf8string_t enc_name,
                                                           utf8string_t unenc_value,
@@ -140,7 +140,7 @@ static inline int json_writer_write_member_string_array ( json_writer_t *this_,
 {
     assert( 7 == JSON_WRITER_MAX_INDENT );
     assert( indent <= JSON_WRITER_MAX_INDENT );
-    int write_err;
+    u8_error_t write_err;
 
     write_err = json_writer_write_plain( this_, &(JSON_CONSTANTS_INDENT_QUOTE[2*(JSON_WRITER_MAX_INDENT-indent)]) );
     write_err |= json_writer_write_plain( this_, enc_name );

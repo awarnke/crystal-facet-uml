@@ -13,6 +13,7 @@
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief constants for maximum values of io_export_set_traversal_t
@@ -67,47 +68,47 @@ void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param set_to_be_exported ids of the objects to be exported
- *  \return 0 in case of success, -1 if output buffer exceeded
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
-                                        const data_small_set_t *set_to_be_exported
-                                      );
+u8_error_t io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
+                                               const data_small_set_t *set_to_be_exported
+                                             );
 
 /*!
  *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
  *
  *  \param this_ pointer to own object attributes
  *  \param id id of the object to be exported
- *  \return 0 in case of success, -1 if output buffer exceeded
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *this_, data_id_t id );
+u8_error_t io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *this_, data_id_t id );
 
 /*!
  *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
  *
  *  \param this_ pointer to own object attributes
  *  \param id id of the object to be exported
- *  \return 0 in case of success, -1 if output buffer exceeded
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_set_traversal_private_export_diagramelement( io_export_set_traversal_t *this_, data_id_t id );
+u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_traversal_t *this_, data_id_t id );
 
 /*!
  *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
  *
  *  \param this_ pointer to own object attributes
  *  \param id id of the object to be exported
- *  \return 0 in case of success, -1 if output buffer exceeded
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t *this_, data_id_t id );
+u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_traversal_t *this_, data_id_t id );
 
 /*!
  *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
  *
  *  \param this_ pointer to own object attributes
  *  \param id id of the object to be exported
- *  \return 0 in case of success, -1 if output buffer exceeded
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_set_traversal_private_export_relationship( io_export_set_traversal_t *this_, data_id_t id );
+u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_traversal_t *this_, data_id_t id );
 
 #endif  /* IO_EXPORT_SET_TRAVERSAL_H */
 

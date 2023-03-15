@@ -32,6 +32,7 @@
 #include "storage/data_database_reader.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8stream/universal_output_stream.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief attributes of the xmi_element_writer_t
@@ -93,9 +94,9 @@ void xmi_element_writer_set_mode( xmi_element_writer_t *this_, xmi_writer_pass_t
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *document_title );
+u8_error_t xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *document_title );
 
 /*!
  *  \brief writes the start of the main section
@@ -104,9 +105,9 @@ int xmi_element_writer_write_header( xmi_element_writer_t *this_, const char *do
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *document_title );
+u8_error_t xmi_element_writer_start_main( xmi_element_writer_t *this_, const char *document_title );
 
 /*!
  *  \brief checks if a host classifier may nest a child classifier
@@ -142,12 +143,12 @@ bool xmi_element_writer_can_classifier_nest_relationship ( xmi_element_writer_t 
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the host classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
-                                         data_classifier_type_t host_type,
-                                         const data_classifier_t *classifier_ptr
-                                       );
+u8_error_t xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
+                                                data_classifier_type_t host_type,
+                                                const data_classifier_t *classifier_ptr
+                                              );
 
 /*!
  *  \brief writes contents of a classifier
@@ -155,12 +156,12 @@ int xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the host classifier
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
-                                            data_classifier_type_t host_type,
-                                            const data_classifier_t *classifier_ptr
-                                          );
+u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
+                                                   data_classifier_type_t host_type,
+                                                   const data_classifier_t *classifier_ptr
+                                                 );
 
 /*!
  *  \brief writes a classifier end-element
@@ -170,12 +171,12 @@ int xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the host classifier, needed for xmi export
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
-                                       data_classifier_type_t host_type,
-                                       const data_classifier_t *classifier_ptr
-                                     );
+u8_error_t xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
+                                              data_classifier_type_t host_type,
+                                              const data_classifier_t *classifier_ptr
+                                            );
 
 /*!
  *  \brief writes a feature start-element
@@ -183,12 +184,12 @@ int xmi_element_writer_end_classifier( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning host classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
-                                      data_classifier_type_t parent_type,
-                                      const data_feature_t *feature_ptr
-                                    );
+u8_error_t xmi_element_writer_start_feature( xmi_element_writer_t *this_,
+                                             data_classifier_type_t parent_type,
+                                             const data_feature_t *feature_ptr
+                                           );
 
 /*!
  *  \brief writes constents of a a feature
@@ -196,12 +197,12 @@ int xmi_element_writer_start_feature( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent the owning host classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
-                                         const data_classifier_t *parent,
-                                         const data_feature_t *feature_ptr
-                                       );
+u8_error_t xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
+                                                const data_classifier_t *parent,
+                                                const data_feature_t *feature_ptr
+                                              );
 
 /*!
  *  \brief writes a feature end-element
@@ -209,12 +210,12 @@ int xmi_element_writer_assemble_feature( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning host classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
-                                    data_classifier_type_t parent_type,
-                                    const data_feature_t *feature_ptr
-                                  );
+u8_error_t xmi_element_writer_end_feature( xmi_element_writer_t *this_,
+                                           data_classifier_type_t parent_type,
+                                           const data_feature_t *feature_ptr
+                                         );
 
 /*!
  *  \brief starts a relationship
@@ -222,12 +223,12 @@ int xmi_element_writer_end_feature( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the host classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
-                                           data_classifier_type_t host_type,
-                                           const data_relationship_t *relation_ptr
-                                         );
+u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
+                                                  data_classifier_type_t host_type,
+                                                  const data_relationship_t *relation_ptr
+                                                );
 
 /*!
  *  \brief writes the contents of a relationship
@@ -239,16 +240,16 @@ int xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
  *  \param from_f the feature at source end; NULL if no feature specified
  *  \param to_c the classifier at target end
  *  \param to_f the feature at target end; NULL if no feature specified
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
-                                              const data_classifier_t *host,
-                                              const data_relationship_t *relation_ptr,
-                                              const data_classifier_t *from_c,
-                                              const data_feature_t *from_f,
-                                              const data_classifier_t *to_c,
-                                              const data_feature_t *to_f
-                                            );
+u8_error_t xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
+                                                     const data_classifier_t *host,
+                                                     const data_relationship_t *relation_ptr,
+                                                     const data_classifier_t *from_c,
+                                                     const data_feature_t *from_f,
+                                                     const data_classifier_t *to_c,
+                                                     const data_feature_t *to_f
+                                                   );
 
 /*!
  *  \brief writes the contents of a relationship
@@ -262,18 +263,18 @@ int xmi_element_writer_assemble_relationship( xmi_element_writer_t *this_,
  *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param to_c_type the type of classifier at target end
  *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this_,
-                                                      data_classifier_type_t host_type,
-                                                      bool host_is_source,
-                                                      data_id_t host_id,
-                                                      const data_relationship_t *relation_ptr,
-                                                      data_classifier_type_t from_c_type,
-                                                      data_feature_type_t from_f_type,
-                                                      data_classifier_type_t to_c_type,
-                                                      data_feature_type_t to_f_type
-                                                    );
+u8_error_t xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this_,
+                                                             data_classifier_type_t host_type,
+                                                             bool host_is_source,
+                                                             data_id_t host_id,
+                                                             const data_relationship_t *relation_ptr,
+                                                             data_classifier_type_t from_c_type,
+                                                             data_feature_type_t from_f_type,
+                                                             data_classifier_type_t to_c_type,
+                                                             data_feature_type_t to_f_type
+                                                           );
 
 /*!
  *  \brief ends a relationship
@@ -281,12 +282,12 @@ int xmi_element_writer_private_assemble_relationship( xmi_element_writer_t *this
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the host classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
-                                         data_classifier_type_t host_type,
-                                         const data_relationship_t *relation_ptr
-                                       );
+u8_error_t xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
+                                                data_classifier_type_t host_type,
+                                                const data_relationship_t *relation_ptr
+                                              );
 
 /*!
  *  \brief writes a diagram start
@@ -295,9 +296,9 @@ int xmi_element_writer_end_relationship( xmi_element_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_YET_IMPLEMENTED if not implemented.
  */
-int xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr );
+u8_error_t xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
  *  \brief writes a diagram of the document
@@ -306,13 +307,13 @@ int xmi_element_writer_start_diagram( xmi_element_writer_t *this_, const data_di
  *  \param parent pointer to parent diagram or NULL in case of root
  *  \param diag_ptr pointer to diagram that shall be written
  *  \param diagram_file_base_name filename of the diagram without extension
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_YET_IMPLEMENTED if not implemented.
  */
-int xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
-                                         const data_diagram_t *parent,
-                                         const data_diagram_t *diag_ptr,
-                                         const char *diagram_file_base_name
-                                       );
+u8_error_t xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
+                                                const data_diagram_t *parent,
+                                                const data_diagram_t *diag_ptr,
+                                                const char *diagram_file_base_name
+                                              );
 
 /*!
  *  \brief ends a diagram
@@ -321,9 +322,9 @@ int xmi_element_writer_assemble_diagram( xmi_element_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_YET_IMPLEMENTED if not implemented.
  */
-int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr );
+u8_error_t xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
  *  \brief writes a diagramelement start-element
@@ -331,12 +332,12 @@ int xmi_element_writer_end_diagram( xmi_element_writer_t *this_, const data_diag
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_YET_IMPLEMENTED if not implemented.
  */
-int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
-                                             const data_diagram_t *parent,
-                                             const data_diagramelement_t *diagramelement_ptr
-                                           );
+u8_error_t xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
+                                                    const data_diagram_t *parent,
+                                                    const data_diagramelement_t *diagramelement_ptr
+                                                  );
 
 /*!
  *  \brief writes constents of a a diagramelement
@@ -346,14 +347,14 @@ int xmi_element_writer_start_diagramelement( xmi_element_writer_t *this_,
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \param feat_occur the focused feature of the occurring classifier
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_YET_IMPLEMENTED if not implemented.
  */
-int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
-                                                const data_diagram_t *parent,
-                                                const data_diagramelement_t *diagramelement_ptr,
-                                                const data_classifier_t *occurrence,
-                                                const data_feature_t *feat_occur
-                                              );
+u8_error_t xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
+                                                       const data_diagram_t *parent,
+                                                       const data_diagramelement_t *diagramelement_ptr,
+                                                       const data_classifier_t *occurrence,
+                                                       const data_feature_t *feat_occur
+                                                     );
 
 /*!
  *  \brief writes a diagramelement end-element
@@ -361,12 +362,12 @@ int xmi_element_writer_assemble_diagramelement( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_YET_IMPLEMENTED if not implemented.
  */
-int xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
-                                           const data_diagram_t *parent,
-                                           const data_diagramelement_t *diagramelement_ptr
-                                         );
+u8_error_t xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
+                                                  const data_diagram_t *parent,
+                                                  const data_diagramelement_t *diagramelement_ptr
+                                                );
 
 /*!
  *  \brief writes the ending of the main section
@@ -374,17 +375,17 @@ int xmi_element_writer_end_diagramelement( xmi_element_writer_t *this_,
  *  This ends a section that contains the main part of the document
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_end_main( xmi_element_writer_t *this_ );
+u8_error_t xmi_element_writer_end_main( xmi_element_writer_t *this_ );
 
 /*!
  *  \brief writes the footer of the document
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
+u8_error_t xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
 
 /*!
  *  \brief writes a member end property of a relationship of uml-type association
@@ -397,16 +398,16 @@ int xmi_element_writer_write_footer( xmi_element_writer_t *this_ );
  *  \param end_feature_type the type of feature at relationship end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param is_target_end true if the target member-end shall be written,
  *                       false in case of the source member-end
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
-                                                data_id_t relationship_id,
-                                                data_relationship_type_t relationship_type,
-                                                data_id_t end_object_id,
-                                                data_classifier_type_t end_classifier_type,
-                                                data_feature_type_t end_feature_type,
-                                                bool is_target_end
-                                              );
+u8_error_t xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
+                                                       data_id_t relationship_id,
+                                                       data_relationship_type_t relationship_type,
+                                                       data_id_t end_object_id,
+                                                       data_classifier_type_t end_classifier_type,
+                                                       data_feature_type_t end_feature_type,
+                                                       bool is_target_end
+                                                     );
 
 /*!
  *  \brief writes a stereotype start-element
@@ -418,14 +419,14 @@ int xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *this_,
  *  \param profile_type type name of the stereotype
  *  \param base_type type name of the UML base type (which is extended by this stereotype)
  *  \param element_id the id of the element for which a stereotype is written
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
-                                                 const char* profile_ns,
-                                                 const utf8stringview_t profile_type,
-                                                 const char* base_type,
-                                                 data_id_t element_id
-                                               );
+u8_error_t xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
+                                                        const char* profile_ns,
+                                                        const utf8stringview_t profile_type,
+                                                        const char* base_type,
+                                                        data_id_t element_id
+                                                      );
 
 /*!
  *  \brief writes a stereotype end-element
@@ -435,12 +436,12 @@ int xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param profile_ns namespace of the stereotype, e.g. XMI_XML_NS_SYSML
  *  \param profile_type type of the stereotype
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_element_writer_private_end_stereotype( xmi_element_writer_t *this_,
-                                               const char* profile_ns,
-                                               const utf8stringview_t profile_type
-                                             );
+u8_error_t xmi_element_writer_private_end_stereotype( xmi_element_writer_t *this_,
+                                                      const char* profile_ns,
+                                                      const utf8stringview_t profile_type
+                                                    );
 
 #endif  /* XMI_ELEMENT_WRITER_H */
 

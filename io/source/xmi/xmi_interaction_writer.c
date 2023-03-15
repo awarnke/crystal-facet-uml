@@ -46,13 +46,13 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ )
 }
 
 #if 0
-int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
+u8_error_t xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
                                           data_classifier_type_t parent_type,
                                           const data_diagram_t *diagram_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != diagram_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const char *const diagram_name = data_diagram_get_name_const(diagram_ptr);
     const char *const diagram_descr = data_diagram_get_description_const(diagram_ptr);
@@ -63,7 +63,7 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
     {
         /* determine nesting tag */
         const char* nesting_property;
-        const int nesting_err
+        const u8_error_t nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                          parent_type,
                                                                          DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
@@ -141,17 +141,17 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
     return export_err;
 }
 
-int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
+u8_error_t xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
                                         data_classifier_type_t parent_type )
 {
     U8_TRACE_BEGIN();
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == XMI_WRITER_PASS_BASE )
     {
         /* determine nesting tag */
         const char* nesting_property;
-        const int nesting_err
+        const u8_error_t nesting_err
             = xmi_type_converter_get_xmi_nesting_property_of_classifier( &((*this_).xmi_types),
                                                                          parent_type,
                                                                          DATA_CLASSIFIER_TYPE_INTERACTION,  /* fake child type */
@@ -177,14 +177,14 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
 }
 #endif
 
-int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
+u8_error_t xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
                                              data_id_t reference_id,
                                              data_classifier_type_t parent_type,
                                              const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
 
@@ -219,7 +219,7 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
     return export_err;
 }
 
-int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
+u8_error_t xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
                                                   data_id_t interaction_id,
                                                   data_classifier_type_t parent_type,
                                                   const data_relationship_t *relation_ptr,
@@ -231,7 +231,7 @@ int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this
     U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );
     /* NULL is allowed here: dest_classifier_ptr */
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const char *const relation_descr = data_relationship_get_description_const( relation_ptr );

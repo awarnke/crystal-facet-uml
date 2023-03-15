@@ -17,6 +17,7 @@
 #include "utf8stringbuf/utf8stringview.h"
 #include "u8stream/universal_output_stream.h"
 #include "u8stream/universal_escaping_output_stream.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief constants for max string sizes
@@ -74,7 +75,7 @@ void json_writer_destroy( json_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 static inline int json_writer_write_plain ( json_writer_t *this_, utf8string_t text );
 
@@ -83,7 +84,7 @@ static inline int json_writer_write_plain ( json_writer_t *this_, utf8string_t t
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
 static inline int json_writer_write_plain_view ( json_writer_t *this_, utf8stringview_t string_view );
 
@@ -94,54 +95,54 @@ static inline int json_writer_write_plain_view ( json_writer_t *this_, utf8strin
  *
  *  \param this_ pointer to own object attributes
  *  \param id the identifier
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int json_writer_write_plain_id ( json_writer_t *this_, data_id_t id );
+u8_error_t json_writer_write_plain_id ( json_writer_t *this_, data_id_t id );
 
 /*!
  *  \brief prints an integer
  *
  *  \param this_ pointer to own object attributes
  *  \param number the integer to print
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int json_writer_write_int ( json_writer_t *this_, int64_t number );
+u8_error_t json_writer_write_int ( json_writer_t *this_, int64_t number );
 
 /*!
  *  \brief writes a string to a file, json-string encoded
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text );
+static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes a stringview to a file, json-string encoded
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_string_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t json_writer_write_string_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief writes a string to a file, encoded as list of json-strings, one string per line
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write, encoded for json comments
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text );
+static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes a stringview to a file, encoded as list of json-strings, one string per line
  *
  *  \param this_ pointer to own object attributes
  *  \param string_view stringview to write, not 0-terminated
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_stringlist_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t json_writer_write_stringlist_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief writes a member name and a value integer
@@ -151,14 +152,14 @@ static inline int json_writer_write_stringlist_view_enc ( json_writer_t *this_, 
  *  \param enc_name name of the object member, json encoded string
  *  \param number_value the integer to print
  *  \param next_follows true if another member follows (a comma will be printed)
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_member_int ( json_writer_t *this_,
-                                                 unsigned int indent,
-                                                 utf8string_t enc_name,
-                                                 int64_t number_value,
-                                                 bool next_follows
-                                               );
+static inline u8_error_t json_writer_write_member_int ( json_writer_t *this_,
+                                                        unsigned int indent,
+                                                        utf8string_t enc_name,
+                                                        int64_t number_value,
+                                                        bool next_follows
+                                                      );
 
 /*!
  *  \brief writes a member name and an string, the value string is being json encoded
@@ -168,14 +169,14 @@ static inline int json_writer_write_member_int ( json_writer_t *this_,
  *  \param enc_name name of the object member, json encoded string
  *  \param unenc_value string to write, being json encoded
  *  \param next_follows true if another member follows (a comma will be printed)
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_member_string ( json_writer_t *this_,
-                                                    unsigned int indent,
-                                                    utf8string_t enc_name,
-                                                    utf8string_t unenc_value,
-                                                    bool next_follows
-                                                  );
+static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
+                                                           unsigned int indent,
+                                                           utf8string_t enc_name,
+                                                           utf8string_t unenc_value,
+                                                           bool next_follows
+                                                         );
 
 /*!
  *  \brief writes a member name and an string,
@@ -186,14 +187,14 @@ static inline int json_writer_write_member_string ( json_writer_t *this_,
  *  \param enc_name name of the object member, json encoded string
  *  \param unenc_value string to write, being json encoded
  *  \param next_follows true if another member follows (a comma will be printed)
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_member_string_array ( json_writer_t *this_,
-                                                          unsigned int indent,
-                                                          utf8string_t enc_name,
-                                                          utf8string_t unenc_value,
-                                                          bool next_follows
-                                                        );
+static inline u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
+                                                                 unsigned int indent,
+                                                                 utf8string_t enc_name,
+                                                                 utf8string_t unenc_value,
+                                                                 bool next_follows
+                                                               );
 
 #include "json_writer.inl"
 

@@ -15,6 +15,7 @@
 #include "set/data_profile_part.h"
 #include "set/data_stat.h"
 #include "geometry/geometry_rectangle.h"
+#include "u8/u8_error.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -58,14 +59,14 @@ void image_format_writer_destroy( image_format_writer_t *this_ );
  *  \param export_type image file format
  *  \param target_filename path name of the file to store the cairo surface
  *  \param io_render_stat pointer to already initialized statistics object where rendering statistics are added
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
-                                                data_id_t diagram_id,
-                                                io_file_format_t export_type,
-                                                const char* target_filename,
-                                                data_stat_t *io_render_stat
-                                              );
+u8_error_t image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
+                                                       data_id_t diagram_id,
+                                                       io_file_format_t export_type,
+                                                       const char* target_filename,
+                                                       data_stat_t *io_render_stat
+                                                     );
 
 /*!
  *  \brief creates one cairo surface to render a diagram into a file
@@ -73,13 +74,13 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
  *  \param export_type image file format
  *  \param target_filename path name of the file to store the cairo surface
  *  \param io_render_stat pointer to already initialized statistics object where rendering statistics are added
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
-                                                        io_file_format_t export_type,
-                                                        const char* target_filename,
-                                                        data_stat_t *io_render_stat
-                                                      );
+u8_error_t image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
+                                                               io_file_format_t export_type,
+                                                               const char* target_filename,
+                                                               data_stat_t *io_render_stat
+                                                             );
 
 #endif  /* IMAGE_FORMAT_WRITER_H */
 

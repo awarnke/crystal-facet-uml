@@ -344,11 +344,11 @@ io_element_writer_t * xhtml_element_writer_get_element_writer( xhtml_element_wri
     return base;
 }
 
-int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char *document_title )
+u8_error_t xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char *document_title )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != document_title );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     xml_writer_reset_indent ( &((*this_).xml_writer) );
 
@@ -400,7 +400,7 @@ int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -409,11 +409,11 @@ int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char
     return export_err;
 }
 
-int xhtml_element_writer_start_main( xhtml_element_writer_t *this_, const char *document_title )
+u8_error_t xhtml_element_writer_start_main( xhtml_element_writer_t *this_, const char *document_title )
 {
     U8_TRACE_BEGIN();
     assert( document_title != NULL );
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
@@ -438,10 +438,10 @@ bool xhtml_element_writer_can_classifier_nest_relationship( xhtml_element_writer
     return can_nest;
 }
 
-int xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ )
+u8_error_t xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     /* increase tree depth */
     (*this_).current_tree_depth ++;
@@ -466,10 +466,10 @@ int xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_start_toc_entry ( xhtml_element_writer_t *this_ )
+u8_error_t xhtml_element_writer_start_toc_entry ( xhtml_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -494,11 +494,11 @@ int xhtml_element_writer_start_toc_entry ( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
+u8_error_t xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != diag_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -527,10 +527,10 @@ int xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_, const 
     return export_err;
 }
 
-int xhtml_element_writer_end_toc_entry ( xhtml_element_writer_t *this_ )
+u8_error_t xhtml_element_writer_end_toc_entry ( xhtml_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -552,10 +552,10 @@ int xhtml_element_writer_end_toc_entry ( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ )
+u8_error_t xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -580,13 +580,13 @@ int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ )
     return export_err;
 }
 
-int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
                                            data_classifier_type_t host_type,
                                            const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -619,7 +619,7 @@ int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -628,13 +628,13 @@ int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
     return export_err;
 }
 
-int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
                                               data_classifier_type_t host_type,
                                               const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const char *const classifier_name = data_classifier_get_name_const(classifier_ptr);
     const char *const classifier_descr = data_classifier_get_description_const(classifier_ptr);
@@ -710,7 +710,7 @@ int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -722,13 +722,13 @@ int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
     return export_err;
 }
 
-int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
                                          data_classifier_type_t host_type,
                                          const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -761,7 +761,7 @@ int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -770,25 +770,25 @@ int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
     return export_err;
 }
 
-int xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
                                         data_classifier_type_t parent_type,
                                         const data_feature_t *feature_ptr)
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
                                            const data_classifier_t *parent,
                                            const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
     assert( parent != NULL );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const char *const feature_key = data_feature_get_key_const( feature_ptr );
     const char *const feature_value = data_feature_get_value_const( feature_ptr );
@@ -886,7 +886,7 @@ int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -898,29 +898,29 @@ int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
     return export_err;
 }
 
-int xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
                                       data_classifier_type_t parent_type,
                                       const data_feature_t *feature_ptr)
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
                                              data_classifier_type_t host_type,
                                              const data_relationship_t *relation_ptr)
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
                                                 const data_classifier_t *host,
                                                 const data_relationship_t *relation_ptr,
                                                 const data_classifier_t *from_c,
@@ -931,7 +931,7 @@ int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
     U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );
     /* NULL is allowed here: dest_classifier_ptr */
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const char *const relation_name = data_relationship_get_name_const( relation_ptr );
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
@@ -1047,7 +1047,7 @@ int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -1059,22 +1059,22 @@ int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
     return export_err;
 }
 
-int xhtml_element_writer_end_relationship( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_end_relationship( xhtml_element_writer_t *this_,
                                            data_classifier_type_t host_type,
                                            const data_relationship_t *relation_ptr)
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
+u8_error_t xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != diag_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
 
@@ -1116,7 +1116,7 @@ int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const dat
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -1129,7 +1129,7 @@ int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const dat
     return export_err;
 }
 
-int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
                                            const data_diagram_t *parent,
                                            const data_diagram_t *diag_ptr,
                                            const char *diagram_file_base_name )
@@ -1138,7 +1138,7 @@ int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
     /* parent may be NULL */
     assert ( NULL != diag_ptr );
     assert ( NULL != diagram_file_base_name );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     const char *const diag_name = data_diagram_get_name_const( diag_ptr );
     const char *const diag_description = data_diagram_get_description_const( diag_ptr );
@@ -1203,7 +1203,7 @@ int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -1215,11 +1215,11 @@ int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
     return export_err;
 }
 
-int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
+u8_error_t xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != diag_ptr );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -1252,7 +1252,7 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }
@@ -1264,20 +1264,20 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_
     return export_err;
 }
 
-int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
                                                const data_diagram_t *parent,
                                                const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
                                                   const data_diagram_t *parent,
                                                   const data_diagramelement_t *diagramelement_ptr,
                                                   const data_classifier_t *occurrence,
@@ -1288,38 +1288,38 @@ int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
     assert( parent != NULL );
     assert( occurrence != NULL );
     /* NULL is allowed here: feat_occur */
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
+u8_error_t xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
                                              const data_diagram_t *parent,
                                              const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_end_main( xhtml_element_writer_t *this_ )
+u8_error_t xhtml_element_writer_end_main( xhtml_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int write_error = 0;
+    u8_error_t write_error = U8_ERROR_NONE;
 
     U8_TRACE_END_ERR(write_error);
     return write_error;
 }
 
-int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
+u8_error_t xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     switch ( (*this_).export_type )
     {
@@ -1353,7 +1353,7 @@ int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = -1;
+            export_err = U8_ERROR_LOGIC_STATE;
         }
         break;
     }

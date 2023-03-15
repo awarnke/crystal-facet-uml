@@ -17,6 +17,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8stream/universal_output_stream.h"
+#include "u8/u8_error.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -50,9 +51,9 @@ void txt_writer_destroy( txt_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text );
+static inline u8_error_t txt_writer_write_plain ( txt_writer_t *this_, const char *text );
 
 /*!
  *  \brief prints a multiline string with indentation prefix
@@ -63,12 +64,12 @@ static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text
  *  \param this_ pointer to own object attributes
  *  \param indent pattern, by which each line is indented; must not be NULL
  *  \param multiline_string string to write to out
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
-                                               const char *indent,
-                                               const char *multiline_string
-                                             );
+u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
+                                                      const char *indent,
+                                                      const char *multiline_string
+                                                    );
 
 /*!
  *  \brief prints an id with indentation prefix and surrounding brackets
@@ -78,12 +79,12 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
  *  \param id identifier
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int txt_writer_write_indent_id ( txt_writer_t *this_,
-                                 int indent_width,
-                                 data_id_t id
-                               );
+u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
+                                        u8_error_t indent_width,
+                                        data_id_t id
+                                      );
 
 /*!
  *  \brief prints an id
@@ -92,9 +93,9 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param id identifier
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id );
+u8_error_t txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id );
 
 #include "txt_writer.inl"
 

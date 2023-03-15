@@ -298,7 +298,7 @@ u8_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf
 
         universal_escaping_output_stream_flush( &esc_out );
         universal_escaping_output_stream_destroy( &esc_out );
-        const int out_err
+        const u8_error_t out_err
             = universal_memory_output_stream_write_0term( &mem_out );
         if ( 0 != out_err )
         {

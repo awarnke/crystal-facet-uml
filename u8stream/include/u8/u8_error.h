@@ -61,6 +61,10 @@ enum u8_error_enum {
     U8_ERROR_OP_ENV_START  = U8_ERROR_CAT_OP_ENV_START,
 
     U8_ERROR_OP_ENV_RUN    = U8_ERROR_CAT_OP_ENV_RUN,
+    U8_ERROR_LIB_NO_MEMORY           = U8_ERROR_CAT_OP_ENV_RUN + U8_ERROR_ORIG_MEMO + 0x01,
+                                      /*!< a library call failed due to insufficient memory */
+    U8_ERROR_LIB_FILE_WRITE          = U8_ERROR_CAT_OP_ENV_RUN + U8_ERROR_ORIG_FILE + 0x01,
+                                      /*!< a library call failed due to file write error */
 
     U8_ERROR_OP_TIMEOUT    = U8_ERROR_CAT_OP_TIMEOUT,
 

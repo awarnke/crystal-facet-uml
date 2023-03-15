@@ -21,6 +21,7 @@
 #include "data_diagramelement.h"
 #include "u8stream/universal_input_stream.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error.h"
 #include <stdbool.h>
 #include <stdint.h>
 

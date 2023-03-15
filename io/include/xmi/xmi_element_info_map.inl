@@ -298,7 +298,7 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
     }
 
     *out_element_info = (result==NULL) ? &xmi_element_info_map_unknown_type : result;
-    return (result==NULL) ? -1 : 0;
+    return (result==NULL) ? U8_ERROR_NOT_FOUND : U8_ERROR_NONE;
 }
 
 static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
@@ -416,7 +416,7 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
     }
 
     *out_element_info = (result==NULL) ? &xmi_element_info_map_unknown_type : result;
-    return (result==NULL) ? -1 : 0;
+    return (result==NULL) ? U8_ERROR_NOT_FOUND : U8_ERROR_NONE;
 }
 
 static inline int xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
@@ -589,7 +589,7 @@ static inline int xmi_element_info_map_get_relationship ( const xmi_element_info
     }
 
     *out_element_info = (result==NULL) ? &xmi_element_info_map_unknown_rel_type : result;
-    return (result==NULL) ? -1 : 0;
+    return (result==NULL) ? U8_ERROR_NOT_FOUND : U8_ERROR_NONE;
 }
 
 

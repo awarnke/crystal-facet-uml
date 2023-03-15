@@ -14,6 +14,7 @@
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief attributes of the io_exporter_light_t object
@@ -55,13 +56,13 @@ static inline void io_exporter_light_destroy ( io_exporter_light_t *this_ );
  *  \param io_export_stat pointer to statistics object where export statistics are collected.
  *                        Statistics are only added, *io_stat shall be initialized by caller.
  *  \param out_buf string buffer to which to write the json formatted data to
- *  \return 0 in case of success, -1 if output buffer exceeded
+ *  \return U8_ERROR_NONE in case of success, -1 if output buffer exceeded
  */
-static inline int io_exporter_light_export_set_to_buf( io_exporter_light_t *this_,
-                                                       const data_small_set_t *set_to_be_exported,
-                                                       data_stat_t *io_export_stat,
-                                                       utf8stringbuf_t out_buf
-                                                     );
+static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_t *this_,
+                                                              const data_small_set_t *set_to_be_exported,
+                                                              data_stat_t *io_export_stat,
+                                                              utf8stringbuf_t out_buf
+                                                            );
 
 #include "io_exporter_light.inl"
 

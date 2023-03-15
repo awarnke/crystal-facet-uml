@@ -24,6 +24,7 @@
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief attributes of the format writer
@@ -67,12 +68,12 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
  *  \param diagram_ptr diagram which shall be written as XMI interaction
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
-                                          data_classifier_type_t parent_type,
-                                          const data_diagram_t *diagram_ptr
-                                        );
+u8_error_t xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
+                                                 data_classifier_type_t parent_type,
+                                                 const data_diagram_t *diagram_ptr
+                                               );
 
 /*!
  *  \brief writes the ending of the main section
@@ -81,11 +82,11 @@ int xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the parent classifier
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
-                                        data_classifier_type_t parent_type
-                                      );
+u8_error_t xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
+                                               data_classifier_type_t parent_type
+                                             );
 
 /*!
  *  \brief writes constents of a lifeline-type feature
@@ -94,13 +95,13 @@ int xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
  *  \param reference_id id of the object which this lifeline proxies
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
-                                             data_id_t reference_id,
-                                             data_classifier_type_t parent_type,
-                                             const data_feature_t *feature_ptr
-                                           );
+u8_error_t xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
+                                                    data_id_t reference_id,
+                                                    data_classifier_type_t parent_type,
+                                                    const data_feature_t *feature_ptr
+                                                  );
 
 /*!
  *  \brief writes the contents of a message-type relationship
@@ -113,17 +114,17 @@ int xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
  *  \param from_f_type the type of feature at source end; DATA_FEATURE_TYPE_VOID if no feature specified
  *  \param to_c_type the type of classifier at target end
  *  \param to_f_type the type of feature at target end; DATA_FEATURE_TYPE_VOID if no feature specified
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
-                                                  data_id_t interaction_id,
-                                                  data_classifier_type_t parent_type,
-                                                  const data_relationship_t *relation_ptr,
-                                                  data_classifier_type_t from_c_type,
-                                                  data_feature_type_t from_f_type,
-                                                  data_classifier_type_t to_c_type,
-                                                  data_feature_type_t to_f_type
-                                                );
+u8_error_t xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
+                                                         data_id_t interaction_id,
+                                                         data_classifier_type_t parent_type,
+                                                         const data_relationship_t *relation_ptr,
+                                                         data_classifier_type_t from_c_type,
+                                                         data_feature_type_t from_f_type,
+                                                         data_classifier_type_t to_c_type,
+                                                         data_feature_type_t to_f_type
+                                                       );
 
 
 #endif  /* XMI_INTERACTION_WRITER_H */

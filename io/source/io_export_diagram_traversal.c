@@ -42,14 +42,14 @@ void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
     U8_TRACE_END();
 }
 
-int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
+u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
                                                          data_id_t diagram_id,
                                                          const char *diagram_file_base_name )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &diagram_id ) );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* load data to be drawn */
     data_visible_set_init( (*this_).input_data );
@@ -103,13 +103,13 @@ int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_trave
     return write_err;
 }
 
-int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
+u8_error_t io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
                                               data_id_t diagram_id )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &diagram_id ) );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* load diagram only to be drawn */
     data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
@@ -133,13 +133,13 @@ int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *thi
     return write_err;
 }
 
-int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
+u8_error_t io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
                                                                       const data_visible_set_t *diagram_data )
 {
     U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -223,7 +223,7 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
     return write_err;
 }
 
-int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_diagram_traversal_t *this_,
+u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_export_diagram_traversal_t *this_,
                                                                       const data_visible_set_t *diagram_data,
                                                                       data_id_t classifier_id )
 {
@@ -232,7 +232,7 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id( &classifier_id) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all features */
     uint32_t count;
@@ -282,7 +282,7 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
     return write_err;
 }
 
-int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_export_diagram_traversal_t *this_,
+u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships ( io_export_diagram_traversal_t *this_,
                                                                            const data_visible_set_t *diagram_data,
                                                                            data_id_t from_classifier_id )
 {
@@ -291,7 +291,7 @@ int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_ex
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id( &from_classifier_id) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all relationships */
     uint32_t count;

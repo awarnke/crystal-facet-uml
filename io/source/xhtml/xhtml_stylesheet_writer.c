@@ -149,10 +149,10 @@ void xhtml_stylesheet_writer_destroy( xhtml_stylesheet_writer_t *this_ )
     U8_TRACE_END();
 }
 
-int xhtml_stylesheet_writer_write_stylesheet( xhtml_stylesheet_writer_t *this_ )
+u8_error_t xhtml_stylesheet_writer_write_stylesheet( xhtml_stylesheet_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     utf8string_t text = CSS_ALL;
     const size_t text_len = utf8string_get_length(text);

@@ -22,6 +22,7 @@
 #include "data_table.h"
 #include "data_rules.h"
 #include "u8list/universal_array_list.h"
+#include "u8/u8_error.h"
 #include <stdio.h>
 
 /*!
@@ -76,12 +77,12 @@ void io_export_interaction_traversal_destroy( io_export_interaction_traversal_t 
  *  \param this_ pointer to own object attributes
  *  \param nesting_type type of the nesting parent classifier
  *  \param classifier_id id of the classifier which occurrences to process for export
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_interaction_traversal_t *this_,
-                                                                     data_classifier_type_t nesting_type,
-                                                                     data_id_t classifier_id
-                                                                   );
+u8_error_t io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_interaction_traversal_t *this_,
+                                                                            data_classifier_type_t nesting_type,
+                                                                            data_id_t classifier_id
+                                                                          );
 
 /*!
  *  \brief prints the end of a diagram section
@@ -89,12 +90,12 @@ int io_export_interaction_traversal_iterate_classifier_occurrences ( io_export_i
  *  \param this_ pointer to own object attributes
  *  \param nesting_type type of the nesting parent classifier
  *  \param diagram_id id of the diagram which to process for export
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_,
-                                                           data_classifier_type_t nesting_type,
-                                                           data_id_t diagram_id
-                                                         );
+u8_error_t io_export_interaction_traversal_private_walk_diagram ( io_export_interaction_traversal_t *this_,
+                                                                  data_classifier_type_t nesting_type,
+                                                                  data_id_t diagram_id
+                                                                );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
@@ -102,12 +103,12 @@ int io_export_interaction_traversal_private_walk_diagram ( io_export_interaction
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data of which the classifiers are written, not NULL
  *  \param fake_interaction fake classifier of type DATA_CLASSIFIER_TYPE_INTERACTION derived from the diagram
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_export_interaction_traversal_t *this_,
-                                                                          const data_visible_set_t *diagram_data,
-                                                                          const data_classifier_t *fake_interaction
-                                                                        );
+u8_error_t io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_export_interaction_traversal_t *this_,
+                                                                                 const data_visible_set_t *diagram_data,
+                                                                                 const data_classifier_t *fake_interaction
+                                                                               );
 
 /*!
  *  \brief prints names and descriptions of the focused feature to the output stream
@@ -116,13 +117,13 @@ int io_export_interaction_traversal_private_iterate_diagram_classifiers ( io_exp
  *  \param diagram_data diagram data that contains the classifier of which the features are written, not NULL
  *  \param focused_feature_id id of the  focused feature (lifeline) which shall be written
  *  \param fake_interaction fake classifier of type DATA_CLASSIFIER_TYPE_INTERACTION derived from the diagram
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_interaction_traversal_private_look_for_focused_feature ( io_export_interaction_traversal_t *this_,
-                                                                       const data_visible_set_t *diagram_data,
-                                                                       data_id_t focused_feature_id,
-                                                                       const data_classifier_t *fake_interaction
-                                                                     );
+u8_error_t io_export_interaction_traversal_private_look_for_focused_feature ( io_export_interaction_traversal_t *this_,
+                                                                              const data_visible_set_t *diagram_data,
+                                                                              data_id_t focused_feature_id,
+                                                                              const data_classifier_t *fake_interaction
+                                                                            );
 
 /*!
  *  \brief prints names and descriptions of the relationships to the output stream
@@ -132,14 +133,14 @@ int io_export_interaction_traversal_private_look_for_focused_feature ( io_export
  *  \param from_classifier_id id of the classifier of which the relationships are written
  *  \param focused_feature_id id of the focused feature (lifeline) of which the relationships are written
  *  \param fake_interaction fake classifier of type DATA_CLASSIFIER_TYPE_INTERACTION derived from the diagram
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_interaction_traversal_private_iterate_feature_relationships ( io_export_interaction_traversal_t *this_,
-                                                                            const data_visible_set_t *diagram_data,
-                                                                            data_id_t from_classifier_id,
-                                                                            data_id_t focused_feature_id,
-                                                                            const data_classifier_t *fake_interaction
-                                                                          );
+u8_error_t io_export_interaction_traversal_private_iterate_feature_relationships ( io_export_interaction_traversal_t *this_,
+                                                                                   const data_visible_set_t *diagram_data,
+                                                                                   data_id_t from_classifier_id,
+                                                                                   data_id_t focused_feature_id,
+                                                                                   const data_classifier_t *fake_interaction
+                                                                                 );
 
 /*!
  *  \brief converts the data fields of an interaction diagram to a fake classifier
@@ -147,12 +148,12 @@ int io_export_interaction_traversal_private_iterate_feature_relationships ( io_e
  *  \param this_ pointer to own object attributes
  *  \param interaction_diagram diagram data that contains the interaction information
  *  \param[out] out_fake_classifier the classifier to be filled with data from interaction_diagram
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_interaction_traversal_private_fake_interaction ( io_export_interaction_traversal_t *this_,
-                                                               const data_diagram_t *interaction_diagram,
-                                                               data_classifier_t *out_fake_classifier
-                                                             );
+u8_error_t io_export_interaction_traversal_private_fake_interaction ( io_export_interaction_traversal_t *this_,
+                                                                      const data_diagram_t *interaction_diagram,
+                                                                      data_classifier_t *out_fake_classifier
+                                                                    );
 
 /*!
  *  \brief iterates over features of a classifier.
@@ -162,12 +163,12 @@ int io_export_interaction_traversal_private_fake_interaction ( io_export_interac
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data that contains the parent_classifier of which the features are written, not NULL
  *  \param parent_classifier the classifier of which the features are written, not NULL
- *  \return -1 in case of error, 0 in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  */
-int io_export_interaction_traversal_private_iterate_node_features( io_export_interaction_traversal_t *this_,
-                                                                   const data_visible_set_t *diagram_data,
-                                                                   const data_classifier_t *parent_classifier
-                                                                 );
+u8_error_t io_export_interaction_traversal_private_iterate_node_features( io_export_interaction_traversal_t *this_,
+                                                                          const data_visible_set_t *diagram_data,
+                                                                          const data_classifier_t *parent_classifier
+                                                                        );
 
 
 #endif  /* IO_EXPORT_INTERACTION_TRAVERSAL_H */

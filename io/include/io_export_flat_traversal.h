@@ -21,6 +21,7 @@
 #include "storage/data_database_reader.h"
 #include "data_table.h"
 #include "u8list/universal_array_list.h"
+#include "u8/u8_error.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -73,43 +74,42 @@ void io_export_flat_traversal_destroy( io_export_flat_traversal_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param hierarchical true if the iterator shall start with classifiers without parent
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_, bool hierarchical );
+u8_error_t io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_, bool hierarchical );
 
 /*!
  *  \brief writes the classifier and feature and writes its outgoing relationships
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier pointer to the classifier to process, most likely this is &((*this_).temp_classifier)
- *  \return -1 in case of error,
- *          0 in case of success.
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traversal_t *this_,
-                                                           const data_classifier_t *classifier
-                                                         );
+u8_error_t io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traversal_t *this_,
+                                                                  const data_classifier_t *classifier
+                                                                );
 
 /*!
  *  \brief iterates over features of a classifier.
  *
  *  \param this_ pointer to own object attributes
  *  \param node_data node data of the classifier of which the features are written, not NULL
- *  \return -1 in case of error, 0 in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  */
-int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal_t *this_,
-                                                        const data_node_set_t *node_data
-                                                      );
+u8_error_t io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal_t *this_,
+                                                               const data_node_set_t *node_data
+                                                             );
 
 /*!
  *  \brief iterates over relationships of a classifier.
  *
  *  \param this_ pointer to own object attributes
  *  \param node_data node data of the from-classifier of which the relationships are written, not NULL
- *  \return -1 in case of error, 0 in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  */
-int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_traversal_t *this_,
-                                                             const data_node_set_t *node_data
-                                                           );
+u8_error_t io_export_flat_traversal_private_iterate_relationships ( io_export_flat_traversal_t *this_,
+                                                                    const data_node_set_t *node_data
+                                                                  );
 
 /*!
  *  \brief gets the the end-objects of a relationship

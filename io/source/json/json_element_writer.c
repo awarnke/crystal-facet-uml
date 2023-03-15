@@ -102,13 +102,13 @@ void json_element_writer_set_mode( json_element_writer_t *this_, json_writer_pas
     U8_TRACE_END();
 }
 
-int json_element_writer_write_header( json_element_writer_t *this_, const char *document_title )
+u8_error_t json_element_writer_write_header( json_element_writer_t *this_, const char *document_title )
 {
     U8_TRACE_BEGIN();
     assert( document_title != NULL );
     assert( (*this_).in_outer_array == false );
     assert( (*this_).in_inner_array == false );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_BEGIN_OBJECT_NL
@@ -148,13 +148,13 @@ int json_element_writer_write_header( json_element_writer_t *this_, const char *
     return out_err;
 }
 
-int json_element_writer_start_main( json_element_writer_t *this_, const char *document_title )
+u8_error_t json_element_writer_start_main( json_element_writer_t *this_, const char *document_title )
 {
     U8_TRACE_BEGIN();
     assert( document_title != NULL );
     assert( (*this_).in_outer_array == false );
     assert( (*this_).in_inner_array == false );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_TAB
@@ -230,13 +230,13 @@ bool json_element_writer_can_classifier_nest_relationship( json_element_writer_t
     return can_nest;
 }
 
-int json_element_writer_start_classifier( json_element_writer_t *this_,
+u8_error_t json_element_writer_start_classifier( json_element_writer_t *this_,
                                           data_classifier_type_t host_type,
                                           const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
@@ -271,13 +271,13 @@ int json_element_writer_start_classifier( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_assemble_classifier( json_element_writer_t *this_,
+u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_,
                                              data_classifier_type_t host_type,
                                              const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
@@ -410,13 +410,13 @@ int json_element_writer_assemble_classifier( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_end_classifier( json_element_writer_t *this_,
+u8_error_t json_element_writer_end_classifier( json_element_writer_t *this_,
                                         data_classifier_type_t host_type,
                                         const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
@@ -459,13 +459,13 @@ int json_element_writer_end_classifier( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_start_feature( json_element_writer_t *this_,
+u8_error_t json_element_writer_start_feature( json_element_writer_t *this_,
                                        data_classifier_type_t parent_type,
                                        const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
@@ -499,14 +499,14 @@ int json_element_writer_start_feature( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_assemble_feature( json_element_writer_t *this_,
+u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
                                           const data_classifier_t *parent,
                                           const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
     assert( parent != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     const data_classifier_type_t parent_type = data_classifier_get_main_type( parent );
 
@@ -607,13 +607,13 @@ int json_element_writer_assemble_feature( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_end_feature( json_element_writer_t *this_,
+u8_error_t json_element_writer_end_feature( json_element_writer_t *this_,
                                      data_classifier_type_t parent_type,
                                      const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_NODES )
     {
@@ -637,13 +637,13 @@ int json_element_writer_end_feature( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_start_relationship( json_element_writer_t *this_,
+u8_error_t json_element_writer_start_relationship( json_element_writer_t *this_,
                                             data_classifier_type_t host_type,
                                             const data_relationship_t *relation_ptr )
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
@@ -683,7 +683,7 @@ int json_element_writer_start_relationship( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_assemble_relationship( json_element_writer_t *this_,
+u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *this_,
                                                const data_classifier_t *host,
                                                const data_relationship_t *relation_ptr,
                                                const data_classifier_t *from_c,
@@ -693,7 +693,7 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
@@ -918,13 +918,13 @@ int json_element_writer_assemble_relationship( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_end_relationship( json_element_writer_t *this_,
+u8_error_t json_element_writer_end_relationship( json_element_writer_t *this_,
                                           data_classifier_type_t host_type,
                                           const data_relationship_t *relation_ptr )
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_EDGES )
     {
@@ -949,11 +949,11 @@ int json_element_writer_end_relationship( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_start_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
+u8_error_t json_element_writer_start_diagram( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diag_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
@@ -995,7 +995,7 @@ int json_element_writer_start_diagram( json_element_writer_t *this_, const data_
     return out_err;
 }
 
-int json_element_writer_assemble_diagram( json_element_writer_t *this_,
+u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
                                           const data_diagram_t *parent,
                                           const data_diagram_t *diag_ptr,
                                           const char *diagram_file_base_name )
@@ -1003,7 +1003,7 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
     U8_TRACE_BEGIN();
     assert( diag_ptr != NULL );
     assert( diagram_file_base_name != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
@@ -1163,11 +1163,11 @@ int json_element_writer_assemble_diagram( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_end_diagram_fake( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
+u8_error_t json_element_writer_end_diagram_fake( json_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diag_ptr != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     /* The JSON export does not encapsulate one diagram into another. */
     /* Therefore, diagrams are ended already when the next starts. */
@@ -1176,10 +1176,10 @@ int json_element_writer_end_diagram_fake( json_element_writer_t *this_, const da
     return out_err;
 }
 
-int json_element_writer_private_end_diagram( json_element_writer_t *this_ )
+u8_error_t json_element_writer_private_end_diagram( json_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
@@ -1215,14 +1215,14 @@ int json_element_writer_private_end_diagram( json_element_writer_t *this_ )
     return out_err;
 }
 
-int json_element_writer_start_diagramelement( json_element_writer_t *this_,
+u8_error_t json_element_writer_start_diagramelement( json_element_writer_t *this_,
                                               const data_diagram_t *parent,
                                               const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
@@ -1261,7 +1261,7 @@ int json_element_writer_start_diagramelement( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
+u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
                                                  const data_diagram_t *parent,
                                                  const data_diagramelement_t *diagramelement_ptr,
                                                  const data_classifier_t *occurrence,
@@ -1272,7 +1272,7 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
     assert( diagramelement_ptr != NULL );
     assert( occurrence != NULL );
     /* feat_occur may be NULL */
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
@@ -1353,14 +1353,14 @@ int json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_end_diagramelement( json_element_writer_t *this_,
+u8_error_t json_element_writer_end_diagramelement( json_element_writer_t *this_,
                                             const data_diagram_t *parent,
                                             const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
     assert( parent != NULL );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
     {
@@ -1384,10 +1384,10 @@ int json_element_writer_end_diagramelement( json_element_writer_t *this_,
     return out_err;
 }
 
-int json_element_writer_end_main( json_element_writer_t *this_ )
+u8_error_t json_element_writer_end_main( json_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     /* print diagram end here because the official end requires hierarcical diagram containments */
     if ( (*this_).mode == JSON_WRITER_PASS_VIEWS )
@@ -1419,12 +1419,12 @@ int json_element_writer_end_main( json_element_writer_t *this_ )
     return out_err;
 }
 
-int json_element_writer_write_footer( json_element_writer_t *this_ )
+u8_error_t json_element_writer_write_footer( json_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).in_outer_array == false );
     assert( (*this_).in_inner_array == false );
-    int out_err = 0;
+    u8_error_t out_err = U8_ERROR_NONE;
 
     out_err |= json_writer_write_plain( &((*this_).json_writer),
                                         JSON_CONSTANTS_END_OBJECT_NL

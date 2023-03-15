@@ -41,7 +41,7 @@ void io_exporter_destroy( io_exporter_t *this_ )
     U8_TRACE_END();
 }
 
-int io_exporter_export_files( io_exporter_t *this_,
+u8_error_t io_exporter_export_files( io_exporter_t *this_,
                               io_file_format_t export_type,
                               const char *target_folder,
                               const char *document_file_path,
@@ -51,12 +51,12 @@ int io_exporter_export_files( io_exporter_t *this_,
     assert ( NULL != target_folder );
     assert ( NULL != document_file_path );
     assert ( NULL != io_export_stat );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     /* transform file path to name */
     char temp_filename_buf[48];
     utf8stringbuf_t temp_filename = UTF8STRINGBUF(temp_filename_buf);
-    int err = io_exporter_private_get_filename( this_, document_file_path, temp_filename );
+    u8_error_t err = io_exporter_private_get_filename( this_, document_file_path, temp_filename );
     const char *const document_file_name = (err==0) ? utf8stringbuf_get_string(temp_filename) : "document";
 
     if ( NULL != target_folder )
@@ -117,13 +117,13 @@ int io_exporter_export_files( io_exporter_t *this_,
     return export_err;
 }
 
-int io_exporter_private_get_filename( io_exporter_t *this_,
+u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
                                       const char* path,
                                       utf8stringbuf_t out_base_filename )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != path );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     const unsigned int path_len = utf8string_get_length( path );
     const int path_suffix = utf8string_find_last_str( path, "." );
@@ -143,7 +143,7 @@ int io_exporter_private_get_filename( io_exporter_t *this_,
     return err;
 }
 
-int io_exporter_private_export_image_files( io_exporter_t *this_,
+u8_error_t io_exporter_private_export_image_files( io_exporter_t *this_,
                                             data_id_t diagram_id,
                                             uint32_t max_recursion,
                                             io_file_format_t export_type,
@@ -155,7 +155,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     assert ( NULL != io_export_stat );
     U8_TRACE_INFO_STR("target_folder:", target_folder );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* draw current diagram */
     if ( DATA_ROW_ID_VOID != diagram_row_id )
@@ -228,7 +228,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     return result;
 }
 
-int io_exporter_export_image_file( io_exporter_t *this_,
+u8_error_t io_exporter_export_image_file( io_exporter_t *this_,
                                    data_id_t diagram_id,
                                    io_file_format_t export_type,
                                    const char *file_path,
@@ -239,7 +239,7 @@ int io_exporter_export_image_file( io_exporter_t *this_,
     assert ( NULL != file_path );
     assert ( NULL != io_export_stat );
     U8_TRACE_INFO_STR("file_path:", file_path );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* create surface */
     if (( IO_FILE_FORMAT_SVG == export_type )
@@ -270,7 +270,7 @@ int io_exporter_export_image_file( io_exporter_t *this_,
         result |= universal_file_output_stream_open( &text_output, file_path );
         if ( result == 0 )
         {
-            int write_err = 0;
+            u8_error_t write_err = U8_ERROR_NONE;
 
             /* temporarily use the temp_model_traversal */
             /* write file */
@@ -312,7 +312,7 @@ int io_exporter_export_image_file( io_exporter_t *this_,
     return result;
 }
 
-int io_exporter_private_export_document_file( io_exporter_t *this_,
+u8_error_t io_exporter_private_export_document_file( io_exporter_t *this_,
                                               io_file_format_t export_type,
                                               const char *target_folder,
                                               const char *document_file_name,
@@ -324,7 +324,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     assert ( NULL != io_export_stat );
     U8_TRACE_INFO_STR("target_folder:", target_folder );
     U8_TRACE_INFO_STR("document_file_name:", document_file_name );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     /* open file */
     utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
@@ -382,7 +382,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     return export_err;
 }
 
-int io_exporter_export_document_file( io_exporter_t *this_,
+u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
                                       io_file_format_t export_type,
                                       const char *document_title,
                                       const char *file_path,
@@ -393,7 +393,7 @@ int io_exporter_export_document_file( io_exporter_t *this_,
     assert ( NULL != file_path );
     assert ( NULL != io_export_stat );
     U8_TRACE_INFO_STR("file_path:", file_path );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
     universal_file_output_stream_t file_output;
     universal_file_output_stream_init( &file_output );
     universal_output_stream_t *output = universal_file_output_stream_get_output_stream( &file_output );
@@ -513,7 +513,7 @@ int io_exporter_export_document_file( io_exporter_t *this_,
     return export_err;
 }
 
-int io_exporter_private_export_document_part( io_exporter_t *this_,
+u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
                                               data_id_t diagram_id,
                                               uint32_t max_recursion,
                                               data_stat_t *io_export_stat )
@@ -521,7 +521,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     U8_TRACE_BEGIN();
     assert ( NULL != io_export_stat );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     /* write part for current diagram */
     if ( DATA_ROW_ID_VOID != diagram_row_id )
@@ -577,7 +577,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     return export_err;
 }
 
-int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
+u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
                                                   data_id_t diagram_id,
                                                   uint32_t max_recursion,
                                                   xhtml_element_writer_t *format_writer )
@@ -585,7 +585,7 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     U8_TRACE_BEGIN();
     assert ( NULL != format_writer );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
-    int export_err = 0;
+    u8_error_t export_err = U8_ERROR_NONE;
 
     /* write entry for current diagram */
     if ( DATA_ROW_ID_VOID != diagram_row_id )
@@ -651,13 +651,13 @@ int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     return export_err;
 }
 
-int io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
+u8_error_t io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
                                                   data_id_t diagram_id,
                                                   utf8stringbuf_t filename )
 {
     U8_TRACE_BEGIN();
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
     utf8stringbuf_clear( filename );
 
     u8_error_t db_err;

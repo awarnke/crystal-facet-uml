@@ -13,6 +13,7 @@
 #include "storage/data_database.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error_info.h"
+#include "u8/u8_error.h"
 #include <stdbool.h>
 
 /*!

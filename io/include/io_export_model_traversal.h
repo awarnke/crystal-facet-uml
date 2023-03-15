@@ -20,6 +20,7 @@
 #include "storage/data_database_reader.h"
 #include "data_table.h"
 #include "u8list/universal_array_list.h"
+#include "u8/u8_error.h"
 #include <stdio.h>
 
 /*!
@@ -85,9 +86,9 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ );
  *  \brief prints all classifiers to the output stream
  *
  *  \param this_ pointer to own object attributes
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ );
+u8_error_t io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ );
 
 /*!
  *  \brief writes the node if it is not a duplicate. writes its relationships if they are not duplicates.
@@ -100,15 +101,14 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
  *  \param containment_relationship_id id of the containment relationship which caused the processing, DATA_ID_VOID if not applicable
  *  \param classifier_id id of the classifier to process
  *  \param recursion_depth current number of tree depth.
- *  \return -1 in case of error,
- *          0 in case of success.
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  data_id_t host_id,
-                                                  data_id_t containment_relationship_id,
-                                                  data_id_t classifier_id,
-                                                  unsigned int recursion_depth
-                                                );
+u8_error_t io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+                                                         data_id_t host_id,
+                                                         data_id_t containment_relationship_id,
+                                                         data_id_t classifier_id,
+                                                         unsigned int recursion_depth
+                                                       );
 
 /*!
  *  \brief writes the first half of the node
@@ -116,13 +116,12 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param node_data the data set of a model-node: a classifier, list of contained features and set of relationships
- *  \return -1 in case of error,
- *          0 in case of success.
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
-                                                   data_classifier_type_t host_type,
-                                                   const data_node_set_t *node_data
-                                                 );
+u8_error_t io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
+                                                          data_classifier_type_t host_type,
+                                                          const data_node_set_t *node_data
+                                                        );
 
 /*!
  *  \brief retrieves the relationships of type DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT.
@@ -131,14 +130,13 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
  *  \param node_data the data set at a model-node: 1 classifier, contained features and set of relationships
  *  \param io_contained_classifiers set of classifiers, contained classifiers are appended. This set shall be initialized when calling this function.
  *  \param io_containment_relations set of relationships, containment relationships are appended. This set shall be initialized when calling this function.
- *  \return -1 in case of error,
- *          0 in case of success.
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
-                                                         const data_node_set_t *node_data,
-                                                         data_small_set_t *io_contained_classifiers,
-                                                         data_small_set_t *io_containment_relations
-                                                       );
+u8_error_t io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
+                                                                const data_node_set_t *node_data,
+                                                                data_small_set_t *io_contained_classifiers,
+                                                                data_small_set_t *io_containment_relations
+                                                              );
 
 /*!
  *  \brief recusively descends the containment tree (graph) of a classifier.
@@ -148,18 +146,17 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
  *  \param contained_classifiers set of contained classifiers.
  *  \param containment_relations set of containment relationships.
  *  \param recursion_depth current number of tree depth. Used to actively limit the recursive descend to max IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH.
- *  \return -1 in case of error,
- *          0 in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  *          If IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH limits the descent,
  *          or written_id_set prevents duplicate traversal of a classifier,
- *          0 is returned nonetheless.
+ *          U8_ERROR_NONE is returned nonetheless.
  */
-int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
-                                                          data_id_t host_id,
-                                                          const data_small_set_t *contained_classifiers,
-                                                          const data_small_set_t *containment_relations,
-                                                          unsigned int recursion_depth
-                                                        );
+u8_error_t io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
+                                                                 data_id_t host_id,
+                                                                 const data_small_set_t *contained_classifiers,
+                                                                 const data_small_set_t *containment_relations,
+                                                                 unsigned int recursion_depth
+                                                               );
 
 /*!
  *  \brief writes the second half of the node
@@ -167,24 +164,23 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param node_data the data set of a model-node: a classifier, list of contained features and set of relationships
- *  \return -1 in case of error,
- *          0 in case of success.
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
-                                                 data_classifier_type_t host_type,
-                                                 const data_node_set_t *node_data
-                                               );
+u8_error_t io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
+                                                        data_classifier_type_t host_type,
+                                                        const data_node_set_t *node_data
+                                                      );
 
 /*!
  *  \brief iterates over features of a classifier.
  *
  *  \param this_ pointer to own object attributes
  *  \param node_data node data of the classifier of which the features are written, not NULL
- *  \return -1 in case of error, 0 in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  */
-int io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
-                                                              const data_node_set_t *node_data
-                                                            );
+u8_error_t io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
+                                                                     const data_node_set_t *node_data
+                                                                   );
 
 /*!
  *  \brief iterates over relationships of a classifier.
@@ -194,13 +190,13 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
  *         false is nested to node_data.
  *  \param host the hosting parent classifier, needed for xmi export; is NULL on top-level of document
  *  \param node_data node data of the from-classifier of which the relationships are written, not NULL
- *  \return -1 in case of error, 0 in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  */
-int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
-                                                                   bool nested_to_foreign_node,
-                                                                   const data_classifier_t *host,
-                                                                   const data_node_set_t *node_data
-                                                                 );
+u8_error_t io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
+                                                                          bool nested_to_foreign_node,
+                                                                          const data_classifier_t *host,
+                                                                          const data_node_set_t *node_data
+                                                                        );
 
 /*!
  *  \brief gets the the end-objects of a relationship
@@ -215,13 +211,13 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_model_traversal_t *this_,
-                                                                      const data_relationship_t *relation,
-                                                                      const data_node_set_t *node_data,
-                                                                      data_classifier_t *out_from_c,
-                                                                      data_feature_t *out_from_f,
-                                                                      data_classifier_t *out_to_c,
-                                                                      data_feature_t *out_to_f
-                                                                    );
+                                                                    const data_relationship_t *relation,
+                                                                    const data_node_set_t *node_data,
+                                                                    data_classifier_t *out_from_c,
+                                                                    data_feature_t *out_from_f,
+                                                                    data_classifier_t *out_to_c,
+                                                                    data_feature_t *out_to_f
+                                                                  );
 
 /*!
  *  \brief checks in which interaction-diagrams the node is used and fakes interaction-model-objects.
@@ -229,12 +225,12 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
  *  \param this_ pointer to own object attributes
  *  \param nesting_type type of the nesting-parent classifier
  *  \param node_data node data of the classifier of which the interactions are faked, not NULL
- *  \return -1 in case of error, 0 in case of success.
+ *  \return U8_ERROR_NONE in case of success.
  */
-int io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,
-                                                                  data_classifier_type_t nesting_type,
-                                                                  const data_node_set_t *node_data
-                                                                );
+u8_error_t io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,
+                                                                         data_classifier_type_t nesting_type,
+                                                                         const data_node_set_t *node_data
+                                                                       );
 
 #endif  /* IO_EXPORT_MODEL_TRAVERSAL_H */
 

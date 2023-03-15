@@ -23,6 +23,7 @@
 #include "data_diagram.h"
 #include "data_diagram_type.h"
 #include "data_diagramelement.h"
+#include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -31,11 +32,14 @@
 typedef void io_element_writer_impl_t;
 
 /*!
- *  \brief function pointers of a io_element_writer_if_t.
+ *  \brief function pointers of an io_element_writer_if_t.
  *
- *  This is similar to a vmt and used here to access an implementation of this interface
+ *  This is similar to a vmt and used here to access an implementation of this interface.
  *
  *  Lifecycle functions like init and destroy are not part of the interface.
+ *
+ *  The function signatures are included so that the exact same signatures can be included
+ *  by the actual implementations of this interface.
  */
 struct io_element_writer_if_struct {
 #include "io_element_writer_if.inl"

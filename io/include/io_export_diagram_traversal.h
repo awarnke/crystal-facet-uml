@@ -20,6 +20,7 @@
 #include "storage/data_database_reader.h"
 #include "data_table.h"
 #include "data_rules.h"
+#include "u8/u8_error.h"
 #include <stdio.h>
 
 /*!
@@ -74,33 +75,33 @@ void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram which to process for export
  *  \param diagram_file_base_name filename of the diagram without extension
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
-                                                         data_id_t diagram_id,
-                                                         const char *diagram_file_base_name
-                                                       );
+u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
+                                                                data_id_t diagram_id,
+                                                                const char *diagram_file_base_name
+                                                              );
 
 /*!
  *  \brief prints the end of a diagram section
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram which to process for export
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
-                                              data_id_t diagram_id );
+u8_error_t io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
+                                                     data_id_t diagram_id );
 
 /*!
  *  \brief prints names and descriptions of the classifiers to the output stream
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data of which the classifiers are written, not NULL
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data
-                                                                    );
+u8_error_t io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
+                                                                             const data_visible_set_t *diagram_data
+                                                                           );
 
 /*!
  *  \brief prints names and descriptions of the classifier to the output stream
@@ -108,12 +109,12 @@ int io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data that contains the classifier of which the features are written, not NULL
  *  \param classifier_id id of the classifier of which the features are written
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_diagram_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data,
-                                                                      data_id_t classifier_id
-                                                                    );
+u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_export_diagram_traversal_t *this_,
+                                                                             const data_visible_set_t *diagram_data,
+                                                                             data_id_t classifier_id
+                                                                           );
 
 /*!
  *  \brief prints names and descriptions of the relationships to the output stream
@@ -121,12 +122,12 @@ int io_export_diagram_traversal_private_iterate_classifier_features ( io_export_
  *  \param this_ pointer to own object attributes
  *  \param diagram_data diagram data that contains the from-classifier of which the relationships are written, not NULL
  *  \param from_classifier_id id of the classifier of which the relationships are written
- *  \return -1 in case of error, 0 in case of success
+ *  \return U8_ERROR_NONE in case of success
  */
-int io_export_diagram_traversal_private_iterate_classifier_relationships ( io_export_diagram_traversal_t *this_,
-                                                                           const data_visible_set_t *diagram_data,
-                                                                           data_id_t from_classifier_id
-                                                                         );
+u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships ( io_export_diagram_traversal_t *this_,
+                                                                                  const data_visible_set_t *diagram_data,
+                                                                                  data_id_t from_classifier_id
+                                                                                );
 
 #endif  /* IO_EXPORT_DIAGRAM_TRAVERSAL_H */
 

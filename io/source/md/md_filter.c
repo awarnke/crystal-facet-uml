@@ -49,7 +49,7 @@ void md_filter_destroy( md_filter_t *this_ )
     U8_TRACE_END();
 }
 
-int md_filter_transform ( md_filter_t *this_, const char *text )
+u8_error_t md_filter_transform ( md_filter_t *this_, const char *text )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != text );
@@ -58,7 +58,7 @@ int md_filter_transform ( md_filter_t *this_, const char *text )
 
     unsigned int text_start_byte = 0;
     const unsigned int text_byte_length = utf8string_get_length( text );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     for ( unsigned int text_current_byte = 0; text_current_byte < text_byte_length; text_current_byte ++ )
     {
@@ -85,7 +85,7 @@ int md_filter_transform ( md_filter_t *this_, const char *text )
                 || ( peeknext == '>' )  /* citation */
                 /*|| ( peeknext == ' ' )*/  /* list continuation */
                 || ( peeknext == '|' ))  /* table */
-        
+
             {
                 utf8stringview_t str_view = utf8stringview_init( &(text[text_start_byte]), text_current_byte-text_start_byte );
                 write_err |= xml_writer_write_xml_enc_view( (*this_).sink, str_view );

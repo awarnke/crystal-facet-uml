@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.47.0"
+    "generator_version": "1.47.1"
   }
   ,
   "views":
@@ -5855,6 +5855,13 @@
             "classifier_name": "space",
             "node": "5aa14d2a-6ab4-4843-98c5-9fdc05badd67",
             "uuid": "3380a90d-86bc-4870-83ed-7a5c522c394a"
+          },
+          {
+            "id": 696,
+            "display_flags": 0,
+            "classifier_name": "image",
+            "node": "d17d6bfb-2dad-492e-963e-74c25b1e9942",
+            "uuid": "fcaee51e-c322-4273-8fca-5cb3b905aedb"
           }
         ]
       }
@@ -12632,7 +12639,7 @@
         "name": "contour",
         "description": [
                 "A countour is an outer line around an element.\n",
-                "The exact sgape of it depends on the elements type."
+                "The exact shape of it depends on the elements type."
         ],
         "x_order": 1698459306,
         "y_order": 0,
@@ -12653,7 +12660,7 @@
                 "A label is the text attached to the visual representation of an element.\n",
                 "It consists of its name and optionally an stereotype."
         ],
-        "x_order": 1697198992,
+        "x_order": -1481702233,
         "y_order": 964280023,
         "list_order": 0,
         "uuid": "8141af14-c1af-433a-88c7-14f292486bfa",
@@ -14635,6 +14642,27 @@
         "y_order": -1633041332,
         "list_order": -1633041332,
         "uuid": "1a7fe2bb-0883-40ed-8956-45d4c4e0437f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 435,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "image",
+        "description": [
+                "The image of a stereotype.\n",
+                "This may replace either the icon\n",
+                "or the icon in the top left corner\n",
+                "of a contour."
+        ],
+        "x_order": 1740096155,
+        "y_order": -550878311,
+        "list_order": -550878311,
+        "uuid": "d17d6bfb-2dad-492e-963e-74c25b1e9942",
         "features":
         [
         ]
@@ -22515,6 +22543,24 @@
         "from_node": "2b38837f-d040-41b8-baf6-7a14e2da21fb",
         "to_node": "d46c3fa8-07c1-4175-a383-7c44faeb43ec",
         "uuid": "352fbfea-8565-4484-8763-fecc91f2069e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 682,
+        "main_type": 201,
+        "type": "Association",
+        "stereotype": "optional",
+        "name": "top-right-icon",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "contour",
+        "to_classifier_name": "icon",
+        "from_node": "2b38837f-d040-41b8-baf6-7a14e2da21fb",
+        "to_node": "55b00e35-8c43-43e5-8aff-4ea8683ec381",
+        "uuid": "4b3b2442-b350-4c0c-9e58-313da9d96e9b"
       }
     },
     {

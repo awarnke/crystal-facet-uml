@@ -3,8 +3,8 @@
 #include <assert.h>
 
 static inline void io_element_writer_private_init( io_element_writer_t *this_,
-                                           const io_element_writer_if_t *interface,
-                                           io_element_writer_impl_t* objectdata )
+                                                   const io_element_writer_if_t *interface,
+                                                   io_element_writer_impl_t* objectdata )
 {
     assert( interface != NULL );
     assert( objectdata != NULL );
@@ -12,11 +12,11 @@ static inline void io_element_writer_private_init( io_element_writer_t *this_,
     (*this_).objectdata = objectdata;
 }
 
-static inline int io_element_writer_private_destroy( io_element_writer_t *this_ )
+static inline u8_error_t io_element_writer_private_destroy( io_element_writer_t *this_ )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
-    /*int result = (*(  (*(  (*this_).interface  )).destroy  )) ( (*this_).objectdata );*/
+    /*u8_error_t result = (*(  (*(  (*this_).interface  )).destroy  )) ( (*this_).objectdata );*/
     (*this_).interface = NULL;
     (*this_).objectdata = NULL;
     /*return result;*/
@@ -35,7 +35,7 @@ static inline io_element_writer_impl_t* io_element_writer_get_objectdata ( io_el
     return (*this_).objectdata;
 }
 
-static inline int io_element_writer_write_header( io_element_writer_t *this_, const char *document_title )
+static inline u8_error_t io_element_writer_write_header( io_element_writer_t *this_, const char *document_title )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -43,7 +43,7 @@ static inline int io_element_writer_write_header( io_element_writer_t *this_, co
     return (*(  (*((*this_).interface)).write_header  )) ( (*this_).objectdata, document_title );
 }
 
-static inline int io_element_writer_start_main( io_element_writer_t *this_, const char *document_title )
+static inline u8_error_t io_element_writer_start_main( io_element_writer_t *this_, const char *document_title )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -71,10 +71,10 @@ static inline bool io_element_writer_can_classifier_nest_relationship( io_elemen
     return (*(  (*((*this_).interface)).can_classifier_nest_relationship  )) ( (*this_).objectdata, host_type, child_type );
 }
 
-static inline int io_element_writer_start_classifier( io_element_writer_t *this_,
-                                                      data_classifier_type_t host_type,
-                                                      const data_classifier_t *classifier_ptr
-                                                    )
+static inline u8_error_t io_element_writer_start_classifier( io_element_writer_t *this_,
+                                                             data_classifier_type_t host_type,
+                                                             const data_classifier_t *classifier_ptr
+                                                           )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -82,9 +82,9 @@ static inline int io_element_writer_start_classifier( io_element_writer_t *this_
     return (*(  (*((*this_).interface)).start_classifier  )) ( (*this_).objectdata, host_type, classifier_ptr );
 }
 
-static inline int io_element_writer_assemble_classifier( io_element_writer_t *this_,
-                                                         data_classifier_type_t host_type,
-                                                         const data_classifier_t *classifier_ptr )
+static inline u8_error_t io_element_writer_assemble_classifier( io_element_writer_t *this_,
+                                                                data_classifier_type_t host_type,
+                                                                const data_classifier_t *classifier_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -92,9 +92,9 @@ static inline int io_element_writer_assemble_classifier( io_element_writer_t *th
     return (*(  (*((*this_).interface)).assemble_classifier  )) ( (*this_).objectdata, host_type, classifier_ptr );
 }
 
-static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
-                                                    data_classifier_type_t host_type,
-                                                    const data_classifier_t *classifier_ptr )
+static inline u8_error_t io_element_writer_end_classifier( io_element_writer_t *this_,
+                                                           data_classifier_type_t host_type,
+                                                           const data_classifier_t *classifier_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -102,9 +102,9 @@ static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
     return (*(  (*((*this_).interface)).end_classifier  )) ( (*this_).objectdata, host_type, classifier_ptr );
 }
 
-static inline int io_element_writer_start_feature( io_element_writer_t *this_,
-                                                   data_classifier_type_t parent_type,
-                                                   const data_feature_t *feature_ptr )
+static inline u8_error_t io_element_writer_start_feature( io_element_writer_t *this_,
+                                                          data_classifier_type_t parent_type,
+                                                          const data_feature_t *feature_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -112,9 +112,9 @@ static inline int io_element_writer_start_feature( io_element_writer_t *this_,
     return (*(  (*((*this_).interface)).start_feature  )) ( (*this_).objectdata, parent_type, feature_ptr );
 }
 
-static inline int io_element_writer_assemble_feature( io_element_writer_t *this_,
-                                                      const data_classifier_t *parent,
-                                                      const data_feature_t *feature_ptr )
+static inline u8_error_t io_element_writer_assemble_feature( io_element_writer_t *this_,
+                                                             const data_classifier_t *parent,
+                                                             const data_feature_t *feature_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -122,9 +122,9 @@ static inline int io_element_writer_assemble_feature( io_element_writer_t *this_
     return (*(  (*((*this_).interface)).assemble_feature  )) ( (*this_).objectdata, parent, feature_ptr );
 }
 
-static inline int io_element_writer_end_feature( io_element_writer_t *this_,
-                                                 data_classifier_type_t parent_type,
-                                                 const data_feature_t *feature_ptr )
+static inline u8_error_t io_element_writer_end_feature( io_element_writer_t *this_,
+                                                        data_classifier_type_t parent_type,
+                                                        const data_feature_t *feature_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -132,9 +132,9 @@ static inline int io_element_writer_end_feature( io_element_writer_t *this_,
     return (*(  (*((*this_).interface)).end_feature  )) ( (*this_).objectdata, parent_type, feature_ptr );
 }
 
-static inline int io_element_writer_start_relationship( io_element_writer_t *this_,
-                                                        data_classifier_type_t host_type,
-                                                        const data_relationship_t *relation_ptr )
+static inline u8_error_t io_element_writer_start_relationship( io_element_writer_t *this_,
+                                                               data_classifier_type_t host_type,
+                                                               const data_relationship_t *relation_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -142,13 +142,13 @@ static inline int io_element_writer_start_relationship( io_element_writer_t *thi
     return (*(  (*((*this_).interface)).start_relationship  )) ( (*this_).objectdata, host_type, relation_ptr );
 }
 
-static inline int io_element_writer_assemble_relationship( io_element_writer_t *this_,
-                                                           const data_classifier_t *host,
-                                                           const data_relationship_t *relation_ptr,
-                                                           const data_classifier_t *from_c,
-                                                           const data_feature_t *from_f,
-                                                           const data_classifier_t *to_c,
-                                                           const data_feature_t *to_f )
+static inline u8_error_t io_element_writer_assemble_relationship( io_element_writer_t *this_,
+                                                                  const data_classifier_t *host,
+                                                                  const data_relationship_t *relation_ptr,
+                                                                  const data_classifier_t *from_c,
+                                                                  const data_feature_t *from_f,
+                                                                  const data_classifier_t *to_c,
+                                                                  const data_feature_t *to_f )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -163,9 +163,9 @@ static inline int io_element_writer_assemble_relationship( io_element_writer_t *
                                                                   );
 }
 
-static inline int io_element_writer_end_relationship( io_element_writer_t *this_,
-                                                      data_classifier_type_t host_type,
-                                                      const data_relationship_t *relation_ptr )
+static inline u8_error_t io_element_writer_end_relationship( io_element_writer_t *this_,
+                                                             data_classifier_type_t host_type,
+                                                             const data_relationship_t *relation_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -173,7 +173,7 @@ static inline int io_element_writer_end_relationship( io_element_writer_t *this_
     return (*(  (*((*this_).interface)).end_relationship  )) ( (*this_).objectdata, host_type, relation_ptr );
 }
 
-static inline int io_element_writer_start_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
+static inline u8_error_t io_element_writer_start_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -181,10 +181,10 @@ static inline int io_element_writer_start_diagram( io_element_writer_t *this_, c
     return (*(  (*((*this_).interface)).start_diagram  )) ( (*this_).objectdata, diag_ptr );
 }
 
-static inline int io_element_writer_assemble_diagram( io_element_writer_t *this_,
-                                                      const data_diagram_t *parent,
-                                                      const data_diagram_t *diag_ptr,
-                                                      const char *diagram_file_base_name )
+static inline u8_error_t io_element_writer_assemble_diagram( io_element_writer_t *this_,
+                                                             const data_diagram_t *parent,
+                                                             const data_diagram_t *diag_ptr,
+                                                             const char *diagram_file_base_name )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -192,7 +192,7 @@ static inline int io_element_writer_assemble_diagram( io_element_writer_t *this_
     return (*(  (*((*this_).interface)).assemble_diagram  )) ( (*this_).objectdata, parent, diag_ptr, diagram_file_base_name );
 }
 
-static inline int io_element_writer_end_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
+static inline u8_error_t io_element_writer_end_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -200,9 +200,9 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
     return (*(  (*((*this_).interface)).end_diagram  )) ( (*this_).objectdata, diag_ptr );
 }
 
-static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
-                                                          const data_diagram_t *parent,
-                                                          const data_diagramelement_t *diagramelement_ptr )
+static inline u8_error_t io_element_writer_start_diagramelement( io_element_writer_t *this_,
+                                                                 const data_diagram_t *parent,
+                                                                 const data_diagramelement_t *diagramelement_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -210,11 +210,11 @@ static inline int io_element_writer_start_diagramelement( io_element_writer_t *t
     return (*(  (*((*this_).interface)).start_diagramelement  )) ( (*this_).objectdata, parent, diagramelement_ptr );
 }
 
-static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
-                                                             const data_diagram_t *parent,
-                                                             const data_diagramelement_t *diagramelement_ptr,
-                                                             const data_classifier_t *occurrence,
-                                                             const data_feature_t *feat_occur )
+static inline u8_error_t io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
+                                                                    const data_diagram_t *parent,
+                                                                    const data_diagramelement_t *diagramelement_ptr,
+                                                                    const data_classifier_t *occurrence,
+                                                                    const data_feature_t *feat_occur )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -227,9 +227,9 @@ static inline int io_element_writer_assemble_diagramelement( io_element_writer_t
                                                                     );
 }
 
-static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
-                                                        const data_diagram_t *parent,
-                                                        const data_diagramelement_t *diagramelement_ptr )
+static inline u8_error_t io_element_writer_end_diagramelement( io_element_writer_t *this_,
+                                                               const data_diagram_t *parent,
+                                                               const data_diagramelement_t *diagramelement_ptr )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -237,7 +237,7 @@ static inline int io_element_writer_end_diagramelement( io_element_writer_t *thi
     return (*(  (*((*this_).interface)).end_diagramelement  )) ( (*this_).objectdata, parent, diagramelement_ptr );
 }
 
-static inline int io_element_writer_end_main( io_element_writer_t *this_ )
+static inline u8_error_t io_element_writer_end_main( io_element_writer_t *this_ )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );
@@ -245,7 +245,7 @@ static inline int io_element_writer_end_main( io_element_writer_t *this_ )
     return (*(  (*((*this_).interface)).end_main  )) ( (*this_).objectdata );
 }
 
-static inline int io_element_writer_write_footer( io_element_writer_t *this_ )
+static inline u8_error_t io_element_writer_write_footer( io_element_writer_t *this_ )
 {
     assert( (*this_).interface != NULL );
     assert( (*this_).objectdata != NULL );

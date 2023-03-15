@@ -51,11 +51,11 @@ void image_format_writer_destroy( image_format_writer_t *this_ )
 #error "no png"
 #endif
 
-int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
-                                                data_id_t diagram_id,
-                                                io_file_format_t export_type,
-                                                const char* target_filename,
-                                                data_stat_t *io_render_stat )
+u8_error_t image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
+                                                       data_id_t diagram_id,
+                                                       io_file_format_t export_type,
+                                                       const char* target_filename,
+                                                       data_stat_t *io_render_stat )
 {
     U8_TRACE_BEGIN();
     assert( NULL != target_filename );
@@ -63,24 +63,15 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
     assert( IO_FILE_FORMAT_TXT != export_type );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
     const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     data_visible_set_init( (*this_).input_data );
-    const u8_error_t d_err = data_visible_set_load( (*this_).input_data, diagram_row_id, (*this_).db_reader );
-    if( d_err != U8_ERROR_NONE )
-    {
-        result = -1;
-        assert(false);
-    }
+    result |= data_visible_set_load( (*this_).input_data, diagram_row_id, (*this_).db_reader );
+    assert(result != U8_ERROR_NONE);
     assert( data_visible_set_is_valid ( (*this_).input_data ) );
     data_profile_part_init( (*this_).profile );
-    const u8_error_t p_err
-        = data_profile_part_load( (*this_).profile, (*this_).input_data, (*this_).db_reader );
-    if( p_err != U8_ERROR_NONE )
-    {
-        result = -1;
-        assert(false);
-    }
+    result |= data_profile_part_load( (*this_).profile, (*this_).input_data, (*this_).db_reader );
+    assert(result != U8_ERROR_NONE);
     result |= image_format_writer_private_render_surface_to_file( this_, export_type, target_filename, io_render_stat );
     data_profile_part_destroy( (*this_).profile );
     data_visible_set_destroy( (*this_).input_data );
@@ -89,15 +80,15 @@ int image_format_writer_render_diagram_to_file( image_format_writer_t *this_,
     return result;
 }
 
-int image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
-                                                        io_file_format_t export_type,
-                                                        const char* target_filename,
-                                                        data_stat_t *io_render_stat )
+u8_error_t image_format_writer_private_render_surface_to_file( image_format_writer_t *this_,
+                                                               io_file_format_t export_type,
+                                                               const char* target_filename,
+                                                               data_stat_t *io_render_stat )
 {
     U8_TRACE_BEGIN();
     assert( NULL != target_filename );
     assert( IO_FILE_FORMAT_TXT != export_type );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* create surface */
     cairo_surface_t *surface;
@@ -134,7 +125,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
     if ( CAIRO_STATUS_SUCCESS != cairo_surface_status( surface ) )
     {
         U8_LOG_ERROR_INT( "surface could not be created", cairo_surface_status( surface ) );
-        result = -1;
+        result = ( IO_FILE_FORMAT_PNG == export_type ) ? U8_ERROR_LIB_NO_MEMORY : U8_ERROR_LIB_FILE_WRITE;
     }
     else
     {
@@ -187,7 +178,7 @@ int image_format_writer_private_render_surface_to_file( image_format_writer_t *t
             if ( CAIRO_STATUS_SUCCESS != png_result )
             {
                 U8_LOG_ERROR("error writing png.");
-                result = -1;
+                result = U8_ERROR_LIB_FILE_WRITE;
             }
         }
         else

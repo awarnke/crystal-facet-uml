@@ -41,9 +41,9 @@ void xhtml_stylesheet_writer_destroy( xhtml_stylesheet_writer_t *this_ );
  *  \brief writes a css stylesheet file
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_stylesheet_writer_write_stylesheet( xhtml_stylesheet_writer_t *this_ );
+u8_error_t xhtml_stylesheet_writer_write_stylesheet( xhtml_stylesheet_writer_t *this_ );
 
 #endif  /* XHTML_STYLESHEET_WRITER_H */
 

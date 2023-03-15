@@ -58,10 +58,10 @@ void io_export_model_traversal_destroy( io_export_model_traversal_t *this_ )
     U8_TRACE_END();
 }
 
-int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ )
+u8_error_t io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *this_ )
 {
     U8_TRACE_BEGIN();
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     {
         u8_error_t data_err;
@@ -109,7 +109,7 @@ int io_export_model_traversal_walk_model_nodes ( io_export_model_traversal_t *th
     return write_err;
 }
 
-int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
                                                   data_id_t host_id,
                                                   data_id_t containment_relationship_id,
                                                   data_id_t classifier_id,
@@ -118,7 +118,7 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     U8_TRACE_BEGIN();
     assert( recursion_depth <= IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH );
     assert( data_id_is_valid( &classifier_id ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* initially define flags and attributes */
     bool duplicate_classifier
@@ -297,13 +297,13 @@ int io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *t
     return write_err;
 }
 
-int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
                                                    data_classifier_type_t host_type,
                                                    const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* get classifier */
     const data_classifier_t *const classifier
@@ -316,7 +316,7 @@ int io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *
     return write_err;
 }
 
-int io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
                                                          const data_node_set_t *node_data,
                                                          data_small_set_t *io_contained_classifiers,
                                                          data_small_set_t *io_containment_relations )
@@ -325,7 +325,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
     assert( node_data != NULL );
     assert( io_contained_classifiers != NULL );
     assert( io_containment_relations != NULL );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
@@ -365,7 +365,7 @@ int io_export_model_traversal_private_get_containments ( io_export_model_travers
     return write_err;
 }
 
-int io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
                                                           data_id_t host_id,
                                                           const data_small_set_t *contained_classifiers,
                                                           const data_small_set_t *containment_relations,
@@ -374,7 +374,7 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
     U8_TRACE_BEGIN();
     assert( contained_classifiers != NULL );
     assert( containment_relations != NULL );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* do recursion */
     if ( recursion_depth < IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH )
@@ -393,13 +393,13 @@ int io_export_model_traversal_private_walk_containments ( io_export_model_traver
     return write_err;
 }
 
-int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
                                                  data_classifier_type_t host_type,
                                                  const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* get classifier again */
     const data_classifier_t *const classifier
@@ -411,13 +411,13 @@ int io_export_model_traversal_private_end_node ( io_export_model_traversal_t *th
     return write_err;
 }
 
-int io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
                                                               const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* get parent classifier */
     const data_classifier_t *const classifier
@@ -455,7 +455,7 @@ int io_export_model_traversal_private_iterate_node_features ( io_export_model_tr
     return write_err;
 }
 
-int io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
                                                                    bool nested_to_foreign_node,
                                                                    const data_classifier_t *host,
                                                                    const data_node_set_t *node_data )
@@ -463,7 +463,7 @@ int io_export_model_traversal_private_iterate_node_relationships ( io_export_mod
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     const data_classifier_type_t host_type
         = (host==NULL) ? DATA_CLASSIFIER_TYPE_PACKAGE : data_classifier_get_main_type( host );  /* a uml:Model is a uml:Package*/
@@ -688,14 +688,14 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
     return data_err;
 }
 
-int io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,
+u8_error_t io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,
                                                                   data_classifier_type_t nesting_type,
                                                                   const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );

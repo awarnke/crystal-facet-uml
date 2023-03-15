@@ -16,6 +16,7 @@
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief constants for max string sizes
@@ -73,9 +74,9 @@ void md_filter_destroy( md_filter_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to parse
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int md_filter_transform ( md_filter_t *this_, const char *text );
+u8_error_t md_filter_transform ( md_filter_t *this_, const char *text );
 
 #endif  /* MD_FILTER_H */
 

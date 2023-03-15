@@ -63,12 +63,12 @@ void json_writer_destroy( json_writer_t *this_ )
     U8_TRACE_END();
 }
 
-int json_writer_write_plain_id ( json_writer_t *this_, data_id_t id )
+u8_error_t json_writer_write_plain_id ( json_writer_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* print id */
     {
@@ -86,11 +86,11 @@ int json_writer_write_plain_id ( json_writer_t *this_, data_id_t id )
     return result;
 }
 
-int json_writer_write_int ( json_writer_t *this_, int64_t number )
+u8_error_t json_writer_write_int ( json_writer_t *this_, int64_t number )
 {
     U8_TRACE_BEGIN();
     char numberStr[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* Note: snprintf is not available on every OS */
     sprintf( numberStr, "%" PRIi64, number );

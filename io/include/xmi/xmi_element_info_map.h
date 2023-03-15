@@ -14,6 +14,7 @@
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
 #include "data_relationship_type.h"
+#include "u8/u8_error.h"
 #include <stdbool.h>
 
 /*!
@@ -108,7 +109,7 @@ extern const xmi_element_info_map_t xmi_element_info_map_standard;
  *  \param parent_type for some classifiers, the result depends on the used context, therefore the parent type is needed to select the xmi_element_info_t
  *  \param classifier_type selects the xmi_element_info_t
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
- *  \return 0 in case of success, -1 if no valid mapping found
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
 static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_map_t *this_,
                                                         data_classifier_type_t parent_type,
@@ -123,7 +124,7 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
  *  \param parent_type data_classifier_type_t of the parent of which the feature type shall be determined
  *  \param feature_type selects the xmi_element_info_t
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
- *  \return 0 in case of success, -1 if no valid mapping found
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
 static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_t *this_,
                                                      data_classifier_type_t parent_type,
@@ -138,7 +139,7 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
  *  \param statemachine_context for some relationships, the result depends on the used context, e.g. transition in statemachine or control flow in activities
  *  \param rel_type selects the xmi_element_info_t
  *  \param[out] out_element_info pointer to the selected xmi_element_info_t (or similar xmi_element_info_t in case of unexpected classifier_type)
- *  \return 0 in case of success, -1 if no valid mapping found
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if no valid mapping found
  */
 static inline int xmi_element_info_map_get_relationship ( const xmi_element_info_map_t *this_,
                                                           bool statemachine_context,

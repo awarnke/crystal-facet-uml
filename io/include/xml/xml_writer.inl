@@ -80,7 +80,7 @@ static inline int xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8s
 static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view )
 {
     bool result = false;
-    
+
     utf8codepointiterator_t it;
     utf8codepointiterator_init( &it, string_view );
     while( utf8codepointiterator_has_next( &it ) && ( ! result ) )
@@ -89,18 +89,18 @@ static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *t
         if ( xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), true ) )
         {
             result = true;
-        }   
+        }
     }
     utf8codepointiterator_destroy( &it );
-    
+
     return result;
 }
 
 static inline int xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view )
 {
-    int result = -1;
+    int result = U8_ERROR_NOT_FOUND;
     bool is_start = true;
-    
+
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
 
     utf8codepointiterator_t it;
@@ -113,16 +113,16 @@ static inline int xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_
             if ( is_start )
             {
                 is_start = false;
-                result = 0;
+                result = U8_ERROR_NONE;
             }
-            
+
             const utf8codepointseq_t text = utf8codepoint_get_utf8( next );
             const unsigned int text_len = utf8codepoint_get_length( next );
             result |= universal_escaping_output_stream_write ( &((*this_).esc_output), &(text.seq), text_len );
-        }   
+        }
     }
     utf8codepointiterator_destroy( &it );
-    
+
     return result;
 }
 
@@ -154,7 +154,7 @@ static inline void xml_writer_decrease_indent ( xml_writer_t *this_ )
 static inline bool xml_writer_private_is_xml_tag_name_character ( xml_writer_t *this_, uint32_t codepoint, bool start )
 {
     bool result = false;
-    
+
     result
         = (( codepoint >= 'A' )&&( codepoint <= 'Z' ))  /* [A-Z] */
         || ( codepoint == '_' )  /* _ */
@@ -171,11 +171,11 @@ static inline bool xml_writer_private_is_xml_tag_name_character ( xml_writer_t *
         || (( codepoint >= 0xF900 )&&( codepoint <= 0xFDCF )) /* [#xF900-#xFDCF] */
         || (( codepoint >= 0xFDF0 )&&( codepoint <= 0xFFFD )) /* [#xFDF0-#xFFFD] */
         || (( codepoint >= 0x10000 )&&( codepoint <= 0xEFFFF )); /* [#x10000-#xEFFFF] */
-    
+
     if (( ! result )&&( ! start ))
     {
         /* after name start, more characters are allowed: */
-        result 
+        result
             = ( codepoint == '-' )  /* - */
             || ( codepoint == '.' )  /* . */
             || (( codepoint >= '0' )&&( codepoint <= '9' ))  /* [0-9] */
@@ -183,7 +183,7 @@ static inline bool xml_writer_private_is_xml_tag_name_character ( xml_writer_t *
             || (( codepoint >= 0x0300 )&&( codepoint <= 0x036F )) /* [#x0300-#x036F] */
             || (( codepoint >= 0x203F )&&( codepoint <= 0x2040 )); /* [#x203F-#x2040] */
     }
-    
+
     return result;
 }
 

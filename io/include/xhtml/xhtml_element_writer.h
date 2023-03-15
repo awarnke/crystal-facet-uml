@@ -27,6 +27,7 @@
 #include "storage/data_database_reader.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8stream/universal_output_stream.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief attributes of the element writer
@@ -82,9 +83,9 @@ io_element_writer_t * xhtml_element_writer_get_element_writer( xhtml_element_wri
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char *document_title );
+u8_error_t xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char *document_title );
 
 /*!
  *  \brief writes the start of the main section
@@ -93,9 +94,9 @@ int xhtml_element_writer_write_header( xhtml_element_writer_t *this_, const char
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_main( xhtml_element_writer_t *this_, const char *document_title );
+u8_error_t xhtml_element_writer_start_main( xhtml_element_writer_t *this_, const char *document_title );
 
 /*!
  *  \brief checks if a hosting parent classifier may nest a child classifier
@@ -127,42 +128,42 @@ bool xhtml_element_writer_can_classifier_nest_relationship( xhtml_element_writer
  *  \brief starts a table-of-contents sublist
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ );
+u8_error_t xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ );
 
 /*!
  *  \brief starts a table-of-contents entry, consisting of an entry and an optional sublist
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_toc_entry ( xhtml_element_writer_t *this_ );
+u8_error_t xhtml_element_writer_start_toc_entry ( xhtml_element_writer_t *this_ );
 
 /*!
  *  \brief writes a table-of-contents entry
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr );
+u8_error_t xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
  *  \brief end a table-of-contents entry, consisting of an entry and an optional sublist
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_toc_entry ( xhtml_element_writer_t *this_ );
+u8_error_t xhtml_element_writer_end_toc_entry ( xhtml_element_writer_t *this_ );
 
 /*!
  *  \brief end a table-of-contents sublist
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ );
+u8_error_t xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ );
 
 /*!
  *  \brief writes a classifier start
@@ -172,12 +173,12 @@ int xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
-                                           data_classifier_type_t host_type,
-                                           const data_classifier_t *classifier_ptr
-                                         );
+u8_error_t xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
+                                                  data_classifier_type_t host_type,
+                                                  const data_classifier_t *classifier_ptr
+                                                );
 
 /*!
  *  \brief writes a classifier of the document
@@ -185,12 +186,12 @@ int xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
-                                              data_classifier_type_t host_type,
-                                              const data_classifier_t *classifier_ptr
-                                            );
+u8_error_t xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
+                                                     data_classifier_type_t host_type,
+                                                     const data_classifier_t *classifier_ptr
+                                                   );
 
 /*!
  *  \brief writes a classifier end
@@ -200,12 +201,12 @@ int xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
-                                         data_classifier_type_t host_type,
-                                         const data_classifier_t *classifier_ptr
-                                       );
+u8_error_t xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
+                                                data_classifier_type_t host_type,
+                                                const data_classifier_t *classifier_ptr
+                                              );
 
 /*!
  *  \brief writes a feature start-element
@@ -213,12 +214,12 @@ int xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
-                                        data_classifier_type_t parent_type,
-                                        const data_feature_t *feature_ptr
-                                      );
+u8_error_t xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
+                                               data_classifier_type_t parent_type,
+                                               const data_feature_t *feature_ptr
+                                             );
 
 /*!
  *  \brief writes a feature of the document
@@ -226,12 +227,12 @@ int xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
-                                           const data_classifier_t *parent,
-                                           const data_feature_t *feature_ptr
-                                         );
+u8_error_t xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
+                                                  const data_classifier_t *parent,
+                                                  const data_feature_t *feature_ptr
+                                                );
 
 /*!
  *  \brief writes a feature end-element
@@ -239,12 +240,12 @@ int xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
-                                      data_classifier_type_t parent_type,
-                                      const data_feature_t *feature_ptr
-                                    );
+u8_error_t xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
+                                             data_classifier_type_t parent_type,
+                                             const data_feature_t *feature_ptr
+                                           );
 
 /*!
  *  \brief starts a relationship
@@ -252,12 +253,12 @@ int xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
-                                             data_classifier_type_t host_type,
-                                             const data_relationship_t *relation_ptr
-                                           );
+u8_error_t xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
+                                                    data_classifier_type_t host_type,
+                                                    const data_relationship_t *relation_ptr
+                                                  );
 
 /*!
  *  \brief writes a relationship of the document
@@ -269,16 +270,16 @@ int xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
  *  \param from_f the feature at source end; NULL or !is_valid() if no feature specified
  *  \param to_c the classifier at target end
  *  \param to_f the feature at target end; NULL or !is_valid() if no feature specified
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
-                                                const data_classifier_t *host,
-                                                const data_relationship_t *relation_ptr,
-                                                const data_classifier_t *from_c,
-                                                const data_feature_t *from_f,
-                                                const data_classifier_t *to_c,
-                                                const data_feature_t *to_f
-                                              );
+u8_error_t xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
+                                                       const data_classifier_t *host,
+                                                       const data_relationship_t *relation_ptr,
+                                                       const data_classifier_t *from_c,
+                                                       const data_feature_t *from_f,
+                                                       const data_classifier_t *to_c,
+                                                       const data_feature_t *to_f
+                                                     );
 
 /*!
  *  \brief ends a relationship
@@ -286,12 +287,12 @@ int xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_relationship( xhtml_element_writer_t *this_,
-                                           data_classifier_type_t host_type,
-                                           const data_relationship_t *relation_ptr
-                                         );
+u8_error_t xhtml_element_writer_end_relationship( xhtml_element_writer_t *this_,
+                                                  data_classifier_type_t host_type,
+                                                  const data_relationship_t *relation_ptr
+                                                );
 
 /*!
  *  \brief writes a diagram start
@@ -300,9 +301,9 @@ int xhtml_element_writer_end_relationship( xhtml_element_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr );
+u8_error_t xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
  *  \brief writes a diagram of the document
@@ -311,13 +312,13 @@ int xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, const dat
  *  \param parent pointer to parent diagram or NULL in case of root
  *  \param diag_ptr pointer to diagram that shall be written
  *  \param diagram_file_base_name filename of the diagram without extension
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
-                                           const data_diagram_t *parent,
-                                           const data_diagram_t *diag_ptr,
-                                           const char *diagram_file_base_name
-                                         );
+u8_error_t xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
+                                                  const data_diagram_t *parent,
+                                                  const data_diagram_t *diag_ptr,
+                                                  const char *diagram_file_base_name
+                                                );
 
 /*!
  *  \brief writes a diagram end
@@ -326,9 +327,9 @@ int xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr );
+u8_error_t xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
  *  \brief writes a diagramelement start-element
@@ -336,12 +337,12 @@ int xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, const data_
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
-                                               const data_diagram_t *parent,
-                                               const data_diagramelement_t *diagramelement_ptr
-                                             );
+u8_error_t xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
+                                                      const data_diagram_t *parent,
+                                                      const data_diagramelement_t *diagramelement_ptr
+                                                    );
 
 /*!
  *  \brief writes constents of a a diagramelement
@@ -351,14 +352,14 @@ int xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \param feat_occur the focused feature of the occurring classifier
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
-                                                  const data_diagram_t *parent,
-                                                  const data_diagramelement_t *diagramelement_ptr,
-                                                  const data_classifier_t *occurrence,
-                                                  const data_feature_t *feat_occur
-                                                );
+u8_error_t xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
+                                                         const data_diagram_t *parent,
+                                                         const data_diagramelement_t *diagramelement_ptr,
+                                                         const data_classifier_t *occurrence,
+                                                         const data_feature_t *feat_occur
+                                                       );
 
 /*!
  *  \brief writes a diagramelement end-element
@@ -366,12 +367,12 @@ int xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
-                                             const data_diagram_t *parent,
-                                             const data_diagramelement_t *diagramelement_ptr
-                                           );
+u8_error_t xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
+                                                    const data_diagram_t *parent,
+                                                    const data_diagramelement_t *diagramelement_ptr
+                                                  );
 
 /*!
  *  \brief writes the ending of the main section
@@ -379,17 +380,17 @@ int xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
  *  This ends a section that contains the main part of the document
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_end_main( xhtml_element_writer_t *this_ );
+u8_error_t xhtml_element_writer_end_main( xhtml_element_writer_t *this_ );
 
 /*!
  *  \brief writes the footer of the document
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-int xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ );
+u8_error_t xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ );
 
 #endif  /* XHTML_ELEMENT_WRITER_H */
 

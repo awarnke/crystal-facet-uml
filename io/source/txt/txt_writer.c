@@ -34,14 +34,14 @@ void txt_writer_destroy( txt_writer_t *this_ )
     U8_TRACE_END();
 }
 
-int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
+u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
                                                const char *indent,
                                                const char *multiline_string )
 {
     U8_TRACE_BEGIN();
     assert( NULL != indent );
     assert( NULL != (*this_).output );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
     const size_t indent_length = strlen( indent );
 
     if ( NULL != multiline_string )
@@ -105,7 +105,7 @@ int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
     return result;
 }
 
-int txt_writer_write_indent_id ( txt_writer_t *this_,
+u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
                                  int indent_width,
                                  data_id_t id )
 {
@@ -114,7 +114,7 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_WRITER_INDENT_COLUMN );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* indent */
     if ( indent_width > TXT_WRITER_INDENT_COLUMN )
@@ -144,13 +144,13 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     return result;
 }
 
-int txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
+u8_error_t txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
     assert( DATA_ROW_ID_VOID != data_id_get_row_id(&id) );
     assert( NULL != (*this_).output );
-    int result = 0;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* print id */
     {

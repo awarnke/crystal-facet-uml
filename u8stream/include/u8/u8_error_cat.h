@@ -35,7 +35,7 @@ enum u8_error_cat_enum {
                                               /*!<           for the triggering event. */
                                               /*!< REACTION: TERMINATE, notify developer */
                                               /*!< EXAMPLE:  A function is triggered but the module was not initialized before; */
-                                              /*!<           The function not yet implemented */
+                                              /*!<           The function is not yet implemented */
     U8_ERROR_CAT_LOGIC_PARAMS  = 0x20000000,  /*!< CAUSE:    Illegal parameter: */
                                               /*!<           The input from a caller of the _own_ software subsystem is illegal. */
                                               /*!< REACTION: TERMINATE, notify developer */
@@ -83,6 +83,11 @@ enum u8_error_cat_enum {
                                               /*!< REACTION: CONTINUE, notify user */
                                               /*!< EXAMPLE:  A database that was selected by the user is read-only. */
 
+                                              /*   Out of memory is intentionally not listed as an example. */
+                                              /*                 The category depends on the exact situation. */
+                                              /*                 Shall the user select smaller input? => U8_ERROR_CAT_USE_INPUT */
+                                              /*                 Shall the operator add resources? => U8_ERROR_CAT_OP_ENV_RUN */
+                                              /*                 Shall the developer handle low memory situations? => U8_ERROR_CAT_LOGIC_STATE */
 };
 
 typedef enum u8_error_cat_enum u8_error_cat_t;

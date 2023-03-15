@@ -38,13 +38,13 @@ void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ )
     U8_TRACE_END();
 }
 
-int io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
+u8_error_t io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
                                         const data_small_set_t *set_to_be_exported )
 {
     U8_TRACE_BEGIN();
     assert( NULL != set_to_be_exported );
 
-    int serialize_error = 0;
+    u8_error_t serialize_error = U8_ERROR_NONE;
 
     const char *const document_title = "";
     serialize_error |= io_element_writer_start_main( (*this_).element_writer, document_title );
@@ -99,12 +99,12 @@ int io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
     return serialize_error;
 }
 
-int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *this_, data_id_t id )
+u8_error_t io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_DIAGRAM == data_id_get_table( &id ) );
-    int serialize_error = 0;
+    u8_error_t serialize_error = U8_ERROR_NONE;
     u8_error_t read_error;
 
     data_diagram_t out_diagram;
@@ -136,12 +136,12 @@ int io_export_set_traversal_private_export_diagram( io_export_set_traversal_t *t
     return serialize_error;
 }
 
-int io_export_set_traversal_private_export_diagramelement( io_export_set_traversal_t *this_, data_id_t id )
+u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_traversal_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &id ) );
-    int serialize_error = 0;
+    u8_error_t serialize_error = U8_ERROR_NONE;
     u8_error_t read_error;
 
     data_classifier_t out_classifier;
@@ -276,12 +276,12 @@ int io_export_set_traversal_private_export_diagramelement( io_export_set_travers
     return serialize_error;
 }
 
-int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t *this_, data_id_t id )
+u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_traversal_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &id ) );
-    int serialize_error = 0;
+    u8_error_t serialize_error = U8_ERROR_NONE;
     u8_error_t read_error;
 
     data_classifier_t out_classifier;
@@ -347,12 +347,12 @@ int io_export_set_traversal_private_export_classifier( io_export_set_traversal_t
     return serialize_error;
 }
 
-int io_export_set_traversal_private_export_relationship( io_export_set_traversal_t *this_, data_id_t id )
+u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_traversal_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &id ) );
     assert( DATA_TABLE_RELATIONSHIP == data_id_get_table( &id ) );
-    int serialize_error = 0;
+    u8_error_t serialize_error = U8_ERROR_NONE;
     u8_error_t read_error;
 
     data_relationship_t out_relation;

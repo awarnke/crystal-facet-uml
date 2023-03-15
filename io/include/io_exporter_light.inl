@@ -18,14 +18,14 @@ static inline void io_exporter_light_destroy ( io_exporter_light_t *this_ )
     (*this_).db_reader = NULL;
 }
 
-static inline int io_exporter_light_export_set_to_buf( io_exporter_light_t *this_,
+static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_t *this_,
                                                        const data_small_set_t *set_to_be_exported,
                                                        data_stat_t *io_export_stat,
                                                        utf8stringbuf_t out_buf )
 {
     assert( NULL != set_to_be_exported );
     assert( NULL != io_export_stat );
-    int exp_err = 0;
+    u8_error_t exp_err = U8_ERROR_NONE;
     data_stat_t count_just_once;
     data_stat_init( &count_just_once );
 

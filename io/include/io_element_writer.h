@@ -19,6 +19,7 @@
 #include "data_diagram.h"
 #include "data_diagram_type.h"
 #include "data_diagramelement.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief object (vmt+data) of a io_element_writer_t.
@@ -53,7 +54,7 @@ static inline void io_element_writer_private_init( io_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return returns 0 if success, -1 in case of error
  */
-static inline int io_element_writer_private_destroy( io_element_writer_t *this_ );
+static inline u8_error_t io_element_writer_private_destroy( io_element_writer_t *this_ );
 
 /*!
  *  \brief gets the set of interface functions
@@ -76,9 +77,9 @@ static inline io_element_writer_impl_t* io_element_writer_get_objectdata( io_ele
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_write_header( io_element_writer_t *this_, const char *document_title );
+static inline u8_error_t io_element_writer_write_header( io_element_writer_t *this_, const char *document_title );
 
 /*!
  *  \brief writes the start of the main section
@@ -87,9 +88,9 @@ static inline int io_element_writer_write_header( io_element_writer_t *this_, co
  *
  *  \param this_ pointer to own object attributes
  *  \param document_title title of the document
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_start_main( io_element_writer_t *this_, const char *document_title );
+static inline u8_error_t io_element_writer_start_main( io_element_writer_t *this_, const char *document_title );
 
 /*!
  *  \brief checks if a hosting parent classifier may nest a child classifier
@@ -125,12 +126,12 @@ static inline bool io_element_writer_can_classifier_nest_relationship( io_elemen
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_start_classifier( io_element_writer_t *this_,
-                                                      data_classifier_type_t host_type,
-                                                      const data_classifier_t *classifier_ptr
-                                                    );
+static inline u8_error_t io_element_writer_start_classifier( io_element_writer_t *this_,
+                                                             data_classifier_type_t host_type,
+                                                             const data_classifier_t *classifier_ptr
+                                                           );
 
 /*!
  *  \brief writes contents of a classifier
@@ -138,12 +139,12 @@ static inline int io_element_writer_start_classifier( io_element_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_assemble_classifier( io_element_writer_t *this_,
-                                                         data_classifier_type_t host_type,
-                                                         const data_classifier_t *classifier_ptr
-                                                       );
+static inline u8_error_t io_element_writer_assemble_classifier( io_element_writer_t *this_,
+                                                                data_classifier_type_t host_type,
+                                                                const data_classifier_t *classifier_ptr
+                                                              );
 
 /*!
  *  \brief writes a classifier end-element
@@ -153,12 +154,12 @@ static inline int io_element_writer_assemble_classifier( io_element_writer_t *th
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param classifier_ptr pointer to classifier that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
-                                                    data_classifier_type_t host_type,
-                                                    const data_classifier_t *classifier_ptr
-                                                  );
+static inline u8_error_t io_element_writer_end_classifier( io_element_writer_t *this_,
+                                                           data_classifier_type_t host_type,
+                                                           const data_classifier_t *classifier_ptr
+                                                         );
 
 /*!
  *  \brief writes a feature start-element
@@ -166,12 +167,12 @@ static inline int io_element_writer_end_classifier( io_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_start_feature( io_element_writer_t *this_,
-                                                   data_classifier_type_t parent_type,
-                                                   const data_feature_t *feature_ptr
-                                                 );
+static inline u8_error_t io_element_writer_start_feature( io_element_writer_t *this_,
+                                                          data_classifier_type_t parent_type,
+                                                          const data_feature_t *feature_ptr
+                                                        );
 
 /*!
  *  \brief writes constents of a feature
@@ -179,12 +180,12 @@ static inline int io_element_writer_start_feature( io_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param parent the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_assemble_feature( io_element_writer_t *this_,
-                                                      const data_classifier_t *parent,
-                                                      const data_feature_t *feature_ptr
-                                                    );
+static inline u8_error_t io_element_writer_assemble_feature( io_element_writer_t *this_,
+                                                             const data_classifier_t *parent,
+                                                             const data_feature_t *feature_ptr
+                                                           );
 
 /*!
  *  \brief writes a feature end-element
@@ -192,12 +193,12 @@ static inline int io_element_writer_assemble_feature( io_element_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param parent_type type of the owning parent classifier
  *  \param feature_ptr pointer to feature that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_end_feature( io_element_writer_t *this_,
-                                                 data_classifier_type_t parent_type,
-                                                 const data_feature_t *feature_ptr
-                                               );
+static inline u8_error_t io_element_writer_end_feature( io_element_writer_t *this_,
+                                                        data_classifier_type_t parent_type,
+                                                        const data_feature_t *feature_ptr
+                                                      );
 
 /*!
  *  \brief starts a relationship
@@ -205,12 +206,12 @@ static inline int io_element_writer_end_feature( io_element_writer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_start_relationship( io_element_writer_t *this_,
-                                                        data_classifier_type_t host_type,
-                                                        const data_relationship_t *relation_ptr
-                                                      );
+static inline u8_error_t io_element_writer_start_relationship( io_element_writer_t *this_,
+                                                               data_classifier_type_t host_type,
+                                                               const data_relationship_t *relation_ptr
+                                                             );
 
 /*!
  *  \brief writes the contents of a relationship
@@ -222,16 +223,16 @@ static inline int io_element_writer_start_relationship( io_element_writer_t *thi
  *  \param from_f the feature at source end; NULL or !is_valid() if no feature specified
  *  \param to_c the classifier at target end
  *  \param to_f the feature at target end; NULL or !is_valid() if no feature specified
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_assemble_relationship( io_element_writer_t *this_,
-                                                           const data_classifier_t *host,
-                                                           const data_relationship_t *relation_ptr,
-                                                           const data_classifier_t *from_c,
-                                                           const data_feature_t *from_f,
-                                                           const data_classifier_t *to_c,
-                                                           const data_feature_t *to_f
-                                                         );
+static inline u8_error_t io_element_writer_assemble_relationship( io_element_writer_t *this_,
+                                                                  const data_classifier_t *host,
+                                                                  const data_relationship_t *relation_ptr,
+                                                                  const data_classifier_t *from_c,
+                                                                  const data_feature_t *from_f,
+                                                                  const data_classifier_t *to_c,
+                                                                  const data_feature_t *to_f
+                                                                );
 
 /*!
  *  \brief ends a relationship
@@ -239,12 +240,12 @@ static inline int io_element_writer_assemble_relationship( io_element_writer_t *
  *  \param this_ pointer to own object attributes
  *  \param host_type type of the hosting parent classifier, needed for xmi export, DATA_CLASSIFIER_TYPE_VOID if toplevel
  *  \param relation_ptr pointer to relationship that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_end_relationship( io_element_writer_t *this_,
-                                                      data_classifier_type_t host_type,
-                                                      const data_relationship_t *relation_ptr
-                                                    );
+static inline u8_error_t io_element_writer_end_relationship( io_element_writer_t *this_,
+                                                             data_classifier_type_t host_type,
+                                                             const data_relationship_t *relation_ptr
+                                                           );
 
 /*!
  *  \brief writes a diagram start
@@ -253,9 +254,9 @@ static inline int io_element_writer_end_relationship( io_element_writer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_start_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr );
+static inline u8_error_t io_element_writer_start_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
  *  \brief writes a diagram of the document
@@ -264,13 +265,13 @@ static inline int io_element_writer_start_diagram( io_element_writer_t *this_, c
  *  \param parent pointer to parent diagram or NULL in case of root
  *  \param diag_ptr pointer to diagram that shall be written
  *  \param diagram_file_base_name filename of the diagram without extension
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_assemble_diagram( io_element_writer_t *this_,
-                                                      const data_diagram_t *parent,
-                                                      const data_diagram_t *diag_ptr,
-                                                      const char *diagram_file_base_name
-                                                    );
+static inline u8_error_t io_element_writer_assemble_diagram( io_element_writer_t *this_,
+                                                             const data_diagram_t *parent,
+                                                             const data_diagram_t *diag_ptr,
+                                                             const char *diagram_file_base_name
+                                                           );
 
 /*!
  *  \brief ends a diagram
@@ -279,9 +280,9 @@ static inline int io_element_writer_assemble_diagram( io_element_writer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_ptr pointer to diagram that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_end_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr );
+static inline u8_error_t io_element_writer_end_diagram( io_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
  *  \brief writes a diagramelement start-element
@@ -289,12 +290,12 @@ static inline int io_element_writer_end_diagram( io_element_writer_t *this_, con
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_start_diagramelement( io_element_writer_t *this_,
-                                                          const data_diagram_t *parent,
-                                                          const data_diagramelement_t *diagramelement_ptr
-                                                        );
+static inline u8_error_t io_element_writer_start_diagramelement( io_element_writer_t *this_,
+                                                                 const data_diagram_t *parent,
+                                                                 const data_diagramelement_t *diagramelement_ptr
+                                                               );
 
 /*!
  *  \brief writes constents of a diagramelement
@@ -304,14 +305,14 @@ static inline int io_element_writer_start_diagramelement( io_element_writer_t *t
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
  *  \param feat_occur the focused feature of the occurring classifier, NULL or !is_valid() if DATA_ROW_ID_VOID
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
-                                                             const data_diagram_t *parent,
-                                                             const data_diagramelement_t *diagramelement_ptr,
-                                                             const data_classifier_t *occurrence,
-                                                             const data_feature_t *feat_occur
-                                                           );
+static inline u8_error_t io_element_writer_assemble_diagramelement( io_element_writer_t *this_,
+                                                                    const data_diagram_t *parent,
+                                                                    const data_diagramelement_t *diagramelement_ptr,
+                                                                    const data_classifier_t *occurrence,
+                                                                    const data_feature_t *feat_occur
+                                                                  );
 
 /*!
  *  \brief writes a diagramelement end-element
@@ -319,12 +320,12 @@ static inline int io_element_writer_assemble_diagramelement( io_element_writer_t
  *  \param this_ pointer to own object attributes
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_end_diagramelement( io_element_writer_t *this_,
-                                                        const data_diagram_t *parent,
-                                                        const data_diagramelement_t *diagramelement_ptr
-                                                      );
+static inline u8_error_t io_element_writer_end_diagramelement( io_element_writer_t *this_,
+                                                               const data_diagram_t *parent,
+                                                               const data_diagramelement_t *diagramelement_ptr
+                                                             );
 
 /*!
  *  \brief writes the ending of the main section
@@ -332,17 +333,17 @@ static inline int io_element_writer_end_diagramelement( io_element_writer_t *thi
  *  This ends a section that contains the main part of the document
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_end_main( io_element_writer_t *this_ );
+static inline u8_error_t io_element_writer_end_main( io_element_writer_t *this_ );
 
 /*!
  *  \brief writes the footer of the document
  *
  *  \param this_ pointer to own object attributes
- *  \return 0 in case of success, -1 otherwise
+ *  \return U8_ERROR_NONE in case of success
  */
-static inline int io_element_writer_write_footer( io_element_writer_t *this_ );
+static inline u8_error_t io_element_writer_write_footer( io_element_writer_t *this_ );
 
 #include "io_element_writer.inl"
 

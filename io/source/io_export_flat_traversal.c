@@ -36,10 +36,10 @@ void io_export_flat_traversal_destroy( io_export_flat_traversal_t *this_ )
     U8_TRACE_END();
 }
 
-int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_, bool hierarchical  )
+u8_error_t io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *this_, bool hierarchical  )
 {
     U8_TRACE_BEGIN();
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     {
         u8_error_t data_err;
@@ -80,13 +80,13 @@ int io_export_flat_traversal_iterate_classifiers ( io_export_flat_traversal_t *t
     return write_err;
 }
 
-int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traversal_t *this_,
+u8_error_t io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traversal_t *this_,
                                                            const data_classifier_t *classifier )
 {
     U8_TRACE_BEGIN();
     assert( NULL != classifier );
     assert( data_classifier_is_valid( classifier ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* start classifier */
     {
@@ -130,13 +130,13 @@ int io_export_flat_traversal_private_traverse_classifier ( io_export_flat_traver
     return write_err;
 }
 
-int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal_t *this_,
+u8_error_t io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal_t *this_,
                                                         const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     /* get parent classifier */
     const data_classifier_t *const classifier
@@ -166,13 +166,13 @@ int io_export_flat_traversal_private_iterate_features ( io_export_flat_traversal
     return write_err;
 }
 
-int io_export_flat_traversal_private_iterate_relationships ( io_export_flat_traversal_t *this_,
+u8_error_t io_export_flat_traversal_private_iterate_relationships ( io_export_flat_traversal_t *this_,
                                                              const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
     assert( data_node_set_is_valid( node_data ) );
-    int write_err = 0;
+    u8_error_t write_err = U8_ERROR_NONE;
 
     const data_classifier_t *const classifier = data_node_set_get_classifier_const ( node_data );
     const data_classifier_type_t host_type = data_classifier_get_main_type( classifier );
