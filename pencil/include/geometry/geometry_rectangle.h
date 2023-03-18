@@ -337,6 +337,15 @@ static inline void geometry_rectangle_enlarge ( geometry_rectangle_t *this_, dou
 static inline void geometry_rectangle_expand_4dir ( geometry_rectangle_t *this_, double delta_width, double delta_height );
 
 /*!
+ *  \brief embraces a point so that the resulting the rectangle contains the original rectangle and the provided coordinates
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x abscissa of the point to be embraced by the rectangle
+ *  \param y ordinate of the point to be embraced by the rectangle
+ */
+static inline void geometry_rectangle_embrace ( geometry_rectangle_t *this_, double x, double y );
+
+/*!
  *  \brief sets the left coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes

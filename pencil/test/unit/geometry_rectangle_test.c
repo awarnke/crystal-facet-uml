@@ -16,6 +16,8 @@ static void test_difference_2_corner_candidates(void);
 static void test_difference_2_stripe_candidates(void);
 static void test_difference_1_candidate(void);
 static void test_expand_4d(void);
+static void test_embrace(void);
+
 
 test_suite_t geometry_rectangle_test_get_suite(void)
 {
@@ -31,6 +33,7 @@ test_suite_t geometry_rectangle_test_get_suite(void)
     test_suite_add_test_case( &result, "test_difference_2_stripe_candidates", &test_difference_2_stripe_candidates );
     test_suite_add_test_case( &result, "test_difference_1_candidate", &test_difference_1_candidate );
     test_suite_add_test_case( &result, "test_expand_4d", &test_expand_4d );
+    test_suite_add_test_case( &result, "test_embrace", &test_embrace );
     return result;
 }
 
@@ -387,6 +390,38 @@ static void test_expand_4d(void)
     TEST_EXPECT_EQUAL_DOUBLE( 5.0, geometry_rectangle_get_top( &rect_a ) );
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &rect_a ) );
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &rect_a ) );
+    geometry_rectangle_destroy ( &rect_a );
+}
+
+static void test_embrace(void)
+{
+    geometry_rectangle_t rect_a;
+
+    /* already contained */
+    geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
+    geometry_rectangle_embrace ( &rect_a, 5.0, 5.0 );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 2.0, geometry_rectangle_get_height( &rect_a ) );
+    geometry_rectangle_destroy ( &rect_a );
+
+    /* top left expand */
+    geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
+    geometry_rectangle_embrace ( &rect_a, -3.0, -4.0 );
+    TEST_EXPECT_EQUAL_DOUBLE( -3.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( -4.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 9.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_height( &rect_a ) );
+    geometry_rectangle_destroy ( &rect_a );
+
+    /* bottom right expand */
+    geometry_rectangle_init ( &rect_a, 4.0, 4.0, 2.0 /*width*/, 2.0 /*height*/ );
+    geometry_rectangle_embrace ( &rect_a, 7.0, 8.0 );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_left( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_top( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.0, geometry_rectangle_get_width( &rect_a ) );
+    TEST_EXPECT_EQUAL_DOUBLE( 4.0, geometry_rectangle_get_height( &rect_a ) );
     geometry_rectangle_destroy ( &rect_a );
 }
 

@@ -366,6 +366,34 @@ static inline void geometry_rectangle_expand_4dir ( geometry_rectangle_t *this_,
     }
 }
 
+static inline void geometry_rectangle_embrace ( geometry_rectangle_t *this_, double x, double y )
+{
+    const double rect_this_right = (*this_).left + (*this_).width;
+    if ( x < (*this_).left )
+    {
+        const double dx = (*this_).left - x;
+        (*this_).left -= dx;
+        (*this_).width += dx;
+    }
+    else if ( x > rect_this_right )
+    {
+        const double dx = x - rect_this_right;
+        (*this_).width += dx;
+    }
+    const double rect_this_bottom = (*this_).top + (*this_).height;
+    if ( y < (*this_).top )
+    {
+        const double dy = (*this_).top - y;
+        (*this_).top -= dy;
+        (*this_).height += dy;
+    }
+    else if ( y > rect_this_bottom )
+    {
+        const double dy = y - rect_this_bottom;
+        (*this_).height += dy;
+    }
+}
+
 static inline void geometry_rectangle_set_left ( geometry_rectangle_t *this_, double left )
 {
     (*this_).left = left;
