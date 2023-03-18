@@ -295,8 +295,7 @@ static const char *const XML_WRITER_PRIVATE_INDENT_PLAIN[XML_WRITER_PRIVATE_MAX_
     }
 };
 
-void xml_writer_init ( xml_writer_t *this_,
-                       universal_output_stream_t *output )
+void xml_writer_init ( xml_writer_t *this_, universal_output_stream_t *output )
 {
     U8_TRACE_BEGIN();
     assert( NULL != output );

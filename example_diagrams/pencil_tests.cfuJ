@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.47.1"
+    "generator_version": "1.48.0"
   }
   ,
   "views":
@@ -290,7 +290,7 @@
         "description": [
                 ""
         ],
-        "list_order": 81920,
+        "list_order": 90112,
         "display_flags": 0,
         "parent_name": "Overview [root]",
         "parent": "9b37a210-63ea-49db-85c8-cf3ee50a2199",
@@ -3137,6 +3137,7 @@
         "id": 23,
         "main_type": 102,
         "type": "Component",
+        "stereotype": "copy",
         "name": "System Boundary",
         "description": [
                 ""

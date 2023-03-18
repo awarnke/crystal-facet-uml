@@ -95,6 +95,27 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                         cairo_t *cr
                                       );
 
+/*!
+ *  \brief draws the stereotype image into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param draw false if only the view_rect shall be determined, true if the drawing_directives shall be drawn
+ *  \param drawing_directives sequence of drawing directives
+ *  \param io_view_rect bounding rectangle of the drawing_directives;
+ *                      in all cases this is provided as output, in case of draw==true this is needed as imput.
+ *  \param bounds bounding rectangle of the drawing directives
+ *  \param cr a cairo drawing context
+ *  \return U8_ERROR_NONE if the image was drawn, U8_ERROR_NOT_FOUND if no image was found,
+ *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
+ */
+u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_image_t *this_,
+                                                         bool draw,
+                                                         const char *drawing_directives,
+                                                         geometry_rectangle_t *io_view_rect,
+                                                         const geometry_rectangle_t *target_bounds,
+                                                         cairo_t *cr
+                                                       );
+
 #include "draw_stereotype_image.inl"
 
 #endif  /* DRAW_STEREOTYPE_IMAGE_H */

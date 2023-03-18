@@ -28,10 +28,10 @@ xmi_spec_t xmi_type_converter_get_xmi_spec_of_classifier ( xmi_type_converter_t 
 
     const xmi_element_info_t *classifier_info = NULL;
     u8_error_t map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                       DATA_CLASSIFIER_TYPE_PACKAGE, /*this parameter does not matter for this use case*/
-                                                       c_type,
-                                                       &classifier_info
-                                                     );
+                                                              DATA_CLASSIFIER_TYPE_PACKAGE, /*this parameter does not matter for this use case*/
+                                                              c_type,
+                                                              &classifier_info
+                                                            );
     if ( map_err != 0 )
     {
         U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", c_type );
@@ -85,10 +85,10 @@ u8_error_t xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_
 
     const xmi_element_info_t *parent_info = NULL;
     u8_error_t map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                       DATA_CLASSIFIER_TYPE_PACKAGE, /*TODO: fix guess*/
-                                                       parent_type,
-                                                       &parent_info
-                                                     );
+                                                              DATA_CLASSIFIER_TYPE_PACKAGE, /*TODO: fix guess*/
+                                                              parent_type,
+                                                              &parent_info
+                                                            );
     if ( map_err != U8_ERROR_NONE )
     {
         U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", parent_type );
@@ -180,9 +180,9 @@ u8_error_t xmi_type_converter_get_xmi_nesting_property_of_classifier ( xmi_type_
 }
 
 u8_error_t xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
-                                                            data_classifier_type_t parent_type,
-                                                            data_feature_type_t feature_type,
-                                                            char const * *out_xmi_name )
+                                                                   data_classifier_type_t parent_type,
+                                                                   data_feature_type_t feature_type,
+                                                                   char const * *out_xmi_name )
 {
     U8_TRACE_BEGIN();
     assert( out_xmi_name != NULL );
@@ -191,10 +191,10 @@ u8_error_t xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_conv
 
     const xmi_element_info_t *parent_info = NULL;
     u8_error_t map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
-                                                       DATA_CLASSIFIER_TYPE_PACKAGE, /*TODO: fix guess*/
-                                                       parent_type,
-                                                       &parent_info
-                                                     );
+                                                              DATA_CLASSIFIER_TYPE_PACKAGE, /*TODO: fix guess*/
+                                                              parent_type,
+                                                              &parent_info
+                                                            );
     if ( map_err != U8_ERROR_NONE )
     {
         U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map unknown type", parent_type );
@@ -312,9 +312,9 @@ u8_error_t xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_conv
 }
 
 u8_error_t xmi_type_converter_get_xmi_nesting_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                  data_classifier_type_t hosting_type,
-                                                                  data_relationship_type_t child_type,
-                                                                  char const * *out_xmi_name )
+                                                                         data_classifier_type_t hosting_type,
+                                                                         data_relationship_type_t child_type,
+                                                                         char const * *out_xmi_name )
 {
     U8_TRACE_BEGIN();
     assert( out_xmi_name != NULL );
@@ -510,12 +510,12 @@ const char* xmi_type_converter_get_xmi_type_of_relationship ( xmi_type_converter
 }
 
 u8_error_t xmi_type_converter_private_get_xmi_end_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                      data_classifier_type_t hosting_type,
-                                                                      data_relationship_type_t rel_type,
-                                                                      bool from_end,
-                                                                      data_classifier_type_t end_classifier_type,
-                                                                      data_feature_type_t end_feature_type,
-                                                                      char const * *out_xmi_name )
+                                                                             data_classifier_type_t hosting_type,
+                                                                             data_relationship_type_t rel_type,
+                                                                             bool from_end,
+                                                                             data_classifier_type_t end_classifier_type,
+                                                                             data_feature_type_t end_feature_type,
+                                                                             char const * *out_xmi_name )
 {
     U8_TRACE_BEGIN();
     assert( out_xmi_name != NULL );

@@ -47,8 +47,8 @@ void xmi_interaction_writer_destroy( xmi_interaction_writer_t *this_ )
 
 #if 0
 u8_error_t xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_,
-                                          data_classifier_type_t parent_type,
-                                          const data_diagram_t *diagram_ptr )
+                                                 data_classifier_type_t parent_type,
+                                                 const data_diagram_t *diagram_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != diagram_ptr );
@@ -142,7 +142,7 @@ u8_error_t xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_
 }
 
 u8_error_t xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
-                                        data_classifier_type_t parent_type )
+                                               data_classifier_type_t parent_type )
 {
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
@@ -178,9 +178,9 @@ u8_error_t xmi_interaction_writer_end_diagram( xmi_interaction_writer_t *this_,
 #endif
 
 u8_error_t xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *this_,
-                                             data_id_t reference_id,
-                                             data_classifier_type_t parent_type,
-                                             const data_feature_t *feature_ptr )
+                                                    data_id_t reference_id,
+                                                    data_classifier_type_t parent_type,
+                                                    const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
@@ -220,13 +220,13 @@ u8_error_t xmi_interaction_writer_assemble_feature( xmi_interaction_writer_t *th
 }
 
 u8_error_t xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_t *this_,
-                                                  data_id_t interaction_id,
-                                                  data_classifier_type_t parent_type,
-                                                  const data_relationship_t *relation_ptr,
-                                                  data_classifier_type_t from_c_type,
-                                                  data_feature_type_t from_f_type,
-                                                  data_classifier_type_t to_c_type,
-                                                  data_feature_type_t to_f_type )
+                                                         data_id_t interaction_id,
+                                                         data_classifier_type_t parent_type,
+                                                         const data_relationship_t *relation_ptr,
+                                                         data_classifier_type_t from_c_type,
+                                                         data_feature_type_t from_f_type,
+                                                         data_classifier_type_t to_c_type,
+                                                         data_feature_type_t to_f_type )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );

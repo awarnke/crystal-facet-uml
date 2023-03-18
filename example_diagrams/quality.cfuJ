@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.47.0"
+    "generator_version": "1.48.0"
   }
   ,
   "views":
@@ -1660,6 +1660,82 @@
             "classifier_name": "Example Guidelines",
             "node": "f6ed2823-58d5-4482-86ec-49e197dd1971",
             "uuid": "26929b7c-e50a-4c03-a484-e5095804dbd1"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 31,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "Tactics for Error Handling",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Strategies for Reliability",
+        "parent": "5ef858cf-9370-41a7-acbe-8b61aa3d2a99",
+        "uuid": "86ec3ce6-55b4-4da7-a2d9-97bd0257038f",
+        "diagramelements":
+        [
+          {
+            "id": 338,
+            "display_flags": 0,
+            "classifier_name": "Error Handling Concept",
+            "node": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
+            "uuid": "4d59682d-f6f1-4edf-9eed-20c8b53b2d2e"
+          },
+          {
+            "id": 339,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Recover-ability",
+            "node": "d6adf80b-9375-45be-aebb-81a62ce2d52d",
+            "uuid": "0f596db0-4dc4-4ea6-98bc-09b0caa0ce6a"
+          },
+          {
+            "id": 340,
+            "display_flags": 0,
+            "classifier_name": "Error Handling Example",
+            "node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+            "uuid": "3aff32e5-5516-48d9-a12d-b7585dde1e54"
+          },
+          {
+            "id": 341,
+            "display_flags": 0,
+            "classifier_name": "detect and interpret",
+            "node": "9a64bbc6-e3c1-4953-a0c0-31452b7a4252",
+            "uuid": "47d7d6ca-faa9-42cf-9c40-d9c91d66cc84"
+          },
+          {
+            "id": 342,
+            "display_flags": 0,
+            "classifier_name": "propagate and re-interpret",
+            "node": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
+            "uuid": "a9759269-0cfc-4440-93b8-e9647737c095"
+          },
+          {
+            "id": 343,
+            "display_flags": 0,
+            "classifier_name": "inform stakeholder",
+            "node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
+            "uuid": "275b65ba-2b8f-48bc-b502-e3782fc844c9"
+          },
+          {
+            "id": 344,
+            "display_flags": 0,
+            "classifier_name": "abort, degrade, retry or continue",
+            "node": "6688791a-3833-46d9-9465-c5c2c90989b0",
+            "uuid": "4efb94e6-6667-4f07-95ca-97a623e965c3"
+          },
+          {
+            "id": 345,
+            "display_flags": 0,
+            "classifier_name": "detect multiple errors and interpret",
+            "node": "05268728-aee3-4fab-bb9a-56a531df8d29",
+            "uuid": "802bc8e2-c1df-40f6-bdf1-17a7c32a7f1d"
           }
         ]
       }
@@ -7363,7 +7439,7 @@
                 "  from the point of occurrence\n",
                 "  to a point where these are handled,\n",
                 "  e.g. throw/raise of exceptions or\n",
-                "  passing on of error codes,\n",
+                "  passing on error codes,\n",
                 "4) by which categories errors are classified,\n",
                 "5) which category is handled in which way,\n",
                 "6) who shall be informed on which way,\n",
@@ -7429,6 +7505,124 @@
         "y_order": -1125682583,
         "list_order": -1125682583,
         "uuid": "4f3cf346-69e3-4891-a688-7564d3a27418",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 224,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Error Handling Example",
+        "description": [
+                ""
+        ],
+        "x_order": 2123225804,
+        "y_order": -2140544729,
+        "list_order": -2140544729,
+        "uuid": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 225,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "detect and interpret",
+        "description": [
+                ""
+        ],
+        "x_order": 2112262199,
+        "y_order": -2140326081,
+        "list_order": -2140326081,
+        "uuid": "9a64bbc6-e3c1-4953-a0c0-31452b7a4252",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 226,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "propagate and re-interpret",
+        "description": [
+                "re-interpretation is necessary when\n",
+                "higher-level functions know how to\n",
+                "interpret errors reported by lower level\n",
+                "functions.\n",
+                "E.g. a search function may fail to find a\n",
+                "record. The caller may be able to decide\n",
+                "if this is intended or if this is a severe error."
+        ],
+        "x_order": 2128868958,
+        "y_order": -2140251609,
+        "list_order": -2140251609,
+        "uuid": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 227,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "inform stakeholder",
+        "description": [
+                "stakeholders may be:\n",
+                "- developer\n",
+                "- operator\n",
+                "- user"
+        ],
+        "x_order": 2128868958,
+        "y_order": -2139650113,
+        "list_order": -2139650113,
+        "uuid": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 228,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "abort, degrade, retry or continue",
+        "description": [
+                ""
+        ],
+        "x_order": 2126763875,
+        "y_order": -2139190401,
+        "list_order": -2139190401,
+        "uuid": "6688791a-3833-46d9-9465-c5c2c90989b0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 229,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "optional",
+        "name": "detect multiple errors and interpret",
+        "description": [
+                ""
+        ],
+        "x_order": 2112262199,
+        "y_order": -2139877420,
+        "list_order": -2139861387,
+        "uuid": "05268728-aee3-4fab-bb9a-56a531df8d29",
         "features":
         [
         ]
@@ -11025,6 +11219,176 @@
         "from_node": "4f3cf346-69e3-4891-a688-7564d3a27418",
         "to_node": "ba965295-bce7-4ccc-a39f-9ab7c671391d",
         "uuid": "4e038ef0-13f6-44e3-8b75-df291f37945b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 272,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2140326081,
+        "from_classifier_name": "Error Handling Example",
+        "to_classifier_name": "detect and interpret",
+        "from_node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+        "to_node": "9a64bbc6-e3c1-4953-a0c0-31452b7a4252",
+        "uuid": "474f9b54-ff05-4f44-b1e0-20e18085b794"
+      }
+    },
+    {
+      "relationship": {
+        "id": 273,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2140251609,
+        "from_classifier_name": "Error Handling Example",
+        "to_classifier_name": "propagate and re-interpret",
+        "from_node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+        "to_node": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
+        "uuid": "7fb1c949-4376-47ca-a0f9-29bf6e9a3238"
+      }
+    },
+    {
+      "relationship": {
+        "id": 275,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "example",
+        "description": [
+                ""
+        ],
+        "list_order": 984528,
+        "from_classifier_name": "Error Handling Example",
+        "to_classifier_name": "Error Handling Concept",
+        "from_node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+        "to_node": "2eea4132-85c8-4c7f-b92b-96d3edab25aa",
+        "uuid": "0befcb7f-3d60-459b-843c-79eff54f117d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 276,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2139650113,
+        "from_classifier_name": "Error Handling Example",
+        "to_classifier_name": "inform stakeholder",
+        "from_node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+        "to_node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
+        "uuid": "af60fdc6-cffc-4607-bc44-52fe5191677e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 278,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2139190401,
+        "from_classifier_name": "Error Handling Example",
+        "to_classifier_name": "abort, degrade, retry or continue",
+        "from_node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+        "to_node": "6688791a-3833-46d9-9465-c5c2c90989b0",
+        "uuid": "cb0f7ae3-06d2-45a8-be89-c6b48a5c2476"
+      }
+    },
+    {
+      "relationship": {
+        "id": 280,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2139861387,
+        "from_classifier_name": "Error Handling Example",
+        "to_classifier_name": "detect multiple errors and interpret",
+        "from_node": "a8cc2125-61bd-4231-a8b0-ece039826d5b",
+        "to_node": "05268728-aee3-4fab-bb9a-56a531df8d29",
+        "uuid": "244e90a6-d32e-4b0c-9a8e-73d1e7a0b5bb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 274,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 951760,
+        "from_classifier_name": "detect and interpret",
+        "to_classifier_name": "propagate and re-interpret",
+        "from_node": "9a64bbc6-e3c1-4953-a0c0-31452b7a4252",
+        "to_node": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
+        "uuid": "ed9eb387-3a05-4c62-844b-461deacae07d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 277,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1017296,
+        "from_classifier_name": "propagate and re-interpret",
+        "to_classifier_name": "inform stakeholder",
+        "from_node": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
+        "to_node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
+        "uuid": "1c571c8f-4c0c-4f52-a74b-6b621f1b06fc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 279,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1050064,
+        "from_classifier_name": "inform stakeholder",
+        "to_classifier_name": "abort, degrade, retry or continue",
+        "from_node": "db0dc53c-8c5c-4054-93d1-f9041c39d23f",
+        "to_node": "6688791a-3833-46d9-9465-c5c2c90989b0",
+        "uuid": "7f0bf354-eced-4c14-9a4a-c4eea2d90d72"
+      }
+    },
+    {
+      "relationship": {
+        "id": 281,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1082832,
+        "from_classifier_name": "detect multiple errors and interpret",
+        "to_classifier_name": "propagate and re-interpret",
+        "from_node": "05268728-aee3-4fab-bb9a-56a531df8d29",
+        "to_node": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
+        "uuid": "290453b9-6a97-49d9-8ba0-84cc238407e4"
       }
     }
   ]
