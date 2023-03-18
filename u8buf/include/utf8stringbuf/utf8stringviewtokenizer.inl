@@ -10,6 +10,8 @@ static inline void utf8stringviewtokenizer_init ( utf8stringviewtokenizer_t *thi
 {
     (*this_).remaining_input_text = input_text;
     (*this_).mode = mode;
+    (*this_).last_token_line = 0;
+    (*this_).current_line = 1;
     utf8stringviewtokenizer_private_skip_space( this_ );
 }
 
@@ -30,6 +32,7 @@ static inline void utf8stringviewtokenizer_set_mode ( utf8stringviewtokenizer_t 
 static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtokenizer_t *this_ )
 {
     utf8stringview_t result;
+    (*this_).last_token_line = (*this_).current_line;
     const char *const tok_start = utf8stringview_get_start( (*this_).remaining_input_text );
     const size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
     if ( len > 0 )
@@ -82,6 +85,11 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
         result = UTF8STRINGVIEW_NULL;
     }
     return result;
+}
+
+static inline uint32_t utf8stringviewtokenizer_get_line ( const utf8stringviewtokenizer_t *this_ )
+{
+    return (*this_).last_token_line;
 }
 
 static inline bool utf8stringviewtokenizer_private_is_space( utf8stringviewtokenizer_t *this_, char ascii )
@@ -338,6 +346,10 @@ static inline void utf8stringviewtokenizer_private_skip_space ( utf8stringviewto
     size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
     while ( ( len > 0 ) && ( utf8stringviewtokenizer_private_is_space( this_, *start ) ) )
     {
+        if ( *start == '\n' )
+        {
+            (*this_).current_line ++;
+        }
         len --;
         start ++;
     }

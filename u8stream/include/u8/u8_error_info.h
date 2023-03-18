@@ -115,12 +115,12 @@ static inline u8_error_t u8_error_info_get_error ( const u8_error_info_t *this_ 
 static inline u8_error_info_unit_t u8_error_info_get_unit ( const u8_error_info_t *this_ );
 
 /*!
- *  \brief gets the error position
+ *  \brief gets the error line
  *
  *  \param this_ pointer to own object attributes
- *  \return the origin position of the error
+ *  \return the origin line of the error
  */
-static inline int32_t u8_error_info_get_position ( const u8_error_info_t *this_ );
+static inline int32_t u8_error_info_get_line ( const u8_error_info_t *this_ );
 
 /*!
  *  \brief gets the error-origin name

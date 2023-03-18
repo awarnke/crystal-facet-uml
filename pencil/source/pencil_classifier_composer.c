@@ -99,13 +99,19 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                                 pencil_size
                                               )
             : (*classifier_symbol_box);
+        u8_error_info_t err_info;
         const u8_error_t stereotype_err
             = draw_stereotype_image_draw( &((*this_).draw_stereotype_image),
                                           data_classifier_get_stereotype_const( classifier ),
                                           profile,
+                                          &err_info,
                                           &stereotype_box,
                                           cr
                                         );
+        if ( u8_error_info_is_error( &err_info ) )
+        {
+            U8_LOG_WARNING_INT( "stereotype image: unxpected token in svg path in line", u8_error_info_get_line( &err_info ) );
+        }
         icon_override = ( stereotype_err == U8_ERROR_NONE );
     }
 

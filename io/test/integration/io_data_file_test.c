@@ -124,7 +124,7 @@ static void open_invalid_file(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &err_info ) );
-    TEST_EXPECT_EQUAL_INT( 1, u8_error_info_get_position( &err_info ) );
+    TEST_EXPECT_EQUAL_INT( 1, u8_error_info_get_line( &err_info ) );
 
     isopen = io_data_file_is_open( &data_file );
     TEST_EXPECT_EQUAL_INT( false, isopen );

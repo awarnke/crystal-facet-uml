@@ -1,7 +1,7 @@
 crystal-facet-uml (1.48.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * Rectangle for stereotype images of classifiers is layouted
+  * Classifiers show custom stereotype images (SVG subset)
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 49 Mar 2023 08:00:00 +0100
 

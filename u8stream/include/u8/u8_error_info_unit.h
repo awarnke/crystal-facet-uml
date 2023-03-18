@@ -16,7 +16,7 @@
  */
 enum u8_error_info_unit_enum {
     U8_ERROR_INFO_UNIT_VOID = 0,  /*!< there is no information in the data fields of u8_error_info_t */
-    U8_ERROR_INFO_UNIT_LINE = 1,  /*!< u8_error_info_t describes a position, unit is line number */
+    U8_ERROR_INFO_UNIT_LINE = 1,  /*!< u8_error_info_t describes a position, unit is line number, first line is 1 */
     U8_ERROR_INFO_UNIT_NAME = 2,  /*!< u8_error_info_t describes an object, unit is its name/key */
     U8_ERROR_INFO_UNIT_LINE_NAME = 3,  /*!< u8_error_info_t describes a position and an object, units are line and name */
     U8_ERROR_INFO_UNIT_MAX = 4,  /*!< maximum number of units, can be used to iterate over all units */

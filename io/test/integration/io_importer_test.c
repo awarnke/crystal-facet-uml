@@ -307,7 +307,7 @@ static void insert_invalid_json(void)
     TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
 
     /* error happens at char 24 according to the log */
     /* but this happens in json_element_reader_get_type_of_next_element which does not advance the read pos */
@@ -323,7 +323,7 @@ static void insert_invalid_json(void)
     TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -350,7 +350,7 @@ static void insert_invalid_parent_diag(void)
     TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_FOCUS_EMPTY, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 20, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 20, u8_error_info_get_line( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -378,7 +378,7 @@ static void insert_empty_set(void)
     TEST_EXPECT_EQUAL_INT( data_stat_get_total_count( &stat ), 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_line ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_line ) );
-    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_position( &read_line ) );
+    TEST_EXPECT_EQUAL_INT( 2, u8_error_info_get_line( &read_line ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -411,7 +411,7 @@ static void insert_new_classifier_to_existing_diagram(void)
     TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_line( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -446,7 +446,7 @@ static void insert_new_classifier_to_new_diagram(void)
     TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -474,7 +474,7 @@ static void insert_existing_feature_to_other_classifier(void)
         TEST_EXPECT_EQUAL_INT( 4, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_existing_diagram */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -502,7 +502,7 @@ static void insert_existing_feature_to_other_classifier(void)
         TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 62, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -531,7 +531,7 @@ static void insert_existing_classifier_to_new_diagram(void)
         TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -561,7 +561,7 @@ static void insert_existing_classifier_to_new_diagram(void)
         TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -590,7 +590,7 @@ static void insert_unconditional_relationships(void)
         TEST_EXPECT_EQUAL_INT( 7, data_stat_get_total_count( &stat ) );  /* as in test case insert_new_classifier_to_new_diagram */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -615,7 +615,7 @@ static void insert_unconditional_relationships(void)
         TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 66, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 66, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }
@@ -726,7 +726,7 @@ static void insert_relationships_to_non_scenario(void)
     TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-    TEST_EXPECT_EQUAL_INT( 76, u8_error_info_get_position( &read_pos ) );
+    TEST_EXPECT_EQUAL_INT( 76, u8_error_info_get_line( &read_pos ) );
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
@@ -798,7 +798,7 @@ static void insert_scenario_relationships_to_scenario(void)
         TEST_EXPECT_EQUAL_INT( 6, data_stat_get_total_count( &stat ) );  /* 1 less than in insert_new_classifier_to_new_diagram */
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
 
         universal_memory_input_stream_destroy( &mem_json );
         universal_utf8_writer_destroy( &report );
@@ -826,7 +826,7 @@ static void insert_scenario_relationships_to_scenario(void)
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count( &stat ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &read_pos ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &read_pos ) );
-        TEST_EXPECT_EQUAL_INT( 34, u8_error_info_get_position( &read_pos ) );
+        TEST_EXPECT_EQUAL_INT( 34, u8_error_info_get_line( &read_pos ) );
 
         data_stat_destroy(&stat);
     }

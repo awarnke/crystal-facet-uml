@@ -92,19 +92,29 @@ static void testIntSpaceSeparators(void)
 {
     bool has_next;
     utf8stringview_t next;
-    static const char *const my_list = "\nab 12\tab12 \r^$\x7f  ";
+    uint32_t line;
+    static const char *const my_list = "\nab 12\tab12 \r^$\x7f \n ";
 
     /* init */
     utf8stringviewtokenizer_t tok;
     utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
 
+    line = utf8stringviewtokenizer_get_line( &tok );
+    TEST_EXPECT_EQUAL_INT( 0, line );
+
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    line = utf8stringviewtokenizer_get_line( &tok );
+    TEST_EXPECT_EQUAL_INT( 0, line );
 
     next = utf8stringviewtokenizer_next( &tok );
     TEST_EXPECT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "ab" ) );
+
+    line = utf8stringviewtokenizer_get_line( &tok );
+    TEST_EXPECT_EQUAL_INT( 2, line );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( true, has_next );
@@ -122,11 +132,20 @@ static void testIntSpaceSeparators(void)
     next = utf8stringviewtokenizer_next( &tok );
     TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "$" ) );
 
+    line = utf8stringviewtokenizer_get_line( &tok );
+    TEST_EXPECT_EQUAL_INT( 2, line );
+
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
+    line = utf8stringviewtokenizer_get_line( &tok );
+    TEST_EXPECT_EQUAL_INT( 2, line );
+
     next = utf8stringviewtokenizer_next( &tok );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+
+    line = utf8stringviewtokenizer_get_line( &tok );
+    TEST_EXPECT_EQUAL_INT( 3, line );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );

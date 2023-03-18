@@ -261,9 +261,9 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
  * \param out_byte_length The number of bytes parsed. (In utf8, this is identical to the number of code points)
  * \param out_number The parsed floating point number
  * \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
- *         UTF8ERROR_NOT_FOUND in case there is no decimal integer.
+ *         UTF8ERROR_NOT_FOUND in case there is no number.
  *         UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
- *         UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
+ *         UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
  */
 static inline utf8error_t utf8string_parse_float( const char *this_, unsigned int *out_byte_length, double *out_number );
 

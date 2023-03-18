@@ -67,7 +67,7 @@ u8_error_t gui_error_info_printer_show_error_info ( gui_error_info_printer_t *th
         case U8_ERROR_INFO_UNIT_LINE:
         {
             result |= utf8stringbuf_append_str( out_buf, " at line " );
-            result |= utf8stringbuf_append_int( out_buf, u8_error_info_get_position( err_info ) );
+            result |= utf8stringbuf_append_int( out_buf, u8_error_info_get_line( err_info ) );
         }
         break;
 
@@ -83,7 +83,7 @@ u8_error_t gui_error_info_printer_show_error_info ( gui_error_info_printer_t *th
             result |= utf8stringbuf_append_str( out_buf, " at name " );
             result |= utf8stringbuf_append_str( out_buf, u8_error_info_get_name( err_info ) );
             result |= utf8stringbuf_append_str( out_buf, " at line " );
-            result |= utf8stringbuf_append_int( out_buf, u8_error_info_get_position( err_info ) );
+            result |= utf8stringbuf_append_int( out_buf, u8_error_info_get_line( err_info ) );
         }
         break;
 

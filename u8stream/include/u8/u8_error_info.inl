@@ -66,7 +66,7 @@ static inline u8_error_info_unit_t u8_error_info_get_unit ( const u8_error_info_
     return (*this_).unit;
 }
 
-static inline int32_t u8_error_info_get_position ( const u8_error_info_t *this_ )
+static inline int32_t u8_error_info_get_line ( const u8_error_info_t *this_ )
 {
     return (*this_).position;
 }

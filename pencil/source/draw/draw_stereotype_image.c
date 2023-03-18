@@ -13,15 +13,18 @@ const double DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT = 1.0;
 u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                         const char *stereotype,
                                         const data_profile_part_t *profile,
+                                        u8_error_info_t *out_err_info,
                                         const geometry_rectangle_t *bounds,
                                         cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != stereotype );
     assert( NULL != profile );
+    assert( NULL != out_err_info );
     assert( NULL != bounds );
     assert( NULL != cr );
-    u8_error_t result = U8_ERROR_NOT_FOUND;
+    u8_error_t result = U8_ERROR_NONE;
+    u8_error_info_init_void( out_err_info );
 
     /* determine linewith to avoid that drawings overlap to the outside of bounds */
     const double ln_w = cairo_get_line_width( cr );
@@ -67,9 +70,22 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                                                true,  /* draw */
                                                                drawing_directives,
                                                                &io_view_rect,
+                                                               out_err_info,
                                                                bounds,
                                                                cr
                                                              );
+        result |= draw_stereotype_image_private_parse_drawing( this_,
+                                                               true,  /* draw */
+                                                               drawing_directives,
+                                                               &io_view_rect,
+                                                               out_err_info,
+                                                               bounds,
+                                                               cr
+                                                             );
+    }
+    else
+    {
+        result = U8_ERROR_NOT_FOUND;
     }
 
 #ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
@@ -100,27 +116,26 @@ enum draw_stereotype_image_dd_enum {
     DRAW_STEREOTYPE_IMAGE_DD_XML_D_DEF,  /*!< XML tag path passed */
     DRAW_STEREOTYPE_IMAGE_DD_COMMAND,  /*!< within d quoted value, expecting drawing directive */
     DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ,  /*!< within d quoted value, expecting drawing directive or continuation of coordinate sequence */
-    DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_TRIPLET_SEQ,  /*!< within d quoted value, expecting drawing directive or continuation of coordinate-triplet sequence */
     DRAW_STEREOTYPE_IMAGE_DD_COORD_0,  /*!< within d quoted value, coordinate sequence, expecting 1st float */
     DRAW_STEREOTYPE_IMAGE_DD_COORD_1,  /*!< within d quoted value, coordinate sequence, expecting 2nd float */
-    DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_0,  /*!< within d quoted value, coordinate triplet sequence, expecting 1st float */
-    DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_1,  /*!< within d quoted value, coordinate triplet sequence, expecting 2nd float */
-    DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_2,  /*!< within d quoted value, coordinate triplet sequence, expecting 3rd float */
-    DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_3,  /*!< within d quoted value, coordinate triplet sequence, expecting 4th float */
-    DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_4,  /*!< within d quoted value, coordinate triplet sequence, expecting 3rd float */
-    DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_5,  /*!< within d quoted value, coordinate triplet sequence, expecting 4th float */
+    DRAW_STEREOTYPE_IMAGE_DD_COORD_2,  /*!< within d quoted value, coordinate sequence, expecting 3rd float */
+    DRAW_STEREOTYPE_IMAGE_DD_COORD_3,  /*!< within d quoted value, coordinate sequence, expecting 4th float */
+    DRAW_STEREOTYPE_IMAGE_DD_COORD_4,  /*!< within d quoted value, coordinate sequence, expecting 3rd float */
+    DRAW_STEREOTYPE_IMAGE_DD_COORD_5,  /*!< within d quoted value, coordinate sequence, expecting 4th float */
 };
 
 u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_image_t *this_,
                                                          bool draw,
                                                          const char *drawing_directives,
                                                          geometry_rectangle_t *io_view_rect,
+                                                         u8_error_info_t *out_err_info,
                                                          const geometry_rectangle_t *target_bounds,
                                                          cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != drawing_directives );
     assert( NULL != io_view_rect );
+    assert( NULL != out_err_info );
     assert( NULL != target_bounds );
     assert( NULL != cr );
     u8_error_t result = U8_ERROR_NOT_FOUND;
@@ -242,14 +257,20 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if ( current=='c' || current=='C' )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_0;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_0;
                     last_command = current;
+                }
+                else
+                {
+                    u8_error_info_init_line( out_err_info,
+                                             U8_ERROR_NOT_YET_IMPLEMENTED,
+                                             utf8stringviewtokenizer_get_line( &tok_iterator )
+                                           );
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ:  /* or */
-            case DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_TRIPLET_SEQ:
+            case DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ:
             {
                 const char current = *utf8stringview_get_start( tok );
                 if ( utf8stringview_equals_str( tok, "\"" ) )
@@ -278,7 +299,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if ( current=='c' || current=='C' )
                 {
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_0;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_0;
                     last_command = current;
                 }
                 else if ( current==',' )
@@ -289,19 +310,28 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     /* read coordinate */
                     unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_1_x );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
+                    const u8_error_t float_err
+                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_1_x );
+                    if ( float_err != U8_ERROR_NONE )
+                    {
+                        u8_error_info_init_line( out_err_info,
+                                                 float_err,
+                                                 utf8stringviewtokenizer_get_line( &tok_iterator )
+                                               );
+                        result |= float_err;
+                    }
+                    else
+                    {
+                        assert( byte_length == utf8stringview_get_length( tok ) );
+                    }
+
                     /* continue reading last_command parameters */
-                    parser_state
-                        = ( parser_state == DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_TRIPLET_SEQ )
-                        ? DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_1
-                        : DRAW_STEREOTYPE_IMAGE_DD_COORD_1;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_1;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_DD_COORD_0:  /* or */
-            case DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_0:
+            case DRAW_STEREOTYPE_IMAGE_DD_COORD_0:
             {
                 if ( utf8stringview_equals_str( tok, "," ) )
                 {
@@ -311,13 +341,22 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     /* read coordinate */
                     unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_1_x );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
+                    const u8_error_t float_err
+                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_1_x );
+                    if ( float_err != U8_ERROR_NONE )
+                    {
+                        u8_error_info_init_line( out_err_info,
+                                                 float_err,
+                                                 utf8stringviewtokenizer_get_line( &tok_iterator )
+                                               );
+                        result |= float_err;
+                    }
+                    else
+                    {
+                        assert( byte_length == utf8stringview_get_length( tok ) );
+                    }
                     /* continue reading last_command parameters */
-                    parser_state
-                        = ( parser_state == DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_TRIPLET_SEQ )
-                        ? DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_1
-                        : DRAW_STEREOTYPE_IMAGE_DD_COORD_1;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_1;
                 }
             }
             break;
@@ -332,8 +371,21 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     /* read coordinate */
                     unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_1_y );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
+                    const u8_error_t float_err
+                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_1_y );
+                    if ( float_err != U8_ERROR_NONE )
+                    {
+                        u8_error_info_init_line( out_err_info,
+                                                 float_err,
+                                                 utf8stringviewtokenizer_get_line( &tok_iterator )
+                                               );
+                        result |= float_err;
+                    }
+                    else
+                    {
+                        assert( byte_length == utf8stringview_get_length( tok ) );
+                    }
+                    /* do command */
                     if ( last_command=='m' )
                     {
                         /* draw */
@@ -344,6 +396,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         command_start_x = subpath_start_x;
                         command_start_y = subpath_start_y;
                         last_command = 'l';  /* following coordinates are implicitely line-to commands */
+                        /* continue with next */
+                        parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ;
                     }
                     else if ( last_command=='M' )
                     {
@@ -355,6 +409,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         command_start_x = subpath_start_x;
                         command_start_y = subpath_start_y;
                         last_command = 'L';  /* following coordinates are implicitely line-to commands */
+                        /* continue with next */
+                        parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ;
                     }
                     else if ( last_command=='l' )
                     {
@@ -363,6 +419,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* update state */
                         command_start_x = command_start_x + coord_1_x;
                         command_start_y = command_start_y + coord_1_y;
+                        /* continue with next */
+                        parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ;
                     }
                     else if ( last_command=='L' )
                     {
@@ -371,14 +429,18 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* update state */
                         command_start_x = coord_1_x;
                         command_start_y = coord_1_y;
+                        /* continue with next */
+                        parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ;
                     }
-                    /* continue with next */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ;
+                    else
+                    {
+                        parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_2;
+                    }
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_1:
+            case DRAW_STEREOTYPE_IMAGE_DD_COORD_2:
             {
                 if ( utf8stringview_equals_str( tok, "," ) )
                 {
@@ -388,15 +450,27 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     /* read coordinate */
                     unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_1_y );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
+                    const u8_error_t float_err
+                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_2_x );
+                    if ( float_err != U8_ERROR_NONE )
+                    {
+                        u8_error_info_init_line( out_err_info,
+                                                 float_err,
+                                                 utf8stringviewtokenizer_get_line( &tok_iterator )
+                                               );
+                        result |= float_err;
+                    }
+                    else
+                    {
+                        assert( byte_length == utf8stringview_get_length( tok ) );
+                    }
                     /* continue reading last_command parameters */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_2;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_3;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_2:
+            case DRAW_STEREOTYPE_IMAGE_DD_COORD_3:
             {
                 if ( utf8stringview_equals_str( tok, "," ) )
                 {
@@ -406,15 +480,27 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     /* read coordinate */
                     unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_2_x );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
+                    const u8_error_t float_err
+                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_2_y );
+                    if ( float_err != U8_ERROR_NONE )
+                    {
+                        u8_error_info_init_line( out_err_info,
+                                                 float_err,
+                                                 utf8stringviewtokenizer_get_line( &tok_iterator )
+                                               );
+                        result |= float_err;
+                    }
+                    else
+                    {
+                        assert( byte_length == utf8stringview_get_length( tok ) );
+                    }
                     /* continue reading last_command parameters */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_3;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_4;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_3:
+            case DRAW_STEREOTYPE_IMAGE_DD_COORD_4:
             {
                 if ( utf8stringview_equals_str( tok, "," ) )
                 {
@@ -424,15 +510,27 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     /* read coordinate */
                     unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_2_y );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
+                    const u8_error_t float_err
+                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_3_x );
+                    if ( float_err != U8_ERROR_NONE )
+                    {
+                        u8_error_info_init_line( out_err_info,
+                                                 float_err,
+                                                 utf8stringviewtokenizer_get_line( &tok_iterator )
+                                               );
+                        result |= float_err;
+                    }
+                    else
+                    {
+                        assert( byte_length == utf8stringview_get_length( tok ) );
+                    }
                     /* continue reading last_command parameters */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_4;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_5;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_4:
+            case DRAW_STEREOTYPE_IMAGE_DD_COORD_5:
             {
                 if ( utf8stringview_equals_str( tok, "," ) )
                 {
@@ -442,26 +540,21 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     /* read coordinate */
                     unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_3_x );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
-                    /* continue reading last_command parameters */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_5;
-                }
-            }
-            break;
-
-            case DRAW_STEREOTYPE_IMAGE_DD_COORD_TRIPLET_5:
-            {
-                if ( utf8stringview_equals_str( tok, "," ) )
-                {
-                    /* skip */
-                }
-                else
-                {
-                    /* read coordinate */
-                    unsigned int byte_length;
-                    result |= utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_3_y );
-                    assert ( ( result != U8_ERROR_NONE )||( byte_length == utf8stringview_get_length( tok ) ) );
+                    const u8_error_t float_err
+                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &coord_3_y );
+                    if ( float_err != U8_ERROR_NONE )
+                    {
+                        u8_error_info_init_line( out_err_info,
+                                                 float_err,
+                                                 utf8stringviewtokenizer_get_line( &tok_iterator )
+                                               );
+                        result |= float_err;
+                    }
+                    else
+                    {
+                        assert( byte_length == utf8stringview_get_length( tok ) );
+                    }
+                    /* do commands */
                     if ( last_command=='c' )
                     {
                         /* draw */
@@ -486,7 +579,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         command_start_y = coord_3_y;
                     }
                     /* continue with next */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_TRIPLET_SEQ;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND_OR_COORD_SEQ;
                 }
             }
             break;
@@ -499,6 +592,14 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     {
         cairo_stroke (cr);
         result |= U8_ERROR_PARSER_STRUCTURE;
+        /* if no other error encountered yet, report this one: */
+        if ( ! u8_error_info_is_error( out_err_info ) )
+        {
+            u8_error_info_init_line( out_err_info,
+                                     U8_ERROR_PARSER_STRUCTURE,
+                                     utf8stringviewtokenizer_get_line( &tok_iterator )
+                                   );
+        }
     }
 
     U8_TRACE_END_ERR(result);

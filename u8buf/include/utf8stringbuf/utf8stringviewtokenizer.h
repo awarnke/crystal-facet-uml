@@ -27,6 +27,8 @@ extern "C" {
 struct utf8stringviewtokenizer_struct {
     utf8stringview_t remaining_input_text;  /*!< remaining part of the input_text which is not yet processed */
     utf8stringviewtokenmode_t mode;  /*!< mode defines how tokens are separated */
+    uint32_t last_token_line;  /*!< line of last token */
+    uint32_t current_line;  /*!< current line */
 };
 
 typedef struct utf8stringviewtokenizer_struct utf8stringviewtokenizer_t;
@@ -73,6 +75,15 @@ static inline bool utf8stringviewtokenizer_has_next ( const utf8stringviewtokeni
  *          in case there is no next stringview-element, utf8stringview_get_length() of the result is 0
  */
 static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtokenizer_t *this_ );
+
+/*!
+ *  \brief gets the line number of the last read token
+ *
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ pointer to own object attributes
+ *  \return line nubmer, the first line is 1, 0 if no token was read yet
+ */
+static inline uint32_t utf8stringviewtokenizer_get_line ( const utf8stringviewtokenizer_t *this_ );
 
 /*!
  *  \brief sets the token mode
