@@ -560,6 +560,13 @@
             "classifier_name": "Deep History",
             "node": "afe660e9-d558-44d9-a4d8-a56cff473b34",
             "uuid": "17e030ed-13c4-460d-95a2-c5291dfd9730"
+          },
+          {
+            "id": 265,
+            "display_flags": 0,
+            "classifier_name": "The Clone",
+            "node": "e793bd8a-a4fa-48a4-95f7-4af21b63ca0d",
+            "uuid": "d24aaaca-99d8-4a82-978d-2f091b4e7cae"
           }
         ]
       }
@@ -3137,7 +3144,6 @@
         "id": 23,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "copy",
         "name": "System Boundary",
         "description": [
                 ""
@@ -6278,6 +6284,25 @@
         "y_order": 684999566,
         "list_order": 684999566,
         "uuid": "e3178835-0981-496b-bdc8-da694de2aab4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 118,
+        "main_type": 102,
+        "type": "Component",
+        "stereotype": "copy",
+        "name": "The Clone",
+        "description": [
+                ""
+        ],
+        "x_order": 1933598580,
+        "y_order": -2132109662,
+        "list_order": -2132109662,
+        "uuid": "e793bd8a-a4fa-48a4-95f7-4af21b63ca0d",
         "features":
         [
         ]

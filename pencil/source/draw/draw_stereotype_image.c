@@ -26,19 +26,6 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
     u8_error_t result = U8_ERROR_NONE;
     u8_error_info_init_void( out_err_info );
 
-    /* determine linewith to avoid that drawings overlap to the outside of bounds */
-    //const double ln_w = cairo_get_line_width( cr );
-
-    /* draw the icon */
-    cairo_set_source_rgba( cr, 0.8, 0.9, 1.0, 1.0 );
-    cairo_rectangle ( cr,
-                      geometry_rectangle_get_left ( bounds ),
-                      geometry_rectangle_get_top ( bounds ),
-                      geometry_rectangle_get_width ( bounds ),
-                      geometry_rectangle_get_height ( bounds )
-                    );
-    cairo_fill (cr);
-
     const data_classifier_t *const optional_stereotype
         = data_profile_part_get_stereotype_by_name_const( profile, UTF8STRINGVIEW_STR(stereotype) );
     if ( optional_stereotype != NULL )
@@ -46,7 +33,9 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
         const char *const drawing_directives = data_classifier_get_description_const( optional_stereotype );
         geometry_rectangle_t io_view_rect;
         geometry_rectangle_init_empty( &io_view_rect );
-        cairo_set_source_rgba( cr, 6.0, 0.0, 0.0, 1.0 );
+        /* TODO: set colors and linewidths */
+        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        /* const double ln_w = cairo_get_line_width( cr ); */
         result |= draw_stereotype_image_private_parse_drawing( this_,
                                                                false,  /* draw */
                                                                drawing_directives,
@@ -55,14 +44,30 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                                                bounds,
                                                                cr
                                                              );
-        result |= draw_stereotype_image_private_parse_drawing( this_,
-                                                               true,  /* draw */
-                                                               drawing_directives,
-                                                               &io_view_rect,
-                                                               out_err_info,
-                                                               bounds,
-                                                               cr
-                                                             );
+        if ( result == U8_ERROR_NONE )
+        {
+            /* make view rect quadratic */
+            const double view_width = geometry_rectangle_get_width( &io_view_rect );
+            const double view_height = geometry_rectangle_get_height( &io_view_rect );
+            if ( view_width > view_height)
+            {
+                geometry_rectangle_set_top( &io_view_rect, geometry_rectangle_get_top( &io_view_rect ) - 0.5*(view_width-view_height) );
+                geometry_rectangle_set_height( &io_view_rect, view_width );
+            }
+            else
+            {
+                geometry_rectangle_set_left( &io_view_rect, geometry_rectangle_get_left( &io_view_rect ) - 0.5*(view_height-view_width) );
+                geometry_rectangle_set_width( &io_view_rect, view_height );
+            }
+            result |= draw_stereotype_image_private_parse_drawing( this_,
+                                                                   true,  /* draw */
+                                                                   drawing_directives,
+                                                                   &io_view_rect,
+                                                                   out_err_info,
+                                                                   bounds,
+                                                                   cr
+                                                                 );
+        }
     }
     else
     {
@@ -119,7 +124,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     assert( NULL != out_err_info );
     assert( NULL != target_bounds );
     assert( NULL != cr );
-    u8_error_t result = U8_ERROR_NOT_FOUND;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* calculate scale and shift to convert view rect to target bounds */
     const double view_width = geometry_rectangle_get_width( io_view_rect ) < 0.0001 ? 1.0 : geometry_rectangle_get_width( io_view_rect );
@@ -210,6 +215,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND;
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_FLOAT );
+                    /* init state variables */
+                    last_command = ' ';
+                    subpath_start_x = 0.0;
+                    subpath_start_y = 0.0;
+                    command_start_x = 0.0;
+                    command_start_y = 0.0;
                 }
                 else
                 {
@@ -232,7 +243,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 else if ( current=='z' || current=='Z' )
                 {
                     /* no line_to here because there is no subpath to end */
-                    cairo_move_to ( cr, subpath_start_x, subpath_start_y );
+                    if ( draw )
+                    {
+                        cairo_move_to ( cr, subpath_start_x, subpath_start_y );
+                    }
                     /* end of subpath */
                     parser_state = DRAW_STEREOTYPE_IMAGE_DD_COMMAND;
                     last_command = current;
@@ -268,7 +282,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 if ( utf8stringview_equals_str( tok, "\"" ) )
                 {
                     /* draw subpath */
-                    cairo_stroke (cr);
+                    if ( draw )
+                    {
+                        cairo_stroke (cr);
+                    }
                     /* end of d attribute, back to inside path state */
                     parser_state = DRAW_STEREOTYPE_IMAGE_DD_INSIDE_PATH_TAG;
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_TEXT );
@@ -276,8 +293,11 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 else if ( current=='z' || current=='Z' )
                 {
                     /* draw subpath */
-                    cairo_line_to ( cr, subpath_start_x, subpath_start_y );
-                    cairo_stroke (cr);
+                    if ( draw )
+                    {
+                        cairo_line_to ( cr, subpath_start_x, subpath_start_y );
+                        cairo_stroke (cr);
+                    }
                     command_start_x = subpath_start_x;
                     command_start_y = subpath_start_y;
                     /* end of subpath */
@@ -327,7 +347,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         const double dy = coord_1_x; /* for the v and V commands ordinate and abscissa are exchanged */
                         const double abs_y = command_start_y + dy;
-                        cairo_line_to ( cr, command_start_x * scale_x + shift_x , abs_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, command_start_x * scale_x + shift_x , abs_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_y = abs_y;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -338,7 +361,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         /* draw */
                         const double abs_y = coord_1_x; /* for the v and V commands ordinate and abscissa are exchanged */
-                        cairo_line_to ( cr, command_start_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, command_start_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_y = abs_y;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -349,7 +375,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         /* draw */
                         const double abs_x = command_start_x + coord_1_x;
-                        cairo_line_to ( cr, abs_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, abs_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_x = abs_x;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -359,7 +388,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     else if ( last_command=='H' )
                     {
                         /* draw */
-                        cairo_line_to ( cr, coord_1_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, coord_1_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_x = coord_1_x;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -405,7 +437,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         const double dy = coord_1_x; /* for the v and V commands ordinate and abscissa are exchanged */
                         const double abs_y = command_start_y + dy;
-                        cairo_line_to ( cr, command_start_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, command_start_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_y = abs_y;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -416,7 +451,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         /* draw */
                         const double abs_y = coord_1_x; /* for the v and V commands ordinate and abscissa are exchanged */
-                        cairo_line_to ( cr, command_start_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, command_start_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_y = abs_y;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -427,7 +465,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         /* draw */
                         const double abs_x = command_start_x + coord_1_x;
-                        cairo_line_to ( cr, abs_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, abs_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_x = abs_x;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -437,7 +478,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     else if ( last_command=='H' )
                     {
                         /* draw */
-                        cairo_line_to ( cr, coord_1_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, coord_1_x * scale_x + shift_x, command_start_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_x = coord_1_x;
                         geometry_rectangle_embrace( io_view_rect, command_start_x, command_start_y );
@@ -483,7 +527,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         const double abs_x = command_start_x + coord_1_x;
                         const double abs_y = command_start_y + coord_1_y;
-                        cairo_move_to ( cr, abs_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_move_to ( cr, abs_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        }
                         /* update state */
                         subpath_start_x = abs_x;
                         subpath_start_y = abs_y;
@@ -505,7 +552,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     else if ( last_command=='M' )
                     {
                         /* draw */
-                        cairo_move_to ( cr, coord_1_x * scale_x + shift_x, coord_1_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_move_to ( cr, coord_1_x * scale_x + shift_x, coord_1_y * scale_y + shift_y );
+                        }
                         /* update state */
                         subpath_start_x = coord_1_x;
                         subpath_start_y = coord_1_y;
@@ -529,7 +579,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         const double abs_x = command_start_x + coord_1_x;
                         const double abs_y = command_start_y + coord_1_y;
-                        cairo_line_to ( cr, abs_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, abs_x * scale_x + shift_x, abs_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_x = abs_x;
                         command_start_y = abs_y;
@@ -540,7 +593,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     else if ( last_command=='L' )
                     {
                         /* draw */
-                        cairo_line_to ( cr, coord_1_x * scale_x + shift_x, coord_1_y * scale_y + shift_y );
+                        if ( draw )
+                        {
+                            cairo_line_to ( cr, coord_1_x * scale_x + shift_x, coord_1_y * scale_y + shift_y );
+                        }
                         /* update state */
                         command_start_x = coord_1_x;
                         command_start_y = coord_1_y;
@@ -680,14 +736,17 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         const double abs_2y = command_start_y + coord_2_y;
                         const double abs_3x = command_start_x + coord_3_x;
                         const double abs_3y = command_start_y + coord_3_y;
-                        cairo_curve_to( cr,
-                                        abs_1x * scale_x + shift_x,
-                                        abs_1y * scale_y + shift_y,
-                                        abs_2x * scale_x + shift_x,
-                                        abs_2y * scale_y + shift_y,
-                                        abs_3x * scale_x + shift_x,
-                                        abs_3y * scale_y + shift_y
-                                      );
+                        if ( draw )
+                        {
+                            cairo_curve_to( cr,
+                                            abs_1x * scale_x + shift_x,
+                                            abs_1y * scale_y + shift_y,
+                                            abs_2x * scale_x + shift_x,
+                                            abs_2y * scale_y + shift_y,
+                                            abs_3x * scale_x + shift_x,
+                                            abs_3y * scale_y + shift_y
+                                        );
+                        }
                         /* update state */
                         geometry_rectangle_embrace( io_view_rect, abs_1x, abs_1y );
                         geometry_rectangle_embrace( io_view_rect, abs_2x, abs_2y );
@@ -698,14 +757,17 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     else if ( last_command=='C' )
                     {
                         /* draw */
-                        cairo_curve_to( cr,
-                                        coord_1_x * scale_x + shift_x,
-                                        coord_1_y * scale_y + shift_y,
-                                        coord_2_x * scale_x + shift_x,
-                                        coord_2_y * scale_y + shift_y,
-                                        coord_3_x * scale_x + shift_x,
-                                        coord_3_y * scale_y + shift_y
-                                      );
+                        if ( draw )
+                        {
+                            cairo_curve_to( cr,
+                                            coord_1_x * scale_x + shift_x,
+                                            coord_1_y * scale_y + shift_y,
+                                            coord_2_x * scale_x + shift_x,
+                                            coord_2_y * scale_y + shift_y,
+                                            coord_3_x * scale_x + shift_x,
+                                            coord_3_y * scale_y + shift_y
+                                        );
+                        }
                         /* update state */
                         geometry_rectangle_embrace( io_view_rect, coord_1_x, coord_1_y );
                         geometry_rectangle_embrace( io_view_rect, coord_2_x, coord_2_y );
@@ -725,7 +787,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     /* clean up unfinished drawings */
     if ( parser_state != DRAW_STEREOTYPE_IMAGE_DD_OUTSIDE_PATH )
     {
-        cairo_stroke (cr);
+        if ( draw )
+        {
+            cairo_stroke (cr);
+        }
         result |= U8_ERROR_PARSER_STRUCTURE;
         /* if no other error encountered yet, report this one: */
         if ( ! u8_error_info_is_error( out_err_info ) )
@@ -735,6 +800,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                                      utf8stringviewtokenizer_get_line( &tok_iterator )
                                    );
         }
+    }
+
+    /* check if anything was drawn at all */
+    if ( geometry_rectangle_is_empty( io_view_rect ) )
+    {
+        result |= U8_ERROR_NOT_FOUND;
     }
 
     U8_TRACE_END_ERR(result);
