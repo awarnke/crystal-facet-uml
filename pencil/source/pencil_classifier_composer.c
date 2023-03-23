@@ -68,8 +68,29 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     const data_diagramelement_t *const diagramelement
         = data_visible_classifier_get_diagramelement_const( visible_classifier );
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
+    const data_diagramelement_flag_t display_flags
+        = data_diagramelement_get_display_flags( diagramelement );
 
     const double gap = pencil_size_get_standard_object_border( pencil_size );
+    const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
+    /* set the right drawing color */
+    GdkRGBA foreground_color;
+    {
+        if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id( diagramelement ) ) )
+        {
+            foreground_color = pencil_size_get_highlight_color( pencil_size );
+        }
+        else if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT ))
+        {
+            foreground_color = pencil_size_get_gray_out_color( pencil_size );
+        }
+        else
+        {
+            foreground_color = pencil_size_get_standard_color( pencil_size );
+        }
+    }
+
+    U8_TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
 
     /* draw id */
     draw_classifier_label_draw_id( &((*this_).draw_classifier_label),
@@ -85,10 +106,12 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     bool icon_override = false;  /* in case of a stereotype image, the icon shall not be drawn. */
     if ( has_stereotype )
     {
-        /* check if the image is an small icon within a contour or if it is the full symbol */
+        /* check if the image is a small icon within a contour or if it is the full symbol */
         const bool has_contour = geometry_rectangle_is_containing( classifier_symbol_box, classifier_label_box );
 
         /* draw icon */
+        cairo_set_line_width( cr, std_line_width );
+        cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         const geometry_rectangle_t stereotype_box
             = has_contour
             ? draw_stereotype_image_get_bounds( &((*this_).draw_stereotype_image),
@@ -117,31 +140,10 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
     /* draw the classifier */
     {
-        const data_diagramelement_flag_t display_flags
-            = data_diagramelement_get_display_flags( diagramelement );
-
-        U8_TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
-
-        const double std_line_width = pencil_size_get_standard_line_width( pencil_size );
+        /* set line width */
         cairo_set_line_width( cr, std_line_width );
-
         /* set color */
-        GdkRGBA foreground_color;
-        {
-            if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id( diagramelement ) ) )
-            {
-                foreground_color = pencil_size_get_highlight_color( pencil_size );
-            }
-            else if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT ))
-            {
-                foreground_color = pencil_size_get_gray_out_color( pencil_size );
-            }
-            else
-            {
-                foreground_color = pencil_size_get_standard_color( pencil_size );
-            }
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-        }
+        cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
 
         /* highlight */
         if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))

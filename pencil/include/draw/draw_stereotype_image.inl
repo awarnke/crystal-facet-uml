@@ -13,13 +13,15 @@ static inline void draw_stereotype_image_destroy( draw_stereotype_image_t *this_
 
 }
 
+static const double rel_size = 1.5;
+
 static inline geometry_dimensions_t draw_stereotype_image_get_dimensions( const draw_stereotype_image_t *this_,
                                                                           const pencil_size_t *pencil_size )
 {
     assert( pencil_size != NULL );
     geometry_dimensions_t result;
 
-    const double image_height = pencil_size_get_title_font_size( pencil_size );
+    const double image_height = rel_size * pencil_size_get_title_font_size( pencil_size );
     geometry_dimensions_init ( &result, DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * image_height, image_height );
 
     return result;
@@ -34,7 +36,7 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
 {
     geometry_rectangle_t result;
 
-    const double image_height = pencil_size_get_title_font_size( pencil_size );
+    const double image_height = rel_size * pencil_size_get_title_font_size( pencil_size );
     const double image_width = DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * image_height;
     geometry_rectangle_init ( &result,
                               geometry_h_align_get_left( &h_align, image_width, x, 0.0 ),

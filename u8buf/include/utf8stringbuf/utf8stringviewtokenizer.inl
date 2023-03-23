@@ -52,7 +52,8 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
         /* check for special characters / standalone-tokens */
         if ( ! end_found )
         {
-            const bool is_stanalone = utf8stringviewtokenizer_private_is_standalone( this_, tok_start[0] );
+            const bool is_stanalone
+                = ( (*this_).mode == UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY ) || utf8stringviewtokenizer_private_is_standalone( this_, tok_start[0] );
             if ( is_stanalone )
             {
                 tok_len = 1;
@@ -126,8 +127,9 @@ static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringv
     const char *start = utf8stringview_get_start( (*this_).remaining_input_text );
     const size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
     enum utf8stringviewtokenizer_private_number_passed_enum state = UTF8STRINGVIEWTOKENIZER_INIT;
+    const bool float_mode = (( (*this_).mode == UTF8STRINGVIEWTOKENMODE_FLOAT )||( (*this_).mode == UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY ));
     const enum utf8stringviewtokenizer_private_number_passed_enum end_state
-        = ( (*this_).mode == UTF8STRINGVIEWTOKENMODE_FLOAT ) ? UTF8STRINGVIEWTOKENIZER_END_FLOAT : UTF8STRINGVIEWTOKENIZER_END_INT;
+        = float_mode ? UTF8STRINGVIEWTOKENIZER_END_FLOAT : UTF8STRINGVIEWTOKENIZER_END_INT;
     size_t valid_len = 0;
 
     for ( size_t probe_idx = 0; ( probe_idx < len )&&( state < end_state ); probe_idx ++ )
@@ -191,7 +193,7 @@ static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringv
                 else if ( probe == '.' )
                 {
                     state = UTF8STRINGVIEWTOKENIZER_MANT_POINT;
-                    if ( (*this_).mode == UTF8STRINGVIEWTOKENMODE_FLOAT )  /* do not consider the point as valid in integer mode */
+                    if ( float_mode )  /* do not consider the point as valid in integer mode */
                     {
                         valid_len = probe_idx+1;
                     }

@@ -41,6 +41,7 @@ enum utf8stringviewtokenmode_enum {
     UTF8STRINGVIEWTOKENMODE_TEXT = 0,    /*!< alphanumerical and special-char tokens are recognized */
     UTF8STRINGVIEWTOKENMODE_INT = 1,    /*!< alphanumerical, special-char and integer tokens are recognized */
     UTF8STRINGVIEWTOKENMODE_FLOAT = 2,  /*!< alphanumerical, special-char and int/float number tokens are recognized */
+    UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY = 3,  /*!< int/float number tokens are recognized, all other characters are standalone tokens */
 };
 
 /*!

@@ -121,6 +121,28 @@ static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const c
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
 
+static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t that )
+{
+    int result;
+    const size_t len = utf8stringview_get_length( that );
+    if ( len == utf8stringbuf_get_length(this_) )
+    {
+        if ( ( len == 0 )/*&&( this_.length == 0 )*/)
+        {
+            result = 1;
+        }
+        else
+        {
+            result = ( 0 == memcmp ( this_.buf, utf8stringview_get_start(that), len ) ) ? 1 : 0;
+        }
+    }
+    else
+    {
+        result = 0;
+    }
+    return result;
+}
+
 static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that ) {
     int cmpResult = -1;
     cmpResult = strcmp( this_.buf, that.buf );

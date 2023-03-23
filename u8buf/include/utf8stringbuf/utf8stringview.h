@@ -135,16 +135,6 @@ static inline int utf8stringview_equals_str( const utf8stringview_t this_, const
  *
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  * \param this_ A string view object
- * \param that A string buffer object
- * \return 1 if the strings are equal, 0 if not.
- */
-static inline int utf8stringview_equals_buf( const utf8stringview_t this_, const utf8stringbuf_t that );
-
-/*!
- * \brief Checks if two strings are equal.
- *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string view object
  * \param that Another string view object.
  * \return 1 if the strings are equal, 0 if not.
  */

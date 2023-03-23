@@ -34,6 +34,7 @@
 
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8error.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -209,6 +210,16 @@ static inline unsigned int utf8stringbuf_get_length( const utf8stringbuf_t this_
  * \return 1 if the strings are equal, 0 if not.
  */
 static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const char *that );
+
+/*!
+ * \brief Checks if two strings are equal.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ A string buffer object
+ * \param that A string view object
+ * \return 1 if the strings are equal, 0 if not.
+ */
+static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t that );
 
 /*!
  * \brief Checks if two strings are equal.

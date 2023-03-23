@@ -251,9 +251,17 @@ static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *thi
  *  \brief determines if the given rectangle has a valid (positive) size
  *
  *  \param this_ pointer to own object attributes
- *  \return false if the rectangle has a positive size.
+ *  \return false if the rectangle has a positive size (width and height).
  */
 static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief determines if the given rectangle has neither valid (positive) width nor height
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the rectangle has zero width and zero height.
+ */
+static inline bool geometry_rectangle_is_point ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief determines if the given rectangle intersects the other (not just touching)

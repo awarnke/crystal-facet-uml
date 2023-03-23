@@ -63,28 +63,6 @@ static inline int utf8stringview_equals_str( const utf8stringview_t this_, const
     return result;
 }
 
-static inline int utf8stringview_equals_buf( const utf8stringview_t this_, const utf8stringbuf_t that )
-{
-    int result;
-    size_t len = utf8stringbuf_get_length( that );
-    if ( len == this_.length )
-    {
-        if ( ( len == 0 )/*&&( this_.length == 0 )*/)
-        {
-            result = 1;
-        }
-        else
-        {
-            result = ( 0 == memcmp ( this_.start, utf8stringbuf_get_string(that), len ) ) ? 1 : 0;
-        }
-    }
-    else
-    {
-        result = 0;
-    }
-    return result;
-}
-
 static inline int utf8stringview_equals_view( const utf8stringview_t this_, const utf8stringview_t that )
 {
     int result;

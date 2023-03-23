@@ -317,6 +317,11 @@ static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *thi
     return ( ( (*this_).width < 0.000000001 )||( (*this_).height < 0.000000001 ) );
 }
 
+static inline bool geometry_rectangle_is_point ( const geometry_rectangle_t *this_ )
+{
+    return ( ( (*this_).width < 0.000000001 )&&( (*this_).height < 0.000000001 ) );
+}
+
 static inline double geometry_rectangle_get_intersect_area ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that )
 {
     geometry_rectangle_t intersect;

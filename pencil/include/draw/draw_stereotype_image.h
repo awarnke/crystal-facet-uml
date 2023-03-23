@@ -16,6 +16,7 @@
 #include "geometry/geometry_dimensions.h"
 #include "data_classifier_type.h"
 #include "set/data_profile_part.h"
+#include "utf8stringbuf/utf8stringviewtokenizer.h"
 #include "u8/u8_error.h"
 #include "u8/u8_error_info.h"
 #include <cairo.h>
@@ -113,9 +114,33 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
  *  \return U8_ERROR_NONE if the image was drawn, U8_ERROR_NOT_FOUND if no image was found,
  *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
  */
-u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_image_t *this_,
+u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_image_t *this_,
                                                          bool draw,
                                                          const char *drawing_directives,
+                                                         geometry_rectangle_t *io_view_rect,
+                                                         u8_error_info_t *out_err_info,
+                                                         const geometry_rectangle_t *target_bounds,
+                                                         cairo_t *cr
+                                                       );
+
+/*!
+ *  \brief draws the stereotype image into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param draw false if only the view_rect shall be determined, true if the drawing_directives shall be drawn
+ *  \param tok_iterator token iterator of drawing directives. The first token shall be the first draw command.
+ *                      double quotes or end-of-stream end the processing, the double quotes token is already consumed.
+ *  \param io_view_rect bounding rectangle of the drawing_directives;
+ *                      in all cases this is provided as output, in case of draw==true this is needed as imput.
+ *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param target_bounds bounding rectangle of the drawing directives
+ *  \param cr a cairo drawing context
+ *  \return U8_ERROR_NONE if the image was drawn, U8_ERROR_NOT_FOUND if no image was found,
+ *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
+ */
+u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_image_t *this_,
+                                                         bool draw,
+                                                         utf8stringviewtokenizer_t *tok_iterator,
                                                          geometry_rectangle_t *io_view_rect,
                                                          u8_error_info_t *out_err_info,
                                                          const geometry_rectangle_t *target_bounds,
