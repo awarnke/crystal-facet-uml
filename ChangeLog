@@ -1,9 +1,10 @@
 crystal-facet-uml (1.48.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * Classifiers show custom stereotype images (SVG subset)
+  * Classifiers show custom stereotype images
+    (SVG-path subset: Lines and Curves)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 49 Mar 2023 08:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 49 Apr 2023 08:00:00 +0100
 
 crystal-facet-uml (1.47.0) UNRELEASED; urgency=medium
 

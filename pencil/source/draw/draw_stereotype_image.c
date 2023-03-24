@@ -289,7 +289,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     /* end of d attribute, back to caller */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT;
                 }
-                else if ( current=='z' || current=='Z' )
+                else if (( current=='z' )||( current=='Z' ))
                 {
                     /* no line_to here because there is no subpath to end */
                     if ( draw )
@@ -300,12 +300,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COMMAND;
                     last_command = current;
                 }
-                else if ( current=='m' || current=='M' || current=='l' || current=='L' )
+                else if (( current=='m' )||( current=='M' )||( current=='l' )||( current=='L' ))
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
                     last_command = current;
                 }
-                else if ( current=='h' || current=='H' )
+                else if (( current=='h' )||( current=='H' ))
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
                     last_command = current;
@@ -316,29 +316,33 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_Y;
                     last_command = current;
                 }
-                else if ( current=='c' || current=='C' )
+                else if (( current=='c' )||( current=='C' ))
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_CTRL1_X;
                     last_command = current;
                 }
-                else if ( current=='s' || current=='S' )
+                else if (( current=='s' )||( current=='S' ))
                 {
-                    /* TODO init command_end_x and command_end_y */
+                    /* there was no preceding c/C/s/S command, initialize first control point to command start point: */
+                    coord_ctrl1_x = command_start_x;
+                    coord_ctrl1_y = command_start_y;
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_CTRL2_X;
                     last_command = current;
                 }
-                else if ( current=='q' || current=='Q' )
+                else if (( current=='q' )||( current=='Q' ))
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_QCTRL_X;
                     last_command = current;
                 }
-                else if ( current=='t' || current=='T' )
+                else if (( current=='t' )||( current=='T' ))
                 {
-                    /* TODO init command_end_x and command_end_y */
+                    /* there was no preceding q/Q/t/T command, initialize next control point to command start point: */
+                    coord_ctrl1_x = command_start_x;
+                    coord_ctrl1_y = command_start_y;
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
                     last_command = current;
                 }
-                else if ( current=='a' || current=='A' )
+                else if (( current=='a' )||( current=='A' ))
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RX;
                     last_command = current;
@@ -403,7 +407,17 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if (( current=='s' )||( current=='S' ))
                 {
-                    /* TODO init command_end_x and command_end_y */
+                    if (( last_command == 'c' )||( last_command == 'C' )||( last_command == 's' )||( last_command == 'S' ))
+                    {
+                        /* init the first control point as mirror of the last control point: */
+                        coord_ctrl1_x = command_start_x + (command_start_x-coord_ctrl2_x);
+                        coord_ctrl1_y = command_start_y + (command_start_y-coord_ctrl2_y);
+                    }
+                    else
+                    {
+                        coord_ctrl1_x = command_start_x;
+                        coord_ctrl1_y = command_start_y;
+                    }
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_CTRL2_X;
                     last_command = current;
                 }
@@ -414,7 +428,17 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if (( current=='t' )||( current=='T' ))
                 {
-                    /* TODO init command_end_x and command_end_y */
+                    if (( last_command == 'q' )||( last_command == 'Q' )||( last_command == 't' )||( last_command == 'T' ))
+                    {
+                        /* init the next control point as mirror of the last control point: */
+                        coord_ctrl1_x = command_start_x + (command_start_x-coord_ctrl1_x);
+                        coord_ctrl1_y = command_start_y + (command_start_y-coord_ctrl1_y);
+                    }
+                    else
+                    {
+                        coord_ctrl1_x = command_start_x;
+                        coord_ctrl1_y = command_start_y;
+                    }
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
                     last_command = current;
                 }
@@ -488,8 +512,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     }
                     else if (( last_command=='s' )||( last_command=='S' ))
                     {
-                        coord_ctrl1_x = value_x_abs;
-                        /* TODO init command_end_x and command_end_y */
+                        /* init the first control point as mirror of the last control point: */
+                        {
+                            coord_ctrl1_x = command_start_x + (command_start_x-coord_ctrl2_x);
+                            coord_ctrl1_y = command_start_y + (command_start_y-coord_ctrl2_y);
+                        }
+                        coord_ctrl2_x = value_x_abs;
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_CTRL2_Y;
                     }
                     else if (( last_command=='q' )||( last_command=='Q' ))
@@ -499,8 +527,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     }
                     else if (( last_command=='t' )||( last_command=='T' ))
                     {
-                        coord_ctrl1_x = value_x_abs;
-                        /* TODO init command_end_x and command_end_y */
+                        /* init the next control point as mirror of the last control point: */
+                        {
+                            coord_ctrl1_x = command_start_x + (command_start_x-coord_ctrl1_x);
+                            coord_ctrl1_y = command_start_y + (command_start_y-coord_ctrl1_y);
+                        }
+                        command_end_x = value_x_abs;
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_Y;
                     }
                     else if (( last_command=='a' )||( last_command=='A' ))
@@ -653,38 +685,32 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         command_start_x = command_end_x;
                         command_start_y = command_end_y;
                     }
-                    else if ( last_command=='q' || last_command=='Q' )
+                    else if (( last_command=='q' )||( last_command=='Q' )||( last_command=='t' )||( last_command=='T' ))
                     {
                         /* draw */
                         if ( draw )
                         {
-                            cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
+                            cairo_curve_to( cr,
+                                            coord_ctrl1_x * scale_x + shift_x,
+                                            coord_ctrl1_y * scale_y + shift_y,
+                                            coord_ctrl1_x * scale_x + shift_x, /* same control point */
+                                            coord_ctrl1_y * scale_y + shift_y, /* same control point */
+                                            command_end_x * scale_x + shift_x,
+                                            command_end_y * scale_y + shift_y
+                                          );
                         }
-                        /* TODO draw quadratic curve */
                         /* update state */
+                        geometry_rectangle_embrace( io_view_rect, coord_ctrl1_x, coord_ctrl1_y );
                         geometry_rectangle_embrace( io_view_rect, command_end_x, command_end_y );
                         command_start_x = command_end_x;
                         command_start_y = command_end_y;
                     }
-                    else if ( last_command=='t' || last_command=='T' )
+                    else if (( last_command=='a' )||( last_command=='A' ))
                     {
                         /* draw */
                         if ( draw )
                         {
-                            cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
-                        }
-                        /* TODO draw quadratic curve */
-                        /* update state */
-                        geometry_rectangle_embrace( io_view_rect, command_end_x, command_end_y );
-                        command_start_x = command_end_x;
-                        command_start_y = command_end_y;
-                    }
-                    else if ( last_command=='a' || last_command=='A' )
-                    {
-                        /* draw */
-                        if ( draw )
-                        {
-                            cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
+                            cairo_move_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
                         }
                         /* TODO draw arc */
                         /* update state */
