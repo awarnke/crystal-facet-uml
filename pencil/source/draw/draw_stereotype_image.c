@@ -305,9 +305,15 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
                     last_command = current;
                 }
-                else if ( current=='h' || current=='H' || current=='v' || current=='V' )
+                else if ( current=='h' || current=='H' )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
+                    last_command = current;
+                }
+                else if (( current=='v' )||( current=='V' ))
+                {
+                    command_end_x = command_start_x;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_Y;
                     last_command = current;
                 }
                 else if ( current=='c' || current=='C' )
@@ -379,9 +385,15 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
                     last_command = current;
                 }
-                else if (( current=='h' )||( current=='H' )||( current=='v' )||( current=='V' ))
+                else if (( current=='h' )||( current=='H' ))
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
+                    last_command = current;
+                }
+                else if (( current=='v' )||( current=='V' ))
+                {
+                    command_end_x = command_start_x;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_Y;
                     last_command = current;
                 }
                 else if (( current=='c' )||( current=='C' ))
@@ -436,13 +448,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         assert( byte_length == utf8stringview_get_length( tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
-                    command_end_x = is_absolute ? value : ( command_start_x + value );
+                    const double value_x_abs = is_absolute ? value : ( command_start_x + value );
                     /* do command */
                     if (( last_command=='v' )||( last_command=='V' ))
                     {
-                        /* for the v and V commands ordinate and abscissa are exchanged */
-                        command_end_y = is_absolute ? value : ( command_start_y + value );
                         command_end_x = command_start_x;
+                        command_end_y = is_absolute ? value : ( command_start_y + value );
                         /* draw */
                         if ( draw )
                         {
@@ -456,6 +467,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     }
                     else if (( last_command=='h' )||( last_command=='H' ))
                     {
+                        command_end_x = value_x_abs;
                         command_end_y = command_start_y;
                         /* draw */
                         if ( draw )
@@ -470,29 +482,35 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     }
                     else if (( last_command=='c' )||( last_command=='C' ))
                     {
+                        coord_ctrl1_x = value_x_abs;
                         /* reading last_command parameters */
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_CTRL1_Y;
                     }
                     else if (( last_command=='s' )||( last_command=='S' ))
                     {
+                        coord_ctrl1_x = value_x_abs;
                         /* TODO init command_end_x and command_end_y */
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_CTRL2_Y;
                     }
                     else if (( last_command=='q' )||( last_command=='Q' ))
                     {
+                        coord_ctrl1_x = value_x_abs;
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_QCTRL_Y;
                     }
                     else if (( last_command=='t' )||( last_command=='T' ))
                     {
+                        coord_ctrl1_x = value_x_abs;
                         /* TODO init command_end_x and command_end_y */
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_Y;
                     }
                     else if (( last_command=='a' )||( last_command=='A' ))
                     {
+                        const double todo = value_x_abs;
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RY;
                     }
                     else
                     {
+                        command_end_x = value_x_abs;
                         /* continue reading last_command parameters */
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_Y;
                     }
@@ -528,23 +546,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     const bool is_absolute = ( last_command <= 'Z' );
                     command_end_x = is_absolute ? value : ( command_start_x + value );
                     /* do command */
-                    if (( last_command=='v' )||( last_command=='V' ))
-                    {
-                        /* for the v and V commands ordinate and abscissa are exchanged */
-                        command_end_y = is_absolute ? value : ( command_start_y + value );
-                        command_end_x = command_start_x;
-                        /* draw */
-                        if ( draw )
-                        {
-                            cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
-                        }
-                        /* update state */
-                        geometry_rectangle_embrace( io_view_rect, command_end_x, command_end_y );
-                        command_start_y = command_end_y;
-                        /* continue with next */
-                        parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COMMAND_OR_COORD_SEQ;
-                    }
-                    else if (( last_command=='h' )||( last_command=='H' ))
+                    if (( last_command=='h' )||( last_command=='H' ))
                     {
                         command_end_y = command_start_y;
                         /* draw */
@@ -618,7 +620,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                             geometry_rectangle_embrace( io_view_rect, subpath_start_x, subpath_start_y );
                         }
                     }
-                    else if (( last_command=='l' )||( last_command=='L' ))
+                    else if (( last_command=='l' )||( last_command=='L' )||( last_command=='v' )||( last_command=='V' ))
                     {
                         /* draw */
                         if ( draw )
