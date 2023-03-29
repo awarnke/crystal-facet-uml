@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.1"
+    "generator_version": "1.48.0"
   }
   ,
   "views":
@@ -108,7 +108,7 @@
           {
             "id": 10,
             "display_flags": 0,
-            "classifier_name": "Class",
+            "classifier_name": "Parser Class",
             "node": "4aaf46e8-822b-4947-8b05-79342398adb0",
             "uuid": "5e9a589f-96aa-45b7-8bac-cc469f61bccd"
           },
@@ -487,7 +487,7 @@
           {
             "id": 18,
             "display_flags": 0,
-            "classifier_name": "Class",
+            "classifier_name": "Parser Class",
             "node": "4aaf46e8-822b-4947-8b05-79342398adb0",
             "uuid": "7fe4d98c-fe91-4e47-9751-ffa9f170a2f5"
           },
@@ -544,8 +544,8 @@
     {
       "diagram": {
         "id": 7,
-        "diagram_type": 10,
-        "type": "UMLUseCaseDiagram",
+        "diagram_type": 33,
+        "type": "UMLPackageDiagram",
         "name": "Examples",
         "description": [
                 "This diagram shows some example diagrams\n",
@@ -559,53 +559,100 @@
         "diagramelements":
         [
           {
-            "id": 45,
+            "id": 177,
             "display_flags": 0,
-            "classifier_name": "AV User",
-            "node": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
-            "uuid": "1155de7a-b36b-4cf8-94b3-f742310f7a1d"
+            "classifier_name": "Behavior Diagrams",
+            "node": "8482e2ce-7cb1-40aa-a4bf-dd8a0ba7d0bf",
+            "uuid": "91f8f3e6-086f-4ffd-8a58-7bc4642cabdd"
           },
           {
-            "id": 46,
+            "id": 178,
             "display_flags": 0,
-            "classifier_name": "Audio User",
-            "node": "fdc019fe-a641-434c-b356-c8a9207bcf00",
-            "uuid": "61b75026-6065-4c13-9f22-88980f3483d4"
+            "classifier_name": "Structure Diagrams",
+            "node": "4b32276f-1cc7-4f8c-9bf5-78eec3d7fe2a",
+            "uuid": "41cd0310-1975-4cb9-9f6a-a0cbd4e5ff78"
           },
           {
-            "id": 47,
+            "id": 179,
             "display_flags": 0,
-            "classifier_name": "Customer Service",
-            "node": "b747dcc5-5504-4b72-af79-408ddf245eb8",
-            "uuid": "36657fc1-818e-408c-bbd4-5b9a647fff5e"
+            "classifier_name": "Interaction Diagrams",
+            "node": "e60f8dc6-71e5-4f60-b0a7-3109ccf85a4e",
+            "uuid": "29140d3e-b7ff-423a-a357-3d1c98360138"
           },
           {
-            "id": 48,
+            "id": 180,
+            "display_flags": 0,
+            "classifier_name": "UML Diagrams",
+            "node": "1985bb09-0f8d-418e-a49c-d6a3a3267006",
+            "uuid": "a67cdf30-65aa-44a0-8c65-238acdbe0424"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 25,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Use Case Diagram",
+        "description": [
+                ""
+        ],
+        "list_order": -1073643520,
+        "display_flags": 0,
+        "parent_name": "Examples",
+        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
+        "uuid": "deebd078-5b23-4bc9-8594-c432ae8e9e91",
+        "diagramelements":
+        [
+          {
+            "id": 170,
             "display_flags": 0,
             "classifier_name": "Analyse Customer Complaint",
             "node": "f4558934-6975-47b1-9645-624d8cefa68a",
-            "uuid": "a12d76fe-9582-491d-8853-7cc198497b29"
+            "uuid": "60e74188-6cb4-4338-8eaa-c996b1e2e734"
           },
           {
-            "id": 49,
+            "id": 171,
+            "display_flags": 0,
+            "classifier_name": "Customer Service",
+            "node": "b747dcc5-5504-4b72-af79-408ddf245eb8",
+            "uuid": "168e503f-3786-4099-865a-57cd01b85a30"
+          },
+          {
+            "id": 172,
+            "display_flags": 0,
+            "classifier_name": "AV User",
+            "node": "cef7c415-6d98-4a17-bbcc-4b8d61d9725a",
+            "uuid": "b78aebe1-505e-4c43-a2ea-4767f65c777d"
+          },
+          {
+            "id": 173,
             "display_flags": 0,
             "classifier_name": "Watch TV",
             "node": "c5b660d4-3766-41af-9e61-99a7032d3ce5",
-            "uuid": "fa8f3502-b267-4de7-af58-3b97ef8076b8"
+            "uuid": "b119ac3d-7e53-493e-8071-94dbf0225aaa"
           },
           {
-            "id": 50,
-            "display_flags": 0,
-            "classifier_name": "Listen to Radio",
-            "node": "514bbb3e-8902-45cb-92cc-0368a554a589",
-            "uuid": "93d9d966-7455-47d1-b14d-47829416b647"
-          },
-          {
-            "id": 163,
+            "id": 174,
             "display_flags": 0,
             "classifier_name": "System Boundary",
             "node": "8fe5d745-e0f6-4777-9278-5ded1e86401d",
-            "uuid": "36937cb2-0b4e-4000-830e-f33a64486c45"
+            "uuid": "b8a104b2-326d-4eb8-8805-84a0b983e5da"
+          },
+          {
+            "id": 175,
+            "display_flags": 0,
+            "classifier_name": "Listen to Radio",
+            "node": "514bbb3e-8902-45cb-92cc-0368a554a589",
+            "uuid": "5f2794c5-b1f9-4862-90a7-0967495d5996"
+          },
+          {
+            "id": 176,
+            "display_flags": 0,
+            "classifier_name": "Audio User",
+            "node": "fdc019fe-a641-434c-b356-c8a9207bcf00",
+            "uuid": "adc4cf3f-f35a-4274-a355-7cb543e9767f"
           }
         ]
       }
@@ -817,10 +864,10 @@
     },
     {
       "diagram": {
-        "id": 14,
-        "diagram_type": 30,
-        "type": "UMLDeploymentDiagram",
-        "name": "Deployment Diagram",
+        "id": 20,
+        "diagram_type": 13,
+        "type": "UMLInteractionDiagram/sequence",
+        "name": "Sequence",
         "description": [
                 ""
         ],
@@ -828,50 +875,250 @@
         "display_flags": 0,
         "parent_name": "Examples",
         "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
-        "uuid": "1009c159-98c8-43e9-b3b4-869122efb9cc",
+        "uuid": "02d7edcc-dd6c-4318-a287-4563f308c33a",
         "diagramelements":
         [
           {
-            "id": 67,
+            "id": 121,
             "display_flags": 0,
-            "classifier_name": "Box",
-            "node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
-            "uuid": "08bcf3da-54c8-42d3-9c84-783c6155a718"
+            "classifier_name": "User",
+            "node": "87de2766-3cbd-4614-8993-b05453bb9007",
+            "uuid": "063579f2-c502-4fb8-9576-a8270ef0540b"
           },
           {
-            "id": 69,
+            "id": 122,
             "display_flags": 0,
-            "classifier_name": "Performance SoC",
-            "node": "a4057f7a-9030-4296-9a50-96354390febc",
-            "uuid": "6bc78d34-a886-443c-92bc-5336ea508d14"
+            "classifier_name": "GUI",
+            "node": "f2e9a281-239f-4414-996d-56803b605733",
+            "uuid": "520ad7ed-bf42-4f4a-ba1b-55f4af126cd6"
           },
           {
-            "id": 70,
+            "id": 123,
             "display_flags": 0,
-            "classifier_name": "Tuner Chip",
-            "node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
-            "uuid": "70a80f9f-34f2-4bc6-9732-9732665cb078"
+            "classifier_name": "Audio Manager",
+            "node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
+            "uuid": "9a4e19db-6313-4093-9275-e33f9493a9ce"
           },
           {
-            "id": 71,
+            "id": 166,
             "display_flags": 0,
-            "classifier_name": "Amplifier",
-            "node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
-            "uuid": "d55eb5fe-efc6-4c53-9865-ef0ead8dbf7b"
+            "classifier_name": "<100 ms",
+            "node": "51da12aa-60bc-47ee-9562-e20245d6f815",
+            "uuid": "c9cc5d9e-ad22-441d-ab5f-fef2afbb2807"
           },
           {
-            "id": 72,
+            "id": 167,
             "display_flags": 0,
-            "classifier_name": "Power Supply",
-            "node": "04156c73-4c79-4740-8280-29c8b9b06c64",
-            "uuid": "e0022b98-fd33-4815-b2fc-0c6209f288db"
+            "classifier_name": "data change animation",
+            "node": "c5ee457b-84ce-4fcd-aeb4-25d3ed798053",
+            "uuid": "6fb554e0-47fc-47f1-8269-c17081b04860"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 21,
+        "diagram_type": 16,
+        "type": "UMLInteractionDiagram/timing",
+        "name": "Timing",
+        "description": [
+                ""
+        ],
+        "list_order": 311296,
+        "display_flags": 0,
+        "parent_name": "Examples",
+        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
+        "uuid": "e7606880-e793-48ea-8e71-d10bd9fdb1fd",
+        "diagramelements":
+        [
+          {
+            "id": 116,
+            "display_flags": 0,
+            "classifier_name": "fully operational",
+            "node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
+            "uuid": "723e0824-960d-48f5-912a-a347c561fa50"
           },
           {
-            "id": 97,
+            "id": 117,
             "display_flags": 0,
-            "classifier_name": "Watchdog",
-            "node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
-            "uuid": "743db9d2-8b7c-4417-9d7e-8b405d555cf3"
+            "classifier_name": "starting applications",
+            "node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
+            "uuid": "c25be54a-2b35-47f6-9b2e-7d5b70278eca"
+          },
+          {
+            "id": 118,
+            "display_flags": 0,
+            "classifier_name": "starting operating system",
+            "node": "18411ac8-d373-4180-89f4-a3067c555857",
+            "uuid": "9e69dd3c-ee29-4a0f-9669-1949b21908b5"
+          },
+          {
+            "id": 119,
+            "display_flags": 0,
+            "classifier_name": "initializing hardware",
+            "node": "2fa49589-316d-4472-96db-34b9fbb8b128",
+            "uuid": "28f2a692-dba7-4095-8d22-3d0c9680da8e"
+          },
+          {
+            "id": 120,
+            "display_flags": 0,
+            "classifier_name": "unpowered",
+            "node": "1dcfc895-6759-41bc-982b-874a981e5791",
+            "uuid": "14b8769f-c6f9-40a6-962b-b5a586a3d86a"
+          },
+          {
+            "id": 168,
+            "display_flags": 0,
+            "classifier_name": "<2 secs",
+            "node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
+            "uuid": "3d1d25df-60c5-4762-984b-bbd8498efd10"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 23,
+        "diagram_type": 17,
+        "type": "UMLInteractionDiagram/overview",
+        "name": "Interaction Overview",
+        "description": [
+                ""
+        ],
+        "list_order": 319488,
+        "display_flags": 0,
+        "parent_name": "Examples",
+        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
+        "uuid": "95a317e6-1e0e-4180-8aa7-22f146f312ee",
+        "diagramelements":
+        [
+          {
+            "id": 132,
+            "display_flags": 0,
+            "classifier_name": "start trigger",
+            "node": "3ac2fc7f-4159-43f9-8a0c-6735d805679a",
+            "uuid": "27d99ad9-2be8-4b73-96c8-73a84c95e2b3"
+          },
+          {
+            "id": 133,
+            "display_flags": 0,
+            "classifier_name": "Timing",
+            "node": "4ac7f1d1-ae74-48f8-b431-a5326fd00322",
+            "uuid": "d3c5c5a1-93e0-4497-8fd5-902b34016844"
+          },
+          {
+            "id": 134,
+            "display_flags": 0,
+            "classifier_name": "Wait for User Input",
+            "node": "f40210ab-d6a8-404d-a160-485be3f0f199",
+            "uuid": "1ccd7f3a-b2e3-4ec3-869e-605577070d28"
+          },
+          {
+            "id": 135,
+            "display_flags": 0,
+            "classifier_name": "Event Type?",
+            "node": "295a7599-3725-4221-86fd-e77afe3581ac",
+            "uuid": "90961bd5-fa4b-4164-8369-7b8c1337cfee"
+          },
+          {
+            "id": 136,
+            "display_flags": 0,
+            "classifier_name": "Sequence",
+            "node": "ea7572f1-8eb4-4130-8734-01de78ade5f9",
+            "uuid": "341839d2-4c28-4c02-aef7-2e36ae5db83b"
+          },
+          {
+            "id": 137,
+            "display_flags": 0,
+            "classifier_name": "shutdown",
+            "node": "2ef7719b-e01a-4b74-bf64-f904f8a46fcc",
+            "uuid": "cb33dc25-8f14-4ef8-8354-98f3b8ebb724"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 26,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Profile Diagram",
+        "description": [
+                ""
+        ],
+        "list_order": 323584,
+        "display_flags": 0,
+        "parent_name": "Examples",
+        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
+        "uuid": "5c453317-3e35-4d12-ab1b-cb6bca50b856",
+        "diagramelements":
+        [
+          {
+            "id": 181,
+            "display_flags": 0,
+            "classifier_name": "Database-Artifact",
+            "node": "d84b2c5d-f6a1-4656-aaa0-37ce1f790869",
+            "uuid": "014656b9-ded7-49e6-8f0c-869de7e6dbcb"
+          },
+          {
+            "id": 182,
+            "display_flags": 0,
+            "classifier_name": "Class",
+            "node": "22369081-83e0-45a5-ba1c-07109eee0a90",
+            "uuid": "568538a4-f306-4f16-bbe1-b3b7248fb268"
+          },
+          {
+            "id": 183,
+            "display_flags": 0,
+            "classifier_name": "Artifact",
+            "node": "464b99fe-5d6f-4aab-8933-c6235e144e0f",
+            "uuid": "cb5d2f0b-41bc-4699-8dc2-ba9eae403ece"
+          },
+          {
+            "id": 184,
+            "display_flags": 0,
+            "classifier_name": "GSN-Strategy",
+            "node": "59a5d1b6-df67-41ed-869a-30d56575061e",
+            "uuid": "4a2674f6-a875-46ce-9634-35a539699437"
+          },
+          {
+            "id": 185,
+            "display_flags": 0,
+            "classifier_name": "DB_Image",
+            "node": "dafbb937-33de-493a-b62c-88b202e577fa",
+            "uuid": "2059a2e0-1a4a-45c9-81d1-8579d338a58b"
+          },
+          {
+            "id": 186,
+            "display_flags": 0,
+            "classifier_name": "Strategy_Image",
+            "node": "bd6d0530-1be9-4c94-8ba2-edb7ed22134a",
+            "uuid": "86bfa270-1e2d-4b0c-a416-13ad464ca4cc"
+          },
+          {
+            "id": 187,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Examples",
+            "node": "cfaecc68-6126-4536-8ab2-902e15037b26",
+            "uuid": "15ad554b-6650-4e5a-9037-442ed927f488"
+          },
+          {
+            "id": 188,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "No dynamic memory",
+            "node": "30b10c2f-9b81-4a31-8ed3-5c6de94bc9b7",
+            "uuid": "be58b92d-f60a-49ea-98ef-b6cac58fd3c4"
+          },
+          {
+            "id": 189,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Authentication DB",
+            "node": "4f0a8a06-9bf7-415a-9b98-056f120d47f0",
+            "uuid": "a285a170-1841-42a7-9533-0a836416c100"
           }
         ]
       }
@@ -1069,6 +1316,67 @@
     },
     {
       "diagram": {
+        "id": 14,
+        "diagram_type": 30,
+        "type": "UMLDeploymentDiagram",
+        "name": "Deployment Diagram",
+        "description": [
+                ""
+        ],
+        "list_order": 409600,
+        "display_flags": 0,
+        "parent_name": "Examples",
+        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
+        "uuid": "1009c159-98c8-43e9-b3b4-869122efb9cc",
+        "diagramelements":
+        [
+          {
+            "id": 67,
+            "display_flags": 0,
+            "classifier_name": "Box",
+            "node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
+            "uuid": "08bcf3da-54c8-42d3-9c84-783c6155a718"
+          },
+          {
+            "id": 69,
+            "display_flags": 0,
+            "classifier_name": "Performance SoC",
+            "node": "a4057f7a-9030-4296-9a50-96354390febc",
+            "uuid": "6bc78d34-a886-443c-92bc-5336ea508d14"
+          },
+          {
+            "id": 70,
+            "display_flags": 0,
+            "classifier_name": "Tuner Chip",
+            "node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
+            "uuid": "70a80f9f-34f2-4bc6-9732-9732665cb078"
+          },
+          {
+            "id": 71,
+            "display_flags": 0,
+            "classifier_name": "Amplifier",
+            "node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
+            "uuid": "d55eb5fe-efc6-4c53-9865-ef0ead8dbf7b"
+          },
+          {
+            "id": 72,
+            "display_flags": 0,
+            "classifier_name": "Power Supply",
+            "node": "04156c73-4c79-4740-8280-29c8b9b06c64",
+            "uuid": "e0022b98-fd33-4815-b2fc-0c6209f288db"
+          },
+          {
+            "id": 97,
+            "display_flags": 0,
+            "classifier_name": "Watchdog",
+            "node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
+            "uuid": "743db9d2-8b7c-4417-9d7e-8b405d555cf3"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 18,
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
@@ -1205,121 +1513,6 @@
     },
     {
       "diagram": {
-        "id": 20,
-        "diagram_type": 13,
-        "type": "UMLInteractionDiagram/sequence",
-        "name": "Sequence",
-        "description": [
-                ""
-        ],
-        "list_order": 491520,
-        "display_flags": 0,
-        "parent_name": "Examples",
-        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
-        "uuid": "02d7edcc-dd6c-4318-a287-4563f308c33a",
-        "diagramelements":
-        [
-          {
-            "id": 121,
-            "display_flags": 0,
-            "classifier_name": "User",
-            "node": "87de2766-3cbd-4614-8993-b05453bb9007",
-            "uuid": "063579f2-c502-4fb8-9576-a8270ef0540b"
-          },
-          {
-            "id": 122,
-            "display_flags": 0,
-            "classifier_name": "GUI",
-            "node": "f2e9a281-239f-4414-996d-56803b605733",
-            "uuid": "520ad7ed-bf42-4f4a-ba1b-55f4af126cd6"
-          },
-          {
-            "id": 123,
-            "display_flags": 0,
-            "classifier_name": "Audio Manager",
-            "node": "02770a10-67fc-410d-a08e-5b1bb47aca2c",
-            "uuid": "9a4e19db-6313-4093-9275-e33f9493a9ce"
-          },
-          {
-            "id": 166,
-            "display_flags": 0,
-            "classifier_name": "<100 ms",
-            "node": "51da12aa-60bc-47ee-9562-e20245d6f815",
-            "uuid": "c9cc5d9e-ad22-441d-ab5f-fef2afbb2807"
-          },
-          {
-            "id": 167,
-            "display_flags": 0,
-            "classifier_name": "data change animation",
-            "node": "c5ee457b-84ce-4fcd-aeb4-25d3ed798053",
-            "uuid": "6fb554e0-47fc-47f1-8269-c17081b04860"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 21,
-        "diagram_type": 16,
-        "type": "UMLInteractionDiagram/timing",
-        "name": "Timing",
-        "description": [
-                ""
-        ],
-        "list_order": 524288,
-        "display_flags": 0,
-        "parent_name": "Examples",
-        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
-        "uuid": "e7606880-e793-48ea-8e71-d10bd9fdb1fd",
-        "diagramelements":
-        [
-          {
-            "id": 116,
-            "display_flags": 0,
-            "classifier_name": "fully operational",
-            "node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
-            "uuid": "723e0824-960d-48f5-912a-a347c561fa50"
-          },
-          {
-            "id": 117,
-            "display_flags": 0,
-            "classifier_name": "starting applications",
-            "node": "921756bc-7e6b-4679-95c4-4dd9a3d37162",
-            "uuid": "c25be54a-2b35-47f6-9b2e-7d5b70278eca"
-          },
-          {
-            "id": 118,
-            "display_flags": 0,
-            "classifier_name": "starting operating system",
-            "node": "18411ac8-d373-4180-89f4-a3067c555857",
-            "uuid": "9e69dd3c-ee29-4a0f-9669-1949b21908b5"
-          },
-          {
-            "id": 119,
-            "display_flags": 0,
-            "classifier_name": "initializing hardware",
-            "node": "2fa49589-316d-4472-96db-34b9fbb8b128",
-            "uuid": "28f2a692-dba7-4095-8d22-3d0c9680da8e"
-          },
-          {
-            "id": 120,
-            "display_flags": 0,
-            "classifier_name": "unpowered",
-            "node": "1dcfc895-6759-41bc-982b-874a981e5791",
-            "uuid": "14b8769f-c6f9-40a6-962b-b5a586a3d86a"
-          },
-          {
-            "id": 168,
-            "display_flags": 0,
-            "classifier_name": "<2 secs",
-            "node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
-            "uuid": "3d1d25df-60c5-4762-984b-bbd8498efd10"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
         "id": 22,
         "diagram_type": 7,
         "type": "SysMLParametricDiagram",
@@ -1364,67 +1557,6 @@
           }
         ]
       }
-    },
-    {
-      "diagram": {
-        "id": 23,
-        "diagram_type": 17,
-        "type": "UMLInteractionDiagram/overview",
-        "name": "Interaction Overview",
-        "description": [
-                ""
-        ],
-        "list_order": 589824,
-        "display_flags": 0,
-        "parent_name": "Examples",
-        "parent": "ea677a4a-7a4c-403f-9e83-445273c7b17b",
-        "uuid": "95a317e6-1e0e-4180-8aa7-22f146f312ee",
-        "diagramelements":
-        [
-          {
-            "id": 132,
-            "display_flags": 0,
-            "classifier_name": "start trigger",
-            "node": "3ac2fc7f-4159-43f9-8a0c-6735d805679a",
-            "uuid": "27d99ad9-2be8-4b73-96c8-73a84c95e2b3"
-          },
-          {
-            "id": 133,
-            "display_flags": 0,
-            "classifier_name": "Timing",
-            "node": "4ac7f1d1-ae74-48f8-b431-a5326fd00322",
-            "uuid": "d3c5c5a1-93e0-4497-8fd5-902b34016844"
-          },
-          {
-            "id": 134,
-            "display_flags": 0,
-            "classifier_name": "Wait for User Input",
-            "node": "f40210ab-d6a8-404d-a160-485be3f0f199",
-            "uuid": "1ccd7f3a-b2e3-4ec3-869e-605577070d28"
-          },
-          {
-            "id": 135,
-            "display_flags": 0,
-            "classifier_name": "Event Type?",
-            "node": "295a7599-3725-4221-86fd-e77afe3581ac",
-            "uuid": "90961bd5-fa4b-4164-8369-7b8c1337cfee"
-          },
-          {
-            "id": 136,
-            "display_flags": 0,
-            "classifier_name": "Sequence",
-            "node": "ea7572f1-8eb4-4130-8734-01de78ade5f9",
-            "uuid": "341839d2-4c28-4c02-aef7-2e36ae5db83b"
-          },
-          {
-            "id": 137,
-            "display_flags": 0,
-            "classifier_name": "shutdown",
-            "node": "2ef7719b-e01a-4b74-bf64-f904f8a46fcc",
-            "uuid": "cb33dc25-8f14-4ef8-8354-98f3b8ebb724"
-          }
-        ]
-      }
     }
   ]
   ,
@@ -1435,7 +1567,6 @@
         "id": 1,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "Classifier",
         "description": [
                 ""
@@ -1451,7 +1582,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Feature [ ]",
-            "value": "",
             "description": [
                 ""
             ],
@@ -1466,7 +1596,6 @@
         "id": 2,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "Relationship",
         "description": [
                 ""
@@ -1485,7 +1614,6 @@
         "id": 3,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "classifier-1",
         "description": [
                 ""
@@ -1504,7 +1632,6 @@
         "id": 4,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "classifier-2",
         "description": [
                 ""
@@ -1523,7 +1650,6 @@
         "id": 5,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "classifier-3",
         "description": [
                 ""
@@ -1542,7 +1668,6 @@
         "id": 6,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "classifier-4",
         "description": [
                 ""
@@ -1561,7 +1686,6 @@
         "id": 7,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "classifier-5",
         "description": [
                 ""
@@ -1580,7 +1704,6 @@
         "id": 8,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "classifier-6",
         "description": [
                 ""
@@ -1599,7 +1722,6 @@
         "id": 9,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "classifier-7",
         "description": [
                 ""
@@ -1618,8 +1740,7 @@
         "id": 10,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
-        "name": "Class",
+        "name": "Parser Class",
         "description": [
                 ""
         ],
@@ -1637,7 +1758,6 @@
         "id": 11,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Class with Features",
         "description": [
                 ""
@@ -1680,7 +1800,6 @@
         "id": 12,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Highlighted Class",
         "description": [
                 ""
@@ -1699,7 +1818,6 @@
         "id": 13,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Instance",
         "description": [
                 ""
@@ -1730,7 +1848,6 @@
         "id": 14,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "Diagram",
         "description": [
                 ""
@@ -1768,7 +1885,6 @@
         "id": 16,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Standard User",
         "description": [
                 ""
@@ -1787,7 +1903,6 @@
         "id": 17,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Note 1",
         "description": [
                 "مشاهدة أفكارك\n",
@@ -1807,7 +1922,6 @@
         "id": 18,
         "main_type": 127,
         "type": "Artifact",
-        "stereotype": "",
         "name": "config file",
         "description": [
                 ""
@@ -1826,7 +1940,6 @@
         "id": 19,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "systemd",
         "description": [
                 ""
@@ -1857,7 +1970,6 @@
         "id": 20,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "main CPU",
         "description": [
                 ""
@@ -1876,7 +1988,6 @@
         "id": 21,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "running state",
         "description": [
                 ""
@@ -1892,7 +2003,6 @@
             "main_type": 9,
             "type": "Pseudostate",
             "key": "abort",
-            "value": "",
             "description": [
                 ""
             ],
@@ -1904,7 +2014,6 @@
             "main_type": 8,
             "type": "Pseudostate",
             "key": "alt_start",
-            "value": "",
             "description": [
                 ""
             ],
@@ -1919,7 +2028,6 @@
         "id": 22,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "system start",
         "description": [
                 ""
@@ -1938,7 +2046,6 @@
         "id": 23,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "AV User",
         "description": [
                 ""
@@ -1957,7 +2064,6 @@
         "id": 24,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Audio User",
         "description": [
                 ""
@@ -1976,7 +2082,6 @@
         "id": 25,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Customer Service",
         "description": [
                 ""
@@ -1995,7 +2100,6 @@
         "id": 26,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Listen to Radio",
         "description": [
                 ""
@@ -2014,7 +2118,6 @@
         "id": 27,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Watch TV",
         "description": [
                 ""
@@ -2033,7 +2136,6 @@
         "id": 28,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Analyse Customer Complaint",
         "description": [
                 ""
@@ -2052,7 +2154,6 @@
         "id": 29,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "select file to parse",
         "description": [
                 ""
@@ -2071,7 +2172,6 @@
         "id": 30,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "read xml header",
         "description": [
                 ""
@@ -2090,7 +2190,6 @@
         "id": 31,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "read element and attributes",
         "description": [
                 ""
@@ -2109,7 +2208,6 @@
         "id": 32,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "read CDATA contents",
         "description": [
                 ""
@@ -2128,7 +2226,6 @@
         "id": 33,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "check validity",
         "description": [
                 ""
@@ -2147,7 +2244,6 @@
         "id": 34,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "pwr::off",
         "description": [
                 ""
@@ -2166,7 +2262,6 @@
         "id": 35,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "booting",
         "description": [
                 ""
@@ -2185,7 +2280,6 @@
         "id": 36,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "SW-update",
         "description": [
                 ""
@@ -2204,7 +2298,6 @@
         "id": 37,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "running",
         "description": [
                 ""
@@ -2223,7 +2316,6 @@
         "id": 39,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "shutting down",
         "description": [
                 ""
@@ -2242,7 +2334,6 @@
         "id": 40,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "diagnosis",
         "description": [
                 ""
@@ -2261,7 +2352,6 @@
         "id": 41,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Asymmetric Signature Storage",
         "description": [
                 ""
@@ -2277,7 +2367,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2292,7 +2381,6 @@
         "id": 42,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Symmetric Session Keys",
         "description": [
                 ""
@@ -2308,7 +2396,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2323,7 +2410,6 @@
         "id": 43,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "TLS Endpoint",
         "description": [
                 ""
@@ -2339,7 +2425,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "session token",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2375,7 +2460,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2387,7 +2471,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "Cmd_IF",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2402,7 +2485,6 @@
         "id": 44,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "External Entity",
         "description": [
                 ""
@@ -2418,7 +2500,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2433,7 +2514,6 @@
         "id": 45,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Box",
         "description": [
                 ""
@@ -2452,7 +2532,6 @@
         "id": 47,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Performance SoC",
         "description": [
                 ""
@@ -2471,7 +2550,6 @@
         "id": 48,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Tuner Chip",
         "description": [
                 ""
@@ -2490,7 +2568,6 @@
         "id": 49,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Amplifier",
         "description": [
                 ""
@@ -2509,7 +2586,6 @@
         "id": 50,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Power Supply",
         "description": [
                 ""
@@ -2528,7 +2604,6 @@
         "id": 51,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Web Browser",
         "description": [
                 ""
@@ -2595,7 +2670,6 @@
         "id": 52,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Content DB",
         "description": [
                 ""
@@ -2623,7 +2697,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "Cmd_IF",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2638,7 +2711,6 @@
         "id": 53,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Images Server",
         "description": [
                 ""
@@ -2666,7 +2738,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "Cmd_IF",
-            "value": "",
             "description": [
                 ""
             ],
@@ -2681,7 +2752,6 @@
         "id": 54,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Application 1",
         "description": [
                 ""
@@ -2700,7 +2770,6 @@
         "id": 55,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Service Layer",
         "description": [
                 ""
@@ -2719,7 +2788,6 @@
         "id": 56,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Infrastructure",
         "description": [
                 ""
@@ -2793,7 +2861,6 @@
         "id": 59,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Tuner Station",
         "description": [
                 ""
@@ -2812,7 +2879,6 @@
         "id": 60,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "List of Stations",
         "description": [
                 ""
@@ -2850,7 +2916,6 @@
         "id": 62,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Reader",
         "description": [
                 ""
@@ -2869,7 +2934,6 @@
         "id": 63,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "View UML Diagram Examples",
         "description": [
                 "The reader checks examples of diagrams"
@@ -2888,7 +2952,6 @@
         "id": 64,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "View Feature Listings",
         "description": [
                 "The reader checks lists of features"
@@ -2907,7 +2970,6 @@
         "id": 65,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "2 instances of same object",
         "description": [
                 "Several instances of the same classifier\n",
@@ -2927,7 +2989,6 @@
         "id": 66,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "read xml",
         "description": [
                 ""
@@ -2946,7 +3007,6 @@
         "id": 67,
         "main_type": 126,
         "type": "Class",
-        "stereotype": "",
         "name": "Explicit Instance",
         "description": [
                 ""
@@ -2965,7 +3025,6 @@
         "id": 68,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "create result 2",
         "description": [
                 ""
@@ -2984,7 +3043,6 @@
         "id": 69,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "perform action 1",
         "description": [
                 ""
@@ -3003,7 +3061,6 @@
         "id": 70,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "common Services",
         "description": [
                 ""
@@ -3022,7 +3079,6 @@
         "id": 71,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "specific Services",
         "description": [
                 ""
@@ -3041,7 +3097,6 @@
         "id": 72,
         "main_type": 122,
         "type": "Component",
-        "stereotype": "",
         "name": "Page Renderer",
         "description": [
                 ""
@@ -3060,7 +3115,6 @@
         "id": 73,
         "main_type": 120,
         "type": "Node",
-        "stereotype": "",
         "name": "Watchdog",
         "description": [
                 ""
@@ -3079,7 +3133,6 @@
         "id": 74,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Diagram Types",
         "description": [
                 ""
@@ -3095,7 +3148,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Block (SysML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3107,7 +3159,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Requirements (SysML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3119,7 +3170,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Use Case (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3131,7 +3181,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Activity (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3143,7 +3192,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Statemachine (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3155,7 +3203,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Deployment (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3167,7 +3214,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Component (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3179,7 +3225,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Package (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3191,7 +3236,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Class (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3203,7 +3247,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Sequence (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3215,7 +3258,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Timing (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3227,7 +3269,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Communication (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3239,7 +3280,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Parametric Diagram (SysML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3251,7 +3291,6 @@
             "main_type": 0,
             "type": "Property",
             "key": "Interaction Overview (UML)",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3266,7 +3305,6 @@
         "id": 75,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "REQ-1001: Stream Audio",
         "description": [
                 "The system shall stream audio"
@@ -3285,7 +3323,6 @@
         "id": 76,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "REQ-1002: Capture Mic",
         "description": [
                 "The system shall record the mic signal"
@@ -3304,7 +3341,6 @@
         "id": 77,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "REQ-1003: Play Audio on Speaker",
         "description": [
                 "The system shall playback audio on speakers"
@@ -3323,7 +3359,6 @@
         "id": 78,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Phone Call",
         "description": [
                 "The system shall perform a phone call"
@@ -3342,7 +3377,6 @@
         "id": 79,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "REQ-1004: Dial Number",
         "description": [
                 "The system shall allow a user to dial a number"
@@ -3361,7 +3395,6 @@
         "id": 80,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Telephone",
         "description": [
                 ""
@@ -3380,7 +3413,6 @@
         "id": 81,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Dial Pad",
         "description": [
                 ""
@@ -3411,7 +3443,6 @@
         "id": 82,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Microphone",
         "description": [
                 ""
@@ -3454,7 +3485,6 @@
         "id": 83,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Speaker",
         "description": [
                 ""
@@ -3497,7 +3527,6 @@
         "id": 84,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Power Management IC",
         "description": [
                 ""
@@ -3513,7 +3542,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "V+",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3525,7 +3553,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "0",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3540,7 +3567,6 @@
         "id": 85,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Display",
         "description": [
                 ""
@@ -3571,7 +3597,6 @@
         "id": 86,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Network Connector",
         "description": [
                 ""
@@ -3590,7 +3615,6 @@
         "id": 87,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Power Connector",
         "description": [
                 ""
@@ -3606,7 +3630,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "pwr",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3621,7 +3644,6 @@
         "id": 88,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "CPU",
         "description": [
                 ""
@@ -3676,7 +3698,6 @@
         "id": 90,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "Requirement",
         "description": [
                 "The system shall \n",
@@ -3696,7 +3717,6 @@
         "id": 91,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "One Component",
         "description": [
                 ""
@@ -3724,7 +3744,6 @@
             "main_type": 4,
             "type": "Interface",
             "key": "http://admin",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3739,7 +3758,6 @@
         "id": 92,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "fully operational",
         "description": [
                 ""
@@ -3755,7 +3773,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3770,7 +3787,6 @@
         "id": 93,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "starting applications",
         "description": [
                 ""
@@ -3786,7 +3802,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3801,7 +3816,6 @@
         "id": 94,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "starting operating system",
         "description": [
                 ""
@@ -3817,7 +3831,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3832,7 +3845,6 @@
         "id": 95,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "initializing hardware",
         "description": [
                 ""
@@ -3848,7 +3860,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3863,7 +3874,6 @@
         "id": 96,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "unpowered",
         "description": [
                 ""
@@ -3879,7 +3889,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3894,7 +3903,6 @@
         "id": 97,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "User",
         "description": [
                 ""
@@ -3910,7 +3918,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3925,7 +3932,6 @@
         "id": 98,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "GUI",
         "description": [
                 ""
@@ -3941,7 +3947,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3956,7 +3961,6 @@
         "id": 99,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "",
         "name": "Audio Manager",
         "description": [
                 ""
@@ -3972,7 +3976,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -3987,7 +3990,6 @@
         "id": 100,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Crypto Key Server",
         "description": [
                 ""
@@ -4030,7 +4032,6 @@
         "id": 101,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "",
         "name": "Other Component",
         "description": [
                 ""
@@ -4049,7 +4050,6 @@
         "id": 102,
         "main_type": 122,
         "type": "Component",
-        "stereotype": "",
         "name": "Subcomponent",
         "description": [
                 ""
@@ -4068,7 +4068,6 @@
         "id": 103,
         "main_type": 99,
         "type": "Requirement",
-        "stereotype": "",
         "name": "play music :req",
         "description": [
                 "The system shall play music"
@@ -4087,7 +4086,6 @@
         "id": 104,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Heat Sensor",
         "description": [
                 ""
@@ -4103,7 +4101,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "out_actual_value",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4118,7 +4115,6 @@
         "id": 105,
         "main_type": 96,
         "type": "ConstraintBlock",
-        "stereotype": "",
         "name": "Overtemperature Off",
         "description": [
                 ""
@@ -4134,7 +4130,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "actual temperature",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4146,7 +4141,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "max temperature",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4173,7 +4167,6 @@
         "id": 106,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Powermanagement IC",
         "description": [
                 ""
@@ -4189,7 +4182,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "in_emergency_off",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4204,7 +4196,6 @@
         "id": 107,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "",
         "name": "Max Temperature Config Value",
         "description": [
                 ""
@@ -4220,7 +4211,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "max_temperature",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4235,7 +4225,6 @@
         "id": 108,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "start trigger",
         "description": [
                 ""
@@ -4251,7 +4240,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4266,7 +4254,6 @@
         "id": 109,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Timing",
         "description": [
                 ""
@@ -4282,7 +4269,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4297,7 +4283,6 @@
         "id": 110,
         "main_type": 167,
         "type": "AcceptEventAction",
-        "stereotype": "",
         "name": "Wait for User Input",
         "description": [
                 ""
@@ -4313,7 +4298,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4328,7 +4312,6 @@
         "id": 111,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "Event Type?",
         "description": [
                 ""
@@ -4344,7 +4327,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4359,7 +4341,6 @@
         "id": 112,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Sequence",
         "description": [
                 ""
@@ -4375,7 +4356,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4390,7 +4370,6 @@
         "id": 113,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "shutdown",
         "description": [
                 ""
@@ -4406,7 +4385,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4421,7 +4399,6 @@
         "id": 114,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "Block",
         "description": [
                 ""
@@ -4464,7 +4441,6 @@
         "id": 115,
         "main_type": 96,
         "type": "ConstraintBlock",
-        "stereotype": "",
         "name": "Constraint Property",
         "description": [
                 ""
@@ -4480,7 +4456,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "equation result",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4495,7 +4470,6 @@
         "id": 116,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "Diagram Reference",
         "description": [
                 ""
@@ -4514,7 +4488,6 @@
         "id": 117,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "start",
         "description": [
                 ""
@@ -4533,7 +4506,6 @@
         "id": 118,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "end",
         "description": [
                 ""
@@ -4552,7 +4524,6 @@
         "id": 119,
         "main_type": 150,
         "type": "InterruptibleActivityRegion",
-        "stereotype": "",
         "name": "Region",
         "description": [
                 ""
@@ -4571,7 +4542,6 @@
         "id": 120,
         "main_type": 168,
         "type": "AcceptEventAction",
-        "stereotype": "",
         "name": "timeout",
         "description": [
                 ""
@@ -4590,7 +4560,6 @@
         "id": 121,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "Action",
         "description": [
                 ""
@@ -4606,7 +4575,6 @@
             "main_type": 6,
             "type": "InputPin",
             "key": "object pin",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4618,7 +4586,6 @@
             "main_type": 7,
             "type": "OutputPin",
             "key": "result pin",
-            "value": "",
             "description": [
                 ""
             ],
@@ -4633,7 +4600,6 @@
         "id": 122,
         "main_type": 170,
         "type": "SendSignalAction",
-        "stereotype": "",
         "name": "Send",
         "description": [
                 ""
@@ -4652,7 +4618,6 @@
         "id": 123,
         "main_type": 167,
         "type": "AcceptEventAction",
-        "stereotype": "",
         "name": "Receive",
         "description": [
                 ""
@@ -4671,7 +4636,6 @@
         "id": 124,
         "main_type": 154,
         "type": "ForkNode",
-        "stereotype": "",
         "name": "Fork",
         "description": [
                 ""
@@ -4690,7 +4654,6 @@
         "id": 125,
         "main_type": 155,
         "type": "JoinNode",
-        "stereotype": "",
         "name": "Join",
         "description": [
                 ""
@@ -4709,7 +4672,6 @@
         "id": 126,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "continue?",
         "description": [
                 ""
@@ -4728,7 +4690,6 @@
         "id": 127,
         "main_type": 111,
         "type": "StateMachine",
-        "stereotype": "",
         "name": "State",
         "description": [
                 ""
@@ -4747,7 +4708,6 @@
         "id": 128,
         "main_type": 158,
         "type": "Pseudostate",
-        "stereotype": "",
         "name": "H1",
         "description": [
                 ""
@@ -4766,7 +4726,6 @@
         "id": 129,
         "main_type": 159,
         "type": "Pseudostate",
-        "stereotype": "",
         "name": "H*2",
         "description": [
                 ""
@@ -4785,7 +4744,6 @@
         "id": 130,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "pwr::start",
         "description": [
                 ""
@@ -4804,7 +4762,6 @@
         "id": 131,
         "main_type": 151,
         "type": "InitialNode",
-        "stereotype": "",
         "name": "decoder::start",
         "description": [
                 ""
@@ -4823,7 +4780,6 @@
         "id": 132,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "stereotype": "",
         "name": "decoder::end",
         "description": [
                 ""
@@ -4842,7 +4798,6 @@
         "id": 133,
         "main_type": 110,
         "type": "Activity",
-        "stereotype": "",
         "name": "read end tag",
         "description": [
                 ""
@@ -4861,7 +4816,6 @@
         "id": 134,
         "main_type": 157,
         "type": "DecisionNode",
-        "stereotype": "",
         "name": "next token",
         "description": [
                 ""
@@ -4880,7 +4834,6 @@
         "id": 135,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "communication Lib",
         "description": [
                 ""
@@ -4899,7 +4852,6 @@
         "id": 136,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "storage Lib",
         "description": [
                 ""
@@ -4918,7 +4870,6 @@
         "id": 137,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Application 2",
         "description": [
                 ""
@@ -4937,7 +4888,6 @@
         "id": 138,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "",
         "name": "Application Layer",
         "description": [
                 ""
@@ -4956,7 +4906,6 @@
         "id": 139,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "System Boundary",
         "description": [
                 ""
@@ -4975,7 +4924,6 @@
         "id": 140,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "<100 ms",
         "description": [
                 "max 100 ms delay"
@@ -4991,7 +4939,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5006,7 +4953,6 @@
         "id": 141,
         "main_type": 112,
         "type": "InteractionUse",
-        "stereotype": "",
         "name": "data change animation",
         "description": [
                 ""
@@ -5022,7 +4968,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5037,7 +4982,6 @@
         "id": 142,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "<2 secs",
         "description": [
                 "For a user, \n",
@@ -5056,7 +5000,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -5080,6 +5023,259 @@
         "y_order": 550926672,
         "list_order": 550926672,
         "uuid": "095e7248-9de4-41ee-8f62-173fff9c0e56",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 144,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Behavior Diagrams",
+        "description": [
+                ""
+        ],
+        "x_order": -1060293086,
+        "y_order": -1321028671,
+        "list_order": -1321028671,
+        "uuid": "8482e2ce-7cb1-40aa-a4bf-dd8a0ba7d0bf",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 145,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Structure Diagrams",
+        "description": [
+                ""
+        ],
+        "x_order": -1467068724,
+        "y_order": -1169493926,
+        "list_order": -1879835844,
+        "uuid": "4b32276f-1cc7-4f8c-9bf5-78eec3d7fe2a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 146,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Interaction Diagrams",
+        "description": [
+                ""
+        ],
+        "x_order": -930312560,
+        "y_order": -1169493926,
+        "list_order": -1169493926,
+        "uuid": "e60f8dc6-71e5-4f60-b0a7-3109ccf85a4e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 147,
+        "main_type": 124,
+        "type": "Package",
+        "name": "UML Diagrams",
+        "description": [
+                ""
+        ],
+        "x_order": -648205245,
+        "y_order": -2018128722,
+        "list_order": -2018128722,
+        "uuid": "1985bb09-0f8d-418e-a49c-d6a3a3267006",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 148,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "Database-Artifact",
+        "description": [
+                "<path d=\"\n",
+                "m 0,1\n",
+                "c 0,-0.55 1.35,-1 3,-1\n",
+                "c 1.65,0 3,0.45 3,1\n",
+                "c 0,0.55, -1.35,1 -3 1\n",
+                "c -1.65,0 -3,-0.45, -3,-1\n",
+                "l 0,5\n",
+                "c 0,0.55 1.35,1 3,1\n",
+                "c 1.65,0 3,-0.45 3,-1\n",
+                "l 0,-5\n",
+                "\"/>"
+        ],
+        "x_order": -1526179441,
+        "y_order": -1335189910,
+        "list_order": -1335189910,
+        "uuid": "d84b2c5d-f6a1-4656-aaa0-37ce1f790869",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 149,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "Class",
+        "description": [
+                ""
+        ],
+        "x_order": -1490058909,
+        "y_order": -1925935167,
+        "list_order": -1925935167,
+        "uuid": "22369081-83e0-45a5-ba1c-07109eee0a90",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 150,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "Artifact",
+        "description": [
+                ""
+        ],
+        "x_order": -1526179441,
+        "y_order": -1925935167,
+        "list_order": -2015206986,
+        "uuid": "464b99fe-5d6f-4aab-8933-c6235e144e0f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 151,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "GSN-Strategy",
+        "description": [
+                "<path d=\"\n",
+                "M 2,2 10,2 8,8, 0,8\n",
+                "Z\n",
+                "\"/>"
+        ],
+        "x_order": -1490058909,
+        "y_order": -1335189910,
+        "list_order": -1133430056,
+        "uuid": "59a5d1b6-df67-41ed-869a-30d56575061e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 152,
+        "main_type": 159,
+        "type": "Pseudostate",
+        "stereotype": "Database-Artifact",
+        "name": "DB_Image",
+        "description": [
+                ""
+        ],
+        "x_order": -1504392696,
+        "y_order": -1335189910,
+        "list_order": -1335189910,
+        "uuid": "dafbb937-33de-493a-b62c-88b202e577fa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 153,
+        "main_type": 151,
+        "type": "InitialNode",
+        "stereotype": "GSN-Strategy",
+        "name": "Strategy_Image",
+        "description": [
+                ""
+        ],
+        "x_order": -1388768455,
+        "y_order": -1335189910,
+        "list_order": -1133430056,
+        "uuid": "bd6d0530-1be9-4c94-8ba2-edb7ed22134a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 154,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Examples",
+        "description": [
+                ""
+        ],
+        "x_order": -1576921188,
+        "y_order": 418837599,
+        "list_order": 418837599,
+        "uuid": "cfaecc68-6126-4536-8ab2-902e15037b26",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 155,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "GSN-Strategy",
+        "name": "No dynamic memory",
+        "description": [
+                ""
+        ],
+        "x_order": -1388768455,
+        "y_order": 553180164,
+        "list_order": 553180164,
+        "uuid": "30b10c2f-9b81-4a31-8ed3-5c6de94bc9b7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 156,
+        "main_type": 127,
+        "type": "Artifact",
+        "stereotype": "Database-Artifact",
+        "name": "Authentication DB",
+        "description": [
+                ""
+        ],
+        "x_order": -1504392696,
+        "y_order": 553180164,
+        "list_order": 808499489,
+        "uuid": "4f0a8a06-9bf7-415a-9b98-056f120d47f0",
         "features":
         [
         ]
@@ -6522,7 +6718,7 @@
         ],
         "list_order": 5120,
         "from_classifier_name": "Explicit Instance",
-        "to_classifier_name": "Class",
+        "to_classifier_name": "Parser Class",
         "from_node": "2034e982-20f8-43df-b5ae-b0c231397b78",
         "to_node": "4aaf46e8-822b-4947-8b05-79342398adb0",
         "uuid": "d1e7b644-aa6a-44be-8c9f-98f6c1c0ff5c"
@@ -7666,6 +7862,159 @@
         "from_node": "364875a2-aff3-4362-8a07-4ef2dc64bba8",
         "to_node": "e4fa4e5c-a1cf-43e8-8916-077b1b6b5c1e",
         "uuid": "df58a5b3-d509-413f-9a83-e1b187667608"
+      }
+    },
+    {
+      "relationship": {
+        "id": 186,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1169493926,
+        "from_classifier_name": "Behavior Diagrams",
+        "to_classifier_name": "Interaction Diagrams",
+        "from_node": "8482e2ce-7cb1-40aa-a4bf-dd8a0ba7d0bf",
+        "to_node": "e60f8dc6-71e5-4f60-b0a7-3109ccf85a4e",
+        "uuid": "b1b6f372-ecd5-41ca-98d1-30d8eea7559e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 187,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "UML Diagrams",
+        "to_classifier_name": "Structure Diagrams",
+        "from_node": "1985bb09-0f8d-418e-a49c-d6a3a3267006",
+        "to_node": "4b32276f-1cc7-4f8c-9bf5-78eec3d7fe2a",
+        "uuid": "d256a682-b9ee-4ad8-b188-fc8762c1b1a9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 188,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "UML Diagrams",
+        "to_classifier_name": "Behavior Diagrams",
+        "from_node": "1985bb09-0f8d-418e-a49c-d6a3a3267006",
+        "to_node": "8482e2ce-7cb1-40aa-a4bf-dd8a0ba7d0bf",
+        "uuid": "b54eb057-d674-43b2-8455-646ede164a70"
+      }
+    },
+    {
+      "relationship": {
+        "id": 190,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Database-Artifact",
+        "to_classifier_name": "Artifact",
+        "from_node": "d84b2c5d-f6a1-4656-aaa0-37ce1f790869",
+        "to_node": "464b99fe-5d6f-4aab-8933-c6235e144e0f",
+        "uuid": "8aa37097-0d53-4b2a-8277-178a2778ce88"
+      }
+    },
+    {
+      "relationship": {
+        "id": 191,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Database-Artifact",
+        "to_classifier_name": "DB_Image",
+        "from_node": "d84b2c5d-f6a1-4656-aaa0-37ce1f790869",
+        "to_node": "dafbb937-33de-493a-b62c-88b202e577fa",
+        "uuid": "20fe73b6-a536-40e3-a91c-91b158188a25"
+      }
+    },
+    {
+      "relationship": {
+        "id": 189,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "GSN-Strategy",
+        "to_classifier_name": "Class",
+        "from_node": "59a5d1b6-df67-41ed-869a-30d56575061e",
+        "to_node": "22369081-83e0-45a5-ba1c-07109eee0a90",
+        "uuid": "652123ae-394b-41b8-a963-e042fb144039"
+      }
+    },
+    {
+      "relationship": {
+        "id": 192,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "GSN-Strategy",
+        "to_classifier_name": "Strategy_Image",
+        "from_node": "59a5d1b6-df67-41ed-869a-30d56575061e",
+        "to_node": "bd6d0530-1be9-4c94-8ba2-edb7ed22134a",
+        "uuid": "212d1d85-f30a-4889-8358-32d3533e4086"
+      }
+    },
+    {
+      "relationship": {
+        "id": 193,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 553180164,
+        "from_classifier_name": "Examples",
+        "to_classifier_name": "No dynamic memory",
+        "from_node": "cfaecc68-6126-4536-8ab2-902e15037b26",
+        "to_node": "30b10c2f-9b81-4a31-8ed3-5c6de94bc9b7",
+        "uuid": "be358179-2248-4d82-8782-936cacdc7494"
+      }
+    },
+    {
+      "relationship": {
+        "id": 194,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 808499489,
+        "from_classifier_name": "Examples",
+        "to_classifier_name": "Authentication DB",
+        "from_node": "cfaecc68-6126-4536-8ab2-902e15037b26",
+        "to_node": "4f0a8a06-9bf7-415a-9b98-056f120d47f0",
+        "uuid": "0ff7b5bb-ffaf-4f09-868e-17645aba17e6"
       }
     }
   ]

@@ -4,9 +4,9 @@
     "structure_format": "rfc-8259 w/o hexadecimal escapes",
     "format": "cfu-json",
     "major_version": 1,
-    "minor_version": 0,
+    "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.45.1"
+    "generator_version": "1.48.0"
   }
   ,
   "views":
@@ -1016,7 +1016,6 @@
         "id": 9,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "",
         "name": "Template structured according to arc42 proposal",
         "description": [
                 "see https://arc42.org/overview/"
@@ -1035,7 +1034,6 @@
         "id": 10,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "Stakeholder",
         "description": [
                 ""
@@ -1054,7 +1052,6 @@
         "id": 11,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Architect",
         "description": [
                 ""
@@ -1073,7 +1070,6 @@
         "id": 12,
         "main_type": 102,
         "type": "Component",
-        "stereotype": "",
         "name": "SW Architecture",
         "description": [
                 ""
@@ -1092,7 +1088,6 @@
         "id": 13,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Integrator",
         "description": [
                 ""
@@ -1111,7 +1106,6 @@
         "id": 14,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Tester",
         "description": [
                 ""
@@ -1130,7 +1124,6 @@
         "id": 15,
         "main_type": 100,
         "type": "Actor",
-        "stereotype": "",
         "name": "SW Developer",
         "description": [
                 ""
@@ -1149,7 +1142,6 @@
         "id": 16,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Understand the Problem",
         "description": [
                 ""
@@ -1168,7 +1160,6 @@
         "id": 17,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Decide Alternatives",
         "description": [
                 ""
@@ -1187,7 +1178,6 @@
         "id": 18,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "",
         "name": "Explain Solution",
         "description": [
                 ""
@@ -1323,7 +1313,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -1411,7 +1400,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -1442,7 +1430,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],
@@ -1473,7 +1460,6 @@
             "main_type": 3,
             "type": "Lifeline",
             "key": "",
-            "value": "",
             "description": [
                 ""
             ],

@@ -109,14 +109,24 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         /* check if the image is a small icon within a contour or if it is the full symbol */
         const bool has_contour = geometry_rectangle_is_containing( classifier_symbol_box, classifier_label_box );
 
+        /* determine border sizes of the classifier-shape */
+        const geometry_rectangle_t space_and_label
+            = has_contour
+            ? draw_classifier_contour_calc_inner_area( &((*this_).draw_classifier_contour),
+                                                       classifier_type,
+                                                       classifier_symbol_box,
+                                                       pencil_size
+                                                     )
+            : (*classifier_symbol_box);
+
         /* draw icon */
         cairo_set_line_width( cr, std_line_width );
         cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         const geometry_rectangle_t stereotype_box
             = has_contour
             ? draw_stereotype_image_get_bounds( &((*this_).draw_stereotype_image),
-                                                geometry_rectangle_get_right( classifier_symbol_box ) - 2.0 * gap,  /* x */
-                                                geometry_rectangle_get_top( classifier_symbol_box ) + 2.0 * gap,  /* y */
+                                                geometry_rectangle_get_right( &space_and_label ),  /* x */
+                                                geometry_rectangle_get_top( &space_and_label ),  /* y */
                                                 GEOMETRY_H_ALIGN_RIGHT,
                                                 GEOMETRY_V_ALIGN_TOP,
                                                 pencil_size

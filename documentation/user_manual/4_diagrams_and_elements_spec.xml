@@ -183,7 +183,22 @@
                             <entry><para>* / unconditional features</para></entry>
                             <entry>
                                 <para>Exists since version 1.47.0; cannot be used in version 1.46.0 and older.</para>
-                                <para>The description field is reserved and shall not be used. Use an additional comment instead.</para>
+                                <para>
+                                    The description field is reserved for icon and template data
+                                    and shall therefore not be used for descriptions.
+                                    Use an additional comment instead.
+                                </para>
+                                <para>
+                                    An image can be specified since version 1.48.0 by stating lines and curves according to the SVG-path spec version 2.0.
+                                    Arcs are not supported. Examples are:
+                                </para>
+                                <para>
+                                    <command>&lt;path d=&quot;M 2,2 10,2 8,8, 0,8 Z&quot;/&gt;</command>
+                                </para>
+                                <para>
+                                    <command>&lt;path d=&quot;m 0,1 c 0,-0.55 1.35,-1 3,-1 c 1.65,0 3,0.45 3,1 c 0,0.55, -1.35,1 -3,1 c -1.65,0 -3,-0.45, -3,-1
+                                    l 0,5 c 0,0.55 1.35,1 3,1 c 1.65,0 3,-0.45 3,-1 l 0,-5&quot;/&gt;</command>
+                                </para>
                             </entry>
                         </row>
                         <row>
