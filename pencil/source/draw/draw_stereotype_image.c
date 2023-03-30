@@ -267,6 +267,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     double command_start_x = 0.0;  /* abscissa, absolute values */
     double command_start_y = 0.0;  /* ordinate, absolute values */
 
+    /* init draw */
+    if ( draw )
+    {
+        cairo_move_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
+    }
+
     while( utf8stringviewtokenizer_has_next( tok_iterator ) && ( parser_state != DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT ) )
     {
         const utf8stringview_t tok = utf8stringviewtokenizer_next( tok_iterator );
@@ -344,6 +350,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if (( current=='a' )||( current=='A' ))
                 {
+                    /* TODO store value to appropriate variable */
+                    /* continue reading current parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RX;
                     last_command = current;
                 }
@@ -444,6 +452,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if (( current=='a' )||( current=='A' ))
                 {
+                    /* TODO store value to appropriate variable */
+                    /* continue reading current parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RX;
                     last_command = current;
                 }
@@ -537,7 +547,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     }
                     else if (( last_command=='a' )||( last_command=='A' ))
                     {
-                        const double todo = value_x_abs;
+                        /* TODO store value to appropriate variable */
+                        /* continue reading last_command parameters */
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RY;
                     }
                     else

@@ -36,6 +36,30 @@
             "classifier_name": "This Document",
             "node": "95d53726-7ba7-423a-973f-e8bb7d1a877b",
             "uuid": "300a389f-5699-40e9-9be8-9b5465ff55c8"
+          },
+          {
+            "id": 697,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "context",
+            "node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
+            "uuid": "1015b1c8-3b7c-41ab-a309-e7709508a45d"
+          },
+          {
+            "id": 698,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "metaclass",
+            "node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
+            "uuid": "cc03d636-5ed8-4b55-bea8-82cae68ba75b"
+          },
+          {
+            "id": 699,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Stereotypes (Profile)",
+            "node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
+            "uuid": "678ee430-5e8c-46a2-814f-02dda45a6c6f"
           }
         ]
       }
@@ -8306,6 +8330,7 @@
         "id": 111,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "context",
         "name": "MOF (M3)",
         "description": [
                 ""
@@ -8324,6 +8349,7 @@
         "id": 112,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "context",
         "name": "UML (M2)",
         "description": [
                 ""
@@ -8342,6 +8368,7 @@
         "id": 113,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "context",
         "name": "User Model (M1)",
         "description": [
                 ""
@@ -8360,6 +8387,7 @@
         "id": 114,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "context",
         "name": "Objects of Reality (M0)",
         "description": [
                 ""
@@ -8378,6 +8406,7 @@
         "id": 115,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "context",
         "name": "MOF::Class",
         "description": [
                 ""
@@ -8396,6 +8425,7 @@
         "id": 116,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "context",
         "name": "MOF::Feature",
         "description": [
                 ""
@@ -8414,6 +8444,7 @@
         "id": 117,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "context",
         "name": "MOF::Association",
         "description": [
                 "This diagram shows some example classes of the MOF Meta Model."
@@ -9813,6 +9844,7 @@
         "id": 190,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "context",
         "name": "SysML (M2)",
         "description": [
                 ""
@@ -14663,6 +14695,96 @@
         "y_order": -550878311,
         "list_order": -550878311,
         "uuid": "d17d6bfb-2dad-492e-963e-74c25b1e9942",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 436,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "context",
+        "description": [
+                "<path d=\"\n",
+                "M 0, 6\n",
+                "c 0, -3 3, -6 6, -6\n",
+                "l 0, 2\n",
+                "c -2, 0, -4, 2, -4, 4\n",
+                "l -2, 0\n",
+                "M 4, 6\n",
+                "c 0, -1 1, -2 2, -2\n",
+                "c 1, 0 2, 1 2,2\n",
+                "c 0, 1, -1, 2, -2, 2\n",
+                "c -1, 0 -2, -1, -2, -2\n",
+                "M 10, 6\n",
+                "c 0, 2, -2, 4, -4, 4\n",
+                "l 0, 2\n",
+                "c 3, 0 6, -3 6, -6\n",
+                "l -2, 0\n",
+                "\"/>"
+        ],
+        "x_order": -962558587,
+        "y_order": 665449257,
+        "list_order": -1421131720,
+        "uuid": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 437,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "metaclass",
+        "description": [
+                "<path d=\"\n",
+                "l 2,0\n",
+                "m 1,0\n",
+                "l 2,0\n",
+                "m 1,0\n",
+                "l 2,0\n",
+                "\n",
+                "l 0,2\n",
+                "m 0,1\n",
+                "l 0,2\n",
+                "\n",
+                "l -2,0\n",
+                "m -1,0\n",
+                "l -2,0\n",
+                "m -1,0\n",
+                "l -2,0\n",
+                "\n",
+                "l 0,-2\n",
+                "m 0,-1\n",
+                "l 0,-2\n",
+                "\"/>"
+        ],
+        "x_order": 872238745,
+        "y_order": 665449257,
+        "list_order": 665449257,
+        "uuid": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 438,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Stereotypes (Profile)",
+        "description": [
+                ""
+        ],
+        "x_order": -1573770665,
+        "y_order": 22551344,
+        "list_order": 22551344,
+        "uuid": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "features":
         [
         ]
@@ -24603,6 +24725,40 @@
         "from_node": "1a7fe2bb-0883-40ed-8956-45d4c4e0437f",
         "to_node": "4792270a-4607-4aad-90a5-59b9a5d23731",
         "uuid": "043ca85a-eed6-4afe-9ac6-ac6121f8d98a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 684,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Stereotypes (Profile)",
+        "to_classifier_name": "context",
+        "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
+        "to_node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
+        "uuid": "15218ab4-59ed-4560-b041-2044b484ee64"
+      }
+    },
+    {
+      "relationship": {
+        "id": 685,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Stereotypes (Profile)",
+        "to_classifier_name": "metaclass",
+        "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
+        "to_node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
+        "uuid": "2edd480b-751b-4a73-82b3-aefacf834c55"
       }
     }
   ]
