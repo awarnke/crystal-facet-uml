@@ -703,6 +703,7 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         break;
 
         case DATA_CLASSIFIER_TYPE_STEREOTYPE:
+        case DATA_CLASSIFIER_TYPE_IMAGE:
         {
             utf8stringbuf_copy_str( out_name, STEREOTYPE_NAMES[cycle_names&0x07] );
         }

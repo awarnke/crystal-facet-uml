@@ -123,6 +123,8 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_COMMENT, "Comment", icon_clas_comment );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_clas_stereotype = gui_resources_get_type_clas_stereotype( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_IMAGE, "Image (profile)", icon_clas_stereotype );
+        current = &((*this_).type_name_icon_list[idx]); idx++;
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_STEREOTYPE, "Stereotype (profile)", icon_clas_stereotype );
         /* requirements classifiers: */
         current = &((*this_).type_name_icon_list[idx]); idx++;

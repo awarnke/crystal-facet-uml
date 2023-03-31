@@ -23,7 +23,8 @@ static inline bool draw_classifier_icon_is_fix_sized_symbol ( const draw_classif
              || ( DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE == classifier_type )
              || ( DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY == classifier_type )
              || ( DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY == classifier_type )
-             || ( DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT == classifier_type ));
+             || ( DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_IMAGE == classifier_type ));
 
     return result;
 }

@@ -89,7 +89,8 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param bounds bounding rectangle of the stereotype image
  *  \param cr a cairo drawing context
- *  \return U8_ERROR_NONE if one (or more) images were drawn, U8_ERROR_NOT_FOUND if no image was found,
+ *  \return U8_ERROR_NONE if one (or more) images were drawn,
+ *          U8_ERROR_NOT_FOUND if no image was found,
  *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
  */
 u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
@@ -111,7 +112,8 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param target_bounds bounding rectangle of the drawing directives
  *  \param cr a cairo drawing context
- *  \return U8_ERROR_NONE if the image was drawn, U8_ERROR_NOT_FOUND if no image was found,
+ *  \return U8_ERROR_NONE if the image was drawn,
+ *          U8_ERROR_NOT_FOUND if no image was found,
  *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
  */
 u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_image_t *this_,
@@ -135,7 +137,8 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param target_bounds bounding rectangle of the drawing directives
  *  \param cr a cairo drawing context
- *  \return U8_ERROR_NONE if the image was drawn, U8_ERROR_NOT_FOUND if no image was found,
+ *  \return U8_ERROR_NONE if the image was drawn,
+ *          U8_ERROR_NOT_FOUND if no image was found,
  *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
  */
 u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_image_t *this_,

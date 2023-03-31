@@ -164,6 +164,13 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
         }
         break;
 
+        case DATA_CLASSIFIER_TYPE_IMAGE:
+        {
+            result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_IMAGE]);
+            assert ( (*result).data_type_checksum == (int)DATA_CLASSIFIER_TYPE_IMAGE );
+        }
+        break;
+
         case DATA_CLASSIFIER_TYPE_STEREOTYPE:
         {
             result = &((*this_)[XMI_ELEMENT_INFO_MAP_INDEX_STEREOTYPE]);

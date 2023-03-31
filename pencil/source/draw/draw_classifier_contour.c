@@ -61,6 +61,7 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
         case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        case DATA_CLASSIFIER_TYPE_IMAGE:
         {
             /* the symbol icon height is part of the shape border  */
             double symbol_icon_height = pencil_size_get_classifier_symbol_height( pencil_size );
@@ -203,6 +204,7 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
         case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        case DATA_CLASSIFIER_TYPE_IMAGE:
         {
             /* the symbol icon height is part of the shape border  */
             double symbol_icon_height = pencil_size_get_classifier_symbol_height( pencil_size );

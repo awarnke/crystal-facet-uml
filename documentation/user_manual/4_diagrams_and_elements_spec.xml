@@ -178,6 +178,24 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.png"/></imageobject></mediaobject>
+                                Image
+                                </para>
+                            </entry>
+                            <entry><para>UML, SysML</para></entry>
+                            <entry><para>* / unconditional features</para></entry>
+                            <entry>
+                                <para>Exists since version 1.48.0; cannot be used in version 1.47.0 and older.</para>
+                                <para>This element shows the image of its stereotype</para>
+                                <para>
+                                    The description field is reserved.
+                                    Use an additional comment if needed.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.png"/></imageobject></mediaobject>
                                 Stereotype</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>* / unconditional features</para></entry>

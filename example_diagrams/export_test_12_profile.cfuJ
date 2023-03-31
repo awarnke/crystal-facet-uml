@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.47.0"
+    "generator_version": "1.48.0"
   }
   ,
   "views":
@@ -46,6 +46,13 @@
             "classifier_name": "Example-DB",
             "node": "ab6d7b53-3170-4703-b97f-8700f5792938",
             "uuid": "1717a422-520f-4883-93ac-9e9bbf980aab"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "DB-img",
+            "node": "b6cb3c24-3ff6-43f3-9693-2588bcc95962",
+            "uuid": "7ea75103-3a12-409f-ade3-dd9b54041965"
           }
         ]
       }
@@ -59,7 +66,7 @@
         "id": 1,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "metamodel",
+        "stereotype": "Metaclass",
         "name": "Component",
         "description": [
                 ""
@@ -81,7 +88,7 @@
         "stereotype": "stereotype",
         "name": "database",
         "description": [
-                ""
+                "<path d=\"m 0,1 c 0,-0.55 1.35,-1 3,-1 c 1.65,0 3,0.45 3,1 c 0,0.55, -1.35,1 -3,1 c -1.65,0 -3,-0.45, -3,-1 l 0,5 c 0,0.55 1.35,1 3,1 c 1.65,0 3,-0.45 3,-1 l 0,-5\"/>"
         ],
         "x_order": -274984128,
         "y_order": 705318536,
@@ -134,6 +141,25 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "database",
+        "name": "DB-img",
+        "description": [
+                ""
+        ],
+        "x_order": 667862918,
+        "y_order": 705318536,
+        "list_order": 738679596,
+        "uuid": "b6cb3c24-3ff6-43f3-9693-2588bcc95962",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -154,6 +180,23 @@
         "from_node": "20587e28-788f-4817-a25a-f0be7af7c098",
         "to_node": "1abe459d-2d6d-4ed2-9202-2eee0b5d02e4",
         "uuid": "a5c5ea89-d33e-48d3-baa9-22b62966f4e0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "database",
+        "to_classifier_name": "DB-img",
+        "from_node": "20587e28-788f-4817-a25a-f0be7af7c098",
+        "to_node": "b6cb3c24-3ff6-43f3-9693-2588bcc95962",
+        "uuid": "56fbe951-8153-4697-aec3-d637a73a1659"
       }
     }
   ]

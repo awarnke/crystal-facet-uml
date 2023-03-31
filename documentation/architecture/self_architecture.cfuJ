@@ -60,6 +60,22 @@
             "classifier_name": "Stereotypes (Profile)",
             "node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
             "uuid": "678ee430-5e8c-46a2-814f-02dda45a6c6f"
+          },
+          {
+            "id": 700,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "cntx-img",
+            "node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
+            "uuid": "7898af08-33b6-49d8-94bc-dfbb29ecf713"
+          },
+          {
+            "id": 701,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "meta-img",
+            "node": "8e602924-d557-4375-84bd-1284ca61f3fc",
+            "uuid": "0f2174cd-41cb-4226-8707-1e6c683adc37"
           }
         ]
       }
@@ -551,6 +567,13 @@
             "classifier_name": "UML::Feature",
             "node": "dc088d71-b668-4b3d-9f36-1e2caa6a04f5",
             "uuid": "1efa5fe4-909a-47db-96d5-a4e5a02c8385"
+          },
+          {
+            "id": 702,
+            "display_flags": 0,
+            "classifier_name": "UML::Image",
+            "node": "0e35034d-c5cc-4a2f-ba27-ccf3a9cc6f98",
+            "uuid": "1ba73270-25b3-4c28-a580-e6ced638b49f"
           }
         ]
       }
@@ -791,6 +814,28 @@
             "classifier_name": "UML::Component",
             "node": "86e1e49f-19fe-4fda-8318-bd0092306abe",
             "uuid": "2ffd5de7-c526-4261-9563-70d3e33d232a"
+          },
+          {
+            "id": 703,
+            "display_flags": 0,
+            "classifier_name": "UML::Stereotype",
+            "node": "fd8cc6ed-79ea-4183-93ab-9f41cc7306a7",
+            "uuid": "8c98f841-6f38-4df9-adf0-bc6c185dd7f6"
+          },
+          {
+            "id": 705,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "UML::Image",
+            "node": "0e35034d-c5cc-4a2f-ba27-ccf3a9cc6f98",
+            "uuid": "d1d0e2a6-28f9-4067-9e2b-fbbbb36a94ef"
+          },
+          {
+            "id": 706,
+            "display_flags": 0,
+            "classifier_name": "UML::Node",
+            "node": "46384c26-8252-4a73-b150-cd4ef6df949b",
+            "uuid": "fbeb9336-5938-449f-b5af-bd4613d9e686"
           }
         ]
       }
@@ -9316,7 +9361,7 @@
                 "- the selected solution\n",
                 "- the decisions and considered alternatives"
         ],
-        "x_order": -962558587,
+        "x_order": -250783315,
         "y_order": -763247818,
         "list_order": -763247818,
         "uuid": "95d53726-7ba7-423a-973f-e8bb7d1a877b",
@@ -9330,6 +9375,7 @@
         "id": 162,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "context",
         "name": "Standards: UML, SysML",
         "description": [
                 "crystal-facet-uml shall draw diagrams that are compliant (subset) to UML or SysML."
@@ -9370,7 +9416,7 @@
         "id": 165,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "version control system",
         "description": [
                 ""
@@ -9389,7 +9435,7 @@
         "id": 166,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "requirements engineering",
         "description": [
                 ""
@@ -9408,7 +9454,7 @@
         "id": 167,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "source code documentation",
         "description": [
                 ""
@@ -9427,7 +9473,7 @@
         "id": 168,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "user documentation",
         "description": [
                 ""
@@ -9446,7 +9492,7 @@
         "id": 169,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "high quality layouted documentation",
         "description": [
                 "There are good layout engines to create high quality pdf pages, like:\n",
@@ -9467,7 +9513,7 @@
         "id": 170,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "tests",
         "description": [
                 "unit-tests,\n",
@@ -9489,7 +9535,7 @@
         "id": 171,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "project management",
         "description": [
                 ""
@@ -9508,7 +9554,7 @@
         "id": 172,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "risk management",
         "description": [
                 ""
@@ -9527,7 +9573,7 @@
         "id": 173,
         "main_type": 124,
         "type": "Package",
-        "stereotype": "external",
+        "stereotype": "context",
         "name": "configuration management",
         "description": [
                 ""
@@ -9820,6 +9866,7 @@
         "id": 189,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "context",
         "name": "Interoperability",
         "description": [
                 "crystal-facet-uml has its strenghts.\n",
@@ -11236,7 +11283,7 @@
         "description": [
                 ""
         ],
-        "x_order": -984141342,
+        "x_order": -1497761923,
         "y_order": 911934340,
         "list_order": 0,
         "uuid": "46384c26-8252-4a73-b150-cd4ef6df949b",
@@ -14789,6 +14836,82 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 439,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "context",
+        "name": "cntx-img",
+        "description": [
+                ""
+        ],
+        "x_order": -250783315,
+        "y_order": 665449257,
+        "list_order": 851111912,
+        "uuid": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 440,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "metaclass",
+        "name": "meta-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1385742238,
+        "y_order": 665449257,
+        "list_order": 802633901,
+        "uuid": "8e602924-d557-4375-84bd-1284ca61f3fc",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 441,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "metaclass",
+        "name": "UML::Image",
+        "description": [
+                ""
+        ],
+        "x_order": 1218392974,
+        "y_order": -2093490893,
+        "list_order": -2093490893,
+        "uuid": "0e35034d-c5cc-4a2f-ba27-ccf3a9cc6f98",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 442,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "metaclass",
+        "name": "UML::Stereotype",
+        "description": [
+                ""
+        ],
+        "x_order": -1038308524,
+        "y_order": 1467942700,
+        "list_order": 1467942700,
+        "uuid": "fd8cc6ed-79ea-4183-93ab-9f41cc7306a7",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -18150,6 +18273,23 @@
     },
     {
       "relationship": {
+        "id": 690,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -2093490893,
+        "from_classifier_name": "UML (M2)",
+        "to_classifier_name": "UML::Image",
+        "from_node": "bc26fd01-e3fb-4625-aca1-21e47844ef39",
+        "to_node": "0e35034d-c5cc-4a2f-ba27-ccf3a9cc6f98",
+        "uuid": "db9ccb6f-ab75-4e19-88da-4ce33d01b78d"
+      }
+    },
+    {
+      "relationship": {
         "id": 151,
         "main_type": 211,
         "type": "Realization",
@@ -21019,6 +21159,23 @@
         "from_node": "46384c26-8252-4a73-b150-cd4ef6df949b",
         "to_node": "d837aa09-095a-48ce-a2a8-b33ab20fb66c",
         "uuid": "f5fd7bd1-ab5a-4269-bab7-8c3de019b89f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 694,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1009287877,
+        "from_classifier_name": "UML::Node",
+        "to_classifier_name": "UML::Class",
+        "from_node": "46384c26-8252-4a73-b150-cd4ef6df949b",
+        "to_node": "a227e3ff-e0db-40ee-aa31-2bb5083cb7d6",
+        "uuid": "84a80524-05f1-48e5-8e71-f92edc618a01"
       }
     },
     {
@@ -24729,6 +24886,40 @@
     },
     {
       "relationship": {
+        "id": 687,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 851144680,
+        "from_classifier_name": "context",
+        "to_classifier_name": "cntx-img",
+        "from_node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
+        "to_node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
+        "uuid": "cda74219-904e-440c-9f87-9d4f889f6aee"
+      }
+    },
+    {
+      "relationship": {
+        "id": 689,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 851177448,
+        "from_classifier_name": "metaclass",
+        "to_classifier_name": "meta-img",
+        "from_node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
+        "to_node": "8e602924-d557-4375-84bd-1284ca61f3fc",
+        "uuid": "b2e7fddb-8f70-4c62-a504-216280dc00dd"
+      }
+    },
+    {
+      "relationship": {
         "id": 684,
         "main_type": 300,
         "type": "Association",
@@ -24759,6 +24950,91 @@
         "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "to_node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
         "uuid": "2edd480b-751b-4a73-82b3-aefacf834c55"
+      }
+    },
+    {
+      "relationship": {
+        "id": 686,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 851111912,
+        "from_classifier_name": "Stereotypes (Profile)",
+        "to_classifier_name": "cntx-img",
+        "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
+        "to_node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
+        "uuid": "26bcdcd4-d04f-4dac-8566-4d6df7f78184"
+      }
+    },
+    {
+      "relationship": {
+        "id": 688,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 802633901,
+        "from_classifier_name": "Stereotypes (Profile)",
+        "to_classifier_name": "meta-img",
+        "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
+        "to_node": "8e602924-d557-4375-84bd-1284ca61f3fc",
+        "uuid": "14a2d0f8-d6c3-4b73-82f7-ae42a647b3c4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 691,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1009245893,
+        "from_classifier_name": "UML::Image",
+        "to_classifier_name": "UML::Element",
+        "from_node": "0e35034d-c5cc-4a2f-ba27-ccf3a9cc6f98",
+        "to_node": "58a681b6-bb7b-4527-bb88-487131cfbb98",
+        "uuid": "d3b11a39-0495-4805-97d4-461666a8f604"
+      }
+    },
+    {
+      "relationship": {
+        "id": 692,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1009222341,
+        "from_classifier_name": "UML::Stereotype",
+        "to_classifier_name": "UML::Class",
+        "from_node": "fd8cc6ed-79ea-4183-93ab-9f41cc7306a7",
+        "to_node": "a227e3ff-e0db-40ee-aa31-2bb5083cb7d6",
+        "uuid": "6a7ef91b-915f-4783-a1d4-79b42402584c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 693,
+        "main_type": 202,
+        "type": "Association",
+        "name": "icon",
+        "description": [
+                ""
+        ],
+        "list_order": 1009255109,
+        "from_classifier_name": "UML::Stereotype",
+        "to_classifier_name": "UML::Image",
+        "from_node": "fd8cc6ed-79ea-4183-93ab-9f41cc7306a7",
+        "to_node": "0e35034d-c5cc-4a2f-ba27-ccf3a9cc6f98",
+        "uuid": "14e22c5a-a2b3-4362-a8dd-b38b2f795b74"
       }
     }
   ]

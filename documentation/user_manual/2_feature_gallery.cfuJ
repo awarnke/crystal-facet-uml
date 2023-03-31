@@ -5190,8 +5190,8 @@
     {
       "classifier": {
         "id": 152,
-        "main_type": 159,
-        "type": "Pseudostate",
+        "main_type": 138,
+        "type": "Image",
         "stereotype": "Database-Artifact",
         "name": "DB_Image",
         "description": [
@@ -5209,8 +5209,8 @@
     {
       "classifier": {
         "id": 153,
-        "main_type": 151,
-        "type": "InitialNode",
+        "main_type": 138,
+        "type": "Image",
         "stereotype": "GSN-Strategy",
         "name": "Strategy_Image",
         "description": [

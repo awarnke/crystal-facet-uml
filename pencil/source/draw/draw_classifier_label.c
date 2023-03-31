@@ -335,6 +335,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
         case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        case DATA_CLASSIFIER_TYPE_IMAGE:
         {
             /* position the text right-bottom of the icon */
             x_gap = (width - pencil_size_get_classifier_symbol_height( pencil_size ))/2 - text4_width;

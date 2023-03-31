@@ -42,6 +42,7 @@ enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_OBJECT = 126,
     DATA_CLASSIFIER_TYPE_ARTIFACT = 127,
     DATA_CLASSIFIER_TYPE_COMMENT = 130, /* this is a note-text */
+    DATA_CLASSIFIER_TYPE_IMAGE = 138, /* since version 1.48.0, an image object */
     DATA_CLASSIFIER_TYPE_STEREOTYPE = 139, /* since version 1.47.0, a stereotype, including its image */
     DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION = 150,  /* interruptable activity region, UML and SYSML */
     DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE = 151,  /* start control node, entry point, UML and SYSML */
@@ -63,7 +64,7 @@ enum data_classifier_type_enum {
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
 
-#define DATA_CLASSIFIER_TYPE_COUNT (32)
+#define DATA_CLASSIFIER_TYPE_COUNT (33)
 
 /*!
  *  \brief lists all values of data_classifier_type_t, excluding DATA_CLASSIFIER_TYPE_VOID

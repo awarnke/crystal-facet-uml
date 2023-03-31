@@ -222,6 +222,17 @@ const xmi_element_info_map_t xmi_element_info_map_standard
         .property_to              = NULL,
         .additional_properties    = NULL,
     },
+    [XMI_ELEMENT_INFO_MAP_INDEX_IMAGE] = {
+        /* spec: https://www.omg.org/spec/UML/20161101/UML.xmi (v2.5.1) pkg: CommonStructure */
+        .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_IMAGE,
+        .specification            = (XMI_SPEC_UML | XMI_SPEC_SYSML),
+        .profile_name             = NULL,
+        .base_name                = "Image",
+        .is_a                     = (XMI_ELEMENT_IS_A_ELEMENT),
+        .property_from            = NULL,
+        .property_to              = NULL,
+        .additional_properties    = NULL,
+    },
     [XMI_ELEMENT_INFO_MAP_INDEX_STEREOTYPE] = {
         /* spec-ref: https://www.omg.org/spec/UML/2.5.1/PDF chapter 12.3.3.1.3 */
         .data_type_checksum       = (int) DATA_CLASSIFIER_TYPE_STEREOTYPE,

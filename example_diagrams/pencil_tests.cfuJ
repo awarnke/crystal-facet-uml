@@ -422,6 +422,13 @@
             "classifier_name": "copy",
             "node": "e3178835-0981-496b-bdc8-da694de2aab4",
             "uuid": "98d4d46b-4f3f-406d-a98f-4e59aa21b2d1"
+          },
+          {
+            "id": 284,
+            "display_flags": 0,
+            "classifier_name": "cp-Img",
+            "node": "3cfbb6ad-dba8-45da-9877-98cd933b57f6",
+            "uuid": "f17ba55f-93e6-4530-bb12-422f7136a5f6"
           }
         ]
       }
@@ -3078,7 +3085,7 @@
                 ""
         ],
         "x_order": -188823670,
-        "y_order": 684999566,
+        "y_order": 335442906,
         "list_order": 931811983,
         "uuid": "c5b27933-f4bf-43a8-be59-5fcbfd3d352a",
         "features":
@@ -6412,7 +6419,7 @@
                 "</svg>\n",
                 ""
         ],
-        "x_order": 104820094,
+        "x_order": -188823670,
         "y_order": 684999566,
         "list_order": 684999566,
         "uuid": "e3178835-0981-496b-bdc8-da694de2aab4",
@@ -7639,6 +7646,25 @@
         "y_order": -1947091675,
         "list_order": -1947091675,
         "uuid": "e0add041-a190-43d3-881b-8a1d0cf2d3f5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 137,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "copy",
+        "name": "cp-Img",
+        "description": [
+                ""
+        ],
+        "x_order": 104820094,
+        "y_order": 684999566,
+        "list_order": 702473479,
+        "uuid": "3cfbb6ad-dba8-45da-9877-98cd933b57f6",
         "features":
         [
         ]

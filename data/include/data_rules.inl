@@ -231,7 +231,8 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_COMMENT:
+            case DATA_CLASSIFIER_TYPE_COMMENT:  /* and */
+            case DATA_CLASSIFIER_TYPE_IMAGE:
             {
                 result = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
             }
@@ -351,6 +352,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         break;
 
         case DATA_CLASSIFIER_TYPE_COMMENT:
+        case DATA_CLASSIFIER_TYPE_IMAGE:
         {
             result = DATA_FEATURE_TYPE_TAGGED_VALUE;
         }
@@ -433,6 +435,7 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        case DATA_CLASSIFIER_TYPE_IMAGE:
         {
             result = false;
         }
@@ -505,6 +508,8 @@ static inline bool data_rules_classifier_has_scenario_semantics ( const data_rul
         = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE )
+        || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
         || (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
         && (( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )));

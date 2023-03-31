@@ -120,6 +120,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
     /* states while parsing: */
     enum draw_stereotype_image_xml_enum parser_state = DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH;
+    uint_fast16_t path_count = 0;
 
     utf8stringviewtokenizer_t tok_iterator;
     utf8stringviewtokenizer_init( &tok_iterator, UTF8STRINGVIEW_STR( drawing_directives ), UTF8STRINGVIEWTOKENMODE_TEXT );
@@ -195,6 +196,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                                                            cr
                                                                          );
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_TEXT );
+                    path_count ++;
                 }
                 /* back to inside path state */
                 parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
@@ -204,6 +206,12 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
         }
     }
     utf8stringviewtokenizer_destroy( &tok_iterator );
+
+    /* check if anything was drawn at all */
+    if ( path_count == 0 )
+    {
+        result |= U8_ERROR_NOT_FOUND;
+    }
 
     U8_TRACE_END_ERR(result);
     return result;

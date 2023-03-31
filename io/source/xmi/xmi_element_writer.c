@@ -371,8 +371,8 @@ u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         }
         else
         {
-            /* only comments do not have names */
-            assert( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT );
+            /* only comments and imaged do not have names */
+            assert(( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )||( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE ));
         }
 
         if ( NULL != xmi_element_info_get_additional_properties( classifier_info ) )

@@ -436,6 +436,15 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             }
             break;
 
+            case DATA_CLASSIFIER_TYPE_IMAGE:
+            {
+                if ( ! icon_override )
+                {
+                    draw_classifier_contour_draw_rect ( &((*this_).draw_classifier_contour), classifier_symbol_box, pencil_size, cr );
+                }
+            }
+            break;
+
             default:
             {
                 U8_LOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
