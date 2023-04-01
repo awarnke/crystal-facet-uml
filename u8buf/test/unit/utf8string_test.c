@@ -583,7 +583,7 @@ static void testParseFloat(void)
     u8err = utf8string_parse_float( "+9.999e-99999", &byte_length, &number );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
     TEST_EXPECT_EQUAL_INT( 13, byte_length );
-    TEST_EXPECT_EQUAL_DOUBLE( -0.0, number );
+    TEST_EXPECT_EQUAL_DOUBLE( 0.0, number );
 
     u8err = utf8string_parse_float( "15.3", &byte_length, &number );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
@@ -598,12 +598,12 @@ static void testParseFloat(void)
     u8err = utf8string_parse_float( "+3.4E38", &byte_length, &number );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_EXPECT_EQUAL_INT( 7, byte_length );
-    TEST_EXPECT( 3.4E38 == number );
+    TEST_EXPECT_EQUAL_DOUBLE( 3.4E38, number );
 
     u8err = utf8string_parse_float( "-1.2E-38", &byte_length, &number );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_EXPECT_EQUAL_INT( 8, byte_length );
-    TEST_EXPECT( -1.2E-38 == number );
+    TEST_EXPECT_EQUAL_DOUBLE( -1.2E-38, number );
 
     u8err = utf8string_parse_float( "  15.0E+1 cm", &byte_length, &number );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
