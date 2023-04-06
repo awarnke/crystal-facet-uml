@@ -2674,6 +2674,46 @@
           }
         ]
       }
+    },
+    {
+      "diagram": {
+        "id": 32,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Notation",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Bibliography",
+        "parent": "8058351e-fd1d-4153-a4c7-b9447aff9684",
+        "uuid": "fae15496-2d23-41c1-9e27-efbdf43c840e",
+        "diagramelements":
+        [
+          {
+            "id": 346,
+            "display_flags": 0,
+            "classifier_name": "Class",
+            "node": "39f3736f-f0a4-4f0d-9f2f-22589c33cdde",
+            "uuid": "8b34851e-1b5e-4a43-8f1c-57e14e958dfd"
+          },
+          {
+            "id": 347,
+            "display_flags": 0,
+            "classifier_name": "process",
+            "node": "1745abf3-31ae-4e4b-a1ba-4f203ea1238a",
+            "uuid": "39a7799d-1eb1-4fa0-a3e6-46dc84ed49cf"
+          },
+          {
+            "id": 348,
+            "display_flags": 0,
+            "classifier_name": "turtle",
+            "node": "e67e082d-087e-4e92-9385-6446415c531e",
+            "uuid": "10f17e5e-1f7d-445a-96d1-1b9f4ea677c4"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -2771,6 +2811,7 @@
         "id": 5,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "process",
         "name": "Process",
         "description": [
                 ""
@@ -3829,6 +3870,7 @@
         "id": 58,
         "main_type": 90,
         "type": "Block",
+        "stereotype": "process",
         "name": "CMMI",
         "description": [
                 ""
@@ -3847,6 +3889,7 @@
         "id": 60,
         "main_type": 90,
         "type": "Block",
+        "stereotype": "process",
         "name": "Medical SPICE",
         "description": [
                 ""
@@ -4021,6 +4064,7 @@
         "id": 64,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "Requirements Definition",
         "description": [
                 "System Requirements Definition consists of\n",
@@ -4066,6 +4110,7 @@
         "id": 65,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "System Architecture",
         "description": [
                 ""
@@ -4084,6 +4129,7 @@
         "id": 66,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "Requirements Refinement",
         "description": [
                 "Software Requirements Refinement\n",
@@ -4109,6 +4155,7 @@
         "id": 67,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "Software Architecture",
         "description": [
                 "Template: arc42, see D0023#name.\n",
@@ -4129,6 +4176,7 @@
         "id": 68,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "Construction",
         "description": [
                 "This process group consists of\n",
@@ -4152,6 +4200,7 @@
         "id": 69,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "Software Integration and Test",
         "description": [
                 "Software integration consists of\n",
@@ -4173,6 +4222,7 @@
         "id": 70,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "Software Qualification Test",
         "description": [
                 ""
@@ -4191,6 +4241,7 @@
         "id": 71,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "System Integration and Test",
         "description": [
                 "System integration consists of\n",
@@ -4213,6 +4264,7 @@
         "id": 72,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "System Qualification Test",
         "description": [
                 ""
@@ -5361,6 +5413,7 @@
         "id": 117,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "Unit Test",
         "description": [
                 ""
@@ -6903,6 +6956,7 @@
         "id": 192,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "security analysis",
         "description": [
                 ""
@@ -7381,6 +7435,7 @@
         "id": 218,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "process",
         "name": "incident management",
         "description": [
                 ""
@@ -7399,6 +7454,7 @@
         "id": 219,
         "main_type": 90,
         "type": "Block",
+        "stereotype": "process",
         "name": "Automotive SPICE",
         "description": [
                 ""
@@ -7623,6 +7679,80 @@
         "y_order": -2139877420,
         "list_order": -2139861387,
         "uuid": "05268728-aee3-4fab-bb9a-56a531df8d29",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 230,
+        "main_type": 139,
+        "type": "Stereotype",
+        "stereotype": "Metaclass",
+        "name": "Class",
+        "description": [
+                ""
+        ],
+        "x_order": -892469252,
+        "y_order": -593906884,
+        "list_order": -593906884,
+        "uuid": "39f3736f-f0a4-4f0d-9f2f-22589c33cdde",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 231,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "process",
+        "description": [
+                "<path d=\"\n",
+                "\n",
+                "M 0 5\n",
+                "L 2 4.5\n",
+                "L 3 3\n",
+                "l -1 -1 0 -1 1 0.5 1 1\n",
+                "c 2 -0.5 3 -0.5 5 0.5\n",
+                "l -1 -1 0 -1 2 1 0 2\n",
+                "l 1 0 0.5 -0.5 1.5 1.5\n",
+                "\n",
+                "M 0 5\n",
+                "L 2 5.5\n",
+                "L 3 7\n",
+                "l -1 1 0 1 1 -0.5 1 -1\n",
+                "c 2 0.5 3 0.5 5 -0.5\n",
+                "l -1 1 0 1 2 -1 0 -2\n",
+                "l 1 0 0.5 0.5 1.5 -1.5\n",
+                "\n",
+                "\"/>"
+        ],
+        "x_order": -892469252,
+        "y_order": 767041657,
+        "list_order": 767041657,
+        "uuid": "1745abf3-31ae-4e4b-a1ba-4f203ea1238a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 232,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "process",
+        "name": "turtle",
+        "description": [
+                ""
+        ],
+        "x_order": 1092222441,
+        "y_order": 767041657,
+        "list_order": 767041657,
+        "uuid": "e67e082d-087e-4e92-9385-6446415c531e",
         "features":
         [
         ]
@@ -7958,8 +8088,8 @@
     {
       "relationship": {
         "id": 2,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "main_type": 241,
+        "type": "ObjectFlow",
         "name": "creates",
         "description": [
                 ""
@@ -8043,8 +8173,8 @@
     {
       "relationship": {
         "id": 1,
-        "main_type": 230,
-        "type": "CommunicationPath",
+        "main_type": 241,
+        "type": "ObjectFlow",
         "name": "is precondition for",
         "description": [
                 ""
@@ -11389,6 +11519,40 @@
         "from_node": "05268728-aee3-4fab-bb9a-56a531df8d29",
         "to_node": "a8416a4f-5039-4c2a-b79b-a153fc7b9d40",
         "uuid": "290453b9-6a97-49d9-8ba0-84cc238407e4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 282,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "process",
+        "to_classifier_name": "Class",
+        "from_node": "1745abf3-31ae-4e4b-a1ba-4f203ea1238a",
+        "to_node": "39f3736f-f0a4-4f0d-9f2f-22589c33cdde",
+        "uuid": "73686447-2f49-4637-99a9-9bc3b9877c48"
+      }
+    },
+    {
+      "relationship": {
+        "id": 283,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "process",
+        "to_classifier_name": "turtle",
+        "from_node": "1745abf3-31ae-4e4b-a1ba-4f203ea1238a",
+        "to_node": "e67e082d-087e-4e92-9385-6446415c531e",
+        "uuid": "0469adf8-b991-4680-8515-5e2e83cf6059"
       }
     }
   ]

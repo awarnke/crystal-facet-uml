@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.48.0"
+    "generator_version": "1.48.2"
   }
   ,
   "views":
@@ -2594,17 +2594,57 @@
     },
     {
       "diagram": {
-        "id": 32,
-        "diagram_type": 39,
-        "type": "UMLProfileDiagram",
+        "id": 33,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
         "name": "Stereotypes",
         "description": [
                 ""
         ],
-        "list_order": 163840,
+        "list_order": 196608,
         "display_flags": 0,
         "parent_name": "Overview [root]",
         "parent": "9b37a210-63ea-49db-85c8-cf3ee50a2199",
+        "uuid": "2f4e6fc2-567e-48a3-bb80-1561e010226d",
+        "diagramelements":
+        [
+          {
+            "id": 285,
+            "display_flags": 0,
+            "classifier_name": "UML:Class",
+            "node": "476a05d7-8076-44e7-890a-fed46a42ec46",
+            "uuid": "ff3c4533-4957-4a2e-8ed7-2f10d8d6dda5"
+          },
+          {
+            "id": 286,
+            "display_flags": 0,
+            "classifier_name": "MyStereo",
+            "node": "8d484ab0-b8c0-466e-a7ca-ac7a45c454f2",
+            "uuid": "46b2d17f-9d12-4b87-af1f-a31f82db9e70"
+          },
+          {
+            "id": 287,
+            "display_flags": 0,
+            "classifier_name": "Stereo.Img",
+            "node": "b8c1f65f-ab82-48a5-9d55-07780aff6424",
+            "uuid": "545fee35-71ac-4db6-8d9f-d03bf16453c8"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 32,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Stereotypes from inkscape",
+        "description": [
+                ""
+        ],
+        "list_order": -1,
+        "display_flags": 0,
+        "parent_name": "Stereotypes",
+        "parent": "2f4e6fc2-567e-48a3-bb80-1561e010226d",
         "uuid": "a9006917-cf99-41e7-ba2e-b010ee5bd075",
         "diagramelements":
         [
@@ -7669,6 +7709,82 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 138,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "UML:Class",
+        "description": [
+                ""
+        ],
+        "x_order": -1212936171,
+        "y_order": -1105345366,
+        "list_order": -1105345366,
+        "uuid": "476a05d7-8076-44e7-890a-fed46a42ec46",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 139,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "MyStereo",
+        "description": [
+                "<path d=\"\n",
+                "m 1 5\n",
+                "3 0\n",
+                "M 6 5\n",
+                "l 3,0\n",
+                "M 1 2\n",
+                "Q 1.5 0 2 2\n",
+                "T 3 2\n",
+                "T 4 2\n",
+                "T 4.5 2\n",
+                "T 5.5 2\n",
+                "T 7 2\n",
+                "T9 2\n",
+                "z\n",
+                "M 1 8\n",
+                "C 1 6 3 6 3 8\n",
+                "S 5 10 5 8\n",
+                "S 6 6 6 8\n",
+                "S 9 10 9 8\n",
+                "Z\n",
+                "\">"
+        ],
+        "x_order": -1212936171,
+        "y_order": 566293693,
+        "list_order": 511430960,
+        "uuid": "8d484ab0-b8c0-466e-a7ca-ac7a45c454f2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 140,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "MyStereo",
+        "name": "Stereo.Img",
+        "description": [
+                ""
+        ],
+        "x_order": 535024986,
+        "y_order": 566293693,
+        "list_order": 566293693,
+        "uuid": "b8c1f65f-ab82-48a5-9d55-07780aff6424",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -9217,6 +9333,40 @@
         "from_node": "59ae906c-ea6d-4438-ade5-ac81c4d34b56",
         "to_node": "b5e8356a-835b-4c5c-a6e1-6c39f3ab92af",
         "uuid": "2a883033-c043-48e9-adac-b89eb698d171"
+      }
+    },
+    {
+      "relationship": {
+        "id": 90,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "MyStereo",
+        "to_classifier_name": "UML:Class",
+        "from_node": "8d484ab0-b8c0-466e-a7ca-ac7a45c454f2",
+        "to_node": "476a05d7-8076-44e7-890a-fed46a42ec46",
+        "uuid": "d0c2ae93-5380-4f17-a439-33028981359d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 91,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "MyStereo",
+        "to_classifier_name": "Stereo.Img",
+        "from_node": "8d484ab0-b8c0-466e-a7ca-ac7a45c454f2",
+        "to_node": "b8c1f65f-ab82-48a5-9d55-07780aff6424",
+        "uuid": "e7df383c-9b41-497b-8ae1-9fed4a31fc8e"
       }
     }
   ]

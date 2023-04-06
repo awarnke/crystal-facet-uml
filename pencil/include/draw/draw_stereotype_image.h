@@ -86,7 +86,7 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *  \param this_ pointer to own object attributes
  *  \param stereotype name of the stereotype(s) to be drawn
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
- *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param bounds bounding rectangle of the stereotype image
  *  \param cr a cairo drawing context
  *  \return U8_ERROR_NONE if one (or more) images were drawn,
@@ -102,14 +102,17 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                       );
 
 /*!
- *  \brief draws the stereotype image into the bounds rect
+ *  \brief draws the stereotype image (svg xml) into the bounds rect
  *
  *  \param this_ pointer to own object attributes
  *  \param draw false if only the view_rect shall be determined, true if the drawing_directives shall be drawn
  *  \param drawing_directives sequence of drawing directives
- *  \param io_view_rect bounding rectangle of the drawing_directives;
- *                      in all cases this is provided as output, in case of draw==true this is needed as imput.
- *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param[in,out] io_view_rect bounding rectangle of the drawing_directives;
+ *                              in all cases this is provided as output,
+ *                              in case of draw==true this is needed as input,
+ *                              in case of draw==false this is required to be initialized as empty,
+ *                              eventually pre-filled by previous calls to preceding svg xml fragments.
+ *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param target_bounds bounding rectangle of the drawing directives
  *  \param cr a cairo drawing context
  *  \return U8_ERROR_NONE if the image was drawn,
@@ -126,15 +129,18 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                                        );
 
 /*!
- *  \brief draws the stereotype image into the bounds rect
+ *  \brief draws the stereotype image (svg path drawing commands) into the bounds rect
  *
  *  \param this_ pointer to own object attributes
  *  \param draw false if only the view_rect shall be determined, true if the drawing_directives shall be drawn
  *  \param tok_iterator token iterator of drawing directives. The first token shall be the first draw command.
  *                      double quotes or end-of-stream end the processing, the double quotes token is already consumed.
- *  \param io_view_rect bounding rectangle of the drawing_directives;
- *                      in all cases this is provided as output, in case of draw==true this is needed as imput.
- *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param[in,out] io_view_rect bounding rectangle of the drawing_directives;
+ *                              in all cases this is provided as output,
+ *                              in case of draw==true this is needed as input,
+ *                              in case of draw==false this is required to be initialized as empty,
+ *                              eventually pre-filled by previous calls to preceding svg path fragments.
+ *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \param target_bounds bounding rectangle of the drawing directives
  *  \param cr a cairo drawing context
  *  \return U8_ERROR_NONE if the image was drawn,
@@ -149,6 +155,63 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                                                          const geometry_rectangle_t *target_bounds,
                                                          cairo_t *cr
                                                        );
+
+/*!
+ *  \brief determines the angle between two 2-dim vectors.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param u_x x value of the u vector
+ *  \param u_y y value of the u vector
+ *  \param v_x x value of the v vector
+ *  \param v_y y value of the v vector
+ *  \return angle in rad, range -pi..pi
+ */
+static inline double draw_stereotype_image_private_get_angle ( const draw_stereotype_image_t *this_,
+                                                               double u_x,
+                                                               double u_y,
+                                                               double v_x,
+                                                               double v_y
+                                                             );
+
+/*!
+ *  \brief determines the center, start and delta angles of the arc given the endpoints.
+ *
+ *  This function is an implementation of the proposed conversion rules in
+ *  https://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param start_x abscissa of the starting point
+ *  \param start_y ordinate of the starting point
+ *  \param end_x abscissa of the end point
+ *  \param end_y ordinate of the end point
+ *  \param large_arc true if the arc is spanning more than 180 degree / 1*pi
+ *  \param sweep_positive_dir true if the arc is traversed in positive-angle direction
+ *  \param r_x major ellipsis radius
+ *  \param r_y minor ellipsis radius
+ *  \param phi angle between major ellipsis radius and x-axis (unit: rad)
+ *  \param[out] out_center_x abscissa of the arc-center point
+ *  \param[out] out_center_y ordinate of the arc-center point
+ *  \param[out] out_start_angle angle of the starting point (unit: rad)
+ *  \param[out] out_delta_angle delta angle from the start to the end point (unit: rad)
+ *  \return U8_ERROR_NONE if the provided values are a valid arc,
+ *          U8_ERROR_VALUE_OUT_OF_RANGE if provided values are not valid, e.g. start and end points are equal.
+ *          U8_ERROR_EDGE_CASE_PARAM if the arc degrades to a straight line from start to end
+ */
+static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const draw_stereotype_image_t *this_,
+                                                                        double start_x,
+                                                                        double start_y,
+                                                                        double end_x,
+                                                                        double end_y,
+                                                                        bool large_arc,
+                                                                        bool sweep_positive_dir,
+                                                                        double r_x,
+                                                                        double r_y,
+                                                                        double phi,
+                                                                        double *out_center_x,
+                                                                        double *out_center_y,
+                                                                        double *out_start_angle,
+                                                                        double *out_delta_angle
+                                                                      );
 
 #include "draw_stereotype_image.inl"
 

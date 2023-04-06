@@ -229,7 +229,7 @@ enum draw_stereotype_image_expect_enum {
     DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_QCTRL_Y,  /*!< coordinate sequence, expecting quadratic curve control_point_Y float */
     DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RX,  /*!< arc parameter sequence, expecting arc rx float */
     DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RY,  /*!< arc parameter sequence, expecting arc rx float */
-    DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_X_ROT,  /*!< arc parameter sequence, expecting arc x axis rotation float */
+    DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_PHI,  /*!< arc parameter sequence, expecting arc x axis rotation-angle float */
     DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_LARGE,  /*!< arc parameter sequence, expecting large arc flag */
     DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_SWEEP,  /*!< arc parameter sequence, expecting sweep arc flag */
     DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X,  /*!< coordinate sequence, expecting end_x float */
@@ -274,6 +274,11 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     double subpath_start_y = 0.0;  /* ordinate, absolute values */
     double command_start_x = 0.0;  /* abscissa, absolute values */
     double command_start_y = 0.0;  /* ordinate, absolute values */
+    double arc_r_x = 0.0;  /* major ellipsis radius */
+    double arc_r_y = 0.0;  /* minor ellipsis radius */
+    double arc_phi = 0.0;  /* angle between major ellipsis radius and x-axis (unit: rad) */
+    bool arc_large_arc = false;  /* true if the arc is spanning more than 180 degree / 1*pi */
+    bool arc_sweep_positive = false;  /* true if the arc is traversed in positive-angle direction */
 
     /* init draw */
     if ( draw )
@@ -358,8 +363,6 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if (( current=='a' )||( current=='A' ))
                 {
-                    /* TODO store value to appropriate variable */
-                    /* continue reading current parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RX;
                     last_command = current;
                 }
@@ -460,8 +463,6 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else if (( current=='a' )||( current=='A' ))
                 {
-                    /* TODO store value to appropriate variable */
-                    /* continue reading current parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RX;
                     last_command = current;
                 }
@@ -555,7 +556,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     }
                     else if (( last_command=='a' )||( last_command=='A' ))
                     {
-                        /* TODO store value to appropriate variable */
+                        /* store major radius value to appropriate variable */
+                        arc_r_x = value;
                         /* continue reading last_command parameters */
                         parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RY;
                     }
@@ -726,12 +728,51 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     }
                     else if (( last_command=='a' )||( last_command=='A' ))
                     {
+                        double center_x = 0.0;
+                        double center_y = 0.0;
+                        double start_angle = 0.0;
+                        double delta_angle= 0.0;
+                        const u8_error_t arc_err
+                            = draw_stereotype_image_private_get_arc_center( this_,
+                                                                            command_start_x,
+                                                                            command_start_y,
+                                                                            command_end_x,
+                                                                            command_end_y,
+                                                                            arc_large_arc,
+                                                                            arc_sweep_positive,
+                                                                            arc_r_x,
+                                                                            arc_r_y,
+                                                                            arc_phi,
+                                                                            &center_x,
+                                                                            &center_y,
+                                                                            &start_angle,
+                                                                            &delta_angle
+                                                                          );
+
                         /* draw */
                         if ( draw )
                         {
-                            cairo_move_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
+                            if ( arc_err == U8_ERROR_NONE )
+                            {
+                                cairo_arc( cr,
+                                           center_x * scale_x + shift_x,
+                                           center_y * scale_y + shift_y,
+                                           arc_r_x * scale_x,
+                                           start_angle,
+                                           start_angle + delta_angle
+                                         );
+                                /* TODO draw arc correctly, use cairo_arc_negative,
+                                 * see https://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter */
+                            }
+                            else if ( arc_err == U8_ERROR_EDGE_CASE_PARAM )
+                            {
+                                cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
+                            }
+                            else
+                            {
+                                cairo_move_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
+                            }
                         }
-                        /* TODO draw arc */
                         /* update state */
                         geometry_rectangle_embrace( io_view_rect, command_end_x, command_end_y );
                         command_start_x = command_end_x;
@@ -971,7 +1012,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         assert( byte_length == utf8stringview_get_length( tok ) );
                     }
-                    /* TODO store value to appropriate variable */
+                    /* store value to appropriate variable */
+                    arc_r_x = value;
                     /* continue reading last_command parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_RY;
                 }
@@ -1003,14 +1045,15 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         assert( byte_length == utf8stringview_get_length( tok ) );
                     }
-                    /* TODO store value to appropriate variable */
+                    /* store value to appropriate variable */
+                    arc_r_y = value;
                     /* continue reading last_command parameters */
-                    parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_X_ROT;
+                    parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_PHI;
                 }
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_X_ROT:
+            case DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_PHI:
             {
                 if ( utf8stringview_equals_str( tok, "," ) )
                 {
@@ -1035,7 +1078,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         assert( byte_length == utf8stringview_get_length( tok ) );
                     }
-                    /* TODO store value to appropriate variable */
+                    /* store value to appropriate variable */
+                    arc_phi = value * ( M_PI / 180.0 );
                     /* continue reading last_command parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_LARGE;
                 }
@@ -1067,7 +1111,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         assert( byte_length == utf8stringview_get_length( tok ) );
                     }
-                    /* TODO store value to appropriate variable */
+                    /* store value to appropriate variable */
+                    arc_large_arc = ( value > 0.0001 );
                     /* continue reading last_command parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_ARC_SWEEP;
                 }
@@ -1099,7 +1144,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     {
                         assert( byte_length == utf8stringview_get_length( tok ) );
                     }
-                    /* TODO store value to appropriate variable */
+                    /* store value to appropriate variable */
+                    arc_sweep_positive = ( value > 0.0001 );
                     /* continue reading last_command parameters */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_COORD_END_X;
                 }
