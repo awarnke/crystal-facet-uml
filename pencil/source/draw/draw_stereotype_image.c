@@ -754,15 +754,28 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         {
                             if ( arc_err == U8_ERROR_NONE )
                             {
-                                cairo_arc( cr,
-                                           center_x * scale_x + shift_x,
-                                           center_y * scale_y + shift_y,
-                                           arc_r_x * scale_x,
-                                           start_angle,
-                                           start_angle + delta_angle
-                                         );
-                                /* TODO draw arc correctly, use cairo_arc_negative,
-                                 * see https://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter */
+                                /* TODO remove radius approximation, adhere to arc_phi */
+                                const double approx_radius = ( (arc_r_x * scale_x) + (arc_r_y * scale_y) ) / 2.0;
+                                if ( delta_angle < 0.0 )
+                                {
+                                    cairo_arc_negative( cr,
+                                                        center_x * scale_x + shift_x,
+                                                        center_y * scale_y + shift_y,
+                                                        approx_radius,
+                                                        start_angle,
+                                                        start_angle + delta_angle
+                                                      );
+                                }
+                                else
+                                {
+                                    cairo_arc( cr,
+                                               center_x * scale_x + shift_x,
+                                               center_y * scale_y + shift_y,
+                                               approx_radius,
+                                               start_angle,
+                                               start_angle + delta_angle
+                                             );
+                                }
                             }
                             else if ( arc_err == U8_ERROR_EDGE_CASE_PARAM )
                             {
@@ -774,6 +787,10 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                             }
                         }
                         /* update state */
+                        geometry_rectangle_embrace( io_view_rect, center_x, center_y - arc_r_y );
+                        geometry_rectangle_embrace( io_view_rect, center_x - arc_r_x, center_y );
+                        geometry_rectangle_embrace( io_view_rect, center_x, center_y + arc_r_y );
+                        geometry_rectangle_embrace( io_view_rect, center_x + arc_r_x, center_y );
                         geometry_rectangle_embrace( io_view_rect, command_end_x, command_end_y );
                         command_start_x = command_end_x;
                         command_start_y = command_end_y;

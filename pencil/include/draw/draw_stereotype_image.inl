@@ -55,7 +55,7 @@ static inline double draw_stereotype_image_private_get_angle ( const draw_stereo
                                                                double v_x,
                                                                double v_y )
 {
-    const bool negative = (( u_x * v_y ) + ( u_y * v_x )) < 0.0;
+    const bool negative = (( u_x * v_y ) - ( u_y * v_x )) < 0.0;
     const double len_u = sqrt( ( u_x * u_x ) + ( u_y * u_y ) );
     const double len_v = sqrt( ( v_x * v_x ) + ( v_y * v_y ) );
     const double abs_angle = acos((( u_x * v_x ) + ( u_y * v_y )) / ( len_u * len_v ));
@@ -83,6 +83,8 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
     assert( out_start_angle != NULL );
     assert( out_delta_angle != NULL );
     u8_error_t result = U8_ERROR_NONE;
+
+    /* see https://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter */
 
     /* see B.2.5, step 2, eq 6.1 */
     r_x = fabs( r_x );
