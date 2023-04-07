@@ -760,7 +760,9 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                                 /* scale and shift viewport to icon size */
                                 cairo_translate( cr, shift_x, shift_y );
                                 cairo_scale( cr, scale_x, scale_y );
-                                /* to SVG transformations */
+                                /* prepare */
+                                cairo_move_to( cr, command_start_x, command_start_y );
+                                /* setup SVG transformations */
                                 cairo_translate( cr, center_x, center_y );
                                 cairo_rotate( cr, arc_phi );
                                 cairo_scale( cr, 1.0, ellipsis_ratio );
@@ -770,8 +772,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                                                         0.0,
                                                         0.0,
                                                         arc_r_x,
-                                                        start_angle - arc_phi,
-                                                        start_angle - arc_phi + delta_angle
+                                                        start_angle,
+                                                        start_angle + delta_angle
                                                       );
                                 }
                                 else
@@ -780,8 +782,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                                                0.0,
                                                0.0,
                                                arc_r_x,
-                                               start_angle - arc_phi,
-                                               start_angle - arc_phi + delta_angle
+                                               start_angle,
+                                               start_angle + delta_angle
                                              );
                                 }
                                 cairo_set_matrix( cr, &orig_matrix );

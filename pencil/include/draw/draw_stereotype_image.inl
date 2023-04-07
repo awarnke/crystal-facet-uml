@@ -104,15 +104,15 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
         const double sin_phi = sin( phi );
         const double half_dx = ( start_x - end_x ) / 2.0;
         const double half_dy = ( start_y - end_y ) / 2.0;
-        const double rot_d_x = cos_phi * half_dx + sin_phi * half_dy;
-        const double rot_d_y = (-sin_phi) * half_dx + cos_phi * half_dy;
+        const double rot_half_dx = cos_phi * half_dx + sin_phi * half_dy;
+        const double rot_half_dy = (-sin_phi) * half_dx + cos_phi * half_dy;
 
         /* see B.2.5, step 3, eq 6.2 */
         double sqr_r_x = r_x * r_x;
         double sqr_r_y = r_y * r_y;
-        const double sqr_rot_d_x = rot_d_x * rot_d_x;
-        const double sqr_rot_d_y = rot_d_y * rot_d_y;
-        const double sqr_too_small_factor = ( sqr_rot_d_x / sqr_r_x ) + ( sqr_rot_d_y / sqr_r_y );
+        const double sqr_rot_half_dx = rot_half_dx * rot_half_dx;
+        const double sqr_rot_half_dy = rot_half_dy * rot_half_dy;
+        const double sqr_too_small_factor = ( sqr_rot_half_dx / sqr_r_x ) + ( sqr_rot_half_dy / sqr_r_y );
 
         /* see B.2.5, step 3, eq 6.3 */
         if ( sqr_too_small_factor > 1.0 )
@@ -125,8 +125,8 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
         }
 
         /* see B.2.4, step 2, eq 5.2 */
-        const double numerator = ( sqr_r_x * sqr_r_y ) - ( sqr_r_x * sqr_rot_d_y ) - ( sqr_r_y * sqr_rot_d_x );
-        double denominator = ( sqr_r_x * sqr_rot_d_y ) + ( sqr_r_y * sqr_rot_d_x );
+        const double numerator = ( sqr_r_x * sqr_r_y ) - ( sqr_r_x * sqr_rot_half_dy ) - ( sqr_r_y * sqr_rot_half_dx );
+        double denominator = ( sqr_r_x * sqr_rot_half_dy ) + ( sqr_r_y * sqr_rot_half_dx );
         if ( denominator < 0.000000000001 )
         {
             /* start and end points are equal */
@@ -134,12 +134,13 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
             denominator = 0.000000000001;
         }
         const double sqr_factor = numerator / denominator;
-        double rot_c_x = ( r_x * rot_d_y ) / r_y;
-        double rot_c_y = - ( r_y * rot_d_x ) / r_x;
+        double rot_c_x = ( r_x * rot_half_dy ) / r_y;
+        double rot_c_y = - ( r_y * rot_half_dx ) / r_x;
         if ( sqr_factor <= 0.0 )
         {
-            /* rounding error and/or just 1 solution: */
-            /* nothing to do in this case */
+            /* case: rounding error and/or just 1 solution; factor is 0.0 */
+            rot_c_x = 0.0;
+            rot_c_y = 0.0;
         }
         else
         {
@@ -166,15 +167,15 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
         *out_start_angle = draw_stereotype_image_private_get_angle( this_,
                                                                     1.0,
                                                                     0.0,
-                                                                    ( rot_d_x - rot_c_x ) / r_x,
-                                                                    ( rot_d_y - rot_c_y ) / r_y
+                                                                    ( rot_half_dx - rot_c_x ) / r_x,
+                                                                    ( rot_half_dy - rot_c_y ) / r_y
                                                                   );
         /* see B.2.4, step 4, eq 5.6 */
         double delta_angle = draw_stereotype_image_private_get_angle( this_,
-                                                                      ( rot_d_x - rot_c_x ) / r_x,
-                                                                      ( rot_d_y - rot_c_y ) / r_y,
-                                                                      ( (-rot_d_x) - rot_c_x ) / r_x,
-                                                                      ( (-rot_d_y) - rot_c_y ) / r_y
+                                                                      ( rot_half_dx - rot_c_x ) / r_x,
+                                                                      ( rot_half_dy - rot_c_y ) / r_y,
+                                                                      ( (-rot_half_dx) - rot_c_x ) / r_x,
+                                                                      ( (-rot_half_dy) - rot_c_y ) / r_y
                                                                     );
         *out_delta_angle
             = sweep_positive_dir
@@ -185,29 +186,6 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
     U8_TRACE_END_ERR(result);
     return U8_ERROR_NONE;
 }
-
-#if 0
-static inline u8_error_t draw_stereotype_image_private_draw_arc( const draw_stereotype_image_t *this_,
-                                                                 double center_x,
-                                                                 double center_y,
-                                                                 double r_x,
-                                                                 double r_y,
-                                                                 double phi,
-                                                                 double start_angle,
-                                                                 double delta_angle,
-                                                                 cairo_t *cr )
-{
-    U8_TRACE_BEGIN();
-    assert( out_center_x != NULL );
-    assert( out_center_y != NULL );
-    assert( out_start_angle != NULL );
-    assert( out_delta_angle != NULL );
-    u8_error_t result = U8_ERROR_NONE;
-
-    U8_TRACE_END_ERR(result);
-    return U8_ERROR_NONE;
-}
-#endif
 
 
 /*

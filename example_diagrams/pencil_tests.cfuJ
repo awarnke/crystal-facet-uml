@@ -2899,6 +2899,20 @@
             "classifier_name": "sr_img",
             "node": "8fb15d47-c358-466f-a38a-3aa613ff27d9",
             "uuid": "4b0ad3cf-43b3-4cc3-954c-dbddb7e08820"
+          },
+          {
+            "id": 305,
+            "display_flags": 0,
+            "classifier_name": "ellipsis",
+            "node": "7cd49868-0735-478e-bed1-37e6c01d34ab",
+            "uuid": "994dc441-ac03-41f8-8b45-1a5352841c91"
+          },
+          {
+            "id": 306,
+            "display_flags": 0,
+            "classifier_name": "ellipsis_img",
+            "node": "2b855443-a132-466a-9dbb-872e2cfe7126",
+            "uuid": "31cb8045-68b1-4a1c-ad3c-4deba79d49ec"
           }
         ]
       }
@@ -6652,7 +6666,7 @@
                 "       sodipodi:cy=\"-1.771107\"\n",
                 "       sodipodi:rx=\"2.2045028\"\n",
                 "       sodipodi:ry=\"1.8761727\"\n",
-                "       d=\"m 1.6885554,-1.771107 c 0,1.03618159 -0.98698957,1.8761727 -2.20450286,1.8761727 -1.21751334,0 -2.20450284,-0.83999111 -2.20450284,-1.8761727 0,-1.0361815 0.9869895,-1.8761726 2.20450284,-1.8761726 1.21751329,0 2.20450286,0.8399911 2.20450286,1.8761726 z\"\n",
+                "       d_ignore=\"m 1.6885554,-1.771107 c 0,1.03618159 -0.98698957,1.8761727 -2.20450286,1.8761727 -1.21751334,0 -2.20450284,-0.83999111 -2.20450284,-1.8761727 0,-1.0361815 0.9869895,-1.8761726 2.20450284,-1.8761726 1.21751329,0 2.20450286,0.8399911 2.20450286,1.8761726 z\"\n",
                 "       transform=\"translate(0,1020.3622)\" />\n",
                 "    <path\n",
                 "       style=\"fill:#00ff9b;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\"\n",
@@ -8310,6 +8324,52 @@
         "y_order": 325444845,
         "list_order": 325444845,
         "uuid": "8fb15d47-c358-466f-a38a-3aa613ff27d9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 157,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "ellipsis",
+        "description": [
+                "<path d=\"\n",
+                "M 100,5\n",
+                "v 10\n",
+                "A 40,10 30 1 1 100,27\n",
+                "v 10\n",
+                "a 40,10 30 0 0 0,12\n",
+                "v 10\n",
+                "\"/>\n",
+                "<path d=\"       M 120 5 a 7.0806756,7.2682929 0 1 0 14.161352,0 \n",
+                "\">"
+        ],
+        "x_order": -1541461619,
+        "y_order": -1060928158,
+        "list_order": -1060928158,
+        "uuid": "7cd49868-0735-478e-bed1-37e6c01d34ab",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 158,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "ellipsis",
+        "name": "ellipsis_img",
+        "description": [
+                ""
+        ],
+        "x_order": -1212936171,
+        "y_order": -1060928158,
+        "list_order": -1060928158,
+        "uuid": "2b855443-a132-466a-9dbb-872e2cfe7126",
         "features":
         [
         ]
@@ -10168,6 +10228,40 @@
         "from_node": "25520314-005e-4300-883f-bda78e577d81",
         "to_node": "08290b91-feb7-4513-bc8a-acbb0d92bdee",
         "uuid": "3800ed4d-5a89-4ce6-8819-4421f10091bb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 108,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "ellipsis",
+        "to_classifier_name": "UML:Class",
+        "from_node": "7cd49868-0735-478e-bed1-37e6c01d34ab",
+        "to_node": "476a05d7-8076-44e7-890a-fed46a42ec46",
+        "uuid": "c7d9cfab-c3b8-4842-808d-45a52df82684"
+      }
+    },
+    {
+      "relationship": {
+        "id": 109,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 589824,
+        "from_classifier_name": "ellipsis",
+        "to_classifier_name": "ellipsis_img",
+        "from_node": "7cd49868-0735-478e-bed1-37e6c01d34ab",
+        "to_node": "2b855443-a132-466a-9dbb-872e2cfe7126",
+        "uuid": "0ccf67f5-34a9-4c38-a28e-59e7ed0922be"
       }
     }
   ]

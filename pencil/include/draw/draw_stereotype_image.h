@@ -213,36 +213,6 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
                                                                         double *out_delta_angle
                                                                       );
 
-/*!
- *  \brief draws an arc.
- *
- *  This function assumes that the cairo drawing context pen is already at the start position.
- *
- *  \param this_ pointer to own object attributes
- *  \param center_x abscissa of the  arc-center point
- *  \param center_y ordinate of the  arc-center point
- *  \param r_x major ellipsis radius
- *  \param r_y minor ellipsis radius
- *  \param phi angle between major ellipsis radius and x-axis (unit: rad)
- *  \param start_angle angle of the starting point (unit: rad)
- *  \param delta_angle delta angle from the start to the end angle, sign indicates the direction (unit: rad)
- *  \param cr a cairo drawing context
- *  \return U8_ERROR_NONE if the provided values are a valid arc,
- *          U8_ERROR_VALUE_OUT_OF_RANGE if provided values are not valid, e.g. negative radius.
- */
-#if 0
-static inline u8_error_t draw_stereotype_image_private_draw_arc( const draw_stereotype_image_t *this_,
-                                                                 double center_x,
-                                                                 double center_y,
-                                                                 double r_x,
-                                                                 double r_y,
-                                                                 double phi,
-                                                                 double start_angle,
-                                                                 double delta_angle,
-                                                                 cairo_t *cr
-                                                               );
-#endif
-
 #include "draw_stereotype_image.inl"
 
 #endif  /* DRAW_STEREOTYPE_IMAGE_H */
