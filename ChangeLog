@@ -1,7 +1,7 @@
 crystal-facet-uml (1.48.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * Stereotype-Images: svg-paths draw arcs
+  * Stereotype-Images: svg-paths draw arcs (no ellipsis, no rotation)
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 41 Apr 2023 8:00:00 +0200
 

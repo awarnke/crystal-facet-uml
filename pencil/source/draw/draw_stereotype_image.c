@@ -754,28 +754,37 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         {
                             if ( arc_err == U8_ERROR_NONE )
                             {
-                                /* TODO remove radius approximation, adhere to arc_phi */
-                                const double approx_radius = ( (arc_r_x * scale_x) + (arc_r_y * scale_y) ) / 2.0;
+                                const double ellipsis_ratio = ( arc_r_x > 0.001 ) ? ( arc_r_y / arc_r_x ) : 1000.0;
+                                cairo_matrix_t orig_matrix;
+                                cairo_get_matrix( cr, &orig_matrix );
+                                /* scale and shift viewport to icon size */
+                                cairo_translate( cr, shift_x, shift_y );
+                                cairo_scale( cr, scale_x, scale_y );
+                                /* to SVG transformations */
+                                cairo_translate( cr, center_x, center_y );
+                                cairo_rotate( cr, arc_phi );
+                                cairo_scale( cr, 1.0, ellipsis_ratio );
                                 if ( delta_angle < 0.0 )
                                 {
                                     cairo_arc_negative( cr,
-                                                        center_x * scale_x + shift_x,
-                                                        center_y * scale_y + shift_y,
-                                                        approx_radius,
-                                                        start_angle,
-                                                        start_angle + delta_angle
+                                                        0.0,
+                                                        0.0,
+                                                        arc_r_x,
+                                                        start_angle - arc_phi,
+                                                        start_angle - arc_phi + delta_angle
                                                       );
                                 }
                                 else
                                 {
                                     cairo_arc( cr,
-                                               center_x * scale_x + shift_x,
-                                               center_y * scale_y + shift_y,
-                                               approx_radius,
-                                               start_angle,
-                                               start_angle + delta_angle
+                                               0.0,
+                                               0.0,
+                                               arc_r_x,
+                                               start_angle - arc_phi,
+                                               start_angle - arc_phi + delta_angle
                                              );
                                 }
+                                cairo_set_matrix( cr, &orig_matrix );
                             }
                             else if ( arc_err == U8_ERROR_EDGE_CASE_PARAM )
                             {

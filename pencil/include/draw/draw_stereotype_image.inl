@@ -186,6 +186,29 @@ static inline u8_error_t draw_stereotype_image_private_get_arc_center ( const dr
     return U8_ERROR_NONE;
 }
 
+#if 0
+static inline u8_error_t draw_stereotype_image_private_draw_arc( const draw_stereotype_image_t *this_,
+                                                                 double center_x,
+                                                                 double center_y,
+                                                                 double r_x,
+                                                                 double r_y,
+                                                                 double phi,
+                                                                 double start_angle,
+                                                                 double delta_angle,
+                                                                 cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( out_center_x != NULL );
+    assert( out_center_y != NULL );
+    assert( out_start_angle != NULL );
+    assert( out_delta_angle != NULL );
+    u8_error_t result = U8_ERROR_NONE;
+
+    U8_TRACE_END_ERR(result);
+    return U8_ERROR_NONE;
+}
+#endif
+
 
 /*
 Copyright 2023-2023 Andreas Warnke

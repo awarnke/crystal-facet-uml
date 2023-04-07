@@ -13,6 +13,8 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
+  [ ] The duplicate name error message is not visible enough, proposal to replace by existing object missing.
+  [ ] In case of a duplicate name an alternative but similar name shall be chosen
   @pencil
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
