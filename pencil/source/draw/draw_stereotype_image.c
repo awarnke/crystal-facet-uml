@@ -760,8 +760,6 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                                 /* scale and shift viewport to icon size */
                                 cairo_translate( cr, shift_x, shift_y );
                                 cairo_scale( cr, scale_x, scale_y );
-                                /* prepare */
-                                cairo_move_to( cr, command_start_x, command_start_y );
                                 /* setup SVG transformations */
                                 cairo_translate( cr, center_x, center_y );
                                 cairo_rotate( cr, arc_phi );

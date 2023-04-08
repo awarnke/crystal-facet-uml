@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.48.0"
+    "generator_version": "1.48.2"
   }
   ,
   "views":
@@ -2595,6 +2595,46 @@
           }
         ]
       }
+    },
+    {
+      "diagram": {
+        "id": 48,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Stereotypes",
+        "description": [
+                "Stereotypes allow a classification of elements into project-specific categories."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Glossary",
+        "parent": "6ecb58b3-a391-4d02-8be4-fc24dd9fdae9",
+        "uuid": "5e7759e0-59eb-4627-92a6-1dc66f54fedc",
+        "diagramelements":
+        [
+          {
+            "id": 267,
+            "display_flags": 0,
+            "classifier_name": "UML:Component",
+            "node": "658b972a-f9cb-4425-a6de-3b85e7e9fe17",
+            "uuid": "3cb448bc-ab7b-4433-ad7a-4c20cca9c4c9"
+          },
+          {
+            "id": 268,
+            "display_flags": 0,
+            "classifier_name": "env-perception",
+            "node": "791caace-aac4-448b-8fd7-5157db967221",
+            "uuid": "1f4968a0-ab1f-4128-9cb4-4461d41a1f42"
+          },
+          {
+            "id": 269,
+            "display_flags": 0,
+            "classifier_name": "env-image",
+            "node": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
+            "uuid": "9f939310-0c2c-464e-9065-de6f6363e2cc"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -3523,6 +3563,7 @@
         "id": 41,
         "main_type": 90,
         "type": "Block",
+        "stereotype": "env-perception",
         "name": "Camera",
         "description": [
                 ""
@@ -3541,6 +3582,7 @@
         "id": 42,
         "main_type": 90,
         "type": "Block",
+        "stereotype": "env-perception",
         "name": "Microphone",
         "description": [
                 ""
@@ -4047,6 +4089,7 @@
         "id": 67,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "env-perception",
         "name": "Explore Environment",
         "description": [
                 "When the mouse droid is missing relevant data on the environment, it plans a list of actions that suits the purpose of gaining the missing knowledge."
@@ -4808,6 +4851,7 @@
         "id": 106,
         "main_type": 121,
         "type": "Component",
+        "stereotype": "env-perception",
         "name": "Video Capture",
         "description": [
                 ""
@@ -4837,6 +4881,7 @@
         "id": 107,
         "main_type": 121,
         "type": "Component",
+        "stereotype": "env-perception",
         "name": "Audio Capture",
         "description": [
                 ""
@@ -5130,6 +5175,7 @@
         "id": 120,
         "main_type": 121,
         "type": "Component",
+        "stereotype": "env-perception",
         "name": "Environment Model Composer",
         "description": [
                 ""
@@ -5769,6 +5815,7 @@
         "id": 149,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "env-perception",
         "name": "L1Req: Recognize paths",
         "description": [
                 "The MoDG5 shall use redundant sensor data to calculate paths that it can drive along."
@@ -5805,6 +5852,7 @@
         "id": 151,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "env-perception",
         "name": "L3Req: Calc 3D scene from 2 cameras",
         "description": [
                 "The Main Logic Board shall create a 3D model of the environment based on 2 camera images."
@@ -5891,6 +5939,75 @@
             "list_order": 0,
             "uuid": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 155,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "UML:Component",
+        "description": [
+                ""
+        ],
+        "x_order": -1373741336,
+        "y_order": -1883935665,
+        "list_order": -1541016509,
+        "uuid": "658b972a-f9cb-4425-a6de-3b85e7e9fe17",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 156,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "env-perception",
+        "description": [
+                "<path d=\"\n",
+                "M 0.8,0\n",
+                "a 0.8,0.8 0 1 0 -1.6,0\n",
+                "a 0.8,0.8 0 1 0 1.6,0\n",
+                "M 1,0\n",
+                "A 1,0.5 22 1 1 0.707,0.707 \n",
+                "A 1,0.5 67 1 1 0,1 \n",
+                "A 1,0.5 112 1 1 -0.707,0.707 \n",
+                "A 1,0.5 157 1 1 -1,0 \n",
+                "A 1,0.5 202 1 1 -0.707,-0.707 \n",
+                "A 1,0.5 247 1 1 0,-1 \n",
+                "A 1,0.5 -68 1 1 0.707,-0.707 \n",
+                "A 1,0.5 -23 1 1 1,0 \n",
+                "\"/>"
+        ],
+        "x_order": -1373741336,
+        "y_order": -1541016509,
+        "list_order": -1883935665,
+        "uuid": "791caace-aac4-448b-8fd7-5157db967221",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 157,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "env-perception",
+        "name": "env-image",
+        "description": [
+                ""
+        ],
+        "x_order": 585891664,
+        "y_order": -1541016509,
+        "list_order": -1541016509,
+        "uuid": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
+        "features":
+        [
         ]
       }
     }
@@ -9874,6 +9991,40 @@
         "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
         "uuid": "46084291-15d8-4b38-bfc2-01ea3d4fc46e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 265,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "env-perception",
+        "to_classifier_name": "UML:Component",
+        "from_node": "791caace-aac4-448b-8fd7-5157db967221",
+        "to_node": "658b972a-f9cb-4425-a6de-3b85e7e9fe17",
+        "uuid": "76b78ad4-b0ef-43cd-998f-47dd9e901738"
+      }
+    },
+    {
+      "relationship": {
+        "id": 266,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "env-perception",
+        "to_classifier_name": "env-image",
+        "from_node": "791caace-aac4-448b-8fd7-5157db967221",
+        "to_node": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
+        "uuid": "db97ae88-a2ab-4bac-bb8c-84128e9e5eae"
       }
     }
   ]
