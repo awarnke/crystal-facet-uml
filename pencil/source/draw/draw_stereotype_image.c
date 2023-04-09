@@ -284,7 +284,9 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
         cairo_move_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
     }
 
-    while( utf8stringviewtokenizer_has_next( tok_iterator ) && ( parser_state != DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT ) )
+    while( utf8stringviewtokenizer_has_next( tok_iterator )
+           && ( parser_state != DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT )
+           && ( result == U8_ERROR_NONE ) )
     {
         const utf8stringview_t tok = utf8stringviewtokenizer_next( tok_iterator );
         assert( utf8stringview_get_length( tok ) > 0 );  /* otherwise this would not be a token */
@@ -372,6 +374,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                                              U8_ERROR_PARSER_STRUCTURE,
                                              utf8stringviewtokenizer_get_line( tok_iterator )
                                            );
+                    result |= U8_ERROR_PARSER_STRUCTURE;
                 }
             }
             break;
