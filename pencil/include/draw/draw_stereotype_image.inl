@@ -49,6 +49,33 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
     return result;
 }
 
+static inline u8_error_t draw_stereotype_image_parse_svg_xml ( const draw_stereotype_image_t *this_,
+                                                               const char *drawing_directives,
+                                                               geometry_rectangle_t *out_view_rect,
+                                                               u8_error_info_t *out_err_info
+                                                             )
+{
+    assert( drawing_directives != NULL );
+    assert( out_view_rect != NULL );
+    assert( out_err_info != NULL );
+
+    geometry_rectangle_t target_bounds;
+    geometry_rectangle_init_empty( &target_bounds );
+    geometry_rectangle_init_empty( out_view_rect );
+    u8_error_info_init_void( out_err_info );
+
+    const u8_error_t result
+        = draw_stereotype_image_private_parse_svg_xml( this_,
+                                                       false,  /* draw */
+                                                       drawing_directives,
+                                                       out_view_rect,
+                                                       out_err_info,
+                                                       &target_bounds,
+                                                       NULL  /* cr */
+                                                     );
+    return result;
+}
+
 static inline double draw_stereotype_image_private_get_angle ( const draw_stereotype_image_t *this_,
                                                                double u_x,
                                                                double u_y,

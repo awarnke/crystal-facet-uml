@@ -102,6 +102,23 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                       );
 
 /*!
+ *  \brief parses the stereotype image (svg xml) and returns an error line number if invalid.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param drawing_directives sequence of drawing directives
+ *  \param[out] out_view_rect bounding rectangle of the drawing_directives
+ *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \return U8_ERROR_NONE if the image was drawn,
+ *          U8_ERROR_NOT_FOUND if no image was found,
+ *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
+ */
+static inline u8_error_t draw_stereotype_image_parse_svg_xml ( const draw_stereotype_image_t *this_,
+                                                               const char *drawing_directives,
+                                                               geometry_rectangle_t *out_view_rect,
+                                                               u8_error_info_t *out_err_info
+                                                             );
+
+/*!
  *  \brief draws the stereotype image (svg xml) into the bounds rect
  *
  *  \param this_ pointer to own object attributes

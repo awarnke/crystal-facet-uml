@@ -2632,6 +2632,41 @@
             "classifier_name": "env-image",
             "node": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
             "uuid": "9f939310-0c2c-464e-9065-de6f6363e2cc"
+          },
+          {
+            "id": 270,
+            "display_flags": 0,
+            "classifier_name": "UML:Class",
+            "node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
+            "uuid": "54f88281-1f84-4690-9e8d-3f3fab707c95"
+          },
+          {
+            "id": 271,
+            "display_flags": 0,
+            "classifier_name": "decision",
+            "node": "23e07b1b-c30b-40ba-8aeb-ad0e53399c38",
+            "uuid": "8acf5a9c-818a-4566-b1ac-0cc6f613e0d4"
+          },
+          {
+            "id": 272,
+            "display_flags": 0,
+            "classifier_name": "decision-img",
+            "node": "05913b69-be1c-4610-896a-8b77c386ce88",
+            "uuid": "1d85b052-38f3-47b3-9409-cb9da841ff06"
+          },
+          {
+            "id": 273,
+            "display_flags": 0,
+            "classifier_name": "data",
+            "node": "ed720ac0-2ba6-42e9-a97a-a45b30712d69",
+            "uuid": "b11f744d-f295-4501-93cc-d526f965d591"
+          },
+          {
+            "id": 274,
+            "display_flags": 0,
+            "classifier_name": "data-img",
+            "node": "5deefbf7-53cd-494a-957b-bbee7f4e2bc0",
+            "uuid": "df81e369-b89b-4f52-bcf7-4900628cb7e2"
           }
         ]
       }
@@ -4780,7 +4815,7 @@
         "id": 103,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "design_decision",
+        "stereotype": "decision",
         "name": "Decision: Watchdog",
         "description": [
                 "Arguments:\n",
@@ -4857,7 +4892,7 @@
                 ""
         ],
         "x_order": -2013418888,
-        "y_order": -1212883541,
+        "y_order": -1399038054,
         "list_order": -902947928,
         "uuid": "b2aa2f14-3a18-4561-8d48-a530bb10b0f0",
         "features":
@@ -5425,7 +5460,7 @@
         "id": 131,
         "main_type": 130,
         "type": "Comment",
-        "stereotype": "design_decision",
+        "stereotype": "decision",
         "name": "Wookiee Detection",
         "description": [
                 "Challenge: Detect presense of a Wookiee\n",
@@ -6006,6 +6041,109 @@
         "y_order": -1541016509,
         "list_order": -1541016509,
         "uuid": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 158,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "UML:Class",
+        "description": [
+                ""
+        ],
+        "x_order": 1103928885,
+        "y_order": -1883935665,
+        "list_order": -1883935665,
+        "uuid": "ff523246-ceb7-4bab-ab55-540ae9c96788",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 159,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "decision",
+        "description": [
+                "<path d=\"\n",
+                "M 5,5\n",
+                "l -3,5 1,1 4,0 1,-1 -3,-5\n",
+                "L 10,2 16,2\n",
+                "l -3,5 1,1 4,0 1,-1 -3,-5\n",
+                "\"/>\n",
+                "<path d=\"\n",
+                "M 9.2,0 10,2\n",
+                "M 10,5\n",
+                "L 10,15\n",
+                "\"/>"
+        ],
+        "x_order": 1103928885,
+        "y_order": -1541016509,
+        "list_order": -1541016509,
+        "uuid": "23e07b1b-c30b-40ba-8aeb-ad0e53399c38",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 160,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "decision",
+        "name": "decision-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1510836225,
+        "y_order": -1541016509,
+        "list_order": -1541016509,
+        "uuid": "05913b69-be1c-4610-896a-8b77c386ce88",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 161,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "data",
+        "description": [
+                "<path d=\"m 0,1 c 0,-0.55 1.35,-1 3,-1 c 1.65,0 3,0.45 3,1 c 0,0.55, -1.35,1 -3,1 c -1.65,0 -3,-0.45, -3,-1 l 0,5 c 0,0.55 1.35,1 3,1 c 1.65,0 3,-0.45 3,-1 l 0,-5\"/>"
+        ],
+        "x_order": 905551310,
+        "y_order": -1738517685,
+        "list_order": -1883935665,
+        "uuid": "ed720ac0-2ba6-42e9-a97a-a45b30712d69",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 162,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "data",
+        "name": "data-img",
+        "description": [
+                ""
+        ],
+        "x_order": 585891664,
+        "y_order": -1738517685,
+        "list_order": -1738517685,
+        "uuid": "5deefbf7-53cd-494a-957b-bbee7f4e2bc0",
         "features":
         [
         ]
@@ -10025,6 +10163,74 @@
         "from_node": "791caace-aac4-448b-8fd7-5157db967221",
         "to_node": "0019ccfa-8e73-4808-821e-b94ca0e96a79",
         "uuid": "db97ae88-a2ab-4bac-bb8c-84128e9e5eae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 267,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "decision",
+        "to_classifier_name": "UML:Class",
+        "from_node": "23e07b1b-c30b-40ba-8aeb-ad0e53399c38",
+        "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
+        "uuid": "498d1d84-5288-43d3-b990-14281e2d89e2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 268,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "decision",
+        "to_classifier_name": "decision-img",
+        "from_node": "23e07b1b-c30b-40ba-8aeb-ad0e53399c38",
+        "to_node": "05913b69-be1c-4610-896a-8b77c386ce88",
+        "uuid": "f3d94e64-0915-4b29-84d9-205c1a722f91"
+      }
+    },
+    {
+      "relationship": {
+        "id": 269,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "data",
+        "to_classifier_name": "UML:Class",
+        "from_node": "ed720ac0-2ba6-42e9-a97a-a45b30712d69",
+        "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
+        "uuid": "d017ea60-6229-4a4d-b1e8-7b584c6c5d1a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 270,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "data",
+        "to_classifier_name": "data-img",
+        "from_node": "ed720ac0-2ba6-42e9-a97a-a45b30712d69",
+        "to_node": "5deefbf7-53cd-494a-957b-bbee7f4e2bc0",
+        "uuid": "74abc465-1940-4b9e-abaf-6affa699b773"
       }
     }
   ]

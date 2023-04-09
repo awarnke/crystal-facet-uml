@@ -2,6 +2,7 @@
 
 #include "gui_attributes_editor.h"
 #include "gtk_helper/gtk_helper_tree_model.h"
+#include "draw/draw_stereotype_image.h"
 #include "u8/u8_trace.h"
 #include "data_table.h"
 #include "data_id.h"
@@ -750,8 +751,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_CLASSIFIER:
         {
-            const char* unchanged_text;
-            unchanged_text = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
+            const char *const unchanged_text
+                = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -794,8 +795,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_FEATURE:
         {
-            const char* unchanged_text;
-            unchanged_text = data_feature_get_key_const( &((*this_).private_feature_cache) );
+            const char *const unchanged_text
+                = data_feature_get_key_const( &((*this_).private_feature_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -830,8 +831,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            const char* unchanged_text;
-            unchanged_text = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
+            const char *const unchanged_text
+                = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -873,8 +874,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_DIAGRAM:
         {
-            const char* unchanged_text;
-            unchanged_text = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
+            const char *const unchanged_text
+                = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_diagram_controller_t *diag_ctrl;
@@ -1052,8 +1053,8 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_CLASSIFIER:
         {
-            data_classifier_type_t unchanged_main_type;
-            unchanged_main_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+            const data_classifier_type_t unchanged_main_type
+                = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
             if ( obj_type != unchanged_main_type )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -1078,8 +1079,8 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_FEATURE:
         {
-            data_feature_type_t unchanged_main_type;
-            unchanged_main_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+            const data_feature_type_t unchanged_main_type
+                = data_feature_get_main_type( &((*this_).private_feature_cache) );
             if ( obj_type != unchanged_main_type )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -1104,8 +1105,8 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            data_relationship_type_t unchanged_main_type;
-            unchanged_main_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+            const data_relationship_type_t unchanged_main_type
+                = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
             if ( obj_type != unchanged_main_type )
             {
                 ctrl_classifier_controller_t *class_ctrl;
@@ -1137,8 +1138,8 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
 
         case DATA_TABLE_DIAGRAM:
         {
-            data_diagram_type_t unchanged_type;
-            unchanged_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
+            const data_diagram_type_t unchanged_type
+                = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
             if ( obj_type != unchanged_type )
             {
                 ctrl_diagram_controller_t *diag_ctrl;
@@ -1203,22 +1204,48 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
 
         case DATA_TABLE_CLASSIFIER:
         {
-            const char* unchanged_text;
-            unchanged_text = data_classifier_get_description_const( &((*this_).private_classifier_cache) );
+            const char *const unchanged_text
+                = data_classifier_get_description_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_classifier_description( class_ctrl,
                                                                                             data_id_get_row_id( &((*this_).selected_object_id) ),
                                                                                             text
                                                                                           );
+
+                /* report errors in svg images in description in case of stereotype: */
+                const data_classifier_type_t main_type
+                    = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+                if ( main_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )
+                {
+                    geometry_rectangle_t view_rect;
+                    u8_error_info_t svg_err_info;
+                    draw_stereotype_image_t svg_parser;
+                    draw_stereotype_image_init( &svg_parser );
+                    const u8_error_t svg_err
+                        = draw_stereotype_image_parse_svg_xml( &svg_parser,
+                                                               text,  /* drawing_directives */
+                                                               &view_rect,
+                                                               &svg_err_info
+                                                             );
+                    draw_stereotype_image_destroy( &svg_parser );
+                    if ( svg_err == U8_ERROR_NOT_FOUND )
+                    {
+                        U8_TRACE_INFO( "the stereotype has no image." );
+                    }
+                    else if ( svg_err != U8_ERROR_NONE )
+                    {
+                        gui_simple_message_to_user_show_error_info( (*this_).message_to_user, &svg_err_info );
+                    }
+                }
             }
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            const char* unchanged_text;
-            unchanged_text = data_feature_get_description_const( &((*this_).private_feature_cache) );
+            const char *const unchanged_text
+                = data_feature_get_description_const( &((*this_).private_feature_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_feature_description( class_ctrl,
@@ -1231,8 +1258,8 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            const char* unchanged_text;
-            unchanged_text = data_relationship_get_description_const( &((*this_).private_relationship_cache) );
+            const char *const unchanged_text
+                = data_relationship_get_description_const( &((*this_).private_relationship_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_classifier_controller_update_relationship_description( class_ctrl,
@@ -1252,8 +1279,8 @@ void gui_attributes_editor_private_description_commit_changes ( gui_attributes_e
 
         case DATA_TABLE_DIAGRAM:
         {
-            const char* unchanged_text;
-            unchanged_text = data_diagram_get_description_const( &((*this_).private_diagram_cache) );
+            const char *const unchanged_text
+                = data_diagram_get_description_const( &((*this_).private_diagram_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
                 ctrl_update_err = ctrl_diagram_controller_update_diagram_description( diag_ctrl,

@@ -33,9 +33,6 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
         const char *const drawing_directives = data_classifier_get_description_const( optional_stereotype );
         geometry_rectangle_t io_view_rect;
         geometry_rectangle_init_empty( &io_view_rect );
-        /* TODO: set colors and linewidths */
-        /* cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 ); */
-        /* const double ln_w = cairo_get_line_width( cr ); */
         result |= draw_stereotype_image_private_parse_svg_xml( this_,
                                                                false,  /* draw */
                                                                drawing_directives,
@@ -115,7 +112,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
     assert( NULL != io_view_rect );
     assert( NULL != out_err_info );
     assert( NULL != target_bounds );
-    assert( NULL != cr );
+    assert( ( ! draw ) || ( NULL != cr ) );
     u8_error_t result = U8_ERROR_NONE;
 
     /* states while parsing: */
@@ -250,7 +247,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     assert( NULL != io_view_rect );
     assert( NULL != out_err_info );
     assert( NULL != target_bounds );
-    assert( NULL != cr );
+    assert( ( ! draw ) || ( NULL != cr ) );
     u8_error_t result = U8_ERROR_NONE;
 
     /* calculate scale and shift to convert view rect to target bounds */
@@ -283,6 +280,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     /* init draw */
     if ( draw )
     {
+        assert( NULL != cr );
         cairo_move_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
     }
 
@@ -313,6 +311,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     /* no line_to here because there is no subpath to end */
                     if ( draw )
                     {
+                        assert( NULL != cr );
                         cairo_move_to ( cr, subpath_start_x, subpath_start_y );
                     }
                     /* end of subpath */
@@ -368,8 +367,9 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 }
                 else
                 {
+                    /* unexpected token */
                     u8_error_info_init_line( out_err_info,
-                                             U8_ERROR_NOT_YET_IMPLEMENTED,
+                                             U8_ERROR_PARSER_STRUCTURE,
                                              utf8stringviewtokenizer_get_line( tok_iterator )
                                            );
                 }
@@ -384,6 +384,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     /* draw subpath */
                     if ( draw )
                     {
+                        assert( NULL != cr );
                         cairo_stroke (cr);
                     }
                     /* end of d attribute, back to caller */
@@ -394,6 +395,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                     /* draw subpath */
                     if ( draw )
                     {
+                        assert( NULL != cr );
                         cairo_line_to ( cr, subpath_start_x * scale_x + shift_x, subpath_start_y * scale_y + shift_y );
                         cairo_stroke (cr);
                     }
@@ -479,11 +481,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -500,6 +503,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
                         }
                         /* update state */
@@ -515,6 +519,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
                         }
                         /* update state */
@@ -586,11 +591,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -605,6 +611,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
                         }
                         /* update state */
@@ -637,11 +644,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -655,6 +663,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             cairo_move_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
                         }
                         /* update state */
@@ -678,6 +687,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             cairo_line_to ( cr, command_end_x * scale_x + shift_x, command_end_y * scale_y + shift_y );
                         }
                         /* update state */
@@ -690,6 +700,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             cairo_curve_to( cr,
                                             coord_ctrl1_x * scale_x + shift_x,
                                             coord_ctrl1_y * scale_y + shift_y,
@@ -711,6 +722,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             cairo_curve_to( cr,
                                             coord_ctrl1_x * scale_x + shift_x,
                                             coord_ctrl1_y * scale_y + shift_y,
@@ -752,6 +764,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         /* draw */
                         if ( draw )
                         {
+                            assert( NULL != cr );
                             if ( arc_err == U8_ERROR_NONE )
                             {
                                 const double ellipsis_ratio = ( arc_r_x > 0.001 ) ? ( arc_r_y / arc_r_x ) : 1000.0;
@@ -830,11 +843,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -863,11 +877,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -896,11 +911,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -929,11 +945,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -962,11 +979,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -995,11 +1013,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -1028,11 +1047,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -1061,11 +1081,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -1094,11 +1115,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -1127,11 +1149,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -1160,11 +1183,12 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                         = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
+                        /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
                         u8_error_info_init_line( out_err_info,
-                                                 float_err,
+                                                 U8_ERROR_PARSER_STRUCTURE,
                                                  utf8stringviewtokenizer_get_line( tok_iterator )
                                                );
-                        result |= float_err;
+                        result |= U8_ERROR_PARSER_STRUCTURE;
                     }
                     else
                     {
@@ -1192,6 +1216,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     {
         if ( draw )
         {
+            assert( NULL != cr );
             cairo_stroke (cr);
         }
         result |= U8_ERROR_PARSER_STRUCTURE;

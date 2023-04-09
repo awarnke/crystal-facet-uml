@@ -40,7 +40,7 @@ enum u8_error_enum {
     U8_ERROR_EDGE_CASE_PARAM        = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_DATA + 0x10,
                                       /*!< internal error: a parameter is a valid edge case */
                                       /*!<                 that cannot be handled by the called function */
-    U8_ERROR_NOT_FOUND              = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_MISS + 0x00,
+    U8_ERROR_NOT_FOUND              = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_MISS + 0x01,
                                       /*!< internal error: requested data not found */
     U8_ERROR_END_OF_STREAM          = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_NETW + 0x01,
                                       /*!< internal error: a file or stream is unexpectedly at the end */
