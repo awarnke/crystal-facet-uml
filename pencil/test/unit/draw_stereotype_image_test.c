@@ -144,7 +144,7 @@ static void test_parse_invalid_svg_xml(void)
         "<path \nd=\"\"/>",
         "<path \n\nd=\"z\"/>",
         "<path \n\n\nd=\"2\"/>",
-        "<path \n\n\nd=\"a 10,20 0 1 1 10,0 \n 3\"/>",
+        "<path \n\n\nd=\"L 2,2 \n 3\"/>",
         "<path \n\n\nd=\"a 10,20 30 1 0 10,0 \n\n t\"/>",
         "<path \n\n\nd=\"a 10,20 60 0 1 10,0 \n\n m\n m\"/>",
         "<path \n\n\nd=\"a 10,20 115 0 0 10,0 \n\n z \n\n 3\"/>",

@@ -290,12 +290,7 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
     {
         const utf8stringview_t tok = utf8stringviewtokenizer_next( tok_iterator );
         assert( utf8stringview_get_length( tok ) > 0 );  /* otherwise this would not be a token */
-#ifndef NDEBUG
-        char debug_token_buf[16];
-        utf8stringbuf_t debug_token = UTF8STRINGBUF(debug_token_buf);
-        utf8stringbuf_copy_str( debug_token, utf8stringview_get_start( tok ) );
-        U8_TRACE_INFO_STR( "token:", utf8stringbuf_get_string( debug_token ) );
-#endif
+        U8_TRACE_INFO_VIEW( "token:", tok );
 
         switch ( parser_state )
         {

@@ -86,7 +86,8 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *  \param this_ pointer to own object attributes
  *  \param stereotype name of the stereotype(s) to be drawn
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
- *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param[out] out_err_info pointer to an error_info_t data struct;
+ *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
  *  \param bounds bounding rectangle of the stereotype image
  *  \param cr a cairo drawing context
  *  \return U8_ERROR_NONE if one (or more) images were drawn,
@@ -107,7 +108,8 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param drawing_directives sequence of drawing directives
  *  \param[out] out_view_rect bounding rectangle of the drawing_directives
- *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param[out] out_err_info pointer to an error_info_t data struct;
+ *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
  *  \return U8_ERROR_NONE if the image was drawn,
  *          U8_ERROR_NOT_FOUND if no image was found,
  *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
@@ -129,7 +131,8 @@ static inline u8_error_t draw_stereotype_image_parse_svg_xml ( const draw_stereo
  *                              in case of draw==true this is needed as input,
  *                              in case of draw==false this is required to be initialized as empty,
  *                              eventually pre-filled by previous calls to preceding svg xml fragments.
- *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param[out] out_err_info pointer to an error_info_t data struct;
+ *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
  *  \param target_bounds bounding rectangle of the drawing directives
  *  \param cr a cairo drawing context
  *  \return U8_ERROR_NONE if the image was drawn,
@@ -157,7 +160,8 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
  *                              in case of draw==true this is needed as input,
  *                              in case of draw==false this is required to be initialized as empty,
  *                              eventually pre-filled by previous calls to preceding svg path fragments.
- *  \param[out] out_err_info pointer to an error_info_t data struct that may provide an error description when returning
+ *  \param[out] out_err_info pointer to an error_info_t data struct;
+ *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
  *  \param target_bounds bounding rectangle of the drawing directives
  *  \param cr a cairo drawing context
  *  \return U8_ERROR_NONE if the image was drawn,

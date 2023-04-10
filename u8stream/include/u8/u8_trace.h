@@ -39,7 +39,7 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 #define U8_TRACE_RED_ "\033[37;1;41m"
 #define U8_TRACE_NORM_ "\033[0m"
 
-#ifndef NDEBUG  /* SWITCH */
+#ifndef NDEBUG  /* SWITCH: CASE DEBUG */
 
 /*!
  *  \brief a condition to determine if tracing is active
@@ -75,6 +75,11 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
  *  \brief traces a string and and an information string
  */
 #define U8_TRACE_INFO_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); fprintf(U8_TRACE_OUT_STREAM,"%s%s %s\n",U8_TRACE_INDENT_INFO,string_test,string2_test); }
+
+/*!
+ *  \brief traces a string and and a stringview (a struct with members start and length)
+ */
+#define U8_TRACE_INFO_VIEW(x,v) { const char *string_test = (x); const int int_test = (v.length); const char *string2_test = (v.start); fprintf(U8_TRACE_OUT_STREAM,"%s%s %.*s\n",U8_TRACE_INDENT_INFO,string_test,int_test,string2_test); }
 
 /*!
  *  \brief traces a string and a double
@@ -114,7 +119,7 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 #define U8_TRACE_TIMESTAMP() { struct timespec tp; const int err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(U8_TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",U8_TRACE_INDENT_INFO,(int)(tp.tv_sec),(int)(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
 #endif
 
-#else  /* SWITCH */
+#else  /* SWITCH: CASE RELEASE */
 
 #ifdef __GNUC__
 #define ATTR_UNUSED __attribute__((unused))
@@ -158,6 +163,11 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
 #define U8_TRACE_INFO_STR(x,s) { const char *string_test ATTR_UNUSED = (x); const char *string2_test ATTR_UNUSED = (s); }
 
 /*!
+ *  \brief traces a string and and a stringview (a struct with members start and length)
+ */
+#define U8_TRACE_INFO_VIEW(x,v) { const char *string_test ATTR_UNUSED = (x); const int int_test ATTR_UNUSED = (v.length); const char *string2_test ATTR_UNUSED = (v.start); }
+
+/*!
  *  \brief traces a string and a double
  */
 #define U8_TRACE_INFO_FLT(x,r) { const char *string_test ATTR_UNUSED = (x); const double real_test ATTR_UNUSED = (r); }
@@ -191,7 +201,7 @@ extern const char u8_trace_indent_pattern_info[ U8_TRACE_INDENT_STEP * U8_TRACE_
  */
 #define U8_TRACE_TIMESTAMP() {}
 
-#endif  /* SWITCH */
+#endif  /* SWITCH DEBUG/RELEASE */
 
 #endif  /* U8_TRACE_H */
 
