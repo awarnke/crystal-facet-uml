@@ -3,6 +3,7 @@ crystal-facet-uml (1.48.2) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * Stereotype-Images: svg-path draws arcs
   * In case of svg-path errors, line numbers are shown to the user
+  * In case the user enters a duplicate name, a similar name is set
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 41 Apr 2023 8:00:00 +0200
 

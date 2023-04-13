@@ -4,6 +4,7 @@
 #include "gtk_helper/gtk_helper_tree_model.h"
 #include "draw/draw_stereotype_image.h"
 #include "u8/u8_trace.h"
+#include "ctrl_simple_changer.h"
 #include "data_table.h"
 #include "data_id.h"
 #include "utf8stringbuf/utf8string.h"
@@ -755,14 +756,25 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
+                /*
                 ctrl_classifier_controller_t *class_ctrl;
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
                 ctrl_err = ctrl_classifier_controller_update_classifier_name( class_ctrl,
                                                                               data_id_get_row_id( &((*this_).selected_object_id) ),
                                                                               text
                                                                             );
-                if ( U8_ERROR_DUPLICATE_NAME == ctrl_err )
+                */
+                u8_error_t handled_err;
+                ctrl_simple_changer_t name_disambiguator;
+                ctrl_simple_changer_init( &name_disambiguator, (*this_).controller, (*this_).db_reader );
+                ctrl_err = ctrl_simple_changer_update_classifier_name( &name_disambiguator,
+                                                                       data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                       text,
+                                                                       &handled_err
+                                                                     );
+                ctrl_simple_changer_destroy( &name_disambiguator );
+
+                if ( u8_error_contains( handled_err, U8_ERROR_DUPLICATE_NAME ) )
                 {
                     gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
                                                                        GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -770,14 +782,14 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                                                                        text
                                                                      );
                 }
-                else if ( U8_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                else if ( u8_error_contains( ctrl_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
                                                            );
                 }
-                else if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
+                else if ( u8_error_contains( ctrl_err, U8_ERROR_READ_ONLY_DB ) )
                 {
                     /* notify read-only warning to user */
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,

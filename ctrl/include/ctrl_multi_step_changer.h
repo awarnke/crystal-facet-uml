@@ -81,8 +81,8 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param[in,out] new_diagram data of the new diagram to be created; the id is taken as proposal.
  *                             The id may be changed when returning from this function.
- *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID if an alternative id was created, U8_ERROR_NONE in case of success.
+ *  \return error id in case of an unhandled error, U8_ERROR_NONE otherwise
  */
 
 u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *this_,
@@ -99,8 +99,8 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
  *  \param this_ pointer to own object attributes
  *  \param[in,out] new_diagramelement data of the new diagramelement to be created; the id is taken as proposal.
  *                                    The id may be changed when returning from this function.
- *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID if an alternative id was created, U8_ERROR_NONE in case of success.
+ *  \return error id in case of an unhandled error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_changer_t *this_,
                                                            data_diagramelement_t *new_diagramelement,
@@ -112,13 +112,14 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
  *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.
  *
  *  Additionally to ctrl_classifier_controller, this function tries to preserve the proposed id and name.
- *  If these are duplicate, it generates new ones.
+ *  If these are duplicate, it generates new ids and/or names.
  *
  *  \param this_ pointer to own object attributes
  *  \param[in,out] new_classifier data of the new classifier to be created; id and name are taken as proposal.
  *                                The id and the name may be changed when returning from this function.
- *  \param[out] out_info U8_ERROR_NONE or U8_ERROR_DUPLICATE_ID and/or U8_ERROR_DUPLICATE_NAME
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID and/or U8_ERROR_DUPLICATE_NAME
+ *                       if an alternative id and/or name were created, U8_ERROR_NONE in case of success.
+ *  \return error id in case of an unhandled error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t *this_,
                                                        data_classifier_t *new_classifier,
@@ -134,8 +135,8 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
  *  \param this_ pointer to own object attributes
  *  \param[in,out] new_feature data of the new feature to be created; the id is taken as proposal.
  *                             The id may be changed when returning from this function.
- *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID if an alternative id was created, U8_ERROR_NONE in case of success.
+ *  \return error id in case of an unhandled error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *this_,
                                                     data_feature_t *new_feature,
@@ -151,15 +152,15 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
  *  \param this_ pointer to own object attributes
  *  \param[in,out] new_relationship data of the new relationship to be created; the id is taken as proposal.
  *                                  The id may be changed when returning from this function.
- *  \param[out] out_info U8_ERROR_DUPLICATE_ID or U8_ERROR_NONE
- *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ *  \param[out] out_info U8_ERROR_DUPLICATE_ID if an alternative id was created, U8_ERROR_NONE in case of success.
+ *  \return error id in case of an unhandled error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer_t *this_,
                                                          data_relationship_t *new_relationship,
                                                          u8_error_t* out_info
                                                        );
 
-/* ================================ update links of existing elements  ================================ */
+/* ================================ update links of existing elements ================================ */
 
 /*!
  *  \brief updates the diagram attribute: parent_id
@@ -173,6 +174,23 @@ u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_ch
                                                               data_row_id_t diagram_id,
                                                               data_row_id_t new_diagram_parent_id
                                                             );
+
+/* ================================ propose names of classifiers ================================ */
+
+/*!
+ *  \brief create a name proposal for a classifier based on a base_name and an interation-counter
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param base_classifier_name expected new name of the classifier
+ *  \param iteration number of alredy failed tries to find an unused, unique name, range 2..9999
+ *  \param[out] out_name proposed new name of the classifier
+ *  \return UTF8ERROR_TRUNCATED in case the provided out_name buffer is too small, U8_ERROR_NONE otherwise
+ */
+u8_error_t ctrl_multi_step_changer_private_propose_classifier_name ( ctrl_multi_step_changer_t *this_,
+                                                                     const char* base_classifier_name,
+                                                                     uint_fast16_t iteration,
+                                                                     utf8stringbuf_t out_name
+                                                                   );
 
 #endif  /* CTRL_MULTI_STEP_CHANGER_H */
 

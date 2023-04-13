@@ -2,7 +2,7 @@
 
 #include "sketch/gui_sketch_object_creator.h"
 #include "geometry/geometry_rectangle.h"
-//#include "ctrl_multi_step_changer.h"
+#include "ctrl_multi_step_changer.h"
 #include "data_table.h"
 #include "data_id.h"
 #include "u8/u8_trace.h"
@@ -52,12 +52,13 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
     u8_error_t c_result;
 
     /* get classifier controller */
-    ctrl_classifier_controller_t *classifier_control;
-    classifier_control = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
+    /*
+    ctrl_classifier_controller_t *const classifier_control
+        = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
+    */
 
     /* get diagram controller */
-    ctrl_diagram_controller_t *diagram_control;
-    diagram_control = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+    ctrl_diagram_controller_t *const diagram_control = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
     /* get type of diagram */
     data_diagram_type_t diag_type = DATA_DIAGRAM_TYPE_LIST;
@@ -83,10 +84,10 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
     type_of_new_classifier = data_rules_get_default_classifier_type( &((*this_).data_rules), diag_type );
 
     /* propose a name */
-    // char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
-    // utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
-    // gui_sketch_object_creator_private_propose_classifier_name( this_, type_of_new_classifier, full_new_name );
-
+    char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
+    utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
+    gui_sketch_object_creator_private_propose_classifier_name( this_, type_of_new_classifier, full_new_name );
+#if 0
     /* find a good, unused name */
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
@@ -118,7 +119,7 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
             }
         }
     }
-
+#endif
     /* define classifier */
     const u8_error_t d_err
         = data_classifier_init_new ( &((*this_).private_temp_classifier),
@@ -135,17 +136,21 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
         U8_LOG_ERROR_HEX("data_classifier_init_new failed in gui_sketch_object_creator_create_classifier:",d_err);
     }
 
-    // ctrl_multi_step_changer_t multi_stepper;
-    // ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
-    // u8_error_t* out_info;
-
+    /*
     c_result = ctrl_classifier_controller_create_classifier ( classifier_control,
                                                               &((*this_).private_temp_classifier),
                                                               CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
                                                               out_classifier_id
                                                             );
-
-    // ctrl_multi_step_changer_destroy( &multi_stepper );
+    */
+    ctrl_multi_step_changer_t multi_stepper;
+    ctrl_multi_step_changer_init( &multi_stepper, (*this_).controller, (*this_).db_reader );
+    u8_error_t out_info;
+    c_result = ctrl_multi_step_changer_create_classifier( &multi_stepper,
+                                                          &((*this_).private_temp_classifier),
+                                                          &out_info
+                                                        );
+    ctrl_multi_step_changer_destroy( &multi_stepper );
 
     if ( U8_ERROR_NONE == c_result )
     {

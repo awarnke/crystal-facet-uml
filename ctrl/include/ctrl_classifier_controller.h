@@ -70,6 +70,9 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
 /*!
  *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.
  *
+ *  \note use ctrl_multi_step_changer_create_classifier if duplicate names and duplicate ids shall not cause errors but
+ *        instead be adapted automatically.
+ *
  *  \param this_ pointer to own object attributes
  *  \param new_classifier data of the new classifier to be created; the id is ignored.
  *  \param add_to_latest_undo_set CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND if this add-action shall be merged
@@ -132,6 +135,9 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
 
 /*!
  *  \brief updates the classifier attribute: name
+ *
+ *  \note use ctrl_multi_step_changer_update_classifier_name if duplicate names shall not cause errors but
+ *        instead be adapted automatically.
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
