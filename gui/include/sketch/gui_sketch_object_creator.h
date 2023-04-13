@@ -158,33 +158,31 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
  *  \brief proposes a default name for diagrams
  *
  *  \param this_ pointer to own object attributes
- *  \param out_name a name for a diagram
+ *  \return a name for a diagram
  */
-void gui_sketch_object_creator_private_propose_diagram_name ( gui_sketch_object_creator_t *this_, utf8stringbuf_t out_name );
+const char* gui_sketch_object_creator_private_propose_diagram_name ( gui_sketch_object_creator_t *this_ );
 
 /*!
  *  \brief proposes a default name for classifiers
  *
  *  \param this_ pointer to own object attributes
  *  \param c_type type of the classifier
- *  \param out_name a name for a classifier
+ *  \return a name for a classifier
  */
-void gui_sketch_object_creator_private_propose_classifier_name ( gui_sketch_object_creator_t *this_,
-                                                                 data_classifier_type_t c_type,
-                                                                 utf8stringbuf_t out_name
-                                                               );
+const char* gui_sketch_object_creator_private_propose_classifier_name ( gui_sketch_object_creator_t *this_,
+                                                                        data_classifier_type_t c_type
+                                                                      );
 
 /*!
  *  \brief proposes a default name for features
  *
  *  \param this_ pointer to own object attributes
  *  \param f_type type of the feature
- *  \param out_name a name for a feature
+ *  \return a name for a feature
  */
-void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_creator_t *this_,
-                                                             data_feature_type_t f_type,
-                                                             utf8stringbuf_t out_name
-                                                           );
+const char* gui_sketch_object_creator_private_propose_feature_name ( gui_sketch_object_creator_t *this_,
+                                                                     data_feature_type_t f_type
+                                                                   );
 
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */
 
