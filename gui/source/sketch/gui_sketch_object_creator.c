@@ -51,15 +51,6 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
 
     u8_error_t c_result;
 
-    /* get classifier controller */
-    /*
-    ctrl_classifier_controller_t *const classifier_control
-        = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
-    */
-
-    /* get diagram controller */
-    ctrl_diagram_controller_t *const diagram_control = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
-
     /* get type of diagram */
     data_diagram_type_t diag_type = DATA_DIAGRAM_TYPE_LIST;
     {
@@ -87,39 +78,7 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
     gui_sketch_object_creator_private_propose_classifier_name( this_, type_of_new_classifier, full_new_name );
-#if 0
-    /* find a good, unused name */
-    char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
-    utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
-    {
-        bool name_ok = false;
-        static const int MAX_SEARCH_STEP = 64;
-        static int my_counter = 0;
-        for ( int search_step = 0; ( search_step < MAX_SEARCH_STEP )&&( ! name_ok ); search_step ++ )
-        {
-            my_counter ++;
-            gui_sketch_object_creator_private_propose_classifier_name( this_, type_of_new_classifier, full_new_name );
-            utf8stringbuf_append_str( full_new_name, "-" );
-            utf8stringbuf_append_int( full_new_name, my_counter+search_step );
 
-            /* check if that name is already in use */
-            const u8_error_t exists_err
-                = data_database_reader_get_classifier_by_name( (*this_).db_reader,
-                                                               utf8stringbuf_get_string( full_new_name ),
-                                                               &((*this_).private_temp_classifier)
-                                                             );
-            if ( U8_ERROR_NONE == exists_err )
-            {
-                data_classifier_destroy ( &((*this_).private_temp_classifier) );
-                name_ok = false;  /* name already in use */
-            }
-            else
-            {
-                name_ok = true;  /* name unused */
-            }
-        }
-    }
-#endif
     /* define classifier */
     const u8_error_t d_err
         = data_classifier_init_new ( &((*this_).private_temp_classifier),
@@ -136,24 +95,24 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
         U8_LOG_ERROR_HEX("data_classifier_init_new failed in gui_sketch_object_creator_create_classifier:",d_err);
     }
 
-    /*
-    c_result = ctrl_classifier_controller_create_classifier ( classifier_control,
+    /* create classifier, adapt name if necessary: */
+    {
+        ctrl_multi_step_changer_t multi_stepper;
+        ctrl_multi_step_changer_init( &multi_stepper, (*this_).controller, (*this_).db_reader );
+        u8_error_t out_info;
+        c_result = ctrl_multi_step_changer_create_classifier( &multi_stepper,
                                                               &((*this_).private_temp_classifier),
-                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                              out_classifier_id
+                                                              &out_info
                                                             );
-    */
-    ctrl_multi_step_changer_t multi_stepper;
-    ctrl_multi_step_changer_init( &multi_stepper, (*this_).controller, (*this_).db_reader );
-    u8_error_t out_info;
-    c_result = ctrl_multi_step_changer_create_classifier( &multi_stepper,
-                                                          &((*this_).private_temp_classifier),
-                                                          &out_info
-                                                        );
-    ctrl_multi_step_changer_destroy( &multi_stepper );
+        *out_classifier_id = data_classifier_get_row_id( &((*this_).private_temp_classifier) );
+        ctrl_multi_step_changer_destroy( &multi_stepper );
+    }
 
     if ( U8_ERROR_NONE == c_result )
     {
+        /* get diagram controller */
+        ctrl_diagram_controller_t *const diagram_control = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
         data_diagramelement_t new_diagele;
         data_diagramelement_init_new ( &new_diagele,
                                        diagram_id,

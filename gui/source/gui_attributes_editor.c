@@ -756,23 +756,17 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
                 = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
             if ( ! utf8string_equals_str( text, unchanged_text ) )
             {
-                /*
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                ctrl_err = ctrl_classifier_controller_update_classifier_name( class_ctrl,
-                                                                              data_id_get_row_id( &((*this_).selected_object_id) ),
-                                                                              text
-                                                                            );
-                */
                 u8_error_t handled_err;
-                ctrl_simple_changer_t name_disambiguator;
-                ctrl_simple_changer_init( &name_disambiguator, (*this_).controller, (*this_).db_reader );
-                ctrl_err = ctrl_simple_changer_update_classifier_name( &name_disambiguator,
-                                                                       data_id_get_row_id( &((*this_).selected_object_id) ),
-                                                                       text,
-                                                                       &handled_err
-                                                                     );
-                ctrl_simple_changer_destroy( &name_disambiguator );
+                {
+                    ctrl_simple_changer_t name_disambiguator;
+                    ctrl_simple_changer_init( &name_disambiguator, (*this_).controller, (*this_).db_reader );
+                    ctrl_err = ctrl_simple_changer_update_classifier_name( &name_disambiguator,
+                                                                           data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                           text,
+                                                                           &handled_err
+                                                                         );
+                    ctrl_simple_changer_destroy( &name_disambiguator );
+                }
 
                 if ( u8_error_contains( handled_err, U8_ERROR_DUPLICATE_NAME ) )
                 {

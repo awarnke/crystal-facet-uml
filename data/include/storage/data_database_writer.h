@@ -167,7 +167,7 @@ u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_
  *  \param classifier data of the new classifier record to be created.
  *                    The id should be DATA_ROW_ID_VOID unless a classifier with known, unique id shall be created.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if duplicate id or duplicate name, otherwise an other error code.
  */
 u8_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, data_row_id_t* out_new_id );
 

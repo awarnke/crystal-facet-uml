@@ -446,15 +446,18 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
 
     if ( u8_error_contains( result, U8_ERROR_DUPLICATE ) )
     {
+        *out_info |= result;
+        result = U8_ERROR_NONE;
+
         /* find an alternative, unused name */
         char wish_name_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
         utf8stringbuf_t wish_name = UTF8STRINGBUF( wish_name_buf );
-        result |= utf8stringbuf_copy_str( wish_name, data_classifier_get_name_const( new_classifier ) );
+        result |= utf8stringbuf_copy_str( wish_name, data_classifier_get_name_const( new_classifier ) );  /* error to be reported to caller */
         {
             bool name_ok = false;
             static const uint_fast16_t MAX_SEARCH_STEP = 10000;
             static const uint_fast16_t FIRST_STEP = 2;
-            for ( uint_fast16_t search_step = FIRST_STEP; ( search_step < MAX_SEARCH_STEP )&&( ! name_ok ); search_step ++ )
+            for ( uint_fast16_t search_step = FIRST_STEP; ( search_step < MAX_SEARCH_STEP )&&( ! name_ok )&&( result == U8_ERROR_NONE ); search_step ++ )
             {
                 char new_name_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
                 utf8stringbuf_t new_name = UTF8STRINGBUF( new_name_buf );
@@ -469,12 +472,17 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
                     U8_TRACE_INFO_STR("Name truncated at search for alternative:", utf8stringbuf_get_string( new_name ) );
                 }
                 data_classifier_set_name( new_classifier, utf8stringbuf_get_string( new_name ) );
-                result = ctrl_classifier_controller_create_classifier( classifier_ctrl,
-                                                                       new_classifier,
-                                                                       (*this_).is_first_step,
-                                                                       &new_classifier_id
-                                                                     );
-                if ( result == U8_ERROR_NONE )
+                const u8_error_t retry_err
+                    = ctrl_classifier_controller_create_classifier( classifier_ctrl,
+                                                                    new_classifier,
+                                                                    (*this_).is_first_step,
+                                                                    &new_classifier_id
+                                                                  );
+                if ( u8_error_contains( retry_err, U8_ERROR_DUPLICATE ) )
+                {
+                    *out_info |= retry_err;
+                }
+                else if ( retry_err == U8_ERROR_NONE )
                 {
                     name_ok = true;  /* name unused */
                     (*this_).is_first_step = CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND;
@@ -483,7 +491,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
                 }
                 else
                 {
-                    name_ok = false;  /* name already in use */
+                    result |= retry_err;
                 }
             }
         }

@@ -91,8 +91,6 @@ static inline u8_error_t ctrl_simple_changer_update_classifier_name ( ctrl_simpl
                     name_ok = ( retry_err == U8_ERROR_NONE );
                     result |= retry_err;
                 }
-
-                name_ok = ( result == U8_ERROR_NONE );  /* name already in use ? */
             }
         }
     }
