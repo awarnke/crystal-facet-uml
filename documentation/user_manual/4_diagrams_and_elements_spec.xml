@@ -207,7 +207,9 @@
                                     Use an additional comment instead.
                                 </para>
                                 <para>
-                                    An image can be specified since version 1.48.0 by stating lines curves and arcs according to the SVG-path spec version 2.0. Examples are:
+                                    An image can be specified since version 1.48.0 by stating lines and curves
+                                    according to the SVG-path spec version 2.0; also arcs are supported since 1.49.0.
+                                    Examples are:
                                 </para>
                                 <para>
                                     <command>&lt;path d=&quot;M 2,2 10,2 8,8, 0,8 Z&quot;/&gt;</command>
