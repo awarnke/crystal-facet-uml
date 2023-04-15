@@ -26,6 +26,7 @@ static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
                                                     const char* name,
                                                     const char* stereotype )
 {
+    U8_TRACE_BEGIN();
     assert( name != NULL );
     assert( stereotype != NULL );
     u8_error_t data_err;
@@ -57,6 +58,7 @@ static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
 
+    U8_TRACE_END();
     return root_diag_id;
 }
 
@@ -65,6 +67,7 @@ static data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
                                                        data_classifier_type_t classifier_type,
                                                        const char* stereotype )
 {
+    U8_TRACE_BEGIN();
     assert( name != NULL );
     assert( stereotype != NULL );
     u8_error_t data_err;
@@ -94,6 +97,7 @@ static data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
 
+    U8_TRACE_END();
     return classifier_id;
 }
 
@@ -101,6 +105,7 @@ static data_row_id_t test_vector_db_create_diagramelement( test_vector_db_t *thi
                                                            data_row_id_t diagram_id,
                                                            data_row_id_t classifier_id )
 {
+    U8_TRACE_BEGIN();
     u8_error_t data_err;
 
     /* create a diagramelement */
@@ -125,6 +130,7 @@ static data_row_id_t test_vector_db_create_diagramelement( test_vector_db_t *thi
     }
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != diagele_id );
 
+    U8_TRACE_END();
     return diagele_id;
 }
 

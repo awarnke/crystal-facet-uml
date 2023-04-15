@@ -34,6 +34,12 @@ static data_database_reader_t db_reader;
  */
 static data_database_writer_t db_writer;
 
+/*!
+ *  \brief the test cases need a big data straucture
+ *         containing all elements visible in a diagram
+ */
+data_visible_set_t loaded_elements;
+
 test_suite_t data_profile_part_test_get_suite(void)
 {
     test_suite_t result;
@@ -89,7 +95,7 @@ static void no_results(void)
                                                  classifier_1_id
                                                );
 
-    /* create a classifier with stereotype which does not exist */
+    /* create a classifier with stereotype which does not exist: "ThE" is not "The" */
     const data_row_id_t classifier_2_id
         = test_vector_db_create_classifier( &setup_env,
                                             "non_existing_stereotype",  /* name */
@@ -107,13 +113,12 @@ static void no_results(void)
 
     /* load a visible set of elements */
     {
-        data_visible_set_t elements;
-        data_visible_set_init( &elements );
+        data_visible_set_init( &loaded_elements );
 
-        const u8_error_t init_err = data_visible_set_load( &elements, root_diag_id, &db_reader );
+        const u8_error_t init_err = data_visible_set_load( &loaded_elements, root_diag_id, &db_reader );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
         const uint32_t diag_classifier_count
-            = data_visible_set_get_visible_classifier_count( &elements );
+            = data_visible_set_get_visible_classifier_count( &loaded_elements );
         TEST_ENVIRONMENT_ASSERT( 2 == diag_classifier_count );
 
         /* load a profile */
@@ -121,7 +126,7 @@ static void no_results(void)
             data_profile_part_t profile;
             data_profile_part_init( &profile );
 
-            const u8_error_t fetch_err = data_profile_part_load( &profile, &elements, &db_reader );
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &loaded_elements, &db_reader );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, fetch_err );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
@@ -130,7 +135,7 @@ static void no_results(void)
             data_profile_part_destroy( &profile );
         }
 
-        data_visible_set_destroy(  &elements );
+        data_visible_set_destroy( &loaded_elements );
     }
 }
 
@@ -179,13 +184,12 @@ static void search_and_filter(void)
 
     /* load a visible set of elements */
     {
-        data_visible_set_t elements;
-        data_visible_set_init( &elements );
+        data_visible_set_init( &loaded_elements );
 
-        const u8_error_t init_err = data_visible_set_load( &elements, root_diag_id, &db_reader );
+        const u8_error_t init_err = data_visible_set_load( &loaded_elements, root_diag_id, &db_reader );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
         const uint32_t diag_classifier_count
-            = data_visible_set_get_visible_classifier_count( &elements );
+            = data_visible_set_get_visible_classifier_count( &loaded_elements );
         TEST_ENVIRONMENT_ASSERT( 2 == diag_classifier_count );
 
         /* load a profile */
@@ -193,7 +197,7 @@ static void search_and_filter(void)
             data_profile_part_t profile;
             data_profile_part_init( &profile );
 
-            const u8_error_t fetch_err = data_profile_part_load( &profile, &elements, &db_reader );
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &loaded_elements, &db_reader );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, fetch_err );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
@@ -207,7 +211,7 @@ static void search_and_filter(void)
             data_profile_part_destroy( &profile );
         }
 
-        data_visible_set_destroy(  &elements );
+        data_visible_set_destroy( &loaded_elements );
     }
 }
 
@@ -251,13 +255,12 @@ static void too_much_input(void)
 
     /* load a visible set of elements */
     {
-        data_visible_set_t elements;
-        data_visible_set_init( &elements );
+        data_visible_set_init( &loaded_elements );
 
-        const u8_error_t init_err = data_visible_set_load( &elements, root_diag_id, &db_reader );
+        const u8_error_t init_err = data_visible_set_load( &loaded_elements, root_diag_id, &db_reader );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
         const uint32_t diag_classifier_count
-            = data_visible_set_get_visible_classifier_count( &elements );
+            = data_visible_set_get_visible_classifier_count( &loaded_elements );
         TEST_ENVIRONMENT_ASSERT( test_count == diag_classifier_count );
 
         /* load a profile */
@@ -265,7 +268,7 @@ static void too_much_input(void)
             data_profile_part_t profile;
             data_profile_part_init( &profile );
 
-            const u8_error_t fetch_err = data_profile_part_load( &profile, &elements, &db_reader );
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &loaded_elements, &db_reader );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, fetch_err );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
@@ -279,7 +282,7 @@ static void too_much_input(void)
             data_profile_part_destroy( &profile );
         }
 
-        data_visible_set_destroy(  &elements );
+        data_visible_set_destroy( &loaded_elements );
     }
 }
 
