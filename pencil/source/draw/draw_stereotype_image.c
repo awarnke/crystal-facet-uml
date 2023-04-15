@@ -1200,7 +1200,8 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
             }
             break;
 
-            case DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT:
+            case DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT:  /* or */
+            default:
             {
                 /* the outer while loop should already have been exited */
                 assert( false );
