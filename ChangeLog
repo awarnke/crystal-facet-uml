@@ -5,7 +5,7 @@ crystal-facet-uml (1.49.0) UNRELEASED; urgency=medium
   * In case of svg-path errors, line numbers are shown to the user
   * In case the user enters a duplicate name, a similar name is set instead
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 15 Apr 2023 18:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 15 Apr 2023 14:00:00 +0200
 
 crystal-facet-uml (1.48.1) UNRELEASED; urgency=medium
 

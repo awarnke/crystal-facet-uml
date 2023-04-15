@@ -1,5 +1,7 @@
 
+     =====                                 =====
      =====     KEEP IT SIMPLE & STUPID     =====
+     =====                                 =====
 
 ideas for future versions:
   @gui
@@ -58,4 +60,5 @@ ideas for future versions:
 
 ideas for a version 2
   - drop gtk3 support (use gtk4 only)
+  - drop support for cfu1 storage formats (use cfuJ only)
   - support rust in application code
