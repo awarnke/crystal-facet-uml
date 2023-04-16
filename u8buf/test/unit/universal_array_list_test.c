@@ -6,11 +6,11 @@
 #include <stdio.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_insert_and_retrieve(void);
-static void test_max_size(void);
-static void test_element_lifecycle(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env );
+static test_case_result_t test_max_size( test_fixture_t *test_env );
+static test_case_result_t test_element_lifecycle( test_fixture_t *test_env );
 
 unsigned int ctor_calls;  /* count constructor callbacks */
 unsigned int dtor_calls;  /* count destructor callbacks */
@@ -26,18 +26,19 @@ test_suite_t universal_array_list_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     ctor_calls = 0;
     dtor_calls = 0;
     eq_calls = 0;
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void test_insert_and_retrieve(void)
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
 {
     int err;
     char (string_buf[5])[7];
@@ -92,9 +93,10 @@ static void test_insert_and_retrieve(void)
     universal_array_list_destroy( &testee );
     TEST_EXPECT_EQUAL_INT( 0, ctor_calls );
     TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_max_size(void)
+static test_case_result_t test_max_size( test_fixture_t *test_env )
 {
     int err;
     uint64_t buf[5];
@@ -141,6 +143,7 @@ static void test_max_size(void)
     TEST_EXPECT_EQUAL_INT( -1, err );
     TEST_EXPECT_EQUAL_INT( 5, universal_array_list_get_length( &testee ) );
 
+    return TEST_CASE_RESULT_OK;
 }
 
 void copy_ctor (double* to_instance, const double* from_instance)
@@ -161,7 +164,7 @@ bool equal (const double* instance_1, const double* instance_2)
     return ( *instance_1 == *instance_2 );
 }
 
-static void test_element_lifecycle(void)
+static test_case_result_t test_element_lifecycle( test_fixture_t *test_env )
 {
     int err;
     double buf[4];
@@ -220,6 +223,7 @@ static void test_element_lifecycle(void)
     TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
     TEST_EXPECT_EQUAL_INT( 1, eq_calls );
     TEST_EXPECT_EQUAL_INT( 3, dtor_calls );
+    return TEST_CASE_RESULT_OK;
 }
 
 

@@ -6,10 +6,10 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_database_listener_register_and_notify(void);
-static void test_database_listener_registration_full(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_database_listener_register_and_notify( test_fixture_t *test_env );
+static test_case_result_t test_database_listener_registration_full( test_fixture_t *test_env );
 
 test_suite_t data_database_listener_test_get_suite(void)
 {
@@ -28,16 +28,17 @@ static void callback_notification(void* listener_instance, data_database_listene
     (*((int*)listener_instance)) ++;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     callback_counter = 0;
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void test_database_listener_register_and_notify(void)
+static test_case_result_t test_database_listener_register_and_notify( test_fixture_t *test_env )
 {
     data_database_listener_t my_listener1;
     data_database_listener_t my_listener2;
@@ -77,9 +78,10 @@ static void test_database_listener_register_and_notify(void)
     data_database_destroy ( &db );
     data_database_listener_destroy ( &my_listener2 );
     data_database_listener_destroy ( &my_listener1 );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_database_listener_registration_full(void)
+static test_case_result_t test_database_listener_registration_full( test_fixture_t *test_env )
 {
     data_database_listener_t my_listener[DATA_DATABASE_MAX_LISTENERS+1];
     data_database_t db;
@@ -112,6 +114,7 @@ static void test_database_listener_registration_full(void)
         data_database_listener_destroy( &my_listener[index] );
     }
     data_database_destroy ( &db );
+    return TEST_CASE_RESULT_OK;
 }
 
 

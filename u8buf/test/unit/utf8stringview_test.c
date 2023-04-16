@@ -7,31 +7,32 @@
 #include <string.h>
 #include <assert.h>
 
-static void setUp(void);
-static void tearDown(void);
-static void testInitMacros(void);
-static void testInitFunctions(void);
-static void testFindFirst(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t testInitMacros( test_fixture_t *test_env );
+static test_case_result_t testInitFunctions( test_fixture_t *test_env );
+static test_case_result_t testFindFirst( test_fixture_t *test_env );
 
 test_suite_t utf8stringview_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8StringViewTest", &setUp, &tearDown );
+    test_suite_init( &result, "utf8StringViewTest", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testInitMacros", &testInitMacros );
     test_suite_add_test_case( &result, "testInitFunctions", &testInitFunctions );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
     return result;
 }
 
-static void setUp(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tearDown(void)
-{
-}
-
-static void testInitMacros(void)
+static test_case_result_t testInitMacros( test_fixture_t *test_env )
 {
     const char* start;
     size_t len;
@@ -43,43 +44,44 @@ static void testInitMacros(void)
     TEST_EXPECT_EQUAL_PTR( NULL, start );
     len = utf8stringview_get_length( UTF8STRINGVIEW_NULL );
     TEST_EXPECT_EQUAL_INT( 0, len );
-    
+
     /* check initialization by UTF8STRINGVIEW_NULL macro */
     my_view = UTF8STRINGVIEW_NULL;
     start = utf8stringview_get_start( my_view );
     TEST_EXPECT_EQUAL_PTR( NULL, start );
     len = utf8stringview_get_length( my_view );
     TEST_EXPECT_EQUAL_INT( 0, len );
-    
+
     /* check anonymous struct usage of UTF8STRINGVIEW_STR macro */
     start = utf8stringview_get_start( UTF8STRINGVIEW_STR( my_txt ) );
     TEST_EXPECT_EQUAL_PTR( my_txt, start );
     len = utf8stringview_get_length( UTF8STRINGVIEW_STR( my_txt ) );
     TEST_EXPECT_EQUAL_INT( strlen( my_txt ), len );
-    
+
     /* check initialization by UTF8STRINGVIEW_STR macro */
     my_view = UTF8STRINGVIEW_STR( my_txt );
     start = utf8stringview_get_start( my_view );
     TEST_EXPECT_EQUAL_PTR( my_txt, start );
     len = utf8stringview_get_length( my_view );
     TEST_EXPECT_EQUAL_INT( strlen( my_txt ), len );
-    
+
     /* check anonymous struct usage of UTF8STRINGVIEW macro */
     start = utf8stringview_get_start( UTF8STRINGVIEW( my_txt, 2 ) );
     TEST_EXPECT_EQUAL_PTR( my_txt, start );
     len = utf8stringview_get_length( UTF8STRINGVIEW( my_txt, 2 ) );
     TEST_EXPECT_EQUAL_INT( 2, len );
-    
+
     /* check initialization by UTF8STRINGVIEW macro */
     const utf8stringview_t my_view_2 = UTF8STRINGVIEW( my_txt, 2 );
     start = utf8stringview_get_start( my_view_2 );
     TEST_EXPECT_EQUAL_PTR( my_txt, start );
     len = utf8stringview_get_length( my_view_2 );
     TEST_EXPECT_EQUAL_INT( 2, len );
+    return TEST_CASE_RESULT_OK;
 }
 
 
-static void testInitFunctions(void)
+static test_case_result_t testInitFunctions( test_fixture_t *test_env )
 {
     static const char *const my_txt = "txt";
 
@@ -109,9 +111,10 @@ static void testInitFunctions(void)
     const utf8stringview_t my_view_6 = utf8stringview_init_region( my_txt, 1, 3 );
     TEST_EXPECT_EQUAL_PTR( (my_txt+1), utf8stringview_get_start( my_view_6 ) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( my_view_6 ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFindFirst(void)
+static test_case_result_t testFindFirst( test_fixture_t *test_env )
 {
     int pos;
     char memoryArr[] = "beforeHELLO ANANASafter";
@@ -126,7 +129,7 @@ static void testFindFirst(void)
 
     pos = utf8stringview_find_first_str( UTF8STRINGVIEW_STR(""), "" );
     TEST_EXPECT_EQUAL_INT( -1, pos );
-    
+
     pos = utf8stringview_find_first_str( srchView, "eHELLO" );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
@@ -135,7 +138,7 @@ static void testFindFirst(void)
 
     pos = utf8stringview_find_first_str( srchView, "ANANASa" );
     TEST_EXPECT_EQUAL_INT( -1, pos );
-    
+
     pos = utf8stringview_find_first_str( srchView, "ANAS" );
     TEST_EXPECT_EQUAL_INT( 8, pos );
 
@@ -144,6 +147,7 @@ static void testFindFirst(void)
 
     pos = utf8stringview_find_first_str( srchView, " " );
     TEST_EXPECT_EQUAL_INT( 5, pos );
+    return TEST_CASE_RESULT_OK;
 }
 
 

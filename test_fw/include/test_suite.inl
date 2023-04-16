@@ -4,8 +4,8 @@
 
 static inline void test_suite_init( test_suite_t *this_,
                                     const char *name,
-                                    void (*setup) (void),
-                                    void (*teardown) (void) )
+                                    test_fixture_t * (*setup) (void),
+                                    void (*teardown) ( test_fixture_t *test_env ) )
 {
     TEST_ENVIRONMENT_ASSERT( NULL != name );
     TEST_ENVIRONMENT_ASSERT( NULL != setup );
@@ -26,7 +26,7 @@ static inline void test_suite_destroy( test_suite_t *this_ )
 
 static inline void test_suite_add_test_case( test_suite_t *this_,
                                              const char *name,
-                                             void (*test_case) (void) )
+                                             test_case_result_t (*test_case) ( test_fixture_t *test_env ) )
 {
     TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count < TEST_SUITE_MAX_TEST_CASES );
     TEST_ENVIRONMENT_ASSERT( NULL != test_case );
@@ -41,15 +41,14 @@ static inline unsigned int test_suite_get_test_case_count( test_suite_t *this_ )
     return (*this_).test_case_count;
 }
 
-static inline bool test_suite_run_test_case( test_suite_t *this_, unsigned int index )
+static inline test_case_result_t test_suite_run_test_case( test_suite_t *this_, unsigned int index )
 {
     TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
     TEST_ENVIRONMENT_ASSERT( index < (*this_).test_case_count );
-    bool success = true;
-    (*((*this_).setup))();
-    (*((*this_).test_case[index]))();
-    (*((*this_).teardown))();
-    return success;
+    test_fixture_t *const test_env = (*((*this_).setup))();
+    const test_case_result_t result = (*((*this_).test_case[index]))( test_env );
+    (*((*this_).teardown))( test_env );
+    return result;
 }
 
 static inline const char* test_suite_get_name( test_suite_t *this_ )

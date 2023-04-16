@@ -10,11 +10,11 @@
 #include "test_environment_assert.h"
 #include "test_vector/test_vector_db.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void no_results(void);
-static void search_and_filter(void);
-static void too_much_input(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t no_results( test_fixture_t *test_env );
+static test_case_result_t search_and_filter( test_fixture_t *test_env );
+static test_case_result_t too_much_input( test_fixture_t *test_env );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -50,16 +50,17 @@ test_suite_t data_profile_part_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
 
     data_database_reader_init( &db_reader, &database );
     data_database_writer_init( &db_writer, &db_reader, &database );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     data_database_writer_destroy( &db_writer );
     data_database_reader_destroy( &db_reader );
@@ -68,7 +69,7 @@ static void tear_down(void)
     data_database_destroy( &database );
 }
 
-static void no_results(void)
+static test_case_result_t no_results( test_fixture_t *test_env )
 {
     test_vector_db_t setup_env;
     test_vector_db_init( &setup_env, &db_writer );
@@ -137,9 +138,10 @@ static void no_results(void)
 
         data_visible_set_destroy( &loaded_elements );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
-static void search_and_filter(void)
+static test_case_result_t search_and_filter( test_fixture_t *test_env )
 {
     test_vector_db_t setup_env;
     test_vector_db_init( &setup_env, &db_writer );
@@ -213,9 +215,10 @@ static void search_and_filter(void)
 
         data_visible_set_destroy( &loaded_elements );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
-static void too_much_input(void)
+static test_case_result_t too_much_input( test_fixture_t *test_env )
 {
     test_vector_db_t setup_env;
     test_vector_db_init( &setup_env, &db_writer );
@@ -284,6 +287,7 @@ static void too_much_input(void)
 
         data_visible_set_destroy( &loaded_elements );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
 

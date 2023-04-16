@@ -5,10 +5,10 @@
 #include "data_classifier_type.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_calc_inner_area_and_back(void);
-static void test_calc_inner_area_too_small(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *test_env );
+static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *test_env );
 
 test_suite_t draw_classifier_contour_test_get_suite(void)
 {
@@ -22,17 +22,18 @@ test_suite_t draw_classifier_contour_test_get_suite(void)
 
 static pencil_size_t pencil_size;
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     pencil_size_init( &pencil_size, 640.0, 480.0 );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     pencil_size_destroy( &pencil_size );
 }
 
-static void test_calc_inner_area_and_back(void)
+static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *test_env )
 {
     draw_classifier_contour_t contour_calculator;
     draw_classifier_contour_init( &contour_calculator );
@@ -68,9 +69,10 @@ static void test_calc_inner_area_and_back(void)
     }
 
     draw_classifier_contour_destroy( &contour_calculator );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_calc_inner_area_too_small(void)
+static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *test_env )
 {
     draw_classifier_contour_t contour_calculator;
     draw_classifier_contour_init( &contour_calculator );
@@ -92,6 +94,7 @@ static void test_calc_inner_area_too_small(void)
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_height( &inner_area ) );
 
     draw_classifier_contour_destroy( &contour_calculator );
+    return TEST_CASE_RESULT_OK;
 }
 
 

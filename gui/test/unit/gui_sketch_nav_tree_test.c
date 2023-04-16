@@ -7,12 +7,12 @@
 #include "test_expect.h"
 #include "test_suite.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_get_object_at_pos_on_no_diagram(void); /* extreme case */
-static void test_get_object_at_pos_on_single_diagram(void); /* no parent, no siblings, no children */
-static void test_get_object_at_pos_on_1parent_1child_diagram(void); /* standard case, but no siblings */
-static void test_get_object_at_pos_on_2parent_2siblings_diagram(void); /* standard case, but no children */
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *test_env );  /* extreme case */
+static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture_t *test_env );  /* no parent, no siblings, no children */
+static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test_fixture_t *test_env );  /* standard case, but no siblings */
+static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( test_fixture_t *test_env );  /* standard case, but no children */
 
 test_suite_t gui_sketch_nav_tree_test_get_suite(void)
 {
@@ -41,7 +41,7 @@ static cairo_surface_t *surface;
 static cairo_t *cr;
 static PangoLayout *font_layout;
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     /* init cairo and pango objects */
     {
@@ -65,9 +65,10 @@ static void set_up(void)
     data_diagram_init_empty( &other_child );
     data_diagram_set_row_id( &other_child, 1003 );
     data_diagram_set_parent_row_id( &other_child, 1001 );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     data_diagram_destroy( &parent );
     data_diagram_destroy( &self );
@@ -85,7 +86,7 @@ static void tear_down(void)
     }
 }
 
-void get_node_coords( const gui_sketch_nav_tree_t *testee, uint32_t idx, int32_t *out_x, int32_t *out_y )
+test_case_result_t get_node_coords( const gui_sketch_nav_tree_t *testee, uint32_t idx, int32_t *out_x, int32_t *out_y )
 {
     const uint32_t cnt = gui_sketch_nav_tree_get_node_count( testee );
     TEST_EXPECT( idx < cnt );
@@ -94,9 +95,10 @@ void get_node_coords( const gui_sketch_nav_tree_t *testee, uint32_t idx, int32_t
     *out_x = shape_int_rectangle_get_left(pos_icon) + 1;
     *out_y = shape_int_rectangle_get_top(pos_icon) + 1;
     /* printf("x:%d,y:%d\n",*out_x,*out_y); */
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_get_object_at_pos_on_no_diagram(void)
+static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *test_env )
 {
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
@@ -109,7 +111,8 @@ static void test_get_object_at_pos_on_no_diagram(void)
     /* get position */
     int32_t x;
     int32_t y;
-    get_node_coords( &testee, 0, &x, &y );
+    const test_case_result_t res = get_node_coords( &testee, 0, &x, &y );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 1, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
@@ -140,9 +143,10 @@ static void test_get_object_at_pos_on_no_diagram(void)
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_get_object_at_pos_on_single_diagram(void)
+static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture_t *test_env )
 {
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
@@ -160,12 +164,15 @@ static void test_get_object_at_pos_on_single_diagram(void)
     }
 
     /* node positions */
+    test_case_result_t res;
     int32_t x0;
     int32_t y0;
-    get_node_coords( &testee, 0, &x0, &y0 );
+    res = get_node_coords( &testee, 0, &x0, &y0 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x1;
     int32_t y1;
-    get_node_coords( &testee, 1, &x1, &y1 );
+    res = get_node_coords( &testee, 1, &x1, &y1 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 2, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
@@ -209,9 +216,10 @@ static void test_get_object_at_pos_on_single_diagram(void)
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_get_object_at_pos_on_1parent_1child_diagram(void)
+static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test_fixture_t *test_env )
 {
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
@@ -232,21 +240,27 @@ static void test_get_object_at_pos_on_1parent_1child_diagram(void)
     }
 
     /* node positions */
+    test_case_result_t res;
     int32_t x0;
     int32_t y0;
-    get_node_coords( &testee, 0, &x0, &y0 );
+    res = get_node_coords( &testee, 0, &x0, &y0 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x1;
     int32_t y1;
-    get_node_coords( &testee, 1, &x1, &y1 );
+    res = get_node_coords( &testee, 1, &x1, &y1 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x2;
     int32_t y2;
-    get_node_coords( &testee, 2, &x2, &y2 );
+    res = get_node_coords( &testee, 2, &x2, &y2 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x3;
     int32_t y3;
-    get_node_coords( &testee, 3, &x3, &y3 );
+    res = get_node_coords( &testee, 3, &x3, &y3 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x4;
     int32_t y4;
-    get_node_coords( &testee, 4, &x4, &y4 );
+    res = get_node_coords( &testee, 4, &x4, &y4 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 5, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
@@ -317,9 +331,10 @@ static void test_get_object_at_pos_on_1parent_1child_diagram(void)
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_get_object_at_pos_on_2parent_2siblings_diagram(void)
+static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( test_fixture_t *test_env )
 {
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
@@ -341,27 +356,35 @@ static void test_get_object_at_pos_on_2parent_2siblings_diagram(void)
     }
 
     /* node positions */
+    test_case_result_t res;
     int32_t x0;
     int32_t y0;
-    get_node_coords( &testee, 0, &x0, &y0 );
+    res = get_node_coords( &testee, 0, &x0, &y0 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x1;
     int32_t y1;
-    get_node_coords( &testee, 1, &x1, &y1 );
+    res = get_node_coords( &testee, 1, &x1, &y1 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x2;
     int32_t y2;
-    get_node_coords( &testee, 2, &x2, &y2 );
+    res = get_node_coords( &testee, 2, &x2, &y2 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x3;
     int32_t y3;
-    get_node_coords( &testee, 3, &x3, &y3 );
+    res = get_node_coords( &testee, 3, &x3, &y3 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x4;
     int32_t y4;
-    get_node_coords( &testee, 4, &x4, &y4 );
+    res = get_node_coords( &testee, 4, &x4, &y4 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x5;
     int32_t y5;
-    get_node_coords( &testee, 5, &x5, &y5 );
+    res = get_node_coords( &testee, 5, &x5, &y5 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     int32_t x6;
     int32_t y6;
-    get_node_coords( &testee, 6, &x6, &y6 );
+    res = get_node_coords( &testee, 6, &x6, &y6 );
+    TEST_EXPECT_EQUAL_INT( TEST_CASE_RESULT_OK, res );
     TEST_EXPECT_EQUAL_INT( 7, gui_sketch_nav_tree_get_node_count( &testee ) );
 
     /* test button type */
@@ -452,6 +475,7 @@ static void test_get_object_at_pos_on_2parent_2siblings_diagram(void)
 
     /* destroy the testee */
     gui_sketch_nav_tree_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
 

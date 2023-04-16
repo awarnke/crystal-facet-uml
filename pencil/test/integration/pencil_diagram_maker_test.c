@@ -11,12 +11,12 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void render_good_cases(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t render_good_cases( test_fixture_t *test_env );
 #ifndef NDEBUG
-static void render_challenging_cases(void);
-static void render_edge_cases(void);
+static test_case_result_t render_challenging_cases( test_fixture_t *test_env );
+static test_case_result_t render_edge_cases( test_fixture_t *test_env );
 #endif
 
 #ifndef NDEBUG
@@ -44,7 +44,7 @@ static cairo_surface_t *surface;
 static cairo_t *cr;
 static geometry_rectangle_t diagram_bounds;
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_profile_part_init( &profile );
     data_visible_set_init( &data_set );
@@ -57,9 +57,10 @@ static void set_up(void)
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( surface ) );
     cr = cairo_create (surface);
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( cr ) );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     cairo_destroy (cr);
     cairo_surface_finish ( surface );
@@ -135,7 +136,7 @@ static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t 
 }
 #endif
 
-static void render_good_cases(void)
+static test_case_result_t render_good_cases( test_fixture_t *test_env )
 {
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
@@ -170,10 +171,11 @@ static void render_good_cases(void)
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
+    return TEST_CASE_RESULT_OK;
 }
 
 #ifndef NDEBUG
-static void render_challenging_cases(void)
+static test_case_result_t render_challenging_cases( test_fixture_t *test_env )
 {
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
@@ -208,9 +210,10 @@ static void render_challenging_cases(void)
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void render_edge_cases(void)
+static test_case_result_t render_edge_cases( test_fixture_t *test_env )
 {
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
@@ -245,6 +248,7 @@ static void render_edge_cases(void)
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
+    return TEST_CASE_RESULT_OK;
 }
 #endif
 

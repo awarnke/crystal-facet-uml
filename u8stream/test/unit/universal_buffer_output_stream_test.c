@@ -7,10 +7,10 @@
 #include <string.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_append_regular(void);
-static void test_append_border_cases(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_append_regular( test_fixture_t *test_env );
+static test_case_result_t test_append_border_cases( test_fixture_t *test_env );
 
 static char my_out_buffer[10];
 static universal_memory_output_stream_t my_mem_out_stream;
@@ -26,21 +26,22 @@ test_suite_t universal_buffer_output_stream_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     memset( &my_out_buffer, '\0', sizeof(my_out_buffer) );
     universal_memory_output_stream_init( &my_mem_out_stream, &my_out_buffer, sizeof(my_out_buffer) );
     universal_output_stream_t *my_mem_out_stream_ptr = universal_memory_output_stream_get_output_stream( &my_mem_out_stream );
     universal_buffer_output_stream_init( &my_buf_out_stream, &my_buffer, sizeof(my_buffer), my_mem_out_stream_ptr );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     universal_buffer_output_stream_destroy( &my_buf_out_stream );
     universal_memory_output_stream_destroy( &my_mem_out_stream );
 }
 
-static void test_append_regular(void)
+static test_case_result_t test_append_regular( test_fixture_t *test_env )
 {
     int err;
 
@@ -82,9 +83,10 @@ static void test_append_regular(void)
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_EXPECT_EQUAL_INT( 0, err );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_append_border_cases(void)
+static test_case_result_t test_append_border_cases( test_fixture_t *test_env )
 {
     int err;
 
@@ -116,6 +118,7 @@ static void test_append_border_cases(void)
     err = universal_output_stream_write ( my_out_stream, test_4, 0 );
     TEST_EXPECT_EQUAL_INT( 0, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+    return TEST_CASE_RESULT_OK;
 }
 
 

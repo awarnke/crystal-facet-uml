@@ -9,12 +9,12 @@
 #include "test_environment_assert.h"
 #include <inttypes.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void layout_good_cases(void);
-static void layout_challenging_cases(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t layout_good_cases( test_fixture_t *test_env );
+static test_case_result_t layout_challenging_cases( test_fixture_t *test_env );
 #ifndef NDEBUG
-static void layout_edge_cases(void);
+static test_case_result_t layout_edge_cases( test_fixture_t *test_env );
 #endif
 
 /*
@@ -40,7 +40,7 @@ static cairo_t *cr;
 static geometry_rectangle_t diagram_bounds;
 static PangoLayout *font_layout;
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_visible_set_init( &data_set );
     pencil_layouter_init( &layouter, &data_set );
@@ -53,9 +53,10 @@ static void set_up(void)
     cr = cairo_create (surface);
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( cr ) );
     font_layout = pango_cairo_create_layout (cr);
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     g_object_unref (font_layout);
     cairo_destroy (cr);
@@ -66,7 +67,7 @@ static void tear_down(void)
     data_visible_set_destroy( &data_set );
 }
 
-static void layout_good_cases(void)
+static test_case_result_t layout_good_cases( test_fixture_t *test_env )
 {
     data_stat_t total_stats;
     data_stat_init( &total_stats );
@@ -127,9 +128,10 @@ static void layout_good_cases(void)
              data_stat_get_count( &total_stats, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
            );
     data_stat_destroy( &total_stats );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void layout_challenging_cases(void)
+static test_case_result_t layout_challenging_cases( test_fixture_t *test_env )
 {
     data_stat_t total_stats;
     data_stat_init( &total_stats );
@@ -174,10 +176,11 @@ static void layout_challenging_cases(void)
              data_stat_get_count( &total_stats, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
            );
     data_stat_destroy( &total_stats );
+    return TEST_CASE_RESULT_OK;
 }
 
 #ifndef NDEBUG
-static void layout_edge_cases(void)
+static test_case_result_t layout_edge_cases( test_fixture_t *test_env )
 {
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
@@ -204,6 +207,7 @@ static void layout_edge_cases(void)
         */
     }
     test_data_setup_destroy( &ts_setup );
+    return TEST_CASE_RESULT_OK;
 }
 #endif
 

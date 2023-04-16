@@ -7,23 +7,23 @@
 #include <string.h>
 #include <assert.h>
 
-static void setUp(void);
-static void tearDown(void);
-static void testIntEmpty(void);
-static void testIntSpaceSeparators(void);
-static void testIntMixedCodepoints(void);
-static void testIntIntegers(void);
-static void testFloatEmpty(void);
-static void testFloatValidFloats(void);
-static void testFloatInvalidFloats(void);
-static void testFloatOnly(void);
-static void testTextMixedNumbers(void);
-static void testSwitchModes(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t testIntEmpty( test_fixture_t *test_env );
+static test_case_result_t testIntSpaceSeparators( test_fixture_t *test_env );
+static test_case_result_t testIntMixedCodepoints( test_fixture_t *test_env );
+static test_case_result_t testIntIntegers( test_fixture_t *test_env );
+static test_case_result_t testFloatEmpty( test_fixture_t *test_env );
+static test_case_result_t testFloatValidFloats( test_fixture_t *test_env );
+static test_case_result_t testFloatInvalidFloats( test_fixture_t *test_env );
+static test_case_result_t testFloatOnly( test_fixture_t *test_env );
+static test_case_result_t testTextMixedNumbers( test_fixture_t *test_env );
+static test_case_result_t testSwitchModes( test_fixture_t *test_env );
 
 test_suite_t utf8stringviewtokenizer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8stringviewtokenizer_test", &setUp, &tearDown );
+    test_suite_init( &result, "utf8stringviewtokenizer_test", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testIntEmpty", &testIntEmpty );
     test_suite_add_test_case( &result, "testIntSpaceSeparators", &testIntSpaceSeparators );
     test_suite_add_test_case( &result, "testIntMixedCodepoints", &testIntMixedCodepoints );
@@ -37,15 +37,16 @@ test_suite_t utf8stringviewtokenizer_test_get_suite(void)
     return result;
 }
 
-static void setUp(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tearDown(void)
-{
-}
-
-static void testIntEmpty(void)
+static test_case_result_t testIntEmpty( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -88,9 +89,10 @@ static void testIntEmpty(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testIntSpaceSeparators(void)
+static test_case_result_t testIntSpaceSeparators( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -151,9 +153,10 @@ static void testIntSpaceSeparators(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testIntMixedCodepoints(void)
+static test_case_result_t testIntMixedCodepoints( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -224,9 +227,10 @@ static void testIntMixedCodepoints(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testIntIntegers(void)
+static test_case_result_t testIntIntegers( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -269,9 +273,10 @@ static void testIntIntegers(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFloatEmpty(void)
+static test_case_result_t testFloatEmpty( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -314,9 +319,10 @@ static void testFloatEmpty(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFloatValidFloats(void)
+static test_case_result_t testFloatValidFloats( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -368,9 +374,10 @@ static void testFloatValidFloats(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFloatInvalidFloats(void)
+static test_case_result_t testFloatInvalidFloats( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -437,9 +444,10 @@ static void testFloatInvalidFloats(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFloatOnly(void)
+static test_case_result_t testFloatOnly( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -487,9 +495,10 @@ static void testFloatOnly(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testTextMixedNumbers(void)
+static test_case_result_t testTextMixedNumbers( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -525,9 +534,10 @@ static void testTextMixedNumbers(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testSwitchModes(void)
+static test_case_result_t testSwitchModes( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
@@ -582,6 +592,7 @@ static void testSwitchModes(void)
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
+    return TEST_CASE_RESULT_OK;
 }
 
 

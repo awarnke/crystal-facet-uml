@@ -11,10 +11,10 @@
 #include "test_environment_assert.h"
 #include <stdio.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void create_read_modify_read(void);
-static void create_diagramelements_and_delete(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t create_read_modify_read( test_fixture_t *test_env );
+static test_case_result_t create_diagramelements_and_delete( test_fixture_t *test_env );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -40,7 +40,7 @@ test_suite_t ctrl_diagram_controller_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -48,9 +48,10 @@ static void set_up(void)
     data_database_reader_init( &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     ctrl_controller_destroy( &controller );
 
@@ -60,7 +61,7 @@ static void tear_down(void)
     data_database_destroy( &database );
 }
 
-static void create_read_modify_read(void)
+static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -148,9 +149,10 @@ static void create_read_modify_read(void)
         TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &the_set_entry ) );
         data_small_set_destroy( &the_set );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
-static void create_diagramelements_and_delete(void)
+static test_case_result_t create_diagramelements_and_delete( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -287,6 +289,7 @@ static void create_diagramelements_and_delete(void)
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 0, out_diagram_count );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
 

@@ -7,11 +7,11 @@
 #include <string.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_read_chunks(void);
-static void test_read_all(void);
-static void test_peek(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_read_chunks( test_fixture_t *test_env );
+static test_case_result_t test_read_all( test_fixture_t *test_env );
+static test_case_result_t test_peek( test_fixture_t *test_env );
 
 static char my_in_buffer[10];
 static universal_memory_input_stream_t my_mem_in_stream;
@@ -28,21 +28,22 @@ test_suite_t universal_buffer_input_stream_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     memcpy( &my_in_buffer, "123456789", sizeof(my_in_buffer) );
     universal_memory_input_stream_init( &my_mem_in_stream, &my_in_buffer, sizeof(my_in_buffer) );
     universal_input_stream_t *my_mem_in_stream_ptr = universal_memory_input_stream_get_input_stream( &my_mem_in_stream );
     universal_buffer_input_stream_init( &my_buf_in_stream, &my_buffer, sizeof(my_buffer), my_mem_in_stream_ptr );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     universal_buffer_input_stream_destroy( &my_buf_in_stream );
     universal_memory_input_stream_destroy( &my_mem_in_stream );
 }
 
-static void test_read_chunks(void)
+static test_case_result_t test_read_chunks( test_fixture_t *test_env )
 {
     int err;
 
@@ -78,9 +79,10 @@ static void test_read_chunks(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
     TEST_EXPECT_EQUAL_INT( 0, len );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5)-1 ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_read_all(void)
+static test_case_result_t test_read_all( test_fixture_t *test_env )
 {
     int err;
 
@@ -112,9 +114,10 @@ static void test_read_all(void)
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
     TEST_EXPECT_EQUAL_INT( 0, len );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_peek(void)
+static test_case_result_t test_peek( test_fixture_t *test_env )
 {
     /* peek and read the 10 bytes */
     for ( int idx = 0; idx < sizeof(my_in_buffer); idx ++ )
@@ -130,6 +133,7 @@ static void test_peek(void)
     TEST_EXPECT_EQUAL_INT( '\0', last1 );
     char last2 = universal_buffer_input_stream_read_next( &my_buf_in_stream );
     TEST_EXPECT_EQUAL_INT( '\0', last2 );
+    return TEST_CASE_RESULT_OK;
 }
 
 

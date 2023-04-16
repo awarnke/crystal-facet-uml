@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_insert_and_retrieve(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env );
 
 test_suite_t universal_array_index_sorter_test_get_suite(void)
 {
@@ -18,15 +18,16 @@ test_suite_t universal_array_index_sorter_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tear_down(void)
-{
-}
-
-static void test_insert_and_retrieve(void)
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
 {
     int err;
     uint32_t count;
@@ -78,6 +79,7 @@ static void test_insert_and_retrieve(void)
 
     /* done */
     universal_array_index_sorter_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
 

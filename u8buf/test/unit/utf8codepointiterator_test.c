@@ -7,43 +7,44 @@
 #include <string.h>
 #include <assert.h>
 
-static void setUp(void);
-static void tearDown(void);
-static void testStandardUseCase(void);
-static void testEmptyUseCase(void);
-static void testIllegalUseCase(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t testStandardUseCase( test_fixture_t *test_env );
+static test_case_result_t testEmptyUseCase( test_fixture_t *test_env );
+static test_case_result_t testIllegalUseCase( test_fixture_t *test_env );
 
 test_suite_t utf8codepointiterator_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8CodePointIteratorTest", &setUp, &tearDown );
+    test_suite_init( &result, "utf8CodePointIteratorTest", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testStandardUseCase", &testStandardUseCase );
     test_suite_add_test_case( &result, "testEmptyUseCase", &testEmptyUseCase );
     test_suite_add_test_case( &result, "testIllegalUseCase", &testIllegalUseCase );
     return result;
 }
 
-static void setUp(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tearDown(void)
-{
-}
-
-static void testStandardUseCase(void)
+static test_case_result_t testStandardUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8codepoint_t next;
     static const char my_string[] = "a" "\0" "\xC3\xA4" "\xE2\x82\xAC" "\xF0\x9D\x84\x9E";
-    
+
     /* init */
     utf8codepointiterator_t it;
     utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, sizeof(my_string)-1 ) );
-    
+
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( 97, utf8codepoint_get_char( next ) );  /* a == 97 */
@@ -51,7 +52,7 @@ static void testStandardUseCase(void)
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_char( next ) );  /* 0 == 0 */
@@ -59,7 +60,7 @@ static void testStandardUseCase(void)
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 2, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( 0x00e4, utf8codepoint_get_char( next ) );
@@ -67,7 +68,7 @@ static void testStandardUseCase(void)
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 3, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( 0x20ac, utf8codepoint_get_char( next ) );
@@ -75,70 +76,73 @@ static void testStandardUseCase(void)
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 4, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( 0x1d11e, utf8codepoint_get_char( next ) );  /* a == 97 */
     TEST_EXPECT_EQUAL_INT( true, utf8codepoint_is_valid( next ) );
-    
+
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
-    
+
     /* finish */
     utf8codepointiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testEmptyUseCase(void)
+static test_case_result_t testEmptyUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8codepoint_t next;
     static const char *const my_string = "\xF0\x9D\x84\x9E";
-    
+
     /* init */
     utf8codepointiterator_t it;
     utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, 0 ) );
-    
+
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
-    
+
     /* finish */
     utf8codepointiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testIllegalUseCase(void)
+static test_case_result_t testIllegalUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8codepoint_t next;
     static const char *const my_string = "\xF0\x9D\x84\x9E";
-    
+
     /* init */
     utf8codepointiterator_t it;
     utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, 1 ) );
-    
+
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
-    
+
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8codepointiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( next ) );
     TEST_EXPECT_EQUAL_INT( false, utf8codepoint_is_valid( next ) );
-    
+
     /* finish */
     utf8codepointiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
 

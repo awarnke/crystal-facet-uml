@@ -4,9 +4,9 @@
 #include "geometry/geometry_non_linear_scale.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_scale_conversion(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_scale_conversion( test_fixture_t *test_env );
 
 test_suite_t geometry_non_linear_scale_test_get_suite(void)
 {
@@ -16,15 +16,16 @@ test_suite_t geometry_non_linear_scale_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tear_down(void)
-{
-}
-
-static void test_scale_conversion(void)
+static test_case_result_t test_scale_conversion( test_fixture_t *test_env )
 {
     geometry_non_linear_scale_t my_scale;
     double location;
@@ -69,6 +70,7 @@ static void test_scale_conversion(void)
     TEST_EXPECT( ( -100 < order ) && ( order < -80 ) );
 
     geometry_non_linear_scale_destroy ( &my_scale );
+    return TEST_CASE_RESULT_OK;
 }
 
 

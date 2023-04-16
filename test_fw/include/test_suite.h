@@ -10,6 +10,8 @@
  *  see https://en.wikipedia.org/wiki/XUnit
  */
 
+#include "test_case_result.h"
+#include "test_fixture.h"
 #include <stdbool.h>
 
 /*!
@@ -24,11 +26,11 @@ enum test_suite_max_enum {
  */
 struct test_suite_struct {
     const char *name;
-    void (*setup) (void);  /*!< pointer to setup function of test fixture */
-    void (*teardown) (void);  /*!< pointer to teardown function of test fixture */
+    test_fixture_t * (*setup) (void);  /*!< pointer to setup function of test fixture */
+    void (*teardown) (test_fixture_t *test_env);  /*!< pointer to teardown function of test fixture */
     unsigned int test_case_count;  /*!< number of test cases */
     const char *(test_case_name[TEST_SUITE_MAX_TEST_CASES]);  /*!< array of test case names */
-    void (*(test_case[TEST_SUITE_MAX_TEST_CASES])) (void);  /*!< array of pointers to test case functions */
+    test_case_result_t (*(test_case[TEST_SUITE_MAX_TEST_CASES])) (test_fixture_t *test_env);  /*!< array of pointers to test case functions */
 };
 
 typedef struct test_suite_struct test_suite_t;
@@ -44,8 +46,8 @@ typedef struct test_suite_struct test_suite_t;
  */
 static inline void test_suite_init( test_suite_t *this_,
                                     const char *name,
-                                    void (*setup) (void),
-                                    void (*teardown) (void)
+                                    test_fixture_t * (*setup) (void),
+                                    void (*teardown) ( test_fixture_t *test_env )
                                   );
 
 /*!
@@ -64,7 +66,7 @@ static inline void test_suite_destroy( test_suite_t *this_ );
  */
 static inline void test_suite_add_test_case( test_suite_t *this_,
                                              const char *name,
-                                             void (*test_case) (void)
+                                             test_case_result_t (*test_case) ( test_fixture_t *test_env )
                                            );
 
 /*!
@@ -80,9 +82,9 @@ static inline unsigned int test_suite_get_test_case_count( test_suite_t *this_ )
  *
  *  \param this_ pointer to own object attributes
  *  \param index index of the test case, value between 0 and (test_case_count-1)
- *  \return true in case of success
+ *  \return ok or error, indicating the success of the test case
  */
-static inline bool test_suite_run_test_case( test_suite_t *this_, unsigned int index );
+static inline test_case_result_t test_suite_run_test_case( test_suite_t *this_, unsigned int index );
 
 /*!
  *  \brief gets the name of the test_suite_t

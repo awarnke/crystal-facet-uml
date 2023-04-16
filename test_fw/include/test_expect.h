@@ -9,33 +9,36 @@
  *  \brief provides expect functions for test cases
  */
 
+#include "test_case_result.h"
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
+#define TEST_CONTINUE() {return TEST_CASE_RESULT_ERR;}
+
 #define TEST_EXPECT(COND)\
 if (!(COND)) \
-{fprintf(stderr,"TEST FAILED (!(%s)) at %s:%d\n",#COND,__FILE__,__LINE__);exit(-1);}
+{fprintf(stderr,"TEST FAILED (!(%s)) at %s:%d\n",#COND,__FILE__,__LINE__);TEST_CONTINUE()}
 
 #define TEST_EXPECT_EQUAL_INT(EXPECTED,ACTUAL)\
 {const long long exp = (EXPECTED); const long long act = (ACTUAL); if (exp!=act) \
 {fprintf(stderr,"TEST FAILED ((%s)==0x%llx==%lld!=%lld==0x%llx==(%s)) at %s:%d\n",\
-#EXPECTED,exp,exp,act,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
+#EXPECTED,exp,exp,act,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }
 
 #define TEST_EXPECT_EQUAL_PTR(EXPECTED,ACTUAL)\
 {const void *exp = (EXPECTED); const void *act = (ACTUAL); if (exp!=act) \
 {fprintf(stderr,"TEST FAILED ((%s)==%p!=%p==(%s)) at %s:%d\n",\
-#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }
 
 #define TEST_EXPECT_EQUAL_STRING(EXPECTED,ACTUAL)\
 {const char *exp = (EXPECTED); const char *act = (ACTUAL);\
 if ((exp==NULL)||(act==NULL)||(0!=strcmp(exp,act))) \
 {fprintf(stderr,"TEST FAILED ((%s)==%s!=%s==(%s)) at %s:%d\n",\
-#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }
 
 /* EPSILON(x) = 2.2204460493 e−016 */
@@ -48,7 +51,7 @@ if ((exp==NULL)||(act==NULL)||(0!=strcmp(exp,act))) \
 {const double exp = (EXPECTED); const double act = (ACTUAL);\
 if ( fabs(exp-act) > ((fabs(exp)*TEST_DOUBLE_EPSILON)+TEST_DOUBLE_TINIEST) ) \
 {fprintf(stderr,"TEST FAILED ((%s)==%f!=%f==(%s)) at %s:%d\n",\
-#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }
 
 /* EPSILON(x) = 1.192092896 e-07 */
@@ -61,7 +64,7 @@ if ( fabs(exp-act) > ((fabs(exp)*TEST_DOUBLE_EPSILON)+TEST_DOUBLE_TINIEST) ) \
 {const float exp = (EXPECTED); const float act = (ACTUAL);\
 if ( fabs(exp-act) > ((fabs(exp)*TEST_FLOAT_EPSILON)+TEST_FLOAT_TINIEST) ) \
 {fprintf(stderr,"TEST FAILED ((%s)==%f!=%f==(%s)) at %s:%d\n",\
-#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);TEST_CONTINUE()} \
 }
 
 #endif  /* TEST_EXPECT_H */

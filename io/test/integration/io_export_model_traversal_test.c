@@ -14,9 +14,9 @@
 #include "u8/u8_trace.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void iterate_types_on_mini_model(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env );
 
 /*!
  *  \brief helper function to initialize the database
@@ -67,7 +67,7 @@ test_suite_t io_export_model_traversal_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -78,9 +78,10 @@ static void set_up(void)
                                          &mem_buffer,
                                          sizeof(mem_buffer)
                                        );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     universal_memory_output_stream_destroy( &mem_output_stream );
 
@@ -259,7 +260,7 @@ static const data_relationship_type_t relationship_types[]
     (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE,  /* downwards compatibility check */
 };
 
-static void iterate_types_on_mini_model(void)
+static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env )
 {
     /* fill database with mini model */
     data_row_id_t from_classifier_parent;
@@ -412,6 +413,7 @@ static void iterate_types_on_mini_model(void)
             }
         }
     }
+    return TEST_CASE_RESULT_OK;
 }
 
 

@@ -11,9 +11,9 @@
 #include "u8/u8_trace.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_reject_duplicates(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_reject_duplicates( test_fixture_t *test_env );
 
 /*!
  *  \brief helper function cerates a root diagram and sets the element importer to paste mode
@@ -63,7 +63,7 @@ test_suite_t io_import_elements_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -77,9 +77,10 @@ static void set_up(void)
     universal_null_output_stream_init( &null_out );
     universal_utf8_writer_init( &out_writer, universal_null_output_stream_get_output_stream( &null_out ) );
     io_import_elements_init( &elements_importer, &db_reader, &controller, &stats, &out_writer );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     io_import_elements_destroy( &elements_importer );
     universal_utf8_writer_destroy( &out_writer );
@@ -134,9 +135,10 @@ static data_row_id_t set_mode_paste_to_root_diag()
     io_import_elements_init_for_paste( &elements_importer, root_diag_id, &db_reader, &controller, &stats, &out_writer );
 
     return root_diag_id;
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_reject_duplicates(void)
+static test_case_result_t test_reject_duplicates( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = set_mode_paste_to_root_diag();
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );
@@ -217,6 +219,7 @@ static void test_reject_duplicates(void)
     TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ) );
     TEST_EXPECT_EQUAL_INT( 7, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
+    return TEST_CASE_RESULT_OK;
 }
 
 

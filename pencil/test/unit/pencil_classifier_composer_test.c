@@ -4,11 +4,11 @@
 #include "pencil_classifier_composer.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_expand_space(void);
-static void test_set_envelope_box(void);
-static void test_set_envelope_box_too_small(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_expand_space( test_fixture_t *test_env );
+static test_case_result_t test_set_envelope_box( test_fixture_t *test_env );
+static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_env );
 
 test_suite_t pencil_classifier_composer_test_get_suite(void)
 {
@@ -32,7 +32,7 @@ static pencil_size_t pencil_size;
 
 static draw_classifier_icon_t draw_classifier_icon;
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     /* init a pango font layout */
     {
@@ -88,9 +88,10 @@ static void set_up(void)
         data_diagramelement_destroy( &data_diagele );
         data_classifier_destroy( &data_classifier );
     }
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     /* destroy the layout visible classifier */
     {
@@ -112,7 +113,7 @@ static void tear_down(void)
     }
 }
 
-static void test_expand_space(void)
+static test_case_result_t test_expand_space( test_fixture_t *test_env )
 {
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
@@ -158,9 +159,10 @@ static void test_expand_space(void)
     }
 
     pencil_classifier_composer_destroy( &classifier_composer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_set_envelope_box(void)
+static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
 {
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
@@ -200,9 +202,10 @@ static void test_set_envelope_box(void)
     }
 
     pencil_classifier_composer_destroy( &classifier_composer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_set_envelope_box_too_small(void)
+static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_env )
 {
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
@@ -249,6 +252,7 @@ static void test_set_envelope_box_too_small(void)
     }
 
     pencil_classifier_composer_destroy( &classifier_composer );
+    return TEST_CASE_RESULT_OK;
 }
 
 

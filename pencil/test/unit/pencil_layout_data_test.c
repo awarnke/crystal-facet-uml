@@ -6,12 +6,12 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_empty_model(void);
-static void test_normal_model(void);
-static void test_too_big_model(void);
-static void test_inconsistent_model(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_empty_model( test_fixture_t *test_env );
+static test_case_result_t test_normal_model( test_fixture_t *test_env );
+static test_case_result_t test_too_big_model( test_fixture_t *test_env );
+static test_case_result_t test_inconsistent_model( test_fixture_t *test_env );
 static data_visible_set_t* init_empty_input_data();
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships );
 
@@ -26,11 +26,12 @@ test_suite_t pencil_layout_data_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
@@ -41,6 +42,7 @@ static data_visible_set_t* init_empty_input_data()
     data_visible_set_private_update_containment_cache ( &empty_input_data );
     TEST_ENVIRONMENT_ASSERT ( ! data_visible_set_is_valid ( &empty_input_data ) );
     return &empty_input_data;
+    return TEST_CASE_RESULT_OK;
 }
 
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships )
@@ -155,13 +157,14 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
 
     TEST_ENVIRONMENT_ASSERT ( data_visible_set_is_valid ( &fake_input_data ) );
     return &fake_input_data;
+    return TEST_CASE_RESULT_OK;
 }
 
 static const int DUPLICATE_PARENT_CLASSIFIER=2;
 static const int DUPLICATE_FROM_CLASSIFIER=2;
 static const int DUPLICATE_TO_CLASSIFIER=2;
 
-static void test_empty_model(void)
+static test_case_result_t test_empty_model( test_fixture_t *test_env )
 {
     data_visible_set_t* empty_input_data;
     empty_input_data = init_empty_input_data();
@@ -185,9 +188,10 @@ static void test_empty_model(void)
     TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_normal_model(void)
+static test_case_result_t test_normal_model( test_fixture_t *test_env )
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(15,30,20);
@@ -205,9 +209,10 @@ static void test_normal_model(void)
     TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_too_big_model(void)
+static test_case_result_t test_too_big_model( test_fixture_t *test_env )
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data( DATA_VISIBLE_SET_MAX_CLASSIFIERS,
@@ -224,9 +229,10 @@ static void test_too_big_model(void)
     TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_inconsistent_model(void)
+static test_case_result_t test_inconsistent_model( test_fixture_t *test_env )
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(5,5,5);
@@ -250,6 +256,7 @@ static void test_inconsistent_model(void)
     TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
 

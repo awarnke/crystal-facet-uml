@@ -7,9 +7,9 @@
 #include <stdint.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_alloc_blocks(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_alloc_blocks( test_fixture_t *test_env );
 
 test_suite_t universal_memory_arena_test_get_suite(void)
 {
@@ -19,15 +19,16 @@ test_suite_t universal_memory_arena_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tear_down(void)
-{
-}
-
-static void test_alloc_blocks(void)
+static test_case_result_t test_alloc_blocks( test_fixture_t *test_env )
 {
     char thirty_three[33];
 
@@ -61,6 +62,7 @@ static void test_alloc_blocks(void)
     TEST_EXPECT( NULL == block_4 );
 
     universal_memory_arena_destroy( &test_me );
+    return TEST_CASE_RESULT_OK;
 }
 
 

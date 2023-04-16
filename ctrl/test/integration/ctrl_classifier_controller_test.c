@@ -13,11 +13,11 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void classifier_create_read_modify_read(void);
-static void features_CRURDR(void);
-static void relationship_CRURDR(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t classifier_create_read_modify_read( test_fixture_t *test_env );
+static test_case_result_t features_CRURDR( test_fixture_t *test_env );
+static test_case_result_t relationship_CRURDR( test_fixture_t *test_env );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -44,7 +44,7 @@ test_suite_t ctrl_classifier_controller_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -52,9 +52,10 @@ static void set_up(void)
     data_database_reader_init( &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     ctrl_controller_destroy( &controller );
 
@@ -64,7 +65,7 @@ static void tear_down(void)
     data_database_destroy( &database );
 }
 
-static void classifier_create_read_modify_read(void)
+static test_case_result_t classifier_create_read_modify_read( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -221,9 +222,10 @@ static void classifier_create_read_modify_read(void)
         TEST_EXPECT_EQUAL_INT( 6789, data_classifier_get_x_order( first_classifier ) );
         TEST_EXPECT_EQUAL_INT( 789, data_classifier_get_y_order( first_classifier ) );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
-static void features_CRURDR(void)
+static test_case_result_t features_CRURDR( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -337,9 +339,10 @@ static void features_CRURDR(void)
     }
 
     data_uuid_destroy( &uuid );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void relationship_CRURDR(void)
+static test_case_result_t relationship_CRURDR( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -462,6 +465,7 @@ static void relationship_CRURDR(void)
     }
 
     data_uuid_destroy( &uuid );
+    return TEST_CASE_RESULT_OK;
 }
 
 

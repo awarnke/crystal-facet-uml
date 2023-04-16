@@ -5,11 +5,11 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_small_set_add_and_remove(void);
-static void test_small_set_full(void);
-static void test_small_set_clear(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env );
+static test_case_result_t test_small_set_full( test_fixture_t *test_env );
+static test_case_result_t test_small_set_clear( test_fixture_t *test_env );
 
 test_suite_t data_small_set_test_get_suite(void)
 {
@@ -21,15 +21,16 @@ test_suite_t data_small_set_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tear_down(void)
-{
-}
-
-static void test_small_set_add_and_remove(void)
+static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env )
 {
     data_small_set_t my_set;
     bool empty;
@@ -110,9 +111,10 @@ static void test_small_set_add_and_remove(void)
     TEST_EXPECT_EQUAL_INT( true, empty );
 
     data_small_set_destroy ( &my_set );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_small_set_full(void)
+static test_case_result_t test_small_set_full( test_fixture_t *test_env )
 {
 
     data_small_set_t my_set;
@@ -156,9 +158,10 @@ static void test_small_set_full(void)
     TEST_EXPECT_EQUAL_INT( true, empty );
 
     data_small_set_destroy ( &my_set );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_small_set_clear(void)
+static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
 {
     data_small_set_t my_set;
     bool empty;
@@ -192,6 +195,7 @@ static void test_small_set_clear(void)
     /* clean up */
 
     data_small_set_destroy ( &my_set );
+    return TEST_CASE_RESULT_OK;
 }
 
 

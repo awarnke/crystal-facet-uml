@@ -8,9 +8,9 @@
 #include <string.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_append(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_append( test_fixture_t *test_env );
 
 test_suite_t universal_arena_list_test_get_suite(void)
 {
@@ -23,17 +23,18 @@ test_suite_t universal_arena_list_test_get_suite(void)
 static char one_and_half_element[ sizeof(universal_arena_list_element_t) + 2*sizeof(double) + sizeof(int) ];
 universal_memory_arena_t small_arena;
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     universal_memory_arena_init( &small_arena, &one_and_half_element, sizeof(one_and_half_element) );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     universal_memory_arena_destroy( &small_arena );
 }
 
-static void test_append(void)
+static test_case_result_t test_append( test_fixture_t *test_env )
 {
     universal_arena_list_t test_me;
     universal_arena_list_init( &test_me, &small_arena );
@@ -73,6 +74,7 @@ static void test_append(void)
     TEST_EXPECT( NULL == universal_arena_list_get_end( &test_me ) );
 
     universal_arena_list_destroy( &test_me );
+    return TEST_CASE_RESULT_OK;
 }
 
 

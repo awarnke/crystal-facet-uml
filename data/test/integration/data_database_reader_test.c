@@ -7,14 +7,14 @@
 #include "test_environment_assert.h"
 #include <errno.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_search_diagrams(void);
-static void test_search_diagramelements(void);
-static void test_search_classifiers(void);
-static void test_search_features(void);
-static void test_search_relationships(void);
-static void test_iterate_over_classifiers(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_search_diagrams( test_fixture_t *test_env );
+static test_case_result_t test_search_diagramelements( test_fixture_t *test_env );
+static test_case_result_t test_search_classifiers( test_fixture_t *test_env );
+static test_case_result_t test_search_features( test_fixture_t *test_env );
+static test_case_result_t test_search_relationships( test_fixture_t *test_env );
+static test_case_result_t test_iterate_over_classifiers( test_fixture_t *test_env );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -49,7 +49,7 @@ test_suite_t data_database_reader_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     /* remove old database files first */
     int err;
@@ -281,9 +281,10 @@ static void set_up(void)
 
     data_err = data_database_writer_create_feature ( &db_writer, &thrid_feature, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     int err;
 
@@ -297,7 +298,7 @@ static void tear_down(void)
     TEST_ENVIRONMENT_ASSERT( err == 0 );
 }
 
-static void test_search_diagrams(void)
+static test_case_result_t test_search_diagrams( test_fixture_t *test_env )
 {
     u8_error_t data_err;
     data_diagram_t diagram_list[3];
@@ -355,9 +356,10 @@ static void test_search_diagrams(void)
                                                                      );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 2, data_small_set_get_count( &out_showing_diagram_ids ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_search_diagramelements(void)
+static test_case_result_t test_search_diagramelements( test_fixture_t *test_env )
 {
     u8_error_t data_err;
     data_diagramelement_t out_diagramelement;
@@ -373,9 +375,10 @@ static void test_search_diagramelements(void)
                                                                );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_search_classifiers(void)
+static test_case_result_t test_search_classifiers( test_fixture_t *test_env )
 {
     u8_error_t data_err;
     data_classifier_t out_classifier;
@@ -419,9 +422,10 @@ static void test_search_classifiers(void)
                                                              &out_classifier
                                                            );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_search_features(void)
+static test_case_result_t test_search_features( test_fixture_t *test_env )
 {
     u8_error_t data_err;
     data_feature_t feature_list[4];
@@ -459,9 +463,10 @@ static void test_search_features(void)
                                                                );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 3, out_feature_count );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_search_relationships(void)
+static test_case_result_t test_search_relationships( test_fixture_t *test_env )
 {
     u8_error_t data_err;
     data_relationship_t relation_list[3];
@@ -499,9 +504,10 @@ static void test_search_relationships(void)
                                                                     );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 2, out_relationship_count );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_iterate_over_classifiers(void)
+static test_case_result_t test_iterate_over_classifiers( test_fixture_t *test_env )
 {
     u8_error_t data_err;
     data_database_iterator_classifiers_t classifier_iterator;
@@ -536,6 +542,7 @@ static void test_iterate_over_classifiers(void)
     /* test the iterator, destroy */
     data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    return TEST_CASE_RESULT_OK;
 }
 
 

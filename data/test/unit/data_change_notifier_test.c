@@ -6,10 +6,10 @@
 #include "test_environment_assert.h"
 #include <glib-object.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_notifier_list_insert_and_remove(void);
-static void test_notifier_list_full(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_notifier_list_insert_and_remove( test_fixture_t *test_env );
+static test_case_result_t test_notifier_list_full( test_fixture_t *test_env );
 
 struct test_data_struct {
     uint32_t guard_1;
@@ -32,21 +32,22 @@ test_suite_t data_change_notifier_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_change_notifier_init( &(data.notifier) );
     data.max_list_len = DATA_CHANGE_NOTIFIER_MAX_LISTENERS;
     data.max_test_len = DATA_CHANGE_NOTIFIER_MAX_LISTENERS+1;
     data.guard_1 = 0x4343f9f5u;
     data.guard_2 = 0xf6de0043u;
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     data_change_notifier_destroy( &(data.notifier) );
 }
 
-static void test_notifier_list_insert_and_remove(void)
+static test_case_result_t test_notifier_list_insert_and_remove( test_fixture_t *test_env )
 {
     u8_error_t result;
 
@@ -81,9 +82,10 @@ static void test_notifier_list_insert_and_remove(void)
     /* remove first from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[0]));
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_notifier_list_full(void)
+static test_case_result_t test_notifier_list_full( test_fixture_t *test_env )
 {
     u8_error_t result;
 
@@ -112,6 +114,7 @@ static void test_notifier_list_full(void)
     /* check that memory was not overwritten */
     TEST_EXPECT_EQUAL_INT( 0x4343f9f5u, data.guard_1 );
     TEST_EXPECT_EQUAL_INT( 0xf6de0043u, data.guard_2 );
+    return TEST_CASE_RESULT_OK;
 }
 
 

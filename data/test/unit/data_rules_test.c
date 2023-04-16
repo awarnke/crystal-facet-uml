@@ -6,12 +6,12 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_data_rules_filter_scenarios(void);
-static void test_data_rules_filter_box_and_list(void);
-static void test_data_rules_filter_standard(void);
-static void test_data_rules_filter_incomplete(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_data_rules_filter_scenarios( test_fixture_t *test_env );
+static test_case_result_t test_data_rules_filter_box_and_list( test_fixture_t *test_env );
+static test_case_result_t test_data_rules_filter_standard( test_fixture_t *test_env );
+static test_case_result_t test_data_rules_filter_incomplete( test_fixture_t *test_env );
 static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type );
 
 test_suite_t data_rules_test_get_suite(void)
@@ -25,11 +25,12 @@ test_suite_t data_rules_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
@@ -177,9 +178,10 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
 
     TEST_ENVIRONMENT_ASSERT ( data_visible_set_is_valid ( &test_input_data ) );
     return &test_input_data;
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_data_rules_filter_scenarios(void)
+static test_case_result_t test_data_rules_filter_scenarios( test_fixture_t *test_env )
 {
     const data_visible_set_t *test_input_data;
     test_input_data = init_test_input_data( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM );
@@ -238,9 +240,10 @@ static void test_data_rules_filter_scenarios(void)
     TEST_EXPECT( show == false );
 
     data_rules_destroy ( &testrules );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_data_rules_filter_box_and_list(void)
+static test_case_result_t test_data_rules_filter_box_and_list( test_fixture_t *test_env )
 {
     const data_visible_set_t *test_input_data;
     test_input_data = init_test_input_data( DATA_DIAGRAM_TYPE_BOX_DIAGRAM );
@@ -299,9 +302,10 @@ static void test_data_rules_filter_box_and_list(void)
     TEST_EXPECT( show == false );
 
     data_rules_destroy ( &testrules );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_data_rules_filter_standard(void)
+static test_case_result_t test_data_rules_filter_standard( test_fixture_t *test_env )
 {
     const data_visible_set_t *test_input_data;
     test_input_data = init_test_input_data( DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
@@ -360,9 +364,10 @@ static void test_data_rules_filter_standard(void)
     TEST_EXPECT( show == true );
 
     data_rules_destroy ( &testrules );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_data_rules_filter_incomplete(void)
+static test_case_result_t test_data_rules_filter_incomplete( test_fixture_t *test_env )
 {
     data_visible_set_t *test_input_data;
     test_input_data = init_test_input_data( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM );
@@ -393,6 +398,7 @@ static void test_data_rules_filter_incomplete(void)
     TEST_EXPECT( show == false );
 
     data_rules_destroy ( &testrules );
+    return TEST_CASE_RESULT_OK;
 }
 
 

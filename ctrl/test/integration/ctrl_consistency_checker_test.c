@@ -12,18 +12,18 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void diagram_two_roots_consistency(void);
-static void diagram_missing_parent_consistency(void);
-static void diagram_circular_referenced_diagrams_consistency(void);
-static void diagram_nonreferencing_diagramelements_consistency(void);
-static void diagram_illreferencing_diagramelements_consistency(void);
-static void repair_unreferenced_classifiers(void);
-static void repair_unreferenced_classifiers_2(void);
-static void repair_invalid_feature_parent(void);
-static void repair_invalid_relationship(void);
-static void repair_ill_feature_relationship(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t diagram_two_roots_consistency( test_fixture_t *test_env );
+static test_case_result_t diagram_missing_parent_consistency( test_fixture_t *test_env );
+static test_case_result_t diagram_circular_referenced_diagrams_consistency( test_fixture_t *test_env );
+static test_case_result_t diagram_nonreferencing_diagramelements_consistency( test_fixture_t *test_env );
+static test_case_result_t diagram_illreferencing_diagramelements_consistency( test_fixture_t *test_env );
+static test_case_result_t repair_unreferenced_classifiers( test_fixture_t *test_env );
+static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *test_env );
+static test_case_result_t repair_invalid_feature_parent( test_fixture_t *test_env );
+static test_case_result_t repair_invalid_relationship( test_fixture_t *test_env );
+static test_case_result_t repair_ill_feature_relationship( test_fixture_t *test_env );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -88,7 +88,7 @@ test_suite_t ctrl_consistency_checker_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -172,9 +172,10 @@ static void set_up(void)
     universal_output_stream_t *const out_base = universal_null_output_stream_get_output_stream( &out_stream );
 #endif
     universal_utf8_writer_init( &out_report, out_base );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     universal_utf8_writer_destroy( &out_report );
 #ifndef NDEBUG
@@ -192,7 +193,7 @@ static void tear_down(void)
     data_database_destroy( &database );
 }
 
-static void diagram_two_roots_consistency(void)
+static test_case_result_t diagram_two_roots_consistency( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -243,9 +244,10 @@ static void diagram_two_roots_consistency(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );  /* ok */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void diagram_missing_parent_consistency(void)
+static test_case_result_t diagram_missing_parent_consistency( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -316,9 +318,10 @@ static void diagram_missing_parent_consistency(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void diagram_circular_referenced_diagrams_consistency( void )
+static test_case_result_t diagram_circular_referenced_diagrams_consistency( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -389,9 +392,10 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void diagram_nonreferencing_diagramelements_consistency(void)
+static test_case_result_t diagram_nonreferencing_diagramelements_consistency( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -473,9 +477,10 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void diagram_illreferencing_diagramelements_consistency(void)
+static test_case_result_t diagram_illreferencing_diagramelements_consistency( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -579,9 +584,10 @@ static void diagram_illreferencing_diagramelements_consistency(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void repair_unreferenced_classifiers(void)
+static test_case_result_t repair_unreferenced_classifiers( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -632,9 +638,10 @@ static void repair_unreferenced_classifiers(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void repair_unreferenced_classifiers_2(void)
+static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -726,9 +733,10 @@ static void repair_unreferenced_classifiers_2(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void repair_invalid_feature_parent(void)
+static test_case_result_t repair_invalid_feature_parent( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -797,9 +805,10 @@ static void repair_invalid_feature_parent(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void repair_invalid_relationship(void)
+static test_case_result_t repair_invalid_relationship( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -918,9 +927,10 @@ static void repair_invalid_relationship(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void repair_ill_feature_relationship(void)
+static test_case_result_t repair_ill_feature_relationship( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -1114,6 +1124,7 @@ static void repair_ill_feature_relationship(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
+    return TEST_CASE_RESULT_OK;
 }
 
 

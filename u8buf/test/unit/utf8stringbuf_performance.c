@@ -7,12 +7,12 @@
 #include <time.h>
 #include <assert.h>
 
-static void setUp(void);
-static void tearDown(void);
-static void testClear(void);
-static void testAppendStr(void);
-static void testFindFirst(void);
-static void testInsertAndDelete(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t testClear( test_fixture_t *test_env );
+static test_case_result_t testAppendStr( test_fixture_t *test_env );
+static test_case_result_t testFindFirst( test_fixture_t *test_env );
+static test_case_result_t testInsertAndDelete( test_fixture_t *test_env );
 
 enum testSize_enum{
     TEST_BUF_SIZE=100000,      /*!< string buffer size used for tests */
@@ -30,7 +30,7 @@ static int CpuPerfFactor = 0;
 test_suite_t utf8stringbuf_performance_get_list(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8CodePointTest", &setUp, &tearDown );
+    test_suite_init( &result, "utf8CodePointTest", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testClear", &testClear );
     test_suite_add_test_case( &result, "testAppendStr", &testAppendStr );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
@@ -38,7 +38,7 @@ test_suite_t utf8stringbuf_performance_get_list(void)
     return result;
 }
 
-static void setUp(void)
+static test_fixture_t * set_up()
 {
     if ( CpuPerfFactor == 0 ) {
         /* measure the time until 3 times new clock measurements were registered */
@@ -61,13 +61,14 @@ static void setUp(void)
         /* print the time measurement */
         printf( "CPU-Speed correction factor: %d\n", CpuPerfFactor );
     }
+    return NULL;
 }
 
-static void tearDown(void)
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void testClear(void)
+static test_case_result_t testClear( test_fixture_t *test_env )
 {
     clock_t posixStart;
     clock_t posixEnd;
@@ -102,9 +103,10 @@ static void testClear(void)
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testAppendStr(void)
+static test_case_result_t testAppendStr( test_fixture_t *test_env )
 {
     clock_t posixStart;
     clock_t posixEnd;
@@ -150,9 +152,10 @@ static void testAppendStr(void)
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFindFirst(void)
+static test_case_result_t testFindFirst( test_fixture_t *test_env )
 {
     clock_t posixStart;
     clock_t posixEnd;
@@ -190,6 +193,7 @@ static void testFindFirst(void)
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
+    return TEST_CASE_RESULT_OK;
 }
 
 const char EXAMPLE_DATA[] =
@@ -239,7 +243,8 @@ const char EXAMPLE_DATA[] =
 
 /*enum TestPositionsAndSizes { TEST_INDEX = 21, TEST_SHIFT = 678, };*/
 
-static void testInsertAndDelete(void) {
+static test_case_result_t testInsertAndDelete( test_fixture_t *test_env )
+{
     clock_t posixStart;
     clock_t posixEnd;
     clock_t posixDiff;
@@ -293,6 +298,7 @@ static void testInsertAndDelete(void) {
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_EXPECT( ( utf8sbDiff ) <= ( posixDiff * TEST_MAX_DURATION_FACTOR ) );
+    return TEST_CASE_RESULT_OK;
 }
 
 

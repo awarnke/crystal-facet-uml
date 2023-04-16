@@ -6,11 +6,11 @@
 #include <string.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_insert_regular(void);
-static void test_insert_border_cases(void);
-static void test_null_termination(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_insert_regular( test_fixture_t *test_env );
+static test_case_result_t test_insert_border_cases( test_fixture_t *test_env );
+static test_case_result_t test_null_termination( test_fixture_t *test_env );
 
 static char my_out_buffer[10];
 static universal_memory_output_stream_t my_mem_out_stream;
@@ -25,18 +25,19 @@ test_suite_t universal_memory_output_stream_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     memset( &my_out_buffer, '\0', sizeof(my_out_buffer) );
     universal_memory_output_stream_init( &my_mem_out_stream, &my_out_buffer, sizeof(my_out_buffer) );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     universal_memory_output_stream_destroy( &my_mem_out_stream );
 }
 
-static void test_insert_regular(void)
+static test_case_result_t test_insert_regular( test_fixture_t *test_env )
 {
     int err;
 
@@ -77,9 +78,10 @@ static void test_insert_regular(void)
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_EXPECT_EQUAL_INT( 0, err );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &(my_out_buffer[0]), "Hello!" ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_insert_border_cases(void)
+static test_case_result_t test_insert_border_cases( test_fixture_t *test_env )
 {
     int err;
 
@@ -115,9 +117,10 @@ static void test_insert_border_cases(void)
     err = universal_output_stream_write ( my_out_stream, test_4, 0 );
     TEST_EXPECT_EQUAL_INT( 0, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "1234567890", sizeof(my_out_buffer) ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_null_termination(void)
+static test_case_result_t test_null_termination( test_fixture_t *test_env )
 {
     int err;
 
@@ -142,6 +145,7 @@ static void test_null_termination(void)
     err = universal_memory_output_stream_write_0term( &my_mem_out_stream );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &(my_out_buffer[0]), "123456" "\0" "78" "\0", sizeof(my_out_buffer) ) );
+    return TEST_CASE_RESULT_OK;
 }
 
 

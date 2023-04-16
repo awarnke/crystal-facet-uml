@@ -7,18 +7,18 @@
 #include <string.h>
 #include <assert.h>
 
-static void setUp(void);
-static void tearDown(void);
-static void testInit1(void);
-static void testInit2(void);
-static void testIntToUtf8ToInt(void);
-static void testIntToUtf8(void);
-static void testUnicode(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t testInit1( test_fixture_t *test_env );
+static test_case_result_t testInit2( test_fixture_t *test_env );
+static test_case_result_t testIntToUtf8ToInt( test_fixture_t *test_env );
+static test_case_result_t testIntToUtf8( test_fixture_t *test_env );
+static test_case_result_t testUnicode( test_fixture_t *test_env );
 
 test_suite_t utf8codepoint_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8CodePointTest", &setUp, &tearDown );
+    test_suite_init( &result, "utf8CodePointTest", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testInit1", &testInit1 );
     test_suite_add_test_case( &result, "testInit2", &testInit2 );
     test_suite_add_test_case( &result, "testIntToUtf8ToInt", &testIntToUtf8ToInt );
@@ -27,15 +27,16 @@ test_suite_t utf8codepoint_test_get_suite(void)
     return result;
 }
 
-static void setUp(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tearDown(void)
-{
-}
-
-static void testInit1(void)
+static test_case_result_t testInit1( test_fixture_t *test_env )
 {
     /* check initialization */
     utf8codepoint_t code_point1 = utf8codepoint( 'a' );
@@ -77,9 +78,10 @@ static void testInit1(void)
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
     TEST_EXPECT_EQUAL_INT( 0xffffffff, utf8codepoint_get_char( code_point1 ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testInit2(void)
+static test_case_result_t testInit2( test_fixture_t *test_env )
 {
     /* check init function */
     utf8codepoint_t code_point2 = utf8codepoint_init( "a", 1 );
@@ -144,9 +146,11 @@ static void testInit2(void)
     TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char( code_point2 ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point2 ) );
 
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testIntToUtf8ToInt(void) {
+static test_case_result_t testIntToUtf8ToInt( test_fixture_t *test_env )
+{
     utf8codepoint_t result;
     char dynTestArr1[7] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -225,9 +229,11 @@ static void testIntToUtf8ToInt(void) {
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_get_length(result) );
     TEST_EXPECT_EQUAL_INT( 0x1fffff, utf8codepoint_get_char(result) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testIntToUtf8(void) {
+static test_case_result_t testIntToUtf8( test_fixture_t *test_env )
+{
     utf8codepoint_t probe;
     utf8codepointseq_t expect;
     utf8codepointseq_t result;
@@ -248,7 +254,7 @@ static void testIntToUtf8(void) {
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\x24', '\0', '\0', '\0'}};
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
-    
+
     /* 2 byte code points */
     probe = utf8codepoint( 0xa2 );
     TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
@@ -256,7 +262,7 @@ static void testIntToUtf8(void) {
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\xc2', '\xa2', '\0', '\0'}};
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
-    
+
     /* 3 byte code points */
     probe = utf8codepoint( 0x20ac );
     TEST_EXPECT_EQUAL_INT( 1, utf8codepoint_is_valid(probe) );
@@ -280,9 +286,10 @@ static void testIntToUtf8(void) {
     result = utf8codepoint_get_utf8( probe );
     expect = (utf8codepointseq_t){.seq={'\0', '\0', '\0', '\0'}};
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &result, &expect, sizeof(utf8codepointseq_t) ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testUnicode(void)
+static test_case_result_t testUnicode( test_fixture_t *test_env )
 {
     /* check valid code points */
     utf8codepoint_t code_point1 = utf8codepoint( '\0' );
@@ -352,6 +359,7 @@ static void testUnicode(void)
     code_point1 = utf8codepoint( 0xffffffff );
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_unicode( code_point1 ) );
 
+    return TEST_CASE_RESULT_OK;
 }
 
 

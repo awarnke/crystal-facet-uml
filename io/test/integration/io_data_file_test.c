@@ -5,11 +5,11 @@
 #include "test_expect.h"
 #include <stdio.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void create_new_db(void);
-static void open_existing_db(void);
-static void open_invalid_file(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t create_new_db( test_fixture_t *test_env );
+static test_case_result_t open_existing_db( test_fixture_t *test_env );
+static test_case_result_t open_invalid_file( test_fixture_t *test_env );
 
 /*!
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
@@ -31,12 +31,13 @@ test_suite_t io_data_file_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     io_data_file_init( &data_file );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     int stdio_err;
     io_data_file_destroy( &data_file );
@@ -44,7 +45,7 @@ static void tear_down(void)
     TEST_ENVIRONMENT_ASSERT ( 0 == stdio_err );
 }
 
-static void create_new_db(void)
+static test_case_result_t create_new_db( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     bool isopen;
@@ -61,9 +62,10 @@ static void create_new_db(void)
 
     isopen = io_data_file_is_open( &data_file );
     TEST_EXPECT_EQUAL_INT( true, isopen );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void open_existing_db(void)
+static test_case_result_t open_existing_db( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -94,9 +96,10 @@ static void open_existing_db(void)
 
     isopen = io_data_file_is_open( &data_file );
     TEST_EXPECT_EQUAL_INT( true, isopen );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void open_invalid_file(void)
+static test_case_result_t open_invalid_file( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     int stdio_err;
@@ -128,6 +131,7 @@ static void open_invalid_file(void)
 
     isopen = io_data_file_is_open( &data_file );
     TEST_EXPECT_EQUAL_INT( false, isopen );
+    return TEST_CASE_RESULT_OK;
 }
 
 

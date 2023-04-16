@@ -7,20 +7,20 @@
 #include <string.h>
 #include <assert.h>
 
-static void setUp(void);
-static void tearDown(void);
-static void testStandardUseCase(void);
-static void testNoSeparatorUseCase(void);
-static void testEmptyElementsUseCase(void);
-static void testEmptyListUseCase(void);
-static void testEmptySeparatorUseCase(void);
-static void testNullListUseCase(void);
-static void testNullSeparatorUseCase(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t testStandardUseCase( test_fixture_t *test_env );
+static test_case_result_t testNoSeparatorUseCase( test_fixture_t *test_env );
+static test_case_result_t testEmptyElementsUseCase( test_fixture_t *test_env );
+static test_case_result_t testEmptyListUseCase( test_fixture_t *test_env );
+static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *test_env );
+static test_case_result_t testNullListUseCase( test_fixture_t *test_env );
+static test_case_result_t testNullSeparatorUseCase( test_fixture_t *test_env );
 
 test_suite_t utf8stringviewiterator_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8StringViewIteratorTest", &setUp, &tearDown );
+    test_suite_init( &result, "utf8StringViewIteratorTest", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testStandardUseCase", &testStandardUseCase );
     test_suite_add_test_case( &result, "testNoSeparatorUseCase", &testNoSeparatorUseCase );
     test_suite_add_test_case( &result, "testEmptyElementsUseCase", &testEmptyElementsUseCase );
@@ -31,240 +31,248 @@ test_suite_t utf8stringviewiterator_test_get_suite(void)
     return result;
 }
 
-static void setUp(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tearDown(void)
-{
-}
-
-static void testStandardUseCase(void)
+static test_case_result_t testStandardUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
     static const char *const my_list = "23,, 24";
-    
+
     /* init */
     utf8stringviewiterator_t it;
     utf8stringviewiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), ", " );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+0), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+5), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     /* finish */
     utf8stringviewiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testNoSeparatorUseCase(void)
+static test_case_result_t testNoSeparatorUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
     static const char *const my_list = "23,, 24";
-    
+
     /* init */
     utf8stringviewiterator_t it;
     utf8stringviewiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), ",, 24567" );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+0), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( strlen( my_list ), utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     /* finish */
     utf8stringviewiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testEmptyElementsUseCase(void)
+static test_case_result_t testEmptyElementsUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
     static const char *const my_list = ",23,, 24,";
-    
+
     /* init */
     utf8stringviewiterator_t it;
     utf8stringviewiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), "," );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+0), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+4), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+5), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( (my_list+9), utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     /* finish */
     utf8stringviewiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testEmptyListUseCase(void)
+static test_case_result_t testEmptyListUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
     static const char *const my_list = "";
-    
+
     /* init */
     utf8stringviewiterator_t it;
     utf8stringviewiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), "," );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     /* finish */
     utf8stringviewiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testEmptySeparatorUseCase(void)
+static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
     static const char *const my_list = "1,2,3";
-    
+
     /* init */
     utf8stringviewiterator_t it;
     utf8stringviewiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), "" );  /* unspecified case */
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( my_list, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( strlen( my_list ), utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     /* finish */
     utf8stringviewiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testNullListUseCase(void)
+static test_case_result_t testNullListUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
-    
+
     /* init */
     utf8stringviewiterator_t it;
     utf8stringviewiterator_init( &it, UTF8STRINGVIEW_NULL, "" );  /* unspecified case */
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     /* finish */
     utf8stringviewiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testNullSeparatorUseCase(void)
+static test_case_result_t testNullSeparatorUseCase( test_fixture_t *test_env )
 {
     bool has_next;
     utf8stringview_t next;
     static const char *const my_list = "1,2,3";
-    
+
     /* init */
     utf8stringviewiterator_t it;
     utf8stringviewiterator_init( &it, UTF8STRINGVIEW_STR( my_list ), NULL );  /* unspecified case */
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( my_list, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( strlen( my_list ), utf8stringview_get_length( next ) );
-    
+
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
-    
+
     next = utf8stringviewiterator_next( &it );
     TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( next ) );
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
-    
+
     /* finish */
     utf8stringviewiterator_destroy( &it );
+    return TEST_CASE_RESULT_OK;
 }
 
 

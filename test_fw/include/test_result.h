@@ -9,6 +9,7 @@
  *  \brief Provides result struct for unit tests.
  */
 
+#include "test_case_result.h"
 #include <stdbool.h>
 
 /*!
@@ -39,9 +40,9 @@ static inline void test_result_destroy( test_result_t *this_ );
  *  \brief add test result
  *
  *  \param this_ pointer to own object attributes
- *  \param success true if the test case succeeded, false if it failed.
+ *  \param result ok or error depending on the test case result.
  */
-static inline void test_result_add_test_case_result( test_result_t *this_, bool success );
+static inline void test_result_add_test_case_result( test_result_t *this_, test_case_result_t result );
 
 /*!
  *  \brief returns the number of total test cases

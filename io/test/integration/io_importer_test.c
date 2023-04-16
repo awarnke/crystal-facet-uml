@@ -13,18 +13,18 @@
 #include "u8/u8_trace.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void insert_invalid_json(void);
-static void insert_invalid_parent_diag(void);
-static void insert_empty_set(void);
-static void insert_new_classifier_to_existing_diagram(void);
-static void insert_new_classifier_to_new_diagram(void);
-static void insert_existing_feature_to_other_classifier(void);
-static void insert_existing_classifier_to_new_diagram(void);
-static void insert_unconditional_relationships(void);
-static void insert_relationships_to_non_scenario(void);
-static void insert_scenario_relationships_to_scenario(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t insert_invalid_json( test_fixture_t *test_env );
+static test_case_result_t insert_invalid_parent_diag( test_fixture_t *test_env );
+static test_case_result_t insert_empty_set( test_fixture_t *test_env );
+static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *test_env );
+static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *test_env );
+static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *test_env );
+static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *test_env );
+static test_case_result_t insert_unconditional_relationships( test_fixture_t *test_env );
+static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *test_env );
+static test_case_result_t insert_scenario_relationships_to_scenario( test_fixture_t *test_env );
 
 static data_row_id_t create_root_diag();  /* helper function */
 
@@ -60,7 +60,7 @@ test_suite_t io_importer_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -68,9 +68,10 @@ static void set_up(void)
     data_database_reader_init( &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     ctrl_controller_destroy( &controller );
 
@@ -116,6 +117,7 @@ static data_row_id_t create_root_diag()
     data_diagram_destroy ( &root_diagram );
 
     return root_diag_id;
+    return TEST_CASE_RESULT_OK;
 }
 
 static const char *const test_json_own_diagram =
@@ -285,7 +287,7 @@ static const char *const test_json_no_diag =
     "  ]\n"
     "}\n";
 
-static void insert_invalid_json(void)
+static test_case_result_t insert_invalid_json( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -327,9 +329,10 @@ static void insert_invalid_json(void)
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void insert_invalid_parent_diag(void)
+static test_case_result_t insert_invalid_parent_diag( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -354,9 +357,10 @@ static void insert_invalid_parent_diag(void)
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void insert_empty_set(void)
+static test_case_result_t insert_empty_set( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -382,9 +386,10 @@ static void insert_empty_set(void)
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void insert_new_classifier_to_existing_diagram(void)
+static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -415,9 +420,10 @@ static void insert_new_classifier_to_existing_diagram(void)
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void insert_new_classifier_to_new_diagram(void)
+static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -450,9 +456,10 @@ static void insert_new_classifier_to_new_diagram(void)
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void insert_existing_feature_to_other_classifier(void)
+static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -507,9 +514,10 @@ static void insert_existing_feature_to_other_classifier(void)
         data_stat_destroy(&stat);
     }
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void insert_existing_classifier_to_new_diagram(void)
+static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -566,9 +574,10 @@ static void insert_existing_classifier_to_new_diagram(void)
         data_stat_destroy(&stat);
     }
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void insert_unconditional_relationships(void)
+static test_case_result_t insert_unconditional_relationships( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -620,6 +629,7 @@ static void insert_unconditional_relationships(void)
         data_stat_destroy(&stat);
     }
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
 static const char *const test_non_scenario_relationship =
@@ -699,7 +709,7 @@ static const char *const test_non_scenario_relationship =
     "  ]\n"
     "}\n";
 
-static void insert_relationships_to_non_scenario(void)
+static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
 
@@ -730,6 +740,7 @@ static void insert_relationships_to_non_scenario(void)
 
     data_stat_destroy(&stat);
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
 static const char *const test_json_scenario_self_relation =
@@ -767,7 +778,7 @@ static const char *const test_json_scenario_self_relation =
     "  ]\n"
     "}\n";
 
-static void insert_scenario_relationships_to_scenario(void)
+static test_case_result_t insert_scenario_relationships_to_scenario( test_fixture_t *test_env )
 {
     io_importer_t importer;
     io_importer_init ( &importer, &db_reader, &controller );
@@ -831,6 +842,7 @@ static void insert_scenario_relationships_to_scenario(void)
         data_stat_destroy(&stat);
     }
     io_importer_destroy ( &importer );
+    return TEST_CASE_RESULT_OK;
 }
 
 

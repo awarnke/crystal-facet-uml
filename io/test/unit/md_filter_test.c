@@ -11,11 +11,11 @@
 #include "u8/u8_trace.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_md_plain_mixed(void);
-static void test_valid_links(void);
-static void test_invalid_links(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_md_plain_mixed( test_fixture_t *test_env );
+static test_case_result_t test_valid_links( test_fixture_t *test_env );
+static test_case_result_t test_invalid_links( test_fixture_t *test_env );
 
 static data_row_id_t create_root_diag();  /* helper function */
 
@@ -58,7 +58,7 @@ test_suite_t md_filter_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -72,9 +72,10 @@ static void set_up(void)
     xml_writer_init( &xml_writer, universal_memory_output_stream_get_output_stream( &my_out_stream ) );
 
     md_filter_init( &md_filter, &db_reader, TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &xml_writer );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     md_filter_destroy( &md_filter );
 
@@ -124,10 +125,11 @@ static data_row_id_t create_root_diag()
     data_diagram_destroy ( &root_diagram );
 
     return root_diag_id;
+    return TEST_CASE_RESULT_OK;
 }
 
 
-static void test_md_plain_mixed(void)
+static test_case_result_t test_md_plain_mixed( test_fixture_t *test_env )
 {
     int err;
 
@@ -155,9 +157,10 @@ static void test_md_plain_mixed(void)
     //fflush(stdout);
     TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_valid_links(void)
+static test_case_result_t test_valid_links( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
@@ -174,9 +177,10 @@ static void test_valid_links(void)
     //fflush(stdout);
     TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_invalid_links(void)
+static test_case_result_t test_invalid_links( test_fixture_t *test_env )
 {
     data_row_id_t root_diag_id = create_root_diag();
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
@@ -192,6 +196,7 @@ static void test_invalid_links(void)
     //fflush(stdout);
     TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    return TEST_CASE_RESULT_OK;
 }
 
 

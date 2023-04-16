@@ -7,15 +7,15 @@
 #include "test_expect.h"
 #include <string.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_write_indent_multiline_string_null(void);
-static void test_write_indent_multiline_string_empty(void);
-static void test_write_indent_multiline_string_empty_last(void);
-static void test_write_indent_multiline_string_single(void);
-static void test_write_indent_multiline_string_dual(void);
-static void test_write_indent_multiline_string_crnl(void);
-static void test_write_indent_multiline_string_cr(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_write_indent_multiline_string_null( test_fixture_t *test_env );
+static test_case_result_t test_write_indent_multiline_string_empty( test_fixture_t *test_env );
+static test_case_result_t test_write_indent_multiline_string_empty_last( test_fixture_t *test_env );
+static test_case_result_t test_write_indent_multiline_string_single( test_fixture_t *test_env );
+static test_case_result_t test_write_indent_multiline_string_dual( test_fixture_t *test_env );
+static test_case_result_t test_write_indent_multiline_string_crnl( test_fixture_t *test_env );
+static test_case_result_t test_write_indent_multiline_string_cr( test_fixture_t *test_env );
 
 test_suite_t txt_writer_test_get_suite(void)
 {
@@ -38,15 +38,16 @@ static universal_memory_output_stream_t my_out_stream;
 static const char ENDMARKER[] = "[";
 static const int ENDMARKER_LEN = 1;
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_visible_set_init( &my_fake_input_data );
 
     universal_memory_output_stream_init( &my_out_stream, &my_out_buffer, sizeof(my_out_buffer) );
     txt_writer_init( &my_fake_testee, universal_memory_output_stream_get_output_stream( &my_out_stream ) );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     txt_writer_destroy( &my_fake_testee );
 
@@ -55,7 +56,7 @@ static void tear_down(void)
     data_visible_set_destroy( &my_fake_input_data );
 }
 
-static void test_write_indent_multiline_string_null(void)
+static test_case_result_t test_write_indent_multiline_string_null( test_fixture_t *test_env )
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", NULL );
@@ -63,9 +64,10 @@ static void test_write_indent_multiline_string_null(void)
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, "[", strlen("[") ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_write_indent_multiline_string_empty(void)
+static test_case_result_t test_write_indent_multiline_string_empty( test_fixture_t *test_env )
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "" );
@@ -73,9 +75,10 @@ static void test_write_indent_multiline_string_empty(void)
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, "[", strlen("[") ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_write_indent_multiline_string_empty_last(void)
+static test_case_result_t test_write_indent_multiline_string_empty_last( test_fixture_t *test_env )
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\n" );
@@ -83,9 +86,10 @@ static void test_write_indent_multiline_string_empty_last(void)
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n[", strlen("123_456\n[") ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_write_indent_multiline_string_single(void)
+static test_case_result_t test_write_indent_multiline_string_single( test_fixture_t *test_env )
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456" );
@@ -93,9 +97,10 @@ static void test_write_indent_multiline_string_single(void)
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n[", strlen("123_456\n[") ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_write_indent_multiline_string_dual(void)
+static test_case_result_t test_write_indent_multiline_string_dual( test_fixture_t *test_env )
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\n789" );
@@ -103,9 +108,10 @@ static void test_write_indent_multiline_string_dual(void)
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_456\n[") ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_write_indent_multiline_string_crnl(void)
+static test_case_result_t test_write_indent_multiline_string_crnl( test_fixture_t *test_env )
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\r\n789\r\n" );
@@ -113,9 +119,10 @@ static void test_write_indent_multiline_string_crnl(void)
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_write_indent_multiline_string_cr(void)
+static test_case_result_t test_write_indent_multiline_string_cr( test_fixture_t *test_env )
 {
 
     int err = txt_writer_write_indent_multiline_string( &my_fake_testee, "123_", "456\r789\r" );
@@ -123,6 +130,7 @@ static void test_write_indent_multiline_string_cr(void)
     universal_memory_output_stream_write( &my_out_stream, ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_EXPECT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
+    return TEST_CASE_RESULT_OK;
 }
 
 

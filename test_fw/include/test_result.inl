@@ -10,10 +10,10 @@ static inline void test_result_destroy( test_result_t *this_ )
 {
 }
 
-static inline void test_result_add_test_case_result( test_result_t *this_, bool success )
+static inline void test_result_add_test_case_result( test_result_t *this_, test_case_result_t result )
 {
     (*this_).total ++;
-    if ( ! success ) 
+    if ( result != TEST_CASE_RESULT_OK )
     {
         (*this_).failed ++;
     }

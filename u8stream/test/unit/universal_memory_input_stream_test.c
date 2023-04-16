@@ -6,10 +6,10 @@
 #include <string.h>
 #include <assert.h>
 
-static void set_up(void);
-static void tear_down(void);
-static void test_read_chunks(void);
-static void test_read_all(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_read_chunks( test_fixture_t *test_env );
+static test_case_result_t test_read_all( test_fixture_t *test_env );
 
 static char my_in_buffer[10];
 static universal_memory_input_stream_t my_mem_in_stream;
@@ -23,18 +23,19 @@ test_suite_t universal_memory_input_stream_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     memcpy( &my_in_buffer, "123456789", sizeof(my_in_buffer) );
     universal_memory_input_stream_init( &my_mem_in_stream, &my_in_buffer, sizeof(my_in_buffer) );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     universal_memory_input_stream_destroy( &my_mem_in_stream );
 }
 
-static void test_read_chunks(void)
+static test_case_result_t test_read_chunks( test_fixture_t *test_env )
 {
     int err;
 
@@ -70,9 +71,10 @@ static void test_read_chunks(void)
     TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
     TEST_EXPECT_EQUAL_INT( 0, len );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "6789", sizeof(buf5) ) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_read_all(void)
+static test_case_result_t test_read_all( test_fixture_t *test_env )
 {
     int err;
 
@@ -103,6 +105,7 @@ static void test_read_all(void)
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, err );
     TEST_EXPECT_EQUAL_INT( 0, len );
+    return TEST_CASE_RESULT_OK;
 }
 
 

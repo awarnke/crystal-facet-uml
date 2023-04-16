@@ -1,5 +1,6 @@
 /* File: test_runner.inl; Copyright and License: see below */
 
+#include "test_case_result.h"
 #include <stdio.h>
 
 static inline void test_runner_init( test_runner_t *this_ )
@@ -22,10 +23,10 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
     {
         fprintf( stdout, "  test case: %s\n", test_suite_get_test_case_name( &test_suite, idx ) );
         fflush( stdout );  /* help to localize errors in case of sudden termination */
-        bool success;
-        success = test_suite_run_test_case( &test_suite, idx );
-        test_result_add_test_case_result( &((*this_).result), success );
-        test_result_add_test_case_result( &suite_local_result, success );
+        test_case_result_t tc_result;
+        tc_result = test_suite_run_test_case( &test_suite, idx );
+        test_result_add_test_case_result( &((*this_).result), tc_result );
+        test_result_add_test_case_result( &suite_local_result, tc_result );
     }
     fprintf( stdout,
              "test result: total %d, failed: %d\n",

@@ -5,11 +5,11 @@
 #include "data_classifier_type.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_parse_valid_simple_svg_xml(void);
-static void test_parse_valid_svg_xml(void);
-static void test_parse_invalid_svg_xml(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *test_env );
+static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *test_env );
+static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *test_env );
 
 test_suite_t draw_stereotype_image_test_get_suite(void)
 {
@@ -22,17 +22,18 @@ test_suite_t draw_stereotype_image_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
 #define DRAW_STEREOTYPE_IMAGE_SIMPLE_TESTS_MAX (20)
 
-static void test_parse_valid_simple_svg_xml(void)
+static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *test_env )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
@@ -80,9 +81,10 @@ static void test_parse_valid_simple_svg_xml(void)
     }
 
     draw_stereotype_image_destroy( &svg_parser );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_parse_valid_svg_xml(void)
+static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *test_env )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
@@ -127,11 +129,12 @@ static void test_parse_valid_svg_xml(void)
     TEST_EXPECT_EQUAL_DOUBLE( 11.0, geometry_rectangle_get_height( &view_rect ) );
 
     draw_stereotype_image_destroy( &svg_parser );
+    return TEST_CASE_RESULT_OK;
 }
 
 #define DRAW_STEREOTYPE_IMAGE_INVALID_TESTS_MAX (8)
 
-static void test_parse_invalid_svg_xml(void)
+static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *test_env )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
@@ -170,6 +173,7 @@ static void test_parse_invalid_svg_xml(void)
     }
 
     draw_stereotype_image_destroy( &svg_parser );
+    return TEST_CASE_RESULT_OK;
 }
 
 

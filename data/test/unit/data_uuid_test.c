@@ -5,10 +5,10 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_format(void);
-static void test_unique(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_format( test_fixture_t *test_env );
+static test_case_result_t test_unique( test_fixture_t *test_env );
 
 test_suite_t data_uuid_test_get_suite(void)
 {
@@ -19,15 +19,16 @@ test_suite_t data_uuid_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tear_down(void)
-{
-}
-
-static void test_format(void)
+static test_case_result_t test_format( test_fixture_t *test_env )
 {
     data_uuid_t testee;
     data_uuid_init_new( &testee );
@@ -45,9 +46,10 @@ static void test_format(void)
     TEST_EXPECT_EQUAL_INT( -1, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1+4+1) );
 
     data_uuid_destroy( &testee );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_unique(void)
+static test_case_result_t test_unique( test_fixture_t *test_env )
 {
     data_uuid_t testee_1;
     data_uuid_init_new( &testee_1 );
@@ -66,6 +68,7 @@ static void test_unique(void)
 
     data_uuid_destroy( &testee_1 );
     data_uuid_destroy( &testee_2 );
+    return TEST_CASE_RESULT_OK;
 }
 
 

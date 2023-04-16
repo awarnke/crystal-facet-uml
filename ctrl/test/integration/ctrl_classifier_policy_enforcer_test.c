@@ -9,9 +9,9 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void lifeline_to_diagramelement_consistency(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t *test_env );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -41,7 +41,7 @@ test_suite_t ctrl_classifier_policy_enforcer_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -50,9 +50,10 @@ static void set_up(void)
     data_database_writer_init( &db_writer, &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     ctrl_controller_destroy( &controller );
 
@@ -63,7 +64,7 @@ static void tear_down(void)
     data_database_destroy( &database );
 }
 
-static void lifeline_to_diagramelement_consistency(void)
+static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -217,6 +218,7 @@ static void lifeline_to_diagramelement_consistency(void)
 
         data_diagramelement_destroy ( &check_diagele3 );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
 

@@ -9,12 +9,12 @@
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void undo_redo_classifier(void);
-static void undo_redo_list_limits(void);
-static void undo_redo_feature_and_relationship(void);
-static void undo_redo_update_diagram(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t undo_redo_classifier( test_fixture_t *test_env );
+static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env );
+static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *test_env );
+static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env );
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -42,7 +42,7 @@ test_suite_t ctrl_undo_redo_list_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
     data_database_init( &database );
     data_database_open_in_memory( &database );
@@ -50,9 +50,10 @@ static void set_up(void)
     data_database_reader_init( &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
     ctrl_controller_destroy( &controller );
 
@@ -62,7 +63,7 @@ static void tear_down(void)
     data_database_destroy( &database );
 }
 
-static void undo_redo_classifier(void)
+static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -261,9 +262,10 @@ static void undo_redo_classifier(void)
         TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( first_diagele ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "98e479f0-9112-483e-b64f-251d55a50c13", data_diagramelement_get_uuid_const( first_diagele ) ) );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
-static void undo_redo_list_limits(void)
+static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     data_row_id_t root_diagram_id;
@@ -429,9 +431,10 @@ static void undo_redo_list_limits(void)
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
+    return TEST_CASE_RESULT_OK;
 }
 
-static void undo_redo_feature_and_relationship(void)
+static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -796,9 +799,10 @@ static void undo_redo_feature_and_relationship(void)
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
+    return TEST_CASE_RESULT_OK;
 }
 
-static void undo_redo_update_diagram(void)
+static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -972,6 +976,7 @@ static void undo_redo_update_diagram(void)
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE, data_diagramelement_get_display_flags( &read_diagele ) );
         TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &read_diagele ) );
     }
+    return TEST_CASE_RESULT_OK;
 }
 
 

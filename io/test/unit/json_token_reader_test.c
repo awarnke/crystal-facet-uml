@@ -5,15 +5,15 @@
 #include "u8stream/universal_memory_input_stream.h"
 #include "test_expect.h"
 
-static void set_up(void);
-static void tear_down(void);
-static void test_skip_whitespace(void);
-static void test_is_value_end(void);
-static void test_get_value_type(void);
-static void test_parse_string(void);
-static void test_parse_integer(void);
-static void test_skip_number(void);
-static void test_parse(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t test_skip_whitespace( test_fixture_t *test_env );
+static test_case_result_t test_is_value_end( test_fixture_t *test_env );
+static test_case_result_t test_get_value_type( test_fixture_t *test_env );
+static test_case_result_t test_parse_string( test_fixture_t *test_env );
+static test_case_result_t test_parse_integer( test_fixture_t *test_env );
+static test_case_result_t test_skip_number( test_fixture_t *test_env );
+static test_case_result_t test_parse( test_fixture_t *test_env );
 
 
 test_suite_t json_token_reader_test_get_suite(void)
@@ -30,17 +30,18 @@ test_suite_t json_token_reader_test_get_suite(void)
     return result;
 }
 
-static void set_up(void)
+static test_fixture_t * set_up()
 {
+    return NULL;
 }
 
-static void tear_down(void)
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
 static json_token_reader_t tok;
 
-static void test_skip_whitespace(void)
+static test_case_result_t test_skip_whitespace( test_fixture_t *test_env )
 {
     universal_memory_input_stream_t test_input;
     const char test_str1[3] = "4 ";
@@ -71,9 +72,10 @@ static void test_skip_whitespace(void)
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_is_value_end(void)
+static test_case_result_t test_is_value_end( test_fixture_t *test_env )
 {
     const char test_str[17] = "+2f\r"  "5,7:"  "9}b "  "\"e\".";
     const char results[18] = "0001"  "0101"  "0101"  "00001";
@@ -95,9 +97,10 @@ static void test_is_value_end(void)
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_get_value_type(void)
+static test_case_result_t test_get_value_type( test_fixture_t *test_env )
 {
     u8_error_t test_err;
     universal_memory_input_stream_t test_input;
@@ -195,9 +198,10 @@ static void test_get_value_type(void)
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_parse_string(void)
+static test_case_result_t test_parse_string( test_fixture_t *test_env )
 {
    u8_error_t test_err;
    const char test_str[6][17] = {
@@ -235,9 +239,10 @@ static void test_parse_string(void)
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_parse_integer(void)
+static test_case_result_t test_parse_integer( test_fixture_t *test_env )
 {
     u8_error_t test_err;
     const char test_str[8][16] = {
@@ -271,9 +276,10 @@ static void test_parse_integer(void)
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_skip_number(void)
+static test_case_result_t test_skip_number( test_fixture_t *test_env )
 {
     u8_error_t test_err;
     const char test_str[8][16] = {
@@ -303,9 +309,10 @@ static void test_skip_number(void)
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void test_parse(void)
+static test_case_result_t test_parse( test_fixture_t *test_env )
 {
     static const char test_str[] =
         "\n{"
@@ -492,6 +499,7 @@ static void test_parse(void)
 
     json_token_reader_destroy( &tok );
     universal_memory_input_stream_destroy( &test_input );
+    return TEST_CASE_RESULT_OK;
 }
 
 

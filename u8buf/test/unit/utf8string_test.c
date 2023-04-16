@@ -7,26 +7,26 @@
 #include <string.h>
 #include <assert.h>
 
-static void setUp(void);
-static void tearDown(void);
-static void testSize(void);
-static void testLength(void);
-static void testEquals(void);
-static void testEqualsRegion(void);
-static void testStartsWith(void);
-static void testEndsWith(void);
-static void testFindFirst(void);
-static void testFindNext(void);
-static void testFindLast(void);
-static void testCharAt(void);
-static void testCharAtLoops(void);
-static void testParseInt(void);
-static void testParseFloat(void);
+static test_fixture_t * set_up();
+static void tear_down( test_fixture_t *test_env );
+static test_case_result_t testSize( test_fixture_t *test_env );
+static test_case_result_t testLength( test_fixture_t *test_env );
+static test_case_result_t testEquals( test_fixture_t *test_env );
+static test_case_result_t testEqualsRegion( test_fixture_t *test_env );
+static test_case_result_t testStartsWith( test_fixture_t *test_env );
+static test_case_result_t testEndsWith( test_fixture_t *test_env );
+static test_case_result_t testFindFirst( test_fixture_t *test_env );
+static test_case_result_t testFindNext( test_fixture_t *test_env );
+static test_case_result_t testFindLast( test_fixture_t *test_env );
+static test_case_result_t testCharAt( test_fixture_t *test_env );
+static test_case_result_t testCharAtLoops( test_fixture_t *test_env );
+static test_case_result_t testParseInt( test_fixture_t *test_env );
+static test_case_result_t testParseFloat( test_fixture_t *test_env );
 
 test_suite_t utf8string_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8StringTest", &setUp, &tearDown );
+    test_suite_init( &result, "utf8StringTest", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testSize", &testSize );
     test_suite_add_test_case( &result, "testLength", &testLength );
     test_suite_add_test_case( &result, "testEquals", &testEquals );
@@ -43,15 +43,16 @@ test_suite_t utf8string_test_get_suite(void)
     return result;
 }
 
-static void setUp(void)
+static test_fixture_t * set_up()
+{
+    return NULL;
+}
+
+static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static void tearDown(void)
-{
-}
-
-static void testSize(void)
+static test_case_result_t testSize( test_fixture_t *test_env )
 {
     unsigned int size;
 
@@ -67,9 +68,10 @@ static void testSize(void)
 
     size = utf8string_get_size( "ab\xC2\xA2\0" "efg" );
     TEST_EXPECT_EQUAL_INT( 5, size );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testEquals(void)
+static test_case_result_t testEquals( test_fixture_t *test_env )
 {
     //  prepare
     int equal;
@@ -104,9 +106,10 @@ static void testEquals(void)
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8string_equals_str( dynTestArr1, dynTestArr2 );
     TEST_EXPECT_EQUAL_INT( 0, equal );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testEqualsRegion(void)
+static test_case_result_t testEqualsRegion( test_fixture_t *test_env )
 {
     //  prepare
     int equal;
@@ -158,9 +161,10 @@ static void testEqualsRegion(void)
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8string_equals_region_str( NULL, 0, NULL );
     TEST_EXPECT_EQUAL_INT( 0, equal );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testLength(void)
+static test_case_result_t testLength( test_fixture_t *test_env )
 {
     int len;
 
@@ -173,9 +177,11 @@ static void testLength(void)
     TEST_EXPECT_EQUAL_INT( 2, len );
     len = utf8string_get_length( "123456789 123456789" );
     TEST_EXPECT_EQUAL_INT( 19, len );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testStartsWith(void) {
+static test_case_result_t testStartsWith( test_fixture_t *test_env )
+{
     //  prepare
     int matches;
     char dynTestArr1[] = "Hello";
@@ -215,9 +221,11 @@ static void testStartsWith(void) {
     matches = utf8string_starts_with_buf( "", utf8stringbuf("") );
     TEST_EXPECT_EQUAL_INT( 1, matches );
 
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testEndsWith(void) {
+static test_case_result_t testEndsWith( test_fixture_t *test_env )
+{
     //  prepare
     int matches;
     char dynTestArr1[] = "World";
@@ -257,9 +265,10 @@ static void testEndsWith(void) {
     matches = utf8string_ends_with_buf( "", utf8stringbuf("") );
     TEST_EXPECT_EQUAL_INT( 1, matches );
 
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFindFirst(void)
+static test_case_result_t testFindFirst( test_fixture_t *test_env )
 {
     int pos;
     char srchArr3[] = "N/A";
@@ -304,9 +313,10 @@ static void testFindFirst(void)
 
     pos = utf8string_find_first_buf( "_n/a_n/a", srchBuf3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFindNext(void)
+static test_case_result_t testFindNext( test_fixture_t *test_env )
 {
     int pos;
     char srchArr1[10] = "aaaa";
@@ -346,9 +356,10 @@ static void testFindNext(void)
     pos = utf8string_find_next_str( "aaaaaa", srchArr1, 3 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testFindLast(void)
+static test_case_result_t testFindLast( test_fixture_t *test_env )
 {
     int pos;
     char srchArr1[10] = "aaaab";
@@ -386,10 +397,12 @@ static void testFindLast(void)
 
     pos = utf8string_find_last_str( srchArr1, "aaa" );
     TEST_EXPECT_EQUAL_INT( 1, pos );
+    return TEST_CASE_RESULT_OK;
 }
 
 
-static void testCharAt(void) {
+static test_case_result_t testCharAt( test_fixture_t *test_env )
+{
     utf8codepoint_t result;
     char dynTestArr1[6] = "He\xE2\x82\xAC";
 
@@ -423,9 +436,11 @@ static void testCharAt(void) {
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
     TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length(result) );
     TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testCharAtLoops(void) {
+static test_case_result_t testCharAtLoops( test_fixture_t *test_env )
+{
     utf8codepoint_t result;
     char dynTestArr1[6] = "He\xE2\x82\xAC";
 
@@ -486,9 +501,10 @@ static void testCharAtLoops(void) {
         }
     }
     TEST_EXPECT_EQUAL_INT( 3, countCodePoints );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testParseInt(void)
+static test_case_result_t testParseInt( test_fixture_t *test_env )
 {
     unsigned int byte_length;
     int64_t number;
@@ -550,9 +566,10 @@ static void testParseInt(void)
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_EXPECT_EQUAL_INT( 5, byte_length );
     TEST_EXPECT_EQUAL_INT( -15, number );
+    return TEST_CASE_RESULT_OK;
 }
 
-static void testParseFloat(void)
+static test_case_result_t testParseFloat( test_fixture_t *test_env )
 {
     unsigned int byte_length;
     double number;
@@ -614,6 +631,7 @@ static void testParseFloat(void)
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_EXPECT_EQUAL_INT( 8, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( -1.5, number );
+    return TEST_CASE_RESULT_OK;
 }
 
 
