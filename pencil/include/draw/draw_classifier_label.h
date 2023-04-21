@@ -80,6 +80,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
                                                      cairo_t *cr
                                                    );
 
+#if 0
 /*!
  *  \brief renders the id of the classifier.
  *
@@ -97,6 +98,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
                                     PangoLayout *font_layout,
                                     cairo_t *cr
                                   );
+#endif
 
 #include "draw_classifier_label.inl"
 

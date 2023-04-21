@@ -222,7 +222,6 @@ int main (int argc, char *argv[]) {
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END_ERR( exit_code );
     return exit_code;
-    return TEST_CASE_RESULT_OK;
 }
 
 

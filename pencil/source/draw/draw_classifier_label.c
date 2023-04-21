@@ -241,6 +241,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     U8_TRACE_END();
 }
 
+#if 0
 void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
                                     const data_visible_classifier_t *visible_classifier,
                                     const geometry_rectangle_t *classifier_bounds,
@@ -376,6 +377,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
 
     U8_TRACE_END();
 }
+#endif
 
 
 /*

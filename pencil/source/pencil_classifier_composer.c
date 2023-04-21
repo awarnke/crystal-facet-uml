@@ -92,6 +92,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
     U8_TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
 
+#if 0
     /* draw id */
     draw_classifier_label_draw_id( &((*this_).draw_classifier_label),
                                    visible_classifier,
@@ -100,6 +101,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                    font_layout,
                                    cr
                                  );
+#endif
 
     /* draw the stereotype image */
     const bool has_stereotype = data_classifier_has_stereotype( classifier );

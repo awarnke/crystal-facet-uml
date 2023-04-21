@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.49.0"
+    "generator_version": "1.49.1"
   }
   ,
   "views":
@@ -5988,6 +5988,60 @@
             "classifier_name": "space",
             "node": "5aa14d2a-6ab4-4843-98c5-9fdc05badd67",
             "uuid": "bf8f553f-6fcd-469d-8735-95cdcb292ddc"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 102,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Pencil Modes",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "display_flags": 0,
+        "parent_name": "GUI Terms",
+        "parent": "eddcb13a-f4f8-41a3-b58c-d802404fbe47",
+        "uuid": "e30ea691-eeef-423d-9c2a-a22612341c19",
+        "diagramelements":
+        [
+          {
+            "id": 707,
+            "display_flags": 0,
+            "classifier_name": "Class",
+            "node": "78adb721-0c75-4ab4-b53a-1d7d7b9c084a",
+            "uuid": "02d9a8f4-b268-4da9-8860-efd33a656ee1"
+          },
+          {
+            "id": 708,
+            "display_flags": 0,
+            "classifier_name": "standalone-icon",
+            "node": "0459af3b-0474-47b5-90a2-1d2e373cdc27",
+            "uuid": "f8427753-f093-4dc3-8081-f0fd21583983"
+          },
+          {
+            "id": 709,
+            "display_flags": 0,
+            "classifier_name": "contour-and-icon",
+            "node": "19812045-bdfb-407b-970f-fc22c13124e0",
+            "uuid": "54030567-205b-41df-b6ad-9b2de37cd326"
+          },
+          {
+            "id": 710,
+            "display_flags": 0,
+            "classifier_name": "icon-img",
+            "node": "26ed837e-1889-4af0-bf2b-765f89eee16c",
+            "uuid": "8239f458-10f9-4752-a9dc-e94eaf7b4663"
+          },
+          {
+            "id": 711,
+            "display_flags": 0,
+            "classifier_name": "contour-img",
+            "node": "eb76961f-9e97-4d76-bd4d-314686d10eb5",
+            "uuid": "31201f9d-8758-4c9d-875b-74e0e209463a"
           }
         ]
       }
@@ -14735,7 +14789,7 @@
         "description": [
                 "The image of a stereotype.\n",
                 "This may replace either the icon\n",
-                "or the icon in the top left corner\n",
+                "or the icon in the top right corner\n",
                 "of a contour."
         ],
         "x_order": 1740096155,
@@ -14908,6 +14962,136 @@
         "y_order": 1467942700,
         "list_order": 1467942700,
         "uuid": "fd8cc6ed-79ea-4183-93ab-9f41cc7306a7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 443,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "Class",
+        "description": [
+                ""
+        ],
+        "x_order": -1346001753,
+        "y_order": -1718736517,
+        "list_order": -1375125440,
+        "uuid": "78adb721-0c75-4ab4-b53a-1d7d7b9c084a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 444,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "standalone-icon",
+        "description": [
+                "<path d=\"\n",
+                "M 3,0\n",
+                "h 4\n",
+                "v 4\n",
+                "h -4\n",
+                "v -4\n",
+                "M 1,4.5\n",
+                "h 8\n",
+                "v 2\n",
+                "h -8\n",
+                "v -2\n",
+                "M 2,7\n",
+                "h 2 m 2,0 h 2\n",
+                "v 2\n",
+                "h -2 m -2,0 h -2\n",
+                "v -2\n",
+                "\"/>"
+        ],
+        "x_order": 570590037,
+        "y_order": -1718736517,
+        "list_order": -1718736517,
+        "uuid": "0459af3b-0474-47b5-90a2-1d2e373cdc27",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 445,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "contour-and-icon",
+        "description": [
+                "<path d=\"\n",
+                "M 1,2\n",
+                "h 8\n",
+                "v 6\n",
+                "h -8\n",
+                "v -6\n",
+                "M 2,3\n",
+                "h 4\n",
+                "v 2\n",
+                "h -4\n",
+                "v -2\n",
+                "M 6.5,3\n",
+                "h 1.5\n",
+                "v 1.5\n",
+                "h -1.5\n",
+                "v -1.5\n",
+                "M 2,5.5\n",
+                "h 2 m 2,0 h 2\n",
+                "v 2\n",
+                "h -2 m -2,0 h -2\n",
+                "v -2\n",
+                "\"/>"
+        ],
+        "x_order": 570590037,
+        "y_order": -1476368146,
+        "list_order": -1476368146,
+        "uuid": "19812045-bdfb-407b-970f-fc22c13124e0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 446,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "standalone-icon",
+        "name": "icon-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1442552667,
+        "y_order": -1718736517,
+        "list_order": -1712746077,
+        "uuid": "26ed837e-1889-4af0-bf2b-765f89eee16c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 447,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "contour-and-icon",
+        "name": "contour-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1442552667,
+        "y_order": -1476368146,
+        "list_order": -1393008559,
+        "uuid": "eb76961f-9e97-4d76-bd4d-314686d10eb5",
         "features":
         [
         ]
@@ -25035,6 +25219,74 @@
         "from_node": "fd8cc6ed-79ea-4183-93ab-9f41cc7306a7",
         "to_node": "0e35034d-c5cc-4a2f-ba27-ccf3a9cc6f98",
         "uuid": "14e22c5a-a2b3-4362-a8dd-b38b2f795b74"
+      }
+    },
+    {
+      "relationship": {
+        "id": 695,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "standalone-icon",
+        "to_classifier_name": "Class",
+        "from_node": "0459af3b-0474-47b5-90a2-1d2e373cdc27",
+        "to_node": "78adb721-0c75-4ab4-b53a-1d7d7b9c084a",
+        "uuid": "508056b5-2714-437d-a69a-4fc1c5329b2e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 697,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "standalone-icon",
+        "to_classifier_name": "icon-img",
+        "from_node": "0459af3b-0474-47b5-90a2-1d2e373cdc27",
+        "to_node": "26ed837e-1889-4af0-bf2b-765f89eee16c",
+        "uuid": "84aef45f-02ea-4ce2-9e7e-da9ed368799d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 696,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "contour-and-icon",
+        "to_classifier_name": "Class",
+        "from_node": "19812045-bdfb-407b-970f-fc22c13124e0",
+        "to_node": "78adb721-0c75-4ab4-b53a-1d7d7b9c084a",
+        "uuid": "41e09919-0d0f-4af4-ab0c-b6c43bf1aef1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 698,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "contour-and-icon",
+        "to_classifier_name": "contour-img",
+        "from_node": "19812045-bdfb-407b-970f-fc22c13124e0",
+        "to_node": "eb76961f-9e97-4d76-bd4d-314686d10eb5",
+        "uuid": "8e436dc8-13c4-4b5a-a071-25318b363855"
       }
     }
   ]

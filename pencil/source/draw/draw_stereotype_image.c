@@ -95,8 +95,12 @@ enum draw_stereotype_image_xml_enum {
     DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH,  /*!< nothing passed yet */
     DRAW_STEREOTYPE_IMAGE_XML_TAG_STARTED,  /*!< XML tag start passed */
     DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG,  /*!< XML token path passed */
-    DRAW_STEREOTYPE_IMAGE_XML_D_ATTR,  /*!< XML attribute d passed */
-    DRAW_STEREOTYPE_IMAGE_XML_D_DEF,  /*!< XML tag path passed */
+    DRAW_STEREOTYPE_IMAGE_XML_D_ATTR,  /*!< XML attribute d: name passed */
+    DRAW_STEREOTYPE_IMAGE_XML_D_DEF,  /*!< XML attribute d: assignment passed */
+    DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR,  /*!< XML attribute fill: name passed */
+    DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF,  /*!< XML attribute fill: assignment passed */
+    DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR,  /*!< XML attribute stroke: name passed */
+    DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF,  /*!< XML attribute stroke: assignment passed */
 };
 
 u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_image_t *this_,
@@ -193,6 +197,13 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                                                            cr
                                                                          );
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_TEXT );
+                    if ( draw )
+                    {
+                        assert( NULL != cr );
+                        //cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 1.0 );
+                        //cairo_fill (cr);
+                        cairo_stroke (cr);
+                    }
                     path_count ++;
                 }
                 /* back to inside path state */
@@ -379,23 +390,16 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
                 const char current = *utf8stringview_get_start( tok );
                 if ( utf8stringview_equals_str( tok, "\"" ) )
                 {
-                    /* draw subpath */
-                    if ( draw )
-                    {
-                        assert( NULL != cr );
-                        cairo_stroke (cr);
-                    }
                     /* end of d attribute, back to caller */
                     parser_state = DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT;
                 }
                 else if ( current=='z' || current=='Z' )
                 {
-                    /* draw subpath */
+                    /* close subpath */
                     if ( draw )
                     {
                         assert( NULL != cr );
                         cairo_line_to ( cr, subpath_start_x * scale_x + shift_x, subpath_start_y * scale_y + shift_y );
-                        cairo_stroke (cr);
                     }
                     command_start_x = subpath_start_x;
                     command_start_y = subpath_start_y;
@@ -1210,14 +1214,9 @@ u8_error_t draw_stereotype_image_private_parse_drawing ( const draw_stereotype_i
         }
     }
 
-    /* clean up unfinished drawings */
+    /* report error on unfinished drawing */
     if ( parser_state != DRAW_STEREOTYPE_IMAGE_EXPECT_EXIT )
     {
-        if ( draw )
-        {
-            assert( NULL != cr );
-            cairo_stroke (cr);
-        }
         result |= U8_ERROR_PARSER_STRUCTURE;
         /* if no other error encountered yet, report this one: */
         if ( ! u8_error_info_is_error( out_err_info ) )

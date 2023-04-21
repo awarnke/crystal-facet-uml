@@ -68,6 +68,7 @@ static test_case_result_t testSize( test_fixture_t *test_env )
 
     size = utf8string_get_size( "ab\xC2\xA2\0" "efg" );
     TEST_EXPECT_EQUAL_INT( 5, size );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -106,6 +107,7 @@ static test_case_result_t testEquals( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8string_equals_str( dynTestArr1, dynTestArr2 );
     TEST_EXPECT_EQUAL_INT( 0, equal );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -161,6 +163,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8string_equals_region_str( NULL, 0, NULL );
     TEST_EXPECT_EQUAL_INT( 0, equal );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -177,6 +180,7 @@ static test_case_result_t testLength( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 2, len );
     len = utf8string_get_length( "123456789 123456789" );
     TEST_EXPECT_EQUAL_INT( 19, len );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -313,6 +317,7 @@ static test_case_result_t testFindFirst( test_fixture_t *test_env )
 
     pos = utf8string_find_first_buf( "_n/a_n/a", srchBuf3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -385,7 +390,6 @@ static test_case_result_t testFindLast( test_fixture_t *test_env )
     pos = utf8string_find_last_buf( srchArr1, utf8stringbuf("bb") );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-
     pos = utf8string_find_last_str( srchArr1, NULL );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
@@ -397,6 +401,7 @@ static test_case_result_t testFindLast( test_fixture_t *test_env )
 
     pos = utf8string_find_last_str( srchArr1, "aaa" );
     TEST_EXPECT_EQUAL_INT( 1, pos );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -436,6 +441,7 @@ static test_case_result_t testCharAt( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
     TEST_EXPECT_EQUAL_INT( UTF8CODEPOINT_INVALID_LEN, utf8codepoint_get_length(result) );
     TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -501,6 +507,7 @@ static test_case_result_t testCharAtLoops( test_fixture_t *test_env )
         }
     }
     TEST_EXPECT_EQUAL_INT( 3, countCodePoints );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -566,6 +573,7 @@ static test_case_result_t testParseInt( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_EXPECT_EQUAL_INT( 5, byte_length );
     TEST_EXPECT_EQUAL_INT( -15, number );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -631,6 +639,7 @@ static test_case_result_t testParseFloat( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_EXPECT_EQUAL_INT( 8, byte_length );
     TEST_EXPECT_EQUAL_DOUBLE( -1.5, number );
+
     return TEST_CASE_RESULT_OK;
 }
 

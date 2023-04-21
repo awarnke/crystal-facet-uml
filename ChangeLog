@@ -1,3 +1,10 @@
+crystal-facet-uml (1.49.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * IDs of classifiers are not shown anymore, names are already unique
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 22 Apr 2023 14:00:00 +0200
+
 crystal-facet-uml (1.49.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
