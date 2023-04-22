@@ -98,10 +98,14 @@ enum draw_stereotype_image_xml_enum {
     DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG,  /*!< XML token path passed */
     DRAW_STEREOTYPE_IMAGE_XML_D_ATTR,  /*!< XML attribute d: name passed */
     DRAW_STEREOTYPE_IMAGE_XML_D_DEF,  /*!< XML attribute d: assignment passed */
-    DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR,  /*!< XML attribute fill: name passed */
+    DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR,  /*!< XML attribute fill: name passed, see svg spec 13.2. Specifying paint */
     DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF,  /*!< XML attribute fill: assignment passed */
-    DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR,  /*!< XML attribute stroke: name passed */
+    DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE,  /*!< XML attribute fill: single or double quotes passed */
+    DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR,  /*!< XML attribute stroke: name passed, see svg spec 13.2. Specifying paint */
     DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF,  /*!< XML attribute stroke: assignment passed */
+    DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE,  /*!< XML attribute stroke: single or double quotes passed */
+    DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE,  /*!< single-quoted XML attribute-value of any other attribute-name */
+    DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE,  /*!< double-quoted XML attribute-value of any other attribute-name */
 };
 
 u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_image_t *this_,
@@ -126,7 +130,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
     utf8stringviewtokenizer_t tok_iterator;
     utf8stringviewtokenizer_init( &tok_iterator, UTF8STRINGVIEW_STR( drawing_directives ), UTF8STRINGVIEWTOKENMODE_TEXT );
-    while( utf8stringviewtokenizer_has_next( &tok_iterator ) )
+    while( utf8stringviewtokenizer_has_next( &tok_iterator ) && ( result == U8_ERROR_NONE ) )
     {
         const utf8stringview_t tok = utf8stringviewtokenizer_next( &tok_iterator );
 
@@ -149,7 +153,9 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 }
                 else
                 {
+                    /* no error, accept anythig here: */
                     /* not a path tag, back to ouside state */
+                    /* TODO accept a namespace for the path maybe? */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH;
                 }
             }
@@ -160,6 +166,26 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 if ( utf8stringview_equals_str( tok, "d" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_D_ATTR;
+                }
+                else if ( utf8stringview_equals_str( tok, "stroke" ) )
+                {
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR;
+                }
+                else if ( utf8stringview_equals_str( tok, "fill" ) )
+                {
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR;
+                }
+                else if ( utf8stringview_equals_str( tok, "\'" ) )
+                {
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE;
+                }
+                else if ( utf8stringview_equals_str( tok, "\"" ) )
+                {
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE;
+                }
+                else if ( utf8stringview_equals_str( tok, "/" ) )
+                {
+                    /* ignore */
                 }
                 else if ( utf8stringview_equals_str( tok, ">" ) )
                 {
@@ -177,6 +203,14 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 }
                 else
                 {
+                    /* this is an error */
+                    /* TODO the tokenizer may have split a token, e.g. d:pre-d-post */
+                    result |= U8_ERROR_PARSER_STRUCTURE;
+                    u8_error_info_init_line( out_err_info,
+                                             U8_ERROR_PARSER_STRUCTURE,
+                                             utf8stringviewtokenizer_get_line( &tok_iterator )
+                                           );
+
                     /* not a d attribute, back to inside path state */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
                 }
@@ -185,7 +219,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_D_DEF:
             {
-                if ( utf8stringview_equals_str( tok, "\"" ) )
+                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
                 {
                     /* process draw commands in sub statemachine */
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY );
@@ -215,6 +249,153 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             }
             break;
 
+            case DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR:
+            {
+                if ( utf8stringview_equals_str( tok, "=" ) )
+                {
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF;
+                }
+                else
+                {
+                    /* this is an error */
+                    /* TODO the tokenizer may have split a token, e.g. stroke:pre-stroke-post */
+                    result |= U8_ERROR_PARSER_STRUCTURE;
+                    u8_error_info_init_line( out_err_info,
+                                             U8_ERROR_PARSER_STRUCTURE,
+                                             utf8stringviewtokenizer_get_line( &tok_iterator )
+                                           );
+
+                    /* not a stroke attribute, back to inside path state */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+            }
+            break;
+
+            case DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF:
+            {
+                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                {
+                    /* end of the value of another, ignored tag */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE;
+                }
+                else
+                {
+                    /* this is an error */
+                    result |= U8_ERROR_PARSER_STRUCTURE;
+                    u8_error_info_init_line( out_err_info,
+                                             U8_ERROR_PARSER_STRUCTURE,
+                                             utf8stringviewtokenizer_get_line( &tok_iterator )
+                                           );
+
+                    /* not a stroke attribute, back to inside path state */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+            }
+            break;
+
+            case DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE:
+            {
+                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                {
+                    /* end of the value of stroke tag */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+                else
+                {
+                    U8_TRACE_INFO_VIEW( "stroke:", tok );
+                }
+            }
+            break;
+
+            case DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR:
+            {
+                if ( utf8stringview_equals_str( tok, "=" ) )
+                {
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF;
+                }
+                else
+                {
+                    /* this is an error */
+                    /* TODO the tokenizer may have split a token, e.g. fill:pre-fill-post */
+                    result |= U8_ERROR_PARSER_STRUCTURE;
+                    u8_error_info_init_line( out_err_info,
+                                             U8_ERROR_PARSER_STRUCTURE,
+                                             utf8stringviewtokenizer_get_line( &tok_iterator )
+                                           );
+
+                    /* not a fill attribute, back to inside path state */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+            }
+            break;
+
+            case DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF:
+            {
+                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                {
+                    /* end of the value of another, ignored tag */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE;
+                }
+                else
+                {
+                    /* this is an error */
+                    result |= U8_ERROR_PARSER_STRUCTURE;
+                    u8_error_info_init_line( out_err_info,
+                                             U8_ERROR_PARSER_STRUCTURE,
+                                             utf8stringviewtokenizer_get_line( &tok_iterator )
+                                           );
+
+                    /* not a stroke attribute, back to inside path state */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+            }
+            break;
+
+            case DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE:
+            {
+                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                {
+                    /* end of the value of fill tag */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+                else
+                {
+                    U8_TRACE_INFO_VIEW( "fill:", tok );
+                }
+            }
+            break;
+
+            case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE:
+            {
+                if ( utf8stringview_equals_str( tok, "\'" ) )
+                {
+                    /* end of the value of another, ignored tag */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+                /*
+                else
+                {
+                    U8_TRACE_INFO_VIEW( "other single-quoted:", tok );
+                }
+                */
+            }
+            break;
+
+            case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE:
+            {
+                if ( utf8stringview_equals_str( tok, "\"" ) )
+                {
+                    /* end of the value of another, ignored tag */
+                    parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
+                }
+                /*
+                else
+                {
+                    U8_TRACE_INFO_VIEW( "other double-quoted:", tok );
+                }
+                */
+            }
+            break;
         }
     }
     utf8stringviewtokenizer_destroy( &tok_iterator );

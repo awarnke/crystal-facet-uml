@@ -15,6 +15,7 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
+  [ ] store edited text fields before performing undo/redo operations
   @pencil
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)

@@ -91,7 +91,7 @@ u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
             case DRAW_SVG_PATH_DATA_EXPECT_COMMAND:
             {
                 const char current = *utf8stringview_get_start( tok );
-                if ( utf8stringview_equals_str( tok, "\"" ) )
+                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
                 {
                     /* no subpath here to draw */
                     /* end of d attribute, back to caller */
@@ -171,7 +171,7 @@ u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
             case DRAW_SVG_PATH_DATA_EXPECT_COMMAND_OR_COORD_SEQ:
             {
                 const char current = *utf8stringview_get_start( tok );
-                if ( utf8stringview_equals_str( tok, "\"" ) )
+                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
                 {
                     /* end of d attribute, back to caller */
                     parser_state = DRAW_SVG_PATH_DATA_EXPECT_EXIT;

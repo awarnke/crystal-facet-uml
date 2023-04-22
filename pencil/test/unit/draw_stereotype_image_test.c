@@ -42,7 +42,7 @@ static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *test_
 
     const char *const drawing_directives[DRAW_STEREOTYPE_IMAGE_SIMPLE_TESTS_MAX]
     = {
-        "<path d=\"m 10,10 -10,-10\"/>",
+        "<path d=\'m 10,10 -10,-10\'/>",
         "<path d=\"l 10,10\"/>",
         "<path d=\"v 10 h 10\"/>",
         "<path d=\"h 10 v 10 z\"/>",
