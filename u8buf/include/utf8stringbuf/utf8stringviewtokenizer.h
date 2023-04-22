@@ -86,6 +86,15 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
 static inline uint32_t utf8stringviewtokenizer_get_line ( const utf8stringviewtokenizer_t *this_ );
 
 /*!
+ *  \brief gets the token mode
+ *
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ pointer to own object attributes
+ *  \result mode definition of how tokens are separated
+ */
+static inline utf8stringviewtokenmode_t utf8stringviewtokenizer_get_mode ( utf8stringviewtokenizer_t *this_ );
+
+/*!
  *  \brief sets the token mode
  *
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)

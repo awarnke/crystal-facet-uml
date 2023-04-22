@@ -24,6 +24,11 @@ static inline bool utf8stringviewtokenizer_has_next ( const utf8stringviewtokeni
     return ( utf8stringview_get_length( (*this_).remaining_input_text ) != 0 );
 }
 
+static inline utf8stringviewtokenmode_t utf8stringviewtokenizer_get_mode ( utf8stringviewtokenizer_t *this_ )
+{
+    return (*this_).mode;
+}
+
 static inline void utf8stringviewtokenizer_set_mode ( utf8stringviewtokenizer_t *this_, utf8stringviewtokenmode_t mode )
 {
     (*this_).mode = mode;

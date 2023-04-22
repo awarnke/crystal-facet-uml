@@ -24,7 +24,7 @@
 #include <stdbool.h>
 
 #ifndef NDEBUG
-#if 0
+#if 1
 /* make the layout visible for debugging: */
 #define PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
 #endif
