@@ -39,12 +39,12 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
 
     const double image_height = DRAW_STEREOTYPE_IMAGE_REL_SIZE * pencil_size_get_title_font_size( pencil_size );
     const double image_width = DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT * image_height;
-    geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, image_width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, image_height, y, 0.0 ),
-                              image_width,
-                              image_height
-                            );
+    geometry_rectangle_init( &result,
+                             geometry_h_align_get_left( &h_align, image_width, x, 0.0 ),
+                             geometry_v_align_get_top( &v_align, image_height, y, 0.0 ),
+                             image_width,
+                             image_height
+                           );
 
     return result;
 }
@@ -62,6 +62,7 @@ static inline u8_error_t draw_stereotype_image_parse_svg_xml ( const draw_stereo
     geometry_rectangle_t target_bounds;
     geometry_rectangle_init_empty( &target_bounds );
     geometry_rectangle_init_empty( out_view_rect );
+    const GdkRGBA default_color = { .red = 0.0, .green = 0.0, .blue = 0.0, .alpha = 0.0 };
     u8_error_info_init_void( out_err_info );
 
     const u8_error_t result
@@ -69,6 +70,7 @@ static inline u8_error_t draw_stereotype_image_parse_svg_xml ( const draw_stereo
                                                        false,  /* draw */
                                                        drawing_directives,
                                                        out_view_rect,
+                                                       &default_color,
                                                        out_err_info,
                                                        &target_bounds,
                                                        NULL  /* cr */

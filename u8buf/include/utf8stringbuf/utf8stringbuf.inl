@@ -460,6 +460,33 @@ static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ ) {
     return utf8stringbuf_init( this_.size-this_Length, &(this_.buf[this_Length]) );
 }
 
+static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, utf8stringview_t appendix )
+{
+    utf8error_t result = UTF8ERROR_SUCCESS;
+    const size_t start = strlen( this_.buf );
+
+    const size_t appLen = utf8stringview_get_length( appendix );
+    if ( start + appLen < this_.size ) {
+        memcpy( &(this_.buf[start]), utf8stringview_get_start( appendix ), appLen );
+        this_.buf[start+appLen] = '\0';
+    }
+    else {
+        const size_t appPartLen = (this_.size-start)-1;
+        if (( appPartLen > 0 )&&( appPartLen <= PTRDIFF_MAX ))  /* check to suppress compiler warning */
+        {
+            memcpy( &(this_.buf[start]), utf8stringview_get_start( appendix ), appPartLen );
+        }
+        else
+        {
+            /* buffer full */
+        }
+        utf8_string_buf_private_make_null_termination( this_ );
+        result = UTF8ERROR_TRUNCATED;
+    }
+
+    return result;
+}
+
 #ifdef __cplusplus
 }
 #endif

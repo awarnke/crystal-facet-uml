@@ -208,11 +208,12 @@
                                 </para>
                                 <para>
                                     An image can be specified since version 1.48.0 by stating lines and curves
-                                    according to the SVG-path spec version 2.0; also arcs are supported since 1.49.0.
+                                    according to the SVG-path spec version 2.0; also arcs are supported since 1.49.0,
+                                    stroke and fill colors since 1.50.0
                                     Examples are:
                                 </para>
                                 <para>
-                                    <command>&lt;path d=&quot;M 2,2 10,2 8,8, 0,8 Z&quot;/&gt;</command>
+                                    <command>&lt;path fill=&quot;#e0e0e0&quot; stroke=&quot;#0088cc&quot; d=&quot;M 2,2 10,2 8,8, 0,8 Z&quot;/&gt;</command>
                                 </para>
                                 <para>
                                     <command>&lt;path d=&quot;m 0,1 c 0,-0.55 1.35,-1 3,-1 c 1.65,0 3,0.45 3,1 c 0,0.55, -1.35,1 -3,1 c -1.65,0 -3,-0.45, -3,-1

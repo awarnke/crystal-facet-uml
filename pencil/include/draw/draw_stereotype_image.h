@@ -86,6 +86,7 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *  \param this_ pointer to own object attributes
  *  \param stereotype name of the stereotype(s) to be drawn
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
+ *  \param default_color color to stroke paths if no stroke color is stated in the svg path of the stereotype
  *  \param[out] out_err_info pointer to an error_info_t data struct;
  *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
  *  \param bounds bounding rectangle of the stereotype image
@@ -97,6 +98,7 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
 u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                         const char *stereotype,
                                         const data_profile_part_t *profile,
+                                        const GdkRGBA *default_color,
                                         u8_error_info_t *out_err_info,
                                         const geometry_rectangle_t *bounds,
                                         cairo_t *cr
@@ -131,6 +133,7 @@ static inline u8_error_t draw_stereotype_image_parse_svg_xml ( const draw_stereo
  *                              in case of draw==true this is needed as input,
  *                              in case of draw==false this is required to be initialized as empty,
  *                              eventually pre-filled by previous calls to preceding svg xml fragments.
+ *  \param default_color color to stroke paths if no stroke color is stated in the svg path of the stereotype
  *  \param[out] out_err_info pointer to an error_info_t data struct;
  *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
  *  \param target_bounds bounding rectangle of the drawing directives
@@ -143,6 +146,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                                          bool draw,
                                                          const char *drawing_directives,
                                                          geometry_rectangle_t *io_view_rect,
+                                                         const GdkRGBA *default_color,
                                                          u8_error_info_t *out_err_info,
                                                          const geometry_rectangle_t *target_bounds,
                                                          cairo_t *cr

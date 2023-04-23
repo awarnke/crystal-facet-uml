@@ -4,6 +4,7 @@
 #include "draw/draw_stereotype_image.h"
 #include "pencil_layout_data.h"
 #include "u8/u8_trace.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -13,6 +14,7 @@ const double DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT = 1.0;
 u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                         const char *stereotype,
                                         const data_profile_part_t *profile,
+                                        const GdkRGBA *default_color,
                                         u8_error_info_t *out_err_info,
                                         const geometry_rectangle_t *bounds,
                                         cairo_t *cr )
@@ -38,6 +40,7 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                                                false,  /* draw */
                                                                drawing_directives,
                                                                &io_view_rect,
+                                                               default_color,
                                                                out_err_info,
                                                                bounds,
                                                                cr
@@ -61,6 +64,7 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                                                    true,  /* draw */
                                                                    drawing_directives,
                                                                    &io_view_rect,
+                                                                   default_color,
                                                                    out_err_info,
                                                                    bounds,
                                                                    cr
@@ -83,7 +87,7 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                           geometry_rectangle_get_height ( bounds )
                         );
         cairo_stroke (cr);
-        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        cairo_set_source_rgba( cr, (*default_color).red, (*default_color).green, (*default_color).blue, (*default_color).alpha );
     }
 #endif
 
@@ -112,6 +116,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                                          bool draw,
                                                          const char *drawing_directives,
                                                          geometry_rectangle_t *io_view_rect,
+                                                         const GdkRGBA *default_color,
                                                          u8_error_info_t *out_err_info,
                                                          const geometry_rectangle_t *target_bounds,
                                                          cairo_t *cr )
@@ -127,6 +132,10 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
     /* states while parsing: */
     enum draw_stereotype_image_xml_enum parser_state = DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH;
     uint_fast16_t path_count = 0;
+    GdkRGBA stroke_color = *default_color;
+    GdkRGBA fill_color = { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
+    char xml_attr_value_buf[64]; /* max 4 floating point numbers and rgba(%,%,%,%) string around */
+    utf8stringbuf_t xml_attr_value = UTF8STRINGBUF(xml_attr_value_buf);
 
     utf8stringviewtokenizer_t tok_iterator;
     utf8stringviewtokenizer_init( &tok_iterator, UTF8STRINGVIEW_STR( drawing_directives ), UTF8STRINGVIEWTOKENMODE_TEXT );
@@ -149,6 +158,9 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             {
                 if ( utf8stringview_equals_str( tok, "path" ) )
                 {
+                    /* for each new path, reset the colors to defaults */
+                    stroke_color = *default_color;
+                    fill_color = (GdkRGBA) { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
                 }
                 else
@@ -189,6 +201,31 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 }
                 else if ( utf8stringview_equals_str( tok, ">" ) )
                 {
+                    if ( draw )
+                    {
+                        assert( NULL != cr );
+                        /* fill and stroke */
+                        if ( fill_color.alpha > 0.01 )
+                        {
+                            if ( stroke_color.alpha > 0.01 )
+                            {
+                                cairo_set_source_rgba( cr, fill_color.red, fill_color.green, fill_color.blue, fill_color.alpha );
+                                cairo_fill_preserve( cr );
+                                cairo_set_source_rgba( cr, stroke_color.red, stroke_color.green, stroke_color.blue, stroke_color.alpha );
+                                cairo_stroke( cr );
+                            }
+                            else
+                            {
+                                cairo_set_source_rgba( cr, fill_color.red, fill_color.green, fill_color.blue, fill_color.alpha );
+                                cairo_fill( cr );
+                            }
+                        }
+                        else
+                        {
+                            cairo_set_source_rgba( cr, stroke_color.red, stroke_color.green, stroke_color.blue, stroke_color.alpha );
+                            cairo_stroke( cr );
+                        }
+                    }
                     /* end of path tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH;
                 }
@@ -235,13 +272,6 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                                                               );
                     draw_svg_path_data_destroy( &svg_path_data );
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_TEXT );
-                    if ( draw )
-                    {
-                        assert( NULL != cr );
-                        //cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 1.0 );
-                        //cairo_fill (cr);
-                        cairo_stroke (cr);
-                    }
                     path_count ++;
                 }
                 /* back to inside path state */
@@ -277,6 +307,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE;
+                    utf8stringbuf_clear( xml_attr_value );
                 }
                 else
                 {
@@ -297,12 +328,30 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             {
                 if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
                 {
-                    /* end of the value of stroke tag */
+                    /* parse the color */
+                    if ( utf8stringbuf_equals_str( xml_attr_value, "none" ) )
+                    {
+                        stroke_color = (GdkRGBA) { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
+                    }
+                    else
+                    {
+                        U8_TRACE_INFO_STR( "stroke:", utf8stringbuf_get_string( xml_attr_value ) );
+                        const gboolean success = gdk_rgba_parse( &stroke_color, utf8stringbuf_get_string( xml_attr_value ) );
+                        if ( ! success )
+                        {
+                            result |= U8_ERROR_PARSER_STRUCTURE;
+                            u8_error_info_init_line( out_err_info,
+                                                     U8_ERROR_PARSER_STRUCTURE,
+                                                     utf8stringviewtokenizer_get_line( &tok_iterator )
+                                                   );
+                        }
+                    }
+                    /* end of the value of fill tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
                 }
                 else
                 {
-                    U8_TRACE_INFO_VIEW( "stroke:", tok );
+                    utf8stringbuf_append_view( xml_attr_value, tok );
                 }
             }
             break;
@@ -335,6 +384,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE;
+                    utf8stringbuf_clear( xml_attr_value );
                 }
                 else
                 {
@@ -355,12 +405,30 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             {
                 if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
                 {
+                    /* parse the color */
+                    if ( utf8stringbuf_equals_str( xml_attr_value, "none" ) )
+                    {
+                        fill_color = (GdkRGBA) { .red = 1.0, .green = 1.0, .blue = 1.0, .alpha = 0.0 };
+                    }
+                    else
+                    {
+                        U8_TRACE_INFO_STR( "fill:", utf8stringbuf_get_string( xml_attr_value ) );
+                        const gboolean success = gdk_rgba_parse( &fill_color, utf8stringbuf_get_string( xml_attr_value ) );
+                        if ( ! success )
+                        {
+                            result |= U8_ERROR_PARSER_STRUCTURE;
+                            u8_error_info_init_line( out_err_info,
+                                                     U8_ERROR_PARSER_STRUCTURE,
+                                                     utf8stringviewtokenizer_get_line( &tok_iterator )
+                                                   );
+                        }
+                    }
                     /* end of the value of fill tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
                 }
                 else
                 {
-                    U8_TRACE_INFO_VIEW( "fill:", tok );
+                    utf8stringbuf_append_view( xml_attr_value, tok );
                 }
             }
             break;
@@ -398,7 +466,20 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
             break;
         }
     }
-    utf8stringviewtokenizer_destroy( &tok_iterator );
+
+    /* report error on unfinished drawing */
+    if ( parser_state != DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH )
+    {
+        result |= U8_ERROR_PARSER_STRUCTURE;
+        /* if no other error encountered yet, report this one: */
+        if ( ! u8_error_info_is_error( out_err_info ) )
+        {
+            u8_error_info_init_line( out_err_info,
+                                     U8_ERROR_PARSER_STRUCTURE,
+                                     utf8stringviewtokenizer_get_line( &tok_iterator )
+                                   );
+        }
+    }
 
     /* check if anything was drawn at all */
     if ( path_count == 0 )
@@ -406,6 +487,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
         result |= U8_ERROR_NOT_FOUND;
     }
 
+    utf8stringviewtokenizer_destroy( &tok_iterator );
     U8_TRACE_END_ERR(result);
     return result;
 }

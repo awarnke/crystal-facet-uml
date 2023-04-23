@@ -752,6 +752,21 @@ extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint3
  */
 extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *appendix );
 
+/*!
+ * \brief Appends a stringview to a string buffer
+ *
+ * If the source string does not fit into the destination buffer,
+ * the copied string gets truncated. This function ensures, that
+ * truncation does not split an utf8 code-point in half.
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
+ * \param this_ The destination string buffer
+ * \param appendix The source stringview.
+ * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *         UTF8ERROR_TRUNCATED in case of truncation or
+ *         UTF8ERROR_NULL_PARAM if appendix was NULL.
+ */
+static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, utf8stringview_t appendix );
+
 #ifdef __cplusplus
 }
 #endif

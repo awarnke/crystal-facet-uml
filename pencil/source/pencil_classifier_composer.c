@@ -123,7 +123,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
         /* draw icon */
         cairo_set_line_width( cr, std_line_width );
-        cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        /* cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha ); */
         const geometry_rectangle_t stereotype_box
             = has_contour
             ? draw_stereotype_image_get_bounds( &((*this_).draw_stereotype_image),
@@ -139,6 +139,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             = draw_stereotype_image_draw( &((*this_).draw_stereotype_image),
                                           data_classifier_get_stereotype_const( classifier ),
                                           profile,
+                                          &foreground_color,
                                           &err_info,
                                           &stereotype_box,
                                           cr
