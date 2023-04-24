@@ -754,7 +754,6 @@ INPUT                  = ../../gui \
                          ../../pencil \
                          ../../io \
                          ../../test_fw \
-                         ../../u8buf \
                          ../../u8stream \
                          ./source_code_doc.txt \
                          ../../architecture/doc/programming_guidelines.txt

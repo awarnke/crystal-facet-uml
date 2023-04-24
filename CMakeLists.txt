@@ -16,7 +16,6 @@ INCLUDE_DIRECTORIES(gui/include)
 INCLUDE_DIRECTORIES(main/include)
 INCLUDE_DIRECTORIES(ctrl/include)
 INCLUDE_DIRECTORIES(data/include)
-INCLUDE_DIRECTORIES(u8buf/include)
 INCLUDE_DIRECTORIES(pencil/include)
 INCLUDE_DIRECTORIES(io/include)
 INCLUDE_DIRECTORIES(u8stream/include)
@@ -64,7 +63,7 @@ FILE(GLOB commonSource gui/source/*.c
                        data/source/*.c
                        data/source/storage/*.c
                        data/source/set/*.c
-                       u8buf/source/utf8stringbuf/*.c
+                       u8stream/source/utf8stringbuf/*.c
                        u8stream/source/u8dir/*.c
                        u8stream/source/u8stream/*.c
                        u8stream/source/u8/*.c
@@ -90,7 +89,6 @@ FILE(GLOB utestSource  main/test/*.c
                        io/test/integration/*.c
                        pencil/test/unit/*.c
                        pencil/test/integration/*.c
-                       u8buf/test/unit/*.c
                        u8stream/test/unit/*.c)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Check if CMAKE_BUILD_TYPE is set ==== ==== ==== ==== ==== ==== ==== ====
@@ -123,7 +121,6 @@ TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC ctrl/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC gui/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC io/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC pencil/test)
-TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8buf/test)
 TARGET_INCLUDE_DIRECTORIES(test_crystal-facet-uml PUBLIC u8stream/test)
 TARGET_LINK_LIBRARIES(test_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
@@ -149,7 +146,6 @@ if(CFU_ADD_GCOV_TARGET)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC gui/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC io/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC pencil/test)
-        TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC u8buf/test)
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC u8stream/test)
         TARGET_LINK_LIBRARIES(gcov_crystal-facet-uml ${GTK_LIBRARIES} ${GLIB2_LIBRARIES} ${PANGOCAIRO_LIBRARIES} ${SQLITE3_LIBRARIES} m)
         SET_TARGET_PROPERTIES(gcov_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)

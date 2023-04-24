@@ -54,7 +54,6 @@ ideas for future versions:
   [ ] delete features immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
   @u8stream
-  @u8buf
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
   @main
