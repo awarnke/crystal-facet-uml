@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.48.0"
+    "generator_version": "1.50.0"
   }
   ,
   "views":
@@ -5107,16 +5107,23 @@
         "type": "Stereotype",
         "name": "Database-Artifact",
         "description": [
-                "<path d=\"\n",
+                "<path \n",
+                "fill=\"#bbddff\"\n",
+                "d=\"\n",
+                "m 0,1\n",
+                "l 0,5\n",
+                "c 0,0.55 1.35,1 3,1\n",
+                "c 1.65,0 3,-0.45 3,-1\n",
+                "l 0,-5\n",
+                "\"/>\n",
+                "<path \n",
+                "fill=\"#ddeeff\"\n",
+                "d=\"\n",
                 "m 0,1\n",
                 "c 0,-0.55 1.35,-1 3,-1\n",
                 "c 1.65,0 3,0.45 3,1\n",
                 "c 0,0.55, -1.35,1 -3 1\n",
                 "c -1.65,0 -3,-0.45, -3,-1\n",
-                "l 0,5\n",
-                "c 0,0.55 1.35,1 3,1\n",
-                "c 1.65,0 3,-0.45 3,-1\n",
-                "l 0,-5\n",
                 "\"/>"
         ],
         "x_order": -1526179441,
@@ -5173,7 +5180,9 @@
         "type": "Stereotype",
         "name": "GSN-Strategy",
         "description": [
-                "<path d=\"\n",
+                "<path \n",
+                "stroke=\"#990000\"\n",
+                "d=\"\n",
                 "M 2,2 10,2 8,8, 0,8\n",
                 "Z\n",
                 "\"/>"
