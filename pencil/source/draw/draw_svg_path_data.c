@@ -998,7 +998,7 @@ u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
     }
 
     /* report error on unfinished drawing */
-    if ( parser_state != DRAW_SVG_PATH_DATA_EXPECT_EXIT )
+    if (( result == U8_ERROR_NONE )&&( parser_state != DRAW_SVG_PATH_DATA_EXPECT_EXIT ))
     {
         result |= U8_ERROR_PARSER_STRUCTURE;
         /* if no other error encountered yet, report this one: */

@@ -2,6 +2,7 @@
 
 #include "test_case_result.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 static inline void test_runner_init( test_runner_t *this_ )
 {
@@ -33,6 +34,11 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
              test_result_get_total( &suite_local_result ),
              test_result_get_failed( &suite_local_result )
            );
+    if ( test_result_get_failed( &suite_local_result ) != 0 )
+    {
+        /* let some seconds for the user to interrupt here */
+        sleep( 3 );
+    }
     test_result_destroy( &suite_local_result );
 }
 

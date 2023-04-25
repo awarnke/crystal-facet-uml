@@ -142,6 +142,8 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
     while( utf8stringviewtokenizer_has_next( &tok_iterator ) && ( result == U8_ERROR_NONE ) )
     {
         const utf8stringview_t tok = utf8stringviewtokenizer_next( &tok_iterator );
+        assert( utf8stringview_get_length( tok ) > 0 );  /* otherwise this would not be a token */
+        /* U8_TRACE_INFO_VIEW( "token:", tok ); */
 
         switch ( parser_state )
         {
@@ -273,6 +275,15 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                     draw_svg_path_data_destroy( &svg_path_data );
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_TEXT );
                     path_count ++;
+                }
+                else
+                {
+                    /* this is an error */
+                    result |= U8_ERROR_PARSER_STRUCTURE;
+                    u8_error_info_init_line( out_err_info,
+                                             U8_ERROR_PARSER_STRUCTURE,
+                                             utf8stringviewtokenizer_get_line( &tok_iterator )
+                                           );
                 }
                 /* back to inside path state */
                 parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
@@ -468,7 +479,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
     }
 
     /* report error on unfinished drawing */
-    if ( parser_state != DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH )
+    if (( result == U8_ERROR_NONE )&&( parser_state != DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH ))
     {
         result |= U8_ERROR_PARSER_STRUCTURE;
         /* if no other error encountered yet, report this one: */

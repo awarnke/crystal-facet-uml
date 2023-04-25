@@ -6777,7 +6777,7 @@
                 "       inkscape:original_d=\"m 25.285105,1023.8952 0.02457,7.1396\"\n",
                 "       sodipodi:nodetypes=\"cc\" />\n",
                 "    <path\n",
-                "       stroke=\"#CCBB00\"\n",
+                "       stroke=\"#CC0000\"\n",
                 "       style=\"fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"\n",
                 "       d=\"m 21.637799,1027.5109 c 0,0 7.139638,-0.01 7.139638,-0.01\"\n",
                 "       id=\"path927-6\"\n",
@@ -6785,8 +6785,8 @@
                 "       inkscape:original_d=\"m 21.637799,1027.5109 7.139638,-0.01\"\n",
                 "       sodipodi:nodetypes=\"cc\" />"
         ],
-        "x_order": -1647002683,
-        "y_order": -1947091675,
+        "x_order": -1650754700,
+        "y_order": -1950227391,
         "list_order": -1947091675,
         "uuid": "ee230f75-f54c-4ee1-a828-5232d5f35357",
         "features":
