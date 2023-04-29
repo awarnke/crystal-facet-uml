@@ -244,6 +244,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 {
                     /* this is an error */
                     /* TODO the tokenizer may have split a token, e.g. d:pre-d-post */
+                    /* A possible fix is to implement a token mode for XML-NM-Tokens */
                     result |= U8_ERROR_PARSER_STRUCTURE;
                     u8_error_info_init_line( out_err_info,
                                              U8_ERROR_PARSER_STRUCTURE,
@@ -300,6 +301,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 {
                     /* this is an error */
                     /* TODO the tokenizer may have split a token, e.g. stroke:pre-stroke-post */
+                    /* A possible fix is to implement a token mode for XML-NM-Tokens */
                     result |= U8_ERROR_PARSER_STRUCTURE;
                     u8_error_info_init_line( out_err_info,
                                              U8_ERROR_PARSER_STRUCTURE,
@@ -377,6 +379,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 {
                     /* this is an error */
                     /* TODO the tokenizer may have split a token, e.g. fill:pre-fill-post */
+                    /* A possible fix is to implement a token mode for XML-NM-Tokens */
                     result |= U8_ERROR_PARSER_STRUCTURE;
                     u8_error_info_init_line( out_err_info,
                                              U8_ERROR_PARSER_STRUCTURE,

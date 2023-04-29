@@ -335,6 +335,31 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
     return complete;
 }
 
+static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, utf8stringview_t original )
+{
+    utf8error_t result = UTF8ERROR_SUCCESS;
+
+    const size_t origLen = utf8stringview_get_length( original );
+    if ( origLen < this_.size ) {
+        memcpy( &(this_.buf[0]), utf8stringview_get_start( original ), origLen );
+        this_.buf[origLen] = '\0';
+    }
+    else {
+        if ( this_.size > 0 )
+        {
+            memcpy( &(this_.buf[0]), utf8stringview_get_start( original ), (this_.size-1) );
+        }
+        else
+        {
+            /* buffer non-existant */
+        }
+        utf8_string_buf_private_make_null_termination( this_ );
+        result = UTF8ERROR_TRUNCATED;
+    }
+
+    return result;
+}
+
 static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8stringbuf_t this_, const char *pattern, const char *replacement ) {
     utf8error_t result = UTF8ERROR_NULL_PARAM;
     if ( pattern != NULL ) {

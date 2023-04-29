@@ -447,6 +447,21 @@ static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t this_, const u
  */
 static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const char *original );
 
+/*!
+ * \brief Copies a stringview
+ *
+ * If the source stringview does not fit into the destination buffer,
+ * the copied stringview gets truncated. This function ensures, that
+ * truncation does not split an utf8 code-point in half.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
+ * \param original The source string view. The buffers of this_ and original must not overlap!
+ * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *         UTF8ERROR_TRUNCATED in case of truncation
+ */
+static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, utf8stringview_t original );
+
 /* sub returns 1 if all characters have been copied, 0 if truncated, 0 if that was NULL, 0 if illegal range */
 /*!
  * \brief Copies a substring

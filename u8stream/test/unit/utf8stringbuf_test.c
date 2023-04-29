@@ -130,13 +130,11 @@ static test_case_result_t testAppendStr( test_fixture_t *test_env );
 static test_case_result_t testAppendBuf( test_fixture_t *test_env );
 static test_case_result_t testAppendInt( test_fixture_t *test_env );
 static test_case_result_t testAppendHex( test_fixture_t *test_env );
-static test_case_result_t testAppendWStr( test_fixture_t *test_env );
 static test_case_result_t testAppendChar( test_fixture_t *test_env );
+static test_case_result_t testAppendWStr( test_fixture_t *test_env );
+static test_case_result_t testAppendView( test_fixture_t *test_env );
 static test_case_result_t testCharAt( test_fixture_t *test_env );
 static test_case_result_t testCharAtLoops( test_fixture_t *test_env );
-#ifdef __cplusplus
-static test_case_result_t testCrossLanguage( test_fixture_t *test_env );
-#endif
 static test_case_result_t testGetEnd( test_fixture_t *test_env );
 
 test_suite_t utf8stringbuf_test_get_suite(void)
@@ -176,11 +174,9 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testAppendHex", &testAppendHex );
     test_suite_add_test_case( &result, "testAppendChar", &testAppendChar );
     test_suite_add_test_case( &result, "testAppendWStr", &testAppendWStr );
+    test_suite_add_test_case( &result, "testAppendView", &testAppendView );
     test_suite_add_test_case( &result, "testCharAt", &testCharAt );
     test_suite_add_test_case( &result, "testCharAtLoops", &testCharAtLoops );
-#ifdef __cplusplus
-    test_suite_add_test_case( &result, "testCrossLanguage", &testCrossLanguage );
-#endif
     test_suite_add_test_case( &result, "testGetEnd", &testGetEnd );
     return result;
 }
@@ -452,7 +448,7 @@ static test_case_result_t testEndsWith( test_fixture_t *test_env )
 
 static test_case_result_t testCopyBuf( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[] = "World";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
@@ -484,7 +480,7 @@ static test_case_result_t testCopyBuf( test_fixture_t *test_env )
 
 static test_case_result_t testCopyStr( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[] = "World";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
@@ -525,7 +521,7 @@ static test_case_result_t testCopyStr( test_fixture_t *test_env )
 
 static test_case_result_t testCopyWithCutUtf8( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[3] = "Wo";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
@@ -744,7 +740,7 @@ static test_case_result_t testFindLast( test_fixture_t *test_env )
 
 static test_case_result_t testCopyRegion( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[3] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -864,7 +860,7 @@ static test_case_result_t testCopyRegion( test_fixture_t *test_env )
 
 static test_case_result_t testReplaceRegion( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[15] = "";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf_init(13,&(dynTestArr1[1]));
@@ -918,7 +914,7 @@ static test_case_result_t testReplaceRegion( test_fixture_t *test_env )
 
 static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[15] = "";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf_init(13,&(dynTestArr1[1]));
@@ -992,7 +988,7 @@ static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *test_
 
 static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[15] = "";
     utf8stringbuf_t dynTestBuf1 = utf8stringbuf_init(13,&(dynTestArr1[1]));
@@ -1030,7 +1026,7 @@ static test_case_result_t testReplaceRegionBuf( test_fixture_t *test_env )
 {
     /* utf8stringbuf_replace_region_by_buf is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[7] = "Helllo";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1047,7 +1043,7 @@ static test_case_result_t testReplaceRegionBuf( test_fixture_t *test_env )
 
 static test_case_result_t testReplaceAll ( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[20] = "He&l<'";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1120,7 +1116,7 @@ static const char *const TEST_PATTERNS[][2] = {
 
 static test_case_result_t testReplaceAllBadCases( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[32] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1212,7 +1208,7 @@ static test_case_result_t testReplaceAllStr( test_fixture_t *test_env )
 {
     /* utf8stringbuf_replace_all_str_by_str is just a wrapper around utf8stringbuf_replace_all */
     /* therefore, we do only two tests */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[7] = "Helllo";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1234,7 +1230,7 @@ static test_case_result_t testReplaceAllBuf( test_fixture_t *test_env )
 {
     /* utf8stringbuf_replace_all_buf_by_buf is just a wrapper around utf8stringbuf_replace_all */
     /* therefore, we do only one test */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[7] = "Helllo";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1251,7 +1247,7 @@ static test_case_result_t testInsertBuf( test_fixture_t *test_env )
 {
     /* utf8stringbuf_insert_buf is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "Heo";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1270,7 +1266,7 @@ static test_case_result_t testInsertStr( test_fixture_t *test_env )
 {
     /* utf8stringbuf_insert_str is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "He";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1287,7 +1283,7 @@ static test_case_result_t testDelete( test_fixture_t *test_env )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[12] = "Hellllllllo";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1304,7 +1300,7 @@ static test_case_result_t testDeleteFromEnd( test_fixture_t *test_env )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[12] = "Hellllllllo";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1321,7 +1317,7 @@ static test_case_result_t testDeleteToEnd( test_fixture_t *test_env )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[12] = "Hellllllllo";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1336,7 +1332,7 @@ static test_case_result_t testDeleteToEnd( test_fixture_t *test_env )
 
 static test_case_result_t testAppendStr( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1388,7 +1384,7 @@ static test_case_result_t testAppendStr( test_fixture_t *test_env )
 
 static test_case_result_t testAppendBuf( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1418,7 +1414,7 @@ static test_case_result_t testAppendBuf( test_fixture_t *test_env )
 
 static test_case_result_t testAppendInt( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1464,7 +1460,7 @@ static test_case_result_t testAppendInt( test_fixture_t *test_env )
 
 static test_case_result_t testAppendHex( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1492,7 +1488,7 @@ static test_case_result_t testAppendHex( test_fixture_t *test_env )
 
 static test_case_result_t testAppendChar( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1536,7 +1532,7 @@ static test_case_result_t testAppendChar( test_fixture_t *test_env )
 
 static test_case_result_t testAppendWStr( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[6] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
@@ -1576,6 +1572,53 @@ static test_case_result_t testAppendWStr( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "He" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t testAppendView( test_fixture_t *test_env )
+{
+    utf8error_t error;
+    int equal;
+    char dynTestArr1[6] = "";
+    utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
+
+    /* check utf8stringbuf_append_wstr */
+    utf8stringview_t view1 = UTF8STRINGVIEW_STR( "lo" );
+    utf8stringbuf_copy_view( dynTestBuf1, UTF8STRINGVIEW_STR( "Hel" ) );
+    error = utf8stringbuf_append_view( dynTestBuf1, view1 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* check utf8stringbuf_append_view with multibyte */
+    utf8stringview_t view2 = UTF8STRINGVIEW_STR( "e\xE2\x82\xAC" );
+    utf8stringbuf_copy_str( dynTestBuf1, "H" );
+    error = utf8stringbuf_append_view( dynTestBuf1, view2 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "He\xE2\x82\xAC" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* check utf8stringbuf_append_view with truncation */
+    utf8stringbuf_copy_str( dynTestBuf1, "He" );
+    error = utf8stringbuf_append_view( dynTestBuf1, view2 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "Hee" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    utf8stringbuf_copy_str( dynTestBuf1, "Hello" );
+    error = utf8stringbuf_append_view( dynTestBuf1, view2 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* check utf8stringbuf_append_view with NULL */
+    utf8stringbuf_copy_str( dynTestBuf1, "He" );
+    error = utf8stringbuf_append_view( dynTestBuf1, UTF8STRINGVIEW_NULL );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "He" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -1688,7 +1731,7 @@ static test_case_result_t testCharAtLoops( test_fixture_t *test_env )
 
 static test_case_result_t testGetEnd( test_fixture_t *test_env )
 {
-    int error;
+    utf8error_t error;
     int equal;
     char dynTestArr1[4] = "";
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);

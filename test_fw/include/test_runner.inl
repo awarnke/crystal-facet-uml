@@ -2,7 +2,7 @@
 
 #include "test_case_result.h"
 #include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h>
 
 static inline void test_runner_init( test_runner_t *this_ )
 {
