@@ -81,6 +81,19 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
                                                                     );
 
 /*!
+ *  \brief a quick check if drawing_directives contain an svg path tag. No check if the path is valid.
+ *
+ *  use draw_stereotype_image_parse_svg_xml if valid parser structure shall also be checked.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param drawing_directives sequence of drawing directives
+ *  \return true if drawing_directives contain an svg path tag
+ */
+static inline bool draw_stereotype_image_exists ( const draw_stereotype_image_t *this_,
+                                                  const char *drawing_directives
+                                                );
+
+/*!
  *  \brief draws the stereotype image into the bounds rect
  *
  *  \param this_ pointer to own object attributes

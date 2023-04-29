@@ -49,6 +49,16 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
     return result;
 }
 
+static inline bool draw_stereotype_image_exists ( const draw_stereotype_image_t *this_,
+                                                  const char *drawing_directives )
+{
+    assert( drawing_directives != NULL );
+    /* TODO allow namespaces, e.g. <ns:path; check for end of nmtoken to prevent finding <pathfinder */
+    const char *pattern = "<path";
+    const bool exists = ( -1 != utf8string_find_first_str( drawing_directives, pattern ) );
+    return exists;
+}
+
 static inline u8_error_t draw_stereotype_image_parse_svg_xml ( const draw_stereotype_image_t *this_,
                                                                const char *drawing_directives,
                                                                geometry_rectangle_t *out_view_rect,

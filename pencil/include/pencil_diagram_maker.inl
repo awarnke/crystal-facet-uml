@@ -19,7 +19,7 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_,
 
     (*this_).input_data = input_data;
     (*this_).profile = profile;
-    pencil_layouter_init( &((*this_).layouter), input_data );
+    pencil_layouter_init( &((*this_).layouter), input_data, profile );
 
     (*this_).snap_to_grid_distance = 5.000001;
 
@@ -36,7 +36,7 @@ static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_,
 
     (*this_).input_data = input_data;
     (*this_).profile = profile;
-    pencil_layouter_reinit( &((*this_).layouter), input_data );
+    pencil_layouter_reinit( &((*this_).layouter), input_data, profile );
 
     U8_TRACE_END();
 }

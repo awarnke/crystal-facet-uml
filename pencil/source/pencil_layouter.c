@@ -7,10 +7,13 @@
 #include <stdlib.h>
 #include <math.h>
 
-void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *input_data )
+void pencil_layouter_init( pencil_layouter_t *this_,
+                           const data_visible_set_t *input_data,
+                           const data_profile_part_t *profile )
 {
     U8_TRACE_BEGIN();
     assert( NULL != input_data );
+    assert( NULL != profile );
 
     pencil_size_init_empty( &((*this_).pencil_size) );
     geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
@@ -18,7 +21,9 @@ void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *i
     geometry_dimensions_init_empty( &((*this_).default_classifier_size) );
     data_rules_init( &((*this_).rules) );
 
+    /* initialize the layout data objects */
     pencil_layout_data_init( &((*this_).layout_data), input_data );
+    (*this_).profile = profile;
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
 
@@ -57,13 +62,17 @@ void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *i
     U8_TRACE_END();
 }
 
-void pencil_layouter_reinit( pencil_layouter_t *this_, const data_visible_set_t *input_data )
+void pencil_layouter_reinit( pencil_layouter_t *this_,
+                             const data_visible_set_t *input_data,
+                             const data_profile_part_t *profile )
 {
     U8_TRACE_BEGIN();
     assert( NULL != input_data );
+    assert( NULL != profile );
 
     /* re-initialize the layout data objects */
     pencil_layout_data_reinit( &((*this_).layout_data), input_data );
+    (*this_).profile = profile;
 
     U8_TRACE_END();
 }

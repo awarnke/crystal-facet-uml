@@ -34,6 +34,7 @@ test_suite_t pencil_layouter_test_get_suite(void)
 }
 
 static data_visible_set_t data_set;
+static data_profile_part_t profile;
 static pencil_layouter_t layouter;
 static cairo_surface_t *surface;
 static cairo_t *cr;
@@ -43,7 +44,8 @@ static PangoLayout *font_layout;
 static test_fixture_t * set_up()
 {
     data_visible_set_init( &data_set );
-    pencil_layouter_init( &layouter, &data_set );
+    data_profile_part_init( &profile );
+    pencil_layouter_init( &layouter, &data_set, &profile );
     geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
     surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
                                           (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
@@ -64,6 +66,7 @@ static void tear_down( test_fixture_t *test_env )
     cairo_surface_destroy ( surface );
     geometry_rectangle_destroy( &diagram_bounds );
     pencil_layouter_destroy( &layouter );
+    data_profile_part_destroy( &profile );
     data_visible_set_destroy( &data_set );
 }
 

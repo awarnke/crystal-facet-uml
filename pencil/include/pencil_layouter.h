@@ -30,6 +30,7 @@
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
+#include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_stat.h"
 #include "data_id.h"
@@ -44,6 +45,7 @@
  */
 struct pencil_layouter_struct {
     pencil_layout_data_t layout_data;  /* own instance of layout data */
+    const data_profile_part_t *profile;  /*!< pointer to an external stereotype-data cache */
 
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
@@ -69,16 +71,24 @@ typedef struct pencil_layouter_struct pencil_layouter_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be layouted
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
  */
-void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *input_data );
+void pencil_layouter_init( pencil_layouter_t *this_,
+                           const data_visible_set_t *input_data,
+                           const data_profile_part_t *profile
+                         );
 
 /*!
  *  \brief re-initializes the layouter to layout new/other input_data
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the data to be layouted
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
  */
-void pencil_layouter_reinit( pencil_layouter_t *this_, const data_visible_set_t *input_data );
+void pencil_layouter_reinit( pencil_layouter_t *this_,
+                             const data_visible_set_t *input_data,
+                             const data_profile_part_t *profile
+                           );
 
 /*!
  *  \brief destroys the layouter
