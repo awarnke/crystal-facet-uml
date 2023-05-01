@@ -14,16 +14,20 @@
 #include "layout/layout_relationship.h"
 #include "draw/draw_relationship_label.h"
 #include "geometry/geometry_connector.h"
-#include "data_diagram.h"
+#include "set/data_profile_part.h"
 #include "set/data_visible_set.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
+#include "data_diagram.h"
 #include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>
 
 /*!
  *  \brief attributes of the relationship painter
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_relationship_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */

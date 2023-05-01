@@ -8,14 +8,17 @@
 
 void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
                                      pencil_layout_data_t *layout_data,
-                                     pencil_size_t *pencil_size
+                                     const data_profile_part_t *profile,
+                                     const pencil_size_t *pencil_size
                                    )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
 
     (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
     pencil_label_layout_helper_init ( &((*this_).label_layout_helper) );

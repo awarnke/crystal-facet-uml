@@ -6,7 +6,7 @@
 
 void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,
-                                      pencil_size_t *pencil_size
+                                      const pencil_size_t *pencil_size
                                     )
 {
     U8_TRACE_BEGIN();

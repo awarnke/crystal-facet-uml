@@ -25,17 +25,17 @@
 #include "pencil_error.h"
 #include "filter/pencil_type_filter.h"
 #include "layout/layout_order.h"
-#include "set/data_full_id.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_non_linear_scale.h"
-#include "data_diagram.h"
+#include "set/data_full_id.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_stat.h"
+#include "set/data_visible_set.h"
+#include "data_diagram.h"
 #include "data_id.h"
 #include "data_rules.h"
-#include "set/data_visible_set.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -45,7 +45,7 @@
  */
 struct pencil_layouter_struct {
     pencil_layout_data_t layout_data;  /* own instance of layout data */
-    const data_profile_part_t *profile;  /*!< pointer to an external stereotype-data cache */
+    const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
 
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
@@ -139,7 +139,7 @@ static inline const pencil_layout_data_t *pencil_layouter_get_layout_data_const 
  *
  *  \param this_ pointer to own object attributes
  */
-static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layouter_t *this_ );
+static inline const pencil_size_t *pencil_layouter_get_pencil_size_const ( pencil_layouter_t *this_ );
 
 /*!
  *  \brief gets the object-id of the object at a given position

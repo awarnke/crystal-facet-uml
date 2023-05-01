@@ -9,7 +9,7 @@
 
 void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
                                    pencil_layout_data_t *layout_data,
-                                   pencil_size_t *pencil_size )
+                                   const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );

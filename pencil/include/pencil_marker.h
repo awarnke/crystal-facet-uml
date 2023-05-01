@@ -19,6 +19,9 @@
 
 /*!
  *  \brief attributes of the marker
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_marker_struct {
     void *dummy;

@@ -37,6 +37,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
                                    );
     pencil_classifier_2d_layouter_init( &((*this_).pencil_classifier_2d_layouter),
                                         &((*this_).layout_data),
+                                        profile,
                                         &((*this_).pencil_size),
                                         &((*this_).default_classifier_size),
                                         &((*this_).x_scale),
@@ -45,18 +46,22 @@ void pencil_layouter_init( pencil_layouter_t *this_,
                                       );
     pencil_classifier_1d_layouter_init( &((*this_).pencil_classifier_1d_layouter),
                                         &((*this_).layout_data),
+                                        profile,
                                         &((*this_).pencil_size)
                                       );
     pencil_relationship_2d_layouter_init( &((*this_).pencil_relationship_2d_layouter),
-                                       &((*this_).layout_data),
-                                       &((*this_).pencil_size)
-                                     );
+                                          &((*this_).layout_data),
+                                          profile,
+                                          &((*this_).pencil_size)
+                                        );
     pencil_relationship_1d_layouter_init( &((*this_).pencil_relationship_1d_layouter),
                                           &((*this_).layout_data),
+                                          profile,
                                           &((*this_).pencil_size)
                                         );
     pencil_rel_label_layouter_init( &((*this_).relationship_label_layouter),
                                     &((*this_).layout_data),
+                                    profile,
                                     &((*this_).pencil_size)
                                   );
     U8_TRACE_END();

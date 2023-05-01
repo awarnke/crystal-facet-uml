@@ -14,9 +14,9 @@
 #include "pencil_label_layout_helper.h"
 #include "draw/draw_feature_label.h"
 #include "geometry/geometry_rectangle.h"
-#include "data_diagram.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
+#include "data_diagram.h"
 #include "data_id.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
@@ -24,10 +24,13 @@
 
 /*!
  *  \brief attributes of the feature-label layouter
+ *
+ *  \note This class is stateless. Only the layout_data and pencil_size objects are stateful.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_feat_label_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
-    pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
+    const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
     draw_feature_label_t draw_feature_label;  /*!< collection of draw label functions */
     pencil_label_layout_helper_t label_layout_helper;   /*!< collection of layout label functions */
@@ -44,7 +47,7 @@ typedef struct pencil_feat_label_layouter_struct pencil_feat_label_layouter_t;
  */
 void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,
-                                      pencil_size_t *pencil_size
+                                      const pencil_size_t *pencil_size
                                     );
 
 /*!

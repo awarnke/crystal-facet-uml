@@ -18,7 +18,7 @@ static inline const pencil_layout_data_t *pencil_layouter_get_layout_data_const 
     return &((*this_).layout_data);
 }
 
-static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layouter_t *this_ )
+static inline const pencil_size_t *pencil_layouter_get_pencil_size_const ( pencil_layouter_t *this_ )
 {
     return &((*this_).pencil_size);
 }

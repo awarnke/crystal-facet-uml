@@ -20,6 +20,9 @@
 
 /*!
  *  \brief attributes of the draw label functions
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_relationship_label_struct {
     int dummy;

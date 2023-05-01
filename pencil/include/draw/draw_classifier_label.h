@@ -21,6 +21,9 @@
 
 /*!
  *  \brief attributes of the draw label functions
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_classifier_label_struct {
     int dummy;  /*!< This object is a collection of stateless drawing functions */

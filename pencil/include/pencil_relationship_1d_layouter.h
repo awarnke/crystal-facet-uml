@@ -14,9 +14,10 @@
 #include "pencil_relationship_painter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
-#include "data_diagram.h"
+#include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
+#include "data_diagram.h"
 #include "data_id.h"
 #include "u8list/universal_array_index_sorter.h"
 #include "u8/u8_error.h"
@@ -25,10 +26,14 @@
 
 /*!
  *  \brief attributes of the relationship layouter
+ *
+ *  \note This class is stateless. Only the layout_data, pencil_size and profile objects are stateful.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_relationship_1d_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
-    pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
+    const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
+    const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
@@ -40,11 +45,13 @@ typedef struct pencil_relationship_1d_layouter_struct pencil_relationship_1d_lay
  *
  *  \param this_ pointer to own object attributes
  *  \param layout_data pointer to the layout information to be used and modified
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_relationship_1d_layouter_init( pencil_relationship_1d_layouter_t *this_,
                                            pencil_layout_data_t *layout_data,
-                                           pencil_size_t *pencil_size
+                                           const data_profile_part_t *profile,
+                                           const pencil_size_t *pencil_size
                                          );
 
 /*!

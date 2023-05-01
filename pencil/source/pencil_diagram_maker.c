@@ -81,7 +81,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     double width = geometry_rectangle_get_width ( diagram_bounds );
     double height = geometry_rectangle_get_height ( diagram_bounds );
 
-    const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+    const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_const( &((*this_).layouter) );
 
     /* draw diagram */
     const data_diagram_t *diag = data_visible_set_get_diagram_const( (*this_).input_data );
@@ -90,6 +90,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                   data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
                                   data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
                                   data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_row_id(diag) ),
+                                  (*this_).profile,
                                   pencil_size,
                                   layout,
                                   cr
@@ -149,7 +150,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     {
         const layout_visible_classifier_t *const classifier_layout = pencil_layout_data_get_visible_classifier_const( layout_data, index );
 
-        const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+        const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_const( &((*this_).layouter) );
 
         pencil_classifier_composer_draw( &((*this_).classifier_painter),
                                          classifier_layout,
@@ -199,7 +200,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                       data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
                                       data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
                                       (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT )),
-                                      pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
+                                      pencil_layouter_get_pencil_size_const( &((*this_).layouter) ),
                                       layout,
                                       cr
                                     );
@@ -262,7 +263,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         }
         if (( PENCIL_VISIBILITY_SHOW == show_relation )||( PENCIL_VISIBILITY_GRAY_OUT == show_relation ))
         {
-            const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+            const pencil_size_t *const pencil_size = pencil_layouter_get_pencil_size_const( &((*this_).layouter) );
             pencil_relationship_painter_draw ( &((*this_).relationship_painter),
                                                relationship_layout,
                                                data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_row_id(the_relationship) ),

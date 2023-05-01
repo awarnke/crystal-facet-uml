@@ -16,6 +16,9 @@
 
 /*!
  *  \brief attributes of the label layout helper
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_label_layout_helper_struct {
     int dummy;  /*!< This object is a collection of stateless layouting helper functions */

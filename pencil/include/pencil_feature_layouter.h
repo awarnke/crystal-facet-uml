@@ -26,11 +26,13 @@
 
 /*!
  *  \brief attributes of the feature layouter
+ *
+ *  \note This class is stateless. Only the layout_data, pencil_size and profile objects are stateful.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_feature_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to external layout data */
-
-    pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
+    const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
                                  /*!< defining pen sizes, gap sizes, font sizes and colors */
     data_rules_t rules;  /*!< own instance of modelling rules */
 
@@ -48,7 +50,7 @@ typedef struct pencil_feature_layouter_struct pencil_feature_layouter_t;
  */
 void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
                                    pencil_layout_data_t *layout_data,
-                                   pencil_size_t *pencil_size
+                                   const pencil_size_t *pencil_size
                                  );
 
 /*!

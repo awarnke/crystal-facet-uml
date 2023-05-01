@@ -30,13 +30,15 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
+                                   const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size,
                                    PangoLayout *font_layout,
                                    cairo_t *cr )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != pencil_size );
     assert( NULL != layouted_diagram );
+    assert( NULL != profile );
+    assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != cr );
 

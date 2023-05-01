@@ -9,13 +9,16 @@
 
 void pencil_classifier_1d_layouter_init( pencil_classifier_1d_layouter_t *this_,
                                          pencil_layout_data_t *layout_data,
+                                         const data_profile_part_t *profile,
                                          const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
 
     (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     pencil_classifier_composer_init( &((*this_).classifier_composer) );
 

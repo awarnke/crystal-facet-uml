@@ -33,6 +33,9 @@
 
 /*!
  *  \brief attributes of the classifier painter
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_classifier_composer_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */

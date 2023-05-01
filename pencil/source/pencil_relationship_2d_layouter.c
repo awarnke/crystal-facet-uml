@@ -10,13 +10,16 @@
 
 void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *this_,
                                            pencil_layout_data_t *layout_data,
-                                           pencil_size_t *pencil_size )
+                                           const data_profile_part_t *profile,
+                                           const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
 
     (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
     universal_array_index_sorter_init( &((*this_).sorted_relationships) );
     (*this_).sorted_rel_index = 0;
 

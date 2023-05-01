@@ -13,15 +13,19 @@
 #include "pencil_size.h"
 #include "layout/layout_diagram.h"
 #include "geometry/geometry_rectangle.h"
-#include "data_diagram.h"
+#include "set/data_profile_part.h"
 #include "set/data_small_set.h"
-#include "data_id.h"
 #include "set/data_visible_set.h"
+#include "data_diagram.h"
+#include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>
 
 /*!
  *  \brief attributes of the diagram painter
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_diagram_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
@@ -51,6 +55,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
  *  \param mark_focused true if the object is to be marked as "focused"
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
@@ -60,6 +65,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
+                                   const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size,
                                    PangoLayout *font_layout,
                                    cairo_t *cr

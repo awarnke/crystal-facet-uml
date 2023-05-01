@@ -15,15 +15,18 @@
 #include "draw/draw_feature_label.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
-#include "data_diagram.h"
 #include "set/data_small_set.h"
-#include "data_id.h"
 #include "set/data_visible_set.h"
+#include "data_diagram.h"
+#include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>
 
 /*!
  *  \brief attributes of the feature painter
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_feature_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */

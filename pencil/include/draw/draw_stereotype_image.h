@@ -27,6 +27,9 @@ extern const double DRAW_STEREOTYPE_IMAGE_WIDTH_TO_HEIGHT;
 
 /*!
  *  \brief attributes of the draw stereotype image functions
+ *
+ *  \note This class is stateless.
+ *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_stereotype_image_struct {
     int dummy;  /*!< This object is a collection of stateless drawing functions */

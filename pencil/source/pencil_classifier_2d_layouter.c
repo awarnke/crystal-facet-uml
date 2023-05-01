@@ -9,6 +9,7 @@
 
 void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
                                          pencil_layout_data_t *layout_data,
+                                         const data_profile_part_t *profile,
                                          const pencil_size_t *pencil_size,
                                          geometry_dimensions_t *default_classifier_size,
                                          geometry_non_linear_scale_t *x_scale,
@@ -17,6 +18,7 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
     assert( NULL != default_classifier_size );
     assert( NULL != x_scale );
@@ -24,6 +26,7 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
     assert( NULL != feature_layouter );
 
     (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     (*this_).default_classifier_size = default_classifier_size;
     (*this_).x_scale = x_scale;
