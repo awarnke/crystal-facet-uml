@@ -84,6 +84,22 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
                                                                     );
 
 /*!
+ *  \brief a quick check if the description field of the stereotype contains an svg path tag.
+ *         No check if the svg-path is valid.
+ *
+ *  use draw_stereotype_image_parse_svg_xml if valid parser structure of the svg-path shall also be checked.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param stereotype name of the stereotype(s) to be drawn
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
+ *  \return true if description field of the stereotype contains an svg path tag
+ */
+static inline bool draw_stereotype_image_exists ( const draw_stereotype_image_t *this_,
+                                                  const char *stereotype,
+                                                  const data_profile_part_t *profile
+                                                );
+
+/*!
  *  \brief a quick check if drawing_directives contain an svg path tag. No check if the path is valid.
  *
  *  use draw_stereotype_image_parse_svg_xml if valid parser structure shall also be checked.
@@ -92,9 +108,9 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *  \param drawing_directives sequence of drawing directives
  *  \return true if drawing_directives contain an svg path tag
  */
-static inline bool draw_stereotype_image_exists ( const draw_stereotype_image_t *this_,
-                                                  const char *drawing_directives
-                                                );
+static inline bool draw_stereotype_private_image_exists ( const draw_stereotype_image_t *this_,
+                                                          const char *drawing_directives
+                                                        );
 
 /*!
  *  \brief draws the stereotype image into the bounds rect

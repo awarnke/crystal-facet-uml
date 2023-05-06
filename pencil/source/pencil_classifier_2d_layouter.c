@@ -83,6 +83,7 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                 pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                              &envelope,
                                                              shows_contained_children,
+                                                             (*this_).profile,
                                                              (*this_).pencil_size,
                                                              font_layout,
                                                              classifier_layout
@@ -120,6 +121,7 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
                     pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
                                                              &new_space,
                                                              shows_contained_children,
+                                                             (*this_).profile,
                                                              (*this_).pencil_size,
                                                              font_layout,
                                                              classifier_layout
@@ -839,6 +841,7 @@ int pencil_classifier_2d_layouter_private_try_embrace_child( pencil_classifier_2
             pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
                                                      &probe_space,
                                                      true,  /* = shows_contained_children */
+                                                     (*this_).profile,
                                                      (*this_).pencil_size,
                                                      font_layout,
                                                      &probe_parent_layout
@@ -993,6 +996,7 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
             pencil_classifier_composer_expand_space( &((*this_).classifier_composer),
                                                      &children_envelope,
                                                      true,  /* = shows_contained_children */
+                                                     (*this_).profile,
                                                      (*this_).pencil_size,
                                                      font_layout,
                                                      &probe_parent_layout
@@ -1017,6 +1021,7 @@ void pencil_classifier_2d_layouter_move_and_embrace_children( pencil_classifier_
                 pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                              &new_envelope,
                                                              true,  /* = shows_contained_children */
+                                                             (*this_).profile,
                                                              (*this_).pencil_size,
                                                              font_layout,
                                                              the_classifier

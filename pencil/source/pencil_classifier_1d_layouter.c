@@ -93,6 +93,7 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
             pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                          &envelope_box,
                                                          has_contained_children,
+                                                         (*this_).profile,
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier1
@@ -205,6 +206,7 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                          &envelope_box,
                                                          has_contained_children,
+                                                         (*this_).profile,
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier1
@@ -327,6 +329,7 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
             pencil_classifier_composer_set_envelope_box( &((*this_).classifier_composer),
                                                          &envelope_box,
                                                          has_contained_children,
+                                                         (*this_).profile,
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier1

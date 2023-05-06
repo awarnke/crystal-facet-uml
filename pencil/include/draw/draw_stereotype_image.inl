@@ -50,7 +50,27 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
 }
 
 static inline bool draw_stereotype_image_exists ( const draw_stereotype_image_t *this_,
-                                                  const char *drawing_directives )
+                                                  const char *stereotype,
+                                                  const data_profile_part_t *profile )
+{
+    assert( stereotype != NULL );
+    assert( profile != NULL );
+    bool result = false;
+
+    const data_classifier_t *const optional_stereotype
+        = data_profile_part_get_stereotype_by_name_const( profile, UTF8STRINGVIEW_STR(stereotype) );
+    if ( optional_stereotype != NULL )
+    {
+        U8_TRACE_INFO_STR( "stereotype", stereotype );
+        const char *const drawing_directives = data_classifier_get_description_const( optional_stereotype );
+        result = draw_stereotype_private_image_exists( this_, drawing_directives );
+    }
+
+    return result;
+}
+
+static inline bool draw_stereotype_private_image_exists ( const draw_stereotype_image_t *this_,
+                                                          const char *drawing_directives )
 {
     assert( drawing_directives != NULL );
     /* TODO allow namespaces, e.g. <ns:path; check for end of nmtoken to prevent finding <pathfinder */

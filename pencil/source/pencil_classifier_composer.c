@@ -68,6 +68,10 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     const data_diagramelement_t *const diagramelement
         = data_visible_classifier_get_diagramelement_const( visible_classifier );
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
+    const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
+    const bool has_stereotype = data_classifier_has_stereotype( classifier );
+    const bool has_stereotype_image
+        = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), classifier_stereotype, profile );
     const data_diagramelement_flag_t display_flags
         = data_diagramelement_get_display_flags( diagramelement );
 
@@ -92,21 +96,9 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
     U8_TRACE_INFO_INT("drawing classifier id", data_classifier_get_row_id( classifier ) );
 
-#if 0
-    /* draw id */
-    draw_classifier_label_draw_id( &((*this_).draw_classifier_label),
-                                   visible_classifier,
-                                   classifier_symbol_box,
-                                   pencil_size,
-                                   font_layout,
-                                   cr
-                                 );
-#endif
-
     /* draw the stereotype image */
-    const bool has_stereotype = data_classifier_has_stereotype( classifier );
     bool icon_override = false;  /* in case of a stereotype image, the icon shall not be drawn. */
-    if ( has_stereotype )
+    if ( has_stereotype_image )
     {
         /* check if the image is a small icon within a contour or if it is the full symbol */
         const bool has_contour = geometry_rectangle_is_containing( classifier_symbol_box, classifier_label_box );
@@ -504,6 +496,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t *this_,
                                               const geometry_rectangle_t *space,
                                               bool shows_contained_children,
+                                              const data_profile_part_t *profile,
                                               const pencil_size_t *pencil_size,
                                               PangoLayout *font_layout,
                                               layout_visible_classifier_t *io_classifier_layout )
@@ -521,14 +514,17 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
         = data_visible_classifier_get_classifier_const( visible_classifier );
     const data_classifier_type_t classifier_type
         = data_classifier_get_main_type( classifier );
+    const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
     const bool has_stereotype = data_classifier_has_stereotype( classifier );
+    const bool has_stereotype_image
+        = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), classifier_stereotype, profile );
 
     U8_TRACE_INFO_INT("expanding bounds of classifier id:", data_classifier_get_row_id( classifier ) );
     U8_TRACE_INFO_INT_INT("expanding bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
     /* determine icon space */
     const geometry_dimensions_t icon_dim
-        = has_stereotype
+        = has_stereotype_image
         ? draw_stereotype_image_get_dimensions( &((*this_).draw_stereotype_image),
                                                 pencil_size
                                               )
@@ -658,6 +654,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
 int pencil_classifier_composer_set_envelope_box( const pencil_classifier_composer_t *this_,
                                                  const geometry_rectangle_t *envelope,
                                                  bool shows_contained_children,
+                                                 const data_profile_part_t *profile,
                                                  const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,
                                                  layout_visible_classifier_t *io_classifier_layout )
@@ -675,14 +672,17 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
         = data_visible_classifier_get_classifier_const( visible_classifier );
     const data_classifier_type_t classifier_type
         = data_classifier_get_main_type( classifier );
+    const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
     const bool has_stereotype = data_classifier_has_stereotype( classifier );
+    const bool has_stereotype_image
+        = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), classifier_stereotype, profile );
 
     U8_TRACE_INFO_INT("calculating bounds of classifier id, type:", data_classifier_get_row_id( classifier ) );
     U8_TRACE_INFO_INT_INT("calculating bounds of classifier type, children:", classifier_type, shows_contained_children?1:0 );
 
     /* determine icon space */
     const geometry_dimensions_t icon_dim
-        = has_stereotype
+        = has_stereotype_image
         ? draw_stereotype_image_get_dimensions( &((*this_).draw_stereotype_image),
                                                 pencil_size
                                               )
@@ -793,6 +793,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
         pencil_classifier_composer_expand_space( this_,
                                                  &space_guess,
                                                  shows_contained_children,
+                                                 profile,
                                                  pencil_size,
                                                  font_layout,
                                                  io_classifier_layout

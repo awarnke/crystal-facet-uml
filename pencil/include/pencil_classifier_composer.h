@@ -96,6 +96,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param space exact new space
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout classifier layout of which the box coordinates shall be modified. Must not be NULL.
@@ -104,6 +105,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t *this_,
                                               const geometry_rectangle_t *space,
                                               bool shows_contained_children,
+                                              const data_profile_part_t *profile,
                                               const pencil_size_t *pencil_size,
                                               PangoLayout *font_layout,
                                               layout_visible_classifier_t *io_classifier_layout
@@ -117,6 +119,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
  *  \param this_ pointer to own object attributes
  *  \param envelope exact new outer envelope box; should be big enough to contain the classifier
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
@@ -125,6 +128,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
 int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_composer_t *this_,
                                                   const geometry_rectangle_t *envelope,
                                                   bool shows_contained_children,
+                                                  const data_profile_part_t *profile,
                                                   const pencil_size_t *pencil_size,
                                                   PangoLayout *font_layout,
                                                   layout_visible_classifier_t *io_classifier_layout

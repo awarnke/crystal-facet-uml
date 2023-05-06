@@ -23,6 +23,7 @@ test_suite_t pencil_classifier_composer_test_get_suite(void)
 struct fixture_struct {
     layout_visible_classifier_t layout_vis_classifier;
     data_visible_classifier_t data_vis_classifier;
+    data_profile_part_t profile;
     pencil_size_t pencil_size;
     draw_classifier_contour_t draw_classifier_contour;
     cairo_surface_t *surface;
@@ -48,6 +49,8 @@ static test_fixture_t * set_up()
         TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( (*fix).cr ) );
         (*fix).font_layout = pango_cairo_create_layout ( (*fix).cr );
     }
+
+    data_profile_part_init( &(*fix).profile );
 
     pencil_size_init( &(*fix).pencil_size,
                       geometry_rectangle_get_width( &(*fix).diagram_bounds ),
@@ -107,6 +110,8 @@ static void tear_down( test_fixture_t *test_env )
 
     pencil_size_destroy( &(*fix).pencil_size );
 
+    data_profile_part_destroy( &(*fix).profile );
+
     /* destroy the pango font layout */
     {
         g_object_unref ( (*fix).font_layout );
@@ -141,6 +146,7 @@ static test_case_result_t test_expand_space( test_fixture_t *test_env )
                 = pencil_classifier_composer_expand_space( &classifier_composer,
                                                            &in_space,
                                                            (show_children != 0),
+                                                           &(*fix).profile,
                                                            &(*fix).pencil_size,
                                                            (*fix).font_layout,
                                                            &(*fix).layout_vis_classifier
@@ -199,6 +205,7 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &envelope,
                                                                (show_children != 0),
+                                                               &(*fix).profile,
                                                                &(*fix).pencil_size,
                                                                (*fix).font_layout,
                                                                &(*fix).layout_vis_classifier
@@ -249,6 +256,7 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &small_envelope,
                                                                (show_children != 0),
+                                                               &(*fix).profile,
                                                                &(*fix).pencil_size,
                                                                (*fix).font_layout,
                                                                &(*fix).layout_vis_classifier
