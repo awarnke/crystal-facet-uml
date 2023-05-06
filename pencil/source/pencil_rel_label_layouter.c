@@ -151,6 +151,9 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
     assert( NULL != out_solutions_count );
 
     const data_relationship_t *the_relationship = layout_relationship_get_data_const( current_relation );
+    //const char *const rel_stereotype = data_relationship_get_stereotype_const( the_relationship );
+    //const bool has_stereotype_image
+    //    = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), rel_stereotype, profile );
 
     {
         /* determine label dimensions */
@@ -158,6 +161,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         double text_height;
         draw_relationship_label_get_type_and_name_dimensions ( &((*this_).draw_relationship_label),
                                                                the_relationship,
+                                                               false,  /* TODO: request stereotype if not has_stereotype_image */
                                                                (*this_).pencil_size,
                                                                font_layout,
                                                                &text_width,

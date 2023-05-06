@@ -142,6 +142,7 @@ int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compos
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
  *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
+ *  \param with_stereotype false if no stereotype label shall be printed because an image is shown instead
  *  \param space_and_label proposed rectangle for the position, width and height of: label and icon and features and contained classifiers
  *  \param icon_dim dimensions of the label
  *  \param pencil_size set of sizes and colors for drawing lines and text
@@ -153,6 +154,7 @@ int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compos
 int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
+                                                       bool with_stereotype,
                                                        const geometry_rectangle_t *space_and_label,
                                                        const geometry_dimensions_t *icon_dim,
                                                        const pencil_size_t *pencil_size,

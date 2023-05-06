@@ -45,7 +45,7 @@ static inline void draw_feature_label_init( draw_feature_label_t *this_ );
 static inline void draw_feature_label_destroy( draw_feature_label_t *this_ );
 
 /*!
- *  \brief determines the dimensions of the stereotype and name of the classifier.
+ *  \brief determines the dimensions of the key and value of the feature.
  *
  *  \param this_ pointer to own object attributes
  *  \param feature the feature data to draw

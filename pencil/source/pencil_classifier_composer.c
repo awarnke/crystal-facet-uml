@@ -69,7 +69,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         = data_visible_classifier_get_diagramelement_const( visible_classifier );
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
-    const bool has_stereotype = data_classifier_has_stereotype( classifier );
     const bool has_stereotype_image
         = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), classifier_stereotype, profile );
     const data_diagramelement_flag_t display_flags
@@ -168,6 +167,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         /* draw label */
         draw_classifier_label_draw_stereotype_and_name( &((*this_).draw_classifier_label),
                                                         visible_classifier,
+                                                        ( ! has_stereotype_image ),
                                                         classifier_label_box,
                                                         pencil_size,
                                                         font_layout,
@@ -515,7 +515,6 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
     const data_classifier_type_t classifier_type
         = data_classifier_get_main_type( classifier );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
-    const bool has_stereotype = data_classifier_has_stereotype( classifier );
     const bool has_stereotype_image
         = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), classifier_stereotype, profile );
 
@@ -543,6 +542,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
         = pencil_classifier_composer_private_get_label_box( this_,
                                                             visible_classifier,
                                                             shows_contained_children,
+                                                            ( ! has_stereotype_image ),
                                                             space_and_label_fake,
                                                             &icon_dim,
                                                             pencil_size,
@@ -673,7 +673,6 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
     const data_classifier_type_t classifier_type
         = data_classifier_get_main_type( classifier );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier );
-    const bool has_stereotype = data_classifier_has_stereotype( classifier );
     const bool has_stereotype_image
         = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), classifier_stereotype, profile );
 
@@ -708,6 +707,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
         = pencil_classifier_composer_private_get_label_box( this_,
                                                             visible_classifier,
                                                             shows_contained_children,
+                                                            ( ! has_stereotype_image ),
                                                             &space_and_label,
                                                             &icon_dim,
                                                             pencil_size,
@@ -820,6 +820,7 @@ static inline double PENCIL_MAX_OF_2 ( double a, double b ) { return (a<b) ? b :
 int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
+                                                       bool with_stereotype,
                                                        const geometry_rectangle_t *space_and_label,
                                                        const geometry_dimensions_t *icon_dim,
                                                        const pencil_size_t *pencil_size,
@@ -863,6 +864,7 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
         geometry_dimensions_init( &proposed_label_dim, proposed_label_width, geometry_rectangle_get_height( space_and_label ) );
         draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
                                                                   visible_classifier,
+                                                                  with_stereotype,
                                                                   &proposed_label_dim,
                                                                   pencil_size,
                                                                   font_layout,

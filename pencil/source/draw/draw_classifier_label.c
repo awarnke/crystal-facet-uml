@@ -19,6 +19,7 @@ static const int DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classifier_label_t *this_,
                                                                const data_visible_classifier_t *visible_classifier,
+                                                               bool with_stereotype,
                                                                const geometry_dimensions_t *proposed_bounds,
                                                                const pencil_size_t *pencil_size,
                                                                PangoLayout *font_layout,
@@ -46,7 +47,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
         int text1_height = 0;
         int text1_width = 0;
         {
-            if ( 0 != utf8string_get_length( data_classifier_get_stereotype_const( classifier ) ) )
+            if ( with_stereotype && data_classifier_has_stereotype( classifier ) )
             {
                 /* prepare text */
                 char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
@@ -130,6 +131,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
 
 void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label_t *this_,
                                                      const data_visible_classifier_t *visible_classifier,
+                                                     bool with_stereotype,
                                                      const geometry_rectangle_t *label_box,
                                                      const pencil_size_t *pencil_size,
                                                      PangoLayout *font_layout,
@@ -158,7 +160,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     /* draw stereotype text */
     int text1_height = 0;
     {
-        if ( 0 != utf8string_get_length( data_classifier_get_stereotype_const( classifier ) ) )
+        if ( with_stereotype && data_classifier_has_stereotype( classifier ) )
         {
             /* prepare text */
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
