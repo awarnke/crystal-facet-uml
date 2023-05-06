@@ -13,6 +13,22 @@ static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *t
 
 }
 
+static inline bool draw_classifier_contour_has_contour ( const draw_classifier_contour_t *this_, data_classifier_type_t classifier_type )
+{
+    bool no_contour;
+    no_contour = (( DATA_CLASSIFIER_TYPE_ACTOR == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_DYN_FORK_NODE == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT == classifier_type )
+             || ( DATA_CLASSIFIER_TYPE_IMAGE == classifier_type ));
+
+    return ( ! no_contour );
+}
+
 static inline void draw_classifier_contour_draw_rect ( const draw_classifier_contour_t *this_,
                                                        const geometry_rectangle_t *outer_bounds,
                                                        const pencil_size_t *pencil_size,

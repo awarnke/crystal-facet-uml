@@ -12706,7 +12706,8 @@
         "type": "Comment",
         "name": "icon",
         "description": [
-                "An icon is a small picture representing an element-type"
+                "An icon is a small picture\n",
+                "representing an element-type"
         ],
         "x_order": -1481702233,
         "y_order": 0,
@@ -12724,8 +12725,9 @@
         "type": "Comment",
         "name": "contour",
         "description": [
-                "A countour is an outer line around an element.\n",
-                "The exact shape of it depends on the elements type."
+                "A contour is an outer line around an element.\n",
+                "The exact shape of it depends on the elements type.\n",
+                "Some elements do not have a contour."
         ],
         "x_order": 1698459306,
         "y_order": 0,
@@ -12762,7 +12764,8 @@
         "type": "Comment",
         "name": "symbol",
         "description": [
-                "A symbol is a drawing/picture representing the type of an element"
+                "A symbol is a drawing/picture\n",
+                "representing the type of an element"
         ],
         "x_order": 1697198992,
         "y_order": -728639253,
@@ -14723,12 +14726,12 @@
         "name": "image",
         "description": [
                 "The image of a stereotype.\n",
-                "This may replace either the icon\n",
+                "This may replace either the stand-alone icon\n",
                 "or the icon in the top right corner\n",
                 "of a contour."
         ],
         "x_order": 1740096155,
-        "y_order": -550878311,
+        "y_order": 964280023,
         "list_order": -550878311,
         "uuid": "d17d6bfb-2dad-492e-963e-74c25b1e9942",
         "features":

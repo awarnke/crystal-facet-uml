@@ -44,6 +44,17 @@ static inline void draw_classifier_contour_init( draw_classifier_contour_t *this
 static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *this_ );
 
 /*!
+ *  \brief returns true if the classifier is drawn as outer contour with label, icon and children inside
+ *
+ *  The following classifier types have no contour: (use-case:) actor, (activity:) start, end, fork, join, timeout, history, image
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier to draw
+ *  \return true if the classifier has an outer contour
+ */
+static inline bool draw_classifier_contour_has_contour ( const draw_classifier_contour_t *this_, data_classifier_type_t classifier_type );
+
+/*!
  *  \brief determines the dimensions of the inner area (label and space) of the classifier-shape.
  *
  *  based on the outer_bounds, the inner area is calculated.

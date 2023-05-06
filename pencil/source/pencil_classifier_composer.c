@@ -565,31 +565,10 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
     /* sizes of geometric objects are determined, */
     /* now position the geometric objects */
     {
-        const bool is_fix_sized_symbol
-            = draw_classifier_icon_is_fix_sized_symbol( &((*this_).draw_classifier_icon), classifier_type );
+        const bool has_contour
+            = draw_classifier_contour_has_contour( &((*this_).draw_classifier_contour), classifier_type );
 
-        if ( is_fix_sized_symbol )
-        {
-            U8_TRACE_INFO("calculating symbol box for fixed-sized icon..." );
-
-            const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
-            const double symbol_width = symbol_height;
-
-            /* calculate symbol bounds */
-            const geometry_h_align_t H_CENTER = GEOMETRY_H_ALIGN_CENTER;
-            const double symbol_left
-                = geometry_h_align_get_left( &H_CENTER,
-                                             symbol_width,
-                                             geometry_rectangle_get_left( space ),
-                                             geometry_rectangle_get_width( space )
-                                           );
-            const double symbol_top = geometry_rectangle_get_top( &label_compartment ) - symbol_height;
-            geometry_rectangle_t classifier_symbol_box;
-            geometry_rectangle_init( &classifier_symbol_box, symbol_left, symbol_top, symbol_width, symbol_height );
-            layout_visible_classifier_set_symbol_box( io_classifier_layout, &classifier_symbol_box );
-            geometry_rectangle_destroy( &classifier_symbol_box );
-        }
-        else
+        if ( has_contour )
         {
             U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
 
@@ -619,6 +598,27 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
                                                            );
             layout_visible_classifier_set_symbol_box( io_classifier_layout, &envelope );
             geometry_rectangle_destroy( &inner_area );
+        }
+        else
+        {
+            U8_TRACE_INFO("calculating symbol box for fixed-sized icon..." );
+
+            const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
+            const double symbol_width = symbol_height;
+
+            /* calculate symbol bounds */
+            const geometry_h_align_t H_CENTER = GEOMETRY_H_ALIGN_CENTER;
+            const double symbol_left
+                = geometry_h_align_get_left( &H_CENTER,
+                                             symbol_width,
+                                             geometry_rectangle_get_left( space ),
+                                             geometry_rectangle_get_width( space )
+                                           );
+            const double symbol_top = geometry_rectangle_get_top( &label_compartment ) - symbol_height;
+            geometry_rectangle_t classifier_symbol_box;
+            geometry_rectangle_init( &classifier_symbol_box, symbol_left, symbol_top, symbol_width, symbol_height );
+            layout_visible_classifier_set_symbol_box( io_classifier_layout, &classifier_symbol_box );
+            geometry_rectangle_destroy( &classifier_symbol_box );
         }
 
         /* calculate label_box */
@@ -719,14 +719,25 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
     /* if label fits into space_and_label */
     if ( 0 == area_too_small )
     {
-        const bool is_fix_sized_symbol
-            = draw_classifier_icon_is_fix_sized_symbol( &((*this_).draw_classifier_icon), classifier_type );
+        const bool has_contour
+            = draw_classifier_contour_has_contour( &((*this_).draw_classifier_contour), classifier_type );
 
         /* get the symbol and label boxes and inner space rectangles to modify */
         geometry_rectangle_t classifier_space;
         geometry_rectangle_copy( &classifier_space, &space_and_label );
 
-        if ( is_fix_sized_symbol )
+        if ( has_contour )
+        {
+            U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
+
+            /* calculate symbol bounds */
+            layout_visible_classifier_set_symbol_box( io_classifier_layout, envelope );
+
+            /* calculate space */
+            geometry_rectangle_shift( &classifier_space, 0.0, geometry_rectangle_get_height( &label_compartment ) );
+            geometry_rectangle_enlarge( &classifier_space, 0.0, -geometry_rectangle_get_height( &label_compartment ) );
+        }
+        else
         {
             U8_TRACE_INFO("calculating symbol box for fixed-sized icon..." );
 
@@ -751,17 +762,6 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
             const double label_and_symbol_height = geometry_rectangle_get_height( &label_compartment ) + symbol_height;
             geometry_rectangle_shift( &classifier_space, 0.0, label_and_symbol_height );
             geometry_rectangle_enlarge( &classifier_space, 0.0, -label_and_symbol_height );
-        }
-        else
-        {
-            U8_TRACE_INFO("calculating symbol box as envelope around label and space..." );
-
-            /* calculate symbol bounds */
-            layout_visible_classifier_set_symbol_box( io_classifier_layout, envelope );
-
-            /* calculate space */
-            geometry_rectangle_shift( &classifier_space, 0.0, geometry_rectangle_get_height( &label_compartment ) );
-            geometry_rectangle_enlarge( &classifier_space, 0.0, -geometry_rectangle_get_height( &label_compartment ) );
         }
         layout_visible_classifier_set_space( io_classifier_layout, &classifier_space );
 
@@ -849,15 +849,15 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
     /* determine stereotype and name dimensions */
     double text_width;
     double text_height;
-    const bool is_fix_sized_symbol
-        = draw_classifier_icon_is_fix_sized_symbol( &((*this_).draw_classifier_icon), classifier_type );
+    const bool has_contour
+        = draw_classifier_contour_has_contour( &((*this_).draw_classifier_contour), classifier_type );
     const double icon_gap
-        = is_fix_sized_symbol ? 0.0 : ( geometry_dimensions_get_width( icon_dim ) < 0.000001 ) ? 0.0 : gap;
+        = ( ! has_contour ) ? 0.0 : ( geometry_dimensions_get_width( icon_dim ) < 0.000001 ) ? 0.0 : gap;
     {
         const double proposed_label_width
-            = is_fix_sized_symbol
-            ? geometry_rectangle_get_width( space_and_label )
-            : geometry_rectangle_get_width( space_and_label ) - geometry_dimensions_get_width( icon_dim ) - icon_gap;
+            = has_contour
+            ? geometry_rectangle_get_width( space_and_label ) - geometry_dimensions_get_width( icon_dim ) - icon_gap
+            : geometry_rectangle_get_width( space_and_label );
         geometry_dimensions_t proposed_label_dim;
         geometry_dimensions_init( &proposed_label_dim, proposed_label_width, geometry_rectangle_get_height( space_and_label ) );
         draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
@@ -883,7 +883,7 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
         }
     }
 
-    if ( ! is_fix_sized_symbol )
+    if ( has_contour )
     {
         double top_border = geometry_rectangle_get_top( space_and_label );
 

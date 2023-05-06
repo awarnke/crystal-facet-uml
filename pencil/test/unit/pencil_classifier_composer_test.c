@@ -20,39 +20,41 @@ test_suite_t pencil_classifier_composer_test_get_suite(void)
     return result;
 }
 
-static cairo_surface_t *surface;
-static cairo_t *cr;
-static geometry_rectangle_t diagram_bounds;
-static PangoLayout *font_layout;
-
-static layout_visible_classifier_t layout_vis_classifier;
-static data_visible_classifier_t data_vis_classifier;
-
-static pencil_size_t pencil_size;
-
-static draw_classifier_icon_t draw_classifier_icon;
+struct fixture_struct {
+    layout_visible_classifier_t layout_vis_classifier;
+    data_visible_classifier_t data_vis_classifier;
+    pencil_size_t pencil_size;
+    draw_classifier_contour_t draw_classifier_contour;
+    cairo_surface_t *surface;
+    cairo_t *cr;
+    geometry_rectangle_t diagram_bounds;
+    PangoLayout *font_layout;
+};
+typedef struct fixture_struct fixture_t;
+static fixture_t test_environment;
 
 static test_fixture_t * set_up()
 {
+    fixture_t *fix = &test_environment;
     /* init a pango font layout */
     {
-        geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
-        surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
-                                              (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
-                                              (uint32_t) geometry_rectangle_get_height( &diagram_bounds )
-                                            );
-        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( surface ) );
-        cr = cairo_create (surface);
-        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( cr ) );
-        font_layout = pango_cairo_create_layout (cr);
+        geometry_rectangle_init( &(*fix).diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
+        (*fix).surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
+                                                     (uint32_t) geometry_rectangle_get_width( &(*fix).diagram_bounds ),
+                                                     (uint32_t) geometry_rectangle_get_height( &(*fix).diagram_bounds )
+                                                   );
+        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( (*fix).surface ) );
+        (*fix).cr = cairo_create ( (*fix).surface );
+        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( (*fix).cr ) );
+        (*fix).font_layout = pango_cairo_create_layout ( (*fix).cr );
     }
 
-    pencil_size_init( &pencil_size,
-                      geometry_rectangle_get_width( &diagram_bounds ),
-                      geometry_rectangle_get_height( &diagram_bounds )
+    pencil_size_init( &(*fix).pencil_size,
+                      geometry_rectangle_get_width( &(*fix).diagram_bounds ),
+                      geometry_rectangle_get_height( &(*fix).diagram_bounds )
                     );
 
-    draw_classifier_icon_init( &draw_classifier_icon );
+    draw_classifier_contour_init( &(*fix).draw_classifier_contour );
 
     /* init a layout visible classifier */
     {
@@ -82,39 +84,43 @@ static test_fixture_t * set_up()
                                     "94ad5563-3040-4f27-8e8b-d51ffc5ad4c8"
                                   );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, err2 );
-        data_visible_classifier_init( &data_vis_classifier, &data_classifier, &data_diagele );
-        layout_visible_classifier_init( &layout_vis_classifier, &data_vis_classifier );
+        data_visible_classifier_init( &(*fix).data_vis_classifier, &data_classifier, &data_diagele );
+        layout_visible_classifier_init( &(*fix).layout_vis_classifier, &(*fix).data_vis_classifier );
 
         data_diagramelement_destroy( &data_diagele );
         data_classifier_destroy( &data_classifier );
     }
-    return NULL;
+    return fix;
 }
 
 static void tear_down( test_fixture_t *test_env )
 {
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
     /* destroy the layout visible classifier */
     {
-        layout_visible_classifier_destroy( &layout_vis_classifier );
-        data_visible_classifier_destroy( &data_vis_classifier );
+        layout_visible_classifier_destroy( &(*fix).layout_vis_classifier );
+        data_visible_classifier_destroy( &(*fix).data_vis_classifier );
     }
 
-    draw_classifier_icon_destroy( &draw_classifier_icon );
+    draw_classifier_contour_destroy( &(*fix).draw_classifier_contour );
 
-    pencil_size_destroy( &pencil_size );
+    pencil_size_destroy( &(*fix).pencil_size );
 
     /* destroy the pango font layout */
     {
-        g_object_unref (font_layout);
-        cairo_destroy (cr);
-        cairo_surface_finish ( surface );
-        cairo_surface_destroy ( surface );
-        geometry_rectangle_destroy( &diagram_bounds );
+        g_object_unref ( (*fix).font_layout );
+        cairo_destroy ( (*fix).cr );
+        cairo_surface_finish ( (*fix).surface );
+        cairo_surface_destroy ( (*fix).surface );
+        geometry_rectangle_destroy( &(*fix).diagram_bounds );
     }
 }
 
 static test_case_result_t test_expand_space( test_fixture_t *test_env )
 {
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
@@ -123,7 +129,9 @@ static test_case_result_t test_expand_space( test_fixture_t *test_env )
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
         data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
-        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &data_vis_classifier ), classifier_type );
+        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &(*fix).data_vis_classifier ),
+                                       classifier_type
+                                     );
         /* printf("  type: %d, %d\n", t_idx, classifier_type); */
 
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
@@ -133,24 +141,29 @@ static test_case_result_t test_expand_space( test_fixture_t *test_env )
                 = pencil_classifier_composer_expand_space( &classifier_composer,
                                                            &in_space,
                                                            (show_children != 0),
-                                                           &pencil_size,
-                                                           font_layout,
-                                                           &layout_vis_classifier
+                                                           &(*fix).pencil_size,
+                                                           (*fix).font_layout,
+                                                           &(*fix).layout_vis_classifier
                                                          );
             TEST_EXPECT_EQUAL_INT( 0, err );
 
             /* check that all layouted rectangles are outside space */
-            const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( &layout_vis_classifier );
-            if ( draw_classifier_icon_is_fix_sized_symbol( &draw_classifier_icon, classifier_type ) )
+            const geometry_rectangle_t *const symbol
+                = layout_visible_classifier_get_symbol_box_const( &(*fix).layout_vis_classifier );
+            const bool has_contour
+                = draw_classifier_contour_has_contour( &(*fix).draw_classifier_contour, classifier_type );
+            if ( ! has_contour )
             {
                 /* no intesects if fix-size-symbol */
                 TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &in_space, symbol ) );
             }
             TEST_EXPECT( ! geometry_rectangle_is_empty( symbol ) );
-            const geometry_rectangle_t *const label = layout_visible_classifier_get_label_box_const( &layout_vis_classifier );
+            const geometry_rectangle_t *const label
+                = layout_visible_classifier_get_label_box_const( &(*fix).layout_vis_classifier );
             TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_intersect_area( &in_space, label ) );
             TEST_EXPECT( ! geometry_rectangle_is_empty( label ) );
-            const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
+            const geometry_rectangle_t *const space
+                = layout_visible_classifier_get_space_const( &(*fix).layout_vis_classifier );
             TEST_EXPECT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( space ) );
             TEST_EXPECT_EQUAL_DOUBLE( 90.0, geometry_rectangle_get_top( space ) );
             TEST_EXPECT_EQUAL_DOUBLE( 420.0, geometry_rectangle_get_width( space ) );
@@ -164,6 +177,8 @@ static test_case_result_t test_expand_space( test_fixture_t *test_env )
 
 static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
 {
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
@@ -172,7 +187,9 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
         data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
-        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &data_vis_classifier ), classifier_type );
+        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &(*fix).data_vis_classifier ),
+                                       classifier_type
+                                     );
         /* printf("  type: %d, %d\n", t_idx, classifier_type); */
 
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
@@ -182,20 +199,23 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &envelope,
                                                                (show_children != 0),
-                                                               &pencil_size,
-                                                               font_layout,
-                                                               &layout_vis_classifier
+                                                               &(*fix).pencil_size,
+                                                               (*fix).font_layout,
+                                                               &(*fix).layout_vis_classifier
                                                              );
             TEST_EXPECT_EQUAL_INT( 0, err );
 
             /* check that all layouted rectangles are within envelope */
-            const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( &layout_vis_classifier );
+            const geometry_rectangle_t *const symbol
+                = layout_visible_classifier_get_symbol_box_const( &(*fix).layout_vis_classifier );
             TEST_EXPECT( geometry_rectangle_is_containing( &envelope, symbol ) );
             TEST_EXPECT( ! geometry_rectangle_is_empty( symbol ) );
-            const geometry_rectangle_t *const label = layout_visible_classifier_get_label_box_const( &layout_vis_classifier );
+            const geometry_rectangle_t *const label
+                = layout_visible_classifier_get_label_box_const( &(*fix).layout_vis_classifier );
             TEST_EXPECT( geometry_rectangle_is_containing( &envelope, label ) );
             TEST_EXPECT( ! geometry_rectangle_is_empty( label ) );
-            const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
+            const geometry_rectangle_t *const space
+                = layout_visible_classifier_get_space_const( &(*fix).layout_vis_classifier );
             TEST_EXPECT( geometry_rectangle_is_containing( &envelope, space ) );
             TEST_EXPECT( ! geometry_rectangle_is_empty( space ) );
         }
@@ -207,6 +227,8 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
 
 static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_env )
 {
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
@@ -215,7 +237,9 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_
     for ( unsigned int t_idx = 0; t_idx < DATA_CLASSIFIER_TYPE_COUNT; t_idx ++ )
     {
         data_classifier_type_t classifier_type = DATA_CLASSIFIER_TYPE_ARRAY[ t_idx ];
-        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &data_vis_classifier ), classifier_type );
+        data_classifier_set_main_type( data_visible_classifier_get_classifier_ptr( &(*fix).data_vis_classifier ),
+                                       classifier_type
+                                     );
         /* printf("  type: %d, %d\n", t_idx, classifier_type); */
 
         for ( unsigned int show_children = 0; show_children <= 1; show_children ++ )
@@ -225,26 +249,31 @@ static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_
                 = pencil_classifier_composer_set_envelope_box( &classifier_composer,
                                                                &small_envelope,
                                                                (show_children != 0),
-                                                               &pencil_size,
-                                                               font_layout,
-                                                               &layout_vis_classifier
+                                                               &(*fix).pencil_size,
+                                                               (*fix).font_layout,
+                                                               &(*fix).layout_vis_classifier
                                                              );
             TEST_EXPECT_EQUAL_INT( 1, err );
 
             /* check that actual_envelope rectangle is bigger and is within small_envelope */
             const geometry_rectangle_t actual_envelope
-                = layout_visible_classifier_get_envelope_box( &layout_vis_classifier );
+                = layout_visible_classifier_get_envelope_box( &(*fix).layout_vis_classifier );
             geometry_rectangle_trace( &small_envelope );
             geometry_rectangle_trace( &actual_envelope );
             TEST_EXPECT( geometry_rectangle_is_containing( &actual_envelope, &small_envelope ) );
             TEST_EXPECT( ! geometry_rectangle_is_containing( &small_envelope, &actual_envelope ) );
 
             /* check that label and space are withing symbol (unless fix-sized-symbol) */
-            if ( ! draw_classifier_icon_is_fix_sized_symbol( &draw_classifier_icon, classifier_type ) )
+            const bool has_contour
+                = draw_classifier_contour_has_contour( &(*fix).draw_classifier_contour, classifier_type );
+            if ( has_contour )
             {
-                const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( &layout_vis_classifier );
-                const geometry_rectangle_t *const label = layout_visible_classifier_get_label_box_const( &layout_vis_classifier );
-                const geometry_rectangle_t *const space = layout_visible_classifier_get_space_const( &layout_vis_classifier );
+                const geometry_rectangle_t *const symbol
+                    = layout_visible_classifier_get_symbol_box_const( &(*fix).layout_vis_classifier );
+                const geometry_rectangle_t *const label
+                    = layout_visible_classifier_get_label_box_const( &(*fix).layout_vis_classifier );
+                const geometry_rectangle_t *const space
+                    = layout_visible_classifier_get_space_const( &(*fix).layout_vis_classifier );
                 TEST_EXPECT( geometry_rectangle_is_containing( symbol, label ) );
                 TEST_EXPECT( geometry_rectangle_is_containing( symbol, space ) );
             }
