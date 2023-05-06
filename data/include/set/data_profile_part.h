@@ -67,12 +67,29 @@ void data_profile_part_destroy( data_profile_part_t *this_ );
  *  \param db_reader database reader to use when acquiring data
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t data_profile_part_load( data_profile_part_t *this_, const data_visible_set_t * diagram_elements, data_database_reader_t *db_reader );
+u8_error_t data_profile_part_load( data_profile_part_t *this_,
+                                   const data_visible_set_t * diagram_elements,
+                                   data_database_reader_t *db_reader
+                                 );
 
 /*!
  *  \brief gets the number of stereotype classifiers within the painter input data
  *
  *  \param this_ pointer to own object attributes
+ *  \param stereotype_name name of the stereotype to load
+ *  \param db_reader database reader to use when acquiring data
+ *  \return bitmask of unhandled errors
+ */
+static inline u8_error_t data_profile_part_private_load_stereotype ( data_profile_part_t *this_,
+                                                                     const char *stereotype_name,
+                                                                     data_database_reader_t *db_reader
+                                                                   );
+
+/*!
+ *  \brief gets the number of stereotype classifiers within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return number of loaded stereotype classifiers
  */
 static inline uint32_t data_profile_part_get_stereotype_count ( const data_profile_part_t *this_ );
 
@@ -83,7 +100,9 @@ static inline uint32_t data_profile_part_get_stereotype_count ( const data_profi
  *  \param index index of the stereotype classifier to retrieve; 0 &lt;= index &lt; data_profile_part_get_stereotype_count().
  *  \return NULL if index &gt;= data_profile_part_get_stereotype_count(); pointer to data_classifier_t otherwise.
  */
-static inline const data_classifier_t *data_profile_part_get_stereotype_const ( const data_profile_part_t *this_, uint32_t index );
+static inline const data_classifier_t *data_profile_part_get_stereotype_const ( const data_profile_part_t *this_,
+                                                                                uint32_t index
+                                                                              );
 
 /*!
  *  \brief gets a stereotype classifier within the painter input data
@@ -92,7 +111,9 @@ static inline const data_classifier_t *data_profile_part_get_stereotype_const ( 
  *  \param stereotype_name name of the stereotype for which to retrieve the classifier record
  *  \return NULL if id not existant; pointer to data_classifier_t otherwise.
  */
-static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_const ( const data_profile_part_t *this_, utf8stringview_t stereotype_name );
+static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_const ( const data_profile_part_t *this_,
+                                                                                        utf8stringview_t stereotype_name
+                                                                                      );
 
 /*!
  *  \brief traces the stereotype names

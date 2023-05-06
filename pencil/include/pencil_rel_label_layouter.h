@@ -13,6 +13,7 @@
 #include "pencil_layout_data.h"
 #include "pencil_label_layout_helper.h"
 #include "draw/draw_relationship_label.h"
+#include "draw/draw_stereotype_image.h"
 #include "geometry/geometry_rectangle.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
@@ -36,6 +37,7 @@ struct pencil_rel_label_layouter_struct {
 
     draw_relationship_label_t draw_relationship_label;  /*!< collection of draw label functions */
     pencil_label_layout_helper_t label_layout_helper;   /*!< collection of layout label functions */
+    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custom stereotype images */
 };
 
 typedef struct pencil_rel_label_layouter_struct pencil_rel_label_layouter_t;

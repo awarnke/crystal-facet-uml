@@ -3,6 +3,70 @@
 #include "u8/u8_log.h"
 #include <assert.h>
 
+static inline u8_error_t data_profile_part_private_load_stereotype ( data_profile_part_t *this_,
+                                                                     const char *stereotype_name,
+                                                                     data_database_reader_t *db_reader )
+{
+    assert( NULL != stereotype_name );
+    assert( NULL != db_reader );
+    u8_error_t result = U8_ERROR_NONE;
+
+    const utf8stringview_t stereotype_name_view = UTF8STRINGVIEW_STR( stereotype_name );
+
+    const bool already_loaded
+        = ( NULL != data_profile_part_get_stereotype_by_name_const( this_, stereotype_name_view ) );
+    if ( ! already_loaded )  /* filter duplicates */
+    {
+        if ( (*this_).stereotype_count < DATA_PROFILE_PART_MAX_STEREOTYPES )
+        {
+            const u8_error_t db_err
+                = data_database_reader_get_classifier_by_name( db_reader,
+                                                               stereotype_name,  /* : name */
+                                                               &((*this_).stereotypes[(*this_).stereotype_count])
+                                                             );
+            const data_classifier_type_t c_type
+                = data_classifier_get_main_type( &((*this_).stereotypes[(*this_).stereotype_count]) );
+
+            if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
+            {
+                U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading stereotypes of a diagram" );
+            }
+            if ( u8_error_contains( db_err, U8_ERROR_NOT_FOUND ) )
+            {
+                /* no entry found. */
+                U8_LOG_EVENT( "A stereotype does not exist." );
+                U8_TRACE_INFO_STR( "stereotype does not exist:", stereotype_name );
+            }
+            else if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
+            {
+                /* error at loading */
+                U8_LOG_ERROR( "A stereotype could not be loaded!" );
+                U8_TRACE_INFO_STR( "stereotype could not be loaded:", stereotype_name );
+                result |= db_err;  /* collect error flags */
+            }
+            else if ( DATA_CLASSIFIER_TYPE_STEREOTYPE != c_type )
+            {
+                /* wrong-typed entry found. */
+                U8_LOG_EVENT( "A stereotype was found but is not of type stereotype." );
+                U8_TRACE_INFO_STR( "loaded stereotype is not of type stereotype:", stereotype_name );
+            }
+            else
+            {
+                /* success */
+                (*this_).stereotype_count ++;
+            }
+        }
+        else
+        {
+            /* there is another stereotype to be loaded but no more space left */
+            U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading stereotypes of a diagram" );
+            result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+        }
+    }
+
+    return result;
+}
+
 static inline uint32_t data_profile_part_get_stereotype_count ( const data_profile_part_t *this_ )
 {
     return (*this_).stereotype_count;

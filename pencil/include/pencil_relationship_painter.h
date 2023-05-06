@@ -13,6 +13,7 @@
 #include "pencil_size.h"
 #include "layout/layout_relationship.h"
 #include "draw/draw_relationship_label.h"
+#include "draw/draw_stereotype_image.h"
 #include "geometry/geometry_connector.h"
 #include "set/data_profile_part.h"
 #include "set/data_visible_set.h"
@@ -32,6 +33,7 @@
 struct pencil_relationship_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
     draw_relationship_label_t draw_relationship_label;  /*!< collection of draw label functions */
+    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custom stereotype images */
 };
 
 typedef struct pencil_relationship_painter_struct pencil_relationship_painter_t;
@@ -72,7 +74,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                                         const pencil_size_t *pencil_size,
                                         PangoLayout *layout,
                                         cairo_t *cr
-                                    );
+                                      );
 
 #endif  /* PENCIL_RELATIONSHIP_PAINTER_H */
 

@@ -52,6 +52,15 @@ u8_error_t data_profile_part_load( data_profile_part_t *this_,
     /* re-init */
     data_profile_part_reinit( this_ );
 
+
+    /* load stereotype of diagram */
+    const data_diagram_t *const diag = data_visible_set_get_diagram_const( diagram_elements );
+    if ( data_diagram_has_stereotype( diag ) )
+    {
+        const char *const diag_stereotype = data_diagram_get_stereotype_const( diag );
+        result |= data_profile_part_private_load_stereotype( this_, diag_stereotype, db_reader );
+    }
+
     /* load stereotypes of classifiers */
     const uint32_t clsfy_count = data_visible_set_get_visible_classifier_count( diagram_elements );
     for ( uint32_t clsfy_index = 0; ( clsfy_index < clsfy_count )&&( result == U8_ERROR_NONE ); clsfy_index ++ )
@@ -61,57 +70,19 @@ u8_error_t data_profile_part_load( data_profile_part_t *this_,
         if ( data_classifier_has_stereotype( clsfy ) )
         {
             const char *const clsfy_stereotype = data_classifier_get_stereotype_const( clsfy );
-            const utf8stringview_t clsfy_stereotype_view = UTF8STRINGVIEW_STR( clsfy_stereotype );
-            const bool already_loaded
-                = ( NULL != data_profile_part_get_stereotype_by_name_const( this_, clsfy_stereotype_view ) );
-            if ( ! already_loaded )  /* filter duplicates */
-            {
-                if ( (*this_).stereotype_count < DATA_PROFILE_PART_MAX_STEREOTYPES )
-                {
-                    const u8_error_t db_err
-                        = data_database_reader_get_classifier_by_name( db_reader,
-                                                                       clsfy_stereotype,  /* : name */
-                                                                       &((*this_).stereotypes[(*this_).stereotype_count])
-                                                                     );
-                    const data_classifier_type_t c_type
-                        = data_classifier_get_main_type( &((*this_).stereotypes[(*this_).stereotype_count]) );
+            result |= data_profile_part_private_load_stereotype( this_, clsfy_stereotype, db_reader );
+        }
+    }
 
-                    if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
-                    {
-                        U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading stereotypes of a diagram" );
-                    }
-                    if ( u8_error_contains( db_err, U8_ERROR_NOT_FOUND ) )
-                    {
-                        /* no entry found. */
-                        U8_LOG_EVENT( "A stereotype does not exist." );
-                        U8_TRACE_INFO_STR( "stereotype does not exist:", clsfy_stereotype );
-                    }
-                    else if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
-                    {
-                        /* error at loading */
-                        U8_LOG_ERROR( "A stereotype could not be loaded!" );
-                        U8_TRACE_INFO_STR( "stereotype could not be loaded:", clsfy_stereotype );
-                        result |= db_err;  /* collect error flags */
-                    }
-                    else if ( DATA_CLASSIFIER_TYPE_STEREOTYPE != c_type )
-                    {
-                        /* wrong-typed entry found. */
-                        U8_LOG_EVENT( "A stereotype was found but is not of type stereotype." );
-                        U8_TRACE_INFO_STR( "stereotype is not of type stereotype:", clsfy_stereotype );
-                    }
-                    else
-                    {
-                        /* success */
-                        (*this_).stereotype_count ++;
-                    }
-                }
-                else
-                {
-                    /* there is another stereotype to be loaded but no more space left */
-                    U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading stereotypes of a diagram" );
-                    result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-                }
-            }
+    /* load stereotypes of relationships */
+    const uint32_t rel_count = data_visible_set_get_relationship_count( diagram_elements );
+    for ( uint32_t rel_index = 0; ( rel_index < rel_count )&&( result == U8_ERROR_NONE ); rel_index ++ )
+    {
+        const data_relationship_t *const rel = data_visible_set_get_relationship_const( diagram_elements, rel_index );
+        if ( data_relationship_has_stereotype( rel ) )
+        {
+            const char *const rel_stereotype = data_relationship_get_stereotype_const( rel );
+            result |= data_profile_part_private_load_stereotype( this_, rel_stereotype, db_reader );
         }
     }
 
