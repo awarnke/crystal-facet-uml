@@ -1100,7 +1100,7 @@
             "id": 187,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Examples",
+            "classifier_name": "Usage examples",
             "node": "cfaecc68-6126-4536-8ab2-902e15037b26",
             "uuid": "15ad554b-6650-4e5a-9037-442ed927f488"
           },
@@ -5239,7 +5239,7 @@
         "id": 154,
         "main_type": 124,
         "type": "Package",
-        "name": "Examples",
+        "name": "Usage examples",
         "description": [
                 ""
         ],
@@ -8002,7 +8002,7 @@
                 ""
         ],
         "list_order": 553180164,
-        "from_classifier_name": "Examples",
+        "from_classifier_name": "Usage examples",
         "to_classifier_name": "No dynamic memory",
         "from_node": "cfaecc68-6126-4536-8ab2-902e15037b26",
         "to_node": "30b10c2f-9b81-4a31-8ed3-5c6de94bc9b7",
@@ -8019,7 +8019,7 @@
                 ""
         ],
         "list_order": 808499489,
-        "from_classifier_name": "Examples",
+        "from_classifier_name": "Usage examples",
         "to_classifier_name": "Authentication DB",
         "from_node": "cfaecc68-6126-4536-8ab2-902e15037b26",
         "to_node": "4f0a8a06-9bf7-415a-9b98-056f120d47f0",
