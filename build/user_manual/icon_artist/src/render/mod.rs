@@ -1,18 +1,9 @@
-#![warn(missing_docs)]
+//! The module render defines functions that render the vector_model and dyn_data.
 
-//! This crate renders an svg file for each icon in icon_data
+// Many thanks to the author of the inspiring web page https://cetra3.github.io/blog/drawing-svg-graphs-rust/
 
-pub mod model;
-pub mod render;
-use render::render_svg;
-
-static OUT_DIR: &'static str = "gen";
-
-/// Main control loop that runs the simulation and renders each step
-fn main() {
-    //render_svg::render(OUT_DIR);
-    println!("Generated files have been written to '{}'.", OUT_DIR);
-}
+pub mod icon_writer;
+mod render_svg;
 
 /*
 Copyright 2023-2023 Andreas Warnke

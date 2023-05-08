@@ -1,0 +1,829 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 1,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.50.0"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "icon-artist overview",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "e1252287-b973-4ef8-b83e-18bc0a4658d4",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "icon-artist",
+            "node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+            "uuid": "46a8baea-c4fe-4502-b7c9-a275b306dc85"
+          },
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "documentation editor",
+            "node": "1436c2c7-73fd-402e-b44c-a36f3bcc32fa",
+            "uuid": "88ada4bb-934b-490a-9178-c847b3bdda1f"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "generate set of svg-paths",
+            "node": "fde446de-0fbe-4596-a13a-220455e92670",
+            "uuid": "214c37d8-1bb7-4b89-895d-181ae67ee6a1"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "write formats: nice icon and svg-path",
+            "node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
+            "uuid": "e5d2b36f-51be-4c96-889b-c39951ada969"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 2,
+        "diagram_type": 14,
+        "type": "UMLInteractionDiagram/communication",
+        "name": "Context",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "icon-artist overview",
+        "parent": "e1252287-b973-4ef8-b83e-18bc0a4658d4",
+        "uuid": "f304387c-6d1f-4eb0-937a-862e04bda216",
+        "diagramelements":
+        [
+          {
+            "id": 5,
+            "display_flags": 0,
+            "classifier_name": "icon-artist",
+            "node": "5852a6ad-fa1a-473f-a76e-e091ce60aa58",
+            "uuid": "ec5df933-1220-4538-b34a-c3cd973ff501"
+          },
+          {
+            "id": 6,
+            "display_flags": 0,
+            "classifier_name": "documentation editor",
+            "node": "fbd1efc8-b7c8-4150-9912-dc4a122d5d0d",
+            "uuid": "61dddae9-f494-4a58-b6a8-8694b85ad07f"
+          },
+          {
+            "id": 7,
+            "display_flags": 0,
+            "classifier_name": "icons for documentation",
+            "node": "e90d54ec-7894-47fc-8fcb-893ff449e344",
+            "uuid": "80e4d944-c1f6-4bc3-91d4-cc4b94de781e"
+          },
+          {
+            "id": 8,
+            "display_flags": 0,
+            "classifier_name": "svg-paths for usage",
+            "node": "f608ca6e-2c76-486b-bc97-724756bef806",
+            "uuid": "3f6ec17f-5ff3-4c50-bb4a-9f6796cde64e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 3,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Structure",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "icon-artist overview",
+        "parent": "e1252287-b973-4ef8-b83e-18bc0a4658d4",
+        "uuid": "63f4dcb1-f928-4138-b65b-430cdb62ab54",
+        "diagramelements":
+        [
+          {
+            "id": 9,
+            "display_flags": 0,
+            "classifier_name": "icon-artist",
+            "node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+            "uuid": "4f8708d7-8ade-4edc-89c9-1961cded973c"
+          },
+          {
+            "id": 10,
+            "display_flags": 0,
+            "classifier_name": "render",
+            "node": "ec0de729-88f4-429f-9b10-f0762a4183c7",
+            "uuid": "b5c6ca90-bebc-4472-b120-fbf2c7bb2afd"
+          },
+          {
+            "id": 11,
+            "display_flags": 0,
+            "classifier_name": "model",
+            "node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
+            "uuid": "95c164a0-1c35-4fdc-9ca1-02af0a6676cb"
+          },
+          {
+            "id": 12,
+            "display_flags": 0,
+            "classifier_name": "icon_writer",
+            "node": "f0d393cd-2646-4369-b429-4b09712bdb49",
+            "uuid": "a0b2c62d-3c56-4600-9c74-701347b2b624"
+          },
+          {
+            "id": 13,
+            "display_flags": 0,
+            "classifier_name": "icon_data",
+            "node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
+            "uuid": "24c77134-ba5c-480b-a047-fd72bb4aaac0"
+          },
+          {
+            "id": 14,
+            "display_flags": 0,
+            "classifier_name": "render_svg",
+            "node": "0da9c5cf-40ea-410c-8c08-845c2a08df79",
+            "uuid": "c1e7ef04-f34e-4ef4-bfa2-adc6016854db"
+          },
+          {
+            "id": 15,
+            "display_flags": 0,
+            "classifier_name": "geometry",
+            "node": "18040e78-ed42-4c92-9742-e89b147cd8d5",
+            "uuid": "5e0a7a11-085a-4324-8c4e-755cfb90c6c6"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 4,
+        "diagram_type": 14,
+        "type": "UMLInteractionDiagram/communication",
+        "name": "Behavior",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "display_flags": 0,
+        "parent_name": "icon-artist overview",
+        "parent": "e1252287-b973-4ef8-b83e-18bc0a4658d4",
+        "uuid": "4b054cc3-99dd-44d1-a41d-78b06c8066fc",
+        "diagramelements":
+        [
+          {
+            "id": 16,
+            "display_flags": 0,
+            "classifier_name": "icon_writer",
+            "node": "348addb8-501f-4761-b846-b5e17b9f1a96",
+            "uuid": "b647bf11-e80c-4946-9d8b-c2313d8d0498"
+          },
+          {
+            "id": 17,
+            "display_flags": 0,
+            "classifier_name": "icon_data",
+            "node": "19e782c2-4792-4011-b3db-ca4a88d70a23",
+            "uuid": "ed7db7ba-bbed-4003-8b06-767ebee10268"
+          },
+          {
+            "id": 18,
+            "display_flags": 0,
+            "classifier_name": "render_svg",
+            "node": "aca5b62d-23e2-4011-808a-9c3389b41616",
+            "uuid": "a02c49ad-f524-4820-a64f-9b251f320f95"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 102,
+        "type": "Component",
+        "name": "icon-artist",
+        "description": [
+                ""
+        ],
+        "x_order": -873942120,
+        "y_order": -578347165,
+        "list_order": -411071867,
+        "uuid": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "features":
+        [
+          {
+            "id": 1,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "5852a6ad-fa1a-473f-a76e-e091ce60aa58"
+          },
+          {
+            "id": 5,
+            "main_type": 2,
+            "type": "Port",
+            "key": "main()",
+            "description": [
+                ""
+            ],
+            "list_order": 484181088,
+            "uuid": "0f576371-50da-499e-b965-891127882c24"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 100,
+        "type": "Actor",
+        "name": "documentation editor",
+        "description": [
+                ""
+        ],
+        "x_order": -1635827412,
+        "y_order": -732780842,
+        "list_order": -782230759,
+        "uuid": "1436c2c7-73fd-402e-b44c-a36f3bcc32fa",
+        "features":
+        [
+          {
+            "id": 2,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "fbd1efc8-b7c8-4150-9912-dc4a122d5d0d"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "generate set of svg-paths",
+        "description": [
+                ""
+        ],
+        "x_order": -845832921,
+        "y_order": -782230759,
+        "list_order": -368194158,
+        "uuid": "fde446de-0fbe-4596-a13a-220455e92670",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "write formats: nice icon and svg-path",
+        "description": [
+                ""
+        ],
+        "x_order": 949409084,
+        "y_order": -782230759,
+        "list_order": -376384566,
+        "uuid": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "main_type": 125,
+        "type": "Class",
+        "name": "icons for documentation",
+        "description": [
+                ""
+        ],
+        "x_order": 833429315,
+        "y_order": -732780842,
+        "list_order": -732780842,
+        "uuid": "162686e4-d0d5-4460-b4a3-3fede23bf93d",
+        "features":
+        [
+          {
+            "id": 3,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "e90d54ec-7894-47fc-8fcb-893ff449e344"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 6,
+        "main_type": 125,
+        "type": "Class",
+        "name": "svg-paths for usage",
+        "description": [
+                ""
+        ],
+        "x_order": 833429315,
+        "y_order": -411071867,
+        "list_order": -411071867,
+        "uuid": "47f1d6d5-28c8-41bc-a838-d71380907487",
+        "features":
+        [
+          {
+            "id": 4,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "f608ca6e-2c76-486b-bc97-724756bef806"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 7,
+        "main_type": 121,
+        "type": "Component",
+        "name": "render",
+        "description": [
+                ""
+        ],
+        "x_order": -921600509,
+        "y_order": -608600552,
+        "list_order": -608600552,
+        "uuid": "ec0de729-88f4-429f-9b10-f0762a4183c7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 8,
+        "main_type": 121,
+        "type": "Component",
+        "name": "model",
+        "description": [
+                ""
+        ],
+        "x_order": 32981326,
+        "y_order": -623707360,
+        "list_order": -623707360,
+        "uuid": "41102a65-f6a8-4e51-a884-2afa4e222de0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 9,
+        "main_type": 125,
+        "type": "Class",
+        "name": "icon_writer",
+        "description": [
+                ""
+        ],
+        "x_order": -1171633862,
+        "y_order": -8454772,
+        "list_order": -8454772,
+        "uuid": "f0d393cd-2646-4369-b429-4b09712bdb49",
+        "features":
+        [
+          {
+            "id": 6,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "348addb8-501f-4761-b846-b5e17b9f1a96"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 10,
+        "main_type": 125,
+        "type": "Class",
+        "name": "icon_data",
+        "description": [
+                "Set of icons, each consisting of a list of drawing directives"
+        ],
+        "x_order": 129583284,
+        "y_order": -8454772,
+        "list_order": -623707360,
+        "uuid": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
+        "features":
+        [
+          {
+            "id": 7,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "19e782c2-4792-4011-b3db-ca4a88d70a23"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 11,
+        "main_type": 125,
+        "type": "Class",
+        "name": "render_svg",
+        "description": [
+                ""
+        ],
+        "x_order": -1171633862,
+        "y_order": 124360990,
+        "list_order": 124360990,
+        "uuid": "0da9c5cf-40ea-410c-8c08-845c2a08df79",
+        "features":
+        [
+          {
+            "id": 8,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "aca5b62d-23e2-4011-808a-9c3389b41616"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 12,
+        "main_type": 124,
+        "type": "Package",
+        "name": "geometry",
+        "description": [
+                "Collection of geometric objects and drawing directives"
+        ],
+        "x_order": 129583284,
+        "y_order": 124360990,
+        "list_order": -542227524,
+        "uuid": "18040e78-ed42-4c92-9742-e89b147cd8d5",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -368194158,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "generate set of svg-paths",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "fde446de-0fbe-4596-a13a-220455e92670",
+        "uuid": "e1673a74-f7b6-43d3-ba7f-afcf06c72d65"
+      }
+    },
+    {
+      "relationship": {
+        "id": 2,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -376384566,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "write formats: nice icon and svg-path",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
+        "uuid": "36204ace-9364-4151-a20b-51f84841aa08"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 221,
+        "type": "Message",
+        "name": "generate self-explaining icons",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "icon-artist",
+        "from_feature_key": "",
+        "to_classifier_name": "icons for documentation",
+        "to_feature_key": "",
+        "from_node": "5852a6ad-fa1a-473f-a76e-e091ce60aa58",
+        "to_node": "e90d54ec-7894-47fc-8fcb-893ff449e344",
+        "uuid": "81995180-12b6-4631-bd26-11f2aad9a57a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 7,
+        "main_type": 221,
+        "type": "Message",
+        "name": "generate svg-path elements for usage",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "icon-artist",
+        "from_feature_key": "",
+        "to_classifier_name": "svg-paths for usage",
+        "to_feature_key": "",
+        "from_node": "5852a6ad-fa1a-473f-a76e-e091ce60aa58",
+        "to_node": "f608ca6e-2c76-486b-bc97-724756bef806",
+        "uuid": "25ed6055-5ac5-499d-88e8-0a27e997f7b1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 8,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -608600552,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "render",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "ec0de729-88f4-429f-9b10-f0762a4183c7",
+        "uuid": "2688f4ef-c8b0-437a-91fe-714e3068a904"
+      }
+    },
+    {
+      "relationship": {
+        "id": 9,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -623707360,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "model",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
+        "uuid": "1785e076-88f3-49a0-b08d-bffc5d0ff6de"
+      }
+    },
+    {
+      "relationship": {
+        "id": 13,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "generate_files()",
+        "description": [
+                ""
+        ],
+        "list_order": 124393758,
+        "from_classifier_name": "icon-artist",
+        "from_feature_key": "main()",
+        "to_classifier_name": "icon_writer",
+        "from_node": "0f576371-50da-499e-b965-891127882c24",
+        "to_node": "f0d393cd-2646-4369-b429-4b09712bdb49",
+        "uuid": "dc1e1c27-a159-4a28-aae4-b69b378b4eeb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 200,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "documentation editor",
+        "to_classifier_name": "generate set of svg-paths",
+        "from_node": "1436c2c7-73fd-402e-b44c-a36f3bcc32fa",
+        "to_node": "fde446de-0fbe-4596-a13a-220455e92670",
+        "uuid": "9324417c-0256-42b3-878b-f5b20412e582"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 221,
+        "type": "Message",
+        "name": "trigger generation of icons",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "documentation editor",
+        "from_feature_key": "",
+        "to_classifier_name": "icon-artist",
+        "to_feature_key": "",
+        "from_node": "fbd1efc8-b7c8-4150-9912-dc4a122d5d0d",
+        "to_node": "5852a6ad-fa1a-473f-a76e-e091ce60aa58",
+        "uuid": "7fc36a80-3b23-4807-8e94-eac8f7354d28"
+      }
+    },
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "generate set of svg-paths",
+        "to_classifier_name": "write formats: nice icon and svg-path",
+        "from_node": "fde446de-0fbe-4596-a13a-220455e92670",
+        "to_node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
+        "uuid": "a3de181d-03f5-4e2d-9502-e3e9b8d2d008"
+      }
+    },
+    {
+      "relationship": {
+        "id": 10,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -8454772,
+        "from_classifier_name": "render",
+        "to_classifier_name": "icon_writer",
+        "from_node": "ec0de729-88f4-429f-9b10-f0762a4183c7",
+        "to_node": "f0d393cd-2646-4369-b429-4b09712bdb49",
+        "uuid": "c048cba7-7adb-4202-9075-a3123e65983a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 12,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 124360990,
+        "from_classifier_name": "render",
+        "to_classifier_name": "render_svg",
+        "from_node": "ec0de729-88f4-429f-9b10-f0762a4183c7",
+        "to_node": "0da9c5cf-40ea-410c-8c08-845c2a08df79",
+        "uuid": "ea197f16-640a-4772-a21e-258963dedaa4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 11,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -623707360,
+        "from_classifier_name": "model",
+        "to_classifier_name": "icon_data",
+        "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
+        "to_node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
+        "uuid": "06443332-f08d-49c4-ac28-73fc2d41b608"
+      }
+    },
+    {
+      "relationship": {
+        "id": 14,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -542227524,
+        "from_classifier_name": "model",
+        "to_classifier_name": "geometry",
+        "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
+        "to_node": "18040e78-ed42-4c92-9742-e89b147cd8d5",
+        "uuid": "ff2b6781-e558-43b0-ae8f-e92314f45b16"
+      }
+    },
+    {
+      "relationship": {
+        "id": 15,
+        "main_type": 221,
+        "type": "Message",
+        "name": "1. get_icons()",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "icon_writer",
+        "from_feature_key": "",
+        "to_classifier_name": "icon_data",
+        "to_feature_key": "",
+        "from_node": "348addb8-501f-4761-b846-b5e17b9f1a96",
+        "to_node": "19e782c2-4792-4011-b3db-ca4a88d70a23",
+        "uuid": "dfb93016-fb40-4864-9dd8-31464823bf6a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 16,
+        "main_type": 221,
+        "type": "Message",
+        "name": "2. write icon to file",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "icon_writer",
+        "from_feature_key": "",
+        "to_classifier_name": "render_svg",
+        "to_feature_key": "",
+        "from_node": "348addb8-501f-4761-b846-b5e17b9f1a96",
+        "to_node": "aca5b62d-23e2-4011-808a-9c3389b41616",
+        "uuid": "7758991a-e54f-40e4-ba33-65542e4691f8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 17,
+        "main_type": 221,
+        "type": "Message",
+        "name": "3. write svg-path to file",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "icon_writer",
+        "from_feature_key": "",
+        "to_classifier_name": "render_svg",
+        "to_feature_key": "",
+        "from_node": "348addb8-501f-4761-b846-b5e17b9f1a96",
+        "to_node": "aca5b62d-23e2-4011-808a-9c3389b41616",
+        "uuid": "28285f64-1cc0-4a85-ad93-3c588b47aec2"
+      }
+    }
+  ]
+}
