@@ -73,10 +73,12 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     /// The function header converts the vector graphics drawing directive path to svg format
     pub fn path(self: &mut Self, segs: &[DrawDirective], col: &Color) -> () {
         write!(
-            self.output_file, "\
+            self.output_file,
+            "\
             <path
-                style=\"fill:none;stroke:#{};stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1\"
-                d=\"", col.to_svg()
+                stroke=\"#{}\" fill=\"none\"
+                d=\"",
+            col.to_svg()
         )
         .expect("Error at writing file");
         for seg in segs {
@@ -96,6 +98,9 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
                         p1.x, p1.y, p2.x, p2.y, target.x, target.y
                     )
                     .expect("Error at writing file");
+                }
+                DrawDirective::Close => {
+                    write!(self.output_file, "Z ").expect("Error at writing file");
                 }
             }
         }

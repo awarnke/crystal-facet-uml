@@ -773,7 +773,7 @@
         "id": 15,
         "main_type": 221,
         "type": "Message",
-        "name": "1. get_icons()",
+        "name": "1b. render()",
         "description": [
                 ""
         ],
@@ -792,7 +792,7 @@
         "id": 16,
         "main_type": 221,
         "type": "Message",
-        "name": "2. write icon to file",
+        "name": "1a. create renderer(nice icons)",
         "description": [
                 ""
         ],
@@ -811,7 +811,7 @@
         "id": 17,
         "main_type": 221,
         "type": "Message",
-        "name": "3. write svg-path to file",
+        "name": "2a. create renderer(svg-path)",
         "description": [
                 ""
         ],
@@ -823,6 +823,25 @@
         "from_node": "348addb8-501f-4761-b846-b5e17b9f1a96",
         "to_node": "aca5b62d-23e2-4011-808a-9c3389b41616",
         "uuid": "28285f64-1cc0-4a85-ad93-3c588b47aec2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 18,
+        "main_type": 221,
+        "type": "Message",
+        "name": "2b. render()",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "icon_writer",
+        "from_feature_key": "",
+        "to_classifier_name": "icon_data",
+        "to_feature_key": "",
+        "from_node": "348addb8-501f-4761-b846-b5e17b9f1a96",
+        "to_node": "19e782c2-4792-4011-b3db-ca4a88d70a23",
+        "uuid": "ad0d3d27-babf-4dcc-9ff7-2343cd120927"
       }
     }
   ]

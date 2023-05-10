@@ -27,6 +27,8 @@ pub enum DrawDirective {
     Line(Point),
     /// A curve moves the cursor and draws a curved line
     Curve(Point, Point, Point),
+    /// Close the path
+    Close,
 }
 
 /// Defines a rectangle

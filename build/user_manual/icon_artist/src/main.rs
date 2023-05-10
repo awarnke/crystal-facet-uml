@@ -1,6 +1,6 @@
 #![warn(missing_docs)]
 
-//! This crate renders an svg file for each icon in icon_data
+//! This crate renders two svg files for each icon in icon_data.
 
 pub mod model;
 pub mod render;
@@ -8,7 +8,7 @@ use render::icon_writer;
 
 static OUT_DIR: &'static str = "gen";
 
-/// Main control loop that runs the simulation and renders each step
+/// The main function defines parameters and starts the icon_writer.
 fn main() {
     icon_writer::generate_files(OUT_DIR);
     println!("Generated files have been written to '{}'.", OUT_DIR);
