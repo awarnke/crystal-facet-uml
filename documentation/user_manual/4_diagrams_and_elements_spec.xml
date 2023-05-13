@@ -1216,6 +1216,15 @@
     </section>
 
     <section>
+        <title>Example stereotype images</title>
+        <para>
+            For use as stereotype images, this section shows some generated svg-paths,
+            licensed under Apache-2.0 or Public Domain at your choice.
+        </para>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="4_stereotypes/stereotype_images.xml" />
+    </section>
+
+    <section>
         <title>Maximum stringlengths</title>
         <para>
 

@@ -6,7 +6,7 @@ pub mod model;
 pub mod render;
 use render::icon_writer;
 
-static OUT_DIR: &'static str = "gen";
+static OUT_DIR: &'static str = "../../../documentation/user_manual/4_stereotypes";
 
 /// The main function defines parameters and starts the icon_writer.
 fn main() {
