@@ -2,11 +2,11 @@ crystal-facet-uml (1.50.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * IDs of classifiers are not shown anymore, names are already unique
-  * Stereotype-Images: svg-path draws fill and stroke colors
+  * Stereotype-Images: svg-path use fill and stroke colors to draw
   * in stereotype images, the svg path data may be stated in single-quotes
   * if a stereotype image is drawn, the stereotype name is not drawn
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 22 May 2023 14:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 13 May 2023 11:00:00 +0200
 
 crystal-facet-uml (1.49.0) UNRELEASED; urgency=medium
 

@@ -2930,6 +2930,116 @@
           }
         ]
       }
+    },
+    {
+      "diagram": {
+        "id": 35,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "GSN Examples",
+        "description": [
+                ""
+        ],
+        "list_order": 65535,
+        "display_flags": 0,
+        "parent_name": "Stereotypes",
+        "parent": "2f4e6fc2-567e-48a3-bb80-1561e010226d",
+        "uuid": "67a468ed-37d3-42e7-b3cd-4c6d0526977c",
+        "diagramelements":
+        [
+          {
+            "id": 309,
+            "display_flags": 0,
+            "classifier_name": "goal",
+            "node": "6794af2f-161a-4aed-93ae-f8e4f3d9e781",
+            "uuid": "d82f12fb-6ca8-42f2-a58a-8c2fe4faa6ea"
+          },
+          {
+            "id": 310,
+            "display_flags": 0,
+            "classifier_name": "New 3rd-party",
+            "node": "b3c1daab-1a9e-48cf-862e-fb7ec811c384",
+            "uuid": "660cb864-a7a5-41ef-af19-93134829dd93"
+          },
+          {
+            "id": 311,
+            "display_flags": 0,
+            "classifier_name": "strategy",
+            "node": "8571994a-7260-436d-9dfc-daf3e5501345",
+            "uuid": "4866481c-84b9-404a-8f12-d0189c82c653"
+          },
+          {
+            "id": 312,
+            "display_flags": 0,
+            "classifier_name": "New database",
+            "node": "b7153891-eef0-4041-8d9d-048a5fd64017",
+            "uuid": "3acfcc9f-67e9-4b2e-9c36-eae3a5dac953"
+          },
+          {
+            "id": 313,
+            "display_flags": 0,
+            "classifier_name": "context",
+            "node": "80dee4c6-e967-49b6-81ab-b7f209939f2e",
+            "uuid": "e54da0a5-c44c-470e-8c5a-57e5f8f4b439"
+          },
+          {
+            "id": 314,
+            "display_flags": 0,
+            "classifier_name": "New testcase",
+            "node": "c1a4fdc6-845c-4680-94a2-e3594eedb2f6",
+            "uuid": "40d2b145-84d9-418c-a095-cd628a2c86d2"
+          },
+          {
+            "id": 315,
+            "display_flags": 0,
+            "classifier_name": "assumption",
+            "node": "0df2e714-bcc6-4a48-9ddc-948d80471849",
+            "uuid": "782e4514-3c97-4ac6-8dda-cc6818616c99"
+          },
+          {
+            "id": 316,
+            "display_flags": 0,
+            "classifier_name": "New transient",
+            "node": "88801c2b-6a12-4e98-9797-4309e202219c",
+            "uuid": "f556d706-37d0-49f3-a95d-bcf28a92c6dd"
+          },
+          {
+            "id": 317,
+            "display_flags": 0,
+            "classifier_name": "justification",
+            "node": "a2d14a25-721e-4fe5-83e8-b7526378fda4",
+            "uuid": "56b8773e-3b14-49c5-9d62-e40831d6717e"
+          },
+          {
+            "id": 318,
+            "display_flags": 0,
+            "classifier_name": "New 3rd-party-2",
+            "node": "429d83dd-3c43-4b20-889a-d12c1708351e",
+            "uuid": "81dc33e1-6f98-4559-95fd-fc8b1ffa2dfd"
+          },
+          {
+            "id": 319,
+            "display_flags": 0,
+            "classifier_name": "solution",
+            "node": "a042b3f2-b8b5-437f-b02b-1388fd734a00",
+            "uuid": "8e3dfd4e-0d08-40d0-935e-1c65d4eb4124"
+          },
+          {
+            "id": 320,
+            "display_flags": 0,
+            "classifier_name": "New database-2",
+            "node": "21e28bc5-6ac2-4a58-b924-b604db80ba18",
+            "uuid": "8ff3032e-ef98-4f13-b332-83e87d861760"
+          },
+          {
+            "id": 321,
+            "display_flags": 0,
+            "classifier_name": "The FMEA list exists",
+            "node": "55d7bb34-64c2-45f9-b380-bb748b32a09f",
+            "uuid": "452943b5-5b40-4b4f-8082-bbab92b1d383"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -8427,6 +8537,251 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 161,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "goal",
+        "description": [
+                "<path stroke=\"#000000\" fill=\"none\" d=\"M 1,7 L 30,7 L 30,25 L 1,25 Z \" />"
+        ],
+        "x_order": 835232637,
+        "y_order": -1714630698,
+        "list_order": -1068589190,
+        "uuid": "6794af2f-161a-4aed-93ae-f8e4f3d9e781",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 162,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "goal",
+        "name": "New 3rd-party",
+        "description": [
+                ""
+        ],
+        "x_order": 723920469,
+        "y_order": -1714630698,
+        "list_order": -1646727873,
+        "uuid": "b3c1daab-1a9e-48cf-862e-fb7ec811c384",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 163,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "strategy",
+        "description": [
+                "<path stroke=\"#000000\" fill=\"none\" d=\"M 7,7 L 31,7 L 25,25 L 1,25 Z \" />"
+        ],
+        "x_order": 699904712,
+        "y_order": -1689627598,
+        "list_order": -1314893083,
+        "uuid": "8571994a-7260-436d-9dfc-daf3e5501345",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 164,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "strategy",
+        "name": "New database",
+        "description": [
+                ""
+        ],
+        "x_order": 715216435,
+        "y_order": -1689627598,
+        "list_order": -1588374648,
+        "uuid": "b7153891-eef0-4041-8d9d-048a5fd64017",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 165,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "context",
+        "description": [
+                "<path stroke=\"#000000\" fill=\"none\" d=\"M 8,25 C 0,25 0,7 8,7 L 24,7 C 32,7 32,25 24,25 Z \" />"
+        ],
+        "x_order": 699904712,
+        "y_order": -1714630698,
+        "list_order": -1918634230,
+        "uuid": "80dee4c6-e967-49b6-81ab-b7f209939f2e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 166,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "context",
+        "name": "New testcase",
+        "description": [
+                ""
+        ],
+        "x_order": 715216435,
+        "y_order": -1714630698,
+        "list_order": -1714630698,
+        "uuid": "c1a4fdc6-845c-4680-94a2-e3594eedb2f6",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 167,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "assumption",
+        "description": [
+                "<path stroke=\"#000000\" fill=\"none\" d=\"M 1,10 C 1,5.6 7.75,2 16,2 C 24.25,2 31,5.6 31,10 C 31,14.4 24.25,18 16,18\n",
+                "C 7.75,18 1,14.4 1,10 \" /><path stroke=\"#000000\" fill=\"none\" d=\"M 25,25 L 27,19 L 29,25 M 25.4,23.5 L 28.6,23.5\n",
+                "\" />"
+        ],
+        "x_order": 835232637,
+        "y_order": -1689627598,
+        "list_order": -1694128365,
+        "uuid": "0df2e714-bcc6-4a48-9ddc-948d80471849",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 168,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "assumption",
+        "name": "New transient",
+        "description": [
+                ""
+        ],
+        "x_order": 723920469,
+        "y_order": -1689627598,
+        "list_order": -1649753104,
+        "uuid": "88801c2b-6a12-4e98-9797-4309e202219c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 169,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "justification",
+        "description": [
+                "<path stroke=\"#000000\" fill=\"#ffee88\" d=\"M 1,10 C 1,5.6 7.75,2 16,2 C 24.25,2 31,5.6 31,10 C 31,14.4 24.25,18 16,18\n",
+                "C 7.75,18 1,14.4 1,10 \" /><path stroke=\"#cc0000\" fill=\"none\" d=\"M 25,24 C 25,26 29,26 29,24 L 29,19 L 25,19 \" />"
+        ],
+        "x_order": 699904712,
+        "y_order": -1664152307,
+        "list_order": -1689627598,
+        "uuid": "a2d14a25-721e-4fe5-83e8-b7526378fda4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 170,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "justification",
+        "name": "New 3rd-party-2",
+        "description": [
+                ""
+        ],
+        "x_order": 715216435,
+        "y_order": -1664152307,
+        "list_order": -1664152307,
+        "uuid": "429d83dd-3c43-4b20-889a-d12c1708351e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 171,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "solution",
+        "description": [
+                "<path stroke=\"#000000\" fill=\"none\" d=\"M 1,16 C 1,7.75 7.75,1 16,1 C 24.25,1 31,7.75 31,16 C 31,24.25 24.25,31\n",
+                "16,31 C 7.75,31 1,24.25 1,16 \" />"
+        ],
+        "x_order": 835232637,
+        "y_order": -1664152307,
+        "list_order": -1658572815,
+        "uuid": "a042b3f2-b8b5-437f-b02b-1388fd734a00",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 172,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "solution",
+        "name": "New database-2",
+        "description": [
+                ""
+        ],
+        "x_order": 723920469,
+        "y_order": -1664152307,
+        "list_order": -1649753104,
+        "uuid": "21e28bc5-6ac2-4a58-b924-b604db80ba18",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 173,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "justification",
+        "name": "The FMEA list exists",
+        "description": [
+                ""
+        ],
+        "x_order": 699904712,
+        "y_order": 544970870,
+        "list_order": 544970870,
+        "uuid": "55d7bb34-64c2-45f9-b380-bb748b32a09f",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -10349,6 +10704,108 @@
         "from_node": "fdc62abb-ce90-4c7a-88da-b8d00e4f03a5",
         "to_node": "476a05d7-8076-44e7-890a-fed46a42ec46",
         "uuid": "1bc0d680-04be-4435-8231-af972d36e80d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 112,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "goal",
+        "to_classifier_name": "New 3rd-party",
+        "from_node": "6794af2f-161a-4aed-93ae-f8e4f3d9e781",
+        "to_node": "b3c1daab-1a9e-48cf-862e-fb7ec811c384",
+        "uuid": "30a5537a-a1c5-4600-99ed-49767dc16314"
+      }
+    },
+    {
+      "relationship": {
+        "id": 113,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "strategy",
+        "to_classifier_name": "New database",
+        "from_node": "8571994a-7260-436d-9dfc-daf3e5501345",
+        "to_node": "b7153891-eef0-4041-8d9d-048a5fd64017",
+        "uuid": "13976504-48c5-487e-bf55-3b137a6e94c7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 114,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "context",
+        "to_classifier_name": "New testcase",
+        "from_node": "80dee4c6-e967-49b6-81ab-b7f209939f2e",
+        "to_node": "c1a4fdc6-845c-4680-94a2-e3594eedb2f6",
+        "uuid": "fe70b3f0-4ffa-4cc8-a60b-6f3f84dae1a1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 115,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "assumption",
+        "to_classifier_name": "New transient",
+        "from_node": "0df2e714-bcc6-4a48-9ddc-948d80471849",
+        "to_node": "88801c2b-6a12-4e98-9797-4309e202219c",
+        "uuid": "66a374fd-8307-453f-b93a-0db9fd6d5104"
+      }
+    },
+    {
+      "relationship": {
+        "id": 116,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "justification",
+        "to_classifier_name": "New 3rd-party-2",
+        "from_node": "a2d14a25-721e-4fe5-83e8-b7526378fda4",
+        "to_node": "429d83dd-3c43-4b20-889a-d12c1708351e",
+        "uuid": "3d8980e3-501b-4724-a616-83f4402ad7de"
+      }
+    },
+    {
+      "relationship": {
+        "id": 117,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "solution",
+        "to_classifier_name": "New database-2",
+        "from_node": "a042b3f2-b8b5-437f-b02b-1388fd734a00",
+        "to_node": "21e28bc5-6ac2-4a58-b924-b604db80ba18",
+        "uuid": "07dfeaf8-41a2-46b3-8625-9282ce7f3400"
       }
     }
   ]
