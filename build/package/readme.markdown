@@ -24,6 +24,7 @@ Pack
 >       # build and test source packet
 >       ./source_pack.sh
 >       ./source_test.sh
+>       cd ../qualification_test && ./run_q_test.sh
 
 
 Tag and Push

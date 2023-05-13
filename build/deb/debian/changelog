@@ -43,7 +43,7 @@ crystal-facet-uml (1.47.0-1) UNRELEASED; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 19 Feb 2023 08:00:00 +0100
 
- crystal-facet-uml (1.46.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.46.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * png images are 4 times more detailed to reduce scaling effects
