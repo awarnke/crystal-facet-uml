@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.48.0"
+    "generator_version": "1.50.0"
   }
   ,
   "views":
@@ -1900,8 +1900,8 @@
     {
       "diagram": {
         "id": 17,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
         "name": "Tactics for Partitioning",
         "description": [
                 ""
@@ -2172,6 +2172,13 @@
             "classifier_name": "Partitioning",
             "node": "152cb739-2190-47bc-9579-a24389e1fb5e",
             "uuid": "b802443a-abda-4de4-b144-96186c0da29b"
+          },
+          {
+            "id": 349,
+            "display_flags": 0,
+            "classifier_name": "freedom from interference (FFI)",
+            "node": "1a1600ad-4966-4d8d-9fc5-e674648231c0",
+            "uuid": "7bcfbddf-a74b-4c44-bb97-ca3e915b7573"
           }
         ]
       }
@@ -2413,7 +2420,7 @@
           {
             "id": 164,
             "display_flags": 0,
-            "classifier_name": "Goal Structured Notation (Safety Case)",
+            "classifier_name": "Safety Case (Goal Structured Notation)",
             "node": "f5ee6c07-8ac1-46b7-aad9-c93c54b0ee9d",
             "uuid": "f59d42ec-ad0c-47c2-9a3e-89492eb53965"
           },
@@ -4673,7 +4680,7 @@
         "description": [
                 ""
         ],
-        "x_order": 1611995830,
+        "x_order": 1398827213,
         "y_order": -2146283822,
         "list_order": 0,
         "uuid": "621cb7bd-15aa-43cc-81fb-65da0f5d70c5",
@@ -4687,7 +4694,7 @@
             "description": [
                 ""
             ],
-            "list_order": 789968,
+            "list_order": 758224,
             "uuid": "702eb43a-35af-4acb-a84f-9771cd1d8fee"
           },
           {
@@ -5685,7 +5692,7 @@
         "id": 131,
         "main_type": 126,
         "type": "Class",
-        "name": "Goal Structured Notation (Safety Case)",
+        "name": "Safety Case (Goal Structured Notation)",
         "description": [
                 "Goal Structured Notation"
         ],
@@ -5701,8 +5708,8 @@
     {
       "classifier": {
         "id": 132,
-        "main_type": 121,
-        "type": "Component",
+        "main_type": 125,
+        "type": "Class",
         "name": "Trust Levels",
         "description": [
                 "Create a Multi-Layer security,\n",
@@ -7716,7 +7723,7 @@
                 "L 2 4.5\n",
                 "L 3 3\n",
                 "l -1 -1 0 -1 1 0.5 1 1\n",
-                "c 2 -0.5 3 -0.5 5 0.5\n",
+                "c 2 -0.5 3 -1 5 0.5\n",
                 "l -1 -1 0 -1 2 1 0 2\n",
                 "l 1 0 0.5 -0.5 1.5 1.5\n",
                 "\n",
@@ -7724,7 +7731,7 @@
                 "L 2 5.5\n",
                 "L 3 7\n",
                 "l -1 1 0 1 1 -0.5 1 -1\n",
-                "c 2 0.5 3 0.5 5 -0.5\n",
+                "c 2 1 3 0.5 5 -0.5\n",
                 "l -1 1 0 1 2 -1 0 -2\n",
                 "l 1 0 0.5 0.5 1.5 -1.5\n",
                 "\n",
@@ -7755,6 +7762,46 @@
         "uuid": "e67e082d-087e-4e92-9385-6446415c531e",
         "features":
         [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 233,
+        "main_type": 125,
+        "type": "Class",
+        "name": "freedom from interference (FFI)",
+        "description": [
+                ""
+        ],
+        "x_order": 2071561721,
+        "y_order": -2146283822,
+        "list_order": -2146283822,
+        "uuid": "1a1600ad-4966-4d8d-9fc5-e674648231c0",
+        "features":
+        [
+          {
+            "id": 85,
+            "main_type": 0,
+            "type": "Property",
+            "key": "temporal freedom from interference",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "2315aba2-be95-489f-a2f0-29f5f1daf3a5"
+          },
+          {
+            "id": 86,
+            "main_type": 0,
+            "type": "Property",
+            "key": "spacial freedom from interference",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "271a18da-7fbc-42f5-af54-5f853d625607"
+          }
         ]
       }
     }
@@ -9849,7 +9896,7 @@
         ],
         "list_order": 0,
         "from_classifier_name": "FMEA (Technical Risk Management)",
-        "to_classifier_name": "Goal Structured Notation (Safety Case)",
+        "to_classifier_name": "Safety Case (Goal Structured Notation)",
         "from_node": "37a49d1d-1c9b-4c25-a988-da9c5beb14d8",
         "to_node": "f5ee6c07-8ac1-46b7-aad9-c93c54b0ee9d",
         "uuid": "ebd09ab3-b512-478b-88fc-2adfe783b805"
@@ -10300,7 +10347,7 @@
     {
       "relationship": {
         "id": 202,
-        "main_type": 200,
+        "main_type": 201,
         "type": "Association",
         "name": "base measurement (1:n)",
         "description": [
@@ -11553,6 +11600,23 @@
         "from_node": "1745abf3-31ae-4e4b-a1ba-4f203ea1238a",
         "to_node": "e67e082d-087e-4e92-9385-6446415c531e",
         "uuid": "0469adf8-b991-4680-8515-5e2e83cf6059"
+      }
+    },
+    {
+      "relationship": {
+        "id": 284,
+        "main_type": 200,
+        "type": "Association",
+        "name": "supports",
+        "description": [
+                ""
+        ],
+        "list_order": 834000,
+        "from_classifier_name": "freedom from interference (FFI)",
+        "to_classifier_name": "Partitioning",
+        "from_node": "1a1600ad-4966-4d8d-9fc5-e674648231c0",
+        "to_node": "152cb739-2190-47bc-9579-a24389e1fb5e",
+        "uuid": "b7966781-df27-4553-a378-742f03df6d66"
       }
     }
   ]

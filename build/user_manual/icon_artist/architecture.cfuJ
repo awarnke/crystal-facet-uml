@@ -42,14 +42,14 @@
           {
             "id": 3,
             "display_flags": 0,
-            "classifier_name": "generate set of svg-paths",
+            "classifier_name": "generate set of svg-images with svg-paths",
             "node": "fde446de-0fbe-4596-a13a-220455e92670",
             "uuid": "214c37d8-1bb7-4b89-895d-181ae67ee6a1"
           },
           {
             "id": 4,
             "display_flags": 0,
-            "classifier_name": "write formats: nice icon and svg-path",
+            "classifier_name": "generate docbook showing the svg-paths as text",
             "node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
             "uuid": "e5d2b36f-51be-4c96-889b-c39951ada969"
           }
@@ -89,14 +89,14 @@
           {
             "id": 7,
             "display_flags": 0,
-            "classifier_name": "icons for documentation",
+            "classifier_name": "svg-icons for documentation",
             "node": "e90d54ec-7894-47fc-8fcb-893ff449e344",
             "uuid": "80e4d944-c1f6-4bc3-91d4-cc4b94de781e"
           },
           {
             "id": 8,
             "display_flags": 0,
-            "classifier_name": "svg-paths for usage",
+            "classifier_name": "docbook showing text of svg-path elements",
             "node": "f608ca6e-2c76-486b-bc97-724756bef806",
             "uuid": "3f6ec17f-5ff3-4c50-bb4a-9f6796cde64e"
           }
@@ -289,7 +289,7 @@
         "id": 3,
         "main_type": 101,
         "type": "UseCase",
-        "name": "generate set of svg-paths",
+        "name": "generate set of svg-images with svg-paths",
         "description": [
                 ""
         ],
@@ -307,7 +307,7 @@
         "id": 4,
         "main_type": 101,
         "type": "UseCase",
-        "name": "write formats: nice icon and svg-path",
+        "name": "generate docbook showing the svg-paths as text",
         "description": [
                 ""
         ],
@@ -323,9 +323,9 @@
     {
       "classifier": {
         "id": 5,
-        "main_type": 125,
-        "type": "Class",
-        "name": "icons for documentation",
+        "main_type": 127,
+        "type": "Artifact",
+        "name": "svg-icons for documentation",
         "description": [
                 ""
         ],
@@ -352,9 +352,9 @@
     {
       "classifier": {
         "id": 6,
-        "main_type": 125,
-        "type": "Class",
-        "name": "svg-paths for usage",
+        "main_type": 127,
+        "type": "Artifact",
+        "name": "docbook showing text of svg-path elements",
         "description": [
                 ""
         ],
@@ -450,7 +450,7 @@
         "type": "Class",
         "name": "icon_data",
         "description": [
-                "Set of icons, each consisting of a list of drawing directives"
+                "A set of icons, each can draw itself into a VecRenderer"
         ],
         "x_order": 129583284,
         "y_order": -8454772,
@@ -479,7 +479,7 @@
         "type": "Class",
         "name": "render_svg",
         "description": [
-                ""
+                "A VecRenderer transforms drawing commands into svg output."
         ],
         "x_order": -1171633862,
         "y_order": 124360990,
@@ -508,7 +508,7 @@
         "type": "Package",
         "name": "geometry",
         "description": [
-                "Collection of geometric objects and drawing directives"
+                "A collection of geometric objects and drawing directives"
         ],
         "x_order": 129583284,
         "y_order": 124360990,
@@ -534,7 +534,7 @@
         ],
         "list_order": -368194158,
         "from_classifier_name": "icon-artist",
-        "to_classifier_name": "generate set of svg-paths",
+        "to_classifier_name": "generate set of svg-images with svg-paths",
         "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
         "to_node": "fde446de-0fbe-4596-a13a-220455e92670",
         "uuid": "e1673a74-f7b6-43d3-ba7f-afcf06c72d65"
@@ -551,7 +551,7 @@
         ],
         "list_order": -376384566,
         "from_classifier_name": "icon-artist",
-        "to_classifier_name": "write formats: nice icon and svg-path",
+        "to_classifier_name": "generate docbook showing the svg-paths as text",
         "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
         "to_node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
         "uuid": "36204ace-9364-4151-a20b-51f84841aa08"
@@ -569,7 +569,7 @@
         "list_order": 65536,
         "from_classifier_name": "icon-artist",
         "from_feature_key": "",
-        "to_classifier_name": "icons for documentation",
+        "to_classifier_name": "svg-icons for documentation",
         "to_feature_key": "",
         "from_node": "5852a6ad-fa1a-473f-a76e-e091ce60aa58",
         "to_node": "e90d54ec-7894-47fc-8fcb-893ff449e344",
@@ -588,7 +588,7 @@
         "list_order": 98304,
         "from_classifier_name": "icon-artist",
         "from_feature_key": "",
-        "to_classifier_name": "svg-paths for usage",
+        "to_classifier_name": "docbook showing text of svg-path elements",
         "to_feature_key": "",
         "from_node": "5852a6ad-fa1a-473f-a76e-e091ce60aa58",
         "to_node": "f608ca6e-2c76-486b-bc97-724756bef806",
@@ -658,7 +658,7 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "documentation editor",
-        "to_classifier_name": "generate set of svg-paths",
+        "to_classifier_name": "generate set of svg-images with svg-paths",
         "from_node": "1436c2c7-73fd-402e-b44c-a36f3bcc32fa",
         "to_node": "fde446de-0fbe-4596-a13a-220455e92670",
         "uuid": "9324417c-0256-42b3-878b-f5b20412e582"
@@ -685,19 +685,19 @@
     },
     {
       "relationship": {
-        "id": 4,
-        "main_type": 261,
-        "type": "Include",
+        "id": 19,
+        "main_type": 200,
+        "type": "Association",
         "name": "",
         "description": [
                 ""
         ],
         "list_order": 65536,
-        "from_classifier_name": "generate set of svg-paths",
-        "to_classifier_name": "write formats: nice icon and svg-path",
-        "from_node": "fde446de-0fbe-4596-a13a-220455e92670",
+        "from_classifier_name": "documentation editor",
+        "to_classifier_name": "generate docbook showing the svg-paths as text",
+        "from_node": "1436c2c7-73fd-402e-b44c-a36f3bcc32fa",
         "to_node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
-        "uuid": "a3de181d-03f5-4e2d-9502-e3e9b8d2d008"
+        "uuid": "307a03aa-abde-484c-80e3-0d10564b916a"
       }
     },
     {
@@ -773,7 +773,7 @@
         "id": 15,
         "main_type": 221,
         "type": "Message",
-        "name": "1b. render()",
+        "name": "1b. icon.generate()",
         "description": [
                 ""
         ],
@@ -792,7 +792,7 @@
         "id": 16,
         "main_type": 221,
         "type": "Message",
-        "name": "1a. create renderer(nice icons)",
+        "name": "1a. create renderer for nice icons",
         "description": [
                 ""
         ],
@@ -811,7 +811,7 @@
         "id": 17,
         "main_type": 221,
         "type": "Message",
-        "name": "2a. create renderer(svg-path)",
+        "name": "2a. create renderer for docbook with svg-path",
         "description": [
                 ""
         ],
@@ -830,7 +830,7 @@
         "id": 18,
         "main_type": 221,
         "type": "Message",
-        "name": "2b. render()",
+        "name": "2b. icon.generate()",
         "description": [
                 ""
         ],

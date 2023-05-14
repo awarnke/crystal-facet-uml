@@ -6,7 +6,7 @@
          xmlns:mofext="http://www.omg.org/spec/MOF/20131001"
          xmlns:LocalProfile="http://localhost/crystal-facet-uml/298b72db-cc85-4ed0-bd7b-01dc4efd52b4">
          <!-- XMI 2.4.1, UML 2.4.1, SysML 1.4, MOF 2.5.1 -->
-    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.47.0"/>
+    <xmi:Documentation exporter="crystal-facet-uml" exporterVersion="1.50.0"/>
     <uml:Model xmi:type="uml:Model" xmi:id="00000" name="export_test_18_usecase" >
         <packagedElement xmi:type="uml:Component" xmi:id="60001" name="Customer Support" ><!--C0001-->
             <ownedUseCase xmi:type="uml:UseCase" xmi:id="60003" name="Complain" ><!--C0003-->
