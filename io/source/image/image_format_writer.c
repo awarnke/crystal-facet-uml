@@ -146,7 +146,7 @@ u8_error_t image_format_writer_private_render_surface_to_file( image_format_writ
         /* layout diagram */
         data_stat_t temp_stat;
         data_stat_init( &temp_stat );
-        pencil_diagram_maker_define_grid ( &((*this_).painter), (*this_).bounds );
+        pencil_diagram_maker_define_grid ( &((*this_).painter), (*this_).bounds, cr );
         pencil_diagram_maker_layout_elements ( &((*this_).painter), &temp_stat, cr );
 #ifdef NDEBUG
         /* in release mode, do not report layouting warnings to the user */

@@ -109,8 +109,12 @@ static inline void pencil_layouter_prepare ( pencil_layouter_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  */
-void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds );
+void pencil_layouter_define_grid ( pencil_layouter_t *this_,
+                                   geometry_rectangle_t diagram_bounds,
+                                   PangoLayout *font_layout
+                                 );
 
 /*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area

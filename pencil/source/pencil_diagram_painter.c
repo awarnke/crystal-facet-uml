@@ -165,15 +165,17 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 
 void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
                                                 const data_diagram_t *the_diagram,
-                                                const pencil_size_t *pencil_size,
                                                 const geometry_rectangle_t *diagram_bounds,
+                                                const pencil_size_t *pencil_size,
+                                                PangoLayout *font_layout,
                                                 geometry_rectangle_t *out_diagram_space )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != pencil_size );
     assert( NULL != the_diagram );
-    assert( NULL != out_diagram_space );
     assert( NULL != diagram_bounds );
+    assert( NULL != pencil_size );
+    assert( NULL != font_layout );
+    assert( NULL != out_diagram_space );
 
     /* determine diagram bounds */
     const double left = geometry_rectangle_get_left ( diagram_bounds );

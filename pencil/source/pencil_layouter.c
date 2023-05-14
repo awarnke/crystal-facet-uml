@@ -107,7 +107,9 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     U8_TRACE_END();
 }
 
-void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds )
+void pencil_layouter_define_grid ( pencil_layouter_t *this_,
+                                   geometry_rectangle_t diagram_bounds,
+                                   PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
 
@@ -130,8 +132,9 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     geometry_rectangle_init_empty( &diagram_draw_area );
     pencil_diagram_painter_get_drawing_space ( &((*this_).diagram_painter),
                                                diagram_data,
-                                               &((*this_).pencil_size),
                                                &diagram_bounds,
+                                               &((*this_).pencil_size),
+                                               font_layout,
                                                &diagram_draw_area
                                              );
     layout_diagram_set_draw_area( the_diagram, &diagram_draw_area );

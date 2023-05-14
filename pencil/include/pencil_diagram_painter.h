@@ -76,14 +76,16 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param the_diagram pointer to the data to be drawn
- *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param diagram_bounds the destination rectangle where to draw the diagram
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout structure to layout fonts
  *  \param out_diagram_space memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
                                                 const data_diagram_t *the_diagram,
-                                                const pencil_size_t *pencil_size,
                                                 const geometry_rectangle_t *diagram_bounds,
+                                                const pencil_size_t *pencil_size,
+                                                PangoLayout *font_layout,
                                                 geometry_rectangle_t *out_diagram_space
                                               );
 

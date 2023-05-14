@@ -95,7 +95,7 @@ static test_case_result_t layout_good_cases( test_fixture_t *test_env )
 
         /* perform test */
         pencil_layouter_prepare ( &(*fix).layouter );
-        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds );
+        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &(*fix).layouter, (*fix).font_layout );
         pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &(*fix).layouter ), &layout_stats );
 
@@ -161,7 +161,7 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *test_env )
 
         /* perform test */
         pencil_layouter_prepare ( &(*fix).layouter );
-        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds );
+        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &(*fix).layouter, (*fix).font_layout );
         pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &(*fix).layouter ), &layout_stats );
 
@@ -207,7 +207,7 @@ static test_case_result_t layout_edge_cases( test_fixture_t *test_env )
 
         /* perform test */
         pencil_layouter_prepare ( &(*fix).layouter );
-        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds );
+        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &(*fix).layouter, (*fix).font_layout );
 
         /* check result */

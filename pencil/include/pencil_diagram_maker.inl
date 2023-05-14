@@ -57,12 +57,18 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 }
 
 static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
-                                                      geometry_rectangle_t diagram_bounds )
+                                                      geometry_rectangle_t diagram_bounds,
+                                                      cairo_t *cr )
 {
     U8_TRACE_BEGIN();
 
+    PangoLayout *font_layout;
+    font_layout = pango_cairo_create_layout (cr);
+
     pencil_layouter_prepare ( &((*this_).layouter) );
-    pencil_layouter_define_grid ( &((*this_).layouter), diagram_bounds );
+    pencil_layouter_define_grid ( &((*this_).layouter), diagram_bounds, font_layout );
+
+    g_object_unref (font_layout);
 
     U8_TRACE_END();
 }

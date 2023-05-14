@@ -37,57 +37,65 @@ test_suite_t pencil_diagram_maker_test_get_suite(void)
     return result;
 }
 
-static data_visible_set_t data_set;
-static data_profile_part_t profile;
-static pencil_diagram_maker_t painter;
-static cairo_surface_t *surface;
-static cairo_t *cr;
-static geometry_rectangle_t diagram_bounds;
+struct fixture_struct {
+    data_visible_set_t data_set;
+    data_profile_part_t profile;
+    pencil_diagram_maker_t painter;
+    cairo_surface_t *surface;
+    cairo_t *cr;
+    geometry_rectangle_t diagram_bounds;
+};
+typedef struct fixture_struct fixture_t;
+static fixture_t test_environment;
 
 static test_fixture_t * set_up()
 {
-    data_profile_part_init( &profile );
-    data_visible_set_init( &data_set );
-    pencil_diagram_maker_init( &painter, &data_set, &profile );
-    geometry_rectangle_init( &diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
-    surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
-                                          (uint32_t) geometry_rectangle_get_width( &diagram_bounds ),
-                                          (uint32_t) geometry_rectangle_get_height( &diagram_bounds )
-                                        );
-    TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( surface ) );
-    cr = cairo_create (surface);
-    TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( cr ) );
-    return NULL;
+    fixture_t *fix = &test_environment;
+    data_profile_part_init( &(*fix).profile );
+    data_visible_set_init( &(*fix).data_set );
+    pencil_diagram_maker_init( &(*fix).painter, &(*fix).data_set, &(*fix).profile );
+    geometry_rectangle_init( &(*fix).diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
+    const uint32_t width = (uint32_t) geometry_rectangle_get_width( &(*fix).diagram_bounds );
+    const uint32_t height = (uint32_t) geometry_rectangle_get_height( &(*fix).diagram_bounds );
+    (*fix).surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32, width, height );
+    TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( (*fix).surface ) );
+    (*fix).cr = cairo_create( (*fix).surface );
+    TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( (*fix).cr ) );
+    return fix;
 }
 
 static void tear_down( test_fixture_t *test_env )
 {
-    cairo_destroy (cr);
-    cairo_surface_finish ( surface );
-    cairo_surface_destroy ( surface );
-    geometry_rectangle_destroy( &diagram_bounds );
-    pencil_diagram_maker_destroy( &painter );
-    data_visible_set_destroy( &data_set );
-    data_profile_part_destroy( &profile );
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
+    cairo_destroy ( (*fix).cr );
+    cairo_surface_finish ( (*fix).surface );
+    cairo_surface_destroy ( (*fix).surface );
+    geometry_rectangle_destroy( &((*fix).diagram_bounds) );
+    pencil_diagram_maker_destroy( &(*fix).painter );
+    data_visible_set_destroy( &(*fix).data_set );
+    data_profile_part_destroy( &(*fix).profile );
 }
 
-static void draw_background()
+static void draw_background( const geometry_rectangle_t *diagram_bounds, cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     /* draw paper */
     cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
     cairo_rectangle ( cr,
-                      geometry_rectangle_get_left( &diagram_bounds ),
-                      geometry_rectangle_get_top( &diagram_bounds ),
-                      geometry_rectangle_get_width( &diagram_bounds ),
-                      geometry_rectangle_get_height( &diagram_bounds )
+                      geometry_rectangle_get_left( diagram_bounds ),
+                      geometry_rectangle_get_top( diagram_bounds ),
+                      geometry_rectangle_get_width( diagram_bounds ),
+                      geometry_rectangle_get_height( diagram_bounds )
                     );
     cairo_fill (cr);
     U8_TRACE_END();
 }
 
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t *render_stats )
+static void render_to_file( cairo_surface_t *surface,
+                            const test_data_setup_t *ts_case_setup,
+                            data_stat_t *render_stats )
 {
     U8_TRACE_BEGIN();
     /* create filename */
@@ -138,13 +146,15 @@ static void render_to_file( const test_data_setup_t *ts_case_setup, data_stat_t 
 
 static test_case_result_t render_good_cases( test_fixture_t *test_env )
 {
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
-        test_data_setup_get_variant_data( &ts_setup, &data_set );
-        draw_background();
+        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
+        draw_background( &((*fix).diagram_bounds), (*fix).cr );
 
         /* perform test: draw diagram */
         data_id_t void_id;
@@ -153,20 +163,20 @@ static test_case_result_t render_good_cases( test_fixture_t *test_env )
         data_small_set_init( &void_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, NULL, cr );
-        pencil_diagram_maker_show_overlaps( &painter, &layout_stats, cr );
-        pencil_diagram_maker_draw ( &painter,
+        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
+        pencil_diagram_maker_layout_elements( &(*fix).painter, NULL, (*fix).cr );
+        pencil_diagram_maker_show_overlaps( &(*fix).painter, &layout_stats, (*fix).cr );
+        pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
                                     &void_set,
-                                    cr
+                                    (*fix).cr
                                   );
 
         /* check result */
         /* TODO, manual check for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-        render_to_file( &ts_setup, &layout_stats );
+        render_to_file( (*fix).surface, &ts_setup, &layout_stats );
 #endif
         data_stat_destroy( &layout_stats );
     }
@@ -177,13 +187,15 @@ static test_case_result_t render_good_cases( test_fixture_t *test_env )
 #ifndef NDEBUG
 static test_case_result_t render_challenging_cases( test_fixture_t *test_env )
 {
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
-        test_data_setup_get_variant_data( &ts_setup, &data_set );
-        draw_background();
+        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
+        draw_background( &((*fix).diagram_bounds), (*fix).cr );
 
         /* perform test: draw diagram */
         data_id_t void_id;
@@ -192,20 +204,20 @@ static test_case_result_t render_challenging_cases( test_fixture_t *test_env )
         data_small_set_init( &void_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, NULL, cr );
-        pencil_diagram_maker_show_overlaps( &painter, &layout_stats, cr );
-        pencil_diagram_maker_draw ( &painter,
+        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
+        pencil_diagram_maker_layout_elements( &(*fix).painter, NULL, (*fix).cr );
+        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
+        pencil_diagram_maker_draw ( &(*fix).painter,
                                     void_id,
                                     void_id,
                                     &void_set,
-                                    cr
+                                    (*fix).cr
                                   );
 
         /* check result */
         /* TODO, manual check for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-        render_to_file( &ts_setup, &layout_stats );
+        render_to_file( (*fix).surface, &ts_setup, &layout_stats );
 #endif
         data_stat_destroy( &layout_stats );
     }
@@ -215,13 +227,15 @@ static test_case_result_t render_challenging_cases( test_fixture_t *test_env )
 
 static test_case_result_t render_edge_cases( test_fixture_t *test_env )
 {
+    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    fixture_t *fix = test_env;
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
-        test_data_setup_get_variant_data( &ts_setup, &data_set );
-        draw_background();
+        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
+        draw_background( &((*fix).diagram_bounds), (*fix).cr );
 
         /* perform test: draw diagram */
         data_id_t void_id;
@@ -230,20 +244,20 @@ static test_case_result_t render_edge_cases( test_fixture_t *test_env )
         data_small_set_init( &void_set );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
-        pencil_diagram_maker_define_grid( &painter, diagram_bounds );
-        pencil_diagram_maker_layout_elements( &painter, NULL, cr );
-        pencil_diagram_maker_show_overlaps( &painter, &layout_stats, cr );
-        pencil_diagram_maker_draw ( &painter,
+        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
+        pencil_diagram_maker_layout_elements( &(*fix).painter, NULL, (*fix).cr );
+        pencil_diagram_maker_show_overlaps( &(*fix).painter, &layout_stats, (*fix).cr );
+        pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
                                     &void_set,
-                                    cr
+                                    (*fix).cr
                                   );
 
         /* check result */
         /* TODO, manual check for now */
 #ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-        render_to_file( &ts_setup, &layout_stats );
+        render_to_file( (*fix).surface, &ts_setup, &layout_stats );
 #endif
         data_stat_destroy( &layout_stats );
     }

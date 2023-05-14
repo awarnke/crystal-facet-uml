@@ -88,9 +88,11 @@ static inline void pencil_diagram_maker_destroy ( pencil_diagram_maker_t *this_ 
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
+ *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
  */
 static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
-                                                      geometry_rectangle_t diagram_bounds
+                                                      geometry_rectangle_t diagram_bounds,
+                                                      cairo_t *cr
                                                     );
 
 /*!
