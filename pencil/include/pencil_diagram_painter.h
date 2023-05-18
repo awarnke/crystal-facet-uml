@@ -74,22 +74,22 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                  );
 
 /*!
- *  \brief determines the inner drawing space for contained classifiers
+ *  \brief determines the label box and inner drawing space for contained classifiers
  *
  *  \param this_ pointer to own object attributes
  *  \param the_diagram pointer to the data to be drawn
  *  \param diagram_bounds the destination rectangle where to draw the diagram
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout structure to layout fonts
- *  \param out_diagram_space memory location where the result shall be stored. Must not be NULL.
+ *  \param io_layout_diagram bounds, draw_area and label_box are updated. The pointer must not be NULL.
  */
-void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
-                                                const data_diagram_t *the_diagram,
-                                                const geometry_rectangle_t *diagram_bounds,
-                                                const pencil_size_t *pencil_size,
-                                                PangoLayout *font_layout,
-                                                geometry_rectangle_t *out_diagram_space
-                                              );
+void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
+                                        const data_diagram_t *the_diagram,
+                                        const geometry_rectangle_t *diagram_bounds,
+                                        const pencil_size_t *pencil_size,
+                                        PangoLayout *font_layout,
+                                        layout_diagram_t *io_layout_diagram
+                                      );
 
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */
 

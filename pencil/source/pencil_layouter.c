@@ -112,6 +112,7 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
                                    PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
+    geometry_rectangle_trace( &diagram_bounds );
 
     /* get the diagram data */
     layout_diagram_t *the_diagram;
@@ -119,33 +120,27 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
     const data_diagram_t *const diagram_data
         = layout_diagram_get_data_const ( the_diagram );
 
-    /* update the bounding rectangle */
-    geometry_rectangle_trace ( &diagram_bounds );
-    layout_diagram_set_bounds( the_diagram, &diagram_bounds );
-
     /* calculate the pencil-sizes and the drawing rectangle */
-    const double width = geometry_rectangle_get_width ( &diagram_bounds );
-    const double height = geometry_rectangle_get_height ( &diagram_bounds );
+    const double width = geometry_rectangle_get_width( &diagram_bounds );
+    const double height = geometry_rectangle_get_height( &diagram_bounds );
     pencil_size_reinit( &((*this_).pencil_size), width, height );
 
-    geometry_rectangle_t diagram_draw_area;
-    geometry_rectangle_init_empty( &diagram_draw_area );
-    pencil_diagram_painter_get_drawing_space ( &((*this_).diagram_painter),
-                                               diagram_data,
-                                               &diagram_bounds,
-                                               &((*this_).pencil_size),
-                                               font_layout,
-                                               &diagram_draw_area
-                                             );
-    layout_diagram_set_draw_area( the_diagram, &diagram_draw_area );
-    geometry_rectangle_destroy( &diagram_draw_area );
+    pencil_diagram_painter_do_layout( &((*this_).diagram_painter),
+                                      diagram_data,
+                                      &diagram_bounds,
+                                      &((*this_).pencil_size),
+                                      font_layout,
+                                      the_diagram
+                                    );
+    const geometry_rectangle_t *const diagram_draw_area
+        = layout_diagram_get_draw_area_const( the_diagram );
 
     /* calculate the axis scales */
-    geometry_rectangle_trace ( &diagram_draw_area );
-    const double draw_left = geometry_rectangle_get_left ( &diagram_draw_area );
-    const double draw_top = geometry_rectangle_get_top ( &diagram_draw_area );
-    const double draw_right = geometry_rectangle_get_right ( &diagram_draw_area );
-    const double draw_bottom = geometry_rectangle_get_bottom ( &diagram_draw_area );
+    geometry_rectangle_trace( diagram_draw_area );
+    const double draw_left = geometry_rectangle_get_left( diagram_draw_area );
+    const double draw_top = geometry_rectangle_get_top( diagram_draw_area );
+    const double draw_right = geometry_rectangle_get_right( diagram_draw_area );
+    const double draw_bottom = geometry_rectangle_get_bottom( diagram_draw_area );
     geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left, draw_right );
     geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top, draw_bottom );
 

@@ -1,7 +1,7 @@
 crystal-facet-uml (1.50.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * Diagram titles do not touch the diagram elements anymore
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 May 2023 11:00:00 +0200
 

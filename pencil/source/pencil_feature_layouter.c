@@ -479,12 +479,12 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
 
     /* determine the minimum bounds of the feature */
     geometry_dimensions_t f_min_bounds;
-    pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
-                                                the_feature,
-                                                (*this_).pencil_size,
-                                                font_layout,
-                                                &f_min_bounds
-                                                );
+    pencil_feature_painter_get_minimum_bounds( &((*this_).feature_painter),
+                                               the_feature,
+                                               (*this_).pencil_size,
+                                               font_layout,
+                                               &f_min_bounds
+                                             );
 
     /* layout feature into parent classifier */
     const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );

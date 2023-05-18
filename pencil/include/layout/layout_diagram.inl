@@ -8,6 +8,7 @@ static inline void layout_diagram_init ( layout_diagram_t *this_, const data_dia
 
     geometry_rectangle_init_empty( &((*this_).bounds) );
     geometry_rectangle_init_empty( &((*this_).draw_area) );
+    geometry_rectangle_init_empty( &((*this_).label_box) );
     (*this_).data = diagram_data;
 }
 
@@ -15,6 +16,7 @@ static inline void layout_diagram_destroy ( layout_diagram_t *this_ )
 {
     geometry_rectangle_destroy( &((*this_).bounds) );
     geometry_rectangle_destroy( &((*this_).draw_area) );
+    geometry_rectangle_destroy( &((*this_).label_box) );
     (*this_).data = NULL;
 }
 
@@ -52,6 +54,15 @@ static inline void layout_diagram_set_draw_area ( layout_diagram_t *this_, const
     geometry_rectangle_replace( &((*this_).draw_area), diagram_draw_area );
 }
 
+static inline const geometry_rectangle_t *layout_diagram_get_label_box_const ( const layout_diagram_t *this_ )
+{
+    return &((*this_).label_box);
+}
+
+static inline void layout_diagram_set_label_box ( layout_diagram_t *this_, const geometry_rectangle_t *label_box )
+{
+    geometry_rectangle_replace( &((*this_).label_box), label_box );
+}
 
 static inline const data_diagram_t *layout_diagram_get_data_const ( const layout_diagram_t *this_ )
 {

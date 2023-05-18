@@ -14,11 +14,11 @@
 static const int DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_t *this_,
-                                                            const data_diagram_t *diagram,
-                                                            const pencil_size_t *pencil_size,
-                                                            PangoLayout *font_layout,
-                                                            double *out_text_width,
-                                                            double *out_text_height )
+                                                       const data_diagram_t *diagram,
+                                                       const pencil_size_t *pencil_size,
+                                                       PangoLayout *font_layout,
+                                                       double *out_text_width,
+                                                       double *out_text_height )
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagram );
@@ -55,11 +55,11 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
 }
 
 void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
-                                                  const data_diagram_t *diagram,
-                                                  const geometry_rectangle_t *label_box,
-                                                  const pencil_size_t *pencil_size,
-                                                  PangoLayout *font_layout,
-                                                  cairo_t *cr )
+                                             const data_diagram_t *diagram,
+                                             const geometry_rectangle_t *label_box,
+                                             const pencil_size_t *pencil_size,
+                                             PangoLayout *font_layout,
+                                             cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagram );

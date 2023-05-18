@@ -46,6 +46,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 
     const data_diagram_t *const the_diagram = layout_diagram_get_data_const( layouted_diagram );
     const geometry_rectangle_t *const diagram_bounds = layout_diagram_get_bounds_const( layouted_diagram );
+    const geometry_rectangle_t *const label_box = layout_diagram_get_label_box_const( layouted_diagram );
 
     const double left = geometry_rectangle_get_left ( diagram_bounds );
     const double top = geometry_rectangle_get_top ( diagram_bounds );
@@ -58,7 +59,6 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     U8_TRACE_INFO_INT( "h", (int)(height) );
 
     const double gap = pencil_size_get_standard_object_border( pencil_size );
-    const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
     const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
     /* draw diagram border and name */
@@ -86,31 +86,18 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             cairo_stroke (cr);
 
             /* draw title corner */
-            int text_width;
-            int text_height;
-            /*
-            geometry_rectangle_t label_box;
-            geometry_rectangle_init( &label_box, left+gap+f_tab_size, top+gap, width-2.0*gap, height-2.0*gap );
             draw_diagram_label_draw_type_and_name( &((*this_).draw_diagram_label),
-                                                   the_diagram
-                                                   &label_box,
+                                                   the_diagram,
+                                                   label_box,
                                                    pencil_size,
                                                    font_layout,
                                                    cr
                                                  );
-                                                 */
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, data_diagram_get_name_const( the_diagram ), -1);
-            pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
-            cairo_move_to ( cr, left + gap + f_tab_size, top+gap );
-            pango_cairo_show_layout (cr, font_layout);
-            /*
-            geometry_rectangle_destroy( &label_box );
-            */
 
-            double title_corner_height = text_height+f_line_gap;
-            double title_corner_edge45 = 0.4 * title_corner_height;
-            double title_corner_width = text_width + gap + 2.0*f_tab_size + title_corner_edge45;
+            const double title_corner_height = geometry_rectangle_get_height( label_box ) + 2.0 * gap;
+            const double title_corner_edge45 = 0.4 * title_corner_height;
+            double title_corner_width
+                = geometry_rectangle_get_width( label_box ) + 2.0 * gap + 2.0 * f_tab_size + title_corner_edge45;
             if ( title_corner_width > width*0.9 )
             {
                 title_corner_width = width*0.9;
@@ -179,19 +166,19 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     U8_TRACE_END();
 }
 
-void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
-                                                const data_diagram_t *the_diagram,
-                                                const geometry_rectangle_t *diagram_bounds,
-                                                const pencil_size_t *pencil_size,
-                                                PangoLayout *font_layout,
-                                                geometry_rectangle_t *out_diagram_space )
+void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
+                                        const data_diagram_t *the_diagram,
+                                        const geometry_rectangle_t *diagram_bounds,
+                                        const pencil_size_t *pencil_size,
+                                        PangoLayout *font_layout,
+                                        layout_diagram_t *io_layout_diagram )
 {
     U8_TRACE_BEGIN();
     assert( NULL != the_diagram );
     assert( NULL != diagram_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_diagram_space );
+    assert( NULL != io_layout_diagram );
 
     /* determine diagram bounds */
     const double left = geometry_rectangle_get_left ( diagram_bounds );
@@ -199,24 +186,45 @@ void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *
     const double width = geometry_rectangle_get_width ( diagram_bounds );
     const double height = geometry_rectangle_get_height ( diagram_bounds );
     const double gap = pencil_size_get_standard_object_border( pencil_size );
+    const double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
-    /* font metrics */
-    const double f_size = pencil_size_get_standard_font_size( pencil_size );
-    const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
-    const double f_size_guess = f_size + 4.0 * f_line_gap;  /* TODO here, we do not yet use the pango layout object to determine the real font size */
+    /* calculate label_box */
+    const double text_left = left + 2.0 * gap + f_tab_size;
+    const double text_top = top + 2.0 * gap;
+    double text_width;
+    double text_height;
+    draw_diagram_label_get_type_and_name_dimensions( &((*this_).draw_diagram_label),
+                                                     the_diagram,
+                                                     pencil_size,
+                                                     font_layout,
+                                                     &text_width,
+                                                     &text_height
+                                                   );
+    geometry_rectangle_t label_box;
+    geometry_rectangle_init( &label_box, text_left, text_top, text_width, text_height );
 
-    /* calculate new sizes */
-    const double space_width = width-2.0*gap;
-    const double space_height = height-2.0*gap-f_size_guess-f_line_gap;
+    /* calculate space */
+    const double space_left = left + 2.0 * gap;
+    const double space_top = top + 4.0 * gap + text_height;
+    const double space_width = width - 4.0 * gap;
+    const double space_height = height - 6.0 * gap - text_height;
+    geometry_rectangle_t space;
     if ( ( space_width <= 0.0 ) || ( space_height <= 0.0 ) )
     {
-        geometry_rectangle_reinit_empty( out_diagram_space );
+        geometry_rectangle_init_empty( &space );
     }
     else
     {
-        geometry_rectangle_reinit( out_diagram_space, left+gap, top+gap+f_size_guess+f_line_gap, space_width, space_height );
+        geometry_rectangle_init( &space, space_left, space_top, space_width, space_height );
     }
 
+    /* set new metrics */
+    layout_diagram_set_bounds( io_layout_diagram, diagram_bounds );
+    layout_diagram_set_draw_area( io_layout_diagram, &space );
+    layout_diagram_set_label_box( io_layout_diagram, &label_box );
+
+    geometry_rectangle_destroy( &space );
+    geometry_rectangle_destroy( &label_box );
     U8_TRACE_END();
 }
 

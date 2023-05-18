@@ -18,6 +18,7 @@
 struct layout_diagram_struct {
     geometry_rectangle_t bounds;  /*!< bounding box of the diagram */
     geometry_rectangle_t draw_area;  /*!< drawing rectangle of inner contents of the diagram */
+    geometry_rectangle_t label_box;  /*!< bounding box of the label of the diagram (without border line) */
     const data_diagram_t *data;  /*!< pointer to the data object of the diagram */
 };
 
@@ -77,6 +78,22 @@ static inline const geometry_rectangle_t *layout_diagram_get_draw_area_const ( c
  *  \param diagram_draw_area coordinates of new draw_area
  */
 static inline void layout_diagram_set_draw_area ( layout_diagram_t *this_, const geometry_rectangle_t *diagram_draw_area );
+
+/*!
+ *  \brief gets the label bounds of the diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_diagram_get_label_box_const ( const layout_diagram_t *this_ );
+
+/*!
+ *  \brief sets the label bounds of the diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param label_box coordinates of new label bounds
+ */
+static inline void layout_diagram_set_label_box ( layout_diagram_t *this_, const geometry_rectangle_t *label_box );
 
 /*!
  *  \brief gets the data_diagram_t object
