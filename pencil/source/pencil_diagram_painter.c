@@ -12,6 +12,7 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
     U8_TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
+    draw_diagram_label_init( &((*this_).draw_diagram_label) );
 
     U8_TRACE_END();
 }
@@ -20,6 +21,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    draw_diagram_label_init( &((*this_).draw_diagram_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
     U8_TRACE_END();
@@ -86,11 +88,25 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             /* draw title corner */
             int text_width;
             int text_height;
+            /*
+            geometry_rectangle_t label_box;
+            geometry_rectangle_init( &label_box, left+gap+f_tab_size, top+gap, width-2.0*gap, height-2.0*gap );
+            draw_diagram_label_draw_type_and_name( &((*this_).draw_diagram_label),
+                                                   the_diagram
+                                                   &label_box,
+                                                   pencil_size,
+                                                   font_layout,
+                                                   cr
+                                                 );
+                                                 */
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (font_layout, data_diagram_get_name_const( the_diagram ), -1);
             pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
             cairo_move_to ( cr, left + gap + f_tab_size, top+gap );
             pango_cairo_show_layout (cr, font_layout);
+            /*
+            geometry_rectangle_destroy( &label_box );
+            */
 
             double title_corner_height = text_height+f_line_gap;
             double title_corner_edge45 = 0.4 * title_corner_height;
@@ -187,7 +203,7 @@ void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *
     /* font metrics */
     const double f_size = pencil_size_get_standard_font_size( pencil_size );
     const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
-    const double f_size_guess = f_size + 4.0 * f_line_gap;  /* here, we do not have a pango layout object to determine the real font size */
+    const double f_size_guess = f_size + 4.0 * f_line_gap;  /* TODO here, we do not yet use the pango layout object to determine the real font size */
 
     /* calculate new sizes */
     const double space_width = width-2.0*gap;

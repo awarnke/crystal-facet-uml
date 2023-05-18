@@ -75,7 +75,7 @@ fn get_circle(cx: f32, cy: f32, rx: f32, ry: f32) -> [geometry::DrawDirective; 5
     ]
 }
 
-/// The function generated a GSN goal icon to vector graphics drawing directives
+/// The function generates a GSN goal icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
@@ -84,8 +84,8 @@ fn get_circle(cx: f32, cy: f32, rx: f32, ry: f32) -> [geometry::DrawDirective; 5
 pub fn generate_gsn_goal(out: &mut VecRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = [
         Move(Point { x: 1.0, y: 7.0 }),
-        Line(Point { x: 30.0, y: 7.0 }),
-        Line(Point { x: 30.0, y: 25.0 }),
+        Line(Point { x: 31.0, y: 7.0 }),
+        Line(Point { x: 31.0, y: 25.0 }),
         Line(Point { x: 1.0, y: 25.0 }),
         Close,
     ];
@@ -97,7 +97,7 @@ pub fn generate_gsn_goal(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(icon_color));
 }
 
-/// The function generated a GSN goal icon to vector graphics drawing directives
+/// The function generates a GSN context icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
@@ -127,7 +127,7 @@ pub fn generate_gsn_context(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(icon_color));
 }
 
-/// The function generated a GSN strategy icon to vector graphics drawing directives
+/// The function generates a GSN strategy icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
@@ -149,7 +149,7 @@ pub fn generate_gsn_strategy(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(icon_color));
 }
 
-/// The function generated a GSN goal icon to vector graphics drawing directives
+/// The function generates a GSN assumption icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
@@ -181,7 +181,7 @@ pub fn generate_gsn_assumption(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(icon_color));
 }
 
-/// The function generated a GSN goal icon to vector graphics drawing directives
+/// The function generates a GSN justification icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
@@ -215,7 +215,7 @@ pub fn generate_gsn_justification(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(icon_color));
 }
 
-/// The function generated a GSN goal icon to vector graphics drawing directives
+/// The function generates a GSN solution icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
@@ -223,6 +223,44 @@ pub fn generate_gsn_justification(out: &mut VecRenderer) -> () {
 ///
 pub fn generate_gsn_solution(out: &mut VecRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = get_circle(16.0, 16.0, 15.0, 15.0);
+    let icon_color: Color = Color {
+        red: 0,
+        green: 0,
+        blue: 0,
+    };
+    out.path(&icon_segs, &Some(icon_color));
+}
+
+/// The function generates a queue icon of queueing theory to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_queue_queue(out: &mut VecRenderer) -> () {
+    /* box */
+    let icon_segs: [geometry::DrawDirective; 4] = [
+        Move(Point { x: 1.0, y: 7.0 }),
+        Line(Point { x: 31.0, y: 7.0 }),
+        Line(Point { x: 31.0, y: 25.0 }),
+        Line(Point { x: 1.0, y: 25.0 }),
+    ];
+    let icon_color: Color = Color {
+        red: 0,
+        green: 0,
+        blue: 0,
+    };
+    out.path(&icon_segs, &Some(icon_color));
+
+    /* 3 elements */
+    let icon_segs: [geometry::DrawDirective; 6] = [
+        Move(Point { x: 13.0, y: 7.0 }),
+        Line(Point { x: 13.0, y: 25.0 }),
+        Move(Point { x: 19.0, y: 7.0 }),
+        Line(Point { x: 19.0, y: 25.0 }),
+        Move(Point { x: 25.0, y: 7.0 }),
+        Line(Point { x: 25.0, y: 25.0 }),
+    ];
     let icon_color: Color = Color {
         red: 0,
         green: 0,
@@ -258,6 +296,14 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
         IconSource {
             name: "gsn_solution",
             generate: generate_gsn_solution,
+        },
+        IconSource {
+            name: "queue_queue",
+            generate: generate_queue_queue,
+        },
+        IconSource {
+            name: "queue_service",
+            generate: generate_gsn_solution, /* same as gsn_solution */
         },
     ]
 }

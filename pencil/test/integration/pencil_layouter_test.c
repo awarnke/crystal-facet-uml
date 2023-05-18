@@ -48,13 +48,13 @@ static fixture_t test_environment;
 static test_fixture_t * set_up()
 {
     fixture_t *fix = &test_environment;
-    data_visible_set_init( &(*fix).data_set );
-    data_profile_part_init( &(*fix).profile );
-    pencil_layouter_init( &(*fix).layouter, &(*fix).data_set, &(*fix).profile );
-    geometry_rectangle_init( &(*fix).diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
+    data_visible_set_init( &((*fix).data_set) );
+    data_profile_part_init( &((*fix).profile) );
+    pencil_layouter_init( &((*fix).layouter), &((*fix).data_set), &((*fix).profile) );
+    geometry_rectangle_init( &((*fix).diagram_bounds), 0.0, 0.0, 640.0, 480.0 );
     (*fix).surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
-                                                 (uint32_t) geometry_rectangle_get_width( &(*fix).diagram_bounds ),
-                                                 (uint32_t) geometry_rectangle_get_height( &(*fix).diagram_bounds )
+                                                 (uint32_t) geometry_rectangle_get_width( &((*fix).diagram_bounds) ),
+                                                 (uint32_t) geometry_rectangle_get_height( &((*fix).diagram_bounds) )
                                                );
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( (*fix).surface ) );
     (*fix).cr = cairo_create( (*fix).surface );
@@ -71,10 +71,10 @@ static void tear_down( test_fixture_t *test_env )
     cairo_destroy( (*fix).cr );
     cairo_surface_finish( (*fix).surface );
     cairo_surface_destroy( (*fix).surface );
-    geometry_rectangle_destroy( &(*fix).diagram_bounds );
-    pencil_layouter_destroy( &(*fix).layouter );
-    data_profile_part_destroy( &(*fix).profile );
-    data_visible_set_destroy( &(*fix).data_set );
+    geometry_rectangle_destroy( &((*fix).diagram_bounds) );
+    pencil_layouter_destroy( &((*fix).layouter) );
+    data_profile_part_destroy( &((*fix).profile) );
+    data_visible_set_destroy( &((*fix).data_set) );
 }
 
 static test_case_result_t layout_good_cases( test_fixture_t *test_env )
@@ -89,18 +89,18 @@ static test_case_result_t layout_good_cases( test_fixture_t *test_env )
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
-        test_data_setup_get_variant_data( &ts_setup, &(*fix).data_set );
+        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
 
         /* perform test */
-        pencil_layouter_prepare ( &(*fix).layouter );
-        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds, (*fix).font_layout );
-        pencil_layouter_layout_elements ( &(*fix).layouter, (*fix).font_layout );
-        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &(*fix).layouter ), &layout_stats );
+        pencil_layouter_prepare ( &((*fix).layouter) );
+        pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
+        pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
+        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
 
         /* check result */
-        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &(*fix).layouter );
+        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
         TEST_EXPECT( NULL != layout_data );
         /*
         const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
@@ -155,18 +155,18 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *test_env )
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
-        test_data_setup_get_variant_data( &ts_setup, &(*fix).data_set );
+        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
 
         /* perform test */
-        pencil_layouter_prepare ( &(*fix).layouter );
-        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds, (*fix).font_layout );
-        pencil_layouter_layout_elements ( &(*fix).layouter, (*fix).font_layout );
-        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &(*fix).layouter ), &layout_stats );
+        pencil_layouter_prepare ( &((*fix).layouter) );
+        pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
+        pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
+        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
 
         /* check result */
-        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &(*fix).layouter );
+        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
         TEST_EXPECT( NULL != layout_data );
         /*
         const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
@@ -203,15 +203,15 @@ static test_case_result_t layout_edge_cases( test_fixture_t *test_env )
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
     {
         /* setup */
-        test_data_setup_get_variant_data( &ts_setup, &(*fix).data_set );
+        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
 
         /* perform test */
-        pencil_layouter_prepare ( &(*fix).layouter );
-        pencil_layouter_define_grid ( &(*fix).layouter, (*fix).diagram_bounds, (*fix).font_layout );
-        pencil_layouter_layout_elements ( &(*fix).layouter, (*fix).font_layout );
+        pencil_layouter_prepare ( &((*fix).layouter) );
+        pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
+        pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
 
         /* check result */
-        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &(*fix).layouter );
+        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
         TEST_EXPECT( NULL != layout_data );
         /*
         const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );

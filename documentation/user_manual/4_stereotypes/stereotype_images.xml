@@ -6,7 +6,7 @@
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_goal.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
-        <command><![CDATA[<path stroke="#000000" fill="none" d="M 1,7 L 30,7 L 30,25 L 1,25 Z " />]]></command>
+        <command><![CDATA[<path stroke="#000000" fill="none" d="M 1,7 L 31,7 L 31,25 L 1,25 Z " />]]></command>
       </para></listitem>
     </varlistentry>
     <varlistentry>
@@ -45,6 +45,22 @@
       <term>gsn_solution</term>
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_solution.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path stroke="#000000" fill="none" d="M 1,16 C 1,7.75 7.75,1 16,1 C 24.25,1 31,7.75 31,16 C 31,24.25 24.25,31 16,31 C 7.75,31 1,24.25 1,16 " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>queue_queue</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="queue_queue.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path stroke="#000000" fill="none" d="M 1,7 L 31,7 L 31,25 L 1,25 " /><path stroke="#000000" fill="none" d="M 13,7 L 13,25 M 19,7 L 19,25 M 25,7 L 25,25 " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>queue_service</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="queue_service.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
         <command><![CDATA[<path stroke="#000000" fill="none" d="M 1,16 C 1,7.75 7.75,1 16,1 C 24.25,1 31,7.75 31,16 C 31,24.25 24.25,31 16,31 C 7.75,31 1,24.25 1,16 " />]]></command>
       </para></listitem>

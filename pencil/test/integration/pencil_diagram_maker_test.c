@@ -51,12 +51,12 @@ static fixture_t test_environment;
 static test_fixture_t * set_up()
 {
     fixture_t *fix = &test_environment;
-    data_profile_part_init( &(*fix).profile );
-    data_visible_set_init( &(*fix).data_set );
-    pencil_diagram_maker_init( &(*fix).painter, &(*fix).data_set, &(*fix).profile );
-    geometry_rectangle_init( &(*fix).diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
-    const uint32_t width = (uint32_t) geometry_rectangle_get_width( &(*fix).diagram_bounds );
-    const uint32_t height = (uint32_t) geometry_rectangle_get_height( &(*fix).diagram_bounds );
+    data_profile_part_init( &((*fix).profile) );
+    data_visible_set_init( &((*fix).data_set) );
+    pencil_diagram_maker_init( &((*fix).painter), &((*fix).data_set), &((*fix).profile) );
+    geometry_rectangle_init( &((*fix).diagram_bounds), 0.0, 0.0, 640.0, 480.0 );
+    const uint32_t width = (uint32_t) geometry_rectangle_get_width( &((*fix).diagram_bounds) );
+    const uint32_t height = (uint32_t) geometry_rectangle_get_height( &((*fix).diagram_bounds) );
     (*fix).surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32, width, height );
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( (*fix).surface ) );
     (*fix).cr = cairo_create( (*fix).surface );
@@ -72,9 +72,9 @@ static void tear_down( test_fixture_t *test_env )
     cairo_surface_finish ( (*fix).surface );
     cairo_surface_destroy ( (*fix).surface );
     geometry_rectangle_destroy( &((*fix).diagram_bounds) );
-    pencil_diagram_maker_destroy( &(*fix).painter );
-    data_visible_set_destroy( &(*fix).data_set );
-    data_profile_part_destroy( &(*fix).profile );
+    pencil_diagram_maker_destroy( &((*fix).painter) );
+    data_visible_set_destroy( &((*fix).data_set) );
+    data_profile_part_destroy( &((*fix).profile) );
 }
 
 static void draw_background( const geometry_rectangle_t *diagram_bounds, cairo_t *cr )
@@ -164,8 +164,8 @@ static test_case_result_t render_good_cases( test_fixture_t *test_env )
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
-        pencil_diagram_maker_layout_elements( &(*fix).painter, NULL, (*fix).cr );
-        pencil_diagram_maker_show_overlaps( &(*fix).painter, &layout_stats, (*fix).cr );
+        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
+        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -205,9 +205,9 @@ static test_case_result_t render_challenging_cases( test_fixture_t *test_env )
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
-        pencil_diagram_maker_layout_elements( &(*fix).painter, NULL, (*fix).cr );
+        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
         pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
-        pencil_diagram_maker_draw ( &(*fix).painter,
+        pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
                                     &void_set,
@@ -245,8 +245,8 @@ static test_case_result_t render_edge_cases( test_fixture_t *test_env )
         data_stat_t layout_stats;
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
-        pencil_diagram_maker_layout_elements( &(*fix).painter, NULL, (*fix).cr );
-        pencil_diagram_maker_show_overlaps( &(*fix).painter, &layout_stats, (*fix).cr );
+        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
+        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
