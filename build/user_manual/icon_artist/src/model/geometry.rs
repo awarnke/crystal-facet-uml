@@ -21,14 +21,30 @@ pub struct Offset {
 /// Defines the possible kinds of drawing irectived within paths
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum DrawDirective {
-    /// A move moves the actual cursor without drawing a line
+    /// A move moves the actual cursor without drawing a line.
     Move(Point),
-    /// A line moves the cursor and draws a straight line
+    /// A move moves the actual cursor without drawing a line.
+    MoveRel(Offset),
+    /// A line draws a straight line and moves the cursor.
     Line(Point),
-    /// A curve moves the cursor and draws a curved line
+    /// A line draws a straight line and moves the cursor.
+    LineRel(Offset),
+    /// A curve draws a curved line and moves the cursor.
     Curve(Point, Point, Point),
-    /// Close the path
+    /// A curve draws a curved line and moves the cursor.
+    CurveRel(Offset, Offset, Offset),
+    /// A symmetric curve continues a previous Curve,
+    /// assuming a symmetric first control point,
+    /// draws a curved line and moves the cursor.
+    Symmetric(Point, Point),
+    /// A symmetric curve continues a previous Curve,
+    /// assuming a symmetric first control point,
+    /// draws a curved line and moves the cursor.
+    SymmetricRel(Offset, Offset),
+    /// Close the subpath by drawing a straight line and moving the cursor.
     Close,
+    /// Close the subpath by drawing a straight line and moving the cursor.
+    CloseRel,
 }
 
 /// Defines a rectangle

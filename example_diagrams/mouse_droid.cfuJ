@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.50.0"
+    "generator_version": "1.50.1"
   }
   ,
   "views":
@@ -6198,7 +6198,7 @@
                 "l -8, 0\n",
                 "c 1, -2, 2, -3, 3, -3\n",
                 "c 0.5, 0 0.5, 1 0, 1\n",
-                "m -1, 0.1\n",
+                "m -1.1, 0.3\n",
                 "l -0.2, 0.2\n",
                 "\"\n",
                 "fill=\"#bb9977\"\n",

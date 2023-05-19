@@ -11,6 +11,11 @@ use std::path::PathBuf;
 
 /// creates a parent directory and a file in it
 ///
+/// # Arguments
+///
+/// * `out_dir` - The directory where files shall be written to
+/// * `file_name` - The filenam of the file to be created
+///
 /// # Panics
 ///
 /// This function panics if the the file cannot be created.
@@ -70,7 +75,10 @@ fn write_db_icon_entry(icon: &icon_data::IconSource, out: &mut File) -> () {
     .expect("Error at writing file");
     write!(out, "\n      </para><para>\n").expect("Error at writing file");
     write!(out, "        <command><![CDATA[").expect("Error at writing file");
-    let mut db_render = VecRenderer { output_file: out };
+    let mut db_render = VecRenderer {
+        output_file: out,
+        force_colors: false,
+    };
     (icon.generate)(&mut db_render);
     write!(out, "]]></command>\n").expect("Error at writing file");
     write!(out, "      </para></listitem>\n").expect("Error at writing file");
@@ -95,6 +103,7 @@ pub fn generate_files(out_dir: &str) -> () {
         let mut svg_file = open_file_to_write(out_dir, &file_name);
         let mut v_render = VecRenderer {
             output_file: &mut svg_file,
+            force_colors: true,
         };
         let view = Rect {
             left: 0.0,

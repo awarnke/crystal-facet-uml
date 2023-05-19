@@ -7,5 +7,5 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#0000a0" fill="white" d="M 8,25 C 0,25 0,7 8,7 L 24,7 C 32,7 32,25 24,25 Z " />
+    <path stroke="black" fill="white" d="M 1,16 C 1,7.75 7.75,1 16,1 S 31,7.75 31,16 S 24.25,31 16,31 S 1,24.25 1,16 " />
 </svg>

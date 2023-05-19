@@ -51,12 +51,15 @@ ideas for future versions:
       interactionuse(diag-reference)-to-fragment(diag);
       part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
+  [ ] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   @ctrl
   [ ] delete features immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
   @u8stream
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
+      or a buffered view onto the database
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
+      or a buffered view onto the database
   @main
   @ts_log/trace/test_fw
 
