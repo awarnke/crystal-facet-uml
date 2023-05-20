@@ -97,6 +97,12 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
                 DrawDirective::LineRel(offset) => {
                     write!(self.output_file, "l {},{} ", offset.dx, offset.dy)
                 }
+                DrawDirective::Continue(target) => {
+                    write!(self.output_file, "{},{} ", target.x, target.y)
+                }
+                DrawDirective::ContinueRel(offset) => {
+                    write!(self.output_file, "{},{} ", offset.dx, offset.dy)
+                }
                 DrawDirective::Curve(p1, p2, target) => {
                     write!(
                         self.output_file,

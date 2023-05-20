@@ -2690,6 +2690,34 @@
             "classifier_name": "UML:Node",
             "node": "26e2a04a-8d6a-4158-9932-8ba6839c9cb3",
             "uuid": "147fea6b-23d5-4d3a-a4c6-83826adfceac"
+          },
+          {
+            "id": 278,
+            "display_flags": 0,
+            "classifier_name": "rejected_alternative",
+            "node": "07a0312a-ac58-4830-b3da-740991311fa4",
+            "uuid": "37e5ff1f-642a-4bc1-8571-b61ef4a51b81"
+          },
+          {
+            "id": 279,
+            "display_flags": 0,
+            "classifier_name": "rejected",
+            "node": "69559964-ce56-452b-b2ff-0fa61b38a2ea",
+            "uuid": "eb1d7fcd-e747-4cec-b475-abeb3d1eeff2"
+          },
+          {
+            "id": 280,
+            "display_flags": 0,
+            "classifier_name": "chosen_alternative",
+            "node": "d8519566-7593-4c20-96b0-8848e9f5aab8",
+            "uuid": "efc2b98d-a69b-410e-918d-fe9de92a7dfa"
+          },
+          {
+            "id": 281,
+            "display_flags": 0,
+            "classifier_name": "chosen",
+            "node": "d37609cd-0039-41e2-add0-fb6367dceeff",
+            "uuid": "3c81ba26-bd99-4d27-9df4-437f42c7bb89"
           }
         ]
       }
@@ -4811,6 +4839,7 @@
         "id": 102,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "chosen_alternative",
         "name": "Watchdog Supervision",
         "description": [
                 "In order to support integrity of the logic and data,\n",
@@ -6108,17 +6137,7 @@
         "type": "Stereotype",
         "name": "decision",
         "description": [
-                "<path d=\"\n",
-                "M 5,5\n",
-                "l -3,5 1,1 4,0 1,-1 -3,-5\n",
-                "L 10,2 16,2\n",
-                "l -3,5 1,1 4,0 1,-1 -3,-5\n",
-                "\"/>\n",
-                "<path d=\"\n",
-                "M 9.2,0 10,2\n",
-                "M 10,5\n",
-                "L 10,15\n",
-                "\"/>"
+                "<path d=\"m 8,12 l -4,7 1,1 6,0 1,-1 -4,-7 l 8,-4 9,0 l -4,7 1,1 6,0 1,-1 -4,-7 \" /><path d=\"m 15,5 l 1,3 m 0,2 l 0,17 \" />"
         ],
         "x_order": 1103928885,
         "y_order": -1541016509,
@@ -6155,7 +6174,8 @@
         "type": "Stereotype",
         "name": "data",
         "description": [
-                "<path d=\"m 0,1 c 0,-0.55 1.35,-1 3,-1 c 1.65,0 3,0.45 3,1 c 0,0.55, -1.35,1 -3,1 c -1.65,0 -3,-0.45, -3,-1 l 0,5 c 0,0.55 1.35,1 3,1 c 1.65,0 3,-0.45 3,-1 l 0,-5\"/>"
+                "<path d=\"m 4,5 l 0,22 c 0,2.25 5.25,4 12,4 s 12,-1.75 12,-4 l 0,-22 \" /><path d=\"m 4,5 c 0,-2.25 5.25,-4 12,-4 s 12,1.75\n",
+                "12,4 s -5.25,4 -12,4 s -12,-1.75 -12,-4 \" />"
         ],
         "x_order": 905551310,
         "y_order": -1738517685,
@@ -6246,6 +6266,82 @@
         "y_order": -1883935665,
         "list_order": -1883935665,
         "uuid": "26e2a04a-8d6a-4158-9932-8ba6839c9cb3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 166,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "rejected_alternative",
+        "description": [
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#cc0000\" d=\"m 8,17 c 0,-4.4 3.6,-8 8,-8 s 8,3.6 8,8 s -3.6,8 -8,8 s\n",
+                "-8,-3.6 -8,-8 \" /><path stroke=\"#cc0000\" d=\"m 11,17 l 10,0 \" />"
+        ],
+        "x_order": 1103928885,
+        "y_order": -156110667,
+        "list_order": -156110667,
+        "uuid": "07a0312a-ac58-4830-b3da-740991311fa4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 167,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "rejected_alternative",
+        "name": "rejected",
+        "description": [
+                ""
+        ],
+        "x_order": 1510836225,
+        "y_order": -156110667,
+        "list_order": -156110667,
+        "uuid": "69559964-ce56-452b-b2ff-0fa61b38a2ea",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 168,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "chosen_alternative",
+        "description": [
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#00aa00\" d=\"m 8,17 c 0,-4.4 3.6,-8 8,-8 s 8,3.6 8,8 s -3.6,8 -8,8 s\n",
+                "-8,-3.6 -8,-8 \" /><path stroke=\"#00aa00\" d=\"m 11,17 l 10,0 m -5,-5 l 0,10 \" />"
+        ],
+        "x_order": 905551310,
+        "y_order": -156110667,
+        "list_order": -156110667,
+        "uuid": "d8519566-7593-4c20-96b0-8848e9f5aab8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 169,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "chosen_alternative",
+        "name": "chosen",
+        "description": [
+                ""
+        ],
+        "x_order": 585891664,
+        "y_order": -156110667,
+        "list_order": -156110667,
+        "uuid": "d37609cd-0039-41e2-add0-fb6367dceeff",
         "features":
         [
         ]
@@ -10367,6 +10463,74 @@
         "from_node": "3dd8657e-8c3e-4f9b-8ddb-4ddea30bdc18",
         "to_node": "26e2a04a-8d6a-4158-9932-8ba6839c9cb3",
         "uuid": "de9a79c7-9f67-49c7-a00e-9dc8d1f7b321"
+      }
+    },
+    {
+      "relationship": {
+        "id": 273,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "rejected_alternative",
+        "to_classifier_name": "rejected",
+        "from_node": "07a0312a-ac58-4830-b3da-740991311fa4",
+        "to_node": "69559964-ce56-452b-b2ff-0fa61b38a2ea",
+        "uuid": "65b052df-c093-4ee9-8b8d-86314ee797b3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 274,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "rejected_alternative",
+        "to_classifier_name": "UML:Class",
+        "from_node": "07a0312a-ac58-4830-b3da-740991311fa4",
+        "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
+        "uuid": "dc258c42-72b2-4dc3-8990-784e8523f388"
+      }
+    },
+    {
+      "relationship": {
+        "id": 275,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "chosen_alternative",
+        "to_classifier_name": "chosen",
+        "from_node": "d8519566-7593-4c20-96b0-8848e9f5aab8",
+        "to_node": "d37609cd-0039-41e2-add0-fb6367dceeff",
+        "uuid": "279a754c-f391-414e-ad24-bc684d74f229"
+      }
+    },
+    {
+      "relationship": {
+        "id": 276,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "chosen_alternative",
+        "to_classifier_name": "UML:Class",
+        "from_node": "d8519566-7593-4c20-96b0-8848e9f5aab8",
+        "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
+        "uuid": "9a6bcfe0-9483-4afb-8f3e-d444dee654ea"
       }
     }
   ]

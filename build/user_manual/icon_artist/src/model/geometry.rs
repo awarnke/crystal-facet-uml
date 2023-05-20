@@ -29,6 +29,10 @@ pub enum DrawDirective {
     Line(Point),
     /// A line draws a straight line and moves the cursor.
     LineRel(Offset),
+    /// A continuation of the previous command with a single point as parameter.
+    Continue(Point),
+    /// A continuation of the previous command with a single offset as parameter.
+    ContinueRel(Offset),
     /// A curve draws a curved line and moves the cursor.
     Curve(Point, Point, Point),
     /// A curve draws a curved line and moves the cursor.

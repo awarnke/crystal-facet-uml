@@ -4,6 +4,7 @@ use super::geometry;
 use super::geometry::Color;
 use super::geometry::DrawDirective::Close;
 use super::geometry::DrawDirective::CloseRel;
+use super::geometry::DrawDirective::ContinueRel;
 use super::geometry::DrawDirective::Curve;
 use super::geometry::DrawDirective::CurveRel;
 use super::geometry::DrawDirective::Line;
@@ -40,6 +41,20 @@ static BLUE: Color = Color {
     blue: 0x99,
 };
 
+/// red color
+static RED: Color = Color {
+    red: 0xcc,
+    green: 0x0,
+    blue: 0x0,
+};
+
+/// gren color
+static GREEN: Color = Color {
+    red: 0x0,
+    green: 0xaa,
+    blue: 0x0,
+};
+
 /// The function defines the control points for a circle in absolute coordinates
 ///
 /// # Arguments
@@ -54,8 +69,8 @@ static BLUE: Color = Color {
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 fn get_circle(cx: f32, cy: f32, rx: f32, ry: f32) -> [geometry::DrawDirective; 5] {
-    let ctrlpnt_dx: f32 = rx * 0.55; /* control point distance x */
-    let ctrlpnt_dy: f32 = ry * 0.55; /* control point distance y */
+    let ctrlpnt_dx: f32 = rx * 0.5625; /* control point distance x, this number avoids rounding errors */
+    let ctrlpnt_dy: f32 = ry * 0.5625; /* control point distance y, this number avoids rounding errors */
     [
         Move(Point { x: cx - rx, y: cy }),
         Curve(
@@ -107,8 +122,8 @@ fn get_circle(cx: f32, cy: f32, rx: f32, ry: f32) -> [geometry::DrawDirective; 5
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [geometry::DrawDirective; 5] {
-    let ctrlpnt_dx: f32 = rx * 0.55; /* control point distance x */
-    let ctrlpnt_dy: f32 = ry * 0.55; /* control point distance y */
+    let ctrlpnt_dx: f32 = rx * 0.5625; /* control point distance x, this number avoids rounding errors */
+    let ctrlpnt_dy: f32 = ry * 0.5625; /* control point distance y, this number avoids rounding errors */
     [
         MoveRel(Offset {
             dx: c_dx - rx,
@@ -159,15 +174,15 @@ fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [geometry::DrawDire
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 pub fn generate_deploy_database(out: &mut VecRenderer) -> () {
-    let rx: f32 = 10.0; /* radius x-direction */
+    let rx: f32 = 12.0; /* radius x-direction */
     let ry: f32 = 4.0; /* radius y-direction */
-    let ctrlpnt_dx: f32 = rx * 0.55; /* control point distance x */
-    let ctrlpnt_dy: f32 = ry * 0.55; /* control point distance y */
+    let ctrlpnt_dx: f32 = rx * 0.5625; /* control point distance x */
+    let ctrlpnt_dy: f32 = ry * 0.5625; /* control point distance y */
 
     /* bottom cylinder */
     let icon_segs: [geometry::DrawDirective; 5] = [
         MoveRel(Offset {
-            dx: 6.0,
+            dx: 4.0,
             dy: 1.0 + ry,
         }),
         LineRel(Offset {
@@ -540,6 +555,95 @@ pub fn generate_queue_queue(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &None, &None);
 }
 
+/// The function generates a rationale/decision icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_reason_decision(out: &mut VecRenderer) -> () {
+    /* two trays */
+    let icon_segs: [geometry::DrawDirective; 13] = [
+        MoveRel(Offset { dx: 8.0, dy: 12.0 }),
+        LineRel(Offset { dx: -4.0, dy: 7.0 }),
+        ContinueRel(Offset { dx: 1.0, dy: 1.0 }),
+        ContinueRel(Offset { dx: 6.0, dy: 0.0 }),
+        ContinueRel(Offset { dx: 1.0, dy: -1.0 }),
+        ContinueRel(Offset { dx: -4.0, dy: -7.0 }),
+        LineRel(Offset { dx: 8.0, dy: -4.0 }),
+        ContinueRel(Offset { dx: 9.0, dy: 0.0 }),
+        LineRel(Offset { dx: -4.0, dy: 7.0 }),
+        ContinueRel(Offset { dx: 1.0, dy: 1.0 }),
+        ContinueRel(Offset { dx: 6.0, dy: 0.0 }),
+        ContinueRel(Offset { dx: 1.0, dy: -1.0 }),
+        ContinueRel(Offset { dx: -4.0, dy: -7.0 }),
+    ];
+    out.path(&icon_segs, &None, &None);
+
+    /* stand and scale */
+    let icon_segs: [geometry::DrawDirective; 4] = [
+        MoveRel(Offset { dx: 15.0, dy: 5.0 }),
+        LineRel(Offset { dx: 1.0, dy: 3.0 }),
+        MoveRel(Offset { dx: 0.0, dy: 2.0 }),
+        LineRel(Offset { dx: 0.0, dy: 17.0 }),
+    ];
+    out.path(&icon_segs, &None, &None);
+}
+
+/// The function generates a rationale/chosen icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_reason_chosen(out: &mut VecRenderer) -> () {
+    /* rejected tray */
+    let icon_segs: [geometry::DrawDirective; 4] = [
+        MoveRel(Offset { dx: 1.0, dy: 24.0 }),
+        ContinueRel(Offset { dx: 4.0, dy: 4.0 }),
+        ContinueRel(Offset { dx: 22.0, dy: 0.0 }),
+        ContinueRel(Offset { dx: 4.0, dy: -4.0 }),
+    ];
+    out.path(&icon_segs, &None, &None);
+
+    /* minus */
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 17.0, 8.0, 8.0);
+    out.path(&icon_segs, &Some(GREEN), &None);
+    let icon_segs: [geometry::DrawDirective; 4] = [
+        MoveRel(Offset { dx: 11.0, dy: 17.0 }),
+        LineRel(Offset { dx: 10.0, dy: 0.0 }),
+        MoveRel(Offset { dx: -5.0, dy: -5.0 }),
+        LineRel(Offset { dx: 0.0, dy: 10.0 }),
+    ];
+    out.path(&icon_segs, &Some(GREEN), &None);
+}
+
+/// The function generates a rationale/rejected icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_reason_rejected(out: &mut VecRenderer) -> () {
+    /* rejected tray */
+    let icon_segs: [geometry::DrawDirective; 4] = [
+        MoveRel(Offset { dx: 1.0, dy: 24.0 }),
+        ContinueRel(Offset { dx: 4.0, dy: 4.0 }),
+        ContinueRel(Offset { dx: 22.0, dy: 0.0 }),
+        ContinueRel(Offset { dx: 4.0, dy: -4.0 }),
+    ];
+    out.path(&icon_segs, &None, &None);
+
+    /* minus */
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 17.0, 8.0, 8.0);
+    out.path(&icon_segs, &Some(RED), &None);
+    let icon_segs: [geometry::DrawDirective; 2] = [
+        MoveRel(Offset { dx: 11.0, dy: 17.0 }),
+        LineRel(Offset { dx: 10.0, dy: 0.0 }),
+    ];
+    out.path(&icon_segs, &Some(RED), &None);
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -603,6 +707,18 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
         IconSource {
             name: "queue_queue",
             generate: generate_queue_queue,
+        },
+        IconSource {
+            name: "reason_decision",
+            generate: generate_reason_decision,
+        },
+        IconSource {
+            name: "reason_chosen",
+            generate: generate_reason_chosen,
+        },
+        IconSource {
+            name: "reason_rejected",
+            generate: generate_reason_rejected,
         },
     ]
 }
