@@ -2,7 +2,6 @@
 //! and passes it to icon_data for rendering.
 
 use super::render_svg::VecRenderer;
-use crate::model::geometry::Rect;
 use crate::model::icon_data;
 use std::fs;
 use std::fs::File;
@@ -105,13 +104,7 @@ pub fn generate_files(out_dir: &str) -> () {
             output_file: &mut svg_file,
             force_colors: true,
         };
-        let view = Rect {
-            left: 0.0,
-            top: 0.0,
-            width: 32.0,
-            height: 32.0,
-        };
-        v_render.header(&view);
+        v_render.header(&icon_data::ICON_VIEW_RECT);
         (icon.generate)(&mut v_render);
         v_render.footer();
 

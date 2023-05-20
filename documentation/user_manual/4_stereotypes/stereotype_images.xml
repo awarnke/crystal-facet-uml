@@ -2,11 +2,59 @@
   <variablelist>
     <title>Stereotype images</title>
     <varlistentry>
+      <term>deploy_database</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="deploy_database.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="m 6,5 l 0,22 c 0,2.2 4.5,4 10,4 s 10,-1.8 10,-4 l 0,-22 " /><path d="m 6,5 c 0,-2.2 4.5,-4 10,-4 s 10,1.8 10,4 s -4.5,4 -10,4 s -10,-1.8 -10,-4 " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>deploy_local</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="deploy_local.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="m 1,23 l 16,8 l 8,-6 l 3,-11 l -16,-7 l -2,11 z " /><path stroke="none" fill="#cccccc" d="m 5,23 l 11.5,5.5 l 5,-3.5 l -11,-5.2 z " /><path stroke="none" fill="#0000dd" d="m 11.5,17 l 12.5,6 l 2,-8 l -12.8,-6 z " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>deploy_cloud</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="deploy_cloud.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="m 3,22 c -3,-3 3,-9 6,-6 c 0,-5 8,-6 9,-1 c 7,-2 14,4 11,7 z " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>ecb_entity</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="ecb_entity.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="M 6,18 C 6,11.4 11.4,6 18,6 S 30,11.4 30,18 S 24.6,30 18,30 S 6,24.6 6,18 " /><path d="M 7,30.5 L 29,30.5 " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>ecb_control</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="ecb_control.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="M 6,18 C 6,11.4 11.4,6 18,6 S 30,11.4 30,18 S 24.6,30 18,30 S 6,24.6 6,18 " /><path d="M 22,1 L 17,6 L 22,11 " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>ecb_boundary</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="ecb_boundary.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="M 6,18 C 6,11.4 11.4,6 18,6 S 30,11.4 30,18 S 24.6,30 18,30 S 6,24.6 6,18 " /><path d="M 1,9 L 1,27 M 1,18 L 6,18 " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
       <term>gsn_goal</term>
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_goal.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
-        <command><![CDATA[<path stroke="#0000a0" d="M 1,7 L 31,7 L 31,25 L 1,25 Z " />]]></command>
+        <command><![CDATA[<path stroke="#000099" d="M 1,7 L 31,7 L 31,25 L 1,25 Z " />]]></command>
       </para></listitem>
     </varlistentry>
     <varlistentry>
@@ -14,7 +62,7 @@
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_context.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
-        <command><![CDATA[<path stroke="#0000a0" d="M 8,25 C 0,25 0,7 8,7 L 24,7 C 32,7 32,25 24,25 Z " />]]></command>
+        <command><![CDATA[<path stroke="#000099" d="M 8,25 C 0,25 0,7 8,7 L 24,7 C 32,7 32,25 24,25 Z " />]]></command>
       </para></listitem>
     </varlistentry>
     <varlistentry>
@@ -22,7 +70,7 @@
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_strategy.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
-        <command><![CDATA[<path stroke="#0000a0" d="M 7,7 L 31,7 L 25,25 L 1,25 Z " />]]></command>
+        <command><![CDATA[<path stroke="#000099" d="M 7,7 L 31,7 L 25,25 L 1,25 Z " />]]></command>
       </para></listitem>
     </varlistentry>
     <varlistentry>
@@ -30,7 +78,7 @@
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_assumption.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
-        <command><![CDATA[<path stroke="#0000a0" d="M 1,10 C 1,5.6 7.75,2 16,2 S 31,5.6 31,10 S 24.25,18 16,18 S 1,14.4 1,10 " /><path stroke="#0000a0" d="M 24,25 L 26.5,19 L 29,25 M 24.75,23.5 L 28.25,23.5 " />]]></command>
+        <command><![CDATA[<path stroke="#000099" d="M 1,10 C 1,5.6 7.75,2 16,2 S 31,5.6 31,10 S 24.25,18 16,18 S 1,14.4 1,10 " /><path stroke="#000099" d="M 24,25 L 26.5,19 L 29,25 M 24.75,23.5 L 28.25,23.5 " />]]></command>
       </para></listitem>
     </varlistentry>
     <varlistentry>
@@ -38,7 +86,7 @@
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_justification.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
-        <command><![CDATA[<path stroke="#0000a0" d="M 1,10 C 1,5.6 7.75,2 16,2 S 31,5.6 31,10 S 24.25,18 16,18 S 1,14.4 1,10 " /><path stroke="#0000a0" d="M 25,24 C 25,26 29,26 29,24 L 29,19 L 25,19 " />]]></command>
+        <command><![CDATA[<path stroke="#000099" d="M 1,10 C 1,5.6 7.75,2 16,2 S 31,5.6 31,10 S 24.25,18 16,18 S 1,14.4 1,10 " /><path stroke="#000099" d="M 25,24 C 25,26 29,26 29,24 L 29,19 L 25,19 " />]]></command>
       </para></listitem>
     </varlistentry>
     <varlistentry>
@@ -46,7 +94,7 @@
       <listitem><para>
         <mediaobject><imageobject><imagedata fileref="gsn_solution.svg" width="1cm"/></imageobject></mediaobject>
       </para><para>
-        <command><![CDATA[<path stroke="#0000a0" d="M 1,16 C 1,7.75 7.75,1 16,1 S 31,7.75 31,16 S 24.25,31 16,31 S 1,24.25 1,16 " />]]></command>
+        <command><![CDATA[<path stroke="#000099" d="M 1,16 C 1,7.75 7.75,1 16,1 S 31,7.75 31,16 S 24.25,31 16,31 S 1,24.25 1,16 " />]]></command>
       </para></listitem>
     </varlistentry>
     <varlistentry>

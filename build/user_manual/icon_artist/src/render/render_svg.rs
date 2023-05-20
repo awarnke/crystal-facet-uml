@@ -59,15 +59,18 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
         bg_col: &Option<Color>,
     ) -> () {
         write!(self.output_file, "<path ").expect("Error at writing file");
-        match (fg_col, self.force_colors) {
-            (Some(color), _) => {
+        match (fg_col, bg_col, self.force_colors) {
+            (Some(color), _, _) => {
                 write!(self.output_file, "stroke=\"#{}\" ", color.to_svg())
                     .expect("Error at writing file");
             }
-            (None, true) => {
+            (None, Some(_), _) => {
+                write!(self.output_file, "stroke=\"none\" ").expect("Error at writing file");
+            }
+            (None, None, true) => {
                 write!(self.output_file, "stroke=\"black\" ").expect("Error at writing file");
             }
-            (None, false) => {}
+            (None, None, false) => {}
         }
         match (bg_col, self.force_colors) {
             (Some(color), _) => {
@@ -75,7 +78,7 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
                     .expect("Error at writing file");
             }
             (None, true) => {
-                write!(self.output_file, "fill=\"white\" ").expect("Error at writing file");
+                write!(self.output_file, "fill=\"none\" ").expect("Error at writing file");
             }
             (None, false) => {}
         }

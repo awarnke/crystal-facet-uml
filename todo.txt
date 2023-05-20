@@ -17,7 +17,6 @@ ideas for future versions:
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   [ ] store edited text fields before performing undo/redo operations
   @pencil
-  [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
   [ ] activity bars on lifelines missing
   [ ] feature compartments in use-cases look ugly
@@ -52,6 +51,7 @@ ideas for future versions:
       part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   [ ] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
+  [?] relationship ends don't have roles nor multiplicities nor dot-notation
   @ctrl
   [ ] delete features immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
