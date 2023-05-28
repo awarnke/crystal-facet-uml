@@ -1,7 +1,9 @@
 //! This module provides a static data model to be rendered.
 
 pub mod geometry;
-pub mod icon_data;
+pub mod gui_icon;
+pub mod icon;
+pub mod stereotype_icon;
 
 /*
 Copyright 2023-2023 Andreas Warnke

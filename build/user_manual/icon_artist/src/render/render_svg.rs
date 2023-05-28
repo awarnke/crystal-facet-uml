@@ -21,6 +21,11 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     /// # Arguments
     ///
     /// * `view` - The bounding box of the visible area
+    ///
+    /// # Panics
+    ///
+    /// This function panics if the vector graphics cannot be written to a file.
+    ///
     pub(super) fn header(self: &mut Self, view: &Rect) -> () {
         write!(
             self.output_file,
@@ -42,6 +47,11 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     }
 
     /// The function footer converts the vector graphics drawing directive footer to svg format
+    ///
+    /// # Panics
+    ///
+    /// This function panics if the vector graphics cannot be written to a file.
+    ///
     pub(super) fn footer(self: &mut Self) -> () {
         write!(self.output_file, "\n</svg>\n").expect("Error at writing file");
     }
@@ -52,6 +62,11 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     /// * `segs` - The segments of the path
     /// * `fg_col` - The foreground color by which the path is stroked
     /// * `bg_col` - The background color by which the path is filled
+    ///
+    /// # Panics
+    ///
+    /// This function panics if the vector graphics cannot be written to a file.
+    ///
     pub fn path(
         self: &mut Self,
         segs: &[DrawDirective],

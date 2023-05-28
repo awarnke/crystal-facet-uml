@@ -19,7 +19,7 @@ wine on opensuse:
 >
 > sudo zypper install wine  # includes wine64
 >
-> zypper install mingw64-gcc mingw64-cross-pkgconf mingw64-cross-gcc
+> sudo zypper install mingw64-gcc mingw64-cross-pkgconf mingw64-cross-gcc
 
 How to build and pack
 -----------

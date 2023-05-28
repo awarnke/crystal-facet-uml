@@ -16,18 +16,11 @@ use super::geometry::DrawDirective::SymmetricRel;
 use super::geometry::Offset;
 use super::geometry::Point;
 use super::geometry::Rect;
+use super::icon::IconSource;
 use crate::render::render_svg::VecRenderer;
 
-/// Defines the data needed to render an icon
-pub struct IconSource<'my_lifespan> {
-    /// The name
-    pub name: &'my_lifespan str,
-    /// The generator function
-    pub generate: fn(out: &mut VecRenderer) -> (),
-}
-
 /// The view rectangle of each icon
-pub static ICON_VIEW_RECT: Rect = Rect {
+const ICON_VIEW_RECT: Rect = Rect {
     left: 0.0,
     top: 0.0,
     width: 32.0,
@@ -650,74 +643,92 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
     &[
         IconSource {
             name: "deploy_database",
+            viewport: ICON_VIEW_RECT,
             generate: generate_deploy_database,
         },
         IconSource {
             name: "deploy_local",
+            viewport: ICON_VIEW_RECT,
             generate: generate_deploy_local,
         },
         IconSource {
             name: "deploy_cloud",
+            viewport: ICON_VIEW_RECT,
             generate: generate_deploy_cloud,
         },
         IconSource {
             name: "ecb_entity",
+            viewport: ICON_VIEW_RECT,
             generate: generate_ecb_entity,
         },
         IconSource {
             name: "ecb_control",
+            viewport: ICON_VIEW_RECT,
             generate: generate_ecb_control,
         },
         IconSource {
             name: "ecb_boundary",
+            viewport: ICON_VIEW_RECT,
             generate: generate_ecb_boundary,
         },
         IconSource {
             name: "gsn_goal",
+            viewport: ICON_VIEW_RECT,
             generate: generate_gsn_goal,
         },
         IconSource {
             name: "gsn_context",
+            viewport: ICON_VIEW_RECT,
             generate: generate_gsn_context,
         },
         IconSource {
             name: "gsn_strategy",
+            viewport: ICON_VIEW_RECT,
             generate: generate_gsn_strategy,
         },
         IconSource {
             name: "gsn_assumption",
+            viewport: ICON_VIEW_RECT,
             generate: generate_gsn_assumption,
         },
         IconSource {
             name: "gsn_justification",
+            viewport: ICON_VIEW_RECT,
             generate: generate_gsn_justification,
         },
         IconSource {
             name: "gsn_solution",
+            viewport: ICON_VIEW_RECT,
             generate: generate_gsn_solution,
         },
         IconSource {
             name: "queue_buffer",
+            viewport: ICON_VIEW_RECT,
             generate: generate_queue_buffer,
         },
         IconSource {
             name: "queue_server",
+            viewport: ICON_VIEW_RECT,
             generate: generate_queue_server,
         },
         IconSource {
             name: "queue_queue",
+            viewport: ICON_VIEW_RECT,
             generate: generate_queue_queue,
         },
         IconSource {
             name: "reason_decision",
+            viewport: ICON_VIEW_RECT,
             generate: generate_reason_decision,
         },
         IconSource {
             name: "reason_chosen",
+            viewport: ICON_VIEW_RECT,
             generate: generate_reason_chosen,
         },
         IconSource {
             name: "reason_rejected",
+            viewport: ICON_VIEW_RECT,
             generate: generate_reason_rejected,
         },
     ]

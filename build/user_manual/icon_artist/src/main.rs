@@ -4,13 +4,16 @@
 
 pub mod model;
 pub mod render;
+use model::icon::IconSource;
+use model::stereotype_icon;
 use render::icon_writer;
 
 static OUT_DIR: &'static str = "../../../documentation/user_manual/4_stereotypes";
 
 /// The main function defines parameters and starts the icon_writer.
 fn main() {
-    icon_writer::generate_files(OUT_DIR);
+    let icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
+    icon_writer::generate_files(icons, OUT_DIR);
     println!("Generated files have been written to '{}'.", OUT_DIR);
 }
 

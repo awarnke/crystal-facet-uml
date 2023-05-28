@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.50.0"
+    "generator_version": "1.50.1"
   }
   ,
   "views":
@@ -167,6 +167,27 @@
             "classifier_name": "geometry",
             "node": "18040e78-ed42-4c92-9742-e89b147cd8d5",
             "uuid": "5e0a7a11-085a-4324-8c4e-755cfb90c6c6"
+          },
+          {
+            "id": 20,
+            "display_flags": 0,
+            "classifier_name": "main",
+            "node": "4ea42b29-386f-4db4-bb5d-a5087524f0cb",
+            "uuid": "7fb3e036-096d-46a1-b4a8-7311eedd02bf"
+          },
+          {
+            "id": 21,
+            "display_flags": 0,
+            "classifier_name": "gui_icon",
+            "node": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
+            "uuid": "fe009fe1-7162-48be-adef-ab5c12b448b5"
+          },
+          {
+            "id": 22,
+            "display_flags": 0,
+            "classifier_name": "icon",
+            "node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
+            "uuid": "b24eab9d-1910-4347-90a3-2fec239828d0"
           }
         ]
       }
@@ -207,6 +228,21 @@
             "classifier_name": "render_svg",
             "node": "aca5b62d-23e2-4011-808a-9c3389b41616",
             "uuid": "a02c49ad-f524-4820-a64f-9b251f320f95"
+          },
+          {
+            "id": 19,
+            "display_flags": 0,
+            "classifier_name": "main",
+            "node": "7fbb0c9c-fcc0-4fc0-ac4a-16c77757ea84",
+            "uuid": "a499210f-74b9-478e-ac14-56777295ef30"
+          },
+          {
+            "id": 23,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "gui_icon",
+            "node": "4488908d-db57-479c-882d-af210f5b2c01",
+            "uuid": "77fa724a-8bb2-4750-8c08-1bf9308e47ed"
           }
         ]
       }
@@ -425,7 +461,7 @@
         ],
         "x_order": -1171633862,
         "y_order": -8454772,
-        "list_order": -8454772,
+        "list_order": -693209781,
         "uuid": "f0d393cd-2646-4369-b429-4b09712bdb49",
         "features":
         [
@@ -514,6 +550,93 @@
         "y_order": 124360990,
         "list_order": -542227524,
         "uuid": "18040e78-ed42-4c92-9742-e89b147cd8d5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 13,
+        "main_type": 125,
+        "type": "Class",
+        "name": "main",
+        "description": [
+                ""
+        ],
+        "x_order": -1171633862,
+        "y_order": -1301637532,
+        "list_order": -1301637532,
+        "uuid": "4ea42b29-386f-4db4-bb5d-a5087524f0cb",
+        "features":
+        [
+          {
+            "id": 9,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "7fbb0c9c-fcc0-4fc0-ac4a-16c77757ea84"
+          },
+          {
+            "id": 10,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "main()",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "55cb9067-a7e4-441a-820c-13d5e21f0766"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 14,
+        "main_type": 125,
+        "type": "Class",
+        "name": "gui_icon",
+        "description": [
+                ""
+        ],
+        "x_order": 129583284,
+        "y_order": -1301637532,
+        "list_order": 31265024,
+        "uuid": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
+        "features":
+        [
+          {
+            "id": 11,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "4488908d-db57-479c-882d-af210f5b2c01"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 15,
+        "main_type": 125,
+        "type": "Class",
+        "name": "icon",
+        "description": [
+                ""
+        ],
+        "x_order": 639870090,
+        "y_order": 124360990,
+        "list_order": 50186937,
+        "uuid": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
         "features":
         [
         ]
@@ -631,20 +754,38 @@
     },
     {
       "relationship": {
-        "id": 13,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "generate_files()",
+        "id": 23,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 124393758,
+        "list_order": 124426526,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "main",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "4ea42b29-386f-4db4-bb5d-a5087524f0cb",
+        "uuid": "7a12b64d-643f-4db9-9b78-f6c0bdfee29c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 25,
+        "main_type": 200,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 124492062,
         "from_classifier_name": "icon-artist",
         "from_feature_key": "main()",
-        "to_classifier_name": "icon_writer",
+        "to_classifier_name": "main",
+        "to_feature_key": "main()",
         "from_node": "0f576371-50da-499e-b965-891127882c24",
-        "to_node": "f0d393cd-2646-4369-b429-4b09712bdb49",
-        "uuid": "dc1e1c27-a159-4a28-aae4-b69b378b4eeb"
+        "to_node": "55cb9067-a7e4-441a-820c-13d5e21f0766",
+        "uuid": "1aef99c1-97dd-4b7b-a4cc-a291833eed1a"
       }
     },
     {
@@ -770,14 +911,48 @@
     },
     {
       "relationship": {
-        "id": 15,
-        "main_type": 221,
-        "type": "Message",
-        "name": "1b. icon.generate()",
+        "id": 26,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "list_order": 31265024,
+        "from_classifier_name": "model",
+        "to_classifier_name": "gui_icon",
+        "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
+        "to_node": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
+        "uuid": "37216886-61b3-4ee5-a1b8-027154c7af96"
+      }
+    },
+    {
+      "relationship": {
+        "id": 27,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 50186937,
+        "from_classifier_name": "model",
+        "to_classifier_name": "icon",
+        "from_node": "41102a65-f6a8-4e51-a884-2afa4e222de0",
+        "to_node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
+        "uuid": "843f5c85-4c9d-455e-821e-bb1956e5dd11"
+      }
+    },
+    {
+      "relationship": {
+        "id": 15,
+        "main_type": 221,
+        "type": "Message",
+        "name": "3b. icon.generate()",
+        "description": [
+                ""
+        ],
+        "list_order": 403828622,
         "from_classifier_name": "icon_writer",
         "from_feature_key": "",
         "to_classifier_name": "icon_data",
@@ -792,11 +967,11 @@
         "id": 16,
         "main_type": 221,
         "type": "Message",
-        "name": "1a. create renderer for nice icons",
+        "name": "3a. create renderer for nice icons",
         "description": [
                 ""
         ],
-        "list_order": 65536,
+        "list_order": 107792115,
         "from_classifier_name": "icon_writer",
         "from_feature_key": "",
         "to_classifier_name": "render_svg",
@@ -811,11 +986,11 @@
         "id": 17,
         "main_type": 221,
         "type": "Message",
-        "name": "2a. create renderer for docbook with svg-path",
+        "name": "4a. create renderer for docbook with svg-path",
         "description": [
                 ""
         ],
-        "list_order": 98304,
+        "list_order": 952366855,
         "from_classifier_name": "icon_writer",
         "from_feature_key": "",
         "to_classifier_name": "render_svg",
@@ -830,11 +1005,11 @@
         "id": 18,
         "main_type": 221,
         "type": "Message",
-        "name": "2b. icon.generate()",
+        "name": "4b. icon.generate()",
         "description": [
                 ""
         ],
-        "list_order": 131072,
+        "list_order": 1248403362,
         "from_classifier_name": "icon_writer",
         "from_feature_key": "",
         "to_classifier_name": "icon_data",
@@ -842,6 +1017,78 @@
         "from_node": "348addb8-501f-4761-b846-b5e17b9f1a96",
         "to_node": "19e782c2-4792-4011-b3db-ca4a88d70a23",
         "uuid": "ad0d3d27-babf-4dcc-9ff7-2343cd120927"
+      }
+    },
+    {
+      "relationship": {
+        "id": 28,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1248436130,
+        "from_classifier_name": "icon_data",
+        "to_classifier_name": "icon",
+        "from_node": "5c91a819-3ba8-4214-b2be-ae0454889a5b",
+        "to_node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
+        "uuid": "845156dc-3951-4898-bb7a-90228fb600a4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 21,
+        "main_type": 221,
+        "type": "Message",
+        "name": "1. get_icons",
+        "description": [
+                ""
+        ],
+        "list_order": -1098121302,
+        "from_classifier_name": "main",
+        "from_feature_key": "",
+        "to_classifier_name": "icon_data",
+        "to_feature_key": "",
+        "from_node": "7fbb0c9c-fcc0-4fc0-ac4a-16c77757ea84",
+        "to_node": "19e782c2-4792-4011-b3db-ca4a88d70a23",
+        "uuid": "386be11e-2ef3-4720-b5d0-edcf6b98e9c6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 22,
+        "main_type": 221,
+        "type": "Message",
+        "name": "2. generate_files",
+        "description": [
+                ""
+        ],
+        "list_order": -462513508,
+        "from_classifier_name": "main",
+        "from_feature_key": "",
+        "to_classifier_name": "icon_writer",
+        "to_feature_key": "",
+        "from_node": "7fbb0c9c-fcc0-4fc0-ac4a-16c77757ea84",
+        "to_node": "348addb8-501f-4761-b846-b5e17b9f1a96",
+        "uuid": "a1d26167-b0fd-4418-91d9-ce240f1db469"
+      }
+    },
+    {
+      "relationship": {
+        "id": 29,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1248468898,
+        "from_classifier_name": "gui_icon",
+        "to_classifier_name": "icon",
+        "from_node": "3b7f5dbb-47c6-4ed1-80e7-a6af17bbe55c",
+        "to_node": "bfc86773-796f-4f50-a7ed-ba4ced0e6564",
+        "uuid": "b97d26d1-0ad9-4acc-8304-df615179f009"
       }
     }
   ]

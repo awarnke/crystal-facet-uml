@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.50.0"
+    "generator_version": "1.50.1"
   }
   ,
   "views":
@@ -180,7 +180,7 @@
           {
             "id": 57,
             "display_flags": 0,
-            "classifier_name": "Backend Server",
+            "classifier_name": "Backend Server / Cloud",
             "node": "312ec422-49cb-4ef2-965e-568b28649cdf",
             "uuid": "eee692a1-8904-4203-8ac3-d139a71b8af4"
           },
@@ -336,7 +336,8 @@
           },
           {
             "id": 232,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "Quality Scenario",
             "node": "7d516cbc-7b26-45a9-a3f4-9249c96dd97a",
             "uuid": "5706698b-1317-4eab-aca2-3743c1e3519c"
@@ -372,7 +373,8 @@
           },
           {
             "id": 319,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "Design Pattern",
             "node": "cb3e49ab-e121-4f28-8e4a-123edfd37d14",
             "uuid": "c6de1c16-1a89-41aa-841b-eaf839befb82"
@@ -2048,6 +2050,69 @@
             "classifier_name": "Satisfaction",
             "node": "a72211d7-244f-4ecc-928d-432fd1131579",
             "uuid": "fd585b9f-2a5f-4eff-951a-7592feabb999"
+          },
+          {
+            "id": 350,
+            "display_flags": 0,
+            "classifier_name": "Economic risk mitigation",
+            "node": "5a96e34d-5c00-4a24-a78f-acefa33b30c2",
+            "uuid": "edd31196-2a0b-43ef-bdfc-51a6858b3eeb"
+          },
+          {
+            "id": 351,
+            "display_flags": 0,
+            "classifier_name": "Health and safety risk mitigation",
+            "node": "5acd2f68-ad2c-4b24-b99b-5003dde86088",
+            "uuid": "e683ceb4-c129-4565-84dc-979a4d3fbf9b"
+          },
+          {
+            "id": 352,
+            "display_flags": 0,
+            "classifier_name": "Environmental risk mitigation",
+            "node": "50a092e7-0b67-4994-8bc8-36c127953866",
+            "uuid": "db948b2a-d6e8-4af1-99cc-a567239d776e"
+          },
+          {
+            "id": 353,
+            "display_flags": 0,
+            "classifier_name": "Flexibility",
+            "node": "242b827a-2608-4c7b-9216-dba1e4fffdda",
+            "uuid": "1c5a5182-a664-47fe-86f0-e02e3974d81c"
+          },
+          {
+            "id": 354,
+            "display_flags": 0,
+            "classifier_name": "Context completeness",
+            "node": "27bc4f26-6ab7-4159-a450-0a9c981cd7b8",
+            "uuid": "06b3867f-7f2f-4202-a1b2-51911439fef0"
+          },
+          {
+            "id": 355,
+            "display_flags": 0,
+            "classifier_name": "Usefulness",
+            "node": "e58c3cef-1ab4-45a4-b1bf-8ac8c5a3e46b",
+            "uuid": "b449b128-151c-4b7e-a0ef-162be1a970b4"
+          },
+          {
+            "id": 356,
+            "display_flags": 0,
+            "classifier_name": "Trust",
+            "node": "9e0f74ab-4d70-4349-810b-48f03afc6ffa",
+            "uuid": "968f7a93-772a-4030-b6cb-079c1142c90b"
+          },
+          {
+            "id": 357,
+            "display_flags": 0,
+            "classifier_name": "Pleasure",
+            "node": "dbc7acf2-6a22-4e74-82db-1d802d63aa7f",
+            "uuid": "21567cd9-5d07-4dc7-ad16-9ce30afe7fc1"
+          },
+          {
+            "id": 358,
+            "display_flags": 0,
+            "classifier_name": "Comport",
+            "node": "1737a735-7f65-4a5f-9d74-fb1c0eb2aaf8",
+            "uuid": "eed17a67-1f24-439b-8e27-a05d9440cb8d"
           }
         ]
       }
@@ -3859,7 +3924,7 @@
         "id": 57,
         "main_type": 100,
         "type": "Actor",
-        "name": "Backend Server",
+        "name": "Backend Server / Cloud",
         "description": [
                 ""
         ],
@@ -6321,7 +6386,7 @@
                 "Scenarios as linking elements between a quality tree and requirements are described in arc42 (C0168), see D0023#name."
         ],
         "x_order": -1163427608,
-        "y_order": -1553370041,
+        "y_order": 493629064,
         "list_order": -1607494057,
         "uuid": "7d516cbc-7b26-45a9-a3f4-9249c96dd97a",
         "features":
@@ -6356,7 +6421,7 @@
         "description": [
                 "A quality tree starts at the quality characteristics as the main branches and ends at detailed quality requirements as the leaves.\n",
                 "\n",
-                "The detailed quality requirements then may refer to quality szenarios where these are of significance."
+                "The detailed quality requirements then may refer to quality scenarios where these are of significance."
         ],
         "x_order": -1163427608,
         "y_order": -1616804599,
@@ -7285,7 +7350,7 @@
                 ""
         ],
         "x_order": -1163427608,
-        "y_order": 493629064,
+        "y_order": -1553370041,
         "list_order": 401926179,
         "uuid": "8c7a9118-dbfd-4d99-a85a-55e1a3f8585c",
         "features":
@@ -7802,6 +7867,168 @@
             "list_order": 65536,
             "uuid": "271a18da-7fbc-42f5-af54-5f853d625607"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 234,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Economic risk mitigation",
+        "description": [
+                ""
+        ],
+        "x_order": 1781433583,
+        "y_order": -958333318,
+        "list_order": -808121835,
+        "uuid": "5a96e34d-5c00-4a24-a78f-acefa33b30c2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 235,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Health and safety risk mitigation",
+        "description": [
+                ""
+        ],
+        "x_order": -1460030655,
+        "y_order": -958333318,
+        "list_order": -739990777,
+        "uuid": "5acd2f68-ad2c-4b24-b99b-5003dde86088",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 236,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Environmental risk mitigation",
+        "description": [
+                ""
+        ],
+        "x_order": 321461009,
+        "y_order": -958333318,
+        "list_order": 375250605,
+        "uuid": "50a092e7-0b67-4994-8bc8-36c127953866",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 237,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Flexibility",
+        "description": [
+                ""
+        ],
+        "x_order": 1781433583,
+        "y_order": -1163520015,
+        "list_order": -1084429126,
+        "uuid": "242b827a-2608-4c7b-9216-dba1e4fffdda",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 238,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Context completeness",
+        "description": [
+                ""
+        ],
+        "x_order": 1781433583,
+        "y_order": -1136833321,
+        "list_order": -973168871,
+        "uuid": "27bc4f26-6ab7-4159-a450-0a9c981cd7b8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 239,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Usefulness",
+        "description": [
+                ""
+        ],
+        "x_order": 2050872284,
+        "y_order": -1163520015,
+        "list_order": -1147780770,
+        "uuid": "e58c3cef-1ab4-45a4-b1bf-8ac8c5a3e46b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 240,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Trust",
+        "description": [
+                ""
+        ],
+        "x_order": 2050872284,
+        "y_order": -1126420423,
+        "list_order": -1129260113,
+        "uuid": "9e0f74ab-4d70-4349-810b-48f03afc6ffa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 241,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Pleasure",
+        "description": [
+                ""
+        ],
+        "x_order": 2050872284,
+        "y_order": -1136833321,
+        "list_order": -1136833321,
+        "uuid": "dbc7acf2-6a22-4e74-82db-1d802d63aa7f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 242,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Comport",
+        "description": [
+                ""
+        ],
+        "x_order": 2050872284,
+        "y_order": -958333318,
+        "list_order": -1138751812,
+        "uuid": "1737a735-7f65-4a5f-9d74-fb1c0eb2aaf8",
+        "features":
+        [
         ]
       }
     }
@@ -10308,6 +10535,159 @@
         "from_node": "f6ed2823-58d5-4482-86ec-49e197dd1971",
         "to_node": "c8cbad0e-c0a9-43e0-811c-1cf7f0722b35",
         "uuid": "0832ce70-901a-4966-85f1-c917521ce1ae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 290,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1147780770,
+        "from_classifier_name": "Satisfaction",
+        "to_classifier_name": "Usefulness",
+        "from_node": "a72211d7-244f-4ecc-928d-432fd1131579",
+        "to_node": "e58c3cef-1ab4-45a4-b1bf-8ac8c5a3e46b",
+        "uuid": "449d817e-1bd7-4923-909f-cd6c4b762ce6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 291,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1129260113,
+        "from_classifier_name": "Satisfaction",
+        "to_classifier_name": "Trust",
+        "from_node": "a72211d7-244f-4ecc-928d-432fd1131579",
+        "to_node": "9e0f74ab-4d70-4349-810b-48f03afc6ffa",
+        "uuid": "229c63b0-bcb8-4fbc-833e-257a618d70e6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 292,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1136833321,
+        "from_classifier_name": "Satisfaction",
+        "to_classifier_name": "Pleasure",
+        "from_node": "a72211d7-244f-4ecc-928d-432fd1131579",
+        "to_node": "dbc7acf2-6a22-4e74-82db-1d802d63aa7f",
+        "uuid": "2178c2ac-af2d-4d26-bb1d-67d1013f6ccc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 293,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1138751812,
+        "from_classifier_name": "Satisfaction",
+        "to_classifier_name": "Comport",
+        "from_node": "a72211d7-244f-4ecc-928d-432fd1131579",
+        "to_node": "1737a735-7f65-4a5f-9d74-fb1c0eb2aaf8",
+        "uuid": "2853c777-c985-4f3a-af4d-1e48b04bc239"
+      }
+    },
+    {
+      "relationship": {
+        "id": 285,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -808121835,
+        "from_classifier_name": "Freedom from Risk",
+        "to_classifier_name": "Economic risk mitigation",
+        "from_node": "c93efa8b-36e9-49bd-87c4-5f236e4371e8",
+        "to_node": "5a96e34d-5c00-4a24-a78f-acefa33b30c2",
+        "uuid": "030fc920-e7df-466f-85b7-8484b8af33e5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 286,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -739990777,
+        "from_classifier_name": "Freedom from Risk",
+        "to_classifier_name": "Health and safety risk mitigation",
+        "from_node": "c93efa8b-36e9-49bd-87c4-5f236e4371e8",
+        "to_node": "5acd2f68-ad2c-4b24-b99b-5003dde86088",
+        "uuid": "73add4b9-113b-43e4-9c8a-e6894e293192"
+      }
+    },
+    {
+      "relationship": {
+        "id": 287,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 375250605,
+        "from_classifier_name": "Freedom from Risk",
+        "to_classifier_name": "Environmental risk mitigation",
+        "from_node": "c93efa8b-36e9-49bd-87c4-5f236e4371e8",
+        "to_node": "50a092e7-0b67-4994-8bc8-36c127953866",
+        "uuid": "8316f998-845a-41c7-833e-6a8bce75bb02"
+      }
+    },
+    {
+      "relationship": {
+        "id": 288,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1084429126,
+        "from_classifier_name": "Context Coverage",
+        "to_classifier_name": "Flexibility",
+        "from_node": "298f39de-0dad-45a8-893b-5b3ce27a48eb",
+        "to_node": "242b827a-2608-4c7b-9216-dba1e4fffdda",
+        "uuid": "30b84d0c-f878-498a-b8c0-34698bd183c1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 289,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -973168871,
+        "from_classifier_name": "Context Coverage",
+        "to_classifier_name": "Context completeness",
+        "from_node": "298f39de-0dad-45a8-893b-5b3ce27a48eb",
+        "to_node": "27bc4f26-6ab7-4159-a450-0a9c981cd7b8",
+        "uuid": "b8e215b1-09fd-4d5b-98f6-713dafd0e1a2"
       }
     },
     {

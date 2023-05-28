@@ -2,7 +2,7 @@
 //! and passes it to icon_data for rendering.
 
 use super::render_svg::VecRenderer;
-use crate::model::icon_data;
+use crate::model::icon::IconSource;
 use std::fs;
 use std::fs::File;
 use std::io::Write;
@@ -13,7 +13,7 @@ use std::path::PathBuf;
 /// # Arguments
 ///
 /// * `out_dir` - The directory where files shall be written to
-/// * `file_name` - The filenam of the file to be created
+/// * `file_name` - The filename of the file to be created
 ///
 /// # Panics
 ///
@@ -58,7 +58,7 @@ fn write_db_footer(out: &mut File) -> () {
 ///
 /// This function panics if the vector graphics cannot be written to a file.
 ///
-fn write_db_icon_entry(icon: &icon_data::IconSource, out: &mut File) -> () {
+fn write_db_icon_entry(icon: &IconSource, out: &mut File) -> () {
     write!(out, "    <varlistentry>\n").expect("Error at writing file");
     write!(out, "      <term>{}</term>\n", icon.name).expect("Error at writing file");
     write!(out, "      <listitem><para>\n        ").expect("Error at writing file");
@@ -87,15 +87,19 @@ fn write_db_icon_entry(icon: &icon_data::IconSource, out: &mut File) -> () {
 /// The function creates a file for each icon and triggers the rendering
 /// of the icon as vector graphics drawing directives to the file.
 ///
+/// # Arguments
+///
+/// * `icons` - The list of images to be rendered
+/// * `out_dir` - The output directory where to export the generated images to
+///
 /// # Panics
 ///
 /// This function panics if the vector graphics cannot be written to a file.
 ///
-pub fn generate_files(out_dir: &str) -> () {
+pub fn generate_files(icons: &[IconSource], out_dir: &str) -> () {
     let mut db_file = open_file_to_write(out_dir, &"stereotype_images.xml");
     write_db_header(&mut db_file);
 
-    let icons: &'static [icon_data::IconSource<'static>] = icon_data::get_icons();
     for icon in icons {
         /* render an svg file */
         let file_name: String = icon.name.to_owned() + ".svg";
@@ -104,7 +108,7 @@ pub fn generate_files(out_dir: &str) -> () {
             output_file: &mut svg_file,
             force_colors: true,
         };
-        v_render.header(&icon_data::ICON_VIEW_RECT);
+        v_render.header(&icon.viewport);
         (icon.generate)(&mut v_render);
         v_render.footer();
 
