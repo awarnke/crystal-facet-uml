@@ -6,6 +6,12 @@ use crate::model::geometry::Rect;
 use std::fs::File;
 use std::io::Write;
 
+/// The rounding unit for absolute coordinates
+const ABS_UNIT: f32 = 0.125;
+
+/// The rounding unit for relative coordinates
+const REL_UNIT: f32 = 0.0625;
+
 /// Defines a vector renderer
 pub struct VecRenderer<'my_lifespan> {
     /// The file that is open for writing
@@ -101,49 +107,95 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
         for seg in segs {
             match seg {
                 DrawDirective::Move(target) => {
-                    write!(self.output_file, "M {},{} ", target.x, target.y)
+                    write!(
+                        self.output_file,
+                        "M {},{} ",
+                        target.round_x(ABS_UNIT),
+                        target.round_y(ABS_UNIT)
+                    )
                 }
                 DrawDirective::MoveRel(offset) => {
-                    write!(self.output_file, "m {},{} ", offset.dx, offset.dy)
+                    write!(
+                        self.output_file,
+                        "m {},{} ",
+                        offset.round_dx(REL_UNIT),
+                        offset.round_dy(REL_UNIT)
+                    )
                 }
                 DrawDirective::Line(target) => {
-                    write!(self.output_file, "L {},{} ", target.x, target.y)
+                    write!(
+                        self.output_file,
+                        "L {},{} ",
+                        target.round_x(ABS_UNIT),
+                        target.round_y(ABS_UNIT)
+                    )
                 }
                 DrawDirective::LineRel(offset) => {
-                    write!(self.output_file, "l {},{} ", offset.dx, offset.dy)
+                    write!(
+                        self.output_file,
+                        "l {},{} ",
+                        offset.round_dx(REL_UNIT),
+                        offset.round_dy(REL_UNIT)
+                    )
                 }
                 DrawDirective::Continue(target) => {
-                    write!(self.output_file, "{},{} ", target.x, target.y)
+                    write!(
+                        self.output_file,
+                        "{},{} ",
+                        target.round_x(ABS_UNIT),
+                        target.round_y(ABS_UNIT)
+                    )
                 }
                 DrawDirective::ContinueRel(offset) => {
-                    write!(self.output_file, "{},{} ", offset.dx, offset.dy)
+                    write!(
+                        self.output_file,
+                        "{},{} ",
+                        offset.round_dx(REL_UNIT),
+                        offset.round_dy(REL_UNIT)
+                    )
                 }
                 DrawDirective::Curve(p1, p2, target) => {
                     write!(
                         self.output_file,
                         "C {},{} {},{} {},{} ",
-                        p1.x, p1.y, p2.x, p2.y, target.x, target.y
+                        p1.round_x(ABS_UNIT),
+                        p1.round_y(ABS_UNIT),
+                        p2.round_x(ABS_UNIT),
+                        p2.round_y(ABS_UNIT),
+                        target.round_x(ABS_UNIT),
+                        target.round_y(ABS_UNIT)
                     )
                 }
                 DrawDirective::CurveRel(o_p1, o_p2, offset) => {
                     write!(
                         self.output_file,
                         "c {},{} {},{} {},{} ",
-                        o_p1.dx, o_p1.dy, o_p2.dx, o_p2.dy, offset.dx, offset.dy
+                        o_p1.round_dx(REL_UNIT),
+                        o_p1.round_dy(REL_UNIT),
+                        o_p2.round_dx(REL_UNIT),
+                        o_p2.round_dy(REL_UNIT),
+                        offset.round_dx(REL_UNIT),
+                        offset.round_dy(REL_UNIT)
                     )
                 }
                 DrawDirective::Symmetric(p2, target) => {
                     write!(
                         self.output_file,
                         "S {},{} {},{} ",
-                        p2.x, p2.y, target.x, target.y
+                        p2.round_x(ABS_UNIT),
+                        p2.round_y(ABS_UNIT),
+                        target.round_x(ABS_UNIT),
+                        target.round_y(ABS_UNIT)
                     )
                 }
                 DrawDirective::SymmetricRel(o_p2, offset) => {
                     write!(
                         self.output_file,
                         "s {},{} {},{} ",
-                        o_p2.dx, o_p2.dy, offset.dx, offset.dy
+                        o_p2.round_dx(REL_UNIT),
+                        o_p2.round_dy(REL_UNIT),
+                        offset.round_dx(REL_UNIT),
+                        offset.round_dy(REL_UNIT)
                     )
                 }
                 DrawDirective::Close => {

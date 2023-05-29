@@ -1,6 +1,7 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::geometry;
+use super::geometry::get_circle_abs;
 use super::geometry::DrawDirective::Close;
 use super::geometry::DrawDirective::LineRel;
 use super::geometry::DrawDirective::Move;
@@ -26,7 +27,7 @@ const ICON_VIEW_RECT: Rect = Rect {
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 pub fn generate_view_navigate(out: &mut VecRenderer) -> () {
-    /* wheel */
+    /* spoke of wheel */
     let r2: f32 = 15.0;
     let r1: f32 = 11.0;
     let cx: f32 = 16.0;
@@ -53,6 +54,10 @@ pub fn generate_view_navigate(out: &mut VecRenderer) -> () {
             dy: (-r1) * dy + r1 * n_dy,
         });
     }
+    out.path(&icon_segs, &None, &None);
+
+    /* rim of wheel */
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 11.0, 11.0);
     out.path(&icon_segs, &None, &None);
 }
 

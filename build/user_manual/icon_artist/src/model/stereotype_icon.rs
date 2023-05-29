@@ -1,6 +1,8 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::geometry;
+use super::geometry::get_circle_abs;
+use super::geometry::get_circle_rel;
 use super::geometry::Color;
 use super::geometry::DrawDirective::Close;
 use super::geometry::DrawDirective::CloseRel;
@@ -11,7 +13,6 @@ use super::geometry::DrawDirective::Line;
 use super::geometry::DrawDirective::LineRel;
 use super::geometry::DrawDirective::Move;
 use super::geometry::DrawDirective::MoveRel;
-use super::geometry::DrawDirective::Symmetric;
 use super::geometry::DrawDirective::SymmetricRel;
 use super::geometry::Offset;
 use super::geometry::Point;
@@ -47,118 +48,6 @@ static GREEN: Color = Color {
     green: 0xaa,
     blue: 0x0,
 };
-
-/// The function defines the control points for a circle in absolute coordinates
-///
-/// # Arguments
-///
-/// * `cx` - The absolute x-coordinate of the center
-/// * `cy` - The absolute y-coordinate of the center
-/// * `rx` - The radius in x-direction
-/// * `ry` - The radius in y-direction
-///
-/// # Panics
-///
-/// This function panics if VecRenderer cannot write to the output sink.
-///
-fn get_circle(cx: f32, cy: f32, rx: f32, ry: f32) -> [geometry::DrawDirective; 5] {
-    let ctrlpnt_dx: f32 = rx * 0.5625; /* control point distance x, this number avoids rounding errors */
-    let ctrlpnt_dy: f32 = ry * 0.5625; /* control point distance y, this number avoids rounding errors */
-    [
-        Move(Point { x: cx - rx, y: cy }),
-        Curve(
-            Point {
-                x: cx - rx,
-                y: cy - ctrlpnt_dy,
-            },
-            Point {
-                x: cx - ctrlpnt_dx,
-                y: cy - ry,
-            },
-            Point { x: cx, y: cy - ry },
-        ),
-        Symmetric(
-            Point {
-                x: cx + rx,
-                y: cy - ctrlpnt_dy,
-            },
-            Point { x: cx + rx, y: cy },
-        ),
-        Symmetric(
-            Point {
-                x: cx + ctrlpnt_dx,
-                y: cy + ry,
-            },
-            Point { x: cx, y: cy + ry },
-        ),
-        Symmetric(
-            Point {
-                x: cx - rx,
-                y: cy + ctrlpnt_dy,
-            },
-            Point { x: cx - rx, y: cy },
-        ),
-    ]
-}
-
-/// The function defines the control points for a circle in relative offsets
-///
-/// # Arguments
-///
-/// * `c_dx` - The relative x-offset of the center
-/// * `c_dy` - The relative y-offset of the center
-/// * `rx` - The radius in x-direction
-/// * `ry` - The radius in y-direction
-///
-/// # Panics
-///
-/// This function panics if VecRenderer cannot write to the output sink.
-///
-fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [geometry::DrawDirective; 5] {
-    let ctrlpnt_dx: f32 = rx * 0.5625; /* control point distance x, this number avoids rounding errors */
-    let ctrlpnt_dy: f32 = ry * 0.5625; /* control point distance y, this number avoids rounding errors */
-    [
-        MoveRel(Offset {
-            dx: c_dx - rx,
-            dy: c_dy,
-        }),
-        CurveRel(
-            Offset {
-                dx: 0.0,
-                dy: (-ctrlpnt_dy),
-            },
-            Offset {
-                dx: rx - ctrlpnt_dx,
-                dy: (-ry),
-            },
-            Offset { dx: rx, dy: (-ry) },
-        ),
-        SymmetricRel(
-            Offset {
-                dx: rx,
-                dy: ry - ctrlpnt_dy,
-            },
-            Offset { dx: rx, dy: ry },
-        ),
-        SymmetricRel(
-            Offset {
-                dx: (-rx) + ctrlpnt_dx,
-                dy: ry,
-            },
-            Offset { dx: (-rx), dy: ry },
-        ),
-        SymmetricRel(
-            Offset {
-                dx: (-rx),
-                dy: (-ry) + ctrlpnt_dy,
-            },
-            Offset {
-                dx: (-rx),
-                dy: (-ry),
-            },
-        ),
-    ]
-}
 
 /// The function generates a database icon to vector graphics drawing directives
 ///
@@ -309,7 +198,7 @@ pub fn generate_deploy_cloud(out: &mut VecRenderer) -> () {
 ///
 pub fn generate_ecb_entity(out: &mut VecRenderer) -> () {
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(18.0, 18.0, 12.0, 12.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
     out.path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
@@ -328,7 +217,7 @@ pub fn generate_ecb_entity(out: &mut VecRenderer) -> () {
 ///
 pub fn generate_ecb_control(out: &mut VecRenderer) -> () {
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(18.0, 18.0, 12.0, 12.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
     out.path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
@@ -348,7 +237,7 @@ pub fn generate_ecb_control(out: &mut VecRenderer) -> () {
 ///
 pub fn generate_ecb_boundary(out: &mut VecRenderer) -> () {
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(18.0, 18.0, 12.0, 12.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
     out.path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
@@ -428,7 +317,7 @@ pub fn generate_gsn_strategy(out: &mut VecRenderer) -> () {
 ///
 pub fn generate_gsn_assumption(out: &mut VecRenderer) -> () {
     /* ellipsis */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(16.0, 10.0, 15.0, 8.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 10.0, 15.0, 8.0);
     out.path(&icon_segs, &Some(BLUE), &None);
 
     /* A-character */
@@ -449,7 +338,7 @@ pub fn generate_gsn_assumption(out: &mut VecRenderer) -> () {
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 pub fn generate_gsn_justification(out: &mut VecRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(16.0, 10.0, 15.0, 8.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 10.0, 15.0, 8.0);
     out.path(&icon_segs, &Some(BLUE), &None);
 
     /* J-character */
@@ -473,7 +362,7 @@ pub fn generate_gsn_justification(out: &mut VecRenderer) -> () {
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 pub fn generate_gsn_solution(out: &mut VecRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(16.0, 16.0, 15.0, 15.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 16.0, 15.0, 15.0);
     out.path(&icon_segs, &Some(BLUE), &None);
 }
 
@@ -512,7 +401,7 @@ pub fn generate_queue_buffer(out: &mut VecRenderer) -> () {
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 pub fn generate_queue_server(out: &mut VecRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(16.0, 16.0, 15.0, 15.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 16.0, 15.0, 15.0);
     out.path(&icon_segs, &None, &None);
 }
 
@@ -544,7 +433,7 @@ pub fn generate_queue_queue(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &None, &None);
 
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle(26.0, 16.0, 5.0, 5.0);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(26.0, 16.0, 5.0, 5.0);
     out.path(&icon_segs, &None, &None);
 }
 

@@ -9,6 +9,19 @@ pub struct Point {
     pub y: f32,
 }
 
+/// The Point struct provides some methods
+impl Point {
+    /// rounds the x coordinate to a multiple of unit
+    pub fn round_x(self: &Self, unit: f32) -> f32 {
+        (self.x / unit).round() * unit
+    }
+
+    /// rounds the y coordinate to a multiple of unit
+    pub fn round_y(self: &Self, unit: f32) -> f32 {
+        (self.y / unit).round() * unit
+    }
+}
+
 /// Defines an delta offset
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Offset {
@@ -16,6 +29,19 @@ pub struct Offset {
     pub dx: f32,
     /// The y-coordinate offset
     pub dy: f32,
+}
+
+/// The Offset struct provides some methods
+impl Offset {
+    /// rounds the x coordinate to a multiple of unit
+    pub fn round_dx(self: &Self, unit: f32) -> f32 {
+        (self.dx / unit).round() * unit
+    }
+
+    /// rounds the y coordinate to a multiple of unit
+    pub fn round_dy(self: &Self, unit: f32) -> f32 {
+        (self.dy / unit).round() * unit
+    }
 }
 
 /// Defines the possible kinds of drawing irectived within paths
@@ -112,6 +138,110 @@ impl Color {
             blue: (0xff - ((0xff - self.blue) as u16 * 7) / 8) as u8,
         }
     }
+}
+
+/// The function defines the control points for a circle in absolute coordinates
+///
+/// # Arguments
+///
+/// * `cx` - The absolute x-coordinate of the center
+/// * `cy` - The absolute y-coordinate of the center
+/// * `rx` - The radius in x-direction
+/// * `ry` - The radius in y-direction
+///
+pub(super) fn get_circle_abs(cx: f32, cy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
+    let ctrlpnt_dx: f32 = rx * 0.552284749831; /* control point distance x */
+    let ctrlpnt_dy: f32 = ry * 0.552284749831; /* control point distance y */
+    [
+        DrawDirective::Move(Point { x: cx - rx, y: cy }),
+        DrawDirective::Curve(
+            Point {
+                x: cx - rx,
+                y: cy - ctrlpnt_dy,
+            },
+            Point {
+                x: cx - ctrlpnt_dx,
+                y: cy - ry,
+            },
+            Point { x: cx, y: cy - ry },
+        ),
+        DrawDirective::Symmetric(
+            Point {
+                x: cx + rx,
+                y: cy - ctrlpnt_dy,
+            },
+            Point { x: cx + rx, y: cy },
+        ),
+        DrawDirective::Symmetric(
+            Point {
+                x: cx + ctrlpnt_dx,
+                y: cy + ry,
+            },
+            Point { x: cx, y: cy + ry },
+        ),
+        DrawDirective::Symmetric(
+            Point {
+                x: cx - rx,
+                y: cy + ctrlpnt_dy,
+            },
+            Point { x: cx - rx, y: cy },
+        ),
+    ]
+}
+
+/// The function defines the control points for a circle in relative offsets
+///
+/// # Arguments
+///
+/// * `c_dx` - The relative x-offset of the center
+/// * `c_dy` - The relative y-offset of the center
+/// * `rx` - The radius in x-direction
+/// * `ry` - The radius in y-direction
+///
+pub(super) fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
+    let ctrlpnt_dx: f32 = rx * 0.552284749831; /* control point distance x */
+    let ctrlpnt_dy: f32 = ry * 0.552284749831; /* control point distance y */
+    [
+        DrawDirective::MoveRel(Offset {
+            dx: c_dx - rx,
+            dy: c_dy,
+        }),
+        DrawDirective::CurveRel(
+            Offset {
+                dx: 0.0,
+                dy: (-ctrlpnt_dy),
+            },
+            Offset {
+                dx: rx - ctrlpnt_dx,
+                dy: (-ry),
+            },
+            Offset { dx: rx, dy: (-ry) },
+        ),
+        DrawDirective::SymmetricRel(
+            Offset {
+                dx: rx,
+                dy: ry - ctrlpnt_dy,
+            },
+            Offset { dx: rx, dy: ry },
+        ),
+        DrawDirective::SymmetricRel(
+            Offset {
+                dx: (-rx) + ctrlpnt_dx,
+                dy: ry,
+            },
+            Offset { dx: (-rx), dy: ry },
+        ),
+        DrawDirective::SymmetricRel(
+            Offset {
+                dx: (-rx),
+                dy: (-ry) + ctrlpnt_dy,
+            },
+            Offset {
+                dx: (-rx),
+                dy: (-ry),
+            },
+        ),
+    ]
 }
 
 /*
