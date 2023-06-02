@@ -53,12 +53,7 @@ How to run
 
 On Windows(TM), run crystal_facet_uml.exe by doubleclicking the file.
 
-Or, if running on linux using wine64, you may want to perform the following steps:
+Or, if running on linux using wine64, start crystal_facet_uml.exe by calling
 
-> 1) download libgcc_s_seh-1.zip from e.g. https://www.dll-files.com or https://www.dllme.com
-> 2) unzip libgcc_s_seh-1.zip -d bin/
-> 3) check the hash: sha1sum bin/libgcc_s_seh-1.dll - This may result in e.g.
->    fd268f574257da1cecee399d498d5ed63c5daaf3  bin/libgcc_s_seh-1.dll
->    c83e53e537f4c0bef4a6b4aba179f42bb78fa585  bin/libgcc_s_seh-1.dll
-> 4) export XDG_DATA_HOME=".\\\\share\\\\" ; wine64 bin/crystal-facet-uml.exe
+> XDG_DATA_HOME=".\\\\share\\\\" wine64 bin/crystal-facet-uml.exe
 

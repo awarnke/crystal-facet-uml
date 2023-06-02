@@ -48,7 +48,7 @@ echo "      exe: "`ls ${PREFIX}/bin/crystal-facet-uml*`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 
-echo "      i  : to test, go to a folder where libgcc_s_seh-1.dll is stored and call"
+echo "      i  : to test, call"
 echo "      i  : XDG_DATA_HOME='${PREFIX}/share' wine64 ${PREFIX}/bin/crystal-facet-uml.exe"
 
 

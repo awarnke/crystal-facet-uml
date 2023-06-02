@@ -2,6 +2,8 @@ crystal-facet-uml (1.50.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Diagram titles do not touch the diagram elements anymore
+  * The win version includes libgcc_s_seh-1.dll into the distribution
+    package
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 May 2023 11:00:00 +0200
 

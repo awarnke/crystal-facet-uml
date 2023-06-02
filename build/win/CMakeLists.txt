@@ -195,6 +195,7 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -
 ADD_CUSTOM_COMMAND(
     OUTPUT crystal-facet-uml.res
     COMMAND x86_64-w64-mingw32-windres ${CMAKE_CURRENT_SOURCE_DIR}/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/crystal-facet-uml.rc
 )
 
 
