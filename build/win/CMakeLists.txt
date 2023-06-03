@@ -183,7 +183,7 @@ IF(NOT CMAKE_BUILD_TYPE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
 MESSAGE( "Note:                                          CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}" )
-MESSAGE( "Note:                                          CMAKE_BUILD_DIR = ${CMAKE_BUILD_DIR}" )
+MESSAGE( "Note:                                          CMAKE_CURRENT_BINARY_DIR = ${CMAKE_CURRENT_BINARY_DIR}" )
 MESSAGE( "Note:                                          THIRD_PARTY_ROOT = ${THIRD_PARTY_ROOT}" )
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -194,14 +194,13 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 ADD_CUSTOM_COMMAND(
     OUTPUT crystal-facet-uml.res
-    COMMAND x86_64-w64-mingw32-windres ${CMAKE_CURRENT_SOURCE_DIR}/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res
+    COMMAND ${CMAKE_RC_COMPILER} ${CMAKE_CURRENT_SOURCE_DIR}/crystal-facet-uml.rc -O coff -o crystal-facet-uml.res
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/crystal-facet-uml.rc
 )
 
-
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource} ${COMPILE_IN_SOURCE_FILE} crystal-facet-uml.res)
+ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource} ${COMPILE_IN_SOURCE_FILE} ${CMAKE_CURRENT_BINARY_DIR}/crystal-facet-uml.res)
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 
