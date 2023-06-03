@@ -8,7 +8,7 @@ find src/ -type f -a -name "COPY*" -o -type f -a -name "LICENSE*" \
 
 # echo "The standard C library (libc) is compiled-in using the -static-libgcc option" \
 # >> ${OUTFILE}
-echo "\nlibgcc_s_seh-1 is GPL 3.0, see https://opensuse.pkgs.org/15.3/opensuse-oss-aarch64/mingw64-libgcc_s_seh1-9.2.0-bp153.1.72.noarch.rpm.html" \
+echo "libgcc_s_seh-1 is GPL 3.0, see https://opensuse.pkgs.org/15.3/opensuse-oss-aarch64/mingw64-libgcc_s_seh1-9.2.0-bp153.1.72.noarch.rpm.html" \
 >> ${OUTFILE}
 
 find src/ -type f -a -name "COPY*" -o -type f -a -name "LICENSE*" \

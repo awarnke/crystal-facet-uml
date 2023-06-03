@@ -17,12 +17,8 @@ export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig:${PREFIX}/lib64/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 /usr/bin/x86_64-w64-mingw32-pkg-config --list-all | sort
 
-echo `date +'%H:%M'`" building glib-schemas:"
-LOG_FILE=${LOG_DIR}/log_gtk.txt
-echo "      i  : on Windows(TM), go to the root directory of your installation"
-echo "           call \"bin\glib-compile-schemas.exe share\glib-2.0\schemas\""
-echo "           integrate the resulting \"gschemas.compiled\" to \"share\glib-2.0\schemas\""
-
+ls -l ${HOST_ROOT}/usr/local/share/glib-2.0/schemas/gschemas.compiled
+ls -l ${HOST_ROOT}/usr/local/bin/libgcc_s_seh-1.dll
 
 # Copyright 2022-2023 Andreas Warnke
 #
