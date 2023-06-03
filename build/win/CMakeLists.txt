@@ -200,7 +200,7 @@ ADD_CUSTOM_COMMAND(
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal-facet-uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource} ${COMPILE_IN_SOURCE_FILE} ${CMAKE_CURRENT_BINARY_DIR}/crystal-facet-uml.res)
+ADD_EXECUTABLE(crystal-facet-uml ${commonSource} ${appSource} ${COMPILE_IN_SOURCE_FILE} crystal-facet-uml.res)
 TARGET_LINK_LIBRARIES(crystal-facet-uml ${ATK_LIB} ${CAIRO_LIB} ${FONTCNF_LIB} ${GAIL_LIB} ${GDKPIX_LIB} ${GDKWIN_LIB} ${GIO_LIB} ${GLIB_LIB} ${GMOD_LIB} ${GOBJ_LIB} ${GTHREAD_LIB} ${GTK_LIB} ${PANGO_LIB} ${PANGOCAIRO_LIB} ${PANGOFT_LIB} ${PANGOWIN_LIB} )
 SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 

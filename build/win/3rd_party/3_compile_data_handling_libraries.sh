@@ -48,12 +48,14 @@ cd src/sqlite-amalgamation-3*
 cd ../..
 echo "      code: "`ls ${HOST_ROOT}/home/sqlite3/sqlite3.c`
 
-echo `date +'%H:%M'`" copying seh..."
-echo "      pre: you possibly need to install mingw64-libgcc_s_seh1"
+echo `date +'%H:%M'`" copying seh, pthread..."
+echo "      pre: you possibly need to install mingw64-libgcc_s_seh1, mingw64-libwinpthread1"
 LOG_FILE=${LOG_DIR}/log_seh.txt
 echo "      log: ${LOG_FILE}"
     cp -v /usr/x86_64-w64-mingw32/sys-root/mingw/bin/libgcc_s_seh-1.dll ${HOST_ROOT}/usr/local/bin/ > ${LOG_FILE} 2>&1
+    cp -v /usr/x86_64-w64-mingw32/sys-root/mingw/bin/libwinpthread-1.dll ${HOST_ROOT}/usr/local/bin/ > ${LOG_FILE} 2>&1
 echo "      lib: "`ls -l ../root/usr/local/bin/libgcc_s_seh-1.dll`
+echo "      lib: "`ls -l ../root/usr/local/bin/libwinpthread-1.dll`
 
 echo `date +'%H:%M'`" finished. Please check the log files for errors."
 

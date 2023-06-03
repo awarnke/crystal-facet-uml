@@ -19,6 +19,7 @@ export PKG_CONFIG_SYSROOT_DIR="${HOST_ROOT}"
 
 ls -l ${HOST_ROOT}/usr/local/share/glib-2.0/schemas/gschemas.compiled
 ls -l ${HOST_ROOT}/usr/local/bin/libgcc_s_seh-1.dll
+ls -l ${HOST_ROOT}/usr/local/bin/libwinpthread-1.dll
 
 # Copyright 2022-2023 Andreas Warnke
 #

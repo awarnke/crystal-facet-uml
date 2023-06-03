@@ -10,6 +10,8 @@ find src/ -type f -a -name "COPY*" -o -type f -a -name "LICENSE*" \
 # >> ${OUTFILE}
 echo "libgcc_s_seh-1 is GPL 3.0, see https://opensuse.pkgs.org/15.3/opensuse-oss-aarch64/mingw64-libgcc_s_seh1-9.2.0-bp153.1.72.noarch.rpm.html" \
 >> ${OUTFILE}
+echo "libwinpthread-1.dll is MIT AND BSD-3-, see https://opensuse.pkgs.org/15.3/opensuse-oss-aarch64/mingw64-libwinpthread1-7.0.0-bp154.1.87.noarch.rpm.html" \
+>> ${OUTFILE}
 
 find src/ -type f -a -name "COPY*" -o -type f -a -name "LICENSE*" \
 | sort \
