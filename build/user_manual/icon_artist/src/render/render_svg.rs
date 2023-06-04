@@ -6,10 +6,13 @@ use crate::model::geometry::Rect;
 use std::fs::File;
 use std::io::Write;
 
-/// The rounding unit for absolute coordinates
+/// This is the rounding unit value for absolute coordinates.
+/// This unit has an exact representation in both binary and decimal.
 const ABS_UNIT: f32 = 0.125;
 
-/// The rounding unit for relative coordinates
+/// This is the rounding unit value for relative coordinates.
+/// It has higher precision than ABS_UNIT to keep the sum of errors low.
+/// This unit has an exact representation in both binary and decimal.
 const REL_UNIT: f32 = 0.0625;
 
 /// Defines a vector renderer

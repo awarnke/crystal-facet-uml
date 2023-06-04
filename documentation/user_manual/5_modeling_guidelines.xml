@@ -84,12 +84,10 @@
                 Relationships in other diagrams are auto-layouted.
                 crystal-facet-uml prevents to cross/overlay these two types of relationships:
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="5_rel_L7.pdf" width="0.4cm"/></imageobject>
-                    <imageobject><imagedata fileref="5_rel_L7.png"/></imageobject>
+                    <imageobject><imagedata fileref="5_rel_L7.svg" width="0.4cm"/></imageobject>
                 </inlinemediaobject>
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="5_rel_JF.pdf" width="0.4cm"/></imageobject>
-                    <imageobject><imagedata fileref="5_rel_JF.png"/></imageobject>
+                    <imageobject><imagedata fileref="5_rel_JF.svg" width="0.4cm"/></imageobject>
                 </inlinemediaobject>
                 .
                 If the layouting result is still inappropriate, move classifiers and features to other positions.
