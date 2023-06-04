@@ -34,8 +34,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_db.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_db.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_db.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -59,8 +58,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -92,8 +90,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_save.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_save.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_save.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -110,8 +107,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_export.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_export.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_export.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -131,8 +127,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_new_window.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_new_window.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_new_window.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -152,8 +147,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -170,8 +164,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Navigate to parent or child diagrams</para></listitem>
@@ -185,8 +178,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Modify elements in the diagram (see <xref linkend="draw_edit"/>)</para></listitem>
@@ -199,8 +191,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Create elements in the diagram (see <xref linkend="draw_create"/>)</para></listitem>
@@ -214,8 +205,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -232,8 +222,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Re-does the last un-done operation</para></listitem>
@@ -246,8 +235,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_cut.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_cut.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_cut.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -265,8 +253,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_copy.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_copy.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_copy.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -284,8 +271,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_paste.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_paste.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_paste.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -316,8 +302,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_delete.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_delete.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_delete.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -340,8 +325,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_instantiate.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_instantiate.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_instantiate.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Toggles the selected (pink-cornered) classifiers between classes, named instances and anonymous instances.</para></listitem>
@@ -355,8 +339,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_highlight.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_highlight.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_highlight.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -374,8 +357,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_reset.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/edit_reset.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/edit_reset.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Resets the (pink-cornered) selection</para></listitem>
@@ -388,8 +370,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Shows version, license and copyrights</para></listitem>
@@ -424,7 +405,7 @@
 
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/view_search.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_search.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -444,8 +425,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/search_search.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/search_search.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/search_search.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Starts a search and displays the results</para></listitem>
@@ -459,7 +439,7 @@
 
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_navigate.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -468,13 +448,11 @@
                     <listitem>
                         <para>To create a new diagram, click on the
                             <inlinemediaobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.pdf" width="0.7cm"/></imageobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.png"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.svg" width="0.7cm"/></imageobject>
                             </inlinemediaobject>
                             icon, or the smaller
                             <inlinemediaobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.pdf" width="0.7cm"/></imageobject>
-                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.png"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.svg" width="0.7cm"/></imageobject>
                             </inlinemediaobject>
                             icon for a new child-diagram.
                         </para>
@@ -494,7 +472,7 @@
 
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/view_edit.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_edit.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -536,7 +514,7 @@
 
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/view_create.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/view_create.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
 
                 <orderedlist>
@@ -623,8 +601,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/message_info.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/message_info.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/message_info.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Informs on success of an operation, e.g. an export</para></listitem>
@@ -637,8 +614,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/message_warn.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/message_warn.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/message_warn.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Informs on a possible problem, e.g. a read-only database file</para></listitem>
@@ -651,8 +627,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/message_error.pdf" width="1cm"/></imageobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/message_error.png"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/message_error.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Informs on an error, e.g. invalid data pasted from clipboard</para></listitem>

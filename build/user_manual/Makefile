@@ -4,7 +4,7 @@ all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz info
 SOURCE=../../documentation/user_manual
 
 crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.pdf ${SOURCE}/*.svg ${SOURCE}/*.png ${SOURCE}/4_stereotypes/*.*
-	echo "you may need to install sudo zypper install rsvg-convert" &&\
+	echo "you may need to install sudo zypper install rsvg-convert or sudo apt install inkscape" &&\
 	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
 	dblatex --type=pdf ${SOURCE}/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
 

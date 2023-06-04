@@ -4,7 +4,7 @@
     <para>
         <mediaobject>
             <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject>
-            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.svg" width="2cm"/></imageobject>
         </mediaobject>
         <!-- What is it? -->
         crystal-facet-uml creates diagrams to document system and software architecture.
@@ -25,7 +25,7 @@
         <para>
             <mediaobject>
                 <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
-                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.svg" width="1cm"/></imageobject>
             </mediaobject>
             <!-- For Whom? What can one do with it? Why does it help? -->
             As software architect, you create a set of diagrams describing
@@ -46,7 +46,7 @@
         <para>
             <mediaobject>
                 <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
-                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.svg" width="1cm"/></imageobject>
             </mediaobject>
         </para>
 
@@ -58,7 +58,7 @@
         <para>
             <mediaobject>
                 <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
-                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.svg" width="1cm"/></imageobject>
             </mediaobject>
             crystal-facet-uml can be started in graphical mode (see <xref linkend="gui_main"/>)
             or from command line (see <xref linkend="cli_main"/>).
