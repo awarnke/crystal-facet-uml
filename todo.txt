@@ -16,6 +16,8 @@ ideas for future versions:
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   [ ] store edited text fields before performing undo/redo operations
+  [ ] auto-save when losing focus
+  [ ] auto-reload when gaining focus
   @pencil
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
   [ ] activity bars on lifelines missing

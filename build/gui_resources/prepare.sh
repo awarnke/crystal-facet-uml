@@ -22,6 +22,7 @@ printf "\tmkdir -p ${BLDDIR}\n" >> Makefile
 
 echo "creating pdf targets"
 ls ${SRCDIR}/*.svg | sed -e 's#^\(../../gui/source/resources/\)\([^.]*\).svg#build_dir/\2.pdf: \1\2.svg\n\tinkscape --export-pdf=build_dir/\2.pdf --file=\1\2.svg --without-gui\n#' >> Makefile
+# alternative: rsvg-convert -a -f pdf -o fig114.pdf ../../documentation/user_manual/4_stereotypes/gsn_justification.svg
 
 echo "creating png targets"
 ls ${SRCDIR}/*.svg | sed -e 's#^\(../../gui/source/resources/\)\([^.]*\).svg#build_dir/\2.png: \1\2.svg\n\tinkscape --export-png=build_dir/\2.png --file=\1\2.svg --without-gui\n#' >> Makefile
