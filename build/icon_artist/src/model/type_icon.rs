@@ -1,0 +1,107 @@
+//! The module provides functions to render an icon to vector graphics.
+
+use super::geometry;
+use super::geometry::get_circle_abs;
+use super::geometry::Color;
+use super::geometry::DrawDirective::Close;
+use super::geometry::DrawDirective::LineRel;
+use super::geometry::DrawDirective::Move;
+use super::geometry::Offset;
+use super::geometry::Point;
+use super::geometry::Rect;
+use super::icon::IconSource;
+use crate::render::render_svg::VecRenderer;
+
+/// The view rectangle of each icon
+const ICON_VIEW_RECT: Rect = Rect {
+    left: 0.0,
+    top: 0.0,
+    width: 32.0,
+    height: 24.0,
+};
+
+/// gray line color
+static GRAY: Color = Color {
+    red: 0x7f,
+    green: 0x7f,
+    blue: 0x7f,
+};
+
+/// The function generates a steering wheel of ship navigation to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_type_clas_stereotype(out: &mut VecRenderer) -> () {
+    /* spoke of wheel */
+    let r3: f32 = 11.0;
+    let r2: f32 = 10.0;
+    let r1: f32 = 8.5;
+    let cx: f32 = 16.0;
+    let cy: f32 = 12.0;
+    let mut icon_segs: [geometry::DrawDirective; 61] = [Close; 61];
+    icon_segs[0] = Move(Point { x: cx + r2, y: cy });
+    for index in 0..10 {
+        let alpha: f32 = std::f32::consts::PI / 5.0 * (index as f32);
+        let a_dx = alpha.cos();
+        let a_dy = alpha.sin();
+        let beta: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.05);
+        let b_dx = beta.cos();
+        let b_dy = beta.sin();
+        let gamma: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.5);
+        let g_dx = gamma.cos();
+        let g_dy = gamma.sin();
+        let delta: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.55);
+        let d_dx = delta.cos();
+        let d_dy = delta.sin();
+        let epsilon: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.7);
+        let e_dx = epsilon.cos();
+        let e_dy = epsilon.sin();
+        let zeta: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.9);
+        let z_dx = zeta.cos();
+        let z_dy = zeta.sin();
+        let omega: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 1.0);
+        let o_dx = omega.cos();
+        let o_dy = omega.sin();
+        icon_segs[index * 6 + 1] = LineRel(Offset {
+            dx: (-r2) * a_dx + r1 * b_dx,
+            dy: (-r2) * a_dy + r1 * b_dy,
+        });
+        icon_segs[index * 6 + 2] = LineRel(Offset {
+            dx: (-r1) * b_dx + r1 * g_dx,
+            dy: (-r1) * b_dy + r1 * g_dy,
+        });
+        icon_segs[index * 6 + 3] = LineRel(Offset {
+            dx: (-r1) * g_dx + r2 * d_dx,
+            dy: (-r1) * g_dy + r2 * d_dy,
+        });
+        icon_segs[index * 6 + 4] = LineRel(Offset {
+            dx: (-r2) * d_dx + r3 * e_dx,
+            dy: (-r2) * d_dy + r3 * e_dy,
+        });
+        icon_segs[index * 6 + 5] = LineRel(Offset {
+            dx: (-r3) * e_dx + r3 * z_dx,
+            dy: (-r3) * e_dy + r3 * z_dy,
+        });
+        icon_segs[index * 6 + 6] = LineRel(Offset {
+            dx: (-r3) * z_dx + r2 * o_dx,
+            dy: (-r3) * z_dy + r2 * o_dy,
+        });
+    }
+    out.path(&icon_segs, &Some(GRAY), &None);
+
+    /* rim of wheel */
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 2.0, 2.0);
+    out.path(&icon_segs, &Some(GRAY), &None);
+}
+
+/// The function returns an array of IconSource
+///
+pub fn get_icons() -> &'static [IconSource<'static>] {
+    &[IconSource {
+        name: "type_clas_stereotype",
+        viewport: ICON_VIEW_RECT,
+        generate: generate_type_clas_stereotype,
+    }]
+}

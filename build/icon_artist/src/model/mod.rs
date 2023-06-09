@@ -4,6 +4,7 @@ pub mod geometry;
 pub mod gui_icon;
 pub mod icon;
 pub mod stereotype_icon;
+pub mod type_icon;
 
 /*
 Copyright 2023-2023 Andreas Warnke

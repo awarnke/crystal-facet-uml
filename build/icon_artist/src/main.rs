@@ -7,6 +7,7 @@ pub mod render;
 use model::gui_icon;
 use model::icon::IconSource;
 use model::stereotype_icon;
+use model::type_icon;
 use render::icon_writer;
 
 static OUT_DIR_STEREO: &'static str = "../../documentation/user_manual/4_stereotypes";
@@ -19,6 +20,8 @@ fn main() {
     println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
     let gui_icons: &'static [IconSource<'static>] = gui_icon::get_icons();
     icon_writer::generate_files(gui_icons, OUT_DIR_GUI);
+    let type_icons: &'static [IconSource<'static>] = type_icon::get_icons();
+    icon_writer::generate_files(type_icons, OUT_DIR_GUI);
     println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
 }
 
