@@ -93,22 +93,10 @@ pub fn generate_view_search(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(BLACK), &Some(GREEN));
 
     let icon_segs: [geometry::DrawDirective; 4] = [
-        MoveRel(Offset {
-            dx: 15.860607,
-            dy: 19.2541,
-        }),
-        LineRel(Offset {
-            dx: -3.119032,
-            dy: 9.0253,
-        }),
-        LineRel(Offset {
-            dx: 1.924509,
-            dy: 0.6637,
-        }),
-        LineRel(Offset {
-            dx: 3.119032,
-            dy: -9.1581,
-        }),
+        MoveRel(Offset { dx: 16.0, dy: 19.0 }),
+        LineRel(Offset { dx: -3.0, dy: 10.0 }),
+        LineRel(Offset { dx: 2.0, dy: 0.6 }),
+        LineRel(Offset { dx: 3.0, dy: -10.0 }),
     ];
     out.path(&icon_segs, &Some(BLACK), &None);
 }

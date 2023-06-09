@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.50.1"
+    "generator_version": "1.50.2"
   }
   ,
   "views":
@@ -2336,7 +2336,9 @@
         "type": "UMLActivityDiagram",
         "name": "pencil: Crosscutting Concepts",
         "description": [
-                "Whenever one of several layouting solutions shall be selected, the following algorithm applies."
+                "Whenever one of several layouting solutions shall be selected, the following algorithm applies.\n",
+                "\n",
+                "This algorithm is a greedy algorithm which is efficient and finds a local maximum but may miss the overall optimum layout solution."
         ],
         "list_order": 65536,
         "display_flags": 0,
@@ -7844,7 +7846,7 @@
         "description": [
                 ""
         ],
-        "x_order": -435392186,
+        "x_order": 1003370173,
         "y_order": 1398930124,
         "list_order": 0,
         "uuid": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
@@ -10092,7 +10094,7 @@
                 ""
         ],
         "x_order": -744768809,
-        "y_order": 1248221140,
+        "y_order": 1294305851,
         "list_order": -1304108565,
         "uuid": "a17e7252-9d30-44b4-96a4-4c46278cf393",
         "features":
@@ -10176,7 +10178,7 @@
                 ""
         ],
         "x_order": -744768809,
-        "y_order": 1275880861,
+        "y_order": 1272027904,
         "list_order": -1307331198,
         "uuid": "b36f603f-b3dd-4b56-8554-e957b6af7253",
         "features":

@@ -9,8 +9,8 @@ use model::icon::IconSource;
 use model::stereotype_icon;
 use render::icon_writer;
 
-static OUT_DIR_STEREO: &'static str = "../../../documentation/user_manual/4_stereotypes";
-static OUT_DIR_GUI: &'static str = "../../../gui/source/resources";
+static OUT_DIR_STEREO: &'static str = "../../documentation/user_manual/4_stereotypes";
+static OUT_DIR_GUI: &'static str = "../../gui/source/resources";
 
 /// The main function defines parameters and starts the icon_writer.
 fn main() {
