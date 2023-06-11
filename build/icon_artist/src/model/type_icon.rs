@@ -55,7 +55,7 @@ pub fn generate_type_clas_stereotype(out: &mut VecRenderer) -> () {
         let delta: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.55);
         let d_dx = delta.cos();
         let d_dy = delta.sin();
-        let epsilon: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.7);
+        let epsilon: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.65);
         let e_dx = epsilon.cos();
         let e_dy = epsilon.sin();
         let zeta: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.9);

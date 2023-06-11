@@ -1,7 +1,8 @@
 crystal-facet-uml (1.50.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * tbd
+  * Redesign of view-mode icons and stereotype icon
+  * No overlap of stereotype icon with comment-corner
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 03 Jun 2023 12:00:00 +0200
 

@@ -74,7 +74,8 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
 
         case DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE:  /* and */
         case DATA_CLASSIFIER_TYPE_INTERACTION:  /* and */
-        case DATA_CLASSIFIER_TYPE_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_PACKAGE:  /* and */
+        case DATA_CLASSIFIER_TYPE_COMMENT:
         {
             double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
 
@@ -96,7 +97,6 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
         case DATA_CLASSIFIER_TYPE_CLASS:
         case DATA_CLASSIFIER_TYPE_OBJECT:
         case DATA_CLASSIFIER_TYPE_ARTIFACT:
-        case DATA_CLASSIFIER_TYPE_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         case DATA_CLASSIFIER_TYPE_STEREOTYPE:
