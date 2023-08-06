@@ -18,8 +18,10 @@ ideas for future versions:
   [ ] store edited text fields before performing undo/redo operations
   [ ] auto-save when losing focus
   [ ] auto-reload when gaining focus
+  [ ] allow creating diagrams before choosing a filename
   @pencil
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
+      maybe simply draw a stereotype icon?
   [ ] activity bars on lifelines missing
   [ ] feature compartments in use-cases look ugly
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -30,6 +32,8 @@ ideas for future versions:
 ! [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()
 ! [ ] allow linebreaks in feature and relationship labels
   [ ] Draw unknown classifier and feature and relationship types nicely, unlike stereotypes and tagged-values in 1.46.0
+  [?] A "contains" relationship towards features shall not influence the grid-layouting.
+      check data_visible_set.c data_visible_set_private_update_containment_cache()
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -49,7 +53,7 @@ ideas for future versions:
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
   [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   [ ] links unclear:
-      interactionuse(diag-reference)-to-fragment(diag);
+      interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
       part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   [ ] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram

@@ -25,6 +25,7 @@ enum data_feature_type_enum {
     DATA_FEATURE_TYPE_ENTRY = 8,  /* control flow pseudostate for state entry */
     DATA_FEATURE_TYPE_EXIT = 9,  /* control flow pseudostate for state exit */
     DATA_FEATURE_TYPE_TAGGED_VALUE = 10,  /* tagged value, since 1.47.0 */
+    /* DATA_FEATURE_TYPE_DIAG_LINK = 11, */  /* link to diagram, e.g. for DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE */
 };
 
 typedef enum data_feature_type_enum data_feature_type_t;

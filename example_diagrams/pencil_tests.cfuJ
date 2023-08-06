@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.50.1"
+    "generator_version": "1.50.2"
   }
   ,
   "views":
@@ -283,6 +283,46 @@
     },
     {
       "diagram": {
+        "id": 36,
+        "diagram_type": 100000,
+        "type": "",
+        "name": "FUTURE DIAG TYPE",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "display_flags": 0,
+        "parent_name": "Diagram Rendering Tests",
+        "parent": "4a291717-580e-4c4e-96cd-ed91c630c0cf",
+        "uuid": "a007dc94-8280-4656-abde-b26ec9a51678",
+        "diagramelements":
+        [
+          {
+            "id": 323,
+            "display_flags": 0,
+            "classifier_name": "This Diagram has a future diagram type",
+            "node": "0e1ef852-4843-4e8b-9754-e82bf3f192e9",
+            "uuid": "71e1aa68-b3e3-4a82-b78b-b0c4482dc71f"
+          },
+          {
+            "id": 324,
+            "display_flags": 0,
+            "classifier_name": "Known Classifier Type",
+            "node": "9a40fcae-bfe2-48f5-84eb-47a50bc61c60",
+            "uuid": "bc209957-a2ac-4c44-be6e-c2f868a92237"
+          },
+          {
+            "id": 325,
+            "display_flags": 0,
+            "classifier_name": "Future Classifier Type",
+            "node": "e30504e1-6f55-4bc6-9c7f-4bea5e611ec7",
+            "uuid": "919838c6-5be7-4538-be3b-03add8a610aa"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 3,
         "diagram_type": 0,
         "type": "CFUListDiagram",
@@ -429,6 +469,13 @@
             "classifier_name": "cp-Img",
             "node": "3cfbb6ad-dba8-45da-9877-98cd933b57f6",
             "uuid": "f17ba55f-93e6-4530-bb12-422f7136a5f6"
+          },
+          {
+            "id": 322,
+            "display_flags": 0,
+            "classifier_name": "inner package",
+            "node": "066c3c82-b9bc-4ecd-9b50-125dacbbcfd9",
+            "uuid": "5778ce95-ba7d-4521-8cde-b005605948e6"
           }
         ]
       }
@@ -6753,7 +6800,7 @@
         "stereotype": "copy",
         "name": "The Clone",
         "description": [
-                ""
+                "System boundary with stereotype"
         ],
         "x_order": 1933598580,
         "y_order": -2132109662,
@@ -8782,6 +8829,100 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 174,
+        "main_type": 124,
+        "type": "Package",
+        "name": "inner package",
+        "description": [
+                ""
+        ],
+        "x_order": 104820094,
+        "y_order": 335442906,
+        "list_order": 386784964,
+        "uuid": "066c3c82-b9bc-4ecd-9b50-125dacbbcfd9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 175,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "This Diagram has a future diagram type",
+        "description": [
+                ""
+        ],
+        "x_order": -406232489,
+        "y_order": -30601890,
+        "list_order": -30601890,
+        "uuid": "0e1ef852-4843-4e8b-9754-e82bf3f192e9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 176,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Known Classifier Type",
+        "description": [
+                ""
+        ],
+        "x_order": 1101913978,
+        "y_order": -357816406,
+        "list_order": -357816406,
+        "uuid": "9a40fcae-bfe2-48f5-84eb-47a50bc61c60",
+        "features":
+        [
+          {
+            "id": 136,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "known feature",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "b23f4ebd-486c-4f1e-aaf3-98e3e001a533"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 177,
+        "main_type": 100000,
+        "type": "",
+        "name": "Future Classifier Type",
+        "description": [
+                ""
+        ],
+        "x_order": 1461934575,
+        "y_order": -82455254,
+        "list_order": -82455254,
+        "uuid": "e30504e1-6f55-4bc6-9c7f-4bea5e611ec7",
+        "features":
+        [
+          {
+            "id": 135,
+            "main_type": 100000,
+            "type": "",
+            "key": "future feature",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "1b55c66c-a94c-47b0-8abf-54ea7bd37c85"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -8870,6 +9011,23 @@
         "from_node": "38a0edc1-6b2d-4e1d-8fa3-53cb5c46ff09",
         "to_node": "db17e2a2-e528-4fda-9a7f-248d84da8a62",
         "uuid": "628ecc39-f629-420c-bb73-2dd6553eaed4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 118,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 386784964,
+        "from_classifier_name": "Package",
+        "to_classifier_name": "inner package",
+        "from_node": "d8c0adcf-acef-4316-83cf-d9c7714cd4a7",
+        "to_node": "066c3c82-b9bc-4ecd-9b50-125dacbbcfd9",
+        "uuid": "7ec5f72f-f82c-4d41-be43-d6b4f043816a"
       }
     },
     {
@@ -10806,6 +10964,25 @@
         "from_node": "a042b3f2-b8b5-437f-b02b-1388fd734a00",
         "to_node": "21e28bc5-6ac2-4a58-b924-b604db80ba18",
         "uuid": "07dfeaf8-41a2-46b3-8625-9282ce7f3400"
+      }
+    },
+    {
+      "relationship": {
+        "id": 119,
+        "main_type": 100000,
+        "type": "",
+        "name": "future relationship",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Known Classifier Type",
+        "from_feature_key": "known feature",
+        "to_classifier_name": "Future Classifier Type",
+        "to_feature_key": "future feature",
+        "from_node": "b23f4ebd-486c-4f1e-aaf3-98e3e001a533",
+        "to_node": "1b55c66c-a94c-47b0-8abf-54ea7bd37c85",
+        "uuid": "575ad1b8-354b-4f75-b716-7ade202ba906"
       }
     }
   ]
