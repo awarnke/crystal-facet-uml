@@ -46,6 +46,31 @@ static inline void draw_classifier_contour_draw_rect ( const draw_classifier_con
     cairo_stroke (cr);
 }
 
+static inline void draw_classifier_contour_draw_cornerless ( const draw_classifier_contour_t *this_,
+                                                             const geometry_rectangle_t *outer_bounds,
+                                                             const pencil_size_t *pencil_size,
+                                                             cairo_t *cr
+                                                           )
+{
+    assert ( NULL != outer_bounds );
+    assert ( NULL != pencil_size );
+    assert ( NULL != cr );
+    const double left = geometry_rectangle_get_left ( outer_bounds );
+    const double top = geometry_rectangle_get_top ( outer_bounds );
+    const double bottom = geometry_rectangle_get_bottom ( outer_bounds );
+    const double right = geometry_rectangle_get_right ( outer_bounds );
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
+    cairo_move_to ( cr, left + 3.0 * gap, top + gap );
+    cairo_line_to ( cr, right - 3.0 * gap, top + gap );
+    cairo_move_to ( cr, right - gap, top + 3.0 * gap );
+    cairo_line_to ( cr, right - gap, bottom - 3.0 * gap );
+    cairo_move_to ( cr, right - 3.0 * gap, bottom - gap );
+    cairo_line_to ( cr, left + 3.0 * gap, bottom - gap );
+    cairo_move_to ( cr, left + gap, bottom - 3.0 * gap );
+    cairo_line_to ( cr, left + gap, top + 3.0 * gap );
+    cairo_stroke (cr);
+}
+
 static inline void draw_classifier_contour_draw_compartment_line ( const draw_classifier_contour_t *this_,
                                                                    const geometry_rectangle_t *outer_bounds,
                                                                    double y_coordinate,

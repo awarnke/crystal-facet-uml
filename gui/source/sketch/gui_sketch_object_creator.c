@@ -690,7 +690,7 @@ const char* gui_sketch_object_creator_private_propose_classifier_name( gui_sketc
         default:
         {
             U8_LOG_ERROR("data_classifier_type_t out of range in gui_sketch_object_creator_private_propose_classifier_name");
-            result = "";
+            result = "New";
         }
         break;
     }
@@ -781,7 +781,7 @@ const char* gui_sketch_object_creator_private_propose_feature_name( gui_sketch_o
         default:
         {
             U8_LOG_ERROR("data_feature_type_t out of range in gui_sketch_object_creator_private_propose_feature_name");
-            result = "";
+            result = "new";
         }
         break;
     }

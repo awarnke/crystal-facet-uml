@@ -7209,7 +7209,9 @@
         "type": "Class",
         "name": "Anomaly",
         "description": [
-                "An anomaly is a condition that is expected to not cause a malfunction but that should be logged to easier analyze issues."
+                "An anomaly is a condition that is expected to not cause a malfunction but that should be logged to easier analyze issues.\n",
+                "\n",
+                "E.g. an unknown classifier type in the database may be caused by opening a database file that was created by a newer program version. This could lead to unexpected behavior but should not cause a malfunctioning of the program."
         ],
         "x_order": -10181582,
         "y_order": -105165869,

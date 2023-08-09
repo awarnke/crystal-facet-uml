@@ -120,6 +120,20 @@ void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t
                                                );
 
 /*!
+ *  \brief draws a cornerless shape of 4 non-touching edges into the outer bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param outer_bounds outer bounding rectangle of the shape, the rectangle has a distance of gap to the outer bounds
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param cr a cairo drawing context
+ */
+static inline void draw_classifier_contour_draw_cornerless ( const draw_classifier_contour_t *this_,
+                                                             const geometry_rectangle_t *outer_bounds,
+                                                             const pencil_size_t *pencil_size,
+                                                             cairo_t *cr
+                                                           );
+
+/*!
  *  \brief draws an ellipse shape into the outer bounds rect
  *
  *  \param this_ pointer to own object attributes

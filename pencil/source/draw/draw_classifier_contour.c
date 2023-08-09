@@ -146,7 +146,11 @@ geometry_rectangle_t draw_classifier_contour_calc_inner_area ( const draw_classi
 
         default:
         {
-            U8_LOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
+            /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
+            U8_LOG_ANOMALY("unknown data_classifier_type_t in draw_classifier_contour_calc_inner_area()");
+            /* assume standard size */
+            geometry_rectangle_replace( &result, outer_bounds );
+            geometry_rectangle_expand_4dir( &result, -double_gap, -double_gap );
         }
         break;
     }
@@ -289,7 +293,11 @@ geometry_rectangle_t draw_classifier_contour_calc_outer_bounds ( const draw_clas
 
         default:
         {
-            U8_LOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
+            /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
+            U8_LOG_ANOMALY("unknown data_classifier_type_t in draw_classifier_contour_calc_outer_bounds()");
+            /* assume standard size */
+            geometry_rectangle_replace( &result, inner_area );
+            geometry_rectangle_expand_4dir( &result, +double_gap, +double_gap );
         }
         break;
     }

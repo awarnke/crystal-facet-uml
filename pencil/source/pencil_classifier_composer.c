@@ -441,7 +441,14 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             default:
             {
-                U8_LOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
+                /* this case can happen if a model file of a new cfu version is opened with an older version of cfu */
+                U8_LOG_ANOMALY("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
+                /* type is unknown, so one cannot decide if to draw rounded corners. */
+                draw_classifier_contour_draw_cornerless( &((*this_).draw_classifier_contour),
+                                                         classifier_symbol_box,
+                                                         pencil_size,
+                                                         cr
+                                                       );
             }
             break;
         }

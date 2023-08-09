@@ -2667,6 +2667,130 @@
     },
     {
       "diagram": {
+        "id": 33,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "Process Documentation",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Process Quality",
+        "parent": "bc47e5d0-cdb6-4a08-a50c-28d28de75dbc",
+        "uuid": "a2dd2219-c8ba-49cf-95f8-31d3674af5ba",
+        "diagramelements":
+        [
+          {
+            "id": 360,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "term: Goal",
+            "node": "b6f5d2a6-00dc-40d7-9e5c-7a74cfcd68e5",
+            "uuid": "f970659f-d471-4972-b6aa-5cdaa683cd86"
+          },
+          {
+            "id": 361,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "term: Objective",
+            "node": "db67a1be-6b99-4296-b178-824d954e3c5a",
+            "uuid": "cb3fe6d5-929f-48e8-b4e9-332f59b64c99"
+          },
+          {
+            "id": 362,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "term: Strategy",
+            "node": "6978f09b-e18d-4136-8ae4-10bca296608d",
+            "uuid": "00630fb6-1505-4802-8f95-32027bacc7a9"
+          },
+          {
+            "id": 363,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "term: Tactic",
+            "node": "01b769f0-5c37-45e0-8120-f77f6ac82188",
+            "uuid": "bc4a10ee-d049-49a1-bf97-23dc12bc8b86"
+          },
+          {
+            "id": 364,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "term: What",
+            "node": "d9e70403-a9e3-44b3-befa-1a579e507db8",
+            "uuid": "75cbaa4c-9148-4dcb-ab6d-afc4f38e1f85"
+          },
+          {
+            "id": 365,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "term: How",
+            "node": "863c7cb4-94f2-476d-85b0-111bc76853ec",
+            "uuid": "62d9e64d-6f57-45db-9063-68a60025fc68"
+          },
+          {
+            "id": 366,
+            "display_flags": 0,
+            "classifier_name": "Project Execution Plan",
+            "node": "85b5915c-5090-48aa-a548-29675e91af28",
+            "uuid": "e22f3f55-da18-4fd1-bb34-2b59f3aa13e1"
+          },
+          {
+            "id": 367,
+            "display_flags": 0,
+            "classifier_name": "Plan of Artifacts",
+            "node": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+            "uuid": "ed3557f9-3642-4e41-a437-3f478c9e2485"
+          },
+          {
+            "id": 368,
+            "display_flags": 0,
+            "classifier_name": "Artifact (e.g. Document)",
+            "node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
+            "uuid": "1d1cbf2e-b4c2-4269-82e2-100711538a88"
+          },
+          {
+            "id": 369,
+            "display_flags": 0,
+            "classifier_name": "Template",
+            "node": "4d010710-11f0-49c2-b588-289443f8890a",
+            "uuid": "02bc2b84-4cb3-47ef-b9bd-97dfc544a351"
+          },
+          {
+            "id": 370,
+            "display_flags": 0,
+            "classifier_name": "Guidelines",
+            "node": "e3246368-acdf-4ff9-8c35-50976bca84b2",
+            "uuid": "9eb6a2a8-ce30-4277-ab55-2ed417854fae"
+          },
+          {
+            "id": 371,
+            "display_flags": 0,
+            "classifier_name": "Report on Results",
+            "node": "daecdae8-69c1-4d77-b884-c602c3c78c9c",
+            "uuid": "207adf0b-65bd-4e6b-96f1-6e1552e6df38"
+          },
+          {
+            "id": 372,
+            "display_flags": 0,
+            "classifier_name": "How-To",
+            "node": "ad1491d9-ad70-4c56-8c78-986c0f2ad301",
+            "uuid": "280962a7-e3f6-43d2-946c-621ed954f1d9"
+          },
+          {
+            "id": 373,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "foreach artifact type",
+            "node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+            "uuid": "a4c1e24a-ecac-4494-b794-ba48e9662a6f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 23,
         "diagram_type": 0,
         "type": "CFUListDiagram",
@@ -2783,6 +2907,32 @@
             "classifier_name": "turtle",
             "node": "e67e082d-087e-4e92-9385-6446415c531e",
             "uuid": "10f17e5e-1f7d-445a-96d1-1b9f4ea677c4"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 34,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "Internet Articles",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Bibliography",
+        "parent": "8058351e-fd1d-4153-a4c7-b9447aff9684",
+        "uuid": "32c784f3-4006-4031-99ad-bdb16222b6f6",
+        "diagramelements":
+        [
+          {
+            "id": 359,
+            "display_flags": 0,
+            "classifier_name": "Principles of technical documentation",
+            "node": "67b80dd8-a9d6-4f21-8d92-4b49797beeac",
+            "uuid": "49c9576d-bba9-49fa-97f2-ea0de89a3f4b"
           }
         ]
       }
@@ -8031,6 +8181,281 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 243,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "Principles of technical documentation",
+        "description": [
+                "https://www.innoq.com/en/articles/2022/01/principles-of-technical-documentation/"
+        ],
+        "x_order": -1222278098,
+        "y_order": -958048463,
+        "list_order": -958048463,
+        "uuid": "67b80dd8-a9d6-4f21-8d92-4b49797beeac",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 244,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "concept",
+        "name": "term: Goal",
+        "description": [
+                ""
+        ],
+        "x_order": -729493205,
+        "y_order": -741844390,
+        "list_order": -1682645941,
+        "uuid": "b6f5d2a6-00dc-40d7-9e5c-7a74cfcd68e5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 245,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "concept",
+        "name": "term: Objective",
+        "description": [
+                ""
+        ],
+        "x_order": -1702941968,
+        "y_order": -741844390,
+        "list_order": -1714028448,
+        "uuid": "db67a1be-6b99-4296-b178-824d954e3c5a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 246,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "concept",
+        "name": "term: Strategy",
+        "description": [
+                ""
+        ],
+        "x_order": -1702941968,
+        "y_order": 905473840,
+        "list_order": -1710565171,
+        "uuid": "6978f09b-e18d-4136-8ae4-10bca296608d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 247,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "concept",
+        "name": "term: Tactic",
+        "description": [
+                "Tactic\n",
+                ""
+        ],
+        "x_order": -1702941968,
+        "y_order": 1373784640,
+        "list_order": -1690236228,
+        "uuid": "01b769f0-5c37-45e0-8120-f77f6ac82188",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 248,
+        "main_type": 125,
+        "type": "Class",
+        "name": "term: What",
+        "description": [
+                ""
+        ],
+        "x_order": -1700311042,
+        "y_order": -1714028448,
+        "list_order": -1714028448,
+        "uuid": "d9e70403-a9e3-44b3-befa-1a579e507db8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 249,
+        "main_type": 125,
+        "type": "Class",
+        "name": "term: How",
+        "description": [
+                ""
+        ],
+        "x_order": -1698396488,
+        "y_order": -1714028448,
+        "list_order": -1714028448,
+        "uuid": "863c7cb4-94f2-476d-85b0-111bc76853ec",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 250,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Project Execution Plan",
+        "description": [
+                ""
+        ],
+        "x_order": -729493205,
+        "y_order": 905473840,
+        "list_order": 884766938,
+        "uuid": "85b5915c-5090-48aa-a548-29675e91af28",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 251,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Plan of Artifacts",
+        "description": [
+                ""
+        ],
+        "x_order": -729493205,
+        "y_order": 1373784640,
+        "list_order": 1373784640,
+        "uuid": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 252,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Artifact (e.g. Document)",
+        "description": [
+                ""
+        ],
+        "x_order": 1521252013,
+        "y_order": 1892609431,
+        "list_order": 1373784640,
+        "uuid": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 253,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Template",
+        "description": [
+                ""
+        ],
+        "x_order": 1521252013,
+        "y_order": 1373784640,
+        "list_order": 1373784640,
+        "uuid": "4d010710-11f0-49c2-b588-289443f8890a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 254,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Guidelines",
+        "description": [
+                ""
+        ],
+        "x_order": -729493205,
+        "y_order": 1892609431,
+        "list_order": 905473840,
+        "uuid": "e3246368-acdf-4ff9-8c35-50976bca84b2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 255,
+        "main_type": 125,
+        "type": "Class",
+        "name": "Report on Results",
+        "description": [
+                ""
+        ],
+        "x_order": 1878331530,
+        "y_order": 1373784640,
+        "list_order": 884766938,
+        "uuid": "daecdae8-69c1-4d77-b884-c602c3c78c9c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 256,
+        "main_type": 125,
+        "type": "Class",
+        "name": "How-To",
+        "description": [
+                ""
+        ],
+        "x_order": -729493205,
+        "y_order": 2016022840,
+        "list_order": 2016022840,
+        "uuid": "ad1491d9-ad70-4c56-8c78-986c0f2ad301",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 257,
+        "main_type": 125,
+        "type": "Class",
+        "name": "foreach artifact type",
+        "description": [
+                ""
+        ],
+        "x_order": 452065861,
+        "y_order": 1182470415,
+        "list_order": 1182470415,
+        "uuid": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -11997,6 +12422,346 @@
         "from_node": "1a1600ad-4966-4d8d-9fc5-e674648231c0",
         "to_node": "152cb739-2190-47bc-9579-a24389e1fb5e",
         "uuid": "b7966781-df27-4553-a378-742f03df6d66"
+      }
+    },
+    {
+      "relationship": {
+        "id": 294,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "term: Objective",
+        "to_classifier_name": "term: Goal",
+        "from_node": "db67a1be-6b99-4296-b178-824d954e3c5a",
+        "to_node": "b6f5d2a6-00dc-40d7-9e5c-7a74cfcd68e5",
+        "uuid": "18b68c0e-2e2a-4b84-86a4-72ace5cd80df"
+      }
+    },
+    {
+      "relationship": {
+        "id": 299,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "term: Strategy",
+        "to_classifier_name": "term: Objective",
+        "from_node": "6978f09b-e18d-4136-8ae4-10bca296608d",
+        "to_node": "db67a1be-6b99-4296-b178-824d954e3c5a",
+        "uuid": "136658fa-6a3a-49ef-948e-8b280b22686c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 300,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "term: Tactic",
+        "to_classifier_name": "term: Strategy",
+        "from_node": "01b769f0-5c37-45e0-8120-f77f6ac82188",
+        "to_node": "6978f09b-e18d-4136-8ae4-10bca296608d",
+        "uuid": "36d69803-0c05-4ffd-a205-d2d3544cb890"
+      }
+    },
+    {
+      "relationship": {
+        "id": 295,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "term: What",
+        "to_classifier_name": "term: Goal",
+        "from_node": "d9e70403-a9e3-44b3-befa-1a579e507db8",
+        "to_node": "b6f5d2a6-00dc-40d7-9e5c-7a74cfcd68e5",
+        "uuid": "2d491abc-3ad7-4fc2-a519-be680fd69378"
+      }
+    },
+    {
+      "relationship": {
+        "id": 296,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "term: What",
+        "to_classifier_name": "term: Objective",
+        "from_node": "d9e70403-a9e3-44b3-befa-1a579e507db8",
+        "to_node": "db67a1be-6b99-4296-b178-824d954e3c5a",
+        "uuid": "45694950-0a1a-4cfe-89cb-cf6f461c75ab"
+      }
+    },
+    {
+      "relationship": {
+        "id": 297,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "term: How",
+        "to_classifier_name": "term: Strategy",
+        "from_node": "863c7cb4-94f2-476d-85b0-111bc76853ec",
+        "to_node": "6978f09b-e18d-4136-8ae4-10bca296608d",
+        "uuid": "1463a848-ea96-41a8-acda-2346c91ac511"
+      }
+    },
+    {
+      "relationship": {
+        "id": 298,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "term: How",
+        "to_classifier_name": "term: Tactic",
+        "from_node": "863c7cb4-94f2-476d-85b0-111bc76853ec",
+        "to_node": "01b769f0-5c37-45e0-8120-f77f6ac82188",
+        "uuid": "c0e42481-e161-4fed-b83b-f7e95384a1f1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 301,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "Project Execution Plan",
+        "to_classifier_name": "term: Strategy",
+        "from_node": "85b5915c-5090-48aa-a548-29675e91af28",
+        "to_node": "6978f09b-e18d-4136-8ae4-10bca296608d",
+        "uuid": "935c2a96-9e14-4b3c-811d-e922ac4cdecb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 302,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "Plan of Artifacts",
+        "to_classifier_name": "term: Tactic",
+        "from_node": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+        "to_node": "01b769f0-5c37-45e0-8120-f77f6ac82188",
+        "uuid": "c1f61303-642c-4b6d-92ed-583266a0f2ec"
+      }
+    },
+    {
+      "relationship": {
+        "id": 303,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "Artifact (e.g. Document)",
+        "to_classifier_name": "Plan of Artifacts",
+        "from_node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
+        "to_node": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+        "uuid": "1ecebccf-0231-4d75-84b8-e8f7a0db2afa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 304,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "Artifact (e.g. Document)",
+        "to_classifier_name": "Template",
+        "from_node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
+        "to_node": "4d010710-11f0-49c2-b588-289443f8890a",
+        "uuid": "8988d36b-fb9e-4ab4-adcc-ddbf4b8f13c1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 305,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "Artifact (e.g. Document)",
+        "to_classifier_name": "Guidelines",
+        "from_node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
+        "to_node": "e3246368-acdf-4ff9-8c35-50976bca84b2",
+        "uuid": "253f1f7a-1aa4-4e44-9077-4742e74a0858"
+      }
+    },
+    {
+      "relationship": {
+        "id": 306,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "Report on Results",
+        "to_classifier_name": "Artifact (e.g. Document)",
+        "from_node": "daecdae8-69c1-4d77-b884-c602c3c78c9c",
+        "to_node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
+        "uuid": "c130191b-dbbe-486d-84b0-1684ca936027"
+      }
+    },
+    {
+      "relationship": {
+        "id": 307,
+        "main_type": 400,
+        "type": "Refine",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "How-To",
+        "to_classifier_name": "Guidelines",
+        "from_node": "ad1491d9-ad70-4c56-8c78-986c0f2ad301",
+        "to_node": "e3246368-acdf-4ff9-8c35-50976bca84b2",
+        "uuid": "d7f54298-f40a-4453-bcaf-eb0f43acde97"
+      }
+    },
+    {
+      "relationship": {
+        "id": 308,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "foreach artifact type",
+        "to_classifier_name": "Plan of Artifacts",
+        "from_node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "to_node": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+        "uuid": "7bcce813-856e-4b39-ad89-5575b2112508"
+      }
+    },
+    {
+      "relationship": {
+        "id": 309,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "foreach artifact type",
+        "to_classifier_name": "Report on Results",
+        "from_node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "to_node": "daecdae8-69c1-4d77-b884-c602c3c78c9c",
+        "uuid": "99b6650e-c48c-4abb-83a3-e3ac931417a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 310,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "foreach artifact type",
+        "to_classifier_name": "Template",
+        "from_node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "to_node": "4d010710-11f0-49c2-b588-289443f8890a",
+        "uuid": "4d645f1b-6ebe-4fce-8f86-d38d925fb3b8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 311,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 589824,
+        "from_classifier_name": "foreach artifact type",
+        "to_classifier_name": "Artifact (e.g. Document)",
+        "from_node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "to_node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
+        "uuid": "3081c16b-4ee0-4e99-8f51-2d6da6f514e4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 312,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 622592,
+        "from_classifier_name": "foreach artifact type",
+        "to_classifier_name": "Guidelines",
+        "from_node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "to_node": "e3246368-acdf-4ff9-8c35-50976bca84b2",
+        "uuid": "5c7c0531-85fb-42f4-9fe8-cbfffc38fd0e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 313,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 655360,
+        "from_classifier_name": "foreach artifact type",
+        "to_classifier_name": "How-To",
+        "from_node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "to_node": "ad1491d9-ad70-4c56-8c78-986c0f2ad301",
+        "uuid": "32de5d24-19e1-4308-a376-fbea43c3d692"
       }
     }
   ]
