@@ -74,7 +74,7 @@ int main (int argc, char *argv[]) {
     U8_TRACE_TIMESTAMP();
     U8_TRACE_INFO( "--------------------" );
     int exit_code = 0;
-    U8_LOG_INIT(META_INFO_PROGRAM_ID_STR, U8_LOG_DEBUG_MODE_CONTINUE);
+    U8_LOG_INIT(META_INFO_PROGRAM_ID_STR);
 
     /* print id, license and copyrights */
     {
@@ -217,6 +217,7 @@ int main (int argc, char *argv[]) {
            );
     exit_code = test_result_get_failed( &res );
 
+    U8_LOG_STATS();
     U8_LOG_DESTROY();
     U8_TRACE_INFO( "--------------------" );
     U8_TRACE_TIMESTAMP();

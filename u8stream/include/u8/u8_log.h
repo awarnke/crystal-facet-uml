@@ -40,17 +40,16 @@
 #include <syslog.h>
 #endif // __linux__
 #ifndef NDEBUG
-#include <unistd.h>
 #include <assert.h>
 #endif  // NDEBUG
 
 /*define U8_LOG_OUT_STREAM_ stderr -- stdout is better because traces and logs are merged to the same stream in the right order */
 #define U8_LOG_OUT_STREAM_ stdout
 
-/* reactions to errors and warnings and anomalies in debug mode: */
-#define U8_LOG_DEBUG_MODE_DELAY (3)
-#define U8_LOG_DEBUG_MODE_CONTINUE (0)
-extern unsigned int u8_log_debug_mode;
+extern __thread unsigned int u8_log_stat_err;
+extern __thread unsigned int u8_log_stat_warn;
+extern __thread unsigned int u8_log_stat_anom;
+extern __thread unsigned int u8_log_stat_evt;
 
 #ifndef NDEBUG  /* SWITCH RELEASE/DEBUG : CASE DEBUG */
 #ifdef __linux__  /* SWITCH TARGET OS : CASE LINUX */
@@ -67,28 +66,30 @@ extern unsigned int u8_log_debug_mode;
 
 #define U8_LOG_PRINTF_ERR_1_(FMT,P1) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ERR FMT "\n\n", P1); fflush(U8_LOG_OUT_STREAM_);\
-    syslog(LOG_ERR, "ERR : " FMT, P1); sleep(u8_log_debug_mode);
+    syslog(LOG_ERR, "ERR : " FMT, P1);
 #define U8_LOG_PRINTF_ERR_2_(FMT,P1,P2) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ERR FMT "\n\n", P1, P2); fflush(U8_LOG_OUT_STREAM_);\
-    syslog(LOG_ERR, "ERR : " FMT, P1, P2); sleep(u8_log_debug_mode);
+    syslog(LOG_ERR, "ERR : " FMT, P1, P2);
 #define U8_LOG_PRINTF_WARN_1_(FMT,P1) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_WARN FMT "\n\n", P1); fflush(U8_LOG_OUT_STREAM_);\
-    syslog(LOG_WARNING, "WARN: " FMT, P1); sleep(u8_log_debug_mode);
+    syslog(LOG_WARNING, "WARN: " FMT, P1);
 #define U8_LOG_PRINTF_WARN_2_(FMT,P1,P2) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_WARN FMT "\n\n", P1, P2); fflush(U8_LOG_OUT_STREAM_);\
-    syslog(LOG_WARNING, "WARN: " FMT, P1, P2); sleep(u8_log_debug_mode);
+    syslog(LOG_WARNING, "WARN: " FMT, P1, P2);
 #define U8_LOG_PRINTF_ANOM_1_(FMT,P1) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ANOM FMT "\n\n", P1); fflush(U8_LOG_OUT_STREAM_);\
-    syslog(LOG_INFO, "ANOM: " FMT, P1); sleep(u8_log_debug_mode);
+    syslog(LOG_INFO, "ANOM: " FMT, P1);
 #define U8_LOG_PRINTF_ANOM_2_(FMT,P1,P2) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_ANOM FMT "\n\n", P1, P2); fflush(U8_LOG_OUT_STREAM_);\
-    syslog(LOG_INFO, "ANOM: " FMT, P1, P2); sleep(u8_log_debug_mode);
+    syslog(LOG_INFO, "ANOM: " FMT, P1, P2);
 #define U8_LOG_PRINTF_EVT_1_(FMT,P1) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_EVT FMT "\n\n", P1);\
     syslog(LOG_INFO, "EVT : " FMT, P1);
 #define U8_LOG_PRINTF_EVT_2_(FMT,P1,P2) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_EVT FMT "\n\n", P1, P2);\
     syslog(LOG_INFO, "EVT : " FMT, P1, P2);
+#define U8_LOG_PRINT_STAT_() \
+    fprintf(U8_LOG_OUT_STREAM_, "\nstat: " U8_LOG_PREFIX_ERR " %d; " U8_LOG_PREFIX_WARN " %d; " U8_LOG_PREFIX_ANOM " %d; "  U8_LOG_PREFIX_EVT " %d\n\n", u8_log_stat_err, u8_log_stat_warn, u8_log_stat_anom, u8_log_stat_evt );
 
 #else   /* SWITCH TARGET OS : CASE NON-LINUX */
 
@@ -113,6 +114,8 @@ extern unsigned int u8_log_debug_mode;
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_EVT FMT "\n\n", P1);
 #define U8_LOG_PRINTF_EVT_2_(FMT,P1,P2) \
     fprintf(U8_LOG_OUT_STREAM_, "\n" U8_LOG_PREFIX_EVT FMT "\n\n", P1, P2);
+#define U8_LOG_PRINT_STAT_() \
+    fprintf(U8_LOG_OUT_STREAM_, "\nstat: " U8_LOG_PREFIX_ERR " %d; " U8_LOG_PREFIX_WARN " %d; " U8_LOG_PREFIX_ANOM " %d; "  U8_LOG_PREFIX_EVT " %d\n\n", u8_log_stat_err, u8_log_stat_warn, u8_log_stat_anom, u8_log_stat_evt );
 
 #endif  /* SWITCH TARGET OS */
 #else             /* SWITCH RELEASE/DEBUG : CASE RELEASE */
@@ -126,6 +129,8 @@ extern unsigned int u8_log_debug_mode;
 #define U8_LOG_PRINTF_ANOM_2_(FMT,P1,P2) syslog(LOG_INFO, "ANOM: " FMT, P1, P2);
 #define U8_LOG_PRINTF_EVT_1_(FMT,P1) (void)P1;  /* cast to void to prevent warnings on unused variables */
 #define U8_LOG_PRINTF_EVT_2_(FMT,P1,P2) (void)P1; (void)P2;  /* cast to void to prevent warnings on unused variables */
+#define U8_LOG_PRINT_STAT_() {}
+/* fprintf(U8_LOG_OUT_STREAM_, "stat: ERR %d; WARN %d; ANOM %d\n", u8_log_stat_err, u8_log_stat_warn, u8_log_stat_anom ); */
 
 #else   /* SWITCH TARGET OS : CASE NON-LINUX */
 
@@ -137,6 +142,7 @@ extern unsigned int u8_log_debug_mode;
 #define U8_LOG_PRINTF_ANOM_2_(FMT,P1,P2) (void)P1; (void)P2;  /* cast to void to prevent warnings on unused variables */
 #define U8_LOG_PRINTF_EVT_1_(FMT,P1) (void)P1;  /* cast to void to prevent warnings on unused variables */
 #define U8_LOG_PRINTF_EVT_2_(FMT,P1,P2) (void)P1; (void)P2;  /* cast to void to prevent warnings on unused variables */
+#define U8_LOG_PRINT_STAT_() {}
 
 #endif  /* SWITCH TARGET OS */
 #endif  /* SWITCH RELEASE/DEBUG */
@@ -146,8 +152,13 @@ extern unsigned int u8_log_debug_mode;
 /*!
  *  \brief starts to log
  */
-#define U8_LOG_INIT(program_id,mode) { const char *string_test = (program_id); u8_log_debug_mode=mode;\
+#define U8_LOG_INIT(program_id) { const char *string_test = (program_id);\
     openlog( /* ident: */ string_test, /* options: */ 0, /* facility: */ LOG_USER  ); }
+
+/*!
+ *  \brief prints statistics on logging
+ */
+#define U8_LOG_STATS() { U8_LOG_PRINT_STAT_(); }
 
 /*!
  *  \brief stops logging
@@ -159,7 +170,12 @@ extern unsigned int u8_log_debug_mode;
 /*!
  *  \brief starts to log
  */
-#define U8_LOG_INIT(program_id,mode) {u8_log_debug_mode=U8_LOG_DEBUG_MODE_CONTINUE;}
+#define U8_LOG_INIT(program_id) {}
+
+/*!
+ *  \brief prints statistics on logging
+ */
+#define U8_LOG_STATS() { U8_LOG_PRINT_STAT_(); }
 
 /*!
  *  \brief stops logging
@@ -174,90 +190,90 @@ extern unsigned int u8_log_debug_mode;
 /*!
  *  \brief logs an error string
  */
-#define U8_LOG_ERROR(x) { const char *string_test = (x); U8_LOG_PRINTF_ERR_1_("%s", string_test); }
+#define U8_LOG_ERROR(x) { const char *string_test = (x); U8_LOG_PRINTF_ERR_1_("%s", string_test); u8_log_stat_err++; }
 
 /*!
  *  \brief logs an error string and an integer
  */
-#define U8_LOG_ERROR_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_ERR_2_("%s %i", string_test, int_test); }
+#define U8_LOG_ERROR_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_ERR_2_("%s %i", string_test, int_test); u8_log_stat_err++; }
 
 /*!
  *  \brief logs an error string and a hexadecimal integer
  */
-#define U8_LOG_ERROR_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_ERR_2_("%s 0x%08x", string_test, int_test); }
+#define U8_LOG_ERROR_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_ERR_2_("%s 0x%08x", string_test, int_test); u8_log_stat_err++; }
 
 /*!
  *  \brief logs an error string and an information string
  *
  *  Do not print confidential information to the log.
  */
-#define U8_LOG_ERROR_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_ERR_2_("%s %s", string_test, string2_test); }
+#define U8_LOG_ERROR_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_ERR_2_("%s %s", string_test, string2_test); u8_log_stat_err++; }
 
 /*!
  *  \brief logs a warning string
  */
-#define U8_LOG_WARNING(x) { const char *string_test = (x); U8_LOG_PRINTF_WARN_1_("%s", string_test); }
+#define U8_LOG_WARNING(x) { const char *string_test = (x); U8_LOG_PRINTF_WARN_1_("%s", string_test); u8_log_stat_warn++; }
 
 /*!
  *  \brief logs a warning string and an integer
  */
-#define U8_LOG_WARNING_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_WARN_2_("%s %i", string_test, int_test); }
+#define U8_LOG_WARNING_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_WARN_2_("%s %i", string_test, int_test); u8_log_stat_warn++; }
 
 /*!
  *  \brief logs a warning string and a hexadecimal integer
  */
-#define U8_LOG_WARNING_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_WARN_2_("%s 0x%08x", string_test, int_test); }
+#define U8_LOG_WARNING_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_WARN_2_("%s 0x%08x", string_test, int_test); u8_log_stat_warn++; }
 
 /*!
  *  \brief logs a warning string and an information string
  *
  *  Do not print confidential information to the log.
  */
-#define U8_LOG_WARNING_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_WARN_2_("%s %s", string_test, string2_test); }
+#define U8_LOG_WARNING_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_WARN_2_("%s %s", string_test, string2_test); u8_log_stat_warn++; }
 
 /*!
  *  \brief logs an anomaly string
  */
-#define U8_LOG_ANOMALY(x) { const char *string_test = (x); U8_LOG_PRINTF_ANOM_1_("%s", string_test); }
+#define U8_LOG_ANOMALY(x) { const char *string_test = (x); U8_LOG_PRINTF_ANOM_1_("%s", string_test); u8_log_stat_anom++; }
 
 /*!
  *  \brief logs an anomaly string and an integer
  */
-#define U8_LOG_ANOMALY_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_ANOM_2_("%s %i", string_test, int_test); }
+#define U8_LOG_ANOMALY_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_ANOM_2_("%s %i", string_test, int_test); u8_log_stat_anom++; }
 
 /*!
  *  \brief logs an anomaly string and a hexadecimal integer
  */
-#define U8_LOG_ANOMALY_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_ANOM_2_("%s 0x%08x", string_test, int_test); }
+#define U8_LOG_ANOMALY_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_ANOM_2_("%s 0x%08x", string_test, int_test); u8_log_stat_anom++; }
 
 /*!
  *  \brief logs an anomaly string and an information string
  *
  *  Do not print confidential information to the log.
  */
-#define U8_LOG_ANOMALY_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_ANOM_2_("%s %s", string_test, string2_test); }
+#define U8_LOG_ANOMALY_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_ANOM_2_("%s %s", string_test, string2_test); u8_log_stat_anom++; }
 
 /*!
  *  \brief logs an event string
  */
-#define U8_LOG_EVENT(x) { const char *string_test = (x); U8_LOG_PRINTF_EVT_1_("%s", string_test); }
+#define U8_LOG_EVENT(x) { const char *string_test = (x); U8_LOG_PRINTF_EVT_1_("%s", string_test); u8_log_stat_evt++; }
 
 /*!
  *  \brief logs an event string and an integer
  */
-#define U8_LOG_EVENT_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_EVT_2_("%s %i", string_test, int_test); }
+#define U8_LOG_EVENT_INT(x,i) { const char *string_test = (x); const int int_test = (i); U8_LOG_PRINTF_EVT_2_("%s %i", string_test, int_test); u8_log_stat_evt++; }
 
 /*!
  *  \brief logs an event string and a hexadecimal integer
  */
-#define U8_LOG_EVENT_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_EVT_2_("%s 0x%08x", string_test, int_test); }
+#define U8_LOG_EVENT_HEX(x,i) { const char *string_test = (x); const unsigned int int_test = (i); U8_LOG_PRINTF_EVT_2_("%s 0x%08x", string_test, int_test); u8_log_stat_evt++; }
 
 /*!
  *  \brief logs an event string and an information string
  *
  *  Do not print confidential information to the log.
  */
-#define U8_LOG_EVENT_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_EVT_2_("%s %s", string_test, string2_test); }
+#define U8_LOG_EVENT_STR(x,s) { const char *string_test = (x); const char *string2_test = (s); U8_LOG_PRINTF_EVT_2_("%s %s", string_test, string2_test); u8_log_stat_evt++; }
 
 #endif  /* U8_LOG_H */
 

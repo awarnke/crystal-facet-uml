@@ -151,7 +151,7 @@ static inline u8_error_t xmi_diagram_info_map_get_diagram ( const xmi_diagram_in
 
         default:
         {
-            U8_LOG_ERROR_INT( "switch case statement for data_diagram_type_t incomplete", diagram_type );
+            U8_LOG_ANOMALY_INT( "switch case statement for data_diagram_type_t incomplete", diagram_type );
             /* this is a possible error case that can happen when */
             /* a database created with a newer version of the program is opened with this version */
             result = NULL;

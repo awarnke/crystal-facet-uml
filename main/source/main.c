@@ -35,7 +35,7 @@ int main (int argc, char **argv) {
     U8_TRACE_BEGIN();
     U8_TRACE_TIMESTAMP();
     u8_error_t exit_code = U8_ERROR_NONE;
-    U8_LOG_INIT(META_INFO_PROGRAM_ID_STR, U8_LOG_DEBUG_MODE_DELAY);
+    U8_LOG_INIT(META_INFO_PROGRAM_ID_STR);
     char *database_file = NULL;
     char *export_directory = NULL;
     char *import_file = NULL;
@@ -156,6 +156,7 @@ int main (int argc, char **argv) {
     universal_utf8_writer_destroy( &writer );
     universal_stream_output_stream_destroy( &out_stream );
 
+    U8_LOG_STATS();
     U8_LOG_DESTROY();
     U8_TRACE_TIMESTAMP();
     int exit_byte = ((exit_code >> 24)|(exit_code >> 16)|(exit_code >> 8)|(exit_code))&0xff;

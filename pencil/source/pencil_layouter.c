@@ -787,7 +787,8 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
             {
                 case DATA_FEATURE_TYPE_PROPERTY:  /* or */
                 case DATA_FEATURE_TYPE_OPERATION:  /* or */
-                case DATA_FEATURE_TYPE_TAGGED_VALUE:
+                case DATA_FEATURE_TYPE_TAGGED_VALUE:  /* or */
+                default: /* this may happen if a new database file has been read by an old program version */
                 {
                     int32_t max_order_above = INT32_MIN;
                     int32_t min_order_below = INT32_MAX;
@@ -908,14 +909,6 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                 case DATA_FEATURE_TYPE_LIFELINE:
                 {
                     U8_TRACE_INFO( "feature to move is a lifeline and therefore cannot move." );
-                    layout_order_init_empty( out_layout_order );
-                    result = PENCIL_ERROR_UNKNOWN_OBJECT;
-                }
-                break;
-
-                default:
-                {
-                    U8_LOG_WARNING( "feature to move has illegal/unknown type!" );
                     layout_order_init_empty( out_layout_order );
                     result = PENCIL_ERROR_UNKNOWN_OBJECT;
                 }

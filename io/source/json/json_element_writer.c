@@ -231,8 +231,8 @@ bool json_element_writer_can_classifier_nest_relationship( json_element_writer_t
 }
 
 u8_error_t json_element_writer_start_classifier( json_element_writer_t *this_,
-                                          data_classifier_type_t host_type,
-                                          const data_classifier_t *classifier_ptr )
+                                                 data_classifier_type_t host_type,
+                                                 const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
@@ -272,8 +272,8 @@ u8_error_t json_element_writer_start_classifier( json_element_writer_t *this_,
 }
 
 u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_,
-                                             data_classifier_type_t host_type,
-                                             const data_classifier_t *classifier_ptr )
+                                                    data_classifier_type_t host_type,
+                                                    const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
@@ -411,8 +411,8 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
 }
 
 u8_error_t json_element_writer_end_classifier( json_element_writer_t *this_,
-                                        data_classifier_type_t host_type,
-                                        const data_classifier_t *classifier_ptr )
+                                               data_classifier_type_t host_type,
+                                               const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert( classifier_ptr != NULL );
@@ -460,8 +460,8 @@ u8_error_t json_element_writer_end_classifier( json_element_writer_t *this_,
 }
 
 u8_error_t json_element_writer_start_feature( json_element_writer_t *this_,
-                                       data_classifier_type_t parent_type,
-                                       const data_feature_t *feature_ptr )
+                                              data_classifier_type_t parent_type,
+                                              const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
@@ -500,8 +500,8 @@ u8_error_t json_element_writer_start_feature( json_element_writer_t *this_,
 }
 
 u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
-                                          const data_classifier_t *parent,
-                                          const data_feature_t *feature_ptr )
+                                                 const data_classifier_t *parent,
+                                                 const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
@@ -608,8 +608,8 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
 }
 
 u8_error_t json_element_writer_end_feature( json_element_writer_t *this_,
-                                     data_classifier_type_t parent_type,
-                                     const data_feature_t *feature_ptr )
+                                            data_classifier_type_t parent_type,
+                                            const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
@@ -638,8 +638,8 @@ u8_error_t json_element_writer_end_feature( json_element_writer_t *this_,
 }
 
 u8_error_t json_element_writer_start_relationship( json_element_writer_t *this_,
-                                            data_classifier_type_t host_type,
-                                            const data_relationship_t *relation_ptr )
+                                                   data_classifier_type_t host_type,
+                                                   const data_relationship_t *relation_ptr )
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
@@ -684,12 +684,12 @@ u8_error_t json_element_writer_start_relationship( json_element_writer_t *this_,
 }
 
 u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *this_,
-                                               const data_classifier_t *host,
-                                               const data_relationship_t *relation_ptr,
-                                               const data_classifier_t *from_c,
-                                               const data_feature_t *from_f,
-                                               const data_classifier_t *to_c,
-                                               const data_feature_t *to_f )
+                                                      const data_classifier_t *host,
+                                                      const data_relationship_t *relation_ptr,
+                                                      const data_classifier_t *from_c,
+                                                      const data_feature_t *from_f,
+                                                      const data_classifier_t *to_c,
+                                                      const data_feature_t *to_f )
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
@@ -919,8 +919,8 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
 }
 
 u8_error_t json_element_writer_end_relationship( json_element_writer_t *this_,
-                                          data_classifier_type_t host_type,
-                                          const data_relationship_t *relation_ptr )
+                                                 data_classifier_type_t host_type,
+                                                 const data_relationship_t *relation_ptr )
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
@@ -996,9 +996,9 @@ u8_error_t json_element_writer_start_diagram( json_element_writer_t *this_, cons
 }
 
 u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
-                                          const data_diagram_t *parent,
-                                          const data_diagram_t *diag_ptr,
-                                          const char *diagram_file_base_name )
+                                                 const data_diagram_t *parent,
+                                                 const data_diagram_t *diag_ptr,
+                                                 const char *diagram_file_base_name )
 {
     U8_TRACE_BEGIN();
     assert( diag_ptr != NULL );
@@ -1216,8 +1216,8 @@ u8_error_t json_element_writer_private_end_diagram( json_element_writer_t *this_
 }
 
 u8_error_t json_element_writer_start_diagramelement( json_element_writer_t *this_,
-                                              const data_diagram_t *parent,
-                                              const data_diagramelement_t *diagramelement_ptr )
+                                                     const data_diagram_t *parent,
+                                                     const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
@@ -1262,10 +1262,10 @@ u8_error_t json_element_writer_start_diagramelement( json_element_writer_t *this
 }
 
 u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *this_,
-                                                 const data_diagram_t *parent,
-                                                 const data_diagramelement_t *diagramelement_ptr,
-                                                 const data_classifier_t *occurrence,
-                                                 const data_feature_t *feat_occur )
+                                                        const data_diagram_t *parent,
+                                                        const data_diagramelement_t *diagramelement_ptr,
+                                                        const data_classifier_t *occurrence,
+                                                        const data_feature_t *feat_occur )
 {
     U8_TRACE_BEGIN();
     assert( parent != NULL );
@@ -1354,8 +1354,8 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
 }
 
 u8_error_t json_element_writer_end_diagramelement( json_element_writer_t *this_,
-                                            const data_diagram_t *parent,
-                                            const data_diagramelement_t *diagramelement_ptr )
+                                                   const data_diagram_t *parent,
+                                                   const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );

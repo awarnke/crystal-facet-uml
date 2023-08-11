@@ -325,7 +325,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
             default:
             {
-                U8_LOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                U8_LOG_ANOMALY("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                /* this may happen if a new database file has been read by an old program version */
                 /* no arrow tip */
             }
             break;
@@ -502,7 +503,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
             default:
             {
-                U8_LOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                U8_LOG_ANOMALY("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                /* this may happen if a new database file has been read by an old program version */
                 /* no rhomboid or other feathers */
             }
             break;
@@ -545,7 +547,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
             default:
             {
-                U8_LOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                U8_LOG_ANOMALY("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                /* this may happen if a new database file has been read by an old program version */
                 double error_dashes[1];
                 error_dashes[0] = 0.2*pencil_size_get_line_dash_length( pencil_size );
                 cairo_set_dash ( cr, error_dashes, 1, 0.0 );

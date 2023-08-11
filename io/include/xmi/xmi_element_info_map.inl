@@ -297,7 +297,7 @@ static inline int xmi_element_info_map_get_classifier ( const xmi_element_info_m
 
         default:
         {
-            U8_LOG_ERROR_INT( "switch case statement for data_classifier_type_t incomplete", classifier_type );
+            U8_LOG_ANOMALY_INT( "switch case statement for data_classifier_type_t incomplete", classifier_type );
             /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
             result = NULL;
         }
@@ -415,7 +415,7 @@ static inline int xmi_element_info_map_get_feature ( const xmi_element_info_map_
 
         default:
         {
-            U8_LOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
+            U8_LOG_ANOMALY_INT( "switch case statement for data_relationship_type_t incomplete", feature_type );
             /* this is a possible error case that can happen when a database created with a newer version of the program is opened with this version */
             result = NULL;
         }
@@ -587,7 +587,7 @@ static inline int xmi_element_info_map_get_relationship ( const xmi_element_info
 
         default:
         {
-            U8_LOG_ERROR_INT( "switch case statement for data_relationship_type_t incomplete", rel_type );
+            U8_LOG_ANOMALY_INT( "switch case statement for data_relationship_type_t incomplete", rel_type );
             /* this is a possible error case that can happen when */
             /* a database created with a newer version of the program is opened with this version */
             result = NULL;

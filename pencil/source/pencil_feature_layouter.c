@@ -131,10 +131,16 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 
             default:
             {
-                U8_LOG_ERROR("invalid feature type in pencil_feature_layouter_do_layout");
-                layout_feature_set_symbol_box ( feature_layout, c_symbol_box );
-                layout_feature_set_label_box ( feature_layout, c_symbol_box );
-                layout_feature_set_icon_direction ( feature_layout, GEOMETRY_DIRECTION_CENTER );
+                U8_LOG_ANOMALY("unknown feature type in pencil_feature_layouter_do_layout");
+                /* this may happen if a new database file has been read by an old program version */
+                /* layout like property or operation or tagged values */
+                const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const ( layout_classifier );
+                pencil_feature_layouter_private_layout_compartment ( this_,
+                                                                     c_space,
+                                                                     the_feature,
+                                                                     font_layout,
+                                                                     feature_layout
+                                                                   );
             }
             break;
         }
@@ -475,7 +481,10 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
         ? 0
         : ( DATA_FEATURE_TYPE_OPERATION == f_type )
         ? 1
-        : 2;  /* first compartment for properties, second for operations, third for tagged values */
+        : ( DATA_FEATURE_TYPE_TAGGED_VALUE == f_type )
+        ? 2  /* first compartment for properties, second for operations, third for tagged values */
+        : 3; /* the last compartment is for all unknown feature types. */
+             /* this may happen if a new database file has been read by an old program version */
 
     /* determine the minimum bounds of the feature */
     geometry_dimensions_t f_min_bounds;

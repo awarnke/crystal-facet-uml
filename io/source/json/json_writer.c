@@ -38,7 +38,7 @@ const char JSON_CONSTANTS_INDENT_QUOTE[(2*JSON_WRITER_MAX_INDENT)+sizeof(JSON_CO
     = JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB
       JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_TAB JSON_CONSTANTS_QUOTE;
 
-void json_writer_init ( json_writer_t *this_,
+void json_writer_init( json_writer_t *this_,
                        universal_output_stream_t *output )
 {
     U8_TRACE_BEGIN();

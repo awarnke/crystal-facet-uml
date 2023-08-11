@@ -113,7 +113,9 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
             default:
             {
-                U8_LOG_ERROR("invalid feature type in pencil_feature_painter_draw");
+                U8_LOG_ANOMALY("unknown feature type in pencil_feature_painter_draw");
+                /* this may happen if a new database file has been read by an old program version */
+                /* no icon */
             }
             break;
         }
