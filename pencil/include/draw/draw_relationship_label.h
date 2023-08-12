@@ -49,7 +49,6 @@ static inline void draw_relationship_label_destroy( draw_relationship_label_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship the relationship to draw
- *  \param with_stereotype false if no stereotype label shall be printed because an image is shown instead
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_text_width width of the text is returned. NULL is not allowed.
@@ -57,7 +56,7 @@ static inline void draw_relationship_label_destroy( draw_relationship_label_t *t
  */
 void draw_relationship_label_get_type_and_name_dimensions( const draw_relationship_label_t *this_,
                                                            const data_relationship_t *relationship,
-                                                           bool with_stereotype,
+                                                           /* const data_profile_part_t *profile, */
                                                            const pencil_size_t *pencil_size,
                                                            PangoLayout *font_layout,
                                                            double *out_text_width,
@@ -69,7 +68,6 @@ void draw_relationship_label_get_type_and_name_dimensions( const draw_relationsh
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship the relationship to draw
- *  \param with_stereotype false if no stereotype label shall be printed because an image is shown instead
  *  \param label_box the rectangle where to draw to
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -77,7 +75,7 @@ void draw_relationship_label_get_type_and_name_dimensions( const draw_relationsh
  */
 void draw_relationship_label_draw_type_and_name( const draw_relationship_label_t *this_,
                                                  const data_relationship_t *relationship,
-                                                 bool with_stereotype,
+                                                 /* const data_profile_part_t *profile, */
                                                  const geometry_rectangle_t *label_box,
                                                  const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,

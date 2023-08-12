@@ -988,7 +988,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     /* determine number of properties and operations */
     uint32_t count_properties = 0;
     uint32_t count_operations = 0;
-    uint32_t count_tagged_values = 0;
+    uint32_t count_compartment_entries = 0;
     {
         /* define names for input data */
         const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
@@ -1009,7 +1009,10 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
                 const data_feature_t *const f_probe_data = layout_feature_get_data_const ( f_probe_layout );
                 assert ( NULL != f_probe_data );
                 const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
-
+                if ( ! data_feature_type_outside_compartment( f_probe_type ) )
+                {
+                    count_compartment_entries ++;
+                }
                 if ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
                 {
                     count_properties ++;
@@ -1018,16 +1021,12 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
                 {
                     count_operations ++;
                 }
-                else if ( DATA_FEATURE_TYPE_TAGGED_VALUE == f_probe_type )
-                {
-                    count_tagged_values ++;
-                }
             }
         }
     }
 
     /* draw compartments if there are features */
-    if (( count_properties != 0 )||( count_operations != 0 )||( count_tagged_values != 0 ))
+    if ( count_compartment_entries != 0 )
     {
         /* define names for input data */
         const geometry_rectangle_t *const classifier_symbol_box

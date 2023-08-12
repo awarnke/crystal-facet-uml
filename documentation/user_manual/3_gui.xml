@@ -564,13 +564,16 @@
                     <para>name of the focused object</para>
                 </listitem>
                 <listitem>
-                    <para>stereotype/valuetype of the focused object.</para>
+                    <para>stereotype of the focused object.</para>
                     <para>Stereotype names shall consist of characters that are valid XML tokens (Nmtoken).
                         <!-- see Nmtoken in XML 1.1 spec -->
                     </para>
                     <para>Multiple stereotypes shall be separated by comma.
                     </para>
                     <para>Rendering images of stereotypes only works for single stereotypes.
+                    </para>
+                    <para>In case of properties and operations enter the type of the property or operation arguments,
+                        in case of tagged values, enter the value (instead of a stereotype).
                     </para>
                 </listitem>
                 <listitem>

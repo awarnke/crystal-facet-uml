@@ -704,7 +704,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_label_set_selectable( GTK_LABEL( (*this_).id_label ), true );
     (*this_).name_label = gtk_label_new( "Name:" );
     (*this_).description_label = gtk_label_new( "Description:" );
-    (*this_).stereotype_label = gtk_label_new( "Stereotype/Valuetype:" );
+    (*this_).stereotype_label = gtk_label_new( "Stereotype:" );
     (*this_).type_label = gtk_label_new( "Type:" );
 #if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
     gtk_label_set_xalign( GTK_LABEL( (*this_).id_label ), 1.0 ); /* align right */

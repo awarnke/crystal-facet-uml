@@ -56,6 +56,7 @@ static inline void draw_feature_label_destroy( draw_feature_label_t *this_ );
  */
 void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_t *this_,
                                                        const data_feature_t *feature,
+                                                       /* const data_profile_part_t *profile, */
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
                                                        double *out_text_width,
@@ -74,6 +75,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
  */
 void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
                                              const data_feature_t *feature,
+                                             /* const data_profile_part_t *profile, */
                                              const geometry_rectangle_t *label_box,
                                              const pencil_size_t *pencil_size,
                                              PangoLayout *font_layout,

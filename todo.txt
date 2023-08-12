@@ -31,7 +31,6 @@ ideas for future versions:
   [?] activity diagrams need swimlanes/partition
 ! [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()
 ! [ ] allow linebreaks in feature and relationship labels
-  [ ] Draw unknown classifier and feature and relationship types nicely, unlike stereotypes and tagged-values in 1.46.0
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
   @io
@@ -51,7 +50,6 @@ ideas for future versions:
   [ ] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
       show/hide relationships-of-other-diag-types
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
-  [?] features can have stereotypes, see UML spec 2.5.1 chapter 11.4.5 (maybe use existing value-type?)
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
       part-to-component, object-to-class
@@ -59,8 +57,10 @@ ideas for future versions:
   [ ] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   @ctrl
-  [ ] delete features immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
-  [ ] delete relationships immediately when they become invisible in all diagrams (rationale: the search+xmi+json export find them)
+  [ ] delete features immediately when they become invisible in all diagrams
+      (rationale: the search+xmi+json export find them)
+  [ ] delete relationships immediately when they become invisible in all diagrams
+      (rationale: the search+xmi+json export find them)
   @u8stream
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
       or a buffered view onto the database

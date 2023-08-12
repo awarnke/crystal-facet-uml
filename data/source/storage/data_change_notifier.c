@@ -6,7 +6,6 @@
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <glib-object.h>
-#include <unistd.h>
 #include <string.h>
 #include <assert.h>
 

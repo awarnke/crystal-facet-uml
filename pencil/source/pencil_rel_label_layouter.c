@@ -22,7 +22,6 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
     (*this_).pencil_size = pencil_size;
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
     pencil_label_layout_helper_init ( &((*this_).label_layout_helper) );
-    draw_stereotype_image_init( &((*this_).draw_stereotype_image) );
 
     U8_TRACE_END();
 }
@@ -31,7 +30,6 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    draw_stereotype_image_destroy( &((*this_).draw_stereotype_image) );
     pencil_label_layout_helper_destroy ( &((*this_).label_layout_helper) );
     draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
 
@@ -153,17 +151,12 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
     assert( NULL != out_solutions_count );
 
     const data_relationship_t *the_relationship = layout_relationship_get_data_const( current_relation );
-    const char *const rel_stereotype = data_relationship_get_stereotype_const( the_relationship );
-    const bool has_stereotype_image
-        = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), rel_stereotype, (*this_).profile );
-
     {
         /* determine label dimensions */
         double text_width;
         double text_height;
         draw_relationship_label_get_type_and_name_dimensions ( &((*this_).draw_relationship_label),
                                                                the_relationship,
-                                                               ( ! has_stereotype_image ),
                                                                (*this_).pencil_size,
                                                                font_layout,
                                                                &text_width,

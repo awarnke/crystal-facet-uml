@@ -455,12 +455,7 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
                 f_probe_data = layout_feature_get_data_const ( f_probe_layout );
                 assert ( NULL != f_probe_data );
                 const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
-                const bool layout_in_compartment
-                    = ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
-                    || ( DATA_FEATURE_TYPE_OPERATION == f_probe_type )
-                    || ( DATA_FEATURE_TYPE_TAGGED_VALUE == f_probe_type );
-
-                if ( layout_in_compartment )
+                if ( ! data_feature_type_outside_compartment( f_probe_type ) )
                 {
                     const bool is_above = (( data_feature_get_list_order( f_probe_data ) < data_feature_get_list_order( the_feature ))
                         || (( data_feature_get_list_order( f_probe_data ) == data_feature_get_list_order( the_feature ) )
@@ -483,7 +478,7 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
         ? 1
         : ( DATA_FEATURE_TYPE_TAGGED_VALUE == f_type )
         ? 2  /* first compartment for properties, second for operations, third for tagged values */
-        : 3; /* the last compartment is for all unknown feature types. */
+        : 2; /* the last compartment is for all unknown feature types. */
              /* this may happen if a new database file has been read by an old program version */
 
     /* determine the minimum bounds of the feature */
@@ -539,10 +534,8 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
             = layout_feature_get_data_const ( feature_layout );
         const layout_visible_classifier_t *const layout_classifier
             = layout_feature_get_classifier_const ( feature_layout );
-        const bool layout_in_compartment
-            = ( DATA_FEATURE_TYPE_PROPERTY == data_feature_get_main_type ( the_feature ) )
-            || ( DATA_FEATURE_TYPE_OPERATION == data_feature_get_main_type ( the_feature ) )
-            || ( DATA_FEATURE_TYPE_TAGGED_VALUE == data_feature_get_main_type ( the_feature ) );
+        const data_feature_type_t the_feature_type = data_feature_get_main_type( the_feature );
+        const bool layout_in_compartment = ! data_feature_type_outside_compartment( the_feature_type );
 
         if (( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
             && layout_in_compartment )

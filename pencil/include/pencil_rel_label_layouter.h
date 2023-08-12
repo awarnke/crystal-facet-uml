@@ -37,7 +37,6 @@ struct pencil_rel_label_layouter_struct {
 
     draw_relationship_label_t draw_relationship_label;  /*!< collection of draw label functions */
     pencil_label_layout_helper_t label_layout_helper;   /*!< collection of layout label functions */
-    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custom stereotype images */
 };
 
 typedef struct pencil_rel_label_layouter_struct pencil_rel_label_layouter_t;

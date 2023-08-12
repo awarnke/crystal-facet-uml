@@ -5,7 +5,6 @@
 #include "data_table.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include <unistd.h>
 #include <assert.h>
 
 const char DATA_DATABASE_SQLITE3_MAGIC[16]

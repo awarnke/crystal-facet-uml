@@ -56,6 +56,7 @@ static inline void draw_diagram_label_destroy( draw_diagram_label_t *this_ );
  */
 void draw_diagram_label_get_type_and_name_dimensions( const draw_diagram_label_t *this_,
                                                       const data_diagram_t *diagram,
+                                                      /* const data_profile_part_t *profile, */
                                                       const pencil_size_t *pencil_size,
                                                       PangoLayout *font_layout,
                                                       double *out_text_width,
@@ -74,6 +75,7 @@ void draw_diagram_label_get_type_and_name_dimensions( const draw_diagram_label_t
  */
 void draw_diagram_label_draw_type_and_name( const draw_diagram_label_t *this_,
                                             const data_diagram_t *diagram,
+                                            /* const data_profile_part_t *profile, */
                                             const geometry_rectangle_t *label_box,
                                             const pencil_size_t *pencil_size,
                                             PangoLayout *font_layout,

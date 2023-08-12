@@ -17,7 +17,6 @@ static const int DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_relationship_label_get_type_and_name_dimensions ( const draw_relationship_label_t *this_,
                                                             const data_relationship_t *relationship,
-                                                            bool with_stereotype,
                                                             const pencil_size_t *pencil_size,
                                                             PangoLayout *font_layout,
                                                             double *out_text_width,
@@ -122,7 +121,6 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
 
 void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_t *this_,
                                                   const data_relationship_t *relationship,
-                                                  bool with_stereotype,
                                                   const geometry_rectangle_t *label_box,
                                                   const pencil_size_t *pencil_size,
                                                   PangoLayout *font_layout,

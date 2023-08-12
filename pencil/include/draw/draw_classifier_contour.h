@@ -122,6 +122,8 @@ void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t
 /*!
  *  \brief draws a cornerless shape of 4 non-touching edges into the outer bounds rect
  *
+ *  This is suitable when rendering types of future classifiers that are not known to this old program version.
+ *
  *  \param this_ pointer to own object attributes
  *  \param outer_bounds outer bounding rectangle of the shape, the rectangle has a distance of gap to the outer bounds
  *  \param pencil_size set of sizes and colors for drawing lines and text

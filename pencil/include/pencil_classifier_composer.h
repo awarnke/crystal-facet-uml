@@ -95,7 +95,8 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param space exact new space
- *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
+ *  \param shows_contained_children true if the classifier has contained children
+ *                                  (needed for uml package because the symbol differs)
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -118,7 +119,8 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param envelope exact new outer envelope box; should be big enough to contain the classifier
- *  \param shows_contained_children true if the classifier has contained children (needed for uml package because the symbol differs)
+ *  \param shows_contained_children true if the classifier has contained children
+ *                                  (needed for uml package because the symbol differs)
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context

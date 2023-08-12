@@ -9,6 +9,8 @@
  *  \brief Defines types of features
  */
 
+#include <stdbool.h>
+
 /*!
  *  \brief enumeration of all feature types
  */
@@ -36,6 +38,17 @@ typedef enum data_feature_type_enum data_feature_type_t;
  *  \brief lists all values of data_feature_type_t, excluding DATA_FEATURE_TYPE_VOID
  */
 extern data_feature_type_t const DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT];
+
+/*!
+ *  \brief checks if the classifier type is displayed outside of classifier compartments
+ *
+ *  \param this_ enumeration value
+ *  \return true if the feature is displayed outside a classifiers compartment like ports or lifelines,
+ *          false otherwise (or if the feature type is unknown)
+ */
+static inline bool data_feature_type_outside_compartment( data_feature_type_t this_ );
+
+#include "data_feature_type.inl"
 
 #endif  /* DATA_FEATURE_TYPE_H */
 

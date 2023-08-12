@@ -15,7 +15,6 @@ void pencil_relationship_painter_init( pencil_relationship_painter_t *this_ )
 
     pencil_marker_init( &((*this_).marker) );
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
-    draw_stereotype_image_init( &((*this_).draw_stereotype_image) );
 
     U8_TRACE_END();
 }
@@ -24,7 +23,6 @@ void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    draw_stereotype_image_destroy( &((*this_).draw_stereotype_image) );
     draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
@@ -598,13 +596,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         cairo_set_dash ( cr, NULL, 0, 0.0 );
 
         /* draw the label */
-        const char *const rel_stereotype = data_relationship_get_stereotype_const( the_relationship );
-        const bool has_stereotype_image
-            = draw_stereotype_image_exists( &((*this_).draw_stereotype_image), rel_stereotype, profile );
-
         draw_relationship_label_draw_type_and_name ( &((*this_).draw_relationship_label),
                                                      the_relationship,
-                                                     ( ! has_stereotype_image ),
                                                      layout_relationship_get_label_box_const( layouted_relationship ),
                                                      pencil_size,
                                                      layout,

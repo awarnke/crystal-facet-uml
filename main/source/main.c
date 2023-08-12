@@ -11,7 +11,6 @@
 #include "utf8stream/universal_utf8_writer.h"
 #include <sys/types.h>
 #include <stdbool.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <assert.h>

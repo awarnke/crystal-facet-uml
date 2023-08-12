@@ -33,7 +33,6 @@
 struct pencil_relationship_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
     draw_relationship_label_t draw_relationship_label;  /*!< collection of draw label functions */
-    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custom stereotype images */
 };
 
 typedef struct pencil_relationship_painter_struct pencil_relationship_painter_t;

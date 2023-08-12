@@ -7,6 +7,8 @@
 /*!
  *  \file
  *  \brief Draws titles, stereotypes, underscores; performs linebreaks
+ *
+ *  This class does not show stereotype images, only their textual representation.
  */
 
 #include "pencil_size.h"

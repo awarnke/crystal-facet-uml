@@ -118,11 +118,7 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
         simpleness -= utf8string_get_length( data_feature_get_value_const( feature_data ) );
 
         /* do the properties and operations first, they have a fixed positiion given by the classifier */
-        const bool layout_in_compartment
-            = ( DATA_FEATURE_TYPE_PROPERTY == current_type )
-            || ( DATA_FEATURE_TYPE_OPERATION == current_type )
-            || ( DATA_FEATURE_TYPE_TAGGED_VALUE == current_type );
-        if ( layout_in_compartment )
+        if ( ! data_feature_type_outside_compartment( current_type ) )
         {
             simpleness = -100000;
         }
@@ -159,11 +155,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     assert( NULL != feature_data );
     const data_feature_type_t current_type = data_feature_get_main_type( feature_data );
 
-    const bool layout_in_compartment
-        = ( DATA_FEATURE_TYPE_PROPERTY == current_type )
-        || ( DATA_FEATURE_TYPE_OPERATION == current_type )
-        || ( DATA_FEATURE_TYPE_TAGGED_VALUE == current_type );
-    if ( layout_in_compartment )
+    if ( ! data_feature_type_outside_compartment( current_type ) )
     {
         /* the label-box is identical to the feature bounds */
         assert( solutions_max >= 1 );
