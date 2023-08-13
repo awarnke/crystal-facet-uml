@@ -598,6 +598,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         /* draw the label */
         draw_relationship_label_draw_type_and_name ( &((*this_).draw_relationship_label),
                                                      the_relationship,
+                                                     profile,
                                                      layout_relationship_get_label_box_const( layouted_relationship ),
                                                      pencil_size,
                                                      layout,

@@ -15,6 +15,8 @@ static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_t *this_,
                                                        const data_feature_t *feature,
+                                                       const data_profile_part_t *profile,
+                                                       const geometry_dimensions_t *proposed_bounds,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
                                                        double *out_text_width,
@@ -22,6 +24,8 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
 {
     U8_TRACE_BEGIN();
     assert( NULL != feature );
+    assert( NULL != profile );
+    assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != out_text_width );
@@ -64,6 +68,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
 
 void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
                                              const data_feature_t *feature,
+                                             const data_profile_part_t *profile,
                                              const geometry_rectangle_t *label_box,
                                              const pencil_size_t *pencil_size,
                                              PangoLayout *font_layout,
@@ -71,6 +76,7 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
 {
     U8_TRACE_BEGIN();
     assert( NULL != feature );
+    assert( NULL != profile );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );

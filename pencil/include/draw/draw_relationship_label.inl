@@ -5,10 +5,12 @@
 
 static inline void draw_relationship_label_init( draw_relationship_label_t *this_ )
 {
+    draw_stereotype_image_init( &((*this_).image_renderer) );
 }
 
 static inline void draw_relationship_label_destroy( draw_relationship_label_t *this_ )
 {
+    draw_stereotype_image_destroy( &((*this_).image_renderer) );
 }
 
 

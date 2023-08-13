@@ -88,6 +88,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             /* draw title corner */
             draw_diagram_label_draw_type_and_name( &((*this_).draw_diagram_label),
                                                    the_diagram,
+                                                   profile,
                                                    label_box,
                                                    pencil_size,
                                                    font_layout,
@@ -169,6 +170,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
                                         const data_diagram_t *the_diagram,
                                         const geometry_rectangle_t *diagram_bounds,
+                                        const data_profile_part_t *profile,
                                         const pencil_size_t *pencil_size,
                                         PangoLayout *font_layout,
                                         layout_diagram_t *io_layout_diagram )
@@ -176,6 +178,7 @@ void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != the_diagram );
     assert( NULL != diagram_bounds );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != io_layout_diagram );
@@ -191,10 +194,14 @@ void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
     /* calculate label_box */
     const double text_left = left + 2.0 * gap + f_tab_size;
     const double text_top = top + 2.0 * gap;
+    const geometry_dimensions_t label_dim_proposal
+        = { .width = width, .height = pencil_size_get_standard_font_size( pencil_size ) };
     double text_width;
     double text_height;
     draw_diagram_label_get_type_and_name_dimensions( &((*this_).draw_diagram_label),
                                                      the_diagram,
+                                                     profile,
+                                                     &label_dim_proposal,
                                                      pencil_size,
                                                      font_layout,
                                                      &text_width,

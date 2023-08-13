@@ -79,6 +79,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param the_diagram pointer to the data to be drawn
  *  \param diagram_bounds the destination rectangle where to draw the diagram
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout structure to layout fonts
  *  \param io_layout_diagram bounds, draw_area and label_box are updated. The pointer must not be NULL.
@@ -86,6 +87,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
                                         const data_diagram_t *the_diagram,
                                         const geometry_rectangle_t *diagram_bounds,
+                                        const data_profile_part_t *profile,
                                         const pencil_size_t *pencil_size,
                                         PangoLayout *font_layout,
                                         layout_diagram_t *io_layout_diagram

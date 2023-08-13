@@ -43,7 +43,7 @@ struct pencil_classifier_composer_struct {
     draw_classifier_icon_t draw_classifier_icon;  /*!< collection of draw symbol/icon functions */
     draw_classifier_label_t draw_classifier_label;  /*!< collection of draw label functions */
     draw_classifier_contour_t draw_classifier_contour;  /*!< collection of draw contour functions */
-    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custome stereotype images */
+    draw_stereotype_image_t draw_stereotype_image;  /*!< collection of draw functions for custom stereotype images */
 };
 
 typedef struct pencil_classifier_composer_struct pencil_classifier_composer_t;

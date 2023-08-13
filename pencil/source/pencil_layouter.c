@@ -33,6 +33,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
                                 );
     pencil_feat_label_layouter_init( &((*this_).feature_label_layouter),
                                      &((*this_).layout_data),
+                                     profile,
                                      &((*this_).pencil_size)
                                    );
     pencil_classifier_2d_layouter_init( &((*this_).pencil_classifier_2d_layouter),
@@ -77,6 +78,17 @@ void pencil_layouter_reinit( pencil_layouter_t *this_,
 
     /* re-initialize the layout data objects */
     pencil_layout_data_reinit( &((*this_).layout_data), input_data );
+    pencil_rel_label_layouter_reinit( &((*this_).relationship_label_layouter),
+                                      &((*this_).layout_data),
+                                      profile,
+                                      &((*this_).pencil_size)
+                                    );
+    pencil_feat_label_layouter_reinit( &((*this_).feature_label_layouter),
+                                       &((*this_).layout_data),
+                                       profile,
+                                       &((*this_).pencil_size)
+                                     );
+
     (*this_).profile = profile;
 
     U8_TRACE_END();
@@ -128,6 +140,7 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
     pencil_diagram_painter_do_layout( &((*this_).diagram_painter),
                                       diagram_data,
                                       &diagram_bounds,
+                                      (*this_).profile,
                                       &((*this_).pencil_size),
                                       font_layout,
                                       the_diagram

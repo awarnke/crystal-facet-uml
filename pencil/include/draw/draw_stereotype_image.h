@@ -91,7 +91,7 @@ static inline geometry_rectangle_t draw_stereotype_image_get_bounds ( const draw
  *
  *  \param this_ pointer to own object attributes
  *  \param stereotype name of the stereotype(s) to be drawn
- *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
+ *  \param profile profile-part that provides the stereotype definition of the element to be drawn
  *  \return true if description field of the stereotype contains an svg path tag
  */
 static inline bool draw_stereotype_image_exists ( const draw_stereotype_image_t *this_,
@@ -117,7 +117,7 @@ static inline bool draw_stereotype_private_image_exists ( const draw_stereotype_
  *
  *  \param this_ pointer to own object attributes
  *  \param stereotype name of the stereotype(s) to be drawn
- *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
+ *  \param profile profile-part that provides the stereotype definition of the element to be drawn
  *  \param default_color color to stroke paths if no stroke color is stated in the svg path of the stereotype
  *  \param[out] out_err_info pointer to an error_info_t data struct;
  *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning

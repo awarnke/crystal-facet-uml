@@ -15,6 +15,8 @@ static const int DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_t *this_,
                                                        const data_diagram_t *diagram,
+                                                       const data_profile_part_t *profile,
+                                                       const geometry_dimensions_t *proposed_bounds,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
                                                        double *out_text_width,
@@ -22,6 +24,8 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagram );
+    assert( NULL != profile );
+    assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != out_text_width );
@@ -56,6 +60,7 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
 
 void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
                                              const data_diagram_t *diagram,
+                                             const data_profile_part_t *profile,
                                              const geometry_rectangle_t *label_box,
                                              const pencil_size_t *pencil_size,
                                              PangoLayout *font_layout,
@@ -63,6 +68,7 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagram );
+    assert( NULL != profile );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );

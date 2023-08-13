@@ -6,17 +6,36 @@
 
 void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,
-                                      const pencil_size_t *pencil_size
-                                    )
+                                      const data_profile_part_t *profile,
+                                      const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
 
     (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     draw_feature_label_init( &((*this_).draw_feature_label) );
     pencil_label_layout_helper_init ( &((*this_).label_layout_helper) );
+
+    U8_TRACE_END();
+}
+
+void pencil_feat_label_layouter_reinit( pencil_feat_label_layouter_t *this_,
+                                        pencil_layout_data_t *layout_data,
+                                        const data_profile_part_t *profile,
+                                        const pencil_size_t *pencil_size )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != layout_data );
+    assert( NULL != profile );
+    assert( NULL != pencil_size );
+
+    (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
+    (*this_).pencil_size = pencil_size;
 
     U8_TRACE_END();
 }
@@ -165,10 +184,16 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     else
     {
         /* key and value dimensions */
+        const geometry_dimensions_t label_dim_proposal = {
+            .width = 20.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
+            .height = pencil_size_get_standard_font_size( (*this_).pencil_size )
+        };
         double text_width;
         double text_height;
         draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
                                                          feature_data,
+                                                         (*this_).profile,
+                                                         &label_dim_proposal,
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          &text_width,

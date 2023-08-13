@@ -5,10 +5,12 @@
 
 static inline void draw_feature_label_init( draw_feature_label_t *this_ )
 {
+    draw_stereotype_image_init( &((*this_).image_renderer) );
 }
 
 static inline void draw_feature_label_destroy( draw_feature_label_t *this_ )
 {
+    draw_stereotype_image_destroy( &((*this_).image_renderer) );
 }
 
 

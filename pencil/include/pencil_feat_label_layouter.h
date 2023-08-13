@@ -14,6 +14,7 @@
 #include "pencil_label_layout_helper.h"
 #include "draw/draw_feature_label.h"
 #include "geometry/geometry_rectangle.h"
+#include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
 #include "data_diagram.h"
@@ -25,11 +26,13 @@
 /*!
  *  \brief attributes of the feature-label layouter
  *
- *  \note This class is stateless. Only the layout_data and pencil_size objects are stateful.
- *        It may either be instantiated once and used many times or be instantiated per use.
+ *  \note The layout_data, pencil_size and profile objects are stateful.
+ *        pencil_rel_label_layouter_t may either be instantiated once and re-used many times (call re-inint in between)
+ *        or be instantiated per use.
  */
 struct pencil_feat_label_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
+    const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
     const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
     draw_feature_label_t draw_feature_label;  /*!< collection of draw label functions */
@@ -43,12 +46,28 @@ typedef struct pencil_feat_label_layouter_struct pencil_feat_label_layouter_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param layout_data pointer to the layout information to be used and modified
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,
+                                      const data_profile_part_t *profile,
                                       const pencil_size_t *pencil_size
                                     );
+
+/*!
+ *  \brief re-initializes the feature-label layouter to layout new/other input_data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layout_data pointer to the layout information to be used and modified
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
+ *  \param pencil_size pointer to the pencil_size_t object
+ */
+void pencil_feat_label_layouter_reinit( pencil_feat_label_layouter_t *this_,
+                                        pencil_layout_data_t *layout_data,
+                                        const data_profile_part_t *profile,
+                                        const pencil_size_t *pencil_size
+                                      );
 
 /*!
  *  \brief destroys the feature-label layouter

@@ -9,8 +9,7 @@
 void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
                                      pencil_layout_data_t *layout_data,
                                      const data_profile_part_t *profile,
-                                     const pencil_size_t *pencil_size
-                                   )
+                                     const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );
@@ -22,6 +21,23 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
     (*this_).pencil_size = pencil_size;
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
     pencil_label_layout_helper_init ( &((*this_).label_layout_helper) );
+
+    U8_TRACE_END();
+}
+
+void pencil_rel_label_layouter_reinit( pencil_rel_label_layouter_t *this_,
+                                       pencil_layout_data_t *layout_data,
+                                       const data_profile_part_t *profile,
+                                       const pencil_size_t *pencil_size )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != layout_data );
+    assert( NULL != profile );
+    assert( NULL != pencil_size );
+
+    (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
+    (*this_).pencil_size = pencil_size;
 
     U8_TRACE_END();
 }
@@ -153,15 +169,21 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
     const data_relationship_t *the_relationship = layout_relationship_get_data_const( current_relation );
     {
         /* determine label dimensions */
+        const geometry_dimensions_t label_dim_proposal = {
+            .width = 20.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
+            .height = pencil_size_get_standard_font_size( (*this_).pencil_size )
+        };
         double text_width;
         double text_height;
-        draw_relationship_label_get_type_and_name_dimensions ( &((*this_).draw_relationship_label),
-                                                               the_relationship,
-                                                               (*this_).pencil_size,
-                                                               font_layout,
-                                                               &text_width,
-                                                               &text_height
-                                                             );
+        draw_relationship_label_get_type_and_name_dimensions( &((*this_).draw_relationship_label),
+                                                              the_relationship,
+                                                              (*this_).profile,
+                                                              &label_dim_proposal,
+                                                              (*this_).pencil_size,
+                                                              font_layout,
+                                                              &text_width,
+                                                              &text_height
+                                                            );
 
         /* get layout data */
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );

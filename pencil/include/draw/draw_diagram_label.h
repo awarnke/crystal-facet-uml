@@ -9,12 +9,14 @@
  *  \brief Draws titles and types of relationships
  */
 
+#include "draw/draw_stereotype_image.h"
 #include "pencil_size.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "data_diagram.h"
+#include "set/data_profile_part.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -25,7 +27,7 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_diagram_label_struct {
-    int dummy;
+    draw_stereotype_image_t image_renderer;  /*!< own instance of stereotype image renderer */
 };
 
 typedef struct draw_diagram_label_struct draw_diagram_label_t;
@@ -49,6 +51,8 @@ static inline void draw_diagram_label_destroy( draw_diagram_label_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram the diagram to draw
+ *  \param profile profile-part that provides the stereotype definition of the element to be drawn
+ *  \param proposed_bounds proposed bounds for the text width and height
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_text_width width of the text is returned. NULL is not allowed.
@@ -56,7 +60,8 @@ static inline void draw_diagram_label_destroy( draw_diagram_label_t *this_ );
  */
 void draw_diagram_label_get_type_and_name_dimensions( const draw_diagram_label_t *this_,
                                                       const data_diagram_t *diagram,
-                                                      /* const data_profile_part_t *profile, */
+                                                      const data_profile_part_t *profile,
+                                                      const geometry_dimensions_t *proposed_bounds,
                                                       const pencil_size_t *pencil_size,
                                                       PangoLayout *font_layout,
                                                       double *out_text_width,
@@ -68,6 +73,7 @@ void draw_diagram_label_get_type_and_name_dimensions( const draw_diagram_label_t
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram the diagram to draw
+ *  \param profile profile-part that provides the stereotype definition of the element to be drawn
  *  \param label_box the rectangle where to draw to
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -75,7 +81,7 @@ void draw_diagram_label_get_type_and_name_dimensions( const draw_diagram_label_t
  */
 void draw_diagram_label_draw_type_and_name( const draw_diagram_label_t *this_,
                                             const data_diagram_t *diagram,
-                                            /* const data_profile_part_t *profile, */
+                                            const data_profile_part_t *profile,
                                             const geometry_rectangle_t *label_box,
                                             const pencil_size_t *pencil_size,
                                             PangoLayout *font_layout,

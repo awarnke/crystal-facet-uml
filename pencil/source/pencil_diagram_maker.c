@@ -200,6 +200,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                       data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
                                       data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
                                       (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT )),
+                                      (*this_).profile,
                                       pencil_layouter_get_pencil_size_const( &((*this_).layouter) ),
                                       layout,
                                       cr

@@ -38,11 +38,13 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    bool gray_out,
+                                   const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size,
                                    PangoLayout *layout,
                                    cairo_t *cr )
 {
     U8_TRACE_BEGIN();
+    assert( NULL != profile );
     assert( NULL != pencil_size );
     assert( NULL != layouted_feature );
     assert( NULL != layout );
@@ -123,6 +125,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         /* draw the label */
         draw_feature_label_draw_key_and_value ( &((*this_).draw_feature_label),
                                                 layout_feature_get_data_const( layouted_feature ),
+                                                profile,
                                                 layout_feature_get_label_box_const( layouted_feature ),
                                                 pencil_size,
                                                 layout,

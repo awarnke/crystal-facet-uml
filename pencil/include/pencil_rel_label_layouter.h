@@ -27,8 +27,9 @@
 /*!
  *  \brief attributes of the relationship-label layouter
  *
- *  \note This class is stateless. Only the layout_data, pencil_size and profile objects are stateful.
- *        It may either be instantiated once and used many times or be instantiated per use.
+ *  \note The layout_data, pencil_size and profile objects are stateful.
+ *        pencil_rel_label_layouter_t may either be instantiated once and re-used many times (call re-inint in between)
+ *        or be instantiated per use.
  */
 struct pencil_rel_label_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
@@ -54,6 +55,20 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
                                      const data_profile_part_t *profile,
                                      const pencil_size_t *pencil_size
                                    );
+
+/*!
+ *  \brief re-initializes the relationship-label layouter to layout new/other input_data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layout_data pointer to the layout information to be used and modified
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
+ *  \param pencil_size pointer to the pencil_size_t object
+ */
+void pencil_rel_label_layouter_reinit( pencil_rel_label_layouter_t *this_,
+                                       pencil_layout_data_t *layout_data,
+                                       const data_profile_part_t *profile,
+                                       const pencil_size_t *pencil_size
+                                     );
 
 /*!
  *  \brief destroys the relationship-label layouter

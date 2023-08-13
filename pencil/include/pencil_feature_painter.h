@@ -58,6 +58,7 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param gray_out true if the object is to be marked as grayed out. Is ignored in case mark_highlighted is true.
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
@@ -68,6 +69,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    bool gray_out,
+                                   const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size,
                                    PangoLayout *layout,
                                    cairo_t *cr

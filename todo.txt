@@ -33,6 +33,7 @@ ideas for future versions:
 ! [ ] allow linebreaks in feature and relationship labels
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
+  [ ] show stereotype icons for diagrams, relationships and features
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
