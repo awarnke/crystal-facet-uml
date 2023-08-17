@@ -19,8 +19,7 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
                                                        const geometry_dimensions_t *proposed_bounds,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
-                                                       double *out_text_width,
-                                                       double *out_text_height )
+                                                       geometry_dimensions_t *out_label_dim )
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagram );
@@ -28,17 +27,26 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
     assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_text_width );
-    assert( NULL != out_text_height );
+    assert( NULL != out_label_dim );
 
     if ( data_diagram_is_valid( diagram ) )
     {
+        /* calc stereotype image bounds */
+        const char *const diagram_stereotype = data_diagram_get_stereotype_const( diagram );
+        const bool has_stereotype_image
+            = draw_stereotype_image_exists( &((*this_).image_renderer), diagram_stereotype, profile );
+        const geometry_dimensions_t icon_dim
+            = has_stereotype_image
+            ? draw_stereotype_image_get_dimensions( &((*this_).image_renderer), pencil_size )
+            : (geometry_dimensions_t){ .width = 0.0, .height = 0.0 };
+        const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+
         /* calc name text dimensions */
         int text2_height = 0;
         int text2_width = 0;
         if ( 0 != utf8string_get_length( data_diagram_get_name_const( diagram ) ))
         {
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description( pencil_size ) );
             pango_layout_set_text( font_layout,
                                    data_diagram_get_name_const( diagram ),
                                    DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH
@@ -46,14 +54,12 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
         }
 
-        *out_text_height = text2_height;
-        *out_text_width = text2_width;
+        *out_label_dim = (geometry_dimensions_t) { .width = text2_width, .height = text2_height };
     }
     else
     {
         U8_LOG_ERROR("invalid diagram in draw_diagram_label_get_type_and_name_dimensions()");
-        *out_text_width = 0.0;
-        *out_text_height = 0.0;
+        *out_label_dim = (geometry_dimensions_t) { .width = 0.0, .height = 0.0 };
     }
     U8_TRACE_END();
 }

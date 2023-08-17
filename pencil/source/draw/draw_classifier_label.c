@@ -23,16 +23,14 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                                                                const geometry_dimensions_t *proposed_bounds,
                                                                const pencil_size_t *pencil_size,
                                                                PangoLayout *font_layout,
-                                                               double *out_text_width,
-                                                               double *out_text_height )
+                                                               geometry_dimensions_t *out_label_dim )
 {
     U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
     assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_text_width );
-    assert( NULL != out_text_height );
+    assert( NULL != out_label_dim );
 
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
@@ -115,16 +113,17 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
         }
 
-        *out_text_height = text1_height + text2_height + space_for_line + text3_height;
-        double intermediate_max_w;
-        intermediate_max_w = ( text1_width > text2_width ) ? text1_width : text2_width;
-        *out_text_width = ( intermediate_max_w > text3_width ) ? intermediate_max_w : text3_width;
+        const double intermediate_max_w
+            = ( text1_width > text2_width ) ? text1_width : text2_width;
+        *out_label_dim = (geometry_dimensions_t) {
+            .width = ( intermediate_max_w > text3_width ) ? intermediate_max_w : text3_width,
+            .height = text1_height + text2_height + space_for_line + text3_height
+        };
     }
     else
     {
         U8_LOG_ERROR("invalid visible classifier in draw_classifier_label_get_stereotype_and_name_dimensions()");
-        *out_text_width = 0.0;
-        *out_text_height = 0.0;
+        *out_label_dim = (geometry_dimensions_t) { .width = 0.0, .height = 0.0 };
     }
     U8_TRACE_END();
 }

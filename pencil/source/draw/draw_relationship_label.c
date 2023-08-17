@@ -21,8 +21,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
                                                             const geometry_dimensions_t *proposed_bounds,
                                                             const pencil_size_t *pencil_size,
                                                             PangoLayout *font_layout,
-                                                            double *out_text_width,
-                                                            double *out_text_height )
+                                                            geometry_dimensions_t *out_label_dim )
 {
     U8_TRACE_BEGIN();
     assert( NULL != relationship );
@@ -30,11 +29,20 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
     assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_text_width );
-    assert( NULL != out_text_height );
+    assert( NULL != out_label_dim );
 
     if ( data_relationship_is_valid( relationship ) )
     {
+        /* calc stereotype image bounds */
+        const char *const relationship_stereotype = data_relationship_get_stereotype_const( relationship );
+        const bool has_stereotype_image
+            = draw_stereotype_image_exists( &((*this_).image_renderer), relationship_stereotype, profile );
+        const geometry_dimensions_t icon_dim
+            = has_stereotype_image
+            ? draw_stereotype_image_get_dimensions( &((*this_).image_renderer), pencil_size )
+            : (geometry_dimensions_t){ .width = 0.0, .height = 0.0 };
+        const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+
         /* define names for input data */
         const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
@@ -111,14 +119,15 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
         }
 
-        *out_text_height = text3_height + f_line_gap + text2_height;
-        *out_text_width = ( text2_width > text3_width ) ? text2_width : text3_width;
+        *out_label_dim = (geometry_dimensions_t){
+            .width = ( text2_width > text3_width ) ? text2_width : text3_width,
+            .height = text3_height + f_line_gap + text2_height
+        };
     }
     else
     {
         U8_LOG_ERROR("invalid relationship in draw_relationship_label_get_type_and_name_dimensions()");
-        *out_text_width = 0.0;
-        *out_text_height = 0.0;
+        *out_label_dim = (geometry_dimensions_t) { .width = 0.0, .height = 0.0 };
     }
     U8_TRACE_END();
 }

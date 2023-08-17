@@ -173,17 +173,17 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
             .width = 20.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
             .height = pencil_size_get_standard_font_size( (*this_).pencil_size )
         };
-        double text_width;
-        double text_height;
+        geometry_dimensions_t label_dim;
         draw_relationship_label_get_type_and_name_dimensions( &((*this_).draw_relationship_label),
                                                               the_relationship,
                                                               (*this_).profile,
                                                               &label_dim_proposal,
                                                               (*this_).pencil_size,
                                                               font_layout,
-                                                              &text_width,
-                                                              &text_height
+                                                              &label_dim
                                                             );
+        const double text_width = geometry_dimensions_get_width( &label_dim );
+        const double text_height = geometry_dimensions_get_height( &label_dim );
 
         /* get layout data */
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );

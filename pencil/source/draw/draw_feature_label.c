@@ -19,8 +19,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
                                                        const geometry_dimensions_t *proposed_bounds,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
-                                                       double *out_text_width,
-                                                       double *out_text_height )
+                                                       geometry_dimensions_t *out_label_dim )
 {
     U8_TRACE_BEGIN();
     assert( NULL != feature );
@@ -28,11 +27,20 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
     assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_text_width );
-    assert( NULL != out_text_height );
+    assert( NULL != out_label_dim );
 
     if ( data_feature_is_valid( feature ) )
     {
+        /* calc stereotype image bounds */
+        const char *const feature_stereotype = data_feature_get_value_const( feature );
+        const bool has_stereotype_image
+            = draw_stereotype_image_exists( &((*this_).image_renderer), feature_stereotype, profile );
+        const geometry_dimensions_t icon_dim
+            = has_stereotype_image
+            ? draw_stereotype_image_get_dimensions( &((*this_).image_renderer), pencil_size )
+            : (geometry_dimensions_t){ .width = 0.0, .height = 0.0 };
+        const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+
         /* draw text - except for lifelines */
         int text_width = 0;
         int text_height = 0;
@@ -54,14 +62,12 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
             pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
         }
 
-        *out_text_width = text_width;
-        *out_text_height = text_height;
+        *out_label_dim = (geometry_dimensions_t) { .width = text_width, .height = text_height };
     }
     else
     {
         U8_LOG_ERROR("invalid feature in draw_feature_label_get_key_and_value_dimensions()");
-        *out_text_width = 0.0;
-        *out_text_height = 0.0;
+        *out_label_dim = (geometry_dimensions_t) { .width = 0.0, .height = 0.0 };
     }
     U8_TRACE_END();
 }

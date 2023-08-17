@@ -75,22 +75,8 @@ void pencil_layouter_reinit( pencil_layouter_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != input_data );
     assert( NULL != profile );
-
-    /* re-initialize the layout data objects */
-    pencil_layout_data_reinit( &((*this_).layout_data), input_data );
-    pencil_rel_label_layouter_reinit( &((*this_).relationship_label_layouter),
-                                      &((*this_).layout_data),
-                                      profile,
-                                      &((*this_).pencil_size)
-                                    );
-    pencil_feat_label_layouter_reinit( &((*this_).feature_label_layouter),
-                                       &((*this_).layout_data),
-                                       profile,
-                                       &((*this_).pencil_size)
-                                     );
-
-    (*this_).profile = profile;
-
+    pencil_layouter_destroy( this_ );
+    pencil_layouter_init( this_, input_data, profile );
     U8_TRACE_END();
 }
 

@@ -855,41 +855,43 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
     const double gap = pencil_size_get_standard_object_border( pencil_size );
 
     /* determine stereotype and name dimensions */
-    double text_width;
-    double text_height;
+    geometry_dimensions_t label_dim;
     const bool has_contour
         = draw_classifier_contour_has_contour( &((*this_).draw_classifier_contour), classifier_type );
     const double icon_gap
         = ( ! has_contour ) ? 0.0 : ( geometry_dimensions_get_width( icon_dim ) < 0.000001 ) ? 0.0 : gap;
+    const double proposed_label_width
+        = has_contour
+        ? geometry_rectangle_get_width( space_and_label ) - geometry_dimensions_get_width( icon_dim ) - icon_gap
+        : geometry_rectangle_get_width( space_and_label );
+    const geometry_dimensions_t proposed_label_dim
+        = { .width = proposed_label_width, .height = geometry_rectangle_get_height( space_and_label ) };
+    draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
+                                                              visible_classifier,
+                                                              with_stereotype,
+                                                              &proposed_label_dim,
+                                                              pencil_size,
+                                                              font_layout,
+                                                              &label_dim
+                                                            );
+    const double text_width = geometry_dimensions_get_width( &label_dim );
+    const double text_height = geometry_dimensions_get_height( &label_dim );
+    if ( text_width > (proposed_label_width + 0.0001) )
     {
-        const double proposed_label_width
-            = has_contour
-            ? geometry_rectangle_get_width( space_and_label ) - geometry_dimensions_get_width( icon_dim ) - icon_gap
-            : geometry_rectangle_get_width( space_and_label );
-        geometry_dimensions_t proposed_label_dim;
-        geometry_dimensions_init( &proposed_label_dim, proposed_label_width, geometry_rectangle_get_height( space_and_label ) );
-        draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
-                                                                  visible_classifier,
-                                                                  with_stereotype,
-                                                                  &proposed_label_dim,
-                                                                  pencil_size,
-                                                                  font_layout,
-                                                                  &text_width,
-                                                                  &text_height
-                                                                );
-        geometry_dimensions_destroy( &proposed_label_dim );
-
-        if ( text_width > (proposed_label_width + 0.0001) )
-        {
-            U8_TRACE_INFO_INT_INT("label does not fit to provided width", (int)text_width, (int)proposed_label_width );
-            result = 1;
-        }
-        const double proposed_label_height = geometry_rectangle_get_height( space_and_label );
-        if ( text_height > (proposed_label_height + 0.0001) )
-        {
-            U8_TRACE_INFO_INT_INT("label does not fit to provided height", (int)text_height, (int)proposed_label_height );
-            result = 1;
-        }
+        U8_TRACE_INFO_INT_INT( "label does not fit to provided width",
+                                (int) text_width,
+                                (int) proposed_label_width
+                                );
+        result = 1;
+    }
+    const double proposed_label_height = geometry_rectangle_get_height( space_and_label );
+    if ( text_height > (proposed_label_height + 0.0001) )
+    {
+        U8_TRACE_INFO_INT_INT( "label does not fit to provided height",
+                                (int) text_height,
+                                (int) proposed_label_height
+                                );
+        result = 1;
     }
 
     if ( has_contour )

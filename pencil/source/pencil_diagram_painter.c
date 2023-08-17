@@ -196,17 +196,17 @@ void pencil_diagram_painter_do_layout ( const pencil_diagram_painter_t *this_,
     const double text_top = top + 2.0 * gap;
     const geometry_dimensions_t label_dim_proposal
         = { .width = width, .height = pencil_size_get_standard_font_size( pencil_size ) };
-    double text_width;
-    double text_height;
+    geometry_dimensions_t label_dim;
     draw_diagram_label_get_type_and_name_dimensions( &((*this_).draw_diagram_label),
                                                      the_diagram,
                                                      profile,
                                                      &label_dim_proposal,
                                                      pencil_size,
                                                      font_layout,
-                                                     &text_width,
-                                                     &text_height
+                                                     &label_dim
                                                    );
+    const double text_width = geometry_dimensions_get_width( &label_dim );
+    const double text_height = geometry_dimensions_get_height( &label_dim );
     geometry_rectangle_t label_box;
     geometry_rectangle_init( &label_box, text_left, text_top, text_width, text_height );
 
