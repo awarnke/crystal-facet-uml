@@ -70,18 +70,11 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
         if ( data_diagram_is_valid(the_diagram) )
         {
             /* draw border line */
-            if ( mark_highlighted )
-            {
-                GdkRGBA highlight_color;
-                highlight_color = pencil_size_get_highlight_color( pencil_size );
-                cairo_set_source_rgba( cr, highlight_color.red, highlight_color.green, highlight_color.blue, highlight_color.alpha );
-            }
-            else
-            {
-                GdkRGBA standard_color;
-                standard_color = pencil_size_get_standard_color( pencil_size );
-                cairo_set_source_rgba( cr, standard_color.red, standard_color.green, standard_color.blue, standard_color.alpha );
-            }
+            const GdkRGBA fg_color
+                = mark_highlighted
+                ? pencil_size_get_highlight_color( pencil_size )
+                : pencil_size_get_standard_color( pencil_size );
+            cairo_set_source_rgba( cr, fg_color.red, fg_color.green, fg_color.blue, fg_color.alpha );
             cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
             cairo_stroke (cr);
 
@@ -89,6 +82,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             draw_diagram_label_draw_type_and_name( &((*this_).draw_diagram_label),
                                                    the_diagram,
                                                    profile,
+                                                   &fg_color,
                                                    label_box,
                                                    pencil_size,
                                                    font_layout,

@@ -75,6 +75,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
 void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
                                              const data_feature_t *feature,
                                              const data_profile_part_t *profile,
+                                             const GdkRGBA *color,
                                              const geometry_rectangle_t *label_box,
                                              const pencil_size_t *pencil_size,
                                              PangoLayout *font_layout,
@@ -83,6 +84,7 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != feature );
     assert( NULL != profile );
+    assert( NULL != color );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -105,6 +107,7 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
             utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );
         }
 
+        cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
 

@@ -136,7 +136,9 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                         );
         if ( u8_error_info_is_error( &err_info ) )
         {
-            U8_LOG_WARNING_INT( "stereotype image: unxpected token in svg path in line", u8_error_info_get_line( &err_info ) );
+            U8_LOG_WARNING_INT( "stereotype image: unxpected token in svg path in line",
+                                u8_error_info_get_line( &err_info )
+                              );
         }
         icon_override = ( stereotype_err == U8_ERROR_NONE );
     }
@@ -167,6 +169,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         draw_classifier_label_draw_stereotype_and_name( &((*this_).draw_classifier_label),
                                                         visible_classifier,
                                                         ( ! has_stereotype_image ),
+                                                        &foreground_color,
                                                         classifier_label_box,
                                                         pencil_size,
                                                         font_layout,

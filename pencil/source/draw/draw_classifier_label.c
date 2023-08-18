@@ -4,6 +4,7 @@
 #include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
+#include "u8/u8_i32.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -113,10 +114,8 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
         }
 
-        const double intermediate_max_w
-            = ( text1_width > text2_width ) ? text1_width : text2_width;
         *out_label_dim = (geometry_dimensions_t) {
-            .width = ( intermediate_max_w > text3_width ) ? intermediate_max_w : text3_width,
+            .width = u8_i32_max3( text1_width, text2_width, text3_width ),
             .height = text1_height + text2_height + space_for_line + text3_height
         };
     }
@@ -131,6 +130,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
 void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label_t *this_,
                                                      const data_visible_classifier_t *visible_classifier,
                                                      bool with_stereotype,
+                                                     const GdkRGBA *color,
                                                      const geometry_rectangle_t *label_box,
                                                      const pencil_size_t *pencil_size,
                                                      PangoLayout *font_layout,
@@ -138,6 +138,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
 {
     U8_TRACE_BEGIN();
     assert( NULL != visible_classifier );
+    assert( NULL != color );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -169,6 +170,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
             utf8stringbuf_append_str( stereotype_buf, DRAW_CLASSIFIER_RIGHT_POINTING_GUILLEMENTS );
 
             int text1_width;
+            cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text ( font_layout,
                                     utf8stringbuf_get_string( stereotype_buf ),
@@ -198,6 +200,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
 
         int text2_width;
         double f_size = pencil_size_get_standard_font_size( pencil_size );
+        cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
         pango_layout_set_text ( font_layout,
                                 utf8stringbuf_get_string( name_buf ),
@@ -227,6 +230,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     {
         int text3_width;
         int text3_height;
+        cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text ( font_layout,
                                 data_classifier_get_description_const( classifier ),

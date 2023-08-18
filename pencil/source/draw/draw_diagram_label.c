@@ -67,6 +67,7 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
 void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
                                              const data_diagram_t *diagram,
                                              const data_profile_part_t *profile,
+                                             const GdkRGBA *color,
                                              const geometry_rectangle_t *label_box,
                                              const pencil_size_t *pencil_size,
                                              PangoLayout *font_layout,
@@ -75,6 +76,7 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != diagram );
     assert( NULL != profile );
+    assert( NULL != color );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -84,11 +86,44 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
     const double center_x = geometry_rectangle_get_center_x( label_box );
     const double top = geometry_rectangle_get_top( label_box );
 
+    /* draw stereotype icon */
+    const char *const diagram_stereotype = data_diagram_get_stereotype_const( diagram );
+    const bool has_stereotype_image
+        = draw_stereotype_image_exists( &((*this_).image_renderer), diagram_stereotype, profile );
+    if ( has_stereotype_image )
+    {
+        const geometry_rectangle_t stereotype_box
+            = draw_stereotype_image_get_bounds( &((*this_).image_renderer),
+                                                geometry_rectangle_get_left( label_box ),  /* x */
+                                                geometry_rectangle_get_top( label_box ),  /* y */
+                                                GEOMETRY_H_ALIGN_LEFT,
+                                                GEOMETRY_V_ALIGN_TOP,
+                                                pencil_size
+                                              );
+        u8_error_info_t err_info;
+        const u8_error_t stereotype_err
+            = draw_stereotype_image_draw( &((*this_).image_renderer),
+                                          diagram_stereotype,
+                                          profile,
+                                          &color,
+                                          &err_info,
+                                          &stereotype_box,
+                                          cr
+                                        );
+        if ( u8_error_info_is_error( &err_info ) )
+        {
+            U8_LOG_WARNING_INT( "stereotype image: unxpected token in svg path in line",
+                                u8_error_info_get_line( &err_info )
+                              );
+        }
+    }
+
     /* draw name text */
     if ( 0 != utf8string_get_length( data_diagram_get_name_const( diagram ) ))
     {
         int text2_height;
         int text2_width;
+        cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
                                data_diagram_get_name_const( diagram ),

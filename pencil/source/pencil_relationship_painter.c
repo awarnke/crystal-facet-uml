@@ -60,8 +60,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         cairo_set_line_width( cr, std_line_width );
 
         /* set the right drawing color */
+        GdkRGBA foreground_color;
         {
-            GdkRGBA foreground_color;
             if ( mark_highlighted )
             {
                 foreground_color = pencil_size_get_highlight_color( pencil_size );
@@ -599,6 +599,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         draw_relationship_label_draw_type_and_name ( &((*this_).draw_relationship_label),
                                                      the_relationship,
                                                      profile,
+                                                     &foreground_color,
                                                      layout_relationship_get_label_box_const( layouted_relationship ),
                                                      pencil_size,
                                                      layout,

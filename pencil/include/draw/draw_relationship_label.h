@@ -72,6 +72,7 @@ void draw_relationship_label_get_type_and_name_dimensions( const draw_relationsh
  *  \param this_ pointer to own object attributes
  *  \param relationship the relationship to draw
  *  \param profile profile-part that provides the stereotype definition of the element to be drawn
+ *  \param color color to draw text and to use as default for stereotype-image strokes
  *  \param label_box the rectangle where to draw to
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
@@ -80,6 +81,7 @@ void draw_relationship_label_get_type_and_name_dimensions( const draw_relationsh
 void draw_relationship_label_draw_type_and_name( const draw_relationship_label_t *this_,
                                                  const data_relationship_t *relationship,
                                                  const data_profile_part_t *profile,
+                                                 const GdkRGBA *color,
                                                  const geometry_rectangle_t *label_box,
                                                  const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,

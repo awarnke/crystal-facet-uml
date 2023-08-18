@@ -2644,6 +2644,7 @@
         "id": 33,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
+        "stereotype": "flower_as_paths",
         "name": "Stereotypes",
         "description": [
                 ""

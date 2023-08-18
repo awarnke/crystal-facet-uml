@@ -4,6 +4,7 @@
 #include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
+#include "u8/u8_i32.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -120,7 +121,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         }
 
         *out_label_dim = (geometry_dimensions_t){
-            .width = ( text2_width > text3_width ) ? text2_width : text3_width,
+            .width = u8_i32_max2( text2_width, text3_width ),
             .height = text3_height + f_line_gap + text2_height
         };
     }
@@ -135,6 +136,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
 void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_t *this_,
                                                   const data_relationship_t *relationship,
                                                   const data_profile_part_t *profile,
+                                                  const GdkRGBA *color,
                                                   const geometry_rectangle_t *label_box,
                                                   const pencil_size_t *pencil_size,
                                                   PangoLayout *font_layout,
@@ -143,6 +145,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     U8_TRACE_BEGIN();
     assert( NULL != relationship );
     assert( NULL != profile );
+    assert( NULL != color );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -207,6 +210,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
         if ( NULL != type_text )
         {
             int text3_width;
+            cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
             pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
             pango_layout_set_text (font_layout, type_text, DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH);
             pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
@@ -222,6 +226,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     {
         int text2_height;
         int text2_width;
+        cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
                                data_relationship_get_name_const( relationship ),
