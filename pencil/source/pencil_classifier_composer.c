@@ -2,6 +2,7 @@
 
 #include "pencil_classifier_composer.h"
 #include "u8/u8_trace.h"
+#include "u8/u8_f64.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -824,8 +825,6 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
     return area_too_small;
 }
 
-static inline double PENCIL_MAX_OF_2 ( double a, double b ) { return (a<b) ? b : a; }
-
 int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
@@ -904,7 +903,7 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
         /* calculate label_compartment */
         {
             const double min_required_width = text_width + icon_gap + geometry_dimensions_get_width( icon_dim );
-            const double comp_width = PENCIL_MAX_OF_2( min_required_width, geometry_rectangle_get_width( space_and_label ) );
+            const double comp_width = u8_f64_max2( min_required_width, geometry_rectangle_get_width( space_and_label ) );
             const geometry_h_align_t compartment_h_align = GEOMETRY_H_ALIGN_CENTER;
             const double comp_left = geometry_h_align_get_left( &compartment_h_align,
                                                                 comp_width,
@@ -961,7 +960,7 @@ int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_c
         const double text_top = geometry_rectangle_get_top( space_and_label ) /*+ symbol_height*/;
 
         /* calculate label_compartment */
-        const double comp_width = PENCIL_MAX_OF_2( text_width, geometry_rectangle_get_width( space_and_label ) );
+        const double comp_width = u8_f64_max2( text_width, geometry_rectangle_get_width( space_and_label ) );
         const geometry_h_align_t compartment_h_align = GEOMETRY_H_ALIGN_CENTER;
         const double comp_left = geometry_h_align_get_left( &compartment_h_align,
                                                             comp_width,
@@ -1069,6 +1068,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
 
     U8_TRACE_END();
 }
+
 
 /*
 Copyright 2016-2023 Andreas Warnke

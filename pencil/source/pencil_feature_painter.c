@@ -487,61 +487,28 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
 
 void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_,
                                                  const data_feature_t *the_feature,
+                                                 const data_profile_part_t *profile,
                                                  const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,
                                                  geometry_dimensions_t *out_feature_bounds )
 {
     U8_TRACE_BEGIN();
     assert( NULL != the_feature );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != out_feature_bounds );
 
-    const double gap = pencil_size_get_standard_object_border( pencil_size );
+    const geometry_dimensions_t proposed_bounds = { .width = 0.0, .height = 0.0 };
+    draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
+                                                     the_feature,
+                                                     profile,
+                                                     &proposed_bounds,
+                                                     pencil_size,
+                                                     font_layout,
+                                                     out_feature_bounds
+                                                   );
 
-    double width = 2.0 * gap;
-    double height = 0.0;
-
-    if ( data_feature_is_valid( the_feature ) )
-    {
-        U8_TRACE_INFO_INT("calculating minimum bounds of feature id", data_feature_get_row_id( the_feature ) );
-
-
-        /* layout text */
-        int text2_width;
-        int text2_height;
-        {
-            /* prepare text */
-            char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
-            utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-            utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( the_feature ) );
-            if ( data_feature_has_value( the_feature ) )
-            {
-                utf8stringbuf_append_str( label_buf, ": " );
-                utf8stringbuf_append_str( label_buf, data_feature_get_value_const( the_feature ) );
-            }
-
-            /* determine text width and height */
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), -1);
-            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
-        }
-
-        /* for the height, ignore the actual height (text2_height) and return the standard font height + line gap */
-        const double lineheight
-            = pencil_size_get_standard_font_size( pencil_size )
-            + pencil_size_get_font_line_gap( pencil_size );
-
-        height += lineheight;
-        /*height += text2_height;*/
-        width += text2_width;
-    }
-    else
-    {
-        U8_LOG_ERROR("invalid feature in array!");
-    }
-
-    geometry_dimensions_reinit( out_feature_bounds, width, height );
     U8_TRACE_END();
 }
 

@@ -122,12 +122,16 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
                                 u8_error_info_get_line( &err_info )
                               );
         }
+        else if ( stereotype_err != U8_ERROR_NONE )
+        {
+            U8_LOG_WARNING_HEX( "error at drawing stereotype image", stereotype_err );
+        }
     }
 
     /* define names for input data */
     const double text_left
         = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + icon_gap;
-    const double top = geometry_rectangle_get_top( label_box );
+    const double text_top = geometry_rectangle_get_top( label_box );
 
     /* draw name text */
     if ( 0 != utf8string_get_length( data_diagram_get_name_const( diagram ) ))
@@ -138,14 +142,9 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
                                data_diagram_get_name_const( diagram ),
                                DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH
                              );
-        /*
-        int text2_height;
-        int text2_width;
-        pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
-        */
 
         /* draw text */
-        cairo_move_to ( cr,text_left, top );
+        cairo_move_to ( cr,text_left, text_top );
         pango_cairo_show_layout (cr, font_layout);
     }
 

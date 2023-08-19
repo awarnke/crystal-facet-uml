@@ -2699,6 +2699,7 @@
         "id": 32,
         "diagram_type": 39,
         "type": "UMLProfileDiagram",
+        "stereotype": "view_create",
         "name": "Stereotypes from inkscape",
         "description": [
                 ""
@@ -7196,6 +7197,18 @@
         "uuid": "4df3a2f7-4540-4060-8a79-39926d6d425f",
         "features":
         [
+          {
+            "id": 137,
+            "main_type": 0,
+            "type": "Property",
+            "key": "new_run_mode",
+            "value": "warn",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "ae0196bb-1260-4d17-b6a6-4b46ed2a4a84"
+          }
         ]
       }
     },
@@ -10490,6 +10503,24 @@
         "from_node": "59ae906c-ea6d-4438-ade5-ac81c4d34b56",
         "to_node": "b5e8356a-835b-4c5c-a6e1-6c39f3ab92af",
         "uuid": "2a883033-c043-48e9-adac-b89eb698d171"
+      }
+    },
+    {
+      "relationship": {
+        "id": 120,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "error",
+        "name": "exception",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "error",
+        "to_classifier_name": "view_new_window",
+        "from_node": "4df3a2f7-4540-4060-8a79-39926d6d425f",
+        "to_node": "ee230f75-f54c-4ee1-a828-5232d5f35357",
+        "uuid": "de0a6e1a-2e85-4c66-b12b-75a7cfe2b6ab"
       }
     },
     {

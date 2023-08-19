@@ -23,17 +23,17 @@ ideas for future versions:
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
       maybe simply draw a stereotype icon?
   [ ] activity bars on lifelines missing
-  [ ] feature compartments in use-cases look ugly
+! [ ] improve the compartment separators in classifiers, especially in use cases
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
   [?] more relationship types needed: one-way x--> and no x--x association (maybe x is a feature?)
   [?] check dot notation at relationship ends
   [?] sequence diagrams need if/loop-boxes
   [?] activity diagrams need swimlanes/partition
 ! [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()
-! [ ] allow linebreaks in feature and relationship labels
+  [ ] allow linebreaks in feature labels
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
-  [ ] show stereotype icons for diagrams, relationships and features
+  [ ] show stereotype names for relationships (if no icon available)
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

@@ -14,6 +14,10 @@ static inline bool data_feature_type_outside_compartment( data_feature_type_t th
     return result;
 }
 
+static inline bool data_feature_type_inside_compartment( data_feature_type_t this_ )
+{
+    return ( ! data_feature_type_outside_compartment( this_ ) );
+}
 
 /*
 Copyright 2023-2023 Andreas Warnke

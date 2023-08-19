@@ -122,6 +122,8 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
                                  );
             pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+            /* restore pango context */
+            pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);
         }
 
         *out_label_dim = (geometry_dimensions_t){
@@ -189,6 +191,10 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
             U8_LOG_WARNING_INT( "stereotype image: unxpected token in svg path in line",
                                 u8_error_info_get_line( &err_info )
                               );
+        }
+        else if ( stereotype_err != U8_ERROR_NONE )
+        {
+            U8_LOG_WARNING_HEX( "error at drawing stereotype image", stereotype_err );
         }
     }
 

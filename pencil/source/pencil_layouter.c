@@ -29,6 +29,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
 
     pencil_feature_layouter_init( &((*this_).feature_layouter),
                                   &((*this_).layout_data),
+                                  profile,
                                   &((*this_).pencil_size)
                                 );
     pencil_feat_label_layouter_init( &((*this_).feature_label_layouter),

@@ -32,6 +32,7 @@
  */
 struct pencil_feature_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to external layout data */
+    const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
     const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
                                  /*!< defining pen sizes, gap sizes, font sizes and colors */
     data_rules_t rules;  /*!< own instance of modelling rules */
@@ -46,10 +47,12 @@ typedef struct pencil_feature_layouter_struct pencil_feature_layouter_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param layout_data pointer to the layout information to be used and modified
+ *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
                                    pencil_layout_data_t *layout_data,
+                                   const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size
                                  );
 

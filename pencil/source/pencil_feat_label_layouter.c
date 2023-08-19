@@ -174,7 +174,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     assert( NULL != feature_data );
     const data_feature_type_t current_type = data_feature_get_main_type( feature_data );
 
-    if ( ! data_feature_type_outside_compartment( current_type ) )
+    if ( data_feature_type_inside_compartment( current_type ) )
     {
         /* the label-box is identical to the feature bounds */
         assert( solutions_max >= 1 );

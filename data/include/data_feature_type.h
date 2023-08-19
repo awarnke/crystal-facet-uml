@@ -48,6 +48,15 @@ extern data_feature_type_t const DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUN
  */
 static inline bool data_feature_type_outside_compartment( data_feature_type_t this_ );
 
+/*!
+ *  \brief checks if the classifier type is displayed inside of classifier compartments
+ *
+ *  \param this_ enumeration value
+ *  \return false if the feature is displayed outside a classifiers compartment like ports or lifelines,
+ *          true otherwise (or if the feature type is unknown)
+ */
+static inline bool data_feature_type_inside_compartment( data_feature_type_t this_ );
+
 #include "data_feature_type.inl"
 
 #endif  /* DATA_FEATURE_TYPE_H */

@@ -9,13 +9,16 @@
 
 void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
                                    pencil_layout_data_t *layout_data,
+                                   const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size )
 {
     U8_TRACE_BEGIN();
     assert( NULL != layout_data );
+    assert( NULL != profile );
     assert( NULL != pencil_size );
 
     (*this_).layout_data = layout_data;
+    (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     data_rules_init( &((*this_).rules) );
     pencil_feature_painter_init( &((*this_).feature_painter) );
@@ -485,6 +488,7 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
     geometry_dimensions_t f_min_bounds;
     pencil_feature_painter_get_minimum_bounds( &((*this_).feature_painter),
                                                the_feature,
+                                               (*this_).profile,
                                                (*this_).pencil_size,
                                                font_layout,
                                                &f_min_bounds
@@ -535,15 +539,15 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
         const layout_visible_classifier_t *const layout_classifier
             = layout_feature_get_classifier_const ( feature_layout );
         const data_feature_type_t the_feature_type = data_feature_get_main_type( the_feature );
-        const bool layout_in_compartment = ! data_feature_type_outside_compartment( the_feature_type );
 
         if (( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
-            && layout_in_compartment )
+            && data_feature_type_inside_compartment( the_feature_type ) )
         {
             geometry_dimensions_t min_feature_bounds;
             geometry_dimensions_init_empty( &min_feature_bounds );
             pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
                                                         the_feature,
+                                                        (*this_).profile,
                                                         (*this_).pencil_size,
                                                         font_layout,
                                                         &min_feature_bounds
