@@ -4,6 +4,7 @@
 #include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
+#include "u8/u8_f64.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -62,7 +63,10 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
             pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
         }
 
-        *out_label_dim = (geometry_dimensions_t) { .width = text_width, .height = text_height };
+        *out_label_dim = (geometry_dimensions_t) {
+            .width = geometry_dimensions_get_width( &icon_dim ) + icon_gap + text_width,
+            .height = u8_f64_max2( geometry_dimensions_get_height( &icon_dim ), text_height )
+        };
     }
     else
     {

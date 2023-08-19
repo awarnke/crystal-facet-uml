@@ -5,6 +5,7 @@
 #include "data_classifier.h"
 #include "data_diagramelement.h"
 #include "u8/u8_i32.h"
+#include "u8/u8_f64.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -121,8 +122,8 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         }
 
         *out_label_dim = (geometry_dimensions_t){
-            .width = u8_i32_max2( text2_width, text3_width ),
-            .height = text3_height + f_line_gap + text2_height
+            .width = geometry_dimensions_get_width( &icon_dim ) + icon_gap + u8_i32_max2( text2_width, text3_width ),
+            .height = u8_f64_max2( geometry_dimensions_get_height( &icon_dim ), text3_height + f_line_gap + text2_height )
         };
     }
     else

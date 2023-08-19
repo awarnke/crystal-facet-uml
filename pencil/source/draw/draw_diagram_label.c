@@ -4,6 +4,7 @@
 #include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
+#include "u8/u8_f64.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -54,7 +55,10 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
         }
 
-        *out_label_dim = (geometry_dimensions_t) { .width = text2_width, .height = text2_height };
+        *out_label_dim = (geometry_dimensions_t) {
+            .width = geometry_dimensions_get_width( &icon_dim ) + icon_gap + text2_width,
+            .height = u8_f64_max2( geometry_dimensions_get_height( &icon_dim ), text2_height )
+        };
     }
     else
     {
@@ -82,30 +86,29 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
     assert( NULL != font_layout );
     assert( NULL != cr );
 
-    /* define names for input data */
-    const double center_x = geometry_rectangle_get_center_x( label_box );
-    const double top = geometry_rectangle_get_top( label_box );
-
     /* draw stereotype icon */
     const char *const diagram_stereotype = data_diagram_get_stereotype_const( diagram );
     const bool has_stereotype_image
         = draw_stereotype_image_exists( &((*this_).image_renderer), diagram_stereotype, profile );
+    const geometry_rectangle_t stereotype_box
+        = has_stereotype_image
+        ? draw_stereotype_image_get_bounds( &((*this_).image_renderer),
+                                            geometry_rectangle_get_left( label_box ),  /* x */
+                                            geometry_rectangle_get_top( label_box ),  /* y */
+                                            GEOMETRY_H_ALIGN_LEFT,
+                                            GEOMETRY_V_ALIGN_TOP,
+                                            pencil_size
+                                          )
+        : (geometry_rectangle_t){ .left = 0.0, .top = 0.0, .width = 0.0, .height = 0.0 };
+    const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
     if ( has_stereotype_image )
     {
-        const geometry_rectangle_t stereotype_box
-            = draw_stereotype_image_get_bounds( &((*this_).image_renderer),
-                                                geometry_rectangle_get_left( label_box ),  /* x */
-                                                geometry_rectangle_get_top( label_box ),  /* y */
-                                                GEOMETRY_H_ALIGN_LEFT,
-                                                GEOMETRY_V_ALIGN_TOP,
-                                                pencil_size
-                                              );
         u8_error_info_t err_info;
         const u8_error_t stereotype_err
             = draw_stereotype_image_draw( &((*this_).image_renderer),
                                           diagram_stereotype,
                                           profile,
-                                          &color,
+                                          color,
                                           &err_info,
                                           &stereotype_box,
                                           cr
@@ -118,21 +121,28 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
         }
     }
 
+    /* define names for input data */
+    const double text_left
+        = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + icon_gap;
+    const double top = geometry_rectangle_get_top( label_box );
+
     /* draw name text */
     if ( 0 != utf8string_get_length( data_diagram_get_name_const( diagram ) ))
     {
-        int text2_height;
-        int text2_width;
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
                                data_diagram_get_name_const( diagram ),
                                DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH
                              );
+        /*
+        int text2_height;
+        int text2_width;
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+        */
 
         /* draw text */
-        cairo_move_to ( cr, center_x - 0.5*text2_width, top );
+        cairo_move_to ( cr,text_left, top );
         pango_cairo_show_layout (cr, font_layout);
     }
 

@@ -17,7 +17,7 @@
  *  \param b a number to compare
  *  \return the maximum of a and b
  */
-static inline double u8_f64_max2_f64 ( const double a, const double b );
+static inline double u8_f64_max2 ( const double a, const double b );
 
 /*!
  *  \brief determines the maximum of 3 double
@@ -27,7 +27,7 @@ static inline double u8_f64_max2_f64 ( const double a, const double b );
  *  \param c a number to compare
  *  \return the maximum of a and b and c
  */
-static inline double u8_f64_max3_f64 ( const double a, const double b, const double c );
+static inline double u8_f64_max3 ( const double a, const double b, const double c );
 
 /*!
  *  \brief determines the minimum of 2 double
@@ -36,7 +36,7 @@ static inline double u8_f64_max3_f64 ( const double a, const double b, const dou
  *  \param b a number to compare
  *  \return the minimum of a and b
  */
-static inline double u8_f64_min2_f64 ( const double a, const double b );
+static inline double u8_f64_min2 ( const double a, const double b );
 
 /*!
  *  \brief determines the minimum of 3 double
@@ -46,7 +46,7 @@ static inline double u8_f64_min2_f64 ( const double a, const double b );
  *  \param c a number to compare
  *  \return the minimum of a and b and c
  */
-static inline double u8_f64_min3_f64 ( const double a, const double b, const double c );
+static inline double u8_f64_min3 ( const double a, const double b, const double c );
 
 #include "u8/u8_f64.inl"
 
