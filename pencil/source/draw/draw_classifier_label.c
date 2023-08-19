@@ -199,7 +199,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         utf8stringbuf_append_str( name_buf, data_classifier_get_name_const( classifier ) );
 
         int text2_width;
-        double f_size = pencil_size_get_standard_font_size( pencil_size );
+        const double f_size = pencil_size_get_standard_font_size( pencil_size );
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
         pango_layout_set_text ( font_layout,

@@ -43,6 +43,7 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
         const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
 
         /* calc name text dimensions */
+        /* int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds ); */
         int text2_height = 0;
         int text2_width = 0;
         if ( 0 != utf8string_get_length( data_diagram_get_name_const( diagram ) ))
@@ -86,21 +87,23 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
     assert( NULL != font_layout );
     assert( NULL != cr );
 
-    /* draw stereotype icon */
+    /* calc bounds of stereotype icon */
     const char *const diagram_stereotype = data_diagram_get_stereotype_const( diagram );
     const bool has_stereotype_image
         = draw_stereotype_image_exists( &((*this_).image_renderer), diagram_stereotype, profile );
     const geometry_rectangle_t stereotype_box
         = has_stereotype_image
         ? draw_stereotype_image_get_bounds( &((*this_).image_renderer),
-                                            geometry_rectangle_get_left( label_box ),  /* x */
-                                            geometry_rectangle_get_top( label_box ),  /* y */
+                                            geometry_rectangle_get_left( label_box ),
+                                            geometry_rectangle_get_top( label_box ),
                                             GEOMETRY_H_ALIGN_LEFT,
                                             GEOMETRY_V_ALIGN_TOP,
                                             pencil_size
                                           )
         : (geometry_rectangle_t){ .left = 0.0, .top = 0.0, .width = 0.0, .height = 0.0 };
     const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+
+    /* draw stereotype icon */
     if ( has_stereotype_image )
     {
         u8_error_info_t err_info;

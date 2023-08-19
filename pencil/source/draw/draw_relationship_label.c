@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+static const int DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH = -1;
 static const int DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH = -1;
 #define DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "\xc2\xab"
 #define DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS "\xc2\xbb"
@@ -46,6 +47,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
 
         /* define names for input data */
+        int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
         const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
         /* calc dimensions of typename as stereotype, */
@@ -118,6 +120,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
                                    data_relationship_get_name_const( relationship ),
                                    DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
                                  );
+            pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
         }
 
@@ -152,8 +155,49 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     assert( NULL != font_layout );
     assert( NULL != cr );
 
+    /* calc bounds of stereotype icon */
+    const char *const relationship_stereotype = data_relationship_get_stereotype_const( relationship );
+    const bool has_stereotype_image
+        = draw_stereotype_image_exists( &((*this_).image_renderer), relationship_stereotype, profile );
+    const geometry_rectangle_t stereotype_box
+        = has_stereotype_image
+        ? draw_stereotype_image_get_bounds( &((*this_).image_renderer),
+                                            geometry_rectangle_get_left( label_box ),
+                                            geometry_rectangle_get_top( label_box ),
+                                            GEOMETRY_H_ALIGN_LEFT,
+                                            GEOMETRY_V_ALIGN_TOP,
+                                            pencil_size
+                                          )
+        : (geometry_rectangle_t){ .left = 0.0, .top = 0.0, .width = 0.0, .height = 0.0 };
+    const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+
+    /* draw stereotype icon */
+    if ( has_stereotype_image )
+    {
+        u8_error_info_t err_info;
+        const u8_error_t stereotype_err
+            = draw_stereotype_image_draw( &((*this_).image_renderer),
+                                          relationship_stereotype,
+                                          profile,
+                                          color,
+                                          &err_info,
+                                          &stereotype_box,
+                                          cr
+                                        );
+        if ( u8_error_info_is_error( &err_info ) )
+        {
+            U8_LOG_WARNING_INT( "stereotype image: unxpected token in svg path in line",
+                                u8_error_info_get_line( &err_info )
+                              );
+        }
+    }
+
     /* define names for input data */
-    const double center_x = geometry_rectangle_get_center_x( label_box );
+    const double text_width
+        = geometry_rectangle_get_width( label_box ) - geometry_rectangle_get_width( &stereotype_box ) - icon_gap;
+    const double center_x
+        = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + icon_gap
+        + 0.5 * text_width;
     const double top = geometry_rectangle_get_top( label_box );
     const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
@@ -227,17 +271,22 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     {
         int text2_height;
         int text2_width;
+        const double f_size = pencil_size_get_standard_font_size( pencil_size );
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
                                data_relationship_get_name_const( relationship ),
                                DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
                              );
+        pango_layout_set_width(font_layout, (text_width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
         /* draw text */
         cairo_move_to ( cr, center_x - 0.5*text2_width, top + text3_height + f_line_gap );
         pango_cairo_show_layout (cr, font_layout);
+
+        /* restore pango context */
+        pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);
     }
 
     U8_TRACE_END();

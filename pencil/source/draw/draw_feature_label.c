@@ -43,6 +43,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
         const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
 
         /* draw text - except for lifelines */
+        /* int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds ); */
         int text_width = 0;
         int text_height = 0;
         if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (feature) )
@@ -60,6 +61,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
             /* determine text width and height */
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+            /* pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE ); */
             pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
         }
 
@@ -94,9 +96,49 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
     assert( NULL != font_layout );
     assert( NULL != cr );
 
+    /* calc bounds of stereotype icon */
+    const char *const feature_stereotype = data_feature_get_value_const( feature );
+    const bool has_stereotype_image
+        = draw_stereotype_image_exists( &((*this_).image_renderer), feature_stereotype, profile );
+    const geometry_rectangle_t stereotype_box
+        = has_stereotype_image
+        ? draw_stereotype_image_get_bounds( &((*this_).image_renderer),
+                                            geometry_rectangle_get_left( label_box ),
+                                            geometry_rectangle_get_top( label_box ),
+                                            GEOMETRY_H_ALIGN_LEFT,
+                                            GEOMETRY_V_ALIGN_TOP,
+                                            pencil_size
+                                          )
+        : (geometry_rectangle_t){ .left = 0.0, .top = 0.0, .width = 0.0, .height = 0.0 };
+    const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
+
+    /* draw stereotype icon */
+    if ( has_stereotype_image )
+    {
+        u8_error_info_t err_info;
+        const u8_error_t stereotype_err
+            = draw_stereotype_image_draw( &((*this_).image_renderer),
+                                          feature_stereotype,
+                                          profile,
+                                          color,
+                                          &err_info,
+                                          &stereotype_box,
+                                          cr
+                                        );
+        if ( u8_error_info_is_error( &err_info ) )
+        {
+            U8_LOG_WARNING_INT( "stereotype image: unxpected token in svg path in line",
+                                u8_error_info_get_line( &err_info )
+                              );
+        }
+    }
+
     /* define names for input data: */
-    const double left = geometry_rectangle_get_left( label_box );
-    const double top = geometry_rectangle_get_top( label_box );
+    const double text_width
+        = geometry_rectangle_get_width( label_box ) - geometry_rectangle_get_width( &stereotype_box ) - icon_gap;
+    const double text_left
+        = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + icon_gap;
+    const double text_top = geometry_rectangle_get_top( label_box );
 
     /* draw text - except for lifelines */
     if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (feature) )
@@ -116,7 +158,7 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
         pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
 
         /* draw text */
-        cairo_move_to ( cr, left, top );
+        cairo_move_to ( cr, text_left, text_top );
         pango_cairo_show_layout (cr, font_layout);
     }
 
