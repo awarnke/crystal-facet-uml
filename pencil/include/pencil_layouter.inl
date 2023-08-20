@@ -6,6 +6,7 @@
 static inline void pencil_layouter_prepare ( pencil_layouter_t *this_ )
 {
     pencil_layout_data_resync( &((*this_).layout_data) );
+    pencil_feature_layouter_reset( &((*this_).feature_layouter) );
 }
 
 static inline pencil_layout_data_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ )

@@ -34,8 +34,9 @@ struct pencil_feature_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to external layout data */
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
     const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
-                                 /*!< defining pen sizes, gap sizes, font sizes and colors */
+                                       /*!< defining pen sizes, gap sizes, font sizes and colors */
     data_rules_t rules;  /*!< own instance of modelling rules */
+    bool label_dimensions_initialized;  /*!< true if the widths and heights of labels in layout_data are already initialized */
 
     pencil_feature_painter_t feature_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
@@ -55,6 +56,13 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
                                    const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size
                                  );
+
+/*!
+ *  \brief resets the label_dimensions_initialized flag to false
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_feature_layouter_reset( pencil_feature_layouter_t *this_ );
 
 /*!
  *  \brief destroys the feature layouter
@@ -84,6 +92,21 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
                                                          PangoLayout *font_layout,
                                                          geometry_dimensions_t *out_features_bounds
                                                        );
+
+/*!
+ *  \brief calculates the label dimensions of all features.
+ *
+ *  This allows to arrange(move) the features in a subsequent step.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_space space area in the classifier
+ *  \param the_feature the feature data to be layouted
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_feature_layout output parameter: feature layout coordinates
+ */
+void pencil_feature_layouter_private_init_label_dimensions( pencil_feature_layouter_t *this_,
+                                                            PangoLayout *font_layout
+                                                          );
 
 /*!
  *  \brief determines the symbol box of a lifeline
