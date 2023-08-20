@@ -3,8 +3,8 @@ crystal-facet-uml (1.51.0) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * Redesign of view-mode icons and stereotype icon
   * No overlap of stereotype icon with comment-corner
-  * classifiers of unknown type are drawn as cornerless box and logged as
-    anomaly
+  * classifiers of unknown (future) type are drawn as cornerless box and logged
+    as anomaly
   * features, relationships, diagrams of unknown type are just anomalies
   * The stereotype field is labelled as such. Exceptions are stated only in the
     user manual.

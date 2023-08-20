@@ -4221,6 +4221,18 @@
             ],
             "list_order": -1279217525,
             "uuid": "cdc64e45-5673-4067-bd82-15b0f313ae4a"
+          },
+          {
+            "id": 138,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "a tag",
+            "value": "a value",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "c79a1307-0328-42d6-875d-e9b0b1af4976"
           }
         ]
       }

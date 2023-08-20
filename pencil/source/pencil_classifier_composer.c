@@ -989,42 +989,49 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     assert( NULL != pencil_size );
     assert( NULL != cr );
 
+    /* define names for input data */
+    const geometry_rectangle_t *const classifier_symbol_box
+        = layout_visible_classifier_get_symbol_box_const( layouted_classifier );
+    const geometry_rectangle_t *const classifier_space
+        = layout_visible_classifier_get_space_const( layouted_classifier );
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
+    const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
+
     /* determine number of properties and operations */
-    uint32_t count_properties = 0;
-    uint32_t count_operations = 0;
-    uint32_t count_compartment_entries = 0;
+    double compartment1_y = geometry_rectangle_get_top( classifier_space ) + gap;
+    double compartment2_y = geometry_rectangle_get_top( classifier_space ) + 3.0 * gap;
+    double compartment3_y = geometry_rectangle_get_top( classifier_space ) + 5.0 * gap;
+    uint_fast32_t count_compartment_entries = 0;
+
+    const uint32_t num_features = pencil_layout_data_get_feature_count ( layout_data );
+    for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
     {
-        /* define names for input data */
-        const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
+        const layout_feature_t *const f_probe_layout = pencil_layout_data_get_feature_const ( layout_data, f_probe_idx );
+        assert ( NULL != f_probe_layout );
+        const layout_visible_classifier_t *const probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
+        assert ( NULL != probe_vis_classfy );
 
-        const uint32_t num_features = pencil_layout_data_get_feature_count ( layout_data );
-        for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
+        /* check if this f_probe_layout has the same diagram element id as the_feature */
+        if ( diagele_id == layout_visible_classifier_get_diagramelement_id( probe_vis_classfy ) )
         {
-            const layout_feature_t *const f_probe_layout = pencil_layout_data_get_feature_const ( layout_data, f_probe_idx );
-            assert ( NULL != f_probe_layout );
-            const layout_visible_classifier_t *const probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
-            assert ( NULL != probe_vis_classfy );
-
-            /* check if this f_probe_layout has the same diagram element id as the_feature */
-            if ( diagele_id == layout_visible_classifier_get_diagramelement_id ( probe_vis_classfy ) )
+            /* this is a feature of the current layouted_classifier */
+            const data_feature_t *const f_probe_data = layout_feature_get_data_const( f_probe_layout );
+            assert ( NULL != f_probe_data );
+            const data_feature_type_t f_probe_type = data_feature_get_main_type( f_probe_data );
+            const double f_probe_bottom
+                = geometry_rectangle_get_bottom( layout_feature_get_symbol_box_const( f_probe_layout ) );
+            if ( data_feature_type_inside_compartment( f_probe_type ) )
             {
-                /* this is a feature of the current layouted_classifier */
-                /* define names for input data */
-                const data_feature_t *const f_probe_data = layout_feature_get_data_const ( f_probe_layout );
-                assert ( NULL != f_probe_data );
-                const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
-                if ( ! data_feature_type_outside_compartment( f_probe_type ) )
-                {
-                    count_compartment_entries ++;
-                }
-                if ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
-                {
-                    count_properties ++;
-                }
-                else if ( DATA_FEATURE_TYPE_OPERATION == f_probe_type )
-                {
-                    count_operations ++;
-                }
+                count_compartment_entries ++;
+            }
+            if ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
+            {
+                compartment2_y = u8_f64_max2( compartment2_y, f_probe_bottom + gap );
+                compartment3_y = u8_f64_max2( compartment3_y, f_probe_bottom + 3.0 * gap );
+            }
+            else if ( DATA_FEATURE_TYPE_OPERATION == f_probe_type )
+            {
+                compartment3_y = u8_f64_max2( compartment3_y, f_probe_bottom + gap );
             }
         }
     }
@@ -1032,35 +1039,21 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     /* draw compartments if there are features */
     if ( count_compartment_entries != 0 )
     {
-        /* define names for input data */
-        const geometry_rectangle_t *const classifier_symbol_box
-            = layout_visible_classifier_get_symbol_box_const( layouted_classifier );
-        const geometry_rectangle_t *const classifier_space
-            = layout_visible_classifier_get_space_const( layouted_classifier );
-        const double feature_height = pencil_size_get_standard_font_size( pencil_size )
-            + pencil_size_get_font_line_gap( pencil_size );
-        const double gap = pencil_size_get_standard_object_border( pencil_size );
-
-        const double y_coordinate_1 = geometry_rectangle_get_top( classifier_space );
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
                                                         classifier_symbol_box,
-                                                        y_coordinate_1,
+                                                        compartment1_y,
                                                         pencil_size,
                                                         cr
                                                       );
-        const double y_coordinate_2 = geometry_rectangle_get_top( classifier_space )
-            + ( count_properties * feature_height ) + ( 2.0 * gap );
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
                                                         classifier_symbol_box,
-                                                        y_coordinate_2,
+                                                        compartment2_y,
                                                         pencil_size,
                                                         cr
                                                       );
-        const double y_coordinate_3 = geometry_rectangle_get_top( classifier_space )
-            + ( (count_properties+count_operations) * feature_height ) + ( 4.0 * gap );
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
                                                         classifier_symbol_box,
-                                                        y_coordinate_3,
+                                                        compartment3_y,
                                                         pencil_size,
                                                         cr
                                                       );

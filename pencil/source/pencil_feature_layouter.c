@@ -535,7 +535,6 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
 {
     U8_TRACE_BEGIN();
     assert( NULL != classifier_space );
-    assert( NULL != the_feature );
     assert( NULL != font_layout );
     assert( NULL != io_feature_layout );
 
@@ -599,7 +598,7 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
         : 2; /* the last compartment is for all unknown feature types. */
              /* this may happen if a new database file has been read by an old program version */
              /* note that today, there is no separator line yet - so the number is the same */
-    feat_top += ( count_compartments_above * 2 * gap );
+    feat_top += ( count_compartments_above * 2 * gap ) + 2.0 * gap;
 
     /* determine the bounds of the feature */
     const geometry_rectangle_t *const feat_label_box
