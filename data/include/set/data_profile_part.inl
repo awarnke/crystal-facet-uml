@@ -96,7 +96,7 @@ static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_
     const data_classifier_t *result = NULL;
 
     /* iterate over all visible classifiers */
-    for ( uint32_t index = 0; ( index < (*this_).stereotype_count )&&( result == NULL ); index ++ )
+    for ( uint32_t index = 0; ( index < (*this_).stereotype_count ) && ( result == NULL ); index ++ )
     {
         const data_classifier_t *const stereotype = &((*this_).stereotypes[index]);
         assert ( data_classifier_is_valid( stereotype ) );

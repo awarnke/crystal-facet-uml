@@ -52,7 +52,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
             char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
             utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
             utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( feature ) );
-            if ( data_feature_has_value( feature ) )
+            if ( data_feature_has_value( feature ) && ( ! has_stereotype_image ) )
             {
                 utf8stringbuf_append_str( label_buf, ": " );
                 utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );
@@ -151,7 +151,7 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
         char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
         utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
         utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( feature ) );
-        if ( data_feature_has_value( feature ) )
+        if ( data_feature_has_value( feature ) && ( ! has_stereotype_image ) )
         {
             utf8stringbuf_append_str( label_buf, ": " );
             utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );

@@ -1,6 +1,7 @@
 /* File: pencil_feature_layouter.c; Copyright and License: see below */
 
 #include "pencil_feature_layouter.h"
+#include "u8/u8_f64.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -554,7 +555,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
                                                       );
 
             double current_w = geometry_dimensions_get_width( &min_feature_bounds );
-            width = ( width < current_w ) ? current_w : width;
+            width = u8_f64_max2( width , current_w );
             height += geometry_dimensions_get_height( &min_feature_bounds );
 
             geometry_dimensions_destroy( &min_feature_bounds );

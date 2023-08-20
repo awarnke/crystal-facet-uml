@@ -86,6 +86,18 @@ u8_error_t data_profile_part_load( data_profile_part_t *this_,
         }
     }
 
+    /* load stereotypes of features (from the value field) */
+    const uint32_t feat_count = data_visible_set_get_feature_count( diagram_elements );
+    for ( uint32_t feat_index = 0; ( feat_index < feat_count )&&( result == U8_ERROR_NONE ); feat_index ++ )
+    {
+        const data_feature_t *const feat = data_visible_set_get_feature_const( diagram_elements, feat_index );
+        if ( data_feature_has_value( feat ) )
+        {
+            const char *const feat_stereotype = data_feature_get_value_const( feat );
+            result |= data_profile_part_private_load_stereotype( this_, feat_stereotype, db_reader );
+        }
+    }
+
     U8_TRACE_END_ERR(result);
     return result;
 }

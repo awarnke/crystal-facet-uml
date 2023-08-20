@@ -32,16 +32,16 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ )
     U8_TRACE_END();
 }
 
-void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
-                                   const layout_feature_t *layouted_feature,
-                                   bool mark_focused,
-                                   bool mark_highlighted,
-                                   bool mark_selected,
-                                   bool gray_out,
-                                   const data_profile_part_t *profile,
-                                   const pencil_size_t *pencil_size,
-                                   PangoLayout *layout,
-                                   cairo_t *cr )
+void pencil_feature_painter_draw( pencil_feature_painter_t *this_,
+                                  const layout_feature_t *layouted_feature,
+                                  bool mark_focused,
+                                  bool mark_highlighted,
+                                  bool mark_selected,
+                                  bool gray_out,
+                                  const data_profile_part_t *profile,
+                                  const pencil_size_t *pencil_size,
+                                  PangoLayout *layout,
+                                  cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != profile );
@@ -81,27 +81,27 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             case DATA_FEATURE_TYPE_IN_PORT_PIN:  /* or */
             case DATA_FEATURE_TYPE_OUT_PORT_PIN:
             {
-                pencil_feature_painter_private_draw_port_pin_icon ( this_, layouted_feature, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_port_pin_icon( this_, layouted_feature, pencil_size, foreground_color, cr );
             }
             break;
 
             case DATA_FEATURE_TYPE_ENTRY:  /* or */
             case DATA_FEATURE_TYPE_EXIT:
             {
-                pencil_feature_painter_private_draw_entry_exit_icon ( this_, layouted_feature, pencil_size, foreground_color, cr );
+                pencil_feature_painter_private_draw_entry_exit_icon( this_, layouted_feature, pencil_size, foreground_color, cr );
             }
             break;
 
             case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
             case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
             {
-                pencil_feature_painter_private_draw_interface_icon ( this_, layouted_feature, pencil_size, cr );
+                pencil_feature_painter_private_draw_interface_icon( this_, layouted_feature, pencil_size, cr );
             }
             break;
 
             case DATA_FEATURE_TYPE_LIFELINE:
             {
-                pencil_feature_painter_private_draw_lifeline_icon ( this_, layouted_feature, mark_highlighted, pencil_size, cr );
+                pencil_feature_painter_private_draw_lifeline_icon( this_, layouted_feature, mark_highlighted, pencil_size, cr );
             }
             break;
 
@@ -123,15 +123,15 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         }
 
         /* draw the label */
-        draw_feature_label_draw_key_and_value ( &((*this_).draw_feature_label),
-                                                layout_feature_get_data_const( layouted_feature ),
-                                                profile,
-                                                &foreground_color,
-                                                layout_feature_get_label_box_const( layouted_feature ),
-                                                pencil_size,
-                                                layout,
-                                                cr
-                                              );
+        draw_feature_label_draw_key_and_value( &((*this_).draw_feature_label),
+                                               layout_feature_get_data_const( layouted_feature ),
+                                               profile,
+                                               &foreground_color,
+                                               layout_feature_get_label_box_const( layouted_feature ),
+                                               pencil_size,
+                                               layout,
+                                               cr
+                                             );
 
 #ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
         /* draw the rectangles */
@@ -140,19 +140,19 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                 = layout_feature_get_label_box_const ( layouted_feature );
 
             cairo_set_source_rgba( cr, 0.5, 0.7, 1.0, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( feature_symbol_box ),
-                              geometry_rectangle_get_top ( feature_symbol_box ),
-                              geometry_rectangle_get_width ( feature_symbol_box ),
-                              geometry_rectangle_get_height ( feature_symbol_box )
-                            );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( feature_label_box ),
-                              geometry_rectangle_get_top ( feature_label_box ),
-                              geometry_rectangle_get_width ( feature_label_box ),
-                              geometry_rectangle_get_height ( feature_label_box )
-                            );
-            cairo_stroke (cr);
+            cairo_rectangle( cr,
+                             geometry_rectangle_get_left ( feature_symbol_box ),
+                             geometry_rectangle_get_top ( feature_symbol_box ),
+                             geometry_rectangle_get_width ( feature_symbol_box ),
+                             geometry_rectangle_get_height ( feature_symbol_box )
+                           );
+            cairo_rectangle( cr,
+                             geometry_rectangle_get_left ( feature_label_box ),
+                             geometry_rectangle_get_top ( feature_label_box ),
+                             geometry_rectangle_get_width ( feature_label_box ),
+                             geometry_rectangle_get_height ( feature_label_box )
+                           );
+            cairo_stroke( cr );
         }
 #endif
 

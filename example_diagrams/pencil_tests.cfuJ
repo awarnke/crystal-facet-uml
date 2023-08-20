@@ -323,6 +323,40 @@
     },
     {
       "diagram": {
+        "id": 37,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "stereotype": "some_type",
+        "name": "Diag with Stereotype icon",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "display_flags": 0,
+        "parent_name": "Diagram Rendering Tests",
+        "parent": "4a291717-580e-4c4e-96cd-ed91c630c0cf",
+        "uuid": "4cbb944f-f225-414a-b243-292534426223",
+        "diagramelements":
+        [
+          {
+            "id": 326,
+            "display_flags": 0,
+            "classifier_name": "some_type",
+            "node": "ae1368d6-510f-405b-a5e0-dfd1f46fad1c",
+            "uuid": "14947941-88c4-4917-9e0b-ceb56502f591"
+          },
+          {
+            "id": 327,
+            "display_flags": 0,
+            "classifier_name": "some img",
+            "node": "4f901e78-e497-481a-9b71-fb4359cde452",
+            "uuid": "0ee8b85a-14c8-4051-94a4-63c3f60a8ac7"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 3,
         "diagram_type": 0,
         "type": "CFUListDiagram",
@@ -3534,6 +3568,7 @@
         "id": 19,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "some_type",
         "name": "Feature",
         "description": [
                 ""
@@ -4169,6 +4204,7 @@
             "main_type": 5,
             "type": "Interface",
             "key": "Required Interface 3",
+            "value": "some_type",
             "description": [
                 ""
             ],
@@ -4183,7 +4219,7 @@
             "description": [
                 ""
             ],
-            "list_order": -1662710758,
+            "list_order": -1279217525,
             "uuid": "cdc64e45-5673-4067-bd82-15b0f313ae4a"
           }
         ]
@@ -4414,7 +4450,7 @@
             "description": [
                 ""
             ],
-            "list_order": -287856776,
+            "list_order": -287889544,
             "uuid": "54a41596-fe42-4bb0-b614-14655f575e8c"
           },
           {
@@ -4437,7 +4473,7 @@
             "description": [
                 ""
             ],
-            "list_order": -287856776,
+            "list_order": -287889544,
             "uuid": "840dcc91-d41c-4eeb-9d8b-08e237c32da5"
           },
           {
@@ -4449,7 +4485,7 @@
             "description": [
                 ""
             ],
-            "list_order": -287791240,
+            "list_order": -287889544,
             "uuid": "3fe195fb-75e5-4deb-b139-5e0aa876d762"
           },
           {
@@ -4461,7 +4497,7 @@
             "description": [
                 ""
             ],
-            "list_order": -287791240,
+            "list_order": -287889544,
             "uuid": "858d043c-9557-4d6a-b543-0440c0e3a7b6"
           },
           {
@@ -4473,7 +4509,7 @@
             "description": [
                 ""
             ],
-            "list_order": -287824008,
+            "list_order": -287766664,
             "uuid": "ba72fc4a-96d2-4dbd-a488-7da62e08d4d6"
           },
           {
@@ -4496,7 +4532,7 @@
             "description": [
                 ""
             ],
-            "list_order": -287840392,
+            "list_order": -287778952,
             "uuid": "f3172ad5-6776-4ec3-b972-9da7bcb4c8ff"
           },
           {
@@ -4586,6 +4622,7 @@
             "main_type": 1,
             "type": "Operation",
             "key": "new_pause",
+            "value": "some_type",
             "description": [
                 ""
             ],
@@ -6630,6 +6667,7 @@
             "main_type": 2,
             "type": "Port",
             "key": "entry",
+            "value": "some_type",
             "description": [
                 ""
             ],
@@ -8938,6 +8976,43 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 178,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "some_type",
+        "description": [
+                "<path stroke=\"#ff0000\" fill=\"none\" d=\"M 8,25 C 0,25 0,7 8,7 L 24,7 C 32,7 32,25 24,25 Z \" />"
+        ],
+        "x_order": -162954614,
+        "y_order": -517789192,
+        "list_order": -517789192,
+        "uuid": "ae1368d6-510f-405b-a5e0-dfd1f46fad1c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 179,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "some_type",
+        "name": "some img",
+        "description": [
+                ""
+        ],
+        "x_order": 1331603952,
+        "y_order": -517789192,
+        "list_order": -429625634,
+        "uuid": "4f901e78-e497-481a-9b71-fb4359cde452",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -9194,6 +9269,7 @@
         "id": 30,
         "main_type": 220,
         "type": "Message",
+        "stereotype": "some_type",
         "name": "async",
         "description": [
                 ""
@@ -9722,7 +9798,8 @@
         "id": 20,
         "main_type": 240,
         "type": "ControlFlow",
-        "name": "",
+        "stereotype": "some_type",
+        "name": "trigger",
         "description": [
                 ""
         ],
@@ -10255,6 +10332,7 @@
         "id": 84,
         "main_type": 210,
         "type": "Generalization",
+        "stereotype": "some_type",
         "name": "",
         "description": [
                 ""
@@ -11016,6 +11094,23 @@
         "from_node": "b23f4ebd-486c-4f1e-aaf3-98e3e001a533",
         "to_node": "1b55c66c-a94c-47b0-8abf-54ea7bd37c85",
         "uuid": "575ad1b8-354b-4f75-b716-7ade202ba906"
+      }
+    },
+    {
+      "relationship": {
+        "id": 121,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "some_type",
+        "to_classifier_name": "some img",
+        "from_node": "ae1368d6-510f-405b-a5e0-dfd1f46fad1c",
+        "to_node": "4f901e78-e497-481a-9b71-fb4359cde452",
+        "uuid": "724106fb-1049-49c9-a607-755a2ca1c882"
       }
     }
   ]
