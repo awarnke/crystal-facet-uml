@@ -9,7 +9,7 @@ crystal-facet-uml (1.51.0) UNRELEASED; urgency=medium
   * The stereotype field is labelled as such. Exceptions are stated only in the
     user manual.
   * stereotype images are also drawn for diagrams, features and relationships
-  * linebreaks in relationship labels
+  * linebreaks in relationship and feature labels
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Aug 2023 12:00:00 +0200
 

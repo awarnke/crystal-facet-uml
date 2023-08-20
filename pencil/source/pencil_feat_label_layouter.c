@@ -176,16 +176,17 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
 
     if ( data_feature_type_inside_compartment( current_type ) )
     {
-        /* the label-box is identical to the feature bounds */
+        /* the label-box is already calculated by pencil_feature_layouter_do_layout() */
+        /* which is called before pencil_feat_label_layouter_do_layout() */
         assert( solutions_max >= 1 );
-        geometry_rectangle_copy( &(out_solutions[0]), layout_feature_get_symbol_box_const ( current_feature ) );
+        geometry_rectangle_copy( &(out_solutions[0]), layout_feature_get_label_box_const ( current_feature ) );
         *out_solutions_count = 1;
     }
     else
     {
         /* key and value dimensions */
         const geometry_dimensions_t label_dim_proposal = {
-            .width = 20.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
+            .width = 25.0 * pencil_size_get_standard_font_size( (*this_).pencil_size ),
             .height = pencil_size_get_standard_font_size( (*this_).pencil_size )
         };
         geometry_dimensions_t label_dim;

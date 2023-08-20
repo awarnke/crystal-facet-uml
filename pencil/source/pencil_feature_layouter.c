@@ -142,7 +142,6 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const ( layout_classifier );
                 pencil_feature_layouter_private_layout_compartment ( this_,
                                                                      c_space,
-                                                                     the_feature,
                                                                      font_layout,
                                                                      feature_layout
                                                                    );
@@ -157,7 +156,6 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 const geometry_rectangle_t *const c_space = layout_visible_classifier_get_space_const ( layout_classifier );
                 pencil_feature_layouter_private_layout_compartment ( this_,
                                                                      c_space,
-                                                                     the_feature,
                                                                      font_layout,
                                                                      feature_layout
                                                                    );
@@ -216,7 +214,7 @@ void pencil_feature_layouter_calculate_features_bounds( pencil_feature_layouter_
     const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
     const double sum_of_gaps = 6.0 * gap;  /* gaps above and below each of the 3 compartment lines */
 
-    geometry_dimensions_reinit( out_features_bounds, width, height + sum_of_gaps );
+    geometry_dimensions_reinit( out_features_bounds, width + 2.0 * gap, height + sum_of_gaps );
     U8_TRACE_END();
 }
 
@@ -532,53 +530,58 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
 
 void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layouter_t *this_,
                                                           const geometry_rectangle_t *classifier_space,
-                                                          const data_feature_t *the_feature,
                                                           PangoLayout *font_layout,
-                                                          layout_feature_t *out_feature_layout )
+                                                          layout_feature_t *io_feature_layout )
 {
     U8_TRACE_BEGIN();
-    assert ( NULL != classifier_space );
-    assert ( NULL != the_feature );
-    assert ( NULL != font_layout );
-    assert ( NULL != out_feature_layout );
+    assert( NULL != classifier_space );
+    assert( NULL != the_feature );
+    assert( NULL != font_layout );
+    assert( NULL != io_feature_layout );
+
+    /* feature label sizes are already precalculated */
+    assert( (*this_).label_dimensions_initialized );
 
     /* define names for input data */
     const layout_visible_classifier_t * const vis_classfy
-        = layout_feature_get_classifier_const ( out_feature_layout );
-    assert ( NULL != vis_classfy );
-    const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( vis_classfy );
+        = layout_feature_get_classifier_const( io_feature_layout );
+    assert( NULL != vis_classfy );
+    const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id( vis_classfy );
+    const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+    const data_feature_t *const the_feature = layout_feature_get_data_const( io_feature_layout );
 
-    /* determine number of features above the current */
-    uint32_t count_features_above = 0;
+    /* calculate the feat_top by summing up the heights of the features above */
+    double feat_top = geometry_rectangle_get_top( classifier_space );
+    const uint32_t num_features = pencil_layout_data_get_feature_count( (*this_).layout_data );
+    for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
     {
-        const uint32_t num_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
-        for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
-        {
-            const layout_feature_t *const f_probe_layout
-                = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_probe_idx );
-            assert ( NULL != f_probe_layout );
-            const layout_visible_classifier_t *const probe_vis_classfy
-                = layout_feature_get_classifier_const ( f_probe_layout );
-            assert ( NULL != probe_vis_classfy );
+        const layout_feature_t *const f_probe_layout
+            = pencil_layout_data_get_feature_ptr( (*this_).layout_data, f_probe_idx );
+        assert( NULL != f_probe_layout );
+        const layout_visible_classifier_t *const probe_vis_classfy
+            = layout_feature_get_classifier_const( f_probe_layout );
+        assert( NULL != probe_vis_classfy );
 
-            /* check if this f_probe_layout has the same diagram element id as the_feature */
-            if ( diagele_id == layout_visible_classifier_get_diagramelement_id ( probe_vis_classfy ) )
+        /* check if this f_probe_layout has the same diagram element id as the_feature */
+        if ( diagele_id == layout_visible_classifier_get_diagramelement_id( probe_vis_classfy ) )
+        {
+            /* this is a feature of the same visible_classifier_t */
+            /* define names for input data */
+            const data_feature_t *f_probe_data;
+            f_probe_data = layout_feature_get_data_const( f_probe_layout );
+            assert( NULL != f_probe_data );
+            const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
+            if ( data_feature_type_inside_compartment( f_probe_type ) )
             {
-                /* this is a feature of the same visible_classifier_t */
-                /* define names for input data */
-                const data_feature_t *f_probe_data;
-                f_probe_data = layout_feature_get_data_const ( f_probe_layout );
-                assert ( NULL != f_probe_data );
-                const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
-                if ( ! data_feature_type_outside_compartment( f_probe_type ) )
+                const bool is_above
+                    = (( data_feature_get_list_order( f_probe_data ) < data_feature_get_list_order( the_feature ))
+                    || (( data_feature_get_list_order( f_probe_data ) == data_feature_get_list_order( the_feature ) )
+                    && ( data_feature_get_row_id( f_probe_data ) < data_feature_get_row_id( the_feature ) )));
+                if ( is_above )
                 {
-                    const bool is_above = (( data_feature_get_list_order( f_probe_data ) < data_feature_get_list_order( the_feature ))
-                        || (( data_feature_get_list_order( f_probe_data ) == data_feature_get_list_order( the_feature ) )
-                            && ( data_feature_get_row_id( f_probe_data ) < data_feature_get_row_id( the_feature ) )));
-                    if ( is_above )
-                    {
-                        count_features_above ++;
-                    }
+                    const geometry_rectangle_t *const probe_label_box
+                        = layout_feature_get_label_box_const( f_probe_layout );
+                    feat_top += geometry_rectangle_get_height( probe_label_box );
                 }
             }
         }
@@ -595,34 +598,30 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
         ? 2  /* first compartment for properties, second for operations, third for tagged values */
         : 2; /* the last compartment is for all unknown feature types. */
              /* this may happen if a new database file has been read by an old program version */
+             /* note that today, there is no separator line yet - so the number is the same */
+    feat_top += ( count_compartments_above * 2 * gap );
 
-    /* determine the minimum bounds of the feature */
-    geometry_dimensions_t f_min_bounds;
-    pencil_feature_painter_get_minimum_bounds( &((*this_).feature_painter),
-                                               the_feature,
-                                               (*this_).profile,
-                                               (*this_).pencil_size,
-                                               font_layout,
-                                               &f_min_bounds
-                                             );
+    /* determine the bounds of the feature */
+    const geometry_rectangle_t *const feat_label_box
+        = layout_feature_get_label_box_const( io_feature_layout );
 
     /* layout feature into parent classifier */
-    const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-    const double top = geometry_rectangle_get_top( classifier_space )
-        + ( count_features_above * geometry_dimensions_get_height( &f_min_bounds ) )
-        + ( count_compartments_above * 2 * gap )
-        + gap /* distance to the line on top of the first feature */;
-    geometry_rectangle_t f_bounds;
-    geometry_rectangle_init ( &f_bounds,
-                              geometry_rectangle_get_left( classifier_space ),
-                              top,
-                              //geometry_rectangle_get_width( classifier_space ),
-                              geometry_dimensions_get_width( &f_min_bounds ),
-                              geometry_dimensions_get_height( &f_min_bounds )
-                            );
-    layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
-    layout_feature_set_label_box ( out_feature_layout, &f_bounds );
-    layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );  /* dummy direction */
+    const geometry_rectangle_t label_box = {
+        .left = geometry_rectangle_get_left( classifier_space ) + gap,
+        .top = feat_top,
+        .width = geometry_rectangle_get_width( feat_label_box ),
+        .height = geometry_rectangle_get_height( feat_label_box )
+    };
+    const geometry_rectangle_t feat_bounds = {
+        .left = geometry_rectangle_get_left( classifier_space ),
+        .top = feat_top,
+        .width = geometry_rectangle_get_width( feat_label_box ) + 2.0 * gap,
+        .height = geometry_rectangle_get_height( feat_label_box )
+    };
+
+    layout_feature_set_label_box( io_feature_layout, &label_box );
+    layout_feature_set_symbol_box( io_feature_layout, &feat_bounds );
+    layout_feature_set_icon_direction( io_feature_layout, GEOMETRY_DIRECTION_CENTER );  /* dummy direction */
 
     U8_TRACE_END();
 }

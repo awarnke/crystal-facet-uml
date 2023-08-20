@@ -85,7 +85,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement for which to calculate the feature bounds
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_features_bounds memory location where the result shall be stored. Must not be NULL.
+ *  \param[out] out_features_bounds memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
                                                          data_row_id_t diagramelement_id,
@@ -99,10 +99,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
  *  This allows to arrange(move) the features in a subsequent step.
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_space space area in the classifier
- *  \param the_feature the feature data to be layouted
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_init_label_dimensions( pencil_feature_layouter_t *this_,
                                                             PangoLayout *font_layout
@@ -117,7 +114,7 @@ void pencil_feature_layouter_private_init_label_dimensions( pencil_feature_layou
  *  \param classifier_type type of the parent classifier
  *  \param classifier_symbol_box symbol box of the classifier
  *  \param classifier_envelope_box envelope box of the classifier
- *  \param out_feature_layout output parameter: feature layout coordinates
+ *  \param[out] out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t *this_,
                                                        const geometry_rectangle_t *diagram_space,
@@ -136,7 +133,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
  *  \param classifier_symbol_box symbol box of the parent classifier
  *  \param the_feature the feature data to be layouted
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_feature_layout output parameter: feature layout coordinates
+ *  \param[out] out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t *this_,
                                                        data_classifier_type_t classifier_type,
@@ -153,7 +150,7 @@ void pencil_feature_layouter_private_layout_port_pin ( pencil_feature_layouter_t
  *  \param classifier_symbol_box symbol box of the classifier
  *  \param the_feature the feature data to be layouted
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_feature_layout output parameter: feature layout coordinates
+ *  \param[out] out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_t *this_,
                                                         const geometry_rectangle_t *classifier_symbol_box,
@@ -167,15 +164,13 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_space space area in the classifier
- *  \param the_feature the feature data to be layouted
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_feature_layout output parameter: feature layout coordinates
+ *  \param[in,out] io_feature_layout in+output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layouter_t *this_,
                                                           const geometry_rectangle_t *classifier_space,
-                                                          const data_feature_t *the_feature,
                                                           PangoLayout *font_layout,
-                                                          layout_feature_t *out_feature_layout
+                                                          layout_feature_t *io_feature_layout
                                                         );
 
 #endif  /* PENCIL_FEATURE_LAYOUTER_H */

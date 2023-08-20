@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+static const int DRAW_FEATURE_PANGO_UNLIMITED_WIDTH = -1;
 static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_t *this_,
@@ -43,7 +44,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
         const double icon_gap = has_stereotype_image ? pencil_size_get_standard_object_border( pencil_size ) : 0.0;
 
         /* draw text - except for lifelines */
-        /* int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds ); */
+        int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
         int text_width = 0;
         int text_height = 0;
         if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (feature) )
@@ -61,10 +62,10 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
             /* determine text width and height */
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-            /* pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE ); */
+            pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
             /* restore pango context */
-            /* pango_layout_set_width(font_layout, DRAW_FEATURE_PANGO_UNLIMITED_WIDTH); */
+            pango_layout_set_width(font_layout, DRAW_FEATURE_PANGO_UNLIMITED_WIDTH);
         }
 
         *out_label_dim = (geometry_dimensions_t) {
@@ -143,6 +144,8 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
     const double text_left
         = geometry_rectangle_get_left( label_box ) + geometry_rectangle_get_width( &stereotype_box ) + icon_gap;
     const double text_top = geometry_rectangle_get_top( label_box );
+    const double text_width
+        = geometry_rectangle_get_width( label_box ) - geometry_rectangle_get_width( &stereotype_box ) - icon_gap;
 
     /* draw text - except for lifelines */
     if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (feature) )
@@ -157,13 +160,18 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
             utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );
         }
 
+        const double f_size = pencil_size_get_standard_font_size( pencil_size );
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+        pango_layout_set_width(font_layout, (text_width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
 
         /* draw text */
         cairo_move_to ( cr, text_left, text_top );
         pango_cairo_show_layout (cr, font_layout);
+
+        /* restore pango context */
+        pango_layout_set_width(font_layout, DRAW_FEATURE_PANGO_UNLIMITED_WIDTH);
     }
 
     U8_TRACE_END();

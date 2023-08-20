@@ -499,11 +499,14 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
     assert( NULL != font_layout );
     assert( NULL != out_feature_bounds );
 
-    const geometry_dimensions_t proposed_bounds = { .width = 0.0, .height = 0.0 };
+    const geometry_dimensions_t label_dim_proposal = {
+        .width = 25.0 * pencil_size_get_standard_font_size( pencil_size ),
+        .height = pencil_size_get_standard_font_size( pencil_size )
+    };
     draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
                                                      the_feature,
                                                      profile,
-                                                     &proposed_bounds,
+                                                     &label_dim_proposal,
                                                      pencil_size,
                                                      font_layout,
                                                      out_feature_bounds
