@@ -10,6 +10,10 @@ crystal-facet-uml (1.51.0) UNRELEASED; urgency=medium
     user manual.
   * stereotype images are also drawn for diagrams, features and relationships
   * linebreaks in relationship and feature labels
+  * the compartment separators in use cases do not exceed the outer circle
+  * layouting quality improved to:
+    layout_good_cases: ERR=0, W/C=6, W/F=17, W/R=33
+    layout_challenging_cases: ERR=29, W/C=8260, W/F=6415, W/R=4662
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Aug 2023 12:00:00 +0200
 

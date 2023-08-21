@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
@@ -601,6 +602,72 @@ void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *thi
     cairo_line_to ( cr, border_right, border_bottom );
     cairo_line_to ( cr, border_right, border_top + corner_edge );
     cairo_line_to ( cr, border_right - corner_edge, border_top );
+    cairo_stroke (cr);
+
+    U8_TRACE_END();
+}
+
+void draw_classifier_contour_draw_compartment_line ( const draw_classifier_contour_t *this_,
+                                                     data_classifier_type_t classifier_type,
+                                                     const geometry_rectangle_t *outer_bounds,
+                                                     double y_coordinate,
+                                                     const pencil_size_t *pencil_size,
+                                                     cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert ( NULL != outer_bounds );
+    assert ( NULL != pencil_size );
+    assert ( NULL != cr );
+
+    const double bounds_left = geometry_rectangle_get_left( outer_bounds );
+    const double bounds_width = geometry_rectangle_get_width( outer_bounds );
+    const double bounds_height = geometry_rectangle_get_height( outer_bounds );
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
+
+    double left = bounds_left + gap;
+    double right = bounds_left + bounds_width - gap;
+    switch ( classifier_type )
+    {
+        case DATA_CLASSIFIER_TYPE_USE_CASE:
+        {
+            const double center_x = geometry_rectangle_get_center_x( outer_bounds );
+            const double center_y = geometry_rectangle_get_center_y( outer_bounds );
+            const double norm_dy = ( y_coordinate - center_y ) / ( bounds_height / 2.0 );
+            const double sqr_norm_dx = 1.0 - ( norm_dy * norm_dy );
+            if ( sqr_norm_dx >= 0.0 )
+            {
+                const double dx = sqrt( sqr_norm_dx ) * ( bounds_width / 2.0 );
+                left = center_x - dx + gap;
+                right = center_x + dx - gap;
+            }
+            else
+            {
+                left = bounds_left + gap;
+                right = bounds_left + bounds_width - gap;
+            }
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_NODE:
+        {
+            /* the 3d border of a node shrinks the space */
+            const double offset_3d = 2.0 * gap;
+            left = bounds_left + gap;
+            right = bounds_left + bounds_width - offset_3d - gap;
+        }
+        break;
+
+        default:
+        {
+            /* for all other cases; this switch is not exhaustive */
+            left = bounds_left + gap;
+            right = bounds_left + bounds_width - gap;
+        }
+        break;
+    }
+
+    cairo_move_to ( cr, left, y_coordinate );
+    cairo_line_to ( cr, right, y_coordinate );
     cairo_stroke (cr);
 
     U8_TRACE_END();

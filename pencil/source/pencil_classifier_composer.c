@@ -1039,19 +1039,28 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     /* draw compartments if there are features */
     if ( count_compartment_entries != 0 )
     {
+        const data_visible_classifier_t *const visible_classifier
+            = layout_visible_classifier_get_data_const( layouted_classifier );
+        const data_classifier_t *const classifier
+            = data_visible_classifier_get_classifier_const( visible_classifier );
+        const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
+
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
+                                                        classifier_type,
                                                         classifier_symbol_box,
                                                         compartment1_y,
                                                         pencil_size,
                                                         cr
                                                       );
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
+                                                        classifier_type,
                                                         classifier_symbol_box,
                                                         compartment2_y,
                                                         pencil_size,
                                                         cr
                                                       );
         draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
+                                                        classifier_type,
                                                         classifier_symbol_box,
                                                         compartment3_y,
                                                         pencil_size,

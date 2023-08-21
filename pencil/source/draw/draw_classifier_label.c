@@ -35,12 +35,12 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
 
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
-        const data_classifier_t *classifier;
-        const data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
+        const data_classifier_t *const classifier
+            = data_visible_classifier_get_classifier_const( visible_classifier );
+        const data_diagramelement_t *const diagramelement
+            = data_visible_classifier_get_diagramelement_const( visible_classifier );
+        const data_diagramelement_flag_t display_flags
+            = data_diagramelement_get_display_flags( diagramelement );
 
         /* stereotype text */
         int text1_height = 0;
@@ -145,10 +145,10 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     assert( NULL != cr );
 
     /* define names for input data: */
-    const data_classifier_t *classifier;
-    const data_diagramelement_t *diagramelement;
-    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+    const data_classifier_t *const classifier
+        = data_visible_classifier_get_classifier_const( visible_classifier );
+    const data_diagramelement_t *const diagramelement
+        = data_visible_classifier_get_diagramelement_const( visible_classifier );
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
     const data_diagramelement_flag_t display_flags = data_diagramelement_get_display_flags( diagramelement );
 
