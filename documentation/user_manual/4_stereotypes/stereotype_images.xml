@@ -145,5 +145,29 @@
         <command><![CDATA[<path d="m 1,24 4,4 22,0 4,-4 " /><path stroke="#cc0000" d="m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s -3.5625,8 -8,8 s -8,-3.5625 -8,-8 " /><path stroke="#cc0000" d="m 11,17 l 10,0 " />]]></command>
       </para></listitem>
     </varlistentry>
+    <varlistentry>
+      <term>flow_object</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="flow_object.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="M 1,1 31,1 31,31 1,31 Z " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>flow_control</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="flow_control.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="M 1,16 l 2,0 m 3,0 l 2,0 m 3,0 l 2,0 m 3,0 l 2,0 m 3,0 l 2,0 m 3,0 l 3.5,0 M 25,13 l 5,3 l -5,3 " />]]></command>
+      </para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>flow_exception</term>
+      <listitem><para>
+        <mediaobject><imageobject><imagedata fileref="flow_exception.svg" width="1cm"/></imageobject></mediaobject>
+      </para><para>
+        <command><![CDATA[<path d="M 1,9 27,9 1,23 30,23 M 26,20 31,23 26,26 " />]]></command>
+      </para></listitem>
+    </varlistentry>
   </variablelist>
 </para>

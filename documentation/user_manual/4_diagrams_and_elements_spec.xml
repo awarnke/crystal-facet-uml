@@ -1072,7 +1072,7 @@
                             <entry><para>UML 2.5 (ch15.5)</para></entry>
                             <entry><para>Block Definition</para></entry>
                             <entry>
-                                <para>not yet supported, see todo.txt.</para>
+                                <para>Use a stereotype, e.g. a flow_exception as proposed in  <xref linkend="stereotype_examples"/></para>
                             </entry>
                         </row>
                     </tbody>

@@ -632,13 +632,15 @@ void draw_classifier_contour_draw_compartment_line ( const draw_classifier_conto
         {
             const double center_x = geometry_rectangle_get_center_x( outer_bounds );
             const double center_y = geometry_rectangle_get_center_y( outer_bounds );
-            const double norm_dy = ( y_coordinate - center_y ) / ( bounds_height / 2.0 );
+            const double radius_x = ( bounds_width / 2.0 ) - gap; /* there is 1.0*gap around the ellipsis */
+            const double radius_y = ( bounds_height / 2.0 ) - gap; /* there is 1.0*gap around the ellipsis */
+            const double norm_dy = ( y_coordinate - center_y ) / radius_y;
             const double sqr_norm_dx = 1.0 - ( norm_dy * norm_dy );
             if ( sqr_norm_dx >= 0.0 )
             {
-                const double dx = sqrt( sqr_norm_dx ) * ( bounds_width / 2.0 );
-                left = center_x - dx + gap;
-                right = center_x + dx - gap;
+                const double dx = sqrt( sqr_norm_dx ) * radius_x;
+                left = center_x - dx;
+                right = center_x + dx;
             }
             else
             {

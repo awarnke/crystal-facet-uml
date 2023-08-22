@@ -6,6 +6,7 @@ use super::geometry::get_circle_rel;
 use super::geometry::Color;
 use super::geometry::DrawDirective::Close;
 use super::geometry::DrawDirective::CloseRel;
+use super::geometry::DrawDirective::Continue;
 use super::geometry::DrawDirective::ContinueRel;
 use super::geometry::DrawDirective::Curve;
 use super::geometry::DrawDirective::CurveRel;
@@ -526,6 +527,69 @@ pub fn generate_reason_rejected(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(RED), &None);
 }
 
+/// The function generates a object flow icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_flow_object(out: &mut VecRenderer) -> () {
+    let icon_segs: [geometry::DrawDirective; 5] = [
+        Move(Point { x: 1.0, y: 1.0 }),
+        Continue(Point { x: 31.0, y: 1.0 }),
+        Continue(Point { x: 31.0, y: 31.0 }),
+        Continue(Point { x: 1.0, y: 31.0 }),
+        Close,
+    ];
+    out.path(&icon_segs, &None, &None);
+}
+
+/// The function generates an control flow icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_flow_control(out: &mut VecRenderer) -> () {
+    let icon_segs: [geometry::DrawDirective; 15] = [
+        Move(Point { x: 1.0, y: 16.0 }),
+        LineRel(Offset { dx: 2.0, dy: 0.0 }),
+        MoveRel(Offset { dx: 3.0, dy: 0.0 }),
+        LineRel(Offset { dx: 2.0, dy: 0.0 }),
+        MoveRel(Offset { dx: 3.0, dy: 0.0 }),
+        LineRel(Offset { dx: 2.0, dy: 0.0 }),
+        MoveRel(Offset { dx: 3.0, dy: 0.0 }),
+        LineRel(Offset { dx: 2.0, dy: 0.0 }),
+        MoveRel(Offset { dx: 3.0, dy: 0.0 }),
+        LineRel(Offset { dx: 2.0, dy: 0.0 }),
+        MoveRel(Offset { dx: 3.0, dy: 0.0 }),
+        LineRel(Offset { dx: 3.5, dy: 0.0 }),
+        Move(Point { x: 25.0, y: 13.0 }),
+        LineRel(Offset { dx: 5.0, dy: 3.0 }),
+        LineRel(Offset { dx: -5.0, dy: 3.0 }),
+    ];
+    out.path(&icon_segs, &None, &None);
+}
+
+/// The function generates an error flow icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_flow_exception(out: &mut VecRenderer) -> () {
+    let icon_segs: [geometry::DrawDirective; 7] = [
+        Move(Point { x: 1.0, y: 9.0 }),
+        Continue(Point { x: 27.0, y: 9.0 }),
+        Continue(Point { x: 1.0, y: 23.0 }),
+        Continue(Point { x: 30.0, y: 23.0 }),
+        Move(Point { x: 26.0, y: 20.0 }),
+        Continue(Point { x: 31.0, y: 23.0 }),
+        Continue(Point { x: 26.0, y: 26.0 }),
+    ];
+    out.path(&icon_segs, &None, &None);
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
@@ -619,6 +683,21 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "reason_rejected",
             viewport: ICON_VIEW_RECT,
             generate: generate_reason_rejected,
+        },
+        IconSource {
+            name: "flow_object",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_flow_object,
+        },
+        IconSource {
+            name: "flow_control",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_flow_control,
+        },
+        IconSource {
+            name: "flow_exception",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_flow_exception,
         },
     ]
 }
