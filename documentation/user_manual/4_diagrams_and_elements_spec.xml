@@ -199,8 +199,8 @@
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>* / unconditional features</para></entry>
                             <entry>
-                                <para>Exists since version 1.48.0; cannot be used in version 1.47.0 and older.</para>
-                                <para>This element shows the image of its stereotype</para>
+                                <para>This element shows the image of its stereotype.</para>
+                                <para>It exists since version 1.48.0; cannot be used in version 1.47.0 and older.</para>
                                 <para>
                                     The description field is reserved.
                                     Use an additional comment if needed.
@@ -217,16 +217,15 @@
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>* / unconditional features</para></entry>
                             <entry>
-                                <para>Exists since version 1.47.0; cannot be used in version 1.46.0 and older.</para>
+                                <para>This element declares a stereotype.</para>
+                                <para>It exists since version 1.47.0; cannot be used in version 1.46.0 and older.</para>
                                 <para>
-                                    The description field is reserved for icon and template data
-                                    and shall therefore not be used for descriptions.
-                                    Use an additional comment instead.
+                                    The description field is reserved for icon and template data.
+                                    Use an additional comment to describe the stereotype.
                                 </para>
                                 <para>
-                                    An image can be specified since version 1.48.0 by stating lines and curves
-                                    according to the SVG-path spec version 2.0; also arcs are supported since 1.49.0,
-                                    stroke and fill colors since 1.50.0.
+                                    An image can be specified by stating lines and curves
+                                    according to the SVG-path spec version 2.0.
                                 </para>
                                 <para>
                                     <command>&lt;path fill=&quot;#e0e0e0&quot; stroke=&quot;#0088cc&quot; d=&quot;M 2,2 10,2 8,8, 0,8 Z&quot;/&gt;</command>
@@ -1321,6 +1320,10 @@
         <para>
             For use as stereotype images, this section shows some generated svg-paths,
             licensed under Apache-2.0 or Public Domain at your choice.
+        </para>
+        <para>
+            Copy these xml-fragments to the description field of a stereotype-classifier in order to show these
+            images next to all elements implemening the respective stereotype.
         </para>
         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="4_stereotypes/stereotype_images.xml" />
     </section>

@@ -20,8 +20,6 @@ ideas for future versions:
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
   @pencil
-  [ ] exception+error flows to leave an interruptable area (activity diagrams)
-      maybe simply draw a stereotype icon?
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
   [?] more relationship types needed: one-way x--> and no x--x association (maybe x is a feature?)

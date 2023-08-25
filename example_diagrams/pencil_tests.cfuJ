@@ -3124,6 +3124,95 @@
           }
         ]
       }
+    },
+    {
+      "diagram": {
+        "id": 38,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "Flow Examples",
+        "description": [
+                ""
+        ],
+        "list_order": 98303,
+        "display_flags": 0,
+        "parent_name": "Stereotypes",
+        "parent": "2f4e6fc2-567e-48a3-bb80-1561e010226d",
+        "uuid": "f8111847-e255-4f8c-a64b-89c7a291e7b8",
+        "diagramelements":
+        [
+          {
+            "id": 328,
+            "display_flags": 0,
+            "classifier_name": "Stereotype def.",
+            "node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+            "uuid": "a6169904-f544-471c-aea3-a48a100ad155"
+          },
+          {
+            "id": 329,
+            "display_flags": 0,
+            "classifier_name": "control",
+            "node": "74683998-81f5-4e39-b8af-396b88af13dc",
+            "uuid": "77d8d977-38ee-4228-9787-c2a6436974aa"
+          },
+          {
+            "id": 330,
+            "display_flags": 0,
+            "classifier_name": "control_flow",
+            "node": "eb482f43-65d9-499c-82eb-d9eaca6da3f7",
+            "uuid": "e424d10f-c5b1-45ef-bcc3-104cc9cb1de8"
+          },
+          {
+            "id": 331,
+            "display_flags": 0,
+            "classifier_name": "New User Input",
+            "node": "72d613c3-0bc7-4451-9bad-7db3afa92986",
+            "uuid": "26c30c49-c8af-4e2d-befa-ede49e213b07"
+          },
+          {
+            "id": 332,
+            "display_flags": 0,
+            "classifier_name": "exception:flow",
+            "node": "3a02d5b0-cad1-4e10-bb4e-d00acfeb0f5f",
+            "uuid": "b6a73607-fb2b-4cf8-89cd-f551f9e7ac03"
+          },
+          {
+            "id": 333,
+            "display_flags": 0,
+            "classifier_name": "object flow",
+            "node": "3b843212-c148-4270-b161-be105a2f7b89",
+            "uuid": "9c0ae3ca-510c-4526-b929-cd72ab6a768b"
+          },
+          {
+            "id": 334,
+            "display_flags": 0,
+            "classifier_name": "New Idle",
+            "node": "765dbeb4-ff53-4e44-8eac-7735ff590774",
+            "uuid": "86cb202d-ec39-4855-8f73-9cf14171e83b"
+          },
+          {
+            "id": 335,
+            "display_flags": 0,
+            "classifier_name": "New Startup",
+            "node": "f3b3eab2-3b2a-41ca-8ac8-73e4f345ddda",
+            "uuid": "cf04f08e-5389-44af-9830-84ff9583e5e1"
+          },
+          {
+            "id": 336,
+            "display_flags": 0,
+            "classifier_name": "entity",
+            "node": "451ba6a8-0d72-46b4-af42-02b4d34f3933",
+            "uuid": "8bb16dee-af7e-4f5c-9d08-bb22ca0b06b2"
+          },
+          {
+            "id": 337,
+            "display_flags": 0,
+            "classifier_name": "boundary",
+            "node": "ba32cf89-fe44-4fc7-b1a6-fae5a7189b55",
+            "uuid": "16b690b8-b738-41ba-97a7-e805f10b3a47"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -9025,6 +9114,194 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 180,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Stereotype def.",
+        "description": [
+                ""
+        ],
+        "x_order": 994696214,
+        "y_order": -918527174,
+        "list_order": -918527174,
+        "uuid": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 181,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "control",
+        "description": [
+                "<path d=\"M 6,18 C 6,11.375 11.375,6 18,6 S 30,11.375 30,18 S 24.625,30 18,30 S 6,24.625 6,18 \" /><path d=\"M 22,1\n",
+                "L 17,6 L 22,11 \" />"
+        ],
+        "x_order": 241887041,
+        "y_order": -966696763,
+        "list_order": -966696763,
+        "uuid": "74683998-81f5-4e39-b8af-396b88af13dc",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 182,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "control_flow",
+        "description": [
+                "<path d=\"M 1,16 l 2,0 m 3,0 l 2,0 m 3,0 l 2,0 m 3,0 l 2,0 m 3,0 l 2,0 m 3,0 l 3.5,0 M 25,13 l 5,3 l -5,3 \" />"
+        ],
+        "x_order": 803577343,
+        "y_order": -873809220,
+        "list_order": -732893023,
+        "uuid": "eb482f43-65d9-499c-82eb-d9eaca6da3f7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 183,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "entity",
+        "name": "New User Input",
+        "description": [
+                ""
+        ],
+        "x_order": 1914197747,
+        "y_order": -873809220,
+        "list_order": -189798348,
+        "uuid": "72d613c3-0bc7-4451-9bad-7db3afa92986",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 184,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "exception:flow",
+        "description": [
+                "<path d=\"M 1,9 27,9 1,23 30,23 M 26,20 31,23 26,26 \" />"
+        ],
+        "x_order": 803577343,
+        "y_order": -966696763,
+        "list_order": -1254775840,
+        "uuid": "3a02d5b0-cad1-4e10-bb4e-d00acfeb0f5f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 185,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "object flow",
+        "description": [
+                "<path d=\"M 32,32 M 0,0 M 5,5 27,5 27,27 5,27 Z \" />\n",
+                "\n",
+                ""
+        ],
+        "x_order": 803577343,
+        "y_order": -1146503405,
+        "list_order": -760492071,
+        "uuid": "3b843212-c148-4270-b161-be105a2f7b89",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 186,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "boundary",
+        "name": "New Idle",
+        "description": [
+                ""
+        ],
+        "x_order": 1914197747,
+        "y_order": -1146503405,
+        "list_order": -873809220,
+        "uuid": "765dbeb4-ff53-4e44-8eac-7735ff590774",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 187,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "control",
+        "name": "New Startup",
+        "description": [
+                ""
+        ],
+        "x_order": 2030925380,
+        "y_order": -966696763,
+        "list_order": -745624981,
+        "uuid": "f3b3eab2-3b2a-41ca-8ac8-73e4f345ddda",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 188,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "entity",
+        "description": [
+                "<path d=\"M 6,18 C 6,11.375 11.375,6 18,6 S 30,11.375 30,18 S 24.625,30 18,30 S 6,24.625 6,18 \" /><path d=\"M\n",
+                "7,30.5 L 29,30.5 \" />"
+        ],
+        "x_order": 241887041,
+        "y_order": -1146503405,
+        "list_order": -834198072,
+        "uuid": "451ba6a8-0d72-46b4-af42-02b4d34f3933",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 189,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "boundary",
+        "description": [
+                "<path d=\"M 6,18 C 6,11.375 11.375,6 18,6 S 30,11.375 30,18 S 24.625,30 18,30 S 6,24.625 6,18 \" /><path d=\"M 1,9\n",
+                "L 1,27 M 1,18 L 6,18 \" />"
+        ],
+        "x_order": 241887041,
+        "y_order": -873809220,
+        "list_order": -864969023,
+        "uuid": "ba32cf89-fe44-4fc7-b1a6-fae5a7189b55",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -11123,6 +11400,162 @@
         "from_node": "ae1368d6-510f-405b-a5e0-dfd1f46fad1c",
         "to_node": "4f901e78-e497-481a-9b71-fb4359cde452",
         "uuid": "724106fb-1049-49c9-a607-755a2ca1c882"
+      }
+    },
+    {
+      "relationship": {
+        "id": 122,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -966696763,
+        "from_classifier_name": "Stereotype def.",
+        "to_classifier_name": "control",
+        "from_node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+        "to_node": "74683998-81f5-4e39-b8af-396b88af13dc",
+        "uuid": "c6bfb9a1-32b4-4e29-bec9-1b25b5e8f61a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 123,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -732893023,
+        "from_classifier_name": "Stereotype def.",
+        "to_classifier_name": "control_flow",
+        "from_node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+        "to_node": "eb482f43-65d9-499c-82eb-d9eaca6da3f7",
+        "uuid": "d45e0337-c8d9-403f-bddc-3cbd02e9d8e5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 124,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1254775840,
+        "from_classifier_name": "Stereotype def.",
+        "to_classifier_name": "exception:flow",
+        "from_node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+        "to_node": "3a02d5b0-cad1-4e10-bb4e-d00acfeb0f5f",
+        "uuid": "3f82dac9-ba35-4565-9c03-7e38dadb9db2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 125,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -760492071,
+        "from_classifier_name": "Stereotype def.",
+        "to_classifier_name": "object flow",
+        "from_node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+        "to_node": "3b843212-c148-4270-b161-be105a2f7b89",
+        "uuid": "52350520-2bc8-47f3-a92e-7623076c968b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 129,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -834198072,
+        "from_classifier_name": "Stereotype def.",
+        "to_classifier_name": "entity",
+        "from_node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+        "to_node": "451ba6a8-0d72-46b4-af42-02b4d34f3933",
+        "uuid": "48b5aa11-aae3-4132-824d-d09169369488"
+      }
+    },
+    {
+      "relationship": {
+        "id": 130,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -864969023,
+        "from_classifier_name": "Stereotype def.",
+        "to_classifier_name": "boundary",
+        "from_node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
+        "to_node": "ba32cf89-fe44-4fc7-b1a6-fae5a7189b55",
+        "uuid": "c39f470d-8ad5-4585-9a7a-485d367b696d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 128,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "exception:flow",
+        "name": "exception",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "New User Input",
+        "to_classifier_name": "New Idle",
+        "from_node": "72d613c3-0bc7-4451-9bad-7db3afa92986",
+        "to_node": "765dbeb4-ff53-4e44-8eac-7735ff590774",
+        "uuid": "43e80522-9e1f-41b4-9c14-57e5bb625eed"
+      }
+    },
+    {
+      "relationship": {
+        "id": 126,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "control_flow",
+        "name": "trigger",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "New Idle",
+        "to_classifier_name": "New Startup",
+        "from_node": "765dbeb4-ff53-4e44-8eac-7735ff590774",
+        "to_node": "f3b3eab2-3b2a-41ca-8ac8-73e4f345ddda",
+        "uuid": "5c097b66-668d-42ab-b6c1-bb62f0551df3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 127,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "object flow",
+        "name": "data",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "New Startup",
+        "to_classifier_name": "New User Input",
+        "from_node": "f3b3eab2-3b2a-41ca-8ac8-73e4f345ddda",
+        "to_node": "72d613c3-0bc7-4451-9bad-7db3afa92986",
+        "uuid": "44b50f57-fca6-4967-b16c-52cf391e4a60"
       }
     }
   ]

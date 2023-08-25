@@ -44,6 +44,11 @@ crystal-facet-uml manages a meta model:
             sequence, communication, timing, interaction overview.
         </para>
     </listitem>
+    <listitem>
+        <para>These extension mechanisms of UML are supported: Tagged values and stereotypes
+            including stereotype images.
+        </para>
+    </listitem>
 </itemizedlist>
 
 Diagrams can be exported as

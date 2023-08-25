@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.50.1"
+    "generator_version": "1.51.0"
   }
   ,
   "views":
@@ -2146,6 +2146,17 @@
         "uuid": "f4558934-6975-47b1-9645-624d8cefa68a",
         "features":
         [
+          {
+            "id": 92,
+            "main_type": 0,
+            "type": "Property",
+            "key": "L1/L2/L3 Support",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "48c4748f-672b-480a-8884-81203c8c2834"
+          }
         ]
       }
     },
@@ -2852,6 +2863,18 @@
             ],
             "list_order": 6144,
             "uuid": "26d9cea9-cfe0-4a28-a62a-2f0f7ac14f02"
+          },
+          {
+            "id": 93,
+            "main_type": 0,
+            "type": "Property",
+            "key": "len",
+            "value": "uint",
+            "description": [
+                ""
+            ],
+            "list_order": -523514392,
+            "uuid": "e712db58-1ceb-4b2e-93a8-269a83c23e20"
           }
         ]
       }

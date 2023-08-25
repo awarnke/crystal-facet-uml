@@ -534,11 +534,13 @@ pub fn generate_reason_rejected(out: &mut VecRenderer) -> () {
 /// This function panics if VecRenderer cannot write to the output sink.
 ///
 pub fn generate_flow_object(out: &mut VecRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 5] = [
-        Move(Point { x: 1.0, y: 1.0 }),
-        Continue(Point { x: 31.0, y: 1.0 }),
-        Continue(Point { x: 31.0, y: 31.0 }),
-        Continue(Point { x: 1.0, y: 31.0 }),
+    let icon_segs: [geometry::DrawDirective; 7] = [
+        Move(Point { x: 32.0, y: 32.0 }),
+        Move(Point { x: 0.0, y: 0.0 }),
+        Move(Point { x: 5.0, y: 5.0 }),
+        Continue(Point { x: 27.0, y: 5.0 }),
+        Continue(Point { x: 27.0, y: 27.0 }),
+        Continue(Point { x: 5.0, y: 27.0 }),
         Close,
     ];
     out.path(&icon_segs, &None, &None);

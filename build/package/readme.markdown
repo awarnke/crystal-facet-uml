@@ -14,7 +14,7 @@ Update all version numbers:
 >       build/rpm/SPECS/crystal-facet-uml.spec : Version
 >       main/include/meta/meta_version.inl : META_VERSION_STR
 >       ChangeLog : new entry
->       user_doc/doc/crystal_facet_documentation.xml : date
+>       documentation/user_manual/crystal_facet_documentation.xml : date
 
 
 Pack

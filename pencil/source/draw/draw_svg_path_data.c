@@ -460,7 +460,8 @@ u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
                         /* init or update the io_view_rect parameter */
                         if ( geometry_rectangle_is_point( io_view_rect ) )
                         {
-                            geometry_rectangle_init( io_view_rect, subpath_start_x, subpath_start_y, 0.0, 0.0 );
+                            /* when we have the first coordinate, the io_view_rect is not a point anymore... */
+                            geometry_rectangle_init( io_view_rect, subpath_start_x, subpath_start_y, 0.000001, 0.000001 );
                         }
                         else
                         {
