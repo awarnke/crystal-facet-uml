@@ -15,7 +15,7 @@ crystal-facet-uml (1.51.0-1) UNRELEASED; urgency=medium
     layout_good_cases: ERR=0, W/C=6, W/F=17, W/R=33
     layout_challenging_cases: ERR=29, W/C=8260, W/F=6415, W/R=4662
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Aug 2023 12:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Aug 2023 07:00:00 +0200
 
 crystal-facet-uml (1.50.1-1) UNRELEASED; urgency=medium
 
