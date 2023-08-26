@@ -27,7 +27,7 @@ enum draw_svg_path_data_expect_enum {
     DRAW_SVG_PATH_DATA_EXPECT_EXIT,  /*!< double quotes end the processing of path drawing commands */
 };
 
-u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
+u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                                               bool draw,
                                               utf8stringviewtokenizer_t *tok_iterator,
                                               geometry_rectangle_t *io_view_rect,
@@ -70,6 +70,8 @@ u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
     double arc_phi = 0.0;  /* angle between major ellipsis radius and x-axis (unit: rad) */
     bool arc_large_arc = false;  /* true if the arc is spanning more than 180 degree / 1*pi */
     bool arc_sweep_positive = false;  /* true if the arc is traversed in positive-angle direction */
+    bool view_rect_drop_0_0 = true;  /* if io_view_rect only contains the point 0,0 and draw is not set, */
+                                     /* true states that this 0,0 point shall be dropped. */
 
     /* init draw */
     if ( draw )
@@ -458,10 +460,11 @@ u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
                         command_start_y = command_end_y;
                         last_command = is_absolute ? 'L' : 'l';  /* following coordinates are implicitely line-to commands */
                         /* init or update the io_view_rect parameter */
-                        if ( geometry_rectangle_is_point( io_view_rect ) )
+                        if ( geometry_rectangle_is_point( io_view_rect ) && view_rect_drop_0_0 )
                         {
                             /* when we have the first coordinate, the io_view_rect is not a point anymore... */
-                            geometry_rectangle_init( io_view_rect, subpath_start_x, subpath_start_y, 0.000001, 0.000001 );
+                            geometry_rectangle_init( io_view_rect, subpath_start_x, subpath_start_y, 0.0, 0.0 );
+                            view_rect_drop_0_0 = false;
                         }
                         else
                         {
@@ -1013,7 +1016,7 @@ u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
     }
 
     /* check if anything was drawn at all */
-    if ( geometry_rectangle_is_point( io_view_rect ) )
+    if ( geometry_rectangle_is_point( io_view_rect ) && view_rect_drop_0_0 )
     {
         result |= U8_ERROR_NOT_FOUND;
     }

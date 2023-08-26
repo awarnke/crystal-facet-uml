@@ -46,27 +46,70 @@ static inline void draw_svg_path_data_init( draw_svg_path_data_t *this_ );
 static inline void draw_svg_path_data_destroy( draw_svg_path_data_t *this_ );
 
 /*!
+ *  \brief parses the svg path data drawing commands, determines the svg view bounds
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param tok_iterator token iterator of drawing directives. The first token shall be the first draw command.
+ *                      double quotes or end-of-stream end the processing, the double quotes token is already consumed.
+ *                      the token iterator must be in mode UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY.
+ *  \param[out] out_view_rect bounding rectangle of the svg drawing_directives
+ *  \param[out] out_err_info pointer to an error_info_t data struct;
+ *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
+ *  \return U8_ERROR_NONE if the image was drawn,
+ *          U8_ERROR_NOT_FOUND if no image was found,
+ *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
+ */
+static inline u8_error_t draw_svg_path_data_parse_bounds ( const draw_svg_path_data_t *this_,
+                                                           utf8stringviewtokenizer_t *tok_iterator,
+                                                           geometry_rectangle_t *out_view_rect,
+                                                           u8_error_info_t *out_err_info
+                                                         );
+
+/*!
  *  \brief draws the svg path data drawing commands into the target_bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param tok_iterator token iterator of drawing directives. The first token shall be the first draw command.
+ *                      double quotes or end-of-stream end the processing, the double quotes token is already consumed.
+ *                      the token iterator must be in mode UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY.
+ *  \param[in] in_view_rect bounding rectangle of the svg drawing_directives; this is needed as input.
+ *  \param[out] out_err_info pointer to an error_info_t data struct;
+ *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
+ *  \param target_bounds bounding rectangle of the cairo drawing directives, to which io_view_rect is scaled to.
+ *  \param cr a cairo drawing context
+ *  \return U8_ERROR_NONE if the image was drawn,
+ *          U8_ERROR_NOT_FOUND if no image was found,
+ *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
+ */
+static inline u8_error_t draw_svg_path_data_draw ( const draw_svg_path_data_t *this_,
+                                                   utf8stringviewtokenizer_t *tok_iterator,
+                                                   const geometry_rectangle_t *in_view_rect,
+                                                   u8_error_info_t *out_err_info,
+                                                   const geometry_rectangle_t *target_bounds,
+                                                   cairo_t *cr
+                                                 );
+
+/*!
+ *  \brief parses the svg path data drawing commands and draws these into the target_bounds rect
  *
  *  \param this_ pointer to own object attributes
  *  \param draw false if only the view_rect shall be determined, true if the drawing_directives shall be drawn
  *  \param tok_iterator token iterator of drawing directives. The first token shall be the first draw command.
  *                      double quotes or end-of-stream end the processing, the double quotes token is already consumed.
  *                      the token iterator must be in mode UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY.
- *  \param[in,out] io_view_rect bounding rectangle of the drawing_directives;
+ *  \param[in,out] io_view_rect bounding rectangle of the svg drawing_directives;
  *                              in all cases this is provided as output,
  *                              in case of draw==true this is needed as input,
- *                              in case of draw==false this is required to be initialized as empty,
- *                              eventually pre-filled by previous calls to preceding svg path fragments.
+ *                              in case of draw==false this is written as output.
  *  \param[out] out_err_info pointer to an error_info_t data struct;
  *                           in case of U8_ERROR_PARSER_STRUCTURE, it provides an error description when returning
- *  \param target_bounds bounding rectangle of the drawing directives
- *  \param cr a cairo drawing context
+ *  \param target_bounds bounding rectangle of the cairo drawing directives, to which io_view_rect is scaled to.
+ *  \param cr a cairo drawing context or NULL in case draw==false
  *  \return U8_ERROR_NONE if the image was drawn,
  *          U8_ERROR_NOT_FOUND if no image was found,
  *          U8_ERROR_PARSER_STRUCTURE if expected tokens in the input image were missing or in wrong order
  */
-u8_error_t draw_svg_path_data_parse_drawing ( const draw_svg_path_data_t *this_,
+u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                                               bool draw,
                                               utf8stringviewtokenizer_t *tok_iterator,
                                               geometry_rectangle_t *io_view_rect,

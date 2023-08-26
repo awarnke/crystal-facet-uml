@@ -3143,21 +3143,24 @@
         [
           {
             "id": 328,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "Stereotype def.",
             "node": "de42ded5-30d9-42b7-b6f6-13549b7a2166",
             "uuid": "a6169904-f544-471c-aea3-a48a100ad155"
           },
           {
             "id": 329,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "control",
             "node": "74683998-81f5-4e39-b8af-396b88af13dc",
             "uuid": "77d8d977-38ee-4228-9787-c2a6436974aa"
           },
           {
             "id": 330,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "control_flow",
             "node": "eb482f43-65d9-499c-82eb-d9eaca6da3f7",
             "uuid": "e424d10f-c5b1-45ef-bcc3-104cc9cb1de8"
@@ -3171,14 +3174,16 @@
           },
           {
             "id": 332,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "exception:flow",
             "node": "3a02d5b0-cad1-4e10-bb4e-d00acfeb0f5f",
             "uuid": "b6a73607-fb2b-4cf8-89cd-f551f9e7ac03"
           },
           {
             "id": 333,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "object flow",
             "node": "3b843212-c148-4270-b161-be105a2f7b89",
             "uuid": "9c0ae3ca-510c-4526-b929-cd72ab6a768b"
@@ -3199,14 +3204,16 @@
           },
           {
             "id": 336,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "entity",
             "node": "451ba6a8-0d72-46b4-af42-02b4d34f3933",
             "uuid": "8bb16dee-af7e-4f5c-9d08-bb22ca0b06b2"
           },
           {
             "id": 337,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "boundary",
             "node": "ba32cf89-fe44-4fc7-b1a6-fae5a7189b55",
             "uuid": "16b690b8-b738-41ba-97a7-e805f10b3a47"
@@ -8273,6 +8280,7 @@
         "type": "Stereotype",
         "name": "my_stereo",
         "description": [
+                "<path d=\"M 12,12 M -2,-2\"/>\n",
                 "<path d='\n",
                 "m 6,2\n",
                 "a 2,2 0 1 1 2,2\n",

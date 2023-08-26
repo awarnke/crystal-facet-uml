@@ -70,6 +70,8 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
                                                                    cr
                                                                  );
         }
+
+        geometry_rectangle_destroy( &io_view_rect );
     }
     else
     {
@@ -265,14 +267,35 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY );
                     draw_svg_path_data_t svg_path_data;
                     draw_svg_path_data_init( &svg_path_data );
-                    result |= draw_svg_path_data_parse_drawing( &svg_path_data,
-                                                                draw,
-                                                                &tok_iterator,
-                                                                io_view_rect,
-                                                                out_err_info,
-                                                                target_bounds,
-                                                                cr
-                                                              );
+                    if ( draw )
+                    {
+                        result |= draw_svg_path_data_draw( &svg_path_data,
+                                                           &tok_iterator,
+                                                           io_view_rect,
+                                                           out_err_info,
+                                                           target_bounds,
+                                                           cr
+                                                         );
+                    }
+                    else
+                    {
+                        geometry_rectangle_t path_view_rect;
+                        geometry_rectangle_init_empty( &path_view_rect );
+                        result |= draw_svg_path_data_parse_bounds( &svg_path_data,
+                                                                   &tok_iterator,
+                                                                   &path_view_rect,
+                                                                   out_err_info
+                                                                 );
+                        if ( path_count == 0 )
+                        {
+                            geometry_rectangle_replace( io_view_rect, &path_view_rect );
+                        }
+                        else
+                        {
+                            geometry_rectangle_init_by_bounds( io_view_rect, io_view_rect, &path_view_rect );
+                        }
+                        geometry_rectangle_destroy( &path_view_rect );
+                    }
                     draw_svg_path_data_destroy( &svg_path_data );
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_TEXT );
                     path_count ++;
