@@ -90,7 +90,7 @@ static inline u8_error_t draw_svg_path_data_draw ( const draw_svg_path_data_t *t
                                                  );
 
 /*!
- *  \brief parses the svg path data drawing commands and draws these into the target_bounds rect
+ *  \brief parses the svg path data drawing commands and/or draws these into the target_bounds rect
  *
  *  \param this_ pointer to own object attributes
  *  \param draw false if only the view_rect shall be determined, true if the drawing_directives shall be drawn

@@ -740,7 +740,7 @@
         "id": 19,
         "diagram_type": 30,
         "type": "UMLDeploymentDiagram",
-        "name": "Software",
+        "name": "Software [subsystem]",
         "description": [
                 "This diagram shows the virtual machines and specialized (non-versatile) execution environments (Solution Space, System Level L2)\n",
                 "\n",
@@ -822,7 +822,7 @@
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6d06f859-47df-4b97-b724-b0715cdf17db",
         "diagramelements":
@@ -1004,7 +1004,7 @@
         ],
         "list_order": 49152,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "1ab8813b-9a68-4802-9d1b-9fd7848f1272",
         "diagramelements":
@@ -1037,7 +1037,7 @@
         ],
         "list_order": 98304,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "a8d88bf1-56a0-44e0-b9b2-4cd16263585d",
         "diagramelements":
@@ -1077,7 +1077,7 @@
         ],
         "list_order": 131072,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "16e1db70-8751-4a21-a6b2-aadbf2affa65",
         "diagramelements":
@@ -1132,7 +1132,7 @@
         ],
         "list_order": 163840,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b76e24bf-e4f6-4f5b-b377-54c921671283",
         "diagramelements":
@@ -1325,7 +1325,7 @@
         ],
         "list_order": 196608,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "64d98f20-0c99-4e7b-9e56-b074bc62d9e8",
         "diagramelements":
@@ -1520,7 +1520,7 @@
         ],
         "list_order": 245760,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "46914369-d7f3-41d9-90f9-7fe468f556f0",
         "diagramelements":
@@ -1620,7 +1620,7 @@
         ],
         "list_order": 262144,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "90ccb77d-8c35-4571-a1ae-085f332c19bf",
         "diagramelements":
@@ -1662,7 +1662,7 @@
         ],
         "list_order": 294912,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6870f3b2-7681-4af9-931c-97cd8597f98c",
         "diagramelements":
@@ -1698,7 +1698,7 @@
         ],
         "list_order": 327680,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b21e4349-6451-46c8-a44a-bf03154ba13e",
         "diagramelements":
@@ -1832,7 +1832,7 @@
         ],
         "list_order": 360448,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "2476d37a-3857-4f2a-90e5-f81511108236",
         "diagramelements":
@@ -1873,7 +1873,7 @@
         ],
         "list_order": 1610649598,
         "display_flags": 0,
-        "parent_name": "Software",
+        "parent_name": "Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "92c7183a-bc28-40f6-a2bd-e282015dea2b",
         "diagramelements":
@@ -1895,7 +1895,7 @@
           {
             "id": 160,
             "display_flags": 0,
-            "classifier_name": "Status Model",
+            "classifier_name": "MoD5G-Status Model",
             "node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
             "uuid": "42d54f56-af3f-48e9-b3da-fe61c1d0dcfc"
           },
@@ -1916,7 +1916,7 @@
           {
             "id": 163,
             "display_flags": 0,
-            "classifier_name": "Real Status",
+            "classifier_name": "MoD5G Real Status",
             "node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
             "uuid": "dcfb72c2-222f-4ddc-9db0-3f63574135d2"
           }
@@ -2600,10 +2600,73 @@
     },
     {
       "diagram": {
+        "id": 49,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Stereotypes on \"What to build\"",
+        "description": [
+                ""
+        ],
+        "list_order": -1073725440,
+        "display_flags": 0,
+        "parent_name": "Glossary",
+        "parent": "6ecb58b3-a391-4d02-8be4-fc24dd9fdae9",
+        "uuid": "7015ab05-4b95-4fb0-83bd-04efa0b8351e",
+        "diagramelements":
+        [
+          {
+            "id": 288,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "UML:Node",
+            "node": "26e2a04a-8d6a-4158-9932-8ba6839c9cb3",
+            "uuid": "762dab30-2c8b-42b5-b77b-43343561cfd5"
+          },
+          {
+            "id": 289,
+            "display_flags": 0,
+            "classifier_name": "mouse-droid",
+            "node": "3dd8657e-8c3e-4f9b-8ddb-4ddea30bdc18",
+            "uuid": "c6ee0522-9009-4f2b-91b7-7ea6eaa57fc3"
+          },
+          {
+            "id": 290,
+            "display_flags": 0,
+            "classifier_name": "mouse-img",
+            "node": "f229d3e0-e2f8-4e0f-a289-35958aa1020a",
+            "uuid": "7213d70e-5daa-46d8-b1ee-4e2c27f53f97"
+          },
+          {
+            "id": 291,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "UML:UseCase",
+            "node": "68c95972-7d4d-4e09-8992-a5d8bce3e250",
+            "uuid": "8ba03f4b-ae30-4403-b93b-f986ea56cd7d"
+          },
+          {
+            "id": 292,
+            "display_flags": 0,
+            "classifier_name": "goal",
+            "node": "cb8b0ab1-9a22-4167-80ac-7fa9332a9fe4",
+            "uuid": "4e6d52ec-3d19-4149-8b80-dd765ec878b6"
+          },
+          {
+            "id": 293,
+            "display_flags": 0,
+            "classifier_name": "flag",
+            "node": "86f4bde2-1367-45b0-9f63-60230cd088a3",
+            "uuid": "6565c5bd-d0a0-4dbd-8dbb-a21e94cac347"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 48,
         "diagram_type": 39,
         "type": "UMLProfileDiagram",
-        "name": "Stereotypes",
+        "name": "Stereotypes on \"How to achieve the goal\"",
         "description": [
                 "Stereotypes allow a classification of elements into project-specific categories."
         ],
@@ -2616,7 +2679,8 @@
         [
           {
             "id": 267,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "UML:Component",
             "node": "658b972a-f9cb-4425-a6de-3b85e7e9fe17",
             "uuid": "3cb448bc-ab7b-4433-ad7a-4c20cca9c4c9"
@@ -2637,7 +2701,8 @@
           },
           {
             "id": 270,
-            "display_flags": 0,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
             "classifier_name": "UML:Class",
             "node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
             "uuid": "54f88281-1f84-4690-9e8d-3f3fab707c95"
@@ -2669,27 +2734,6 @@
             "classifier_name": "data-img",
             "node": "5deefbf7-53cd-494a-957b-bbee7f4e2bc0",
             "uuid": "df81e369-b89b-4f52-bcf7-4900628cb7e2"
-          },
-          {
-            "id": 275,
-            "display_flags": 0,
-            "classifier_name": "mouse-droid",
-            "node": "3dd8657e-8c3e-4f9b-8ddb-4ddea30bdc18",
-            "uuid": "9b8790b4-ac9f-4fa2-8298-ec41983edbf1"
-          },
-          {
-            "id": 276,
-            "display_flags": 0,
-            "classifier_name": "mouse-img",
-            "node": "f229d3e0-e2f8-4e0f-a289-35958aa1020a",
-            "uuid": "c012ebe3-8d87-478b-9cbc-689b8fd7f37f"
-          },
-          {
-            "id": 277,
-            "display_flags": 0,
-            "classifier_name": "UML:Node",
-            "node": "26e2a04a-8d6a-4158-9932-8ba6839c9cb3",
-            "uuid": "147fea6b-23d5-4d3a-a4c6-83826adfceac"
           },
           {
             "id": 278,
@@ -2849,6 +2893,7 @@
         "id": 6,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "goal",
         "name": "Perform a 1-day Mission",
         "description": [
                 "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one terrestrial day.\n",
@@ -2874,6 +2919,7 @@
         "id": 7,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "goal",
         "name": "Drive to Location",
         "description": [
                 "The mouse droid can explore its environment and calculate a route from its actual position to the target location.\n",
@@ -2899,6 +2945,7 @@
         "id": 8,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "goal",
         "name": "Use Tools",
         "description": [
                 "The mouse droid has a couple of tools inside its chassis.\n",
@@ -3178,8 +3225,8 @@
                 "\n",
                 "These software items are split over two logical boards and subdivided into independent execution partitions."
         ],
-        "x_order": -855507639,
-        "y_order": -1221376560,
+        "x_order": 588348355,
+        "y_order": -1220148885,
         "list_order": -1157712888,
         "uuid": "4165e459-348c-4ed7-990e-673bb9c0d3b4",
         "features":
@@ -3621,7 +3668,7 @@
                 "A fan prevents overheating in hot environment conditions."
         ],
         "x_order": -1044323579,
-        "y_order": -1427757613,
+        "y_order": -1412570674,
         "list_order": -1051813110,
         "uuid": "5e00054a-23a4-4e74-8029-628d165a7c3d",
         "features":
@@ -3658,7 +3705,7 @@
                 ""
         ],
         "x_order": -1127544510,
-        "y_order": -1427757613,
+        "y_order": -1412570674,
         "list_order": -1053965549,
         "uuid": "fb66c906-d06a-4518-8701-229af4169a30",
         "features":
@@ -3676,8 +3723,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1130653626,
-        "y_order": -1427757613,
+        "x_order": -1130598988,
+        "y_order": -1412570674,
         "list_order": -1054017037,
         "uuid": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "features":
@@ -5100,7 +5147,7 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "data",
-        "name": "Status Model",
+        "name": "MoD5G-Status Model",
         "description": [
                 "The status model refers to the (limited) knowledge of the software on the real status."
         ],
@@ -5154,9 +5201,9 @@
         "id": 115,
         "main_type": 125,
         "type": "Class",
-        "name": "Real Status",
+        "name": "MoD5G Real Status",
         "description": [
-                "The real status refers to the real system status. This may differ from what the sensors report."
+                "The real status refers to the real system status of the MoD5G. This may differ from what the sensors report."
         ],
         "x_order": 1564903573,
         "y_order": 1055531420,
@@ -6343,6 +6390,66 @@
         "y_order": -156110667,
         "list_order": -156110667,
         "uuid": "d37609cd-0039-41e2-add0-fb6367dceeff",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 170,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "UML:UseCase",
+        "description": [
+                ""
+        ],
+        "x_order": 1539430211,
+        "y_order": -1907193154,
+        "list_order": -1907193154,
+        "uuid": "68c95972-7d4d-4e09-8992-a5d8bce3e250",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 171,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "goal",
+        "description": [
+                "<path fill=\"#aaeeff\" d=\"\n",
+                "M 5,9\n",
+                "L 5,1 1,2.5 5,4\n",
+                "\"/>\n",
+                ""
+        ],
+        "x_order": 1539430211,
+        "y_order": -1883935665,
+        "list_order": -1883935665,
+        "uuid": "cb8b0ab1-9a22-4167-80ac-7fa9332a9fe4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 172,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "goal",
+        "name": "flag",
+        "description": [
+                ""
+        ],
+        "x_order": 1510836225,
+        "y_order": -1883935665,
+        "list_order": -1883935665,
+        "uuid": "86f4bde2-1367-45b0-9f63-60230cd088a3",
         "features":
         [
         ]
@@ -9092,11 +9199,12 @@
         "id": 163,
         "main_type": 220,
         "type": "Message",
+        "stereotype": "env-perception",
         "name": "3D scene of visible environment",
         "description": [
                 ""
         ],
-        "list_order": -518421991,
+        "list_order": -414449272,
         "from_classifier_name": "Video Capture",
         "from_feature_key": "",
         "to_classifier_name": "Environment Model Composer",
@@ -9111,6 +9219,7 @@
         "id": 170,
         "main_type": 221,
         "type": "Message",
+        "stereotype": "env-perception",
         "name": "analyze video signal",
         "description": [
                 ""
@@ -9164,6 +9273,7 @@
         "id": 164,
         "main_type": 220,
         "type": "Message",
+        "stereotype": "env-perception",
         "name": "list of detected audio sources",
         "description": [
                 ""
@@ -9183,6 +9293,7 @@
         "id": 169,
         "main_type": 221,
         "type": "Message",
+        "stereotype": "env-perception",
         "name": "analyze audio signal",
         "description": [
                 ""
@@ -9369,7 +9480,7 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "Situation Model",
-        "to_classifier_name": "Status Model",
+        "to_classifier_name": "MoD5G-Status Model",
         "from_node": "05605867-3b88-4e38-935d-719cb370309e",
         "to_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
         "uuid": "1fa2f07e-fa81-413b-958c-64e00b6a802a"
@@ -9397,6 +9508,7 @@
         "id": 146,
         "main_type": 0,
         "type": "Dependency",
+        "stereotype": "env-perception",
         "name": "observe by sensors",
         "description": [
                 "Sensor data is the basis for assuming an environment model."
@@ -9419,8 +9531,8 @@
                 "Sensor data is the basis for assuming a status model. The algorithm for deriving a status model shall take into account that a sensor may be defect and/or a measured value may indicate a defect (which again may have several causes)."
         ],
         "list_order": 196608,
-        "from_classifier_name": "Status Model",
-        "to_classifier_name": "Real Status",
+        "from_classifier_name": "MoD5G-Status Model",
+        "to_classifier_name": "MoD5G Real Status",
         "from_node": "d00c46f5-7f79-4f5e-bd07-5f3f955e716a",
         "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
         "uuid": "cc3a6e31-ac95-4ef7-b958-e3f2acbf7d64"
@@ -9437,7 +9549,7 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Real Situation",
-        "to_classifier_name": "Real Status",
+        "to_classifier_name": "MoD5G Real Status",
         "from_node": "0d8a7e7a-b589-4387-88e9-34f62a438589",
         "to_node": "11f55c66-ff62-4fe2-b170-06399fd665d2",
         "uuid": "675d7584-39b7-4102-ae0c-284c1e952595"
@@ -10532,6 +10644,40 @@
         "from_node": "d8519566-7593-4c20-96b0-8848e9f5aab8",
         "to_node": "ff523246-ceb7-4bab-ab55-540ae9c96788",
         "uuid": "9a6bcfe0-9483-4afb-8f3e-d444dee654ea"
+      }
+    },
+    {
+      "relationship": {
+        "id": 277,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "goal",
+        "to_classifier_name": "UML:UseCase",
+        "from_node": "cb8b0ab1-9a22-4167-80ac-7fa9332a9fe4",
+        "to_node": "68c95972-7d4d-4e09-8992-a5d8bce3e250",
+        "uuid": "b0a79694-6de8-4aac-a15d-8698b402ca50"
+      }
+    },
+    {
+      "relationship": {
+        "id": 278,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "goal",
+        "to_classifier_name": "flag",
+        "from_node": "cb8b0ab1-9a22-4167-80ac-7fa9332a9fe4",
+        "to_node": "86f4bde2-1367-45b0-9f63-60230cd088a3",
+        "uuid": "510ac168-8c3f-43db-b2db-7119e63b7afa"
       }
     }
   ]

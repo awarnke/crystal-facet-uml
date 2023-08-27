@@ -276,14 +276,18 @@
                 <itemizedlist>
                     <listitem>
                         <para>
-                            If the clipboard contains a diagram, this diagram is pasted below the current diagram.
-                            All other elements are pasted into the new diagram.
+                            If the clipboard does not contain diagrams, classifiers and relationships from the clipboard
+                            are copied into the current diagram.
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            If the clipboard does not contain diagrams, classifiers and relationships from the clipboard
-                            are copied into the current diagram.
+                            If the clipboard contains a diagram, this diagram is pasted below the current diagram.
+                            All other elements are pasted into the new diagram.
+                        </para>
+                        <para>
+                            This behavior may be irritating: When accidentially copying a diagram, you may expect to
+                            insert elements into the current diagram and observe that nothing happens there.
                         </para>
                     </listitem>
                     <listitem>
@@ -429,6 +433,12 @@
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem><para>Starts a search and displays the results</para></listitem>
+                    <listitem>
+                        <para>
+                            In case the list of search results is too long, consider to export the model
+                            and search in the generated output instead.
+                        </para>
+                    </listitem>
                 </itemizedlist>
             </para>
 

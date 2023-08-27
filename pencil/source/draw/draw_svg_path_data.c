@@ -70,8 +70,8 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
     double arc_phi = 0.0;  /* angle between major ellipsis radius and x-axis (unit: rad) */
     bool arc_large_arc = false;  /* true if the arc is spanning more than 180 degree / 1*pi */
     bool arc_sweep_positive = false;  /* true if the arc is traversed in positive-angle direction */
-    bool view_rect_drop_0_0 = true;  /* if io_view_rect only contains the point 0,0 and draw is not set, */
-                                     /* true states that this 0,0 point shall be dropped. */
+    bool view_rect_drop_0_0 = true;  /* if io_view_rect only contains the initial point (0,0), true states that */
+                                     /* this (0,0) point shall be ignored when updating the io_view_rect. */
 
     /* init draw */
     if ( draw )
