@@ -4,7 +4,8 @@
 
 pub mod model;
 pub mod render;
-use model::gui_icon;
+use model::gui_file_icon;
+use model::gui_view_icon;
 use model::icon::IconSource;
 use model::stereotype_icon;
 use model::type_icon;
@@ -18,8 +19,10 @@ fn main() {
     let stereo_icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
     icon_writer::generate_files(stereo_icons, OUT_DIR_STEREO);
     println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
-    let gui_icons: &'static [IconSource<'static>] = gui_icon::get_icons();
-    icon_writer::generate_files(gui_icons, OUT_DIR_GUI);
+    let gui_file_icons: &'static [IconSource<'static>] = gui_file_icon::get_icons();
+    icon_writer::generate_files(gui_file_icons, OUT_DIR_GUI);
+    let gui_view_icons: &'static [IconSource<'static>] = gui_view_icon::get_icons();
+    icon_writer::generate_files(gui_view_icons, OUT_DIR_GUI);
     let type_icons: &'static [IconSource<'static>] = type_icon::get_icons();
     icon_writer::generate_files(type_icons, OUT_DIR_GUI);
     println!("Generated files have been written to '{}'.", OUT_DIR_GUI);

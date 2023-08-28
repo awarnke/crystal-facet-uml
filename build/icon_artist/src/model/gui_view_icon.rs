@@ -51,7 +51,7 @@ static WHITE: Color = Color {
 ///
 /// * `pos` - Position of the view button: 0..3
 ///
-pub(super) fn get_view_ground(pos: i32) -> [geometry::DrawDirective; 5] {
+fn get_view_ground(pos: i32) -> [geometry::DrawDirective; 5] {
     let left_y = 18.0 + (((pos * 4) - 7) as f32).abs();
     let right_y = 18.0 + (((pos * 4) - 5) as f32).abs();
     let middle_y = left_y.min(right_y);
