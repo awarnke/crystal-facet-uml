@@ -1,10 +1,9 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::geometry;
-use super::geometry::get_circle_abs;
 use super::geometry::Color;
+use super::geometry::DrawDirective::Close;
 use super::geometry::DrawDirective::CloseRel;
-use super::geometry::DrawDirective::Curve;
 use super::geometry::DrawDirective::CurveRel;
 use super::geometry::DrawDirective::Line;
 use super::geometry::DrawDirective::LineRel;
@@ -43,6 +42,13 @@ static WHITE: Color = Color {
     red: 0xff,
     green: 0xff,
     blue: 0xff,
+};
+
+/// gray color
+static GRAY: Color = Color {
+    red: 0x7f,
+    green: 0x7f,
+    blue: 0x7f,
 };
 
 const BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE: f32 = 0.552284749831;
@@ -161,10 +167,10 @@ fn get_db_storage_shadows() -> [geometry::DrawDirective; 12] {
     let y_rad: f32 = 4.0;
     let height: f32 = 22.0;
     let center_x: f32 = 16.0;
-    let step1_angle: f32 = std::f32::consts::PI * 1.2;
+    let step1_angle: f32 = std::f32::consts::PI * 1.15;
     let step1_dx = step1_angle.cos() * x_rad;
     let step1_dy = step1_angle.sin() * -y_rad;
-    let step2_angle: f32 = std::f32::consts::PI * 1.4;
+    let step2_angle: f32 = std::f32::consts::PI * 1.3;
     let step2_dx = step2_angle.cos() * x_rad;
     let step2_dy = step2_angle.sin() * -y_rad;
     let step3_angle: f32 = std::f32::consts::PI * 1.8;
@@ -216,6 +222,40 @@ fn get_db_storage_shadows() -> [geometry::DrawDirective; 12] {
     ]
 }
 
+/// The function defines the draw directives for the file symbols reflection
+///
+fn get_db_storage_reflection() -> [geometry::DrawDirective; 5] {
+    let x_rad: f32 = 10.0;
+    let y_rad: f32 = 4.0;
+    let height: f32 = 22.0;
+    let center_x: f32 = 16.0;
+    let step1_angle: f32 = std::f32::consts::PI * 1.5;
+    let step1_dx = step1_angle.cos() * x_rad;
+    let step1_dy = step1_angle.sin() * -y_rad;
+    let step2_angle: f32 = std::f32::consts::PI * 1.6;
+    let step2_dx = step2_angle.cos() * x_rad;
+    let step2_dy = step2_angle.sin() * -y_rad;
+    [
+        MoveRel(Offset {
+            dx: center_x + step1_dx,
+            dy: 16.0 - 0.5 * height + step1_dy,
+        }),
+        LineRel(Offset {
+            dx: step2_dx - step1_dx,
+            dy: step2_dy - step1_dy,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: height,
+        }),
+        LineRel(Offset {
+            dx: -step2_dx + step1_dx,
+            dy: -step2_dy + step1_dy,
+        }),
+        CloseRel,
+    ]
+}
+
 /// The function generates a magnifying glass icon to vector graphics drawing directives
 ///
 /// # Panics
@@ -226,6 +266,15 @@ pub fn generate_file_new_db(out: &mut VecRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
     out.path(&icon_segs, &Some(BLACK), &None);
+
+    /* plus symbol */
+    let plus_sym: [geometry::DrawDirective; 4] = [
+        Move(Point { x: 12.5, y: 19.0 }),
+        Line(Point { x: 19.5, y: 19.0 }),
+        Move(Point { x: 16.0, y: 15.5 }),
+        Line(Point { x: 16.0, y: 22.5 }),
+    ];
+    out.path(&plus_sym, &Some(BLACK), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -236,6 +285,13 @@ pub fn generate_file_new_db(out: &mut VecRenderer) -> () {
 ///
 pub fn generate_file_use_db(out: &mut VecRenderer) -> () {
     /* background */
+    let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
+    out.path(&icon_segs, &None, &Some(GRAY));
+
+    let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
+    out.path(&icon_segs, &None, &Some(WHITE));
+
+    /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
     out.path(&icon_segs, &Some(BLACK), &None);
 }
@@ -248,8 +304,28 @@ pub fn generate_file_use_db(out: &mut VecRenderer) -> () {
 ///
 pub fn generate_file_save(out: &mut VecRenderer) -> () {
     /* background */
+    let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
+    out.path(&icon_segs, &None, &Some(GRAY));
+
+    let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
+    out.path(&icon_segs, &None, &Some(WHITE));
+
+    /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
     out.path(&icon_segs, &Some(BLACK), &None);
+
+    /* ok symbol */
+    let ok_sym: [geometry::DrawDirective; 8] = [
+        Move(Point { x: 13.0, y: 20.0 }),
+        Line(Point { x: 17.0, y: 20.0 }),
+        Line(Point { x: 18.5, y: 23.5 }),
+        Line(Point { x: 24.0, y: 12.0 }),
+        Line(Point { x: 25.0, y: 12.5 }),
+        Line(Point { x: 21.0, y: 26.5 }),
+        Line(Point { x: 16.0, y: 27.0 }),
+        Close,
+    ];
+    out.path(&ok_sym, &Some(BLACK), &Some(GREEN));
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -261,11 +337,27 @@ pub fn generate_file_save(out: &mut VecRenderer) -> () {
 pub fn generate_file_export(out: &mut VecRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
-    out.path(&icon_segs, &None, &Some(GREEN));
+    out.path(&icon_segs, &None, &Some(GRAY));
+
+    let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
+    out.path(&icon_segs, &None, &Some(WHITE));
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
     out.path(&icon_segs, &Some(BLACK), &None);
+
+    /* out symbol */
+    let out_sym: [geometry::DrawDirective; 8] = [
+        MoveRel(Offset { dx: 13.0, dy: 16.0 }),
+        LineRel(Offset { dx: 10.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: -5.0 }),
+        LineRel(Offset { dx: 6.0, dy: 8.0 }),
+        LineRel(Offset { dx: -6.0, dy: 8.0 }),
+        LineRel(Offset { dx: 0.0, dy: -5.0 }),
+        LineRel(Offset { dx: -10.0, dy: 0.0 }),
+        CloseRel,
+    ];
+    out.path(&out_sym, &Some(BLACK), &Some(GREEN));
 }
 
 /// The function returns an array of IconSource

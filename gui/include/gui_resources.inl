@@ -70,11 +70,6 @@ static inline GdkPixbuf *gui_resources_get_file_save ( gui_resources_t *this_ )
     return (*this_).file_save;
 }
 
-static inline GdkPixbuf *gui_resources_get_file_save_as ( gui_resources_t *this_ )
-{
-    return (*this_).file_save_as;
-}
-
 static inline GdkPixbuf *gui_resources_get_file_use_db ( gui_resources_t *this_ )
 {
     return (*this_).file_use_db;

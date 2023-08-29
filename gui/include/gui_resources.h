@@ -30,7 +30,6 @@ struct gui_resources_struct {
     GdkPixbuf *file_export;
     GdkPixbuf *file_new_db;
     GdkPixbuf *file_save;
-    GdkPixbuf *file_save_as;
     GdkPixbuf *file_use_db;
     GdkPixbuf *message_error;
     GdkPixbuf *message_info;
@@ -245,13 +244,6 @@ static inline GdkPixbuf *gui_resources_get_file_new_db ( gui_resources_t *this_ 
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_file_save ( gui_resources_t *this_ );
-
-/*!
- *  \brief gets the file_save_as
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkPixbuf *gui_resources_get_file_save_as ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_use_db
