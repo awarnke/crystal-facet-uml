@@ -19,6 +19,7 @@ void gui_sketch_object_creator_init ( gui_sketch_object_creator_t *this_,
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    gui_sketch_defaults_init ( &((*this_).defaults ) );
     data_rules_init ( &((*this_).data_rules ) );
     (*this_).message_to_user = message_to_user;
 
@@ -31,6 +32,7 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ )
 
     (*this_).message_to_user = NULL;
     data_rules_destroy ( &((*this_).data_rules) );
+    gui_sketch_defaults_destroy ( &((*this_).defaults) );
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
 
@@ -72,7 +74,7 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
 
     /* determine type of new classifier */
     data_classifier_type_t type_of_new_classifier;
-    type_of_new_classifier = data_rules_get_default_classifier_type( &((*this_).data_rules), diag_type );
+    type_of_new_classifier = gui_sketch_defaults_get_classifier_type( &((*this_).defaults), diag_type );
 
     /* propose a name */
     const char *const full_new_name
@@ -327,7 +329,7 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
                 U8_LOG_ERROR_INT( "gui_sketch_object_creator_create_relationship cannot find feature:", from_feature_id );
             }
         }
-        new_rel_type = data_rules_get_default_relationship_type( &((*this_).data_rules), from_class_type, from_feature_type );
+        new_rel_type = gui_sketch_defaults_get_relationship_type( &((*this_).defaults), from_class_type, from_feature_type );
     }
 
     /* define relationship struct */
@@ -426,7 +428,7 @@ u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_
 
     /* propose a type for the feature */
     data_feature_type_t new_feature_type;
-    new_feature_type = data_rules_get_default_feature_type( &((*this_).data_rules), parent_class_type );
+    new_feature_type = gui_sketch_defaults_get_feature_type( &((*this_).defaults), parent_class_type );
 
     /* select the right list_order */
     int32_t list_order;

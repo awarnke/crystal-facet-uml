@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.51.0"
+    "generator_version": "1.51.1"
   }
   ,
   "views":
@@ -36,46 +36,6 @@
             "classifier_name": "This Document",
             "node": "95d53726-7ba7-423a-973f-e8bb7d1a877b",
             "uuid": "300a389f-5699-40e9-9be8-9b5465ff55c8"
-          },
-          {
-            "id": 697,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "context",
-            "node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
-            "uuid": "1015b1c8-3b7c-41ab-a309-e7709508a45d"
-          },
-          {
-            "id": 698,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "metaclass",
-            "node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
-            "uuid": "cc03d636-5ed8-4b55-bea8-82cae68ba75b"
-          },
-          {
-            "id": 699,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Stereotypes (Profile)",
-            "node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
-            "uuid": "678ee430-5e8c-46a2-814f-02dda45a6c6f"
-          },
-          {
-            "id": 700,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "cntx-img",
-            "node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
-            "uuid": "7898af08-33b6-49d8-94bc-dfbb29ecf713"
-          },
-          {
-            "id": 701,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "meta-img",
-            "node": "8e602924-d557-4375-84bd-1284ca61f3fc",
-            "uuid": "0f2174cd-41cb-4226-8707-1e6c683adc37"
           }
         ]
       }
@@ -250,8 +210,8 @@
     {
       "diagram": {
         "id": 56,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "name": "Newly identified Use-Cases",
         "description": [
                 "During development, new use cases are identified."
@@ -305,6 +265,13 @@
             "classifier_name": "Export (Model and/or Diagrams)",
             "node": "7db4676c-d805-4532-925b-9df162f9cadf",
             "uuid": "c0a81a34-aa3f-4dad-9f05-160cccdcb6f2"
+          },
+          {
+            "id": 747,
+            "display_flags": 0,
+            "classifier_name": "All model elements must be visible",
+            "node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+            "uuid": "f544d170-8cf9-4d44-88cc-cd91c655c6b6"
           }
         ]
       }
@@ -401,6 +368,7 @@
         "id": 25,
         "diagram_type": 33,
         "type": "UMLPackageDiagram",
+        "stereotype": "context",
         "name": "UML/SysML Overview",
         "description": [
                 "This diagram shows an overview on UML\n",
@@ -459,6 +427,7 @@
         "id": 26,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "MOF Overview",
         "description": [
                 "This diagram shows a selection of MOF meta classes."
@@ -506,6 +475,7 @@
         "id": 27,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "Base classes of UML ",
         "description": [
                 "This diagram shows the base classes of the UML "
@@ -583,6 +553,7 @@
         "id": 28,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "UML Classifier Ancestors",
         "description": [
                 "description: see http://www.omg.org/spec/UML/2.5"
@@ -664,6 +635,7 @@
         "id": 60,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "UML Structural Elements (Non-Classifiers)",
         "description": [
                 ""
@@ -752,6 +724,7 @@
         "id": 31,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "UML Structure: Classifier Descendants",
         "description": [
                 ""
@@ -845,6 +818,7 @@
         "id": 32,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "UML Classifier Behavioral Descendants",
         "description": [
                 ""
@@ -946,6 +920,7 @@
         "id": 29,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "UML Feature Ancestors",
         "description": [
                 ""
@@ -1002,6 +977,7 @@
         "id": 30,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "context",
         "name": "UML Feature Descendants",
         "description": [
                 ""
@@ -4544,6 +4520,7 @@
         "id": 16,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "reason_decision",
         "name": "Architectural Decisions",
         "description": [
                 "This diagram shows which major design decisions were taken."
@@ -4599,6 +4576,7 @@
         "id": 13,
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
+        "stereotype": "reason_decision",
         "name": "Alternatives on persistent Data Storage",
         "description": [
                 "This diagram shows fundamental design decisions of the crystal-facet-uml architecture."
@@ -4627,8 +4605,7 @@
           },
           {
             "id": 80,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_flags": 0,
             "classifier_name": "Json DB",
             "node": "91f3b543-21a1-4076-a6e0-8840d699ddaf",
             "uuid": "e9c0b2c0-2edf-41a0-9625-bfed2d7651eb"
@@ -4650,16 +4627,14 @@
           },
           {
             "id": 83,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
+            "display_flags": 0,
             "classifier_name": "SQLite is chosen",
             "node": "c0e87c40-fefe-4878-aeb8-709cd52edacc",
             "uuid": "59adb6b9-cbb7-45eb-8eca-66dc8006559e"
           },
           {
             "id": 546,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
+            "display_flags": 0,
             "classifier_name": "Json as second/optional storage format",
             "node": "cecc002c-4646-4010-ba10-fff38ad176ce",
             "uuid": "e152965c-d256-4849-bec2-f4b8fe65a296"
@@ -4672,6 +4647,7 @@
         "id": 17,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "reason_decision",
         "name": "Alternatives on data structure of UML-Model",
         "description": [
                 ""
@@ -4707,8 +4683,7 @@
           },
           {
             "id": 106,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
+            "display_flags": 0,
             "classifier_name": "Simple structure is chosen",
             "node": "a2e32503-3b07-48e7-93fb-077d96679fd7",
             "uuid": "627244d7-22a1-4d7e-b924-3707d6111cc5"
@@ -4768,6 +4743,7 @@
         "id": 18,
         "diagram_type": 33,
         "type": "UMLPackageDiagram",
+        "stereotype": "reason_decision",
         "name": "Alternatives on UML-Model selection for Diagram",
         "description": [
                 ""
@@ -4812,8 +4788,7 @@
           },
           {
             "id": 112,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
+            "display_flags": 0,
             "classifier_name": "Classifier+Lifeline solution is chosen",
             "node": "0621b424-e466-4847-8200-e523337f924b",
             "uuid": "6364470b-8900-4098-ab39-935e9a9c81ec"
@@ -4824,6 +4799,14 @@
             "classifier_name": "Classifier and port/lifeline selection def view",
             "node": "bd2d4f81-0f9c-4c06-96bf-0659ccb9226e",
             "uuid": "a18910bc-53a8-4529-9ef9-a1132f13cd2b"
+          },
+          {
+            "id": 728,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+            "node": "e231bbf0-d968-405b-b49e-e41ff435c545",
+            "uuid": "79abb78b-4858-41ec-a68a-06834c42588d"
           }
         ]
       }
@@ -4833,6 +4816,7 @@
         "id": 19,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "reason_rejected",
         "name": "Details on Classifier or Relationship Sel.",
         "description": [
                 "Depending on the diagram type, selection of contents is done on classifiers or relationships."
@@ -4877,14 +4861,6 @@
             "uuid": "4d07dd12-f98b-4342-b89d-5f071746a151"
           },
           {
-            "id": 117,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
-            "classifier_name": "diagramelements",
-            "node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
-            "uuid": "a4ffc42c-c22e-468c-91e6-e27a5b3481b5"
-          },
-          {
             "id": 120,
             "display_flags": 16777216,
             "display_tags": "Emphasis",
@@ -4898,6 +4874,14 @@
             "classifier_name": "Classifier or Relationship selection def. view",
             "node": "74715f02-68c4-452f-b176-0b9eebca88e1",
             "uuid": "ad365271-316b-4003-a6dd-fdc3d00fb917"
+          },
+          {
+            "id": 727,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "diagramelements_simple",
+            "node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
+            "uuid": "47d1dcd7-467a-4853-bd24-5c6a34dda9a3"
           }
         ]
       }
@@ -4907,6 +4891,7 @@
         "id": 21,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "reason_rejected",
         "name": "Details on Classifier Selected View",
         "description": [
                 "The simple solution is to not implement special mechanisms\n",
@@ -4978,6 +4963,7 @@
         "id": 24,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
+        "stereotype": "reason_chosen",
         "name": "Classifier and Port/Lifeline selection def view",
         "description": [
                 "This (finally chosen and implemented) solution\n",
@@ -5031,6 +5017,159 @@
             "classifier_name": "diagramelements",
             "node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
             "uuid": "2d02f8e7-5003-48b6-86e9-b794dd148b46"
+          },
+          {
+            "id": 745,
+            "display_flags": 0,
+            "classifier_name": "lifelines",
+            "node": "b08a414d-d7ae-4ea7-8503-7324d0ab15b9",
+            "uuid": "7ab0a3ef-8862-4230-be79-9cdaf813644f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 104,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "stereotype": "reason_rejected",
+        "name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Alternatives on UML-Model selection for Diagram",
+        "parent": "e726a661-5f5f-43bf-baf2-6d6b6f139822",
+        "uuid": "6e895506-433a-464d-9a24-bf6554afaccd",
+        "diagramelements":
+        [
+          {
+            "id": 729,
+            "display_flags": 0,
+            "classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+            "node": "e231bbf0-d968-405b-b49e-e41ff435c545",
+            "uuid": "73327377-f4a7-40b9-996b-74cea71164b7"
+          },
+          {
+            "id": 730,
+            "display_flags": 0,
+            "classifier_name": "diagrams",
+            "node": "7671f0cf-fae4-4efd-88df-947f35d44466",
+            "uuid": "7d40186d-0cfa-4393-bfc2-42fc2a118d08"
+          },
+          {
+            "id": 731,
+            "display_flags": 0,
+            "classifier_name": "classifiers",
+            "node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+            "uuid": "e36b4abf-770c-4e2e-a39e-808eadf25b48"
+          },
+          {
+            "id": 732,
+            "display_flags": 0,
+            "classifier_name": "relationships",
+            "node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
+            "uuid": "d37b2460-f7d3-4a2b-adf4-a09f45ac92e6"
+          },
+          {
+            "id": 733,
+            "display_flags": 0,
+            "classifier_name": "features",
+            "node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+            "uuid": "a840d490-0989-44d1-91c6-1e4941565ae8"
+          },
+          {
+            "id": 734,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "diagramelements_simple",
+            "node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
+            "uuid": "c22a768d-21b5-47f1-870b-9b4f50003504"
+          },
+          {
+            "id": 735,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "interaction classifier",
+            "node": "699bf0ff-6e24-4b98-a667-35eee9924f27",
+            "uuid": "ea3be7b8-92ec-4f46-a53d-77eaf316506b"
+          },
+          {
+            "id": 746,
+            "display_flags": 0,
+            "classifier_name": "lifelines",
+            "node": "b08a414d-d7ae-4ea7-8503-7324d0ab15b9",
+            "uuid": "1f20a6af-8c90-4103-9673-274ed6958eb1"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 105,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Use Cases to address",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "parent": "6e895506-433a-464d-9a24-bf6554afaccd",
+        "uuid": "a68f8102-2e2b-4ad9-93b7-1c808a3987f9",
+        "diagramelements":
+        [
+          {
+            "id": 736,
+            "display_flags": 0,
+            "classifier_name": "User interaction",
+            "node": "1dee528e-3432-4bf3-94e1-2c7142d2ce4a",
+            "uuid": "da988fba-5e29-49a3-b353-54602238e5f8"
+          },
+          {
+            "id": 737,
+            "display_flags": 0,
+            "classifier_name": "XMI Export",
+            "node": "1258073b-c16d-4252-9244-7c3eb03f1c53",
+            "uuid": "ec849db0-08f9-422e-9ed0-c1287428742b"
+          },
+          {
+            "id": 738,
+            "display_flags": 0,
+            "classifier_name": "Consistency",
+            "node": "59e95346-2c16-4ce6-9ea6-9c2d6597f8da",
+            "uuid": "809647ab-ce09-4476-b3ab-0c4f879e9260"
+          },
+          {
+            "id": 739,
+            "display_flags": 0,
+            "classifier_name": "Classifier selection",
+            "node": "06b4cf84-afd5-4d74-9d95-70b0aadd20e5",
+            "uuid": "3b5bd29c-b533-4adc-9b72-6a361752dd5f"
+          },
+          {
+            "id": 740,
+            "display_flags": 0,
+            "classifier_name": "diagram to interaction",
+            "node": "00929d4a-46bd-40a7-9373-9dec0abd7e8b",
+            "uuid": "653d9929-6702-4404-9cd4-72a8e1c69758"
+          },
+          {
+            "id": 741,
+            "display_flags": 0,
+            "classifier_name": "lifeline to interaction",
+            "node": "41367e5c-3da4-4923-aa81-5b4e4bd41acf",
+            "uuid": "dbabe449-579b-4fb5-817a-bb5c73bd4d2a"
+          },
+          {
+            "id": 742,
+            "display_flags": 0,
+            "classifier_name": "To Realize",
+            "node": "bc141b7f-99f2-4423-a680-8684b9750e3c",
+            "uuid": "8da83d20-536b-4269-b577-1a8c73d61e4e"
           }
         ]
       }
@@ -5040,6 +5179,7 @@
         "id": 70,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
+        "stereotype": "reason_decision",
         "name": "Alternatives on XMI export/model traverse",
         "description": [
                 ""
@@ -5059,14 +5199,6 @@
             "uuid": "f730e098-5bf0-4205-9d48-df52135332e1"
           },
           {
-            "id": 429,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "same as doc export is chosen in 1.23.0",
-            "node": "6fda34d8-d2de-4482-892e-b14cbd1c2b54",
-            "uuid": "42c386bd-ed90-43f1-8be5-c4d3d6f8c81d"
-          },
-          {
             "id": 430,
             "display_flags": 0,
             "classifier_name": "traverse diagram tree",
@@ -5082,9 +5214,8 @@
           },
           {
             "id": 461,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
-            "classifier_name": "classifier list is iterated in 1.24.0",
+            "display_flags": 0,
+            "classifier_name": "classifier list is iterated",
             "node": "d13c4d3b-e42d-48d2-bc3a-7e5f730e1e6c",
             "uuid": "6a3b6350-ade9-4e35-9a83-f7720e34698a"
           }
@@ -5096,6 +5227,7 @@
         "id": 74,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
+        "stereotype": "reason_decision",
         "name": "Interaction Diagrams",
         "description": [
                 ""
@@ -5138,8 +5270,7 @@
           },
           {
             "id": 466,
-            "display_flags": 16777216,
-            "display_tags": "Emphasis",
+            "display_flags": 0,
             "classifier_name": "planned solution",
             "node": "8b9221a3-4e16-422c-9f27-d4094fe5ccc2",
             "uuid": "d1363b76-7583-4b39-a6f5-35320a73d275"
@@ -6078,6 +6209,124 @@
             "classifier_name": "uuid",
             "node": "b39d21d5-daa2-4918-98b4-db2e508d5b09",
             "uuid": "3b3ead0c-4c3b-4ebf-93ae-a22520e6ad8f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 103,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "stereotype": "reason_argument",
+        "name": "Stereotypes",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "display_flags": 0,
+        "parent_name": "Glossary",
+        "parent": "cdf38da8-0a5d-4fcb-97d5-84b8ecdbabd7",
+        "uuid": "c2df026a-fcfb-4d2d-8fef-8acfbf1bb3e2",
+        "diagramelements":
+        [
+          {
+            "id": 715,
+            "display_flags": 0,
+            "classifier_name": "Stereotypes on Context",
+            "node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
+            "uuid": "751abd9d-ef86-44ce-b346-25f9ce16bcf0"
+          },
+          {
+            "id": 716,
+            "display_flags": 0,
+            "classifier_name": "context",
+            "node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
+            "uuid": "39f50cac-ab62-4dc6-be23-a34b29b4b81b"
+          },
+          {
+            "id": 717,
+            "display_flags": 0,
+            "classifier_name": "cntx-img",
+            "node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
+            "uuid": "b98503c2-85b4-41d9-9ec0-2b545de496aa"
+          },
+          {
+            "id": 718,
+            "display_flags": 0,
+            "classifier_name": "metaclass",
+            "node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
+            "uuid": "026d47ec-d7e7-45c8-b6bf-e78d32dc8f09"
+          },
+          {
+            "id": 719,
+            "display_flags": 0,
+            "classifier_name": "meta-img",
+            "node": "8e602924-d557-4375-84bd-1284ca61f3fc",
+            "uuid": "5ba0afc2-b413-4729-b65e-dc3c4aefba6a"
+          },
+          {
+            "id": 720,
+            "display_flags": 0,
+            "classifier_name": "Stereotypes on Decisions",
+            "node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+            "uuid": "27f3e04b-d9b6-425a-966c-7ec77957b685"
+          },
+          {
+            "id": 721,
+            "display_flags": 0,
+            "classifier_name": "reason_decision",
+            "node": "017a01c3-603e-43f0-a6b3-8e05038b2fe6",
+            "uuid": "5c557131-4baf-49ae-bdf3-96db60e4d2de"
+          },
+          {
+            "id": 722,
+            "display_flags": 0,
+            "classifier_name": "rejected_img",
+            "node": "30e233d2-4cad-4199-abeb-9c1b4542ddaa",
+            "uuid": "a15c791e-387a-4a78-acdb-06d9ef953ad8"
+          },
+          {
+            "id": 723,
+            "display_flags": 0,
+            "classifier_name": "reason_chosen",
+            "node": "83701720-f1b5-46be-b286-8371221e462c",
+            "uuid": "5bc0aa34-ae63-45de-8f94-3cc8bde11833"
+          },
+          {
+            "id": 724,
+            "display_flags": 0,
+            "classifier_name": "decision_img",
+            "node": "eef1bbce-7af9-4f94-9492-25e0749c3a54",
+            "uuid": "dd975d76-c267-41fa-a446-caa4ed430904"
+          },
+          {
+            "id": 725,
+            "display_flags": 0,
+            "classifier_name": "chosen_img",
+            "node": "a5a2eece-9a7f-489f-b0e9-1b06afc12993",
+            "uuid": "efbf25c2-a256-4487-b7c0-6682c4c7976e"
+          },
+          {
+            "id": 726,
+            "display_flags": 0,
+            "classifier_name": "reason_rejected",
+            "node": "069ba082-4b1a-4991-b5a0-9bf5a006ed3c",
+            "uuid": "9bbc17d2-577c-4ead-ba7c-cc4071e6f561"
+          },
+          {
+            "id": 743,
+            "display_flags": 0,
+            "classifier_name": "reason_argument",
+            "node": "5415345e-f50b-49a0-876b-51dd0060c708",
+            "uuid": "1ca6d9bb-511a-46f4-8877-d09e764e7ff3"
+          },
+          {
+            "id": 744,
+            "display_flags": 0,
+            "classifier_name": "argument",
+            "node": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
+            "uuid": "e6d53aef-bef0-40ff-a991-afbb0968f0f9"
           }
         ]
       }
@@ -7533,6 +7782,7 @@
         "id": 74,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_rejected",
         "name": "XML DB",
         "description": [
                 "The database is stored in XML format.\n",
@@ -7556,6 +7806,7 @@
         "id": 75,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "reason_decision",
         "name": "How to store data persistently?",
         "description": [
                 "The UML Model\n",
@@ -7575,6 +7826,7 @@
         "id": 76,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_chosen",
         "name": "Json DB",
         "description": [
                 "The database is stored in Json format.\n",
@@ -7598,6 +7850,7 @@
         "id": 77,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_chosen",
         "name": "SQLite DB",
         "description": [
                 "The database is stored in sqlite3 format.\n",
@@ -7621,6 +7874,7 @@
         "id": 78,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_rejected",
         "name": "Key-Value Pairs DB",
         "description": [
                 "The database is stored as key-value pairs.\n",
@@ -7644,14 +7898,15 @@
         "id": 79,
         "main_type": 130,
         "type": "Comment",
+        "stereotype": "reason_argument",
         "name": "SQLite is chosen",
         "description": [
                 "Rationale:\n",
                 "This alternative is most future-proof \n",
                 "in case the database becomes large."
         ],
-        "x_order": -1521538446,
-        "y_order": -1319970411,
+        "x_order": -1080925887,
+        "y_order": -1692287097,
         "list_order": 0,
         "uuid": "c0e87c40-fefe-4878-aeb8-709cd52edacc",
         "features":
@@ -8001,6 +8256,7 @@
         "id": 86,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "reason_decision",
         "name": "How to structure persistent data?",
         "description": [
                 "The database structure shall be simple\n",
@@ -8021,6 +8277,7 @@
         "id": 87,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "reason_decision",
         "name": "How can diagrams select the parts to show?",
         "description": [
                 "Each diagram shall show selected parts of the UML-Model, \n",
@@ -8042,6 +8299,7 @@
         "id": 88,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "reason_chosen",
         "name": "Simple data structure",
         "description": [
                 "The data is structured with focus on simplicity.\n",
@@ -8065,9 +8323,10 @@
         "id": 89,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "reason_rejected",
         "name": "Copy of the OMG UML Defintion Model",
         "description": [
-                "The data is structured according to the UML meta model defined by OMG.\n",
+                "The data is structured according to the UML meta model defined by OMG (see D0025#name).\n",
                 "\n",
                 "    pro: allows to model all UML elements\n",
                 "         easy conversion to XMI and back\n",
@@ -8089,6 +8348,7 @@
         "id": 90,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "reason_rejected",
         "name": "Classifier selection defines view",
         "description": [
                 "Diagramelements define which classifiers are visible in which diagram.\n",
@@ -8116,6 +8376,7 @@
         "id": 91,
         "main_type": 130,
         "type": "Comment",
+        "stereotype": "reason_argument",
         "name": "Simple structure is chosen",
         "description": [
                 "The OMG UML definition model is quite complex\n",
@@ -8136,6 +8397,7 @@
         "id": 92,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "reason_rejected",
         "name": "Classifier or Relationship selection def. view",
         "description": [
                 "Depending on the diagram type, either classifiers determine what is visble or relationships determine what is visible.\n",
@@ -8159,9 +8421,10 @@
         "id": 95,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "reason_rejected",
         "name": "diagramrelationships",
         "description": [
-                ""
+                "for diagrams that show options/alternatives/scenarios "
         ],
         "x_order": -871565003,
         "y_order": 1272153761,
@@ -8177,6 +8440,7 @@
         "id": 96,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "reason_rejected",
         "name": "Diagrams have filters",
         "description": [
                 "Either diagrams filter ranges of x-order/y-order/list-order\n",
@@ -8202,6 +8466,7 @@
         "id": 97,
         "main_type": 130,
         "type": "Comment",
+        "stereotype": "reason_argument",
         "name": "Classifier+Lifeline solution is chosen",
         "description": [
                 "This solution allows with few additional relationships\n",
@@ -8369,6 +8634,7 @@
         "id": 106,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "reason_chosen",
         "name": "Classifier and port/lifeline selection def view",
         "description": [
                 ""
@@ -9071,6 +9337,7 @@
         "id": 152,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "reason_rejected",
         "name": "diagramelements_simple",
         "description": [
                 ""
@@ -10825,7 +11092,7 @@
                 "Provide means to use the identical classifier in multiple diagrams"
         ],
         "x_order": 759784271,
-        "y_order": -1959109367,
+        "y_order": -2026583502,
         "list_order": -1959109367,
         "uuid": "c10ad4df-13d7-4888-bb85-907cdfd5314b",
         "features":
@@ -12129,6 +12396,7 @@
         "id": 298,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "reason_decision",
         "name": "How to traverse the model for XMI export?",
         "description": [
                 ""
@@ -12144,27 +12412,10 @@
     },
     {
       "classifier": {
-        "id": 299,
-        "main_type": 130,
-        "type": "Comment",
-        "name": "same as doc export is chosen in 1.23.0",
-        "description": [
-                ""
-        ],
-        "x_order": 1758147567,
-        "y_order": -1684502600,
-        "list_order": -1698996922,
-        "uuid": "6fda34d8-d2de-4482-892e-b14cbd1c2b54",
-        "features":
-        [
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 300,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_rejected",
         "name": "traverse diagram tree",
         "description": [
                 "as for other document exports,\n",
@@ -12190,10 +12441,12 @@
         "id": 301,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_chosen",
         "name": "sort classifiers by number of parents",
         "description": [
                 "traverse the list of classifiers,\n",
                 "not the diagrams;\n",
+                "export classifiers without parents first;\n",
                 "export each classifier together with all children\n",
                 "\n",
                 "  pro: allows to export the expected xmi structure\n",
@@ -12456,13 +12709,15 @@
         "id": 314,
         "main_type": 130,
         "type": "Comment",
-        "name": "classifier list is iterated in 1.24.0",
+        "stereotype": "reason_argument",
+        "name": "classifier list is iterated",
         "description": [
                 "classifier list is \n",
                 "- sorted,\n",
                 "- iterated,\n",
                 "- containment parents\n",
-                "  are descended to children"
+                "  are descended to children\n",
+                "(since version 1.24.0)"
         ],
         "x_order": 1758147567,
         "y_order": -879607721,
@@ -12478,6 +12733,7 @@
         "id": 315,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "reason_decision",
         "name": "How to generate the Interactions?",
         "description": [
                 "Interactions are\n",
@@ -12501,6 +12757,7 @@
         "id": 316,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_rejected",
         "name": "Create an new \"Interaction\" Classifier",
         "description": [
                 "This solution is in line with the UML specification:\n",
@@ -12521,6 +12778,7 @@
         "id": 317,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "reason_chosen",
         "name": "Traverse the corresponding diagram",
         "description": [
                 "Traverse the corresponding diagram\n",
@@ -12541,6 +12799,7 @@
         "id": 318,
         "main_type": 130,
         "type": "Comment",
+        "stereotype": "reason_argument",
         "name": "planned solution",
         "description": [
                 "pro:\n",
@@ -13345,6 +13604,7 @@
         "id": 360,
         "main_type": 130,
         "type": "Comment",
+        "stereotype": "reason_argument",
         "name": "Json as second/optional storage format",
         "description": [
                 "Rationale:\n",
@@ -14815,8 +15075,8 @@
                 "l 0,-2\n",
                 "\"/>"
         ],
-        "x_order": 872238745,
-        "y_order": 665449257,
+        "x_order": -962558587,
+        "y_order": 1635637612,
         "list_order": 665449257,
         "uuid": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
         "features":
@@ -14829,7 +15089,7 @@
         "id": 438,
         "main_type": 124,
         "type": "Package",
-        "name": "Stereotypes (Profile)",
+        "name": "Stereotypes on Context",
         "description": [
                 ""
         ],
@@ -14871,8 +15131,8 @@
         "description": [
                 ""
         ],
-        "x_order": 1385742238,
-        "y_order": 665449257,
+        "x_order": -250783315,
+        "y_order": 1635637612,
         "list_order": 802633901,
         "uuid": "8e602924-d557-4375-84bd-1284ca61f3fc",
         "features":
@@ -15051,6 +15311,464 @@
         "y_order": -1476368146,
         "list_order": -1393008559,
         "uuid": "eb76961f-9e97-4d76-bd4d-314686d10eb5",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 448,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Stereotypes on Decisions",
+        "description": [
+                ""
+        ],
+        "x_order": -1288482229,
+        "y_order": 1481245592,
+        "list_order": 1481245592,
+        "uuid": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 449,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "reason_decision",
+        "description": [
+                "<path d=\"m 8,12 l -4,7 1,1 6,0 1,-1 -4,-7 l 8,-4 9,0 l -4,7 1,1 6,0 1,-1 -4,-7 \" /><path d=\"m 15,5 l 1,3 m 0,2 l 0,17 \" />"
+        ],
+        "x_order": -1266402339,
+        "y_order": 1634615090,
+        "list_order": 1603513541,
+        "uuid": "017a01c3-603e-43f0-a6b3-8e05038b2fe6",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 450,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "reason_rejected",
+        "name": "rejected_img",
+        "description": [
+                ""
+        ],
+        "x_order": -1211887375,
+        "y_order": 1639979556,
+        "list_order": 1699111531,
+        "uuid": "30e233d2-4cad-4199-abeb-9c1b4542ddaa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 451,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "reason_chosen",
+        "description": [
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#00aa00\" d=\"m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s\n",
+                "-3.5625,8 -8,8 s -8,-3.5625 -8,-8 \" /><path stroke=\"#00aa00\" d=\"m 11,17 l 10,0 m -5,-5 l 0,10 \" />"
+        ],
+        "x_order": -1266402339,
+        "y_order": 1639960664,
+        "list_order": 1642789744,
+        "uuid": "83701720-f1b5-46be-b286-8371221e462c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 452,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "reason_decision",
+        "name": "decision_img",
+        "description": [
+                ""
+        ],
+        "x_order": -1211887375,
+        "y_order": 1634615090,
+        "list_order": 1634615090,
+        "uuid": "eef1bbce-7af9-4f94-9492-25e0749c3a54",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 453,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "reason_chosen",
+        "name": "chosen_img",
+        "description": [
+                ""
+        ],
+        "x_order": -1211887375,
+        "y_order": 1639960664,
+        "list_order": 1639138873,
+        "uuid": "a5a2eece-9a7f-489f-b0e9-1b06afc12993",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 454,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "reason_rejected",
+        "description": [
+                "<path d=\"m 1,24 4,4 22,0 4,-4 \" /><path stroke=\"#cc0000\" d=\"m 8,17 c 0,-4.4375 3.5625,-8 8,-8 s 8,3.5625 8,8 s\n",
+                "-3.5625,8 -8,8 s -8,-3.5625 -8,-8 \" /><path stroke=\"#cc0000\" d=\"m 11,17 l 10,0 \" />"
+        ],
+        "x_order": -1266402339,
+        "y_order": 1639979556,
+        "list_order": 1639979556,
+        "uuid": "069ba082-4b1a-4991-b5a0-9bf5a006ed3c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 455,
+        "main_type": 124,
+        "type": "Package",
+        "stereotype": "reason_rejected",
+        "name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "description": [
+                "Diagramelements define which classifiers are visible in which diagram.\n",
+                "All features of a visible classifier are shown.\n",
+                "All relationships are shown that have visible classifiers at both ends.\n",
+                "In contrast to D0024#name, this solution links lifelines (which are  features) to both: their classifier and also to their interaction.\n",
+                "\n",
+                "    pro: similar simplicity as D0024#name.\n",
+                "         The model encodes all information even when ignoring the view classes.\n",
+                "         The solution is closer to the UML proposal\n",
+                "         The xmi export would not require exceptional handlings for interactions\n",
+                "\n",
+                "    con: Idea for this solution popped up after D0024#name was already implemented.\n",
+                "         There would be 1 more implicit object to manage automatically\n",
+                "         More error cases have to be handled"
+        ],
+        "x_order": -1338331381,
+        "y_order": -1229922464,
+        "list_order": -1229922464,
+        "uuid": "e231bbf0-d968-405b-b49e-e41ff435c545",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 456,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "reason_argument",
+        "name": "interaction classifier",
+        "description": [
+                ""
+        ],
+        "x_order": -572314094,
+        "y_order": 1398930124,
+        "list_order": 1383510513,
+        "uuid": "699bf0ff-6e24-4b98-a667-35eee9924f27",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 457,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "User interaction",
+        "description": [
+                ""
+        ],
+        "x_order": -1401808644,
+        "y_order": -840606431,
+        "list_order": -840606431,
+        "uuid": "1dee528e-3432-4bf3-94e1-2c7142d2ce4a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 458,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "XMI Export",
+        "description": [
+                ""
+        ],
+        "x_order": 1231035962,
+        "y_order": -840606431,
+        "list_order": -1670037196,
+        "uuid": "1258073b-c16d-4252-9244-7c3eb03f1c53",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 459,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "Consistency",
+        "description": [
+                ""
+        ],
+        "x_order": -149149852,
+        "y_order": -840606431,
+        "list_order": -840606431,
+        "uuid": "59e95346-2c16-4ce6-9ea6-9c2d6597f8da",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 460,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "reason_argument",
+        "name": "Classifier selection",
+        "description": [
+                ""
+        ],
+        "x_order": -1401808644,
+        "y_order": 469814498,
+        "list_order": 469814498,
+        "uuid": "06b4cf84-afd5-4d74-9d95-70b0aadd20e5",
+        "features":
+        [
+          {
+            "id": 104,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Diagramelelements",
+            "value": "know the lifelines that they represent",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "c2136126-a5e7-48ff-90ba-31bcb1ae3744"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 461,
+        "main_type": 99,
+        "type": "Requirement",
+        "name": "diagram to interaction",
+        "description": [
+                ""
+        ],
+        "x_order": -149149852,
+        "y_order": 469814498,
+        "list_order": 469814498,
+        "uuid": "00929d4a-46bd-40a7-9373-9dec0abd7e8b",
+        "features":
+        [
+          {
+            "id": 105,
+            "main_type": 0,
+            "type": "Property",
+            "key": "An interaction classifier",
+            "value": "must exist while diag is type interaction",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "a2162498-bd6a-47cd-b709-26217f87900c"
+          },
+          {
+            "id": 106,
+            "main_type": 0,
+            "type": "Property",
+            "key": "An interaction classifier",
+            "value": "must not exist otherwise",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "579ab0fc-e988-4577-893a-0871205342e8"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 462,
+        "main_type": 99,
+        "type": "Requirement",
+        "name": "lifeline to interaction",
+        "description": [
+                ""
+        ],
+        "x_order": 1231035962,
+        "y_order": 469814498,
+        "list_order": 1617010041,
+        "uuid": "41367e5c-3da4-4923-aa81-5b4e4bd41acf",
+        "features":
+        [
+          {
+            "id": 107,
+            "main_type": 0,
+            "type": "Property",
+            "key": "A lifeline",
+            "value": "must exist when interaction exists and classifier type can have lifelines",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "c015d609-14e3-4a7f-8a28-3a5671b424c7"
+          },
+          {
+            "id": 108,
+            "main_type": 0,
+            "type": "Property",
+            "key": "A lifeline",
+            "value": "must not exist otherwise",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "77c4e1ac-4117-4980-9d0f-19b2b7578036"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 463,
+        "main_type": 130,
+        "type": "Comment",
+        "stereotype": "reason_argument",
+        "name": "To Realize",
+        "description": [
+                "Todays solution D0024#name stores interaction information in diagramelements (as focused feature).\n",
+                "\n",
+                "It would be cleaner if the model would be fully specified without diagrams and diagramelements.\n",
+                "\n",
+                "But the user interaction use-case requires todays database fields to be present anyhow."
+        ],
+        "x_order": -149149852,
+        "y_order": 627781871,
+        "list_order": -1670037196,
+        "uuid": "bc141b7f-99f2-4423-a680-8684b9750e3c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 464,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "reason_argument",
+        "description": [
+                "<path fill=\"#eeff00\" d=\"\n",
+                "M4,0\n",
+                "L6,0\n",
+                "L5.5,6.5\n",
+                "L4.5,6.5\n",
+                "Z\n",
+                "M 4,8.5\n",
+                "C 4,7 6,7 6,8.5\n",
+                "C 6,10 4,10 4,8.5\n",
+                "\"/>"
+        ],
+        "x_order": -1266402339,
+        "y_order": 1635637612,
+        "list_order": 1634615090,
+        "uuid": "5415345e-f50b-49a0-876b-51dd0060c708",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 465,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "reason_argument",
+        "name": "argument",
+        "description": [
+                ""
+        ],
+        "x_order": -1211887375,
+        "y_order": 1635637612,
+        "list_order": 1635637612,
+        "uuid": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 466,
+        "main_type": 125,
+        "type": "Class",
+        "name": "lifelines",
+        "description": [
+                ""
+        ],
+        "x_order": -435392186,
+        "y_order": 1398930124,
+        "list_order": 1421915698,
+        "uuid": "b08a414d-d7ae-4ea7-8503-7324d0ab15b9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 467,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "All model elements must be visible",
+        "description": [
+                "Whatever elements are stored in the model,\n",
+                "these must be visible in some diagram.\n",
+                "Otherwise 1) these cannot be reviewed and\n",
+                "2) their intention is unclear."
+        ],
+        "x_order": 759784271,
+        "y_order": -1417191589,
+        "list_order": -2026583502,
+        "uuid": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
         "features":
         [
         ]
@@ -18110,19 +18828,19 @@
     },
     {
       "relationship": {
-        "id": 131,
+        "id": 712,
         "main_type": 300,
         "type": "Association",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 429453268,
+        "list_order": 1390777718,
         "from_classifier_name": "Classifier or Relationship selection def. view",
-        "to_classifier_name": "diagramelements",
+        "to_classifier_name": "diagramelements_simple",
         "from_node": "74715f02-68c4-452f-b176-0b9eebca88e1",
-        "to_node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
-        "uuid": "a808d144-2c6b-4094-8cc6-2c5c8f8db9f6"
+        "to_node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
+        "uuid": "75879661-c2fd-47a1-9839-99af1db2113f"
       }
     },
     {
@@ -20449,23 +21167,6 @@
     },
     {
       "relationship": {
-        "id": 279,
-        "main_type": 200,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1412217285,
-        "from_classifier_name": "visible_classifier",
-        "to_classifier_name": "diagramelements",
-        "from_node": "73338600-d624-43f6-9d30-55cb003e1f56",
-        "to_node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
-        "uuid": "33a37ec5-3cce-4cdc-9071-0a9068b8e053"
-      }
-    },
-    {
-      "relationship": {
         "id": 528,
         "main_type": 200,
         "type": "Association",
@@ -22132,23 +22833,6 @@
     },
     {
       "relationship": {
-        "id": 402,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "from_classifier_name": "same as doc export is chosen in 1.23.0",
-        "to_classifier_name": "traverse diagram tree",
-        "from_node": "6fda34d8-d2de-4482-892e-b14cbd1c2b54",
-        "to_node": "bc624098-b90b-4e1c-9012-df77dbd8cc40",
-        "uuid": "9f858043-0ad7-4322-b213-abbcc902e59b"
-      }
-    },
-    {
-      "relationship": {
         "id": 403,
         "main_type": 261,
         "type": "Include",
@@ -22705,7 +23389,7 @@
                 ""
         ],
         "list_order": 131072,
-        "from_classifier_name": "classifier list is iterated in 1.24.0",
+        "from_classifier_name": "classifier list is iterated",
         "to_classifier_name": "sort classifiers by number of parents",
         "from_node": "d13c4d3b-e42d-48d2-bc3a-7e5f730e1e6c",
         "to_node": "7fa00851-3ed7-4f78-a2b2-8ef0ca33d1b9",
@@ -25071,7 +25755,7 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_name": "Stereotypes (Profile)",
+        "from_classifier_name": "Stereotypes on Context",
         "to_classifier_name": "context",
         "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "to_node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
@@ -25088,7 +25772,7 @@
                 ""
         ],
         "list_order": 65536,
-        "from_classifier_name": "Stereotypes (Profile)",
+        "from_classifier_name": "Stereotypes on Context",
         "to_classifier_name": "metaclass",
         "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "to_node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
@@ -25105,7 +25789,7 @@
                 ""
         ],
         "list_order": 851111912,
-        "from_classifier_name": "Stereotypes (Profile)",
+        "from_classifier_name": "Stereotypes on Context",
         "to_classifier_name": "cntx-img",
         "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "to_node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
@@ -25122,7 +25806,7 @@
                 ""
         ],
         "list_order": 802633901,
-        "from_classifier_name": "Stereotypes (Profile)",
+        "from_classifier_name": "Stereotypes on Context",
         "to_classifier_name": "meta-img",
         "from_node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
         "to_node": "8e602924-d557-4375-84bd-1284ca61f3fc",
@@ -25246,6 +25930,415 @@
         "from_node": "19812045-bdfb-407b-970f-fc22c13124e0",
         "to_node": "eb76961f-9e97-4d76-bd4d-314686d10eb5",
         "uuid": "8e436dc8-13c4-4b5a-a071-25318b363855"
+      }
+    },
+    {
+      "relationship": {
+        "id": 703,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1603513541,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "reason_decision",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "017a01c3-603e-43f0-a6b3-8e05038b2fe6",
+        "uuid": "c008055f-9fce-4b68-8212-483fdb1e83f2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 704,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1699111531,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "rejected_img",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "30e233d2-4cad-4199-abeb-9c1b4542ddaa",
+        "uuid": "2d0bf500-a167-4715-83ef-ac22673ac4fd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 705,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1642789744,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "reason_chosen",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "83701720-f1b5-46be-b286-8371221e462c",
+        "uuid": "ad0921b9-0aa3-4b96-9dfc-46279634fef3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 706,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1634615090,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "decision_img",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "eef1bbce-7af9-4f94-9492-25e0749c3a54",
+        "uuid": "4e9a507e-7a39-4e8b-b5d3-518d4da5f3b0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 707,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1639138873,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "chosen_img",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "a5a2eece-9a7f-489f-b0e9-1b06afc12993",
+        "uuid": "8e8b57e9-2024-4906-a47e-9700bcff829e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 708,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1639979556,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "reason_rejected",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "069ba082-4b1a-4991-b5a0-9bf5a006ed3c",
+        "uuid": "b16e461d-3259-49b9-ab48-ac683d088160"
+      }
+    },
+    {
+      "relationship": {
+        "id": 723,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1634615090,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "reason_argument",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "5415345e-f50b-49a0-876b-51dd0060c708",
+        "uuid": "527dfd9a-2d2f-422b-9cb9-e547fa9e7929"
+      }
+    },
+    {
+      "relationship": {
+        "id": 724,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1635637612,
+        "from_classifier_name": "Stereotypes on Decisions",
+        "to_classifier_name": "argument",
+        "from_node": "67247895-ef8a-4f1c-9a0c-6f37632d4acd",
+        "to_node": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
+        "uuid": "b85030fe-c40a-4460-b794-bea77a678ce9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 709,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1699144299,
+        "from_classifier_name": "reason_decision",
+        "to_classifier_name": "decision_img",
+        "from_node": "017a01c3-603e-43f0-a6b3-8e05038b2fe6",
+        "to_node": "eef1bbce-7af9-4f94-9492-25e0749c3a54",
+        "uuid": "c85ec2ea-e105-4b46-b76d-e746851d3eb7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 710,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1699177067,
+        "from_classifier_name": "reason_chosen",
+        "to_classifier_name": "chosen_img",
+        "from_node": "83701720-f1b5-46be-b286-8371221e462c",
+        "to_node": "a5a2eece-9a7f-489f-b0e9-1b06afc12993",
+        "uuid": "f1265048-fee3-47d2-b386-a03b6a58b75e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 711,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1699209835,
+        "from_classifier_name": "reason_rejected",
+        "to_classifier_name": "rejected_img",
+        "from_node": "069ba082-4b1a-4991-b5a0-9bf5a006ed3c",
+        "to_node": "30e233d2-4cad-4199-abeb-9c1b4542ddaa",
+        "uuid": "559b170c-f839-4e96-96c2-3f85d799577a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 713,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "solves",
+        "description": [
+                ""
+        ],
+        "list_order": 429488084,
+        "from_classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "to_classifier_name": "How can diagrams select the parts to show?",
+        "from_node": "e231bbf0-d968-405b-b49e-e41ff435c545",
+        "to_node": "ded5ef91-bdfd-421a-b5ee-d334c9547a3c",
+        "uuid": "814c6aa2-c9a2-442c-b334-c0783ff58185"
+      }
+    },
+    {
+      "relationship": {
+        "id": 714,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390777718,
+        "from_classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "to_classifier_name": "diagramelements_simple",
+        "from_node": "e231bbf0-d968-405b-b49e-e41ff435c545",
+        "to_node": "bb8772d1-69bf-49fe-8240-8a3c3c1371d8",
+        "uuid": "194210a5-6c80-4597-a58a-ea408d0bdd44"
+      }
+    },
+    {
+      "relationship": {
+        "id": 715,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1383510513,
+        "from_classifier_name": "DATA_CLASSIFIER _TYPE_INTERACTION",
+        "to_classifier_name": "interaction classifier",
+        "from_node": "e231bbf0-d968-405b-b49e-e41ff435c545",
+        "to_node": "699bf0ff-6e24-4b98-a667-35eee9924f27",
+        "uuid": "2e2501f8-6fbb-4162-945d-83ef982c6975"
+      }
+    },
+    {
+      "relationship": {
+        "id": 716,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390810486,
+        "from_classifier_name": "interaction classifier",
+        "to_classifier_name": "classifiers",
+        "from_node": "699bf0ff-6e24-4b98-a667-35eee9924f27",
+        "to_node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+        "uuid": "0e93bf99-a063-45a7-b726-f6e2f0ddb804"
+      }
+    },
+    {
+      "relationship": {
+        "id": 727,
+        "main_type": 201,
+        "type": "Association",
+        "stereotype": "reason_argument",
+        "name": "---> has lifeline   /. <--- context",
+        "description": [
+                ""
+        ],
+        "list_order": 1390876022,
+        "from_classifier_name": "interaction classifier",
+        "to_classifier_name": "lifelines",
+        "from_node": "699bf0ff-6e24-4b98-a667-35eee9924f27",
+        "to_node": "b08a414d-d7ae-4ea7-8503-7324d0ab15b9",
+        "uuid": "41ebc808-b7f2-4c06-a5f0-743ef3fa4a1d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 718,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "User interaction",
+        "to_classifier_name": "Consistency",
+        "from_node": "1dee528e-3432-4bf3-94e1-2c7142d2ce4a",
+        "to_node": "59e95346-2c16-4ce6-9ea6-9c2d6597f8da",
+        "uuid": "3bbb9c66-f4bc-4d8e-8b61-0bf7e73fee56"
+      }
+    },
+    {
+      "relationship": {
+        "id": 719,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Classifier selection",
+        "to_classifier_name": "User interaction",
+        "from_node": "06b4cf84-afd5-4d74-9d95-70b0aadd20e5",
+        "to_node": "1dee528e-3432-4bf3-94e1-2c7142d2ce4a",
+        "uuid": "cd2fb827-f47e-427d-8324-a9ce4ca5b462"
+      }
+    },
+    {
+      "relationship": {
+        "id": 720,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "diagram to interaction",
+        "to_classifier_name": "Consistency",
+        "from_node": "00929d4a-46bd-40a7-9373-9dec0abd7e8b",
+        "to_node": "59e95346-2c16-4ce6-9ea6-9c2d6597f8da",
+        "uuid": "f2899bff-777f-4638-a0fb-6d7f5435bc71"
+      }
+    },
+    {
+      "relationship": {
+        "id": 721,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "lifeline to interaction",
+        "to_classifier_name": "Consistency",
+        "from_node": "41367e5c-3da4-4923-aa81-5b4e4bd41acf",
+        "to_node": "59e95346-2c16-4ce6-9ea6-9c2d6597f8da",
+        "uuid": "a43eb1fe-1ff1-455b-9588-a83662414112"
+      }
+    },
+    {
+      "relationship": {
+        "id": 722,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "To Realize",
+        "to_classifier_name": "Classifier selection",
+        "from_node": "bc141b7f-99f2-4423-a680-8684b9750e3c",
+        "to_node": "06b4cf84-afd5-4d74-9d95-70b0aadd20e5",
+        "uuid": "16c30571-cb29-45b9-bf9a-a67cbeeca140"
+      }
+    },
+    {
+      "relationship": {
+        "id": 728,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "To Realize",
+        "to_classifier_name": "User interaction",
+        "from_node": "bc141b7f-99f2-4423-a680-8684b9750e3c",
+        "to_node": "1dee528e-3432-4bf3-94e1-2c7142d2ce4a",
+        "uuid": "ebd4c77b-ecd9-4442-ba1b-c37e8a863e77"
+      }
+    },
+    {
+      "relationship": {
+        "id": 725,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1699242603,
+        "from_classifier_name": "reason_argument",
+        "to_classifier_name": "argument",
+        "from_node": "5415345e-f50b-49a0-876b-51dd0060c708",
+        "to_node": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
+        "uuid": "fe3b3b6f-73c3-4295-a057-874f33b8a3b1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 726,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390777718,
+        "from_classifier_name": "lifelines",
+        "to_classifier_name": "features",
+        "from_node": "b08a414d-d7ae-4ea7-8503-7324d0ab15b9",
+        "to_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+        "uuid": "b0c11c10-190b-43b0-ac69-3f3505922468"
       }
     }
   ]

@@ -9,6 +9,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
+#include "gui_sketch_defaults.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
 #include "data_table.h"
@@ -23,6 +24,7 @@
 struct gui_sketch_object_creator_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
+    gui_sketch_defaults_t defaults;  /*!< own instance of uml and sysml model default types */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 

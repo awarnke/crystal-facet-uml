@@ -12,7 +12,7 @@ ideas for future versions:
       do not redraw twice, once for deactivating a tool and again for activating another
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
-  [ ] scrolling through search list missing if result list is too long
+  [ ] scrolling through search list missing if result list is too long (hint already added to user manual)
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   [ ] store edited text fields before performing undo/redo operations
@@ -30,6 +30,8 @@ ideas for future versions:
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
   [ ] show stereotype names for relationships (if no icon available)
+  [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
+  [ ] stereotype images of packages are positioned unluckily
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
@@ -49,13 +51,15 @@ ideas for future versions:
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
-      part-to-component, object-to-class
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
   [ ] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   @ctrl
-  [ ] delete features immediately when they become invisible in all diagrams
+      Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
+  [ ] delete features (except lifelines) immediately when they become invisible in all diagrams
       (rationale: the search+xmi+json export find them)
+! [ ] delete lifelines immediately when they become invisible
+      (rationale: the search+xmi+json export find them and the messages to/from them)
   [ ] delete relationships immediately when they become invisible in all diagrams
       (rationale: the search+xmi+json export find them)
   @u8stream

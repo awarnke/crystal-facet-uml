@@ -20,7 +20,7 @@
  *    like containment relationships if the containment is visible by inclusion already.
  *  .
  *
- *  Which method implements a guideline and which implements a rule is annotated in the corresponding dogygen comment.
+ *  Which method implements a guideline and which implements a rule is annotated in the corresponding doxygen comment.
  *  A rule-of-thumb is:
  *  - If a condition makes no sense, a rule states that it must not be.
  *  - If a condition is currently not wanted but could be changed in the future, a guideline proposes to avoid it.
@@ -57,51 +57,6 @@ static inline void data_rules_init ( data_rules_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void data_rules_destroy ( data_rules_t *this_ );
-
-/*!
- *  \brief gets the default classifier type of the given diagram type
- *
- *  This method implements a guideline.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_type the diagram type
- *  \return default classifier type in the given diagram_type.
- *          DATA_CLASSIFIER_TYPE_COMMENT if diagram_type is invalid.
- */
-static inline data_classifier_type_t data_rules_get_default_classifier_type ( const data_rules_t *this_,
-                                                                              data_diagram_type_t diagram_type
-                                                                            );
-
-/*!
- *  \brief gets the default relationship type of the given source(from) classifier type
- *
- *  This method implements a guideline.
- *
- *  \param this_ pointer to own object attributes
- *  \param from_classifier_type the classifier type where the relation starts from
- *  \param from_feature_type the feature type where the relation starts from; 
- *                           DATA_FEATURE_TYPE_VOID if relation starts directly at the classifier
- *  \return default relationship type of the given from(source) classifier type.
- *          DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY if from_classifier_type is invalid.
- */
-static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_,
-                                                                                  data_classifier_type_t from_classifier_type,
-                                                                                  data_feature_type_t from_feature_type
-                                                                                );
-
-/*!
- *  \brief gets the default feature type of the given parent classifier type
- *
- *  This method implements a guideline.
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_classifier_type the classifier type for which to create a feature
- *  \return default feature type of the given parent classifier type.
- *          DATA_FEATURE_TYPE_PROPERTY if parent_classifier_type is invalid.
- */
-static inline data_feature_type_t data_rules_get_default_feature_type ( const data_rules_t *this_,
-                                                                        data_classifier_type_t parent_classifier_type
-                                                                      );
 
 /* ================================ VISIBLE_SET ================================ */
 
@@ -221,7 +176,7 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
 
 /*!
  *  \brief determines if lifelines have semantics
- * 
+ *
  *  In a scenario-typed diagram, every visible classifier has a lifeline.
  *  This is necessary because the classifier type can be changed (which shall not invalidate relationships).
  *  But a lifeline does not make sense for comments, requirements and (in sequences) also diagram-references.
@@ -231,15 +186,15 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
  *  \param classifier_type the classifier type
- *  \return true if the classifier type is DATA_CLASSIFIER_TYPE_REQUIREMENT 
+ *  \return true if the classifier type is DATA_CLASSIFIER_TYPE_REQUIREMENT
  *          or DATA_CLASSIFIER_TYPE_COMMENT
  *          or DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE
  *          or ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
  *          and ( DATA_CLASSIFIER_TYPE_INTERACTION or DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE )).
  */
-static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_, 
-                                                                  data_diagram_type_t diagram_type, 
-                                                                  data_classifier_type_t classifier_type 
+static inline bool data_rules_classifier_has_scenario_semantics ( const data_rules_t *this_,
+                                                                  data_diagram_type_t diagram_type,
+                                                                  data_classifier_type_t classifier_type
                                                                 );
 
 /* ================================ RELATIONSHIP ================================ */
