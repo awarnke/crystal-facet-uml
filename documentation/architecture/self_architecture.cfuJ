@@ -1802,7 +1802,7 @@
           {
             "id": 227,
             "display_flags": 0,
-            "classifier_name": "ctrl_diagram _policy_enforcer",
+            "classifier_name": "ctrl_diagram_trigger",
             "node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
             "uuid": "3033077a-fcee-4bf1-86a2-53673f40e63a"
           },
@@ -1823,7 +1823,7 @@
           {
             "id": 230,
             "display_flags": 0,
-            "classifier_name": "ctrl_classifier _policy_enforcer",
+            "classifier_name": "ctrl_classifier_trigger",
             "node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
             "uuid": "19dc324f-0ad4-4c36-b699-8a32f044bd1a"
           },
@@ -1833,6 +1833,27 @@
             "classifier_name": "ctrl_multi_step_changer",
             "node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
             "uuid": "f5664b1b-cbd8-4a15-a795-df40fe2c1572"
+          },
+          {
+            "id": 748,
+            "display_flags": 0,
+            "classifier_name": "consistency _drop_invisibles",
+            "node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+            "uuid": "a0d877f1-9ef2-49a5-bc14-4487c191ddfb"
+          },
+          {
+            "id": 749,
+            "display_flags": 0,
+            "classifier_name": "consistency",
+            "node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+            "uuid": "bd4d929a-b5a3-41a0-9210-efea0169faba"
+          },
+          {
+            "id": 750,
+            "display_flags": 0,
+            "classifier_name": "consistency _lifeline",
+            "node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
+            "uuid": "4dfe4e98-053f-4e8e-ac8c-75c941ac6994"
           }
         ]
       }
@@ -7193,7 +7214,7 @@
                 "- checks and repairs a database"
         ],
         "x_order": -394858420,
-        "y_order": 1350576766,
+        "y_order": -398606019,
         "list_order": 0,
         "uuid": "60910235-8098-4c7b-a914-39704fd3f678",
         "features":
@@ -9384,7 +9405,7 @@
                 "manages a list of actions to be undone or/and redone."
         ],
         "x_order": -327894016,
-        "y_order": 1350576766,
+        "y_order": -398606019,
         "list_order": 0,
         "uuid": "d028bc79-6057-4743-b9b5-cd28b10a2102",
         "features":
@@ -9397,16 +9418,49 @@
         "id": 154,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_diagram _policy_enforcer",
+        "name": "ctrl_diagram_trigger",
         "description": [
                 "ensures that application level policies on the model are adhered whenever diagrams are modified."
         ],
-        "x_order": -327894016,
-        "y_order": 494945844,
+        "x_order": -394858420,
+        "y_order": 1216656999,
         "list_order": 0,
         "uuid": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "features":
         [
+          {
+            "id": 109,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_update_diagram_type",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "66a28414-6a8d-437b-b6ee-19c9a90ba157"
+          },
+          {
+            "id": 110,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_create_diagramelement",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "e3d94ebd-d65a-47b9-99c1-095a723c2e5e"
+          },
+          {
+            "id": 111,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_delete_diagramelement",
+            "description": [
+                ""
+            ],
+            "list_order": 98304,
+            "uuid": "86352861-436c-4627-a5ec-1ad7dd49361d"
+          }
         ]
       }
     },
@@ -9420,7 +9474,7 @@
                 "performs changes on classifier, feature and relationship tables"
         ],
         "x_order": -327894016,
-        "y_order": 928561438,
+        "y_order": 494945844,
         "list_order": 0,
         "uuid": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "features":
@@ -9451,16 +9505,27 @@
         "id": 157,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_classifier _policy_enforcer",
+        "name": "ctrl_classifier_trigger",
         "description": [
                 "ensures that application level policies on the model are adhered whenever classifiers are modified."
         ],
-        "x_order": -394858420,
-        "y_order": 928561438,
+        "x_order": -327894016,
+        "y_order": 1216656999,
         "list_order": 0,
         "uuid": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
         "features":
         [
+          {
+            "id": 112,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_delete_feature",
+            "description": [
+                "after deleting a lifeline, all references from diagramelements have to be removed."
+            ],
+            "list_order": 32768,
+            "uuid": "b16b1262-78f5-4344-aedf-a82e0ff2e43e"
+          }
         ]
       }
     },
@@ -15773,6 +15838,61 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 468,
+        "main_type": 125,
+        "type": "Class",
+        "name": "consistency _drop_invisibles",
+        "description": [
+                "This class cares about deleting model elements that are not visible anymore.\n",
+                ""
+        ],
+        "x_order": 250096395,
+        "y_order": 494945844,
+        "list_order": 1216656999,
+        "uuid": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 469,
+        "main_type": 124,
+        "type": "Package",
+        "name": "consistency",
+        "description": [
+                ""
+        ],
+        "x_order": 232331797,
+        "y_order": 1216656999,
+        "list_order": 1216656999,
+        "uuid": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 470,
+        "main_type": 125,
+        "type": "Class",
+        "name": "consistency _lifeline",
+        "description": [
+                "This class cares about creating and deleting lifelines depending on the surrounding diagram type."
+        ],
+        "x_order": 250096395,
+        "y_order": 1216656999,
+        "list_order": 1520515865,
+        "uuid": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -16200,7 +16320,7 @@
         ],
         "list_order": 1411332549,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_diagram _policy_enforcer",
+        "to_classifier_name": "ctrl_diagram_trigger",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "uuid": "271fe82e-9cd8-4f9c-9bf8-e0ddb0957d95"
@@ -16251,7 +16371,7 @@
         ],
         "list_order": 788893479,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_classifier _policy_enforcer",
+        "to_classifier_name": "ctrl_classifier_trigger",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
         "uuid": "157ef5c2-9797-4285-a121-b50273d1f016"
@@ -16272,6 +16392,40 @@
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "uuid": "ed4aad59-93ee-4537-9e7f-b004076ed3dc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 729,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1216656999,
+        "from_classifier_name": "ctrl",
+        "to_classifier_name": "consistency _drop_invisibles",
+        "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
+        "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "uuid": "8dce284d-561b-491c-936d-05661181a9a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 732,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1216656999,
+        "from_classifier_name": "ctrl",
+        "to_classifier_name": "consistency",
+        "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
+        "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "uuid": "fd708841-a0ca-453c-9604-1676433b1f3d"
       }
     },
     {
@@ -19899,36 +20053,36 @@
     },
     {
       "relationship": {
-        "id": 220,
+        "id": 733,
         "main_type": 200,
         "type": "Association",
-        "name": "calls",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1411338693,
-        "from_classifier_name": "ctrl_diagram _policy_enforcer",
-        "to_classifier_name": "ctrl_classifier_controller",
+        "list_order": 1411504581,
+        "from_classifier_name": "ctrl_diagram_trigger",
+        "to_classifier_name": "consistency",
         "from_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
-        "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
-        "uuid": "c7814d42-b75a-4f56-a80d-29412044d8ea"
+        "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "uuid": "17c9817a-18c4-4f70-9a28-93928a3574b3"
       }
     },
     {
       "relationship": {
-        "id": 222,
+        "id": 738,
         "main_type": 200,
         "type": "Association",
         "name": "calls",
         "description": [
                 ""
         ],
-        "list_order": 1411339717,
+        "list_order": 1520548633,
         "from_classifier_name": "ctrl_classifier_controller",
-        "to_classifier_name": "ctrl_classifier _policy_enforcer",
+        "to_classifier_name": "ctrl_classifier_trigger",
         "from_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "to_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
-        "uuid": "8df989ba-dccc-46e7-8d81-0a099e4c1cd5"
+        "uuid": "5423b81d-07df-4ea8-935e-382ec898507d"
       }
     },
     {
@@ -19942,7 +20096,7 @@
         ],
         "list_order": 1411337669,
         "from_classifier_name": "ctrl_diagram_controller",
-        "to_classifier_name": "ctrl_diagram _policy_enforcer",
+        "to_classifier_name": "ctrl_diagram_trigger",
         "from_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "to_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "uuid": "49ec8f92-bb63-49fc-a975-d657016d70ea"
@@ -19950,19 +20104,19 @@
     },
     {
       "relationship": {
-        "id": 223,
+        "id": 734,
         "main_type": 200,
         "type": "Association",
-        "name": "calls",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1411340741,
-        "from_classifier_name": "ctrl_classifier _policy_enforcer",
-        "to_classifier_name": "ctrl_diagram_controller",
+        "list_order": 1411537349,
+        "from_classifier_name": "ctrl_classifier_trigger",
+        "to_classifier_name": "consistency",
         "from_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
-        "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
-        "uuid": "35036a67-ac18-4f3c-a870-6b4e26d0f5b4"
+        "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "uuid": "dd932c69-0548-4eba-baf0-49b75a48a780"
       }
     },
     {
@@ -26339,6 +26493,57 @@
         "from_node": "b08a414d-d7ae-4ea7-8503-7324d0ab15b9",
         "to_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
         "uuid": "b0c11c10-190b-43b0-ac69-3f3505922468"
+      }
+    },
+    {
+      "relationship": {
+        "id": 735,
+        "main_type": 200,
+        "type": "Association",
+        "name": "calls",
+        "description": [
+                ""
+        ],
+        "list_order": 1411570117,
+        "from_classifier_name": "consistency",
+        "to_classifier_name": "ctrl_classifier_controller",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
+        "uuid": "a8db88b3-bc71-4c4f-b41f-0dda05d57398"
+      }
+    },
+    {
+      "relationship": {
+        "id": 736,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1411602885,
+        "from_classifier_name": "consistency",
+        "to_classifier_name": "consistency _drop_invisibles",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "uuid": "2c14dfff-38e6-4786-9653-da0578b5a8cf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 737,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520515865,
+        "from_classifier_name": "consistency",
+        "to_classifier_name": "consistency _lifeline",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
+        "uuid": "1499e615-c286-4143-a136-2acf2654def1"
       }
     }
   ]

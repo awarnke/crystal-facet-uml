@@ -1,7 +1,7 @@
-/* File: ctrl_classifier_policy_enforcer_test.h; Copyright and License: see below */
+/* File: consistency_drop_invisibles_test.h; Copyright and License: see below */
 
-#ifndef CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H
-#define CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H
+#ifndef CONSISTENCY_DROP_INVISIBLES_TEST_H
+#define CONSISTENCY_DROP_INVISIBLES_TEST_H
 
 /*!
  *  \file
@@ -10,9 +10,9 @@
 
 #include "test_suite.h"
 
-test_suite_t ctrl_classifier_policy_enforcer_test_get_suite(void);
+test_suite_t consistency_drop_invisibles_test_get_suite(void);
 
-#endif  /* CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H */
+#endif  /* CONSISTENCY_DROP_INVISIBLES_TEST_H */
 
 
 /*

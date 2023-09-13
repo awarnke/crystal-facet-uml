@@ -6,7 +6,7 @@
 
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
-                                    ctrl_diagram_policy_enforcer_t *policy_enforcer,
+                                    ctrl_diagram_trigger_t *policy_enforcer,
                                     data_database_t *database,
                                     data_database_reader_t *db_reader,
                                     data_database_writer_t *db_writer )
@@ -271,9 +271,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policy rules */
-        result |= ctrl_diagram_policy_enforcer_post_update_diagram_type( (*this_).policy_enforcer,
-                                                                         &new_diagram
-                                                                       );
+        result |= ctrl_diagram_trigger_post_update_diagram_type( (*this_).policy_enforcer, &new_diagram );
 
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
@@ -441,9 +439,7 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policies */
-        result |= ctrl_diagram_policy_enforcer_post_create_diagramelement( (*this_).policy_enforcer,
-                                                                           &to_be_created
-                                                                         );
+        result |= ctrl_diagram_trigger_post_create_diagramelement( (*this_).policy_enforcer, &to_be_created );
 
         /* copy new id to out parameter */
         if ( NULL != out_new_id )
@@ -495,9 +491,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controlle
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* try to also delete the classifier and focused lifelines */
-        result |= ctrl_diagram_policy_enforcer_post_delete_diagramelement( (*this_).policy_enforcer,
-                                                                           &old_diagramelement
-                                                                         );
+        result |= ctrl_diagram_trigger_post_delete_diagramelement( (*this_).policy_enforcer, &old_diagramelement );
 
         data_diagramelement_destroy( &old_diagramelement );
     }

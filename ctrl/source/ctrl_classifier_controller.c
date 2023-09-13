@@ -6,7 +6,7 @@
 
 void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
                                        ctrl_undo_redo_list_t *undo_redo_list,
-                                       ctrl_classifier_policy_enforcer_t *policy_enforcer,
+                                       ctrl_classifier_trigger_t *policy_enforcer,
                                        data_database_t *database,
                                        data_database_reader_t *db_reader,
                                        data_database_writer_t *db_writer )
@@ -616,7 +616,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
     /* apply policy rules */
     if ( U8_ERROR_NONE == feature_result )
     {
-        result |= ctrl_classifier_policy_enforcer_post_delete_feature ( (*this_).policy_enforcer, &old_feature );
+        result |= ctrl_classifier_trigger_post_delete_feature ( (*this_).policy_enforcer, &old_feature );
         data_feature_destroy( &old_feature );
     }
 

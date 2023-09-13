@@ -60,7 +60,7 @@ ideas for future versions:
       (rationale: the search+xmi+json export find them)
 ! [ ] delete lifelines immediately when they become invisible
       (rationale: the search+xmi+json export find them and the messages to/from them)
-  [ ] delete relationships immediately when they become invisible in all diagrams
+  [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the search+xmi+json export find them)
   @u8stream
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings

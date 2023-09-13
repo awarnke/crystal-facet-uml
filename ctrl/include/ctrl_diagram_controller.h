@@ -11,8 +11,10 @@
 
 #include "u8/u8_error.h"
 #include "ctrl_undo_redo_list.h"
-#include "ctrl_diagram_policy_enforcer.h"
+#include "ctrl_diagram_trigger.h"
 #include "ctrl_undo_redo_action_boundary.h"
+#include "consistency/consistency_drop_invisibles.h"
+#include "consistency/consistency_lifeline.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -30,7 +32,7 @@ struct ctrl_diagram_controller_struct {
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
-    ctrl_diagram_policy_enforcer_t *policy_enforcer;  /*!< pointer to external ctrl_diagram_policy_enforcer_t */
+    ctrl_diagram_trigger_t *policy_enforcer;  /*!< pointer to external ctrl_diagram_trigger_t */
 };
 
 typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
@@ -40,14 +42,14 @@ typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param undo_redo_list pointer to list of undo/redo actions
- *  \param policy_enforcer pointer to policy enforcer that keeps the database in a gui-suiting style
+ *  \param policy_enforcer pointer to ctrl_diagram_trigger_t that keeps the database consistent
  *  \param database pointer to database object
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
-                                    ctrl_diagram_policy_enforcer_t *policy_enforcer,
+                                    ctrl_diagram_trigger_t *policy_enforcer,
                                     data_database_t *database,
                                     data_database_reader_t *db_reader,
                                     data_database_writer_t *db_writer
