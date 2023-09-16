@@ -16,6 +16,7 @@
 
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
+#include "data_rules.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -40,6 +41,7 @@ struct consistency_lifeline_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
+    data_rules_t rules;  /*!< own instance of a rules object */
 
     data_diagramelement_t private_temp_diagele_buf[CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES];
 };
@@ -66,6 +68,25 @@ void consistency_lifeline_init ( consistency_lifeline_t *this_,
  *  \param this_ pointer to own object attributes
  */
 void consistency_lifeline_destroy ( consistency_lifeline_t *this_ );
+
+/*!
+ *  \brief executes policies involved in changing the diagram type.
+ *
+ *  Current rules are:
+ *  - when changing a diagram type to a non-interaction/non-scenario type,
+ *    that is any type except DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
+ *    or to DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM
+ *    or to DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+ *    or to DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM,
+ *    all contained elements shall get rid of any lifeline.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param updated_diagram data of the updated diagram.
+ *  \return error id in case of an error, U8_ERROR_NONE otherwise
+ */
+u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_,
+                                                   const data_diagram_t *updated_diagram
+                                                 );
 
 /*!
  *  \brief executes policies involved in changing the diagram type.

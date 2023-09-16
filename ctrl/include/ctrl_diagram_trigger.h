@@ -47,7 +47,7 @@ static inline void ctrl_diagram_trigger_destroy ( ctrl_diagram_trigger_t *this_ 
 /* ================================ ENTRY POINTS ================================ */
 
 /*!
- *  \brief executes policies involved in changing the diagram type.
+ *  \brief triggers the execution of policies involved in changing the diagram type.
  *
  *  \param this_ pointer to own object attributes
  *  \param updated_diagram data of the updated diagram.
@@ -58,7 +58,7 @@ static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type ( ctrl_di
                                                                        );
 
 /*!
- *  \brief executes policies involved in creating a diagramelement.
+ *  \brief triggers the execution of policies involved in creating a diagramelement.
  *
  *  \param this_ pointer to own object attributes
  *  \param new_diagramelement data of the new diagramelement.
@@ -69,7 +69,7 @@ static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement ( ctrl_
                                                                          );
 
 /*!
- *  \brief executes policies involved in deleting a diagramelement.
+ *  \brief triggers the execution of policies involved in deleting a diagramelement.
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_diagramelement data of the deleted diagramelement.

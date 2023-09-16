@@ -98,7 +98,8 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_,
 /*!
  *  \brief determines if the diagram type is scenario-based
  *
- *  This method implements a definition of "scenario".
+ *  This method implements a definition of "scenario"
+ *  which corresponds to a uml interaction.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type

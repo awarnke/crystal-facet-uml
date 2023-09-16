@@ -21,7 +21,10 @@ static inline void ctrl_diagram_trigger_destroy ( ctrl_diagram_trigger_t *this_ 
 static inline u8_error_t ctrl_diagram_trigger_post_update_diagram_type( ctrl_diagram_trigger_t *this_,
                                                                         const data_diagram_t *updated_diagram )
 {
-    return consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram );
+    u8_error_t result = U8_ERROR_NONE;
+    result |= consistency_lifeline_delete_lifelines( (*this_).lifeline, updated_diagram );
+    result |= consistency_lifeline_create_lifelines( (*this_).lifeline, updated_diagram );
+    return result;
 }
 
 static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement( ctrl_diagram_trigger_t *this_,

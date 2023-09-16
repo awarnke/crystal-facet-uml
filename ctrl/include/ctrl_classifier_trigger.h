@@ -47,7 +47,7 @@ static inline void ctrl_classifier_trigger_destroy ( ctrl_classifier_trigger_t *
 /* ================================ ENTRY POINTS ================================ */
 
 /*!
- *  \brief executes policies involved in deleting a feature.
+ *  \brief triggers the execution of policies involved in deleting a feature.
  *
  *  \param this_ pointer to own object attributes
  *  \param deleted_feature data of the deleted feature.
