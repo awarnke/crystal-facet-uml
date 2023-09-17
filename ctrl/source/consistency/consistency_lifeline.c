@@ -78,7 +78,7 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
                                                                          focused_feature,
                                                                          CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                        );
-                    /* the current_diagele is already updated by another consistency check. */
+                    /* the current_diagele is already updated by another (recursive) consistency check. */
                 }
             }
         }
