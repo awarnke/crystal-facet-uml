@@ -20,27 +20,39 @@
  *  \brief constants for data series
  */
 enum data_stat_series_enum {
-    DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created/exported successfully */
-    DATA_STAT_SERIES_EXPORTED = 0,  /*!< number of things created/exported successfully */
+    DATA_STAT_SERIES_CREATED = 0,  /*!< number of things created (or exported) successfully */
+    DATA_STAT_SERIES_EXPORTED = 0,  /*!< number of things exported (or created) successfully */
     DATA_STAT_SERIES_MODIFIED = 1,  /*!< number of things modified/un-/selected/found successfully */
     DATA_STAT_SERIES_DELETED = 2,  /*!< number of things deleted successfully */
     DATA_STAT_SERIES_IGNORED = 3,  /*!< number of things ignored, maybe because already existing or unmodified */
-    DATA_STAT_SERIES_WARNING = 4,  /*!< number of things with possibly unexpected results; these items are counted twice: e.g. one _MODIFIED and one _WARNING */
+    DATA_STAT_SERIES_WARNING = 4,  /*!< number of things with possibly unexpected results; */
+                                   /*!< these items are counted twice: e.g. one _MODIFIED and one _WARNING */
     DATA_STAT_SERIES_ERROR = 5,  /*!< number of things not processed as expected */
     DATA_STAT_SERIES_MAX = 6
 };
 
 typedef enum data_stat_series_enum data_stat_series_t;
 
-enum data_stat_tables_enum {
-    DATA_STAT_TABLES_MAX = (DATA_TABLE_DIAGRAM+1)
+/*!
+ *  \brief constants for record types
+ */
+enum data_stat_table_enum {
+    DATA_STAT_TABLE_LIFELINE = 0,  /*!< statistics on type lifeline (or other invisible features) */
+    DATA_STAT_TABLE_CLASSIFIER = DATA_TABLE_CLASSIFIER,  /*!< statistics on type classifier */
+    DATA_STAT_TABLE_FEATURE = DATA_TABLE_FEATURE,  /*!< statistics on type feature, except lifelines */
+    DATA_STAT_TABLE_RELATIONSHIP = DATA_TABLE_RELATIONSHIP,  /*!< statistics on type relationship */
+    DATA_STAT_TABLE_DIAGRAMELEMENT = DATA_TABLE_DIAGRAMELEMENT,  /*!< statistics on type diagram_element */
+    DATA_STAT_TABLE_DIAGRAM = DATA_TABLE_DIAGRAM,  /*!< statistics on type diagram */
+    DATA_STAT_TABLE_MAX = 6
 };
+
+typedef enum data_stat_table_enum data_stat_table_t;
 
 /*!
  *  \brief the statistical numbers of all tables and series
  */
 struct data_stat_struct {
-    uint_fast32_t data[DATA_STAT_TABLES_MAX][DATA_STAT_SERIES_MAX];
+    uint_fast32_t data[DATA_STAT_TABLE_MAX][DATA_STAT_SERIES_MAX];
 };
 
 typedef struct data_stat_struct data_stat_t;
@@ -68,19 +80,19 @@ static inline void data_stat_destroy ( data_stat_t *this_ );
  *  \return the count of the data entity
  */
 static inline uint_fast32_t data_stat_get_count ( const data_stat_t *this_,
-                                                  data_table_t table,
+                                                  data_stat_table_t table,
                                                   data_stat_series_t series
                                                 );
 
 /*!
- *  \brief increases the counter of one data entity
+ *  \brief increments the counter of one data entity
  *
  *  \param this_ pointer to own object attributes
  *  \param table the table entry in the data series to retrieve
  *  \param series the data series to retrieve
  */
 static inline void data_stat_inc_count ( data_stat_t *this_,
-                                         data_table_t table,
+                                         data_stat_table_t table,
                                          data_stat_series_t series
                                        );
 
@@ -93,7 +105,7 @@ static inline void data_stat_inc_count ( data_stat_t *this_,
  *  \param increment the value to add to the counter
  */
 static inline void data_stat_add_count ( data_stat_t *this_,
-                                         data_table_t table,
+                                         data_stat_table_t table,
                                          data_stat_series_t series,
                                          int_fast32_t increment
                                        );
@@ -125,7 +137,7 @@ static inline uint_fast32_t data_stat_get_series_count ( const data_stat_t *this
  *  \return the sum of all data entities of one table
  */
 static inline uint_fast32_t data_stat_get_table_count ( const data_stat_t *this_,
-                                                        data_table_t table
+                                                        data_stat_table_t table
                                                       );
 
 /*!

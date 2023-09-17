@@ -1,4 +1,4 @@
-/* File: gui_simple_message_content.c; Copyright and License: see below */
+ /* File: gui_simple_message_content.c; Copyright and License: see below */
 
 #include "gui_simple_message_content.h"
 

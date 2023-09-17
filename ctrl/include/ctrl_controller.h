@@ -127,6 +127,8 @@ static inline u8_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_s
 /*!
  *  \brief determines the statistics between the current history position and the last history boundary entry
  *
+ *  Usage is intended for calls from the ctrl package, from outside there should be more suitable interfaces.
+ *
  *  \param this_ pointer to own object attributes
  *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
  *                 DATA_STAT_SERIES_DELETED.

@@ -82,7 +82,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     }
                     else
                     {
-                        data_stat_inc_count( io_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 break;
@@ -99,7 +99,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     }
                     else
                     {
-                        data_stat_inc_count( io_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 break;
@@ -162,7 +162,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     }
                     else
                     {
-                        data_stat_inc_count( io_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 break;
@@ -201,7 +201,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     }
                     else
                     {
-                        data_stat_inc_count( io_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 break;
@@ -236,7 +236,7 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
                     }
                     else
                     {
-                        data_stat_inc_count( io_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
+                        data_stat_inc_count( io_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
                     }
                 }
                 break;

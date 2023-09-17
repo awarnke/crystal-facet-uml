@@ -291,8 +291,8 @@ static const char *const series[DATA_STAT_SERIES_MAX] = {
     [DATA_STAT_SERIES_ERROR]    = "  errors",
 };
 
-static const char *const tables[DATA_STAT_TABLES_MAX] = {
-    [DATA_TABLE_VOID] = "-",
+static const char *const tables[DATA_STAT_TABLE_MAX] = {
+    [DATA_TABLE_VOID] = "life",
     [DATA_TABLE_CLASSIFIER] = "clas",
     [DATA_TABLE_FEATURE] = "feat",
     [DATA_TABLE_RELATIONSHIP] = "rel",
@@ -314,7 +314,7 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
     /* HEADLINE */
     write_err |= universal_utf8_writer_write_str( out_english_report, "\n\t" );
 
-    for ( int tables_idx = 1; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+    for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
     {
         write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
         write_err |= universal_utf8_writer_write_str( out_english_report, tables[tables_idx] );
@@ -336,7 +336,7 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
         }
         write_err |= universal_utf8_writer_write_str( out_english_report, ": " );
 
-        for ( int tables_idx = 1; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
         {
             write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
             const uint_fast32_t cnt = data_stat_get_count( stat, tables_idx, series_idx );
@@ -353,7 +353,7 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
 
     /* ROW OF SUMS */
     write_err |= universal_utf8_writer_write_str( out_english_report, "     SUM:" );
-    for ( int tables_idx = 1; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+    for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
     {
         const uint_fast32_t t_cnt = data_stat_get_table_count( stat, tables_idx );
         write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );

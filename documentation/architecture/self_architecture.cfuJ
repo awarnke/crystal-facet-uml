@@ -9554,7 +9554,9 @@
         "type": "Class",
         "name": "ctrl_undo_redo_list",
         "description": [
-                "manages a list of actions to be undone or/and redone."
+                "manages a list of actions to be undone or/and redone.\n",
+                "\n",
+                "When performing undo or redo operations, this is done directly to the data_database_writer_t, not to the ctrl_controller which could start an endless-recursion."
         ],
         "x_order": -327894016,
         "y_order": -398606019,
@@ -9562,6 +9564,28 @@
         "uuid": "d028bc79-6057-4743-b9b5-cd28b10a2102",
         "features":
         [
+          {
+            "id": 113,
+            "main_type": 0,
+            "type": "Property",
+            "key": "db_writer",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "f346950a-d84b-4a57-b96a-d453af6801c3"
+          },
+          {
+            "id": 114,
+            "main_type": 0,
+            "type": "Property",
+            "key": "db_reader",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "c1e432ce-e0dc-4842-9e7c-c02dde4b5ba8"
+          }
         ]
       }
     },

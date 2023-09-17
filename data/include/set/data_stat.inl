@@ -6,15 +6,15 @@
 
 static inline void data_stat_init ( data_stat_t *this_ )
 {
-    assert( (int)DATA_TABLE_CLASSIFIER < (int)DATA_STAT_TABLES_MAX );
-    assert( (int)DATA_TABLE_FEATURE < (int)DATA_STAT_TABLES_MAX );
-    assert( (int)DATA_TABLE_RELATIONSHIP < (int)DATA_STAT_TABLES_MAX );
-    assert( (int)DATA_TABLE_DIAGRAMELEMENT < (int)DATA_STAT_TABLES_MAX );
-    assert( (int)DATA_TABLE_DIAGRAM < (int)DATA_STAT_TABLES_MAX );
+    assert( (int)DATA_TABLE_CLASSIFIER < (int)DATA_STAT_TABLE_MAX );
+    assert( (int)DATA_TABLE_FEATURE < (int)DATA_STAT_TABLE_MAX );
+    assert( (int)DATA_TABLE_RELATIONSHIP < (int)DATA_STAT_TABLE_MAX );
+    assert( (int)DATA_TABLE_DIAGRAMELEMENT < (int)DATA_STAT_TABLE_MAX );
+    assert( (int)DATA_TABLE_DIAGRAM < (int)DATA_STAT_TABLE_MAX );
 
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
     {
-        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
         {
             (*this_).data[tables_idx][series_idx] = 0;
         }
@@ -26,32 +26,29 @@ static inline void data_stat_destroy ( data_stat_t *this_ )
 }
 
 static inline uint_fast32_t data_stat_get_count ( const data_stat_t *this_,
-                                                  data_table_t table,
+                                                  data_stat_table_t table,
                                                   data_stat_series_t series )
 {
-    assert( DATA_TABLE_VOID != table );
-    assert( (int)table < (int)DATA_STAT_TABLES_MAX );
+    assert( table < DATA_STAT_TABLE_MAX );
     assert( series < DATA_STAT_SERIES_MAX );
     return (*this_).data[table][series];
 }
 
 static inline void data_stat_inc_count ( data_stat_t *this_,
-                                         data_table_t table,
+                                         data_stat_table_t table,
                                          data_stat_series_t series )
 {
-    assert( DATA_TABLE_VOID != table );
-    assert( (int)table < (int)DATA_STAT_TABLES_MAX );
+    assert( table < DATA_STAT_TABLE_MAX );
     assert( series < DATA_STAT_SERIES_MAX );
     (*this_).data[table][series]++;
 }
 
 static inline void data_stat_add_count ( data_stat_t *this_,
-                                         data_table_t table,
+                                         data_stat_table_t table,
                                          data_stat_series_t series,
                                          int_fast32_t increment )
 {
-    assert( DATA_TABLE_VOID != table );
-    assert( (int)table < (int)DATA_STAT_TABLES_MAX );
+    assert( table < DATA_STAT_TABLE_MAX );
     assert( series < DATA_STAT_SERIES_MAX );
     (*this_).data[table][series] += increment;
 }
@@ -61,7 +58,7 @@ static inline void data_stat_add ( data_stat_t *this_, const data_stat_t *that )
     assert( that != NULL );
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
     {
-        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
         {
             (*this_).data[tables_idx][series_idx] += (*that).data[tables_idx][series_idx];
         }
@@ -73,7 +70,7 @@ static inline uint_fast32_t data_stat_get_series_count ( const data_stat_t *this
 {
     assert( series < DATA_STAT_SERIES_MAX );
     uint_fast32_t result = 0;
-    for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+    for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
     {
         result += (*this_).data[tables_idx][series];
     }
@@ -81,10 +78,9 @@ static inline uint_fast32_t data_stat_get_series_count ( const data_stat_t *this
 }
 
 static inline uint_fast32_t data_stat_get_table_count ( const data_stat_t *this_,
-                                                        data_table_t table )
+                                                        data_stat_table_t table )
 {
-    assert( DATA_TABLE_VOID != table );
-    assert( (int)table < (int)DATA_STAT_TABLES_MAX );
+    assert( table < DATA_STAT_TABLE_MAX );
     uint_fast32_t result = 0;
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
     {
@@ -98,7 +94,7 @@ static inline uint_fast32_t data_stat_get_total_count ( const data_stat_t *this_
     uint_fast32_t result = 0;
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
     {
-        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
         {
             result += (*this_).data[tables_idx][series_idx];
         }
@@ -109,7 +105,7 @@ static inline uint_fast32_t data_stat_get_total_count ( const data_stat_t *this_
 static void inline data_stat_reset_series( data_stat_t *this_, data_stat_series_t series )
 {
     assert( series < DATA_STAT_SERIES_MAX );
-    for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+    for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
     {
         (*this_).data[tables_idx][series] = 0;
     }

@@ -139,7 +139,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -150,8 +150,8 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -172,7 +172,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -190,7 +190,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -214,8 +214,8 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -226,7 +226,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -287,7 +287,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -308,7 +308,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -353,7 +353,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
             data_stat_init(&stat);
             ctrl_err = ctrl_controller_undo ( &controller, &stat );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-            TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+            TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
             TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
             data_stat_destroy(&stat);
         }
@@ -375,7 +375,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -406,7 +406,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -417,7 +417,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -534,8 +534,8 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
             ctrl_err = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
 
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-            TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
-            TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+            TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+            TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
             TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
             data_stat_destroy(&stat);
             ctrl_multi_step_changer_destroy( &multi_stepper );
@@ -550,8 +550,8 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -590,7 +590,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -608,8 +608,8 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -630,7 +630,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -648,7 +648,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -678,7 +678,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -696,7 +696,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -717,8 +717,8 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -736,7 +736,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -775,8 +775,8 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -875,7 +875,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -886,7 +886,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -897,7 +897,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -929,7 +929,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -940,7 +940,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }
@@ -951,7 +951,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_redo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }

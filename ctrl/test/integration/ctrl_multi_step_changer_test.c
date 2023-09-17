@@ -107,11 +107,11 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *test_env )
             = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
 
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE | U8_ERROR_OBJECT_STILL_REFERENCED, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR ));
         TEST_EXPECT_EQUAL_INT( 5, data_stat_get_total_count ( &stat ));
 
         data_stat_destroy(&stat);
@@ -182,12 +182,13 @@ static test_case_result_t delete_set_successfully( test_fixture_t *test_env )
             = ctrl_multi_step_changer_delete_set ( &multi_stepper, &small_set, &stat );
 
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         /* The diagram type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM - therefore 1 lifeline is additionally deleted: */
-        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 8, data_stat_get_total_count ( &stat ));
 
         data_stat_destroy(&stat);

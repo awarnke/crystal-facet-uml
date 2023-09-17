@@ -197,8 +197,8 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
         data_stat_init(&stat);
         ctrl_err = ctrl_controller_undo ( &controller, &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
-        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
     }

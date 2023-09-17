@@ -272,7 +272,7 @@ u8_error_t xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
         if ( (*this_).mode == XMI_WRITER_PASS_BASE )  /* count errors only once */
         {
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_unknown_classifier( &((*this_).atom_writer),
                                                                      classifier_id,
@@ -298,7 +298,7 @@ u8_error_t xmi_element_writer_start_classifier( xmi_element_writer_t *this_,
             /* During the regular tree traversal, xmi_element_writer_can_classifier_nest_classifier is checked and adhered. */
             U8_TRACE_INFO("xmi_element_writer: request to write a classifier to an illegal place!");
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_illegal_container( &((*this_).atom_writer),
                                                                     classifier_id,
@@ -462,7 +462,7 @@ u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
         }
 
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
     else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
     {
@@ -575,7 +575,7 @@ u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                                                                  stereotype_view
                                                                                );
                         /* update export statistics */
-                        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+                        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
                     }
                 }
             }
@@ -657,6 +657,8 @@ u8_error_t xmi_element_writer_start_feature( xmi_element_writer_t *this_,
     const char *const feature_key = data_feature_get_key_const( feature_ptr );
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type( feature_ptr );
+    const data_stat_table_t feat_or_lifeline
+        = ( feature_type == DATA_FEATURE_TYPE_LIFELINE ) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
     const xmi_element_info_t *feature_info;
     const u8_error_t map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
                                                                  parent_type,
@@ -673,7 +675,7 @@ u8_error_t xmi_element_writer_start_feature( xmi_element_writer_t *this_,
         if ( (*this_).mode == XMI_WRITER_PASS_BASE )  /* count errors only once */
         {
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
+            data_stat_inc_count ( (*this_).export_stat, feat_or_lifeline, DATA_STAT_SERIES_ERROR );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_unknown_feature( &((*this_).atom_writer),
                                                                   feature_id,
@@ -698,7 +700,7 @@ u8_error_t xmi_element_writer_start_feature( xmi_element_writer_t *this_,
                 /* The caller requested to write a feature to an illegal place */
                 U8_TRACE_INFO("xmi_element_writer: request to write a feature to an illegal place!");
                 /* update export statistics */
-                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count ( (*this_).export_stat, feat_or_lifeline, DATA_STAT_SERIES_WARNING );
                 /* inform the user via an XML comment: */
                 export_err |= xmi_atom_writer_report_illegal_parent( &((*this_).atom_writer),
                                                                      feature_id,
@@ -748,7 +750,7 @@ u8_error_t xmi_element_writer_start_feature( xmi_element_writer_t *this_,
             xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+            data_stat_inc_count ( (*this_).export_stat, feat_or_lifeline, DATA_STAT_SERIES_EXPORTED );
         }
     }
     else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
@@ -795,7 +797,7 @@ u8_error_t xmi_element_writer_start_feature( xmi_element_writer_t *this_,
             xml_writer_increase_indent ( &((*this_).xml_writer) );
 
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+            data_stat_inc_count ( (*this_).export_stat, feat_or_lifeline, DATA_STAT_SERIES_EXPORTED );
         }
     }
 
@@ -1011,7 +1013,7 @@ u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         if ( (*this_).mode == XMI_WRITER_PASS_BASE )  /* count errors only once */
         {
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_unknown_relationship( &((*this_).atom_writer),
                                                                        relation_id,
@@ -1034,7 +1036,7 @@ u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
             /* The caller requested to write a relationship to an illegal place */
             U8_TRACE_INFO("xmi_element_writer: request to write a relationship to an illegal place!");
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_illegal_location( &((*this_).atom_writer),
                                                                    relation_id,
@@ -1116,7 +1118,7 @@ u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
         }
 
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
     }
     else if ( (*this_).mode == XMI_WRITER_PASS_PROFILE )
     {
@@ -1180,7 +1182,7 @@ u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                                                                  stereotype_view
                                                                                );
                         /* update export statistics */
-                        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                     }
                 }
             }
@@ -1390,7 +1392,7 @@ u8_error_t xmi_element_writer_private_assemble_relationship( xmi_element_writer_
                 /* The caller requested to write a relationship of illegal source end type */
                 U8_TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal source end type!");
                 /* update export statistics */
-                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                 /* inform the user via an XML comment: */
                 export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
                                                                                 relation_id,
@@ -1450,7 +1452,7 @@ u8_error_t xmi_element_writer_private_assemble_relationship( xmi_element_writer_
             /* The caller requested to write a relationship of illegal target end type */
             U8_TRACE_INFO("xmi_element_writer: request to write a relationship connecting an illegal target end type!");
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
                                                                             relation_id,

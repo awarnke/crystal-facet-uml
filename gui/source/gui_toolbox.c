@@ -333,17 +333,17 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
         if ( 0 == data_stat_get_total_count( &stat ) )
         {
             gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                    GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
-                                                );
+                                                     GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                     GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
+                                                   );
         }
         else
         {
-            gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
-                                                                GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                                GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD,
-                                                                &stat
-                                                              );
+            gui_simple_message_to_user_show_message_with_stat( (*this_).message_to_user,
+                                                               GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD,
+                                                               &stat
+                                                             );
         }
     }
     else

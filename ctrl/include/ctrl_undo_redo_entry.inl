@@ -1,5 +1,6 @@
 /* File: ctrl_undo_redo_entry.inl; Copyright and License: see below */
 
+#include "data_feature_type.h"
 #include <assert.h>
 
 static inline void ctrl_undo_redo_entry_init_empty ( ctrl_undo_redo_entry_t *this_ )
@@ -80,111 +81,117 @@ static inline void ctrl_undo_redo_entry_to_statistics ( const ctrl_undo_redo_ent
 {
     assert( NULL != io_stat );
 
-    data_table_t table = DATA_TABLE_VOID;
-    data_stat_series_t series;
+    data_stat_table_t table = DATA_STAT_TABLE_LIFELINE;
+    data_stat_series_t series = DATA_STAT_SERIES_ERROR;
     switch( (*this_).action_type )
     {
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM:
         {
-            table = DATA_TABLE_DIAGRAM;
+            table = DATA_STAT_TABLE_DIAGRAM;
             series = undo ? DATA_STAT_SERIES_CREATED : DATA_STAT_SERIES_DELETED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM:
         {
-            table = DATA_TABLE_DIAGRAM;
+            table = DATA_STAT_TABLE_DIAGRAM;
             series = DATA_STAT_SERIES_MODIFIED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM:
         {
-            table = DATA_TABLE_DIAGRAM;
+            table = DATA_STAT_TABLE_DIAGRAM;
             series = undo ? DATA_STAT_SERIES_DELETED : DATA_STAT_SERIES_CREATED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT:
         {
-            table = DATA_TABLE_DIAGRAMELEMENT;
+            table = DATA_STAT_TABLE_DIAGRAMELEMENT;
             series = undo ? DATA_STAT_SERIES_CREATED : DATA_STAT_SERIES_DELETED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT:
         {
-            table = DATA_TABLE_DIAGRAMELEMENT;
+            table = DATA_STAT_TABLE_DIAGRAMELEMENT;
             series = DATA_STAT_SERIES_MODIFIED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT:
         {
-            table = DATA_TABLE_DIAGRAMELEMENT;
+            table = DATA_STAT_TABLE_DIAGRAMELEMENT;
             series = undo ? DATA_STAT_SERIES_DELETED : DATA_STAT_SERIES_CREATED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER:
         {
-            table = DATA_TABLE_CLASSIFIER;
+            table = DATA_STAT_TABLE_CLASSIFIER;
             series = undo ? DATA_STAT_SERIES_CREATED : DATA_STAT_SERIES_DELETED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER:
         {
-            table = DATA_TABLE_CLASSIFIER;
+            table = DATA_STAT_TABLE_CLASSIFIER;
             series = DATA_STAT_SERIES_MODIFIED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER:
         {
-            table = DATA_TABLE_CLASSIFIER;
+            table = DATA_STAT_TABLE_CLASSIFIER;
             series = undo ? DATA_STAT_SERIES_DELETED : DATA_STAT_SERIES_CREATED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE:
         {
-            table = DATA_TABLE_FEATURE;
+            const data_feature_t *const old_feat = &((*this_).data_before_action.feature);
+            const data_feature_type_t feat_type = data_feature_get_main_type( old_feat );
+            table = (feat_type == DATA_FEATURE_TYPE_LIFELINE) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
             series = undo ? DATA_STAT_SERIES_CREATED : DATA_STAT_SERIES_DELETED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE:
         {
-            table = DATA_TABLE_FEATURE;
+            const data_feature_t *const old_feat = &((*this_).data_before_action.feature);
+            const data_feature_type_t feat_type = data_feature_get_main_type( old_feat );
+            table = (feat_type == DATA_FEATURE_TYPE_LIFELINE) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
             series = DATA_STAT_SERIES_MODIFIED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE:
         {
-            table = DATA_TABLE_FEATURE;
+            const data_feature_t *const new_feat = &((*this_).data_after_action.feature);
+            const data_feature_type_t feat_type = data_feature_get_main_type( new_feat );
+            table = (feat_type == DATA_FEATURE_TYPE_LIFELINE) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
             series = undo ? DATA_STAT_SERIES_DELETED : DATA_STAT_SERIES_CREATED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP:
         {
-            table = DATA_TABLE_RELATIONSHIP;
+            table = DATA_STAT_TABLE_RELATIONSHIP;
             series = undo ? DATA_STAT_SERIES_CREATED : DATA_STAT_SERIES_DELETED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP:
         {
-            table = DATA_TABLE_RELATIONSHIP;
+            table = DATA_STAT_TABLE_RELATIONSHIP;
             series = DATA_STAT_SERIES_MODIFIED;
         }
         break;
 
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP:
         {
-            table = DATA_TABLE_RELATIONSHIP;
+            table = DATA_STAT_TABLE_RELATIONSHIP;
             series = undo ? DATA_STAT_SERIES_DELETED : DATA_STAT_SERIES_CREATED;
         }
         break;
@@ -198,14 +205,12 @@ static inline void ctrl_undo_redo_entry_to_statistics ( const ctrl_undo_redo_ent
         default :
         {
             /* internal error, switch-case statement incomplete */
+            U8_LOG_ERROR("incomplete switch statement in ctrl_undo_redo_entry_to_statistics");
         }
         break;
     }
 
-    if ( table != DATA_TABLE_VOID )
-    {
-        data_stat_inc_count ( io_stat, table, (err ? DATA_STAT_SERIES_ERROR : series) );
-    }
+    data_stat_inc_count ( io_stat, table, (err ? DATA_STAT_SERIES_ERROR : series) );
 }
 
 

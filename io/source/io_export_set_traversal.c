@@ -76,9 +76,7 @@ u8_error_t io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
 
             case DATA_TABLE_FEATURE:
             {
-                /* intentionally not supported */
-                U8_TRACE_INFO( "io_export_set_traversal_export_set does not copy single features, only complete classifiers." );
-                data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED );
+                serialize_error |= io_export_set_traversal_private_export_feature( this_, current_id );
             }
             break;
 
@@ -129,7 +127,7 @@ u8_error_t io_export_set_traversal_private_export_diagram( io_export_set_travers
     {
         /* program internal error */
         U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
     }
 
     U8_TRACE_END_ERR(serialize_error);
@@ -262,14 +260,14 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
         {
             /* program internal error */
             U8_LOG_ERROR( "io_export_set_traversal_export_set could not read referenced data of the set." );
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
         }
     }
     else
     {
         /* program internal error */
         U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
     }
 
     U8_TRACE_END_ERR(serialize_error);
@@ -340,7 +338,42 @@ u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_trav
     {
         /* program internal error */
         U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
+    }
+
+    U8_TRACE_END_ERR(serialize_error);
+    return serialize_error;
+}
+
+u8_error_t io_export_set_traversal_private_export_feature( io_export_set_traversal_t *this_, data_id_t id )
+{
+    U8_TRACE_BEGIN();
+    assert( data_id_is_valid( &id ) );
+    assert( DATA_TABLE_FEATURE == data_id_get_table( &id ) );
+    u8_error_t serialize_error = U8_ERROR_NONE;
+    u8_error_t read_error;
+
+    data_feature_t out_feature;
+    read_error = data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                          data_id_get_row_id( &id ),
+                                                          &out_feature
+                                                        );
+
+    if ( read_error == U8_ERROR_NONE )
+    {
+        const data_feature_type_t feat_type = data_feature_get_main_type( &out_feature );
+        const data_stat_table_t feat_or_lifeline
+            = ( feat_type == DATA_FEATURE_TYPE_LIFELINE ) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
+
+        /* intentionally not supported */
+        U8_TRACE_INFO( "io_export_set_traversal_export_set does not copy single features, only complete classifiers." );
+        data_stat_inc_count ( (*this_).export_stat, feat_or_lifeline, DATA_STAT_SERIES_IGNORED );
+    }
+    else
+    {
+        /* program internal error */
+        U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
     }
 
     U8_TRACE_END_ERR(serialize_error);
@@ -426,14 +459,14 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
         {
             /* program internal error */
             U8_LOG_ERROR( "io_export_set_traversal_export_set could not read referenced data of the set." );
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
         }
     }
     else
     {
         /* program internal error */
         U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
     }
 
     U8_TRACE_END_ERR(serialize_error);

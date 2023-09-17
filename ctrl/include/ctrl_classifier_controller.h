@@ -7,6 +7,11 @@
 /*!
  *  \file
  *  \brief Provides write access and triggers consistency checks to classifiers in the database
+ *
+ *  ctrl_classifier_controller_t and ctrl_diagram_controller_t enforce consistency either by calling trigger functions
+ *  (which may call the consistency package to perform additional actions) or by failing if operations are not allowed.
+ *  ctrl_simple_changer_t and ctrl_multistep_changer_t try to find a solution where the database is always consistent,
+ *  e.g. by searching or re-sorting actions or by performing additional steps.
  */
 
 #include "u8/u8_error.h"
