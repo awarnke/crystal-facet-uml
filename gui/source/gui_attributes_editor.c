@@ -1150,8 +1150,13 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
             {
                 ctrl_diagram_controller_t *diag_ctrl;
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                data_stat_t stat;
+                data_stat_init(&stat);
+                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl,
+                                                                         data_id_get_row_id( &((*this_).selected_object_id) ),
+                                                                         obj_type,
+                                                                         &stat
+                                                                       );
                 if ( U8_ERROR_READ_ONLY_DB == ctrl_err )
                 {
                     /* notify read-only warning to user */
@@ -1160,10 +1165,19 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
                                                              GUI_SIMPLE_MESSAGE_CONTENT_DB_IS_READ_ONLY
                                                            );
                 }
-                else if ( U8_ERROR_NONE != ctrl_err )
+                else
                 {
-                    U8_LOG_ERROR_HEX( "update type failed:", ctrl_err );
+                    if ( U8_ERROR_NONE != ctrl_err )
+                    {
+                        U8_LOG_ERROR_HEX( "update type failed:", ctrl_err );
+                    }
+                    gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
+                                                                        GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                        GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE,
+                                                                        &stat
+                                                                      );
                 }
+                data_stat_destroy(&stat);
             }
         }
         break;

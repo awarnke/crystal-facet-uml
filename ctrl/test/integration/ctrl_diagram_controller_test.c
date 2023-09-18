@@ -101,8 +101,17 @@ static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
         ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, diagram_id, "\"new\" diagram name" );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
 
-        ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, diagram_id, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM );
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_diagram_controller_update_diagram_type( diag_ctrl,
+                                                                diagram_id,
+                                                                DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM,
+                                                                &stat
+                                                              );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
+        data_stat_destroy(&stat);
 
         ctrl_err = ctrl_diagram_controller_update_diagram_list_order ( diag_ctrl, diagram_id, -4321 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );

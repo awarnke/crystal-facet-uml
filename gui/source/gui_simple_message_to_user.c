@@ -468,6 +468,12 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
         utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE )
+    {
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Type changed: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
     else
     {
         U8_LOG_ERROR("unexptected content_id");

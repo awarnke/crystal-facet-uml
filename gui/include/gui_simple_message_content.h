@@ -108,6 +108,7 @@ extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_PASTE
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_DELETE;  /*!< show statistics on deleted elements */
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_UNDO;  /*!< show statistics on undo actions */
 extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_REDO;  /*!< show statistics on redo actions */
+extern const gui_simple_message_content_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE;  /*!< show statistics on type change actions */
 
 /*! \brief tag-type to identify constants that may be used only at gui_simple_message_to_user_show_message_with_names_and_stat method.
  *

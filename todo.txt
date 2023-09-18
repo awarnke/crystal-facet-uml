@@ -56,7 +56,7 @@ ideas for future versions:
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
-  [ ] delete features (except lifelines) immediately when they become invisible in all diagrams
+  [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
       (rationale: the search+xmi+json export find them)
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the search+xmi+json export find them)

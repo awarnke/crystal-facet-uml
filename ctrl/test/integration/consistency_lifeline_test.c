@@ -363,20 +363,50 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     {
-        ctrl_err = ctrl_diagram_controller_update_diagram_type ( diagram_ctrl, child_diag_id, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
+                                                                child_diag_id,
+                                                                DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                                                &stat
+                                                              );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
+        data_stat_destroy(&stat);
     }
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
     {
-        ctrl_err = ctrl_diagram_controller_update_diagram_type ( diagram_ctrl, child_diag_id, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM );
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
+                                                                child_diag_id,
+                                                                DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,
+                                                                &stat
+                                                              );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
+        data_stat_destroy(&stat);
     }
 
     /* change the type of the child diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     {
-        ctrl_err = ctrl_diagram_controller_update_diagram_type ( diagram_ctrl, child_diag_id, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM );
+        data_stat_t stat;
+        data_stat_init(&stat);
+        ctrl_err = ctrl_diagram_controller_update_diagram_type( diagram_ctrl,
+                                                                child_diag_id,
+                                                                DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,
+                                                                &stat
+                                                              );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
+        TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ));
+        TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
+        data_stat_destroy(&stat);
     }
 
     /* check that the classifier now has one feature of type DATA_FEATURE_TYPE_LIFELINE */

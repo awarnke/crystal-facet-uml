@@ -77,6 +77,10 @@ static inline u8_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_red
         /* therefore we start 1 left to this */
         for ( uint32_t pos = (*this_).current-1; (pos!=0)&&(!finished); pos-- )
         {
+            /*    B0   A1   A2   A3   B1   A4   B2   X   X    */
+            /*  0    1    2    3    4    5    6    7   8   9  */
+            /*  ^ start                            ^ current  */
+
             /* get entry left of pos */
             const uint32_t index = ((*this_).start + (pos+CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
             const ctrl_undo_redo_entry_t *const cur_entry = &((*this_).buffer[index]);

@@ -168,11 +168,14 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new diagram_type of the diagram
+ *  \param[in,out] io_stat collects statistics on performed changes.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
                                                          data_row_id_t diagram_id,
-                                                         data_diagram_type_t new_diagram_type
+                                                         data_diagram_type_t new_diagram_type,
+                                                         data_stat_t *io_stat
                                                        );
 
 /*!

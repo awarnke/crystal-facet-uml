@@ -251,15 +251,16 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
 
 u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
                                                          data_row_id_t diagram_id,
-                                                         data_diagram_type_t new_diagram_type )
+                                                         data_diagram_type_t new_diagram_type,
+                                                         data_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
+    assert( io_stat != NULL );
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_diagram_t old_diagram;
 
-    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
-    if ( U8_ERROR_NONE == data_result )
+    result |= data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -275,10 +276,13 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
 
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
+
+        /* report statistics */
+        result |= ctrl_undo_redo_list_get_last_statistics( (*this_).undo_redo_list, io_stat );
     }
     else
     {
-        result = (u8_error_t) data_result;
+        data_stat_inc_count ( io_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
     }
 
     U8_TRACE_END_ERR( result );
