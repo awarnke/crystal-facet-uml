@@ -172,7 +172,9 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
             int insert_err = 0;
             const double weight = (const double) data_classifier_get_list_order( classifier1 );
             if (( c1_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
-                || ( c1_type == DATA_CLASSIFIER_TYPE_COMMENT ))
+                || ( c1_type == DATA_CLASSIFIER_TYPE_COMMENT )
+                || ( c1_type == DATA_CLASSIFIER_TYPE_IMAGE )
+                || ( c1_type == DATA_CLASSIFIER_TYPE_STEREOTYPE ))
             {
                 insert_err = universal_array_index_sorter_insert( &sorted_notes_reqs, plain_idx, weight );
             }
@@ -306,7 +308,9 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
             int insert_err = 0;
             const double weight = (const double) data_classifier_get_list_order( classifier1 );
             if (( c1_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
-                || ( c1_type == DATA_CLASSIFIER_TYPE_COMMENT ))
+                || ( c1_type == DATA_CLASSIFIER_TYPE_COMMENT )
+                || ( c1_type == DATA_CLASSIFIER_TYPE_IMAGE )
+                || ( c1_type == DATA_CLASSIFIER_TYPE_STEREOTYPE ))
             {
                 insert_err = universal_array_index_sorter_insert( &sorted_notes_reqs, plain_idx, weight );
             }

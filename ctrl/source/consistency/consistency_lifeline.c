@@ -142,7 +142,7 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
 }
 
 u8_error_t consistency_lifeline_create_a_lifeline( consistency_lifeline_t *this_,
-                                                                   const data_diagramelement_t *new_diagramelement )
+                                                   const data_diagramelement_t *new_diagramelement )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_diagramelement );
@@ -163,7 +163,6 @@ u8_error_t consistency_lifeline_create_a_lifeline( consistency_lifeline_t *this_
             result |= consistency_lifeline_private_create_one_lifeline ( this_, new_diagramelement );
         }
     }
-    else
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -195,7 +194,7 @@ u8_error_t consistency_lifeline_private_create_one_lifeline( consistency_lifelin
                                                          &new_feature_id
                                                        );
 
-    /* the newly create lifeline is the focused feature */
+    /* the newly created lifeline is the focused feature */
     const data_row_id_t diagramelement_id = data_diagramelement_get_row_id( the_diagramelement );
     result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id( (*this_).diag_ctrl,
                                                                                 diagramelement_id,
