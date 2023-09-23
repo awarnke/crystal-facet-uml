@@ -82,7 +82,7 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
         }
 
         /* delete all found lifelines */
-        /* note that (*this_).private_temp_diagele_buf cannot be used here anylonger due to re-entrancy by recursion */
+        /* note that (*this_).private_temp_diagele_buf cannot be used here any longer due to re-entrancy by recursion */
         const uint32_t lifelines_count = data_small_set_get_count( &lifelines_to_delete );
         for ( uint32_t index2 = 0; index2 < lifelines_count; index2 ++ )
         {

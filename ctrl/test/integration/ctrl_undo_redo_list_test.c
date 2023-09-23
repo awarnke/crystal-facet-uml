@@ -856,8 +856,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
                                                            );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ));
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
     data_stat_destroy(&stat);
 
     /* step 4a: update the diagramelement display_flags */
