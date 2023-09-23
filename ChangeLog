@@ -4,11 +4,10 @@ crystal-facet-uml (1.52.0) UNRELEASED; urgency=medium
   * Redesign of file-menu icons
   * Lifelines are deleted when the diagram type changes to non-interaction
   * When changing the diagram type, statistics on changes are displayed
-  * TODO: This feature is not yet bugfree: statistics are too low
-  * TODO: This feature is not yet bugfree: some lifelines are not removed
   * In interaction diagrams, Stereotypes and Images are co-located to comments
+  * internal note: New database files store ids, types and flags as NOT NULL
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Aug 2023 08:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Sep 2023 08:00:00 +0200
 
 crystal-facet-uml (1.51.0) UNRELEASED; urgency=medium
 

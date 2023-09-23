@@ -20,8 +20,8 @@ const char DATA_DATABASE_SQLITE3_MAGIC[16]
  */
 static const char *DATA_DATABASE_CREATE_CLASSIFIER_TABLE =
     "CREATE TABLE IF NOT EXISTS classifiers ( "
-        "id INTEGER PRIMARY KEY ASC, "
-        "main_type INTEGER, "
+        "id INTEGER NOT NULL PRIMARY KEY ASC, "
+        "main_type INTEGER NOT NULL, "
         "stereotype TEXT, "
         "name TEXT UNIQUE, "
         "description TEXT, "
@@ -88,10 +88,10 @@ static const char *DATA_DATABASE_UPDATE_CLASSIFIER_UUID =
  */
 static const char *DATA_DATABASE_CREATE_RELATIONSHIP_TABLE =
     "CREATE TABLE IF NOT EXISTS relationships ( "
-        "id INTEGER PRIMARY KEY ASC, "
-        "main_type INTEGER, "
-        "from_classifier_id INTEGER, "
-        "to_classifier_id INTEGER, "
+        "id INTEGER NOT NULL PRIMARY KEY ASC, "
+        "main_type INTEGER NOT NULL, "
+        "from_classifier_id INTEGER NOT NULL, "
+        "to_classifier_id INTEGER NOT NULL, "
         "stereotype TEXT DEFAULT \'\', "  /* since 1.47.0, DEFAULT needed in case a new DB is modified by an old program version */
         "name TEXT, "
         "description TEXT, "
@@ -183,9 +183,9 @@ static const char *DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_STEREOTYPE =
  */
 static const char *DATA_DATABASE_CREATE_FEATURE_TABLE =
     "CREATE TABLE IF NOT EXISTS features ( "
-        "id INTEGER PRIMARY KEY ASC, "
-        "main_type INTEGER, "
-        "classifier_id INTEGER, "
+        "id INTEGER NOT NULL PRIMARY KEY ASC, "
+        "main_type INTEGER NOT NULL, "
+        "classifier_id INTEGER NOT NULL, "
         "key TEXT, "
         "value TEXT, "
         "description TEXT, "
@@ -230,9 +230,9 @@ static const char *DATA_DATABASE_UPDATE_FEATURE_UUID =
  */
 static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
     "CREATE TABLE IF NOT EXISTS diagrams ( "
-        "id INTEGER PRIMARY KEY ASC, "
+        "id INTEGER NOT NULL PRIMARY KEY ASC, "
         "parent_id INTEGER, "  /* is NULL for the root diagram */
-        "diagram_type INTEGER, "
+        "diagram_type INTEGER NOT NULL, "
         "stereotype TEXT DEFAULT \'\', "  /* since 1.47.0, DEFAULT needed in case a new DB is modified by an old program version */
         "name TEXT, "
         "description TEXT, "
@@ -312,10 +312,10 @@ static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_STEREOTYPE =
  */
 static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENT_TABLE =
     "CREATE TABLE IF NOT EXISTS diagramelements ( "
-        "id INTEGER PRIMARY KEY ASC, "
-        "diagram_id INTEGER, "
-        "classifier_id INTEGER, "
-        "display_flags INTEGER, "
+        "id INTEGER NOT NULL PRIMARY KEY ASC, "
+        "diagram_id INTEGER NOT NULL, "
+        "classifier_id INTEGER NOT NULL, "
+        "display_flags INTEGER NOT NULL, "
         "focused_feature_id INTEGER DEFAULT NULL, "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "uuid TEXT NOT NULL DEFAULT \'\', "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(diagram_id) REFERENCES diagrams(id), "

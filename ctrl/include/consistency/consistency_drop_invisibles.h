@@ -11,7 +11,7 @@
  *  While application level conditions are more a nice to have feature to not irritate the user
  *  and to support in creating consistent diagrams,
  *  the ctrl_consistency_checker checks that the model in the database is valid,
- *  e.g. relations link existing objects instead of invalid ids.
+ *  e.g. relations link to existing objects instead of invalid ids.
  */
 
 #include "u8/u8_error.h"
@@ -43,8 +43,10 @@ struct consistency_drop_invisibles_struct {
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
 
-    data_diagramelement_t private_temp_diagele_buf[CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES];
-    data_relationship_t private_temp_rel_buf[CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_RELATIONS];
+    data_diagramelement_t private_temp_diagele_buf[CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES];/*!< be aware */
+                                                                                     /*!< of reentrancy by recursion! */
+    data_relationship_t private_temp_rel_buf[CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_RELATIONS];  /*!< be aware of */
+                                                                                        /*!< reentrancy by recursion! */
 };
 
 typedef struct consistency_drop_invisibles_struct consistency_drop_invisibles_t;

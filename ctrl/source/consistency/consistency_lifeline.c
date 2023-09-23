@@ -48,6 +48,8 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
     if ( ! data_rules_diagram_is_scenario( &((*this_).rules), new_type ) )
     {
         /* this diagram type must not have any lifelines */
+        data_small_set_t lifelines_to_delete;
+        data_small_set_init( &lifelines_to_delete );
 
         /* search all contained diagramelements */
         const data_row_id_t diagram_id = data_diagram_get_row_id ( updated_diagram );
@@ -58,7 +60,6 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
                                                                           &((*this_).private_temp_diagele_buf),
                                                                           &diagramelement_count
                                                                         );
-
         if ( U8_ERROR_NONE == result )
         {
             /* search the diagramelements */
@@ -66,19 +67,12 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
             {
                 data_diagramelement_t *const current_diagele
                     = &((*this_).private_temp_diagele_buf[index]);
-                const data_row_id_t focused_feature
-                    = data_diagramelement_get_focused_feature_row_id( current_diagele );
-
-                if ( DATA_ROW_ID_VOID != focused_feature )
+                const data_id_t feat_to_delete = data_diagramelement_get_focused_feature_data_id( current_diagele );
+                if ( data_id_is_valid( &feat_to_delete ) )
                 {
                     /* diagramelement with a focused feature found */
-
-                    /* delete the lifeline */
-                    result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
-                                                                         focused_feature,
-                                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                       );
-                    /* the current_diagele is already updated by another (recursive) consistency check. */
+                    /* this must be copied into a local data set to make this function re-entrant for recursive calls */
+                    result |= data_small_set_add_obj( &lifelines_to_delete, feat_to_delete );
                 }
             }
         }
@@ -86,6 +80,22 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
         {
             U8_LOG_ANOMALY( "consistency_lifeline_delete_lifelines could not load all diagram_elements of a diagram." );
         }
+
+        /* delete all found lifelines */
+        /* note that (*this_).private_temp_diagele_buf cannot be used here anylonger due to re-entrancy by recursion */
+        const uint32_t lifelines_count = data_small_set_get_count( &lifelines_to_delete );
+        for ( uint32_t index2 = 0; index2 < lifelines_count; index2 ++ )
+        {
+            const data_id_t delete_feat = data_small_set_get_id( &lifelines_to_delete, index2 );
+            assert( data_id_get_table( &delete_feat ) == DATA_TABLE_FEATURE );
+            result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
+                                                                 data_id_get_row_id( &delete_feat ),
+                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                               );
+            /* the current_diagele is already updated by another (recursive) consistency check. */
+        }
+
+        data_small_set_destroy( &lifelines_to_delete );
     }
 
     U8_TRACE_END_ERR( result );
