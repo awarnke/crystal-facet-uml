@@ -66,7 +66,7 @@ openSuSE:
 >
 > sudo zypper install lcov        # for reporting test coverage
 >
-> sudo zypper install rust        # for running qualification tests
+> sudo zypper install cargo       # for running the rust-based qualification tests
 
 
 > mkdir my_build && cd my_build

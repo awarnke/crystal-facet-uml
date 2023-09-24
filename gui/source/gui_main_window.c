@@ -796,10 +796,13 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_icon_view_set_row_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
     gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 7 );
 #if ( GTK_MAJOR_VERSION >= 4 )
-    /* workaround for endless loop in gtk layouting */
+    /* workaround for endless loop in gtk layouting, possibly fixed in 4.6.9? */
     GtkWidget *grid_frame = gtk_grid_new();
     gtk_grid_attach( GTK_GRID(grid_frame), (*this_).type_icon_grid, 0, 0, 1, 1 );
     gtk_widget_set_halign( grid_frame, GTK_ALIGN_END );
+    //gtk_orientable_set_orientation( GTK_ORIENTABLE(grid_frame), GTK_ORIENTATION_HORIZONTAL );
+    gtk_widget_set_vexpand( GTK_WIDGET(grid_frame), FALSE );
+    gtk_widget_set_hexpand( GTK_WIDGET(grid_frame), TRUE );
 #else
 #endif
 
@@ -814,6 +817,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
+        //gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(grid_frame) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );

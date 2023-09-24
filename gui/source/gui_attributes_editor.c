@@ -1680,6 +1680,16 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
 //#if (( GTK_MAJOR_VERSION == 4 ) && ( GTK_MINOR_VERSION < 7 ))
 #if ( GTK_MAJOR_VERSION >= 4 )
     /* workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/4856 */
+
+    //gtk_widget_set_vexpand( GTK_WIDGET(type_icon_grid), FALSE );
+    //gtk_widget_set_hexpand( GTK_WIDGET(type_icon_grid), TRUE );
+    //int wrong_w;
+    //int wrong_h;
+    //gtk_widget_get_size_request( GTK_WIDGET(type_icon_grid), &wrong_w, &wrong_h );
+    //gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), wrong_h, wrong_w );
+    //    const int w = gtk_widget_get_width( GTK_WIDGET(type_icon_grid) );
+    //    const int h = gtk_widget_get_height( GTK_WIDGET(type_icon_grid) );
+    //    gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), w, h );
     gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), 7*40, 5*30 );
     //gtk_layout_manager_layout_changed( gtk_widget_get_layout_manager( GTK_WIDGET(type_icon_grid) ));
 #else
