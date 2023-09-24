@@ -11,18 +11,18 @@ static const char *const ( data_stat_private_series[(int)DATA_STAT_SERIES_MAX] )
 void data_stat_trace ( const data_stat_t *this_ )
 {
     U8_TRACE_BEGIN();
-    U8_TRACE_INFO( "                   ? C F R E D" );
+    U8_TRACE_INFO( "                   l C F R E D" );
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
     {
         const char prefix[] = "data_stat_t[";
         const char infix1[] = "]: ";
-        char stat_buf[sizeof(prefix)-1+4+sizeof(infix1)-1+3+5*DATA_STAT_TABLES_MAX];
+        char stat_buf[sizeof(prefix)-1+4+sizeof(infix1)-1+3+5*DATA_STAT_TABLE_MAX];
         utf8stringbuf_t stat_str = UTF8STRINGBUF( stat_buf );
         utf8stringbuf_copy_str( stat_str, prefix );
         utf8stringbuf_append_str( stat_str, data_stat_private_series[series_idx] );
         utf8stringbuf_append_str( stat_str, infix1 );
 
-        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+        for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
         {
             utf8stringbuf_append_str( stat_str, (tables_idx==0)?"":"," );
             utf8stringbuf_append_int( stat_str, (*this_).data[tables_idx][series_idx] );

@@ -161,14 +161,14 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *test_env )
 
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_table_count( &stats, DATA_STAT_TABLE_CLASSIFIER ) );
 
     /* duplicate id, name and uuid */
     err = io_import_elements_sync_classifier( &elements_importer, &my_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_table_count( &stats, DATA_STAT_TABLE_CLASSIFIER ) );
 
     /* duplicate name */
     data_classifier_t cloned_classifier;
@@ -188,9 +188,9 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *test_env )
 
     err = io_import_elements_sync_classifier( &elements_importer, &cloned_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 4, data_stat_get_table_count( &stats, DATA_STAT_TABLE_CLASSIFIER ) );
 
     /* duplicate id and name */
     const u8_error_t d_err_3
@@ -202,9 +202,9 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *test_env )
 
     err = io_import_elements_sync_classifier( &elements_importer, &cloned_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
-    TEST_EXPECT_EQUAL_INT( 3, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
-    TEST_EXPECT_EQUAL_INT( 6, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING ) );
+    TEST_EXPECT_EQUAL_INT( 3, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 6, data_stat_get_table_count( &stats, DATA_STAT_TABLE_CLASSIFIER ) );
 
     /* duplicate id and uuid */
     const u8_error_t d_err_1
@@ -216,9 +216,9 @@ static test_case_result_t test_reject_duplicates( test_fixture_t *test_env )
 
     err = io_import_elements_sync_classifier( &elements_importer, &cloned_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
-    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &stats, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ) );
-    TEST_EXPECT_EQUAL_INT( 7, data_stat_get_table_count( &stats, DATA_TABLE_CLASSIFIER ) );
+    TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &stats, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ) );
+    TEST_EXPECT_EQUAL_INT( 7, data_stat_get_table_count( &stats, DATA_STAT_TABLE_CLASSIFIER ) );
     return TEST_CASE_RESULT_OK;
 }
 

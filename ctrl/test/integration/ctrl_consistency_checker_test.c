@@ -74,7 +74,7 @@ static universal_utf8_writer_t out_report;
 test_suite_t ctrl_consistency_checker_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "ctrl_classifier_policy_enforcer_test", &set_up, &tear_down );
+    test_suite_init( &result, "ctrl_classifier_consistency_checker_test", &set_up, &tear_down );
     test_suite_add_test_case( &result, "diagram_two_roots_consistency", &diagram_two_roots_consistency );
     test_suite_add_test_case( &result, "diagram_missing_parent_consistency", &diagram_missing_parent_consistency );
     test_suite_add_test_case( &result, "diagram_circular_referenced_diagrams_consistency", &diagram_circular_referenced_diagrams_consistency );

@@ -392,17 +392,17 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env 
                     const int expected_feat_errors
                         = (( feature_types[feat1_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 )
                         + (( feature_types[feat2_idx] == (data_feature_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE ) ? 1 : 0 );
-                    TEST_EXPECT_EQUAL_INT( expected_clas_errors, data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ) );
-                    TEST_EXPECT_EQUAL_INT( expected_feat_errors, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ) );
-                    TEST_EXPECT_EQUAL_INT( expected_rel_errors, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
+                    TEST_EXPECT_EQUAL_INT( expected_clas_errors, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR ) );
+                    TEST_EXPECT_EQUAL_INT( expected_feat_errors, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_ERROR ) );
+                    TEST_EXPECT_EQUAL_INT( expected_rel_errors, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR ) );
                     TEST_EXPECT_EQUAL_INT( expected_clas_errors + expected_feat_errors + expected_rel_errors,
                                            data_stat_get_series_count( &stat, DATA_STAT_SERIES_ERROR )
                                          );
                     TEST_EXPECT_EQUAL_INT( 5 - expected_clas_errors,
-                                           data_stat_get_count( &stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED )
+                                           data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED )
                                          );
-                    //TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED ) );
-                    //TEST_EXPECT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ) );
+                    //TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED ) );
+                    //TEST_EXPECT_EQUAL_INT( 4, data_stat_get_count( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED ) );
                     //TEST_EXPECT_EQUAL_INT( 10, data_stat_get_series_count( &stat, DATA_STAT_SERIES_EXPORTED ) );
                     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_MODIFIED ) );
                     TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &stat, DATA_STAT_SERIES_DELETED ) );

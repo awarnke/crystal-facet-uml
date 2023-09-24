@@ -67,11 +67,11 @@ u8_error_t image_format_writer_render_diagram_to_file( image_format_writer_t *th
 
     data_visible_set_init( (*this_).input_data );
     result |= data_visible_set_load( (*this_).input_data, diagram_row_id, (*this_).db_reader );
-    assert(result != U8_ERROR_NONE);
+    assert(result == U8_ERROR_NONE);
     assert( data_visible_set_is_valid ( (*this_).input_data ) );
     data_profile_part_init( (*this_).profile );
     result |= data_profile_part_load( (*this_).profile, (*this_).input_data, (*this_).db_reader );
-    assert(result != U8_ERROR_NONE);
+    assert(result == U8_ERROR_NONE);
     result |= image_format_writer_private_render_surface_to_file( this_, export_type, target_filename, io_render_stat );
     data_profile_part_destroy( (*this_).profile );
     data_visible_set_destroy( (*this_).input_data );

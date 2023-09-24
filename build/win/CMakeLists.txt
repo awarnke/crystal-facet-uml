@@ -54,6 +54,7 @@ INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/freetype2")
 FILE(GLOB commonSource ../../gui/source/*.c
                        ../../gui/source/sketch/*.c
                        ../../ctrl/source/*.c
+                       ../../ctrl/source/consistency/*.c
                        ../../data/source/*.c
                        ../../data/source/storage/*.c
                        ../../data/source/set/*.c

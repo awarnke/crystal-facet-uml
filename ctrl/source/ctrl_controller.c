@@ -13,18 +13,20 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
     data_database_reader_init( &((*this_).db_reader), database );
     data_database_writer_init( &((*this_).db_writer), &((*this_).db_reader), database );
     ctrl_undo_redo_list_init ( &((*this_).undo_redo_list), &((*this_).db_reader), &((*this_).db_writer) );
-    ctrl_classifier_policy_enforcer_init ( &((*this_).classifier_policy_enforcer), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
+    consistency_drop_invisibles_init ( &((*this_).consistency_drop_invisibles), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
+    consistency_lifeline_init ( &((*this_).consistency_lifeline), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
+    ctrl_classifier_trigger_init( &((*this_).classifier_trigger), &((*this_).consistency_drop_invisibles), &((*this_).consistency_lifeline) );
+    ctrl_diagram_trigger_init( &((*this_).diagram_trigger), &((*this_).consistency_drop_invisibles), &((*this_).consistency_lifeline) );
     ctrl_classifier_controller_init ( &((*this_).classifiers),
                                       &((*this_).undo_redo_list),
-                                      &((*this_).classifier_policy_enforcer),
+                                      &((*this_).classifier_trigger),
                                       database,
                                       &((*this_).db_reader),
                                       &((*this_).db_writer)
                                     );
-    ctrl_diagram_policy_enforcer_init ( &((*this_).diagram_policy_enforcer), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
     ctrl_diagram_controller_init ( &((*this_).diagrams),
                                    &((*this_).undo_redo_list),
-                                   &((*this_).diagram_policy_enforcer),
+                                   &((*this_).diagram_trigger),
                                    database,
                                    &((*this_).db_reader),
                                    &((*this_).db_writer)
@@ -49,11 +51,13 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
     data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
     /* destroy member attributes */
+    ctrl_classifier_trigger_destroy( &((*this_).classifier_trigger) );
+    ctrl_diagram_trigger_destroy( &((*this_).diagram_trigger) );
     ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
     ctrl_diagram_controller_destroy ( &((*this_).diagrams) );
-    ctrl_diagram_policy_enforcer_destroy ( &((*this_).diagram_policy_enforcer) );
-    ctrl_classifier_policy_enforcer_destroy ( &((*this_).classifier_policy_enforcer) );
     ctrl_classifier_controller_destroy ( &((*this_).classifiers) );
+    consistency_lifeline_destroy ( &((*this_).consistency_lifeline) );
+    consistency_drop_invisibles_destroy ( &((*this_).consistency_drop_invisibles) );
     ctrl_undo_redo_list_destroy ( &((*this_).undo_redo_list) );
     data_database_writer_destroy( &((*this_).db_writer) );
     data_database_reader_destroy( &((*this_).db_reader) );

@@ -102,6 +102,15 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
 u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_traversal_t *this_, data_id_t id );
 
 /*!
+ *  \brief fetches required data from the db_reader and updates statistics on non-exported features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the object to be exported
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t io_export_set_traversal_private_export_feature( io_export_set_traversal_t *this_, data_id_t id );
+
+/*!
  *  \brief fetches required data from the db_reader and exports the object(s) via element_writer
  *
  *  \param this_ pointer to own object attributes

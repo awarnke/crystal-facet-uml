@@ -70,7 +70,7 @@ pub(super) fn testcase_import_to_new_cfu1(environment: &mut FixtureCli) -> Resul
     };
 
     /* check if the returned string looks as expected */
-    let as_expected1 = stdout1.contains("  errors: \t\t\t\t\t\t: 0");
+    let as_expected1 = stdout1.contains("  errors: \t\t\t\t\t\t\t: 0");
 
     /* check that the exit code is 0 */
     let exit_ok1: bool = output1.status.success();

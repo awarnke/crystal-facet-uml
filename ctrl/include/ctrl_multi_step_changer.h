@@ -7,6 +7,11 @@
 /*!
  *  \file
  *  \brief Provides an entry point for write access and consistency checks to the database
+ *
+ *  ctrl_classifier_controller_t and ctrl_diagram_controller_t enforce consistency either by calling trigger functions
+ *  (which may call the consistency package to perform additional actions) or by failing if operations are not allowed.
+ *  ctrl_simple_changer_t and ctrl_multistep_changer_t try to find a solution where the database is always consistent,
+ *  e.g. by searching or re-sorting actions or by performing additional steps.
  */
 
 #include "u8/u8_error.h"
@@ -178,7 +183,7 @@ u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_ch
 /* ================================ propose names of classifiers ================================ */
 
 /*!
- *  \brief create a name proposal for a classifier based on a base_name and an interation-counter
+ *  \brief create a name proposal for a classifier based on a base_name and an iteration-counter
  *
  *  \param this_ pointer to own object attributes
  *  \param base_classifier_name expected new name of the classifier

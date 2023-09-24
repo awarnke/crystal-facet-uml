@@ -563,7 +563,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
 
     if ( (*this_).diagram_valid )
     {
-        data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
 
         const data_diagram_t *const diag_data = layout_diagram_get_data_const ( &((*this_).diagram_layout) );
         const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag_data );
@@ -587,7 +587,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             if ( geometry_rectangle_is_containing( diag_space, c_symbox )
                 && geometry_rectangle_is_containing( diag_space, c_label ) )
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
 
 #ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
                 /* check current classifier against already processed classifiers */
@@ -638,7 +638,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                         }
                         else
                         {
-                            data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
+                            data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
                             (*overlap_callback)( data, probe_space, c_symbox );
                             (*overlap_callback)( data, probe_space, c_label );
                             (*overlap_callback)( data, c_space, probe_symbox );
@@ -652,14 +652,14 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             else if ( geometry_rectangle_is_containing( diag_bounds, c_symbox )
                 && geometry_rectangle_is_containing( diag_bounds, c_label ) )
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING );
                 (*overlap_callback)( data, diag_bounds, c_symbox );
                 (*overlap_callback)( data, diag_bounds, c_label );
             }
             else
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_ERROR );
                 (*overlap_callback)( data, diag_space, diag_space );
             }
 
@@ -678,6 +678,8 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                                                     (*this_).input_data,
                                                     feature_id
                                                   );
+            const data_stat_table_t feat_or_lifeline
+                = ( feature_type == DATA_FEATURE_TYPE_LIFELINE ) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
 
             const geometry_rectangle_t *const f_symbox
                 = layout_feature_get_symbol_box_const( feature );
@@ -692,7 +694,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                 || geometry_rectangle_is_containing( diag_space, f_symbox ))
                 && geometry_rectangle_is_containing( diag_space, f_label ) )
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_EXPORTED );
 
 #ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
                 /* check features against classifiers */
@@ -727,7 +729,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                     {
                         if ( f_sym_overlaps_c_label || f_label_overlaps_c_sym || label_overlaps )
                         {
-                            data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                            data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_WARNING );
                             (*overlap_callback)( data, f_symbox, probe_label );
                             (*overlap_callback)( data, f_label, probe_symbox );
                             (*overlap_callback)( data, f_label, probe_label );
@@ -744,7 +746,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                             }
                             else
                             {
-                                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                                data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_WARNING );
                                 (*overlap_callback)( data, f_symbox, probe_symbox );
                             }
                         }
@@ -779,7 +781,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
 
                         if ( mixed_overlaps || label_overlaps )
                         {
-                            data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                            data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_WARNING );
                             (*overlap_callback)( data, f_symbox, probe_label );
                             (*overlap_callback)( data, f_label, probe_symbox );
                             (*overlap_callback)( data, f_label, probe_label );
@@ -799,7 +801,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                             }
                             else
                             {
-                                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                                data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_WARNING );
                                 (*overlap_callback)( data, f_symbox, probe_symbox );
                             }
                         }
@@ -811,14 +813,14 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             else if ( geometry_rectangle_is_containing( diag_bounds, f_symbox )
                 && geometry_rectangle_is_containing( diag_bounds, f_label ) )
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_WARNING );
                 (*overlap_callback)( data, diag_bounds, f_symbox );
                 (*overlap_callback)( data, diag_bounds, f_label );
             }
             else
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_ERROR );
+                data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_ERROR );
                 (*overlap_callback)( data, diag_space, diag_space );
             }
         }
@@ -847,7 +849,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             else if ( geometry_rectangle_is_containing( diag_space, &r_bounds )
                  && geometry_rectangle_is_containing( diag_space, r_label ) )
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
 
 #ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
                 /* check relationships against classifiers */
@@ -872,7 +874,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
 
                     if ( label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
                     {
-                        data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                        data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                         (*overlap_callback)( data, r_label, probe_label );
                         (*overlap_callback)( data, r_label, probe_symbox );
                         (*overlap_callback)( data, &r_bounds, probe_label );
@@ -908,7 +910,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
 
                         if (  label_overlaps_label || label_overlaps_symbox || shape_overlaps_label )
                         {
-                            data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                            data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                             (*overlap_callback)( data, r_label, probe_label );
                             (*overlap_callback)( data, r_label, probe_symbox );
                             (*overlap_callback)( data, &r_bounds, probe_label );
@@ -942,7 +944,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
 
                         if ( label_overlaps || mixed_overlaps )
                         {
-                            data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                            data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                             (*overlap_callback)( data, r_label, probe_label );
                             (*overlap_callback)( data, &r_bounds, probe_label );
                             const geometry_rectangle_t probe_bounds
@@ -957,21 +959,21 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             else if ( geometry_rectangle_is_containing( diag_bounds, &r_bounds )
                 && geometry_rectangle_is_containing( diag_bounds, r_label ) )
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
                 (*overlap_callback)( data, diag_bounds, &r_bounds );
                 (*overlap_callback)( data, diag_bounds, r_label );
             }
             else
             {
-                data_stat_inc_count( io_layout_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
+                data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_ERROR );
                 (*overlap_callback)( data, diag_space, diag_space );
             }
         }
     }
     else
     {
-        data_stat_inc_count( io_layout_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
+        data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
     }
 
     pencil_rules_destroy( &pencil_rules );

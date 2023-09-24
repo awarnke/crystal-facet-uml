@@ -76,7 +76,7 @@ u8_error_t xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_
             U8_TRACE_INFO("xmi_element_writer: request to write an interaction to an illegal place!")
             assert(false);
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_illegal_container( &((*this_).atom_writer),
                                                                     diagram_id,
@@ -134,7 +134,7 @@ u8_error_t xmi_interaction_writer_start_diagram( xmi_interaction_writer_t *this_
         }
 
         /* update export statistics, report as classifier because DATA_CLASSIFIER_TYPE_INTERACTION is a classifier */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
 
     U8_TRACE_END_ERR( export_err );
@@ -269,7 +269,7 @@ u8_error_t xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_
             /* The caller requested to write a relationship of illegal source end type */
             U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal source end type!");
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
                                                                             relation_id,
@@ -335,7 +335,7 @@ u8_error_t xmi_interaction_writer_assemble_relationship( xmi_interaction_writer_
             /* The caller requested to write a relationship of illegal target end type */
             U8_TRACE_INFO("xmi_interaction_writer: request to write a relationship connecting an illegal target end type!");
             /* update export statistics */
-            data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
+            data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
             /* inform the user via an XML comment: */
             export_err |= xmi_atom_writer_report_illegal_relationship_end ( &((*this_).atom_writer),
                                                                             relation_id,

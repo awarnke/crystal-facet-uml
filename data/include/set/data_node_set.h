@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Loads the direct model environment data of on model-node (classifier) from the database
+ *  \brief Loads the direct model environment data of one model-node (classifier) from the database
  */
 
 #include "data_diagram.h"
@@ -25,7 +25,7 @@
  */
 enum data_node_set_max_enum {
     DATA_NODE_SET_MAX_FEATURES = 64,  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */
-    DATA_NODE_SET_MAX_RELATIONSHIPS = 256,  /*!< maximum number of relationships linked to all visible classifiers, even some of other diagrams */
+    DATA_NODE_SET_MAX_RELATIONSHIPS = 256,  /*!< maximum number of relationships linked to all visible classifiers, even these of other diagrams */
 };
 
 /*!

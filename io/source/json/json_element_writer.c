@@ -403,7 +403,7 @@ u8_error_t json_element_writer_assemble_classifier( json_element_writer_t *this_
         (*this_).is_inner_first = true;
 
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_EXPORTED );
     }
 
     U8_TRACE_END_ERR(out_err);
@@ -600,7 +600,10 @@ u8_error_t json_element_writer_assemble_feature( json_element_writer_t *this_,
                                                   );
 
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_EXPORTED );
+        const data_feature_type_t feat_type = data_feature_get_main_type( feature_ptr );
+        const data_stat_table_t feat_or_lifeline
+            = ( feat_type == DATA_FEATURE_TYPE_LIFELINE ) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
+        data_stat_inc_count ( (*this_).export_stat, feat_or_lifeline, DATA_STAT_SERIES_EXPORTED );
     }
 
     U8_TRACE_END_ERR(out_err);
@@ -911,7 +914,7 @@ u8_error_t json_element_writer_assemble_relationship( json_element_writer_t *thi
                                                   );
 
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
     }
 
     U8_TRACE_END_ERR(out_err);
@@ -1156,7 +1159,7 @@ u8_error_t json_element_writer_assemble_diagram( json_element_writer_t *this_,
         (*this_).is_inner_first = true;
 
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
     }
 
     U8_TRACE_END_ERR(out_err);
@@ -1346,7 +1349,7 @@ u8_error_t json_element_writer_assemble_diagramelement( json_element_writer_t *t
                                                   );
 
         /* update export statistics */
-        data_stat_inc_count ( (*this_).export_stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
+        data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
     }
 
     U8_TRACE_END_ERR(out_err);

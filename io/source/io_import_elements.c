@@ -199,7 +199,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                                              &modified_info
                                                            );
         data_stat_inc_count( (*this_).stat,
-                             DATA_TABLE_DIAGRAM,
+                             DATA_STAT_TABLE_DIAGRAM,
                              (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                            );
         if ( U8_ERROR_NONE != sync_error )
@@ -260,7 +260,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             else
             {
                 /* do the statistics */
-                data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED );
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED );
             }
         }
         else
@@ -275,13 +275,13 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                                                  &modified_info
                                                                );
             data_stat_inc_count( (*this_).stat,
-                                 DATA_TABLE_DIAGRAM,
+                                 DATA_STAT_TABLE_DIAGRAM,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_ID ) )
             {
                 /* warn on changed diagram ids. This is important because links in description texts may be affected. */
-                data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_WARNING );
             }
 
             if ( U8_ERROR_NONE != sync_error )
@@ -433,7 +433,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
         if ( diagramelement_exists )
         {
             /* do the statistics */
-            data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
+            data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
             U8_TRACE_INFO_INT( "diagramelement did already exist:", data_diagramelement_get_row_id( &((*this_).temp_diagramelement) ) );
         }
         else
@@ -453,7 +453,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
                                                                          &modified_info
                                                                        );
             data_stat_inc_count( (*this_).stat,
-                                 DATA_TABLE_DIAGRAMELEMENT,
+                                 DATA_STAT_TABLE_DIAGRAMELEMENT,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
             if ( U8_ERROR_NONE != sync_error )
@@ -476,7 +476,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
     {
         /* in paste mode, ignore diagramelements */
-        data_stat_inc_count( (*this_).stat, DATA_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
+        data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_IGNORED );
     }
 
     U8_TRACE_END_ERR( sync_error );
@@ -504,7 +504,7 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
                                                                     &modified_info
                                                                   );
         data_stat_inc_count( (*this_).stat,
-                             DATA_TABLE_DIAGRAMELEMENT,
+                             DATA_STAT_TABLE_DIAGRAMELEMENT,
                              (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                            );
         if ( U8_ERROR_NONE != sync_error )
@@ -554,7 +554,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
         if ( classifier_exists )
         {
             /* do the statistics */
-            data_stat_inc_count( (*this_).stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED );
+            data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_IGNORED );
             U8_TRACE_INFO_INT( "classifier did already exist:", data_classifier_get_row_id( &((*this_).temp_classifier) ) );
         }
         else
@@ -567,13 +567,13 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
                                                                     &modified_info
                                                                   );
             data_stat_inc_count( (*this_).stat,
-                                 DATA_TABLE_CLASSIFIER,
+                                 DATA_STAT_TABLE_CLASSIFIER,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
             if ( u8_error_contains( modified_info, U8_ERROR_DUPLICATE_NAME ) )
             {
                 /* warn on changed classifier names. */
-                data_stat_inc_count( (*this_).stat, DATA_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
+                data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
             }
 
             if ( U8_ERROR_NONE != sync_error )
@@ -675,7 +675,10 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
         if ( feature_exists )
         {
             /* update statistics */
-            data_stat_inc_count( (*this_).stat, DATA_TABLE_FEATURE, DATA_STAT_SERIES_IGNORED );
+            const data_feature_type_t feat_type = data_feature_get_main_type( &((*this_).temp_feature) );
+            const data_stat_table_t feat_or_lifeline
+                = ( feat_type == DATA_FEATURE_TYPE_LIFELINE ) ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE;
+            data_stat_inc_count( (*this_).stat, feat_or_lifeline, DATA_STAT_SERIES_IGNORED );
         }
         else
         {
@@ -695,7 +698,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
                                                                    );
 
                 data_stat_inc_count( (*this_).stat,
-                                     DATA_TABLE_FEATURE,
+                                     is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
                                      (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                    );
                 if ( U8_ERROR_NONE != sync_error )
@@ -717,7 +720,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
             else  /* lifeline in paste mode */
             {
                 data_stat_inc_count( (*this_).stat,
-                                     DATA_TABLE_FEATURE,
+                                     is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
                                      DATA_STAT_SERIES_IGNORED
                                    );
                 U8_TRACE_INFO( "lifeline dropped at json import." );
@@ -871,7 +874,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
         if ( relationship_exists )
         {
             /* update statistics */
-            data_stat_inc_count( (*this_).stat, DATA_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED );
+            data_stat_inc_count( (*this_).stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_IGNORED );
         }
         else
         {
@@ -899,7 +902,7 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
 
             /* update statistics */
             data_stat_inc_count( (*this_).stat,
-                                 DATA_TABLE_RELATIONSHIP,
+                                 DATA_STAT_TABLE_RELATIONSHIP,
                                  (U8_ERROR_NONE==sync_error)?DATA_STAT_SERIES_CREATED:DATA_STAT_SERIES_ERROR
                                );
 

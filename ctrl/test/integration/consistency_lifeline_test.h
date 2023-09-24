@@ -1,7 +1,7 @@
-/* File: ctrl_diagram_policy_enforcer_test.h; Copyright and License: see below */
+/* File: consistency_lifeline_test.h; Copyright and License: see below */
 
-#ifndef CTRL_DIAGRAM_POLICY_ENFORCER_TEST_H
-#define CTRL_DIAGRAM_POLICY_ENFORCER_TEST_H
+#ifndef CONSISTENCY_LIFELINE_TEST_H
+#define CONSISTENCY_LIFELINE_TEST_H
 
 /*!
  *  \file
@@ -10,9 +10,9 @@
 
 #include "test_suite.h"
 
-test_suite_t ctrl_diagram_policy_enforcer_test_get_suite(void);
+test_suite_t consistency_lifeline_test_get_suite(void);
 
-#endif  /* CTRL_DIAGRAM_POLICY_ENFORCER_TEST_H */
+#endif  /* CONSISTENCY_LIFELINE_TEST_H */
 
 
 /*

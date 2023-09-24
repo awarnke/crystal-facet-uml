@@ -7,13 +7,20 @@
 /*!
  *  \file
  *  \brief Provides write access and triggers consistency checks to classifiers in the database
+ *
+ *  ctrl_classifier_controller_t and ctrl_diagram_controller_t enforce consistency either by calling trigger functions
+ *  (which may call the consistency package to perform additional actions) or by failing if operations are not allowed.
+ *  ctrl_simple_changer_t and ctrl_multistep_changer_t try to find a solution where the database is always consistent,
+ *  e.g. by searching or re-sorting actions or by performing additional steps.
  */
 
 #include "u8/u8_error.h"
 #include "ctrl_consistency_checker.h"
-#include "ctrl_classifier_policy_enforcer.h"
+#include "ctrl_classifier_trigger.h"
 #include "ctrl_undo_redo_list.h"
 #include "ctrl_undo_redo_action_boundary.h"
+#include "consistency/consistency_drop_invisibles.h"
+#include "consistency/consistency_lifeline.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -35,7 +42,7 @@ struct ctrl_classifier_controller_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_consistency_checker_t consistency_checker;  /*!< own instance of a consistency checker */
     ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
-    ctrl_classifier_policy_enforcer_t *policy_enforcer;  /*!< pointer to external ctrl_classifier_policy_enforcer_t */
+    ctrl_classifier_trigger_t *policy_enforcer;  /*!< pointer to external ctrl_classifier_trigger_t */
 };
 
 typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
@@ -46,13 +53,13 @@ typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
  *  \param this_ pointer to own object attributes
  *  \param undo_redo_list pointer to list of undo/redo actions
  *  \param database pointer to database object
- *  \param policy_enforcer pointer to ctrl_classifier_policy_enforcer object
+ *  \param policy_enforcer pointer to ctrl_classifier_trigger_t object
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
 void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
                                        ctrl_undo_redo_list_t *undo_redo_list,
-                                       ctrl_classifier_policy_enforcer_t *policy_enforcer,
+                                       ctrl_classifier_trigger_t *policy_enforcer,
                                        data_database_t *database,
                                        data_database_reader_t *db_reader,
                                        data_database_writer_t *db_writer

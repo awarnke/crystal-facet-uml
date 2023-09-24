@@ -1,5 +1,5 @@
 .PHONY: all
-all: crystal-facet-uml_documentation.pdf html crystal-facet-uml.1.gz info
+all: html crystal-facet-uml_documentation.pdf crystal-facet-uml.1.gz info
 
 SOURCE=../../documentation/user_manual
 

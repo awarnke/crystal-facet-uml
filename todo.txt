@@ -52,15 +52,13 @@ ideas for future versions:
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
-  [ ] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
+  [?] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
-  [ ] delete features (except lifelines) immediately when they become invisible in all diagrams
+  [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)
       (rationale: the search+xmi+json export find them)
-! [ ] delete lifelines immediately when they become invisible
-      (rationale: the search+xmi+json export find them and the messages to/from them)
-  [ ] delete relationships immediately when they become invisible in all diagrams
+  [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the search+xmi+json export find them)
   @u8stream
   [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings

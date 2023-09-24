@@ -6,7 +6,7 @@
 
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
-                                    ctrl_diagram_policy_enforcer_t *policy_enforcer,
+                                    ctrl_diagram_trigger_t *policy_enforcer,
                                     data_database_t *database,
                                     data_database_reader_t *db_reader,
                                     data_database_writer_t *db_writer )
@@ -251,15 +251,16 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
 
 u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
                                                          data_row_id_t diagram_id,
-                                                         data_diagram_type_t new_diagram_type )
+                                                         data_diagram_type_t new_diagram_type,
+                                                         data_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
+    assert( io_stat != NULL );
     u8_error_t result = U8_ERROR_NONE;
-    u8_error_t data_result;
     data_diagram_t old_diagram;
 
-    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
-    if ( U8_ERROR_NONE == data_result )
+    result |= data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
+    if ( U8_ERROR_NONE == result )
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -271,16 +272,17 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policy rules */
-        result |= ctrl_diagram_policy_enforcer_post_update_diagram_type( (*this_).policy_enforcer,
-                                                                         &new_diagram
-                                                                       );
+        result |= ctrl_diagram_trigger_post_update_diagram_type( (*this_).policy_enforcer, &new_diagram );
 
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
+
+        /* report statistics */
+        result |= ctrl_undo_redo_list_get_last_statistics( (*this_).undo_redo_list, io_stat );
     }
     else
     {
-        result = (u8_error_t) data_result;
+        data_stat_inc_count ( io_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_ERROR );
     }
 
     U8_TRACE_END_ERR( result );
@@ -441,9 +443,7 @@ u8_error_t ctrl_diagram_controller_create_diagramelement( ctrl_diagram_controlle
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policies */
-        result |= ctrl_diagram_policy_enforcer_post_create_diagramelement( (*this_).policy_enforcer,
-                                                                           &to_be_created
-                                                                         );
+        result |= ctrl_diagram_trigger_post_create_diagramelement( (*this_).policy_enforcer, &to_be_created );
 
         /* copy new id to out parameter */
         if ( NULL != out_new_id )
@@ -495,9 +495,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement( ctrl_diagram_controlle
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* try to also delete the classifier and focused lifelines */
-        result |= ctrl_diagram_policy_enforcer_post_delete_diagramelement( (*this_).policy_enforcer,
-                                                                           &old_diagramelement
-                                                                         );
+        result |= ctrl_diagram_trigger_post_delete_diagramelement( (*this_).policy_enforcer, &old_diagramelement );
 
         data_diagramelement_destroy( &old_diagramelement );
     }

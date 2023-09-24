@@ -7,12 +7,19 @@
 /*!
  *  \file
  *  \brief Provides write access and triggers consistency checks to diagrams in the database
+ *
+ *  ctrl_classifier_controller_t and ctrl_diagram_controller_t enforce consistency either by calling trigger functions
+ *  (which may call the consistency package to perform additional actions) or by failing if operations are not allowed.
+ *  ctrl_simple_changer_t and ctrl_multistep_changer_t try to find a solution where the database is always consistent,
+ *  e.g. by searching or re-sorting actions or by performing additional steps.
  */
 
 #include "u8/u8_error.h"
 #include "ctrl_undo_redo_list.h"
-#include "ctrl_diagram_policy_enforcer.h"
+#include "ctrl_diagram_trigger.h"
 #include "ctrl_undo_redo_action_boundary.h"
+#include "consistency/consistency_drop_invisibles.h"
+#include "consistency/consistency_lifeline.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -30,7 +37,7 @@ struct ctrl_diagram_controller_struct {
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
-    ctrl_diagram_policy_enforcer_t *policy_enforcer;  /*!< pointer to external ctrl_diagram_policy_enforcer_t */
+    ctrl_diagram_trigger_t *policy_enforcer;  /*!< pointer to external ctrl_diagram_trigger_t */
 };
 
 typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
@@ -40,14 +47,14 @@ typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param undo_redo_list pointer to list of undo/redo actions
- *  \param policy_enforcer pointer to policy enforcer that keeps the database in a gui-suiting style
+ *  \param policy_enforcer pointer to ctrl_diagram_trigger_t that keeps the database consistent
  *  \param database pointer to database object
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
-                                    ctrl_diagram_policy_enforcer_t *policy_enforcer,
+                                    ctrl_diagram_trigger_t *policy_enforcer,
                                     data_database_t *database,
                                     data_database_reader_t *db_reader,
                                     data_database_writer_t *db_writer
@@ -155,14 +162,20 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
 /*!
  *  \brief updates the diagram attribute: diagram_type
  *
+ *  Note that changing the diagram type may lead to creation or deletion of lifelines
+ *  which then may cause the deletion of relationships.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new diagram_type of the diagram
+ *  \param[in,out] io_stat collects statistics on performed changes.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
                                                          data_row_id_t diagram_id,
-                                                         data_diagram_type_t new_diagram_type
+                                                         data_diagram_type_t new_diagram_type,
+                                                         data_stat_t *io_stat
                                                        );
 
 /*!

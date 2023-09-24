@@ -408,8 +408,8 @@ void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_
     U8_TRACE_END();
 }
 
-const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLES_MAX])
-    = {"void","classifiers","features","relations","classifier-occurrences","diagrams"};
+const char *const (gui_simple_message_to_user_private_table_name[DATA_STAT_TABLE_MAX])
+    = {"lifelines","classifiers","features","relations","classifier-occurrences","diagrams"};
 const char *const (gui_simple_message_to_user_private_series_name4change[DATA_STAT_SERIES_MAX])
     = {"created","modified","deleted","ignored","warning","error"};
 const char *const (gui_simple_message_to_user_private_series_name4other[DATA_STAT_SERIES_MAX])
@@ -466,6 +466,12 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
     {
         U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_REDO" );
         utf8stringbuf_append_str( (*this_).private_temp_str, "Redo success: \n" );
+        gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
+    }
+    else if ( content_id == GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE )
+    {
+        U8_LOG_EVENT( "GUI_SIMPLE_MESSAGE_CONTENT_TYPE_CHANGE" );
+        utf8stringbuf_append_str( (*this_).private_temp_str, "Type changed: \n" );
         gui_simple_message_to_user_private_append_stat( this_, stat, false, (*this_).private_temp_str );
     }
     else
@@ -556,26 +562,23 @@ void gui_simple_message_to_user_private_append_stat ( gui_simple_message_to_user
             utf8stringbuf_append_str( out_buf, ": " );
 
             bool first_table = true;
-            for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLES_MAX; tables_idx ++ )
+            for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
             {
-                if ( DATA_TABLE_VOID != tables_idx )
+                uint_fast32_t cnt = data_stat_get_count ( stat, tables_idx, series_idx );
+                if ( 0 != cnt )
                 {
-                    uint_fast32_t cnt = data_stat_get_count ( stat, tables_idx, series_idx );
-                    if ( 0 != cnt )
+                    if ( first_table )
                     {
-                        if ( first_table )
-                        {
-                            first_table = false;
-                        }
-                        else
-                        {
-                            utf8stringbuf_append_str( out_buf, ", " );
-                        }
-                        const char *const table_name = gui_simple_message_to_user_private_table_name[tables_idx];
-                        utf8stringbuf_append_str( out_buf, table_name );
-                        utf8stringbuf_append_str( out_buf, ":" );
-                        utf8stringbuf_append_int( out_buf, cnt );
+                        first_table = false;
                     }
+                    else
+                    {
+                        utf8stringbuf_append_str( out_buf, ", " );
+                    }
+                    const char *const table_name = gui_simple_message_to_user_private_table_name[tables_idx];
+                    utf8stringbuf_append_str( out_buf, table_name );
+                    utf8stringbuf_append_str( out_buf, ":" );
+                    utf8stringbuf_append_int( out_buf, cnt );
                 }
             }
         }

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.51.1"
+    "generator_version": "1.52.0"
   }
   ,
   "views":
@@ -125,7 +125,7 @@
         "id": 4,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
-        "name": "Use cases to address",
+        "name": "Use Cases on Diagrams",
         "description": [
                 "This diagram lists the main features of crystal facet uml."
         ],
@@ -212,7 +212,7 @@
         "id": 56,
         "diagram_type": 10,
         "type": "UMLUseCaseDiagram",
-        "name": "Newly identified Use-Cases",
+        "name": "Use Cases on Data Model",
         "description": [
                 "During development, new use cases are identified."
         ],
@@ -223,13 +223,6 @@
         "uuid": "77b03775-f77a-4870-98b6-ad3a46484fd0",
         "diagramelements":
         [
-          {
-            "id": 341,
-            "display_flags": 0,
-            "classifier_name": "Export diagrams",
-            "node": "8856ab5a-e749-4e9f-8b8d-7c98053467f5",
-            "uuid": "497d6d7b-0e55-4f2b-a557-1c78989e8777"
-          },
           {
             "id": 342,
             "display_flags": 0,
@@ -245,33 +238,67 @@
             "uuid": "13f5dc7f-3b87-406f-ab99-d995dacf15c5"
           },
           {
-            "id": 467,
-            "display_flags": 0,
-            "classifier_name": "Export model",
-            "node": "99d03c55-2113-44e9-a536-60e3273d5735",
-            "uuid": "1377cc59-7cf0-415b-92e7-eaa9dd9fc844"
-          },
-          {
-            "id": 468,
-            "display_flags": 0,
-            "classifier_name": "Export document",
-            "node": "ba712ba7-3ba5-48c5-8513-fbab98c71fb8",
-            "uuid": "1e4cfa49-2ff5-4cbc-a5bb-1a9fd6971d76"
-          },
-          {
-            "id": 537,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Export (Model and/or Diagrams)",
-            "node": "7db4676c-d805-4532-925b-9df162f9cadf",
-            "uuid": "c0a81a34-aa3f-4dad-9f05-160cccdcb6f2"
-          },
-          {
             "id": 747,
             "display_flags": 0,
             "classifier_name": "All model elements must be visible",
             "node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
             "uuid": "f544d170-8cf9-4d44-88cc-cd91c655c6b6"
+          },
+          {
+            "id": 765,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Design consistent architecture diagrams",
+            "node": "d9c938d1-8956-4317-aa77-d0d31689c669",
+            "uuid": "c5693fe4-31ab-42de-bd77-d5f12811bb12"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 108,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "Export Use Cases",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "parent_name": "Introduction and Goals",
+        "parent": "7ffb648b-2a4c-46ce-918e-96fc2d76b747",
+        "uuid": "c8af7482-e6e2-4095-b124-231cd10ef3c2",
+        "diagramelements":
+        [
+          {
+            "id": 766,
+            "display_flags": 0,
+            "classifier_name": "Export diagrams",
+            "node": "8856ab5a-e749-4e9f-8b8d-7c98053467f5",
+            "uuid": "500853a9-75d3-463d-93c3-f85950918f78"
+          },
+          {
+            "id": 767,
+            "display_flags": 0,
+            "classifier_name": "Export document",
+            "node": "ba712ba7-3ba5-48c5-8513-fbab98c71fb8",
+            "uuid": "21b9e461-8a41-4bbe-bc34-ac3fd81b4c9f"
+          },
+          {
+            "id": 768,
+            "display_flags": 0,
+            "classifier_name": "Export model",
+            "node": "99d03c55-2113-44e9-a536-60e3273d5735",
+            "uuid": "238a3a40-7002-44ad-8a29-b460c1ea0f47"
+          },
+          {
+            "id": 769,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Export (Model and/or Diagrams)",
+            "node": "7db4676c-d805-4532-925b-9df162f9cadf",
+            "uuid": "1751ac0b-d0c8-4917-83bf-68203f3e1a93"
           }
         ]
       }
@@ -285,7 +312,7 @@
         "description": [
                 ""
         ],
-        "list_order": 0,
+        "list_order": 1073741823,
         "display_flags": 0,
         "parent_name": "Introduction and Goals",
         "parent": "7ffb648b-2a4c-46ce-918e-96fc2d76b747",
@@ -1802,28 +1829,28 @@
           {
             "id": 227,
             "display_flags": 0,
-            "classifier_name": "ctrl_diagram _policy_enforcer",
+            "classifier_name": "ctrl_diagram _trigger",
             "node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
             "uuid": "3033077a-fcee-4bf1-86a2-53673f40e63a"
           },
           {
             "id": 228,
             "display_flags": 0,
-            "classifier_name": "ctrl_classifier_controller",
+            "classifier_name": "ctrl_classifier _controller",
             "node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
             "uuid": "a93bf079-148a-456b-b979-e4d61037ea68"
           },
           {
             "id": 229,
             "display_flags": 0,
-            "classifier_name": "ctrl_diagram_controller",
+            "classifier_name": "ctrl_diagram _controller",
             "node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
             "uuid": "c63e48ff-ac27-4dba-b48a-817437fb5b69"
           },
           {
             "id": 230,
             "display_flags": 0,
-            "classifier_name": "ctrl_classifier _policy_enforcer",
+            "classifier_name": "ctrl_classifier _trigger",
             "node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
             "uuid": "19dc324f-0ad4-4c36-b699-8a32f044bd1a"
           },
@@ -1833,6 +1860,156 @@
             "classifier_name": "ctrl_multi_step_changer",
             "node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
             "uuid": "f5664b1b-cbd8-4a15-a795-df40fe2c1572"
+          },
+          {
+            "id": 749,
+            "display_flags": 0,
+            "classifier_name": "consistency",
+            "node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+            "uuid": "bd4d929a-b5a3-41a0-9210-efea0169faba"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 107,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "ctrl: consistency",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "ctrl: White Box View",
+        "parent": "3cc02c8c-3095-4aae-a240-98efa54401bf",
+        "uuid": "be018e41-3e70-4ad3-9b92-2089c98e77aa",
+        "diagramelements":
+        [
+          {
+            "id": 761,
+            "display_flags": 0,
+            "classifier_name": "consistency _drop_invisibles",
+            "node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+            "uuid": "a286bee2-8046-47f0-ada3-a6b1ced40d28"
+          },
+          {
+            "id": 762,
+            "display_flags": 0,
+            "classifier_name": "consistency _lifeline",
+            "node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
+            "uuid": "69841cd3-7afa-4b52-8c3a-86b7c2af903c"
+          },
+          {
+            "id": 763,
+            "display_flags": 0,
+            "classifier_name": "consistency",
+            "node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+            "uuid": "3eecd544-2ddb-4e3d-bc83-6ffc8aa8ba83"
+          },
+          {
+            "id": 764,
+            "display_flags": 0,
+            "classifier_name": "ARC_LIFELINES_AT_INTERACTIONS",
+            "node": "09010aac-7f1b-453b-bf80-51c1c475e45e",
+            "uuid": "36590611-cbef-486d-87ff-55d7169c5943"
+          },
+          {
+            "id": 770,
+            "display_flags": 0,
+            "classifier_name": "All model elements must be visible",
+            "node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+            "uuid": "f87f866d-1b24-4920-9c46-1b39788f9d16"
+          },
+          {
+            "id": 771,
+            "display_flags": 0,
+            "classifier_name": "ctrl",
+            "node": "906d936b-c68c-4592-b5c7-610e29065707",
+            "uuid": "eb266e64-251f-4b17-b67d-91099f155ef0"
+          },
+          {
+            "id": 772,
+            "display_flags": 0,
+            "classifier_name": "ARC_NO_INVISIBLE_CLASSIFIERS",
+            "node": "56172679-9b7a-443e-99b4-dd0918e6362b",
+            "uuid": "9618c60a-f378-4eae-8f8f-e51c213e7014"
+          },
+          {
+            "id": 773,
+            "display_flags": 0,
+            "classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
+            "node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
+            "uuid": "6231cee3-f063-4bd1-bfc1-a4b60bde2e90"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 109,
+        "diagram_type": 13,
+        "type": "UMLInteractionDiagram/sequence",
+        "name": "consistency sequence",
+        "description": [
+                ""
+        ],
+        "list_order": 1073741823,
+        "display_flags": 0,
+        "parent_name": "ctrl: White Box View",
+        "parent": "3cc02c8c-3095-4aae-a240-98efa54401bf",
+        "uuid": "30268254-a0a6-457c-8091-2c54c670cefd",
+        "diagramelements":
+        [
+          {
+            "id": 774,
+            "display_flags": 0,
+            "classifier_name": "ctrl_diagram _controller",
+            "node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+            "uuid": "e3512ba9-8429-4c0d-ba8c-a7c10722b197"
+          },
+          {
+            "id": 775,
+            "display_flags": 0,
+            "classifier_name": "ctrl_classifier _controller",
+            "node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
+            "uuid": "7438b94c-07e3-4287-ac63-444485e4fdb5"
+          },
+          {
+            "id": 776,
+            "display_flags": 0,
+            "classifier_name": "ctrl_diagram _trigger",
+            "node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
+            "uuid": "c237ae39-814e-4008-a074-832534872f2b"
+          },
+          {
+            "id": 777,
+            "display_flags": 0,
+            "classifier_name": "ctrl_classifier _trigger",
+            "node": "cf695252-18df-422c-a230-68fe6743f2d9",
+            "uuid": "1c96da72-7010-4bff-9733-60d4d00c08bb"
+          },
+          {
+            "id": 778,
+            "display_flags": 0,
+            "classifier_name": "consistency _drop_invisibles",
+            "node": "efbcb169-38c5-43a8-84c3-491dce0e3384",
+            "uuid": "9da1d884-771c-4117-884b-acb1dd90e7fa"
+          },
+          {
+            "id": 779,
+            "display_flags": 0,
+            "classifier_name": "consistency _lifeline",
+            "node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+            "uuid": "350b0f89-76ca-4752-bf67-02627a1f79a9"
+          },
+          {
+            "id": 780,
+            "display_flags": 0,
+            "classifier_name": "gui",
+            "node": "179946c7-bd7c-4e36-9cc0-eb0d5ed7d6f5",
+            "uuid": "ade9845c-086a-4b25-99ce-86da2e40187f"
           }
         ]
       }
@@ -6215,56 +6392,111 @@
     },
     {
       "diagram": {
+        "id": 106,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "stereotype": "req",
+        "name": "Stereotypes on Problem Space",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "display_flags": 0,
+        "parent_name": "Glossary",
+        "parent": "cdf38da8-0a5d-4fcb-97d5-84b8ecdbabd7",
+        "uuid": "8284d345-bad4-4a14-aae5-5ba9da3897e6",
+        "diagramelements":
+        [
+          {
+            "id": 751,
+            "display_flags": 0,
+            "classifier_name": "context",
+            "node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
+            "uuid": "5f344f35-4422-490d-9ad6-00a10baecd05"
+          },
+          {
+            "id": 752,
+            "display_flags": 0,
+            "classifier_name": "cntx-img",
+            "node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
+            "uuid": "1d1bea10-8122-4222-948e-08a3f43723f4"
+          },
+          {
+            "id": 753,
+            "display_flags": 0,
+            "classifier_name": "meta-img",
+            "node": "8e602924-d557-4375-84bd-1284ca61f3fc",
+            "uuid": "d45641be-f7da-430e-817e-994f61707d77"
+          },
+          {
+            "id": 754,
+            "display_flags": 0,
+            "classifier_name": "metaclass",
+            "node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
+            "uuid": "7013930d-00df-4788-a530-9a78465f1302"
+          },
+          {
+            "id": 755,
+            "display_flags": 0,
+            "classifier_name": "Stereotypes on Context",
+            "node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
+            "uuid": "6b9d6a38-0a90-4b94-81d4-8dcb2eb1009a"
+          },
+          {
+            "id": 756,
+            "display_flags": 0,
+            "classifier_name": "Stereotypes on Requirements",
+            "node": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
+            "uuid": "02efe023-527f-416c-81b9-dd52637f1b6f"
+          },
+          {
+            "id": 757,
+            "display_flags": 0,
+            "classifier_name": "req",
+            "node": "68dfe8d7-6ae2-42d0-a4da-18de59a74c88",
+            "uuid": "b4530141-f45f-413f-8691-6ffef71962d5"
+          },
+          {
+            "id": 758,
+            "display_flags": 0,
+            "classifier_name": "req-img",
+            "node": "4151de59-ec9b-4ca3-8b39-47fe90ce1432",
+            "uuid": "34ba1dc3-4327-4b5c-8174-5ee4a5d6c2b8"
+          },
+          {
+            "id": 759,
+            "display_flags": 0,
+            "classifier_name": "spec",
+            "node": "6a53a9a4-d081-4f25-9349-9c7c692d213d",
+            "uuid": "b308d7f3-823b-42dc-87d6-5719e454448e"
+          },
+          {
+            "id": 760,
+            "display_flags": 0,
+            "classifier_name": "spec-img",
+            "node": "d4b9f78c-212f-40ea-a135-b1de7b9eb1c2",
+            "uuid": "29d5b14d-d332-4b8f-b2da-b043cb85b0bf"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 103,
         "diagram_type": 39,
         "type": "UMLProfileDiagram",
         "stereotype": "reason_argument",
-        "name": "Stereotypes",
+        "name": "Stereotypes on Solution Space",
         "description": [
                 ""
         ],
-        "list_order": 131072,
+        "list_order": 1073823743,
         "display_flags": 0,
         "parent_name": "Glossary",
         "parent": "cdf38da8-0a5d-4fcb-97d5-84b8ecdbabd7",
         "uuid": "c2df026a-fcfb-4d2d-8fef-8acfbf1bb3e2",
         "diagramelements":
         [
-          {
-            "id": 715,
-            "display_flags": 0,
-            "classifier_name": "Stereotypes on Context",
-            "node": "f42f2dc4-d202-4330-ab46-743f41b9459f",
-            "uuid": "751abd9d-ef86-44ce-b346-25f9ce16bcf0"
-          },
-          {
-            "id": 716,
-            "display_flags": 0,
-            "classifier_name": "context",
-            "node": "86a6052b-d5a7-49e8-9e81-1b818f27017e",
-            "uuid": "39f50cac-ab62-4dc6-be23-a34b29b4b81b"
-          },
-          {
-            "id": 717,
-            "display_flags": 0,
-            "classifier_name": "cntx-img",
-            "node": "9b12f99d-b687-4dbb-8a5d-bec7f0be2bb5",
-            "uuid": "b98503c2-85b4-41d9-9ec0-2b545de496aa"
-          },
-          {
-            "id": 718,
-            "display_flags": 0,
-            "classifier_name": "metaclass",
-            "node": "d4d03681-37d2-4f6f-9d2b-3ee5ad315858",
-            "uuid": "026d47ec-d7e7-45c8-b6bf-e78d32dc8f09"
-          },
-          {
-            "id": 719,
-            "display_flags": 0,
-            "classifier_name": "meta-img",
-            "node": "8e602924-d557-4375-84bd-1284ca61f3fc",
-            "uuid": "5ba0afc2-b413-4729-b65e-dc3c4aefba6a"
-          },
           {
             "id": 720,
             "display_flags": 0,
@@ -6350,10 +6582,21 @@
         ],
         "x_order": -550118132,
         "y_order": -1927900663,
-        "list_order": 0,
+        "list_order": -1917727957,
         "uuid": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
         "features":
         [
+          {
+            "id": 121,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "179946c7-bd7c-4e36-9cc0-eb0d5ed7d6f5"
+          }
         ]
       }
     },
@@ -6483,8 +6726,8 @@
                 "- Consistent naming of objects\n",
                 "- Consistent locations of objects in diagrams"
         ],
-        "x_order": 21097883,
-        "y_order": -437119205,
+        "x_order": -1169967405,
+        "y_order": -1417191589,
         "list_order": 0,
         "uuid": "d9c938d1-8956-4317-aa77-d0d31689c669",
         "features":
@@ -6497,6 +6740,7 @@
         "id": 9,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Show Classifiers",
         "description": [
                 "Classifiers are drawn to diagrams\n",
@@ -6516,6 +6760,7 @@
         "id": 10,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Classifier is contained (child)",
         "description": [
                 "A Classifier can either exist stand-alone or be a sub-element of another classifier."
@@ -6534,12 +6779,13 @@
         "id": 11,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Show multiple instances in same diagram",
         "description": [
                 "One and the same classifier can be shown in a diagram multiple times (either as class/type or as instance)"
         ],
-        "x_order": -631194148,
-        "y_order": 1315582127,
+        "x_order": -653388467,
+        "y_order": 1169441629,
         "list_order": 0,
         "uuid": "115c08b8-4c03-45ef-b75e-5705f2cf3f16",
         "features":
@@ -6552,6 +6798,7 @@
         "id": 12,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Classifier has relations",
         "description": [
                 "A classifier can have zero, one or many relations; these may be of one or of differnet types.\n",
@@ -6571,13 +6818,14 @@
         "id": 13,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Mark Classifiers",
         "description": [
                 "A classifier can be highlighted in one or several diagrams.\n",
                 "The highlighting may be different in different diagrams where the classifier is shown."
         ],
         "x_order": -653388467,
-        "y_order": 1169441629,
+        "y_order": -1009436311,
         "list_order": 0,
         "uuid": "99594f21-40df-4690-a441-ad31ce670112",
         "features":
@@ -6612,6 +6860,7 @@
         "id": 14,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Classifier is explicit instance",
         "description": [
                 "A classifier can be an explicitly modelled instance of another classifier"
@@ -6630,12 +6879,13 @@
         "id": 15,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Classifier is implicit instance",
         "description": [
                 "A classifier can represent an anonymous (implicit) instance without defining an explicit instance relation"
         ],
-        "x_order": 1792744286,
-        "y_order": -269597515,
+        "x_order": -534869157,
+        "y_order": -1009436311,
         "list_order": 0,
         "uuid": "4757ab5b-9087-400c-864d-cc3cc67e04dc",
         "features":
@@ -6648,6 +6898,7 @@
         "id": 16,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Diagrams are hierarchical",
         "description": [
                 "There is one root diagram. All other diagrams shall have a parent diagram."
@@ -6964,6 +7215,7 @@
         "id": 31,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Draw Diagrams",
         "description": [
                 ""
@@ -7193,7 +7445,7 @@
                 "- checks and repairs a database"
         ],
         "x_order": -394858420,
-        "y_order": 1350576766,
+        "y_order": -398606019,
         "list_order": 0,
         "uuid": "60910235-8098-4c7b-a914-39704fd3f678",
         "features":
@@ -9381,14 +9633,38 @@
         "type": "Class",
         "name": "ctrl_undo_redo_list",
         "description": [
-                "manages a list of actions to be undone or/and redone."
+                "manages a list of actions to be undone or/and redone.\n",
+                "\n",
+                "When performing undo or redo operations, this is done directly to the data_database_writer_t, not to the ctrl_controller which could start an endless-recursion."
         ],
         "x_order": -327894016,
-        "y_order": 1350576766,
+        "y_order": -398606019,
         "list_order": 0,
         "uuid": "d028bc79-6057-4743-b9b5-cd28b10a2102",
         "features":
         [
+          {
+            "id": 113,
+            "main_type": 0,
+            "type": "Property",
+            "key": "db_writer",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "f346950a-d84b-4a57-b96a-d453af6801c3"
+          },
+          {
+            "id": 114,
+            "main_type": 0,
+            "type": "Property",
+            "key": "db_reader",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "c1e432ce-e0dc-4842-9e7c-c02dde4b5ba8"
+          }
         ]
       }
     },
@@ -9397,16 +9673,60 @@
         "id": 154,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_diagram _policy_enforcer",
+        "name": "ctrl_diagram _trigger",
         "description": [
                 "ensures that application level policies on the model are adhered whenever diagrams are modified."
         ],
-        "x_order": -327894016,
-        "y_order": 494945844,
-        "list_order": 0,
+        "x_order": -394858420,
+        "y_order": 1216656999,
+        "list_order": -1477018922,
         "uuid": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "features":
         [
+          {
+            "id": 109,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_update_diagram_type",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "66a28414-6a8d-437b-b6ee-19c9a90ba157"
+          },
+          {
+            "id": 110,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_create_diagramelement",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "e3d94ebd-d65a-47b9-99c1-095a723c2e5e"
+          },
+          {
+            "id": 111,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_delete_diagramelement",
+            "description": [
+                ""
+            ],
+            "list_order": 98304,
+            "uuid": "86352861-436c-4627-a5ec-1ad7dd49361d"
+          },
+          {
+            "id": 117,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "f2efd79d-d900-44d4-a7b9-fb2e3549488a"
+          }
         ]
       }
     },
@@ -9415,16 +9735,27 @@
         "id": 155,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_classifier_controller",
+        "name": "ctrl_classifier _controller",
         "description": [
                 "performs changes on classifier, feature and relationship tables"
         ],
         "x_order": -327894016,
-        "y_order": 928561438,
-        "list_order": 0,
+        "y_order": 494945844,
+        "list_order": -1045797306,
         "uuid": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "features":
         [
+          {
+            "id": 116,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "a2c5817b-1879-49c2-b15a-795a55c197ce"
+          }
         ]
       }
     },
@@ -9433,16 +9764,27 @@
         "id": 156,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_diagram_controller",
+        "name": "ctrl_diagram _controller",
         "description": [
                 "performs changes on diagram and diagramelement tables"
         ],
         "x_order": -394858420,
         "y_order": 494945844,
-        "list_order": 0,
+        "list_order": -1789399935,
         "uuid": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "features":
         [
+          {
+            "id": 115,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e"
+          }
         ]
       }
     },
@@ -9451,16 +9793,38 @@
         "id": 157,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_classifier _policy_enforcer",
+        "name": "ctrl_classifier _trigger",
         "description": [
                 "ensures that application level policies on the model are adhered whenever classifiers are modified."
         ],
-        "x_order": -394858420,
-        "y_order": 928561438,
-        "list_order": 0,
+        "x_order": -327894016,
+        "y_order": 1216656999,
+        "list_order": 6790891,
         "uuid": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
         "features":
         [
+          {
+            "id": 112,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "post_delete_feature",
+            "description": [
+                "after deleting a lifeline, all references from diagramelements have to be removed."
+            ],
+            "list_order": 32768,
+            "uuid": "b16b1262-78f5-4344-aedf-a82e0ff2e43e"
+          },
+          {
+            "id": 118,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "cf695252-18df-422c-a230-68fe6743f2d9"
+          }
         ]
       }
     },
@@ -11069,6 +11433,7 @@
         "id": 232,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Export diagrams",
         "description": [
                 "Export diagrams for use in architecture Documents."
@@ -11087,6 +11452,7 @@
         "id": 233,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Use identical classifier in multiple diagrams",
         "description": [
                 "Provide means to use the identical classifier in multiple diagrams"
@@ -11642,6 +12008,7 @@
         "id": 259,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Search Classifiers, find diagrams",
         "description": [
                 ""
@@ -12824,6 +13191,7 @@
         "id": 319,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Export model",
         "description": [
                 "The model can be exported in a machine-readable format."
@@ -12842,6 +13210,7 @@
         "id": 320,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Export document",
         "description": [
                 ""
@@ -13369,6 +13738,7 @@
         "id": 347,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Export (Model and/or Diagrams)",
         "description": [
                 ""
@@ -13726,6 +14096,7 @@
         "id": 370,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "data exchange with external scripts",
         "description": [
                 ""
@@ -13744,6 +14115,7 @@
         "id": 371,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "git support",
         "description": [
                 "The model shall be stored in git in a way that\n",
@@ -14476,6 +14848,7 @@
         "id": 408,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "Import model",
         "description": [
                 "The model can be imported from a machine-readable data format.\n",
@@ -15758,6 +16131,7 @@
         "id": 467,
         "main_type": 101,
         "type": "UseCase",
+        "stereotype": "req",
         "name": "All model elements must be visible",
         "description": [
                 "Whatever elements are stored in the model,\n",
@@ -15769,6 +16143,262 @@
         "y_order": -1417191589,
         "list_order": -2026583502,
         "uuid": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 468,
+        "main_type": 125,
+        "type": "Class",
+        "name": "consistency _drop_invisibles",
+        "description": [
+                "This class cares about deleting model elements that are not visible anymore.\n",
+                ""
+        ],
+        "x_order": 250096395,
+        "y_order": -1876938981,
+        "list_order": 414244386,
+        "uuid": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "features":
+        [
+          {
+            "id": 119,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "efbcb169-38c5-43a8-84c3-491dce0e3384"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 469,
+        "main_type": 124,
+        "type": "Package",
+        "name": "consistency",
+        "description": [
+                ""
+        ],
+        "x_order": 232331797,
+        "y_order": 1216656999,
+        "list_order": 1216656999,
+        "uuid": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 470,
+        "main_type": 125,
+        "type": "Class",
+        "name": "consistency _lifeline",
+        "description": [
+                "This class cares about creating and deleting lifelines depending on the surrounding diagram type."
+        ],
+        "x_order": 250096395,
+        "y_order": 1216656999,
+        "list_order": 1249524052,
+        "uuid": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
+        "features":
+        [
+          {
+            "id": 120,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "4e0475f7-190b-46b7-862f-d3991f4a3c2e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 471,
+        "main_type": 124,
+        "type": "Package",
+        "name": "Stereotypes on Requirements",
+        "description": [
+                ""
+        ],
+        "x_order": 1581569606,
+        "y_order": 962428607,
+        "list_order": 962428607,
+        "uuid": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 472,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "req",
+        "description": [
+                "<path stroke=\"none\" fill=\"#ffff00\" d=\"\n",
+                "M 3.2,0.2\n",
+                "L 7.5,2\n",
+                "L 3.2,3.8\n",
+                "Z\n",
+                "\"/>\n",
+                "<path d=\"\n",
+                "M 3,9\n",
+                "L 3,0\n",
+                "L 8,2\n",
+                "L 3,4\n",
+                "\"/>\n",
+                ""
+        ],
+        "x_order": 1518296361,
+        "y_order": 665449257,
+        "list_order": 1094969504,
+        "uuid": "68dfe8d7-6ae2-42d0-a4da-18de59a74c88",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 473,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "req",
+        "name": "req-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1847803020,
+        "y_order": 665449257,
+        "list_order": 1224742290,
+        "uuid": "4151de59-ec9b-4ca3-8b39-47fe90ce1432",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 474,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "spec",
+        "description": [
+                "<path stroke=\"none\" fill=\"#ffaaee\" d=\"\n",
+                "M 3.2,0.2\n",
+                "L 7.5,2\n",
+                "L 3.2,3.8\n",
+                "Z\n",
+                "\"/>\n",
+                "<path d=\"\n",
+                "M 3,9\n",
+                "L 3,0\n",
+                "L 8,2\n",
+                "L 3,4\n",
+                "\"/>\n",
+                ""
+        ],
+        "x_order": 1518296361,
+        "y_order": 1635637612,
+        "list_order": 1224742290,
+        "uuid": "6a53a9a4-d081-4f25-9349-9c7c692d213d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 475,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "spec",
+        "name": "spec-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1847803020,
+        "y_order": 1635637612,
+        "list_order": 1635637612,
+        "uuid": "d4b9f78c-212f-40ea-a135-b1de7b9eb1c2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 476,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "spec",
+        "name": "ARC_LIFELINES_AT_INTERACTIONS",
+        "description": [
+                "Lifelines shall exist for all elements in interaction diagrams.\n",
+                "Lifelines shall not exist for any element in non-interaction diagrams.\n",
+                "\n",
+                "Rationale:\n",
+                "Lifelines shall be managed (created/deleted) by crystal-facet-uml automatically.\n",
+                "Lifelines are visible only in interaction diagrams, so they have to be deleted in non-interaction diagrams.\n",
+                ""
+        ],
+        "x_order": 759784271,
+        "y_order": 1216656999,
+        "list_order": 1216656999,
+        "uuid": "09010aac-7f1b-453b-bf80-51c1c475e45e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 477,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "spec",
+        "name": "ARC_NO_INVISIBLE_CLASSIFIERS",
+        "description": [
+                "When there is no diagram showing a classifier, this classifier shall not exist."
+        ],
+        "x_order": 759784271,
+        "y_order": -1887735867,
+        "list_order": -1041109699,
+        "uuid": "56172679-9b7a-443e-99b4-dd0918e6362b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 478,
+        "main_type": 99,
+        "type": "Requirement",
+        "stereotype": "spec",
+        "name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
+        "description": [
+                "When there is no diagram showing a relationship, this relationship shall not exist."
+        ],
+        "x_order": 759784271,
+        "y_order": -1882340401,
+        "list_order": 84802133,
+        "uuid": "6d669208-0eaa-4797-b927-86cd05d7ab88",
         "features":
         [
         ]
@@ -15965,6 +16595,25 @@
         "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
         "to_node": "16495ce7-8208-4453-857b-cba9f10beb95",
         "uuid": "a2f499c8-6fb9-450b-b0df-29faa0cd0f4e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 757,
+        "main_type": 221,
+        "type": "Message",
+        "name": "update_diagram_type",
+        "description": [
+                ""
+        ],
+        "list_order": -1005462713,
+        "from_classifier_name": "gui",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_diagram _controller",
+        "to_feature_key": "",
+        "from_node": "179946c7-bd7c-4e36-9cc0-eb0d5ed7d6f5",
+        "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "uuid": "d381f451-ae8b-4ed9-b1d8-d222dc6ad928"
       }
     },
     {
@@ -16200,7 +16849,7 @@
         ],
         "list_order": 1411332549,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_diagram _policy_enforcer",
+        "to_classifier_name": "ctrl_diagram _trigger",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "uuid": "271fe82e-9cd8-4f9c-9bf8-e0ddb0957d95"
@@ -16217,7 +16866,7 @@
         ],
         "list_order": 1286658309,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_classifier_controller",
+        "to_classifier_name": "ctrl_classifier _controller",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "8912224f-e0c8-49bb-a0ed-8d0b11d6c83a"
@@ -16234,7 +16883,7 @@
         ],
         "list_order": 1222249253,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_diagram_controller",
+        "to_classifier_name": "ctrl_diagram _controller",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "uuid": "2a025529-3836-49d6-866d-8d5e382465ed"
@@ -16251,7 +16900,7 @@
         ],
         "list_order": 788893479,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_classifier _policy_enforcer",
+        "to_classifier_name": "ctrl_classifier _trigger",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
         "uuid": "157ef5c2-9797-4285-a121-b50273d1f016"
@@ -16272,6 +16921,40 @@
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "uuid": "ed4aad59-93ee-4537-9e7f-b004076ed3dc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 729,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1216656999,
+        "from_classifier_name": "ctrl",
+        "to_classifier_name": "consistency _drop_invisibles",
+        "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
+        "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "uuid": "8dce284d-561b-491c-936d-05661181a9a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 732,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1216656999,
+        "from_classifier_name": "ctrl",
+        "to_classifier_name": "consistency",
+        "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
+        "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "uuid": "fd708841-a0ca-453c-9604-1676433b1f3d"
       }
     },
     {
@@ -16544,6 +17227,40 @@
         "from_node": "d9c938d1-8956-4317-aa77-d0d31689c669",
         "to_node": "1398d09d-a6cb-422d-a405-31edaa2e2c44",
         "uuid": "b4b7594b-f90c-431d-b096-4143e22b4f40"
+      }
+    },
+    {
+      "relationship": {
+        "id": 746,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Design consistent architecture diagrams",
+        "to_classifier_name": "All model elements must be visible",
+        "from_node": "d9c938d1-8956-4317-aa77-d0d31689c669",
+        "to_node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+        "uuid": "11bd5770-c490-45b3-a7e9-d63a32a31184"
+      }
+    },
+    {
+      "relationship": {
+        "id": 747,
+        "main_type": 261,
+        "type": "Include",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Design consistent architecture diagrams",
+        "to_classifier_name": "Use identical classifier in multiple diagrams",
+        "from_node": "d9c938d1-8956-4317-aa77-d0d31689c669",
+        "to_node": "c10ad4df-13d7-4888-bb85-907cdfd5314b",
+        "uuid": "44c12e9d-b1a0-4e51-a7db-81220f34529e"
       }
     },
     {
@@ -17825,7 +18542,7 @@
         ],
         "list_order": 1411335621,
         "from_classifier_name": "ctrl_controller",
-        "to_classifier_name": "ctrl_classifier_controller",
+        "to_classifier_name": "ctrl_classifier _controller",
         "from_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "ba92acdd-b494-40dd-9278-b5df85da3e41"
@@ -17842,7 +18559,7 @@
         ],
         "list_order": 1411336645,
         "from_classifier_name": "ctrl_controller",
-        "to_classifier_name": "ctrl_diagram_controller",
+        "to_classifier_name": "ctrl_diagram _controller",
         "from_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
         "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "uuid": "d1ff7361-4151-4dbb-bf11-3fed7c45375f"
@@ -19899,36 +20616,150 @@
     },
     {
       "relationship": {
-        "id": 220,
+        "id": 733,
         "main_type": 200,
         "type": "Association",
-        "name": "calls",
+        "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1411338693,
-        "from_classifier_name": "ctrl_diagram _policy_enforcer",
-        "to_classifier_name": "ctrl_classifier_controller",
+        "list_order": 1411504581,
+        "from_classifier_name": "ctrl_diagram _trigger",
+        "to_classifier_name": "consistency",
         "from_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
-        "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
-        "uuid": "c7814d42-b75a-4f56-a80d-29412044d8ea"
+        "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "uuid": "17c9817a-18c4-4f70-9a28-93928a3574b3"
       }
     },
     {
       "relationship": {
-        "id": 222,
+        "id": 753,
+        "main_type": 221,
+        "type": "Message",
+        "name": "delete_lifelines",
+        "description": [
+                ""
+        ],
+        "list_order": -671760401,
+        "from_classifier_name": "ctrl_diagram _trigger",
+        "from_feature_key": "",
+        "to_classifier_name": "consistency _lifeline",
+        "to_feature_key": "",
+        "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "a1d98872-6dbf-459d-b2e3-829a9e51d6d9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 754,
+        "main_type": 221,
+        "type": "Message",
+        "name": "create_lifelines",
+        "description": [
+                ""
+        ],
+        "list_order": 774017640,
+        "from_classifier_name": "ctrl_diagram _trigger",
+        "from_feature_key": "",
+        "to_classifier_name": "consistency _lifeline",
+        "to_feature_key": "",
+        "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "9da18f34-f5cd-44ea-aee7-17db01645279"
+      }
+    },
+    {
+      "relationship": {
+        "id": 766,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1624338948,
+        "from_classifier_name": "ctrl_diagram _trigger",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_diagram _controller",
+        "to_feature_key": "",
+        "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
+        "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "uuid": "593a9448-48e9-42c1-bd44-c5487824fa0c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 738,
         "main_type": 200,
         "type": "Association",
         "name": "calls",
         "description": [
                 ""
         ],
-        "list_order": 1411339717,
-        "from_classifier_name": "ctrl_classifier_controller",
-        "to_classifier_name": "ctrl_classifier _policy_enforcer",
+        "list_order": 1520548633,
+        "from_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_classifier _trigger",
         "from_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "to_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
-        "uuid": "8df989ba-dccc-46e7-8d81-0a099e4c1cd5"
+        "uuid": "5423b81d-07df-4ea8-935e-382ec898507d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 756,
+        "main_type": 221,
+        "type": "Message",
+        "name": "post_delete_feature",
+        "description": [
+                ""
+        ],
+        "list_order": -397285884,
+        "from_classifier_name": "ctrl_classifier _controller",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_classifier _trigger",
+        "to_feature_key": "",
+        "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
+        "to_node": "cf695252-18df-422c-a230-68fe6743f2d9",
+        "uuid": "f85402c2-4921-4bb7-b470-6533fa49896b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 764,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 464297958,
+        "from_classifier_name": "ctrl_classifier _controller",
+        "from_feature_key": "",
+        "to_classifier_name": "consistency _lifeline",
+        "to_feature_key": "",
+        "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "f43ed4c7-fdd7-4854-973b-7093145f9c3f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 770,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1021793385,
+        "from_classifier_name": "ctrl_classifier _controller",
+        "from_feature_key": "",
+        "to_classifier_name": "consistency _lifeline",
+        "to_feature_key": "",
+        "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "bf1b01be-2766-4492-9c8a-738a200f39bb"
       }
     },
     {
@@ -19941,8 +20772,8 @@
                 ""
         ],
         "list_order": 1411337669,
-        "from_classifier_name": "ctrl_diagram_controller",
-        "to_classifier_name": "ctrl_diagram _policy_enforcer",
+        "from_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_diagram _trigger",
         "from_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "to_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "uuid": "49ec8f92-bb63-49fc-a975-d657016d70ea"
@@ -19950,19 +20781,133 @@
     },
     {
       "relationship": {
-        "id": 223,
-        "main_type": 200,
-        "type": "Association",
-        "name": "calls",
+        "id": 758,
+        "main_type": 221,
+        "type": "Message",
+        "name": "post_update_diagram_type",
         "description": [
                 ""
         ],
-        "list_order": 1411340741,
-        "from_classifier_name": "ctrl_classifier _policy_enforcer",
-        "to_classifier_name": "ctrl_diagram_controller",
+        "list_order": -853418506,
+        "from_classifier_name": "ctrl_diagram _controller",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_diagram _trigger",
+        "to_feature_key": "",
+        "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "to_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
+        "uuid": "dab938da-caef-4a9e-b837-eca362a5d81b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 761,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 36321671,
+        "from_classifier_name": "ctrl_diagram _controller",
+        "from_feature_key": "",
+        "to_classifier_name": "consistency _lifeline",
+        "to_feature_key": "",
+        "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "c3d199d2-3654-4780-8d73-1226e7ddf4c0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 767,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1742595554,
+        "from_classifier_name": "ctrl_diagram _controller",
+        "from_feature_key": "",
+        "to_classifier_name": "gui",
+        "to_feature_key": "",
+        "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "to_node": "179946c7-bd7c-4e36-9cc0-eb0d5ed7d6f5",
+        "uuid": "70bf22ca-dc9f-4e07-9203-dc9a10c94cd1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 771,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1320250533,
+        "from_classifier_name": "ctrl_diagram _controller",
+        "from_feature_key": "",
+        "to_classifier_name": "consistency _lifeline",
+        "to_feature_key": "",
+        "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "cc2d0360-cbe7-459e-b746-005511319c78"
+      }
+    },
+    {
+      "relationship": {
+        "id": 734,
+        "main_type": 200,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1411537349,
+        "from_classifier_name": "ctrl_classifier _trigger",
+        "to_classifier_name": "consistency",
         "from_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
-        "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
-        "uuid": "35036a67-ac18-4f3c-a870-6b4e26d0f5b4"
+        "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "uuid": "dd932c69-0548-4eba-baf0-49b75a48a780"
+      }
+    },
+    {
+      "relationship": {
+        "id": 755,
+        "main_type": 221,
+        "type": "Message",
+        "name": "unlink_lifeline",
+        "description": [
+                ""
+        ],
+        "list_order": -301554346,
+        "from_classifier_name": "ctrl_classifier _trigger",
+        "from_feature_key": "",
+        "to_classifier_name": "consistency _lifeline",
+        "to_feature_key": "",
+        "from_node": "cf695252-18df-422c-a230-68fe6743f2d9",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "261353aa-600b-40fd-836d-59e040891d1c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 763,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 374197687,
+        "from_classifier_name": "ctrl_classifier _trigger",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_classifier _controller",
+        "to_feature_key": "",
+        "from_node": "cf695252-18df-422c-a230-68fe6743f2d9",
+        "to_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
+        "uuid": "d4b487a5-0ae1-49fa-84f7-45df34cb4dca"
       }
     },
     {
@@ -25261,7 +26206,7 @@
         ],
         "list_order": 1411373509,
         "from_classifier_name": "ctrl_multi_step_changer",
-        "to_classifier_name": "ctrl_diagram_controller",
+        "to_classifier_name": "ctrl_diagram _controller",
         "from_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "uuid": "87c4f293-4a3e-4a29-a477-9fada1662596"
@@ -25278,7 +26223,7 @@
         ],
         "list_order": 1411406277,
         "from_classifier_name": "ctrl_multi_step_changer",
-        "to_classifier_name": "ctrl_classifier_controller",
+        "to_classifier_name": "ctrl_classifier _controller",
         "from_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "ee3c5397-9fd0-4701-b156-c827d1aad3ca"
@@ -26339,6 +27284,394 @@
         "from_node": "b08a414d-d7ae-4ea7-8503-7324d0ab15b9",
         "to_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
         "uuid": "b0c11c10-190b-43b0-ac69-3f3505922468"
+      }
+    },
+    {
+      "relationship": {
+        "id": 749,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520614169,
+        "from_classifier_name": "consistency _drop_invisibles",
+        "to_classifier_name": "ARC_NO_INVISIBLE_CLASSIFIERS",
+        "from_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "to_node": "56172679-9b7a-443e-99b4-dd0918e6362b",
+        "uuid": "d26344d1-1337-4e62-9197-a54fa7e3570e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 750,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520646937,
+        "from_classifier_name": "consistency _drop_invisibles",
+        "to_classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
+        "from_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "to_node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
+        "uuid": "0eeeb93b-d7d8-4213-8f73-30c3c2678f6a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 735,
+        "main_type": 200,
+        "type": "Association",
+        "name": "calls",
+        "description": [
+                ""
+        ],
+        "list_order": 1411570117,
+        "from_classifier_name": "consistency",
+        "to_classifier_name": "ctrl_classifier _controller",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
+        "uuid": "a8db88b3-bc71-4c4f-b41f-0dda05d57398"
+      }
+    },
+    {
+      "relationship": {
+        "id": 736,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1411602885,
+        "from_classifier_name": "consistency",
+        "to_classifier_name": "consistency _drop_invisibles",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
+        "uuid": "2c14dfff-38e6-4786-9653-da0578b5a8cf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 737,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520515865,
+        "from_classifier_name": "consistency",
+        "to_classifier_name": "consistency _lifeline",
+        "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
+        "to_node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
+        "uuid": "1499e615-c286-4143-a136-2acf2654def1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 745,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520548633,
+        "from_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "ARC_LIFELINES_AT_INTERACTIONS",
+        "from_node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
+        "to_node": "09010aac-7f1b-453b-bf80-51c1c475e45e",
+        "uuid": "50fae753-5e2e-45ca-985d-dc5c39cb4a91"
+      }
+    },
+    {
+      "relationship": {
+        "id": 759,
+        "main_type": 221,
+        "type": "Message",
+        "name": "delete_feature",
+        "description": [
+                ""
+        ],
+        "list_order": -517703349,
+        "from_classifier_name": "consistency _lifeline",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_classifier _controller",
+        "to_feature_key": "",
+        "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "to_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
+        "uuid": "9a40a9a7-7a18-48f6-aad6-90c956fc0ef7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 760,
+        "main_type": 221,
+        "type": "Message",
+        "name": "update_diagramelement_focused_feature_id",
+        "description": [
+                ""
+        ],
+        "list_order": -149510138,
+        "from_classifier_name": "consistency _lifeline",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_diagram _controller",
+        "to_feature_key": "",
+        "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "uuid": "b3322ede-c1ba-4bc7-8e5f-688dbd718e02"
+      }
+    },
+    {
+      "relationship": {
+        "id": 762,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 284097416,
+        "from_classifier_name": "consistency _lifeline",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_classifier _trigger",
+        "to_feature_key": "",
+        "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "to_node": "cf695252-18df-422c-a230-68fe6743f2d9",
+        "uuid": "0355fa3d-df59-465b-becd-ab59bf8ea4bf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 765,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 554398229,
+        "from_classifier_name": "consistency _lifeline",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_diagram _trigger",
+        "to_feature_key": "",
+        "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "to_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
+        "uuid": "de9b4f3b-b67f-4647-b12b-8e2e68172249"
+      }
+    },
+    {
+      "relationship": {
+        "id": 768,
+        "main_type": 221,
+        "type": "Message",
+        "name": "create_feature",
+        "description": [
+                ""
+        ],
+        "list_order": 920430580,
+        "from_classifier_name": "consistency _lifeline",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_classifier _controller",
+        "to_feature_key": "",
+        "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "to_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
+        "uuid": "d66025ab-4046-4c9b-b540-db53adb4f8df"
+      }
+    },
+    {
+      "relationship": {
+        "id": 769,
+        "main_type": 221,
+        "type": "Message",
+        "name": "update_diagramelement_focused_feature_id",
+        "description": [
+                ""
+        ],
+        "list_order": 1218887728,
+        "from_classifier_name": "consistency _lifeline",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_diagram _controller",
+        "to_feature_key": "",
+        "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
+        "uuid": "61133163-7d0e-41ce-81c6-02cc6d1c751c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 772,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1528607410,
+        "from_classifier_name": "consistency _lifeline",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl_diagram _trigger",
+        "to_feature_key": "",
+        "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "to_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
+        "uuid": "fb5de147-5329-47ce-a77a-64d2da85238a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 739,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1094969504,
+        "from_classifier_name": "Stereotypes on Requirements",
+        "to_classifier_name": "req",
+        "from_node": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
+        "to_node": "68dfe8d7-6ae2-42d0-a4da-18de59a74c88",
+        "uuid": "b284761c-74ec-4f8e-83fd-0921c89a70f2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 740,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1224742290,
+        "from_classifier_name": "Stereotypes on Requirements",
+        "to_classifier_name": "req-img",
+        "from_node": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
+        "to_node": "4151de59-ec9b-4ca3-8b39-47fe90ce1432",
+        "uuid": "a9695720-a13b-4943-94ca-e6d0eba80e79"
+      }
+    },
+    {
+      "relationship": {
+        "id": 742,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1224742290,
+        "from_classifier_name": "Stereotypes on Requirements",
+        "to_classifier_name": "spec",
+        "from_node": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
+        "to_node": "6a53a9a4-d081-4f25-9349-9c7c692d213d",
+        "uuid": "b7e5a6bd-ec65-4306-99f7-7c9cf58226be"
+      }
+    },
+    {
+      "relationship": {
+        "id": 743,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1635637612,
+        "from_classifier_name": "Stereotypes on Requirements",
+        "to_classifier_name": "spec-img",
+        "from_node": "99ea18fd-1f8c-429e-9963-d78d225d02c4",
+        "to_node": "d4b9f78c-212f-40ea-a135-b1de7b9eb1c2",
+        "uuid": "db4806b4-d6f8-4631-a59d-f18692fb3a17"
+      }
+    },
+    {
+      "relationship": {
+        "id": 741,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1224775058,
+        "from_classifier_name": "req",
+        "to_classifier_name": "req-img",
+        "from_node": "68dfe8d7-6ae2-42d0-a4da-18de59a74c88",
+        "to_node": "4151de59-ec9b-4ca3-8b39-47fe90ce1432",
+        "uuid": "ff6b184f-5e17-4f14-80e9-5fe314aa05b4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 744,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1635670380,
+        "from_classifier_name": "spec",
+        "to_classifier_name": "spec-img",
+        "from_node": "6a53a9a4-d081-4f25-9349-9c7c692d213d",
+        "to_node": "d4b9f78c-212f-40ea-a135-b1de7b9eb1c2",
+        "uuid": "46bfc309-dcb1-4058-83f3-59169389ccfb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 748,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520581401,
+        "from_classifier_name": "ARC_LIFELINES_AT_INTERACTIONS",
+        "to_classifier_name": "All model elements must be visible",
+        "from_node": "09010aac-7f1b-453b-bf80-51c1c475e45e",
+        "to_node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+        "uuid": "ab2452b6-ee1a-4d4a-a948-e85b75646d9e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 751,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520679705,
+        "from_classifier_name": "ARC_NO_INVISIBLE_CLASSIFIERS",
+        "to_classifier_name": "All model elements must be visible",
+        "from_node": "56172679-9b7a-443e-99b4-dd0918e6362b",
+        "to_node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+        "uuid": "8a6d2a9e-3cee-4f1c-b679-47a4880763bb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 752,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1520712473,
+        "from_classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
+        "to_classifier_name": "All model elements must be visible",
+        "from_node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
+        "to_node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
+        "uuid": "646d6615-6938-45bf-acc2-db39a960a6d2"
       }
     }
   ]
