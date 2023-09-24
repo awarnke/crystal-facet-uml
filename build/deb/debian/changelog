@@ -1,3 +1,14 @@
+crystal-facet-uml (1.52.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Redesign of file-menu icons
+  * Lifelines are deleted when the diagram type changes to non-interaction
+  * When changing the diagram type, statistics on changes are displayed
+  * In interaction diagrams, Stereotypes and Images are co-located to comments
+  * info: New database files store ids, types and flags as NOT NULL
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Sep 2023 09:00:00 +0200
+
 crystal-facet-uml (1.51.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
