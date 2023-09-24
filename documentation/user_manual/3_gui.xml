@@ -44,9 +44,11 @@
                     </listitem>
                     <listitem>
                         <para>
-                            If the file name ends with extension <command>.cfu1</command>, the binary sqlite3-based database format is stored.
+                            If the file name ends with extension <command>.cfu1</command>, the binary sqlite3-based
+                            database format is stored.
                             This is compatible to older versions of crystal-facet-uml (&lt;1.35.0).
-                            Otherwise a json-based format is used to store your data in a git-friendly format.
+                            Otherwise (e.g. <command>.cfuJ</command>) a json-based format is used to store your data in
+                            a git-friendly format.
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -68,8 +70,8 @@
                     </listitem>
                     <listitem>
                         <para>
-                            To open json-based formats (e.g. <command>.cfuJ</command>), write access to the parent folder is
-                            required.
+                            To open json-based formats (e.g. <command>.cfuJ</command>), write access to the parent
+                            folder is required.
                         </para>
                     </listitem>
                     <listitem>
@@ -96,6 +98,7 @@
                     <listitem>
                         <para>
                             Stores the latest changes to the database immediately.
+                            Note that at program exit, the database is stored automatically anyhow.
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -133,12 +136,10 @@
                     <listitem>
                         <para>
                             Opens another window on the same database.
+                            This new window allows you to work reliably with multiple windows on the same database.
                         </para>
                     </listitem>
                 </itemizedlist>
-                This new window allows you to work reliably with multiple windows on the same database.
-                <!-- opening the same database file using two instances of crystal facet uml
-                _may_ also work - but you risk an inconsistent database when deleting elements or performing undo/redo actions -->
             </para>
 
         </section>
@@ -608,6 +609,16 @@
             <mediaobject>
                 <imageobject><imagedata fileref="3_main_window_sketch_4.svg" width="4cm"/></imageobject>
             </mediaobject>
+
+            The notification bar appears automatically when there is a new message.
+        </para>
+        <para>
+            Such a message may show statistics on performed actions like created, exported, modified, deleted:
+            classifiers refer to the model-nodes,
+            classifier-occurrences refer to an implicit visualization of a classifier in a diagram,
+            features denote properties, operations and ports of classifiers,
+            relationships are the edges between the classifiers,
+            lifelines refer to implicit and automatically managed objects needed to visualize temporal behavior.
         </para>
 
         <section><title>Information</title>
