@@ -340,8 +340,7 @@ void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
         /* small box */
         cairo_move_to ( cr, x-4*ICON_UNIT, y-DIST-6*ICON_UNIT );
         cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-        cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-0*ICON_UNIT );
-        cairo_line_to ( cr, x-2*ICON_UNIT, y-DIST-0*ICON_UNIT );
+        cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-2*ICON_UNIT );
         cairo_line_to ( cr, x-2*ICON_UNIT, y-DIST-2*ICON_UNIT );
 
         /* arrow */

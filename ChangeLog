@@ -5,7 +5,7 @@ crystal-facet-uml (1.52.0) UNRELEASED; urgency=medium
   * Lifelines are deleted when the diagram type changes to non-interaction
   * When changing the diagram type, statistics on changes are displayed
   * In interaction diagrams, Stereotypes and Images are co-located to comments
-  * internal note: New database files store ids, types and flags as NOT NULL
+  * info: New database files store ids, types and flags as NOT NULL
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Sep 2023 08:00:00 +0200
 
