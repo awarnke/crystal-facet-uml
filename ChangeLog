@@ -1,3 +1,10 @@
+crystal-facet-uml (1.52.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * ...
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Sep 2023 09:00:00 +0200
+
 crystal-facet-uml (1.52.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
@@ -7,7 +14,7 @@ crystal-facet-uml (1.52.0) UNRELEASED; urgency=medium
   * In interaction diagrams, Stereotypes and Images are co-located to comments
   * info: New database files store ids, types and flags as NOT NULL
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Sep 2023 08:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Sep 2023 09:00:00 +0200
 
 crystal-facet-uml (1.51.0) UNRELEASED; urgency=medium
 
