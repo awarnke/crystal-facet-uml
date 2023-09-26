@@ -22,6 +22,7 @@
 #include "set/data_visible_set.h"
 #include "data_diagram.h"
 #include "data_id.h"
+#include "data_rules.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -39,6 +40,7 @@ struct pencil_classifier_1d_layouter_struct {
     const geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an external drawing rectangle containing inner contents of the diagram */
 
     pencil_classifier_composer_t classifier_composer;  /*!< own instance of a composer object to ask for display dimensions */
+    data_rules_t rules;  /*!< own instance of modelling rules */
 };
 
 typedef struct pencil_classifier_1d_layouter_struct pencil_classifier_1d_layouter_t;
