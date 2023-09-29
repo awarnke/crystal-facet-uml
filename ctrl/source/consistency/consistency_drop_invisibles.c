@@ -53,7 +53,7 @@ u8_error_t consistency_drop_invisibles_delete_unreferenced_classifier( consisten
 
     if ( u8_error_contains( my_ctrl_result, U8_ERROR_OBJECT_STILL_REFERENCED ) )
     {
-        U8_LOG_ANOMALY( "The classifier cannot be deleted because it is still referenced." );
+        U8_LOG_EVENT( "The classifier cannot be deleted because it is still referenced." );
     }
     else
     {
@@ -75,6 +75,8 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
     u8_error_t result = U8_ERROR_NONE;
 
     data_row_id_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
+    data_small_set_t relations_to_delete;
+    data_small_set_init( &relations_to_delete );
 
     /* load relationships to be checked */
     uint32_t relationship_count = 0;
@@ -116,11 +118,9 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
             {
                 if ( ! visible )
                 {
-                    const data_row_id_t relation_id = data_relationship_get_row_id( relation );
-                    result |= ctrl_classifier_controller_delete_relationship( (*this_).clfy_ctrl,
-                                                                              relation_id,
-                                                                              CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                            );
+                    /* invisible relationship found */
+                    /* this must be copied into a local data set to make this class re-entrant for recursive calls */
+                    result |= data_small_set_add_obj( &relations_to_delete, data_relationship_get_data_id( relation ) );
                 }
             }
             else
@@ -129,6 +129,21 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
             }
         }
     }
+
+    /* delete all found relationship */
+    /* note that (*this_).private_temp_rel_buf cannot be used here any longer due to re-entrancy by recursion */
+    const uint32_t relations_count = data_small_set_get_count( &relations_to_delete );
+    for ( uint32_t index2 = 0; index2 < relations_count; index2 ++ )
+    {
+        const data_id_t delete_rel = data_small_set_get_id( &relations_to_delete, index2 );
+        assert( data_id_get_table( &delete_rel ) == DATA_TABLE_RELATIONSHIP );
+        result |= ctrl_classifier_controller_delete_relationship( (*this_).clfy_ctrl,
+                                                                  data_id_get_row_id( &delete_rel ),
+                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                                );
+    }
+
+    data_small_set_destroy( &relations_to_delete );
 
     U8_TRACE_END_ERR( result );
     return result;

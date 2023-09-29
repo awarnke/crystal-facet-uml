@@ -71,7 +71,7 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
                 if ( data_id_is_valid( &feat_to_delete ) )
                 {
                     /* diagramelement with a focused feature found */
-                    /* this must be copied into a local data set to make this function re-entrant for recursive calls */
+                    /* this must be copied into a local data set to make this class re-entrant for recursive calls */
                     result |= data_small_set_add_obj( &lifelines_to_delete, feat_to_delete );
                 }
             }
@@ -252,6 +252,8 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
     {
         const data_row_id_t classifier_id = data_feature_get_classifier_row_id ( deleted_feature );
         const data_row_id_t deleted_feature_id = data_feature_get_row_id( deleted_feature );
+        data_small_set_t diag_ele_to_unlink;
+        data_small_set_init( &diag_ele_to_unlink );
 
         /* search all diagramelements of the classifier */
         uint32_t diagramelement_count;
@@ -274,14 +276,10 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
 
                 if ( focused_feature == deleted_feature_id )
                 {
-                    data_row_id_t diagele_id;
-                    diagele_id = data_diagramelement_get_row_id( current_diagele );
-
-                    result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id( (*this_).diag_ctrl,
-                                                                                                diagele_id,
-                                                                                                DATA_ROW_ID_VOID,
-                                                                                                CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
-                                                                                              );
+                    /* diagramelement with the just deleted focused feature found */
+                    /* this must be copied into a local data set to make this class re-entrant for recursive calls */
+                    const data_id_t diagele_id = data_diagramelement_get_data_id( current_diagele );
+                    result |= data_small_set_add_obj( &diag_ele_to_unlink, diagele_id );
                 }
             }
         }
@@ -289,6 +287,28 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
         {
             U8_LOG_ANOMALY( "consistency_lifeline_unlink_lifeline could not load all lifelines of a classifier." );
         }
+
+        /* unlink all found diagram elements (there should be exactly one) */
+        /* note that (*this_).private_temp_diagele_buf cannot be used here any longer due to re-entrancy by recursion */
+        const uint32_t diag_ele_count = data_small_set_get_count( &diag_ele_to_unlink );
+        if ( diag_ele_count != 1 )
+        {
+            U8_LOG_ANOMALY_INT( "Unlinking a just deleted lifeline that had not exactly one occurrence:",
+                                diag_ele_count
+                              );
+        }
+        for ( uint32_t index2 = 0; index2 < diag_ele_count; index2 ++ )
+        {
+            const data_id_t diagele_to_unlink = data_small_set_get_id( &diag_ele_to_unlink, index2 );
+            assert( data_id_get_table( &diagele_to_unlink ) == DATA_TABLE_DIAGRAMELEMENT );
+            result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id( (*this_).diag_ctrl,
+                                                                                        data_id_get_row_id( &diagele_to_unlink ),
+                                                                                        DATA_ROW_ID_VOID,
+                                                                                        CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
+                                                                                      );
+        }
+
+        data_small_set_destroy( &diag_ele_to_unlink );
     }
 
     U8_TRACE_END_ERR( result );
