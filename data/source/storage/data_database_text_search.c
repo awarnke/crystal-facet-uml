@@ -248,11 +248,11 @@ u8_error_t data_database_text_search_private_get_diagrams_by_textfragment( data_
                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN )
                                                );
 
-                int err_full = data_search_result_list_add( io_results, &current_result );
-                if ( err_full != 0 )
+                const u8_error_t err_full = data_search_result_list_add( io_results, &current_result );
+                if ( err_full != U8_ERROR_NONE )
                 {
                     U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
-                    result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    result |= err_full;
                 }
 
                 data_search_result_trace( &current_result );
@@ -360,11 +360,11 @@ u8_error_t data_database_text_search_private_get_classifiers_by_textfragment( da
                                                     sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN )
                                                   );
 
-                int err_full = data_search_result_list_add( io_results, &current_result );
-                if ( err_full != 0 )
+                const u8_error_t err_full = data_search_result_list_add( io_results, &current_result );
+                if ( err_full != U8_ERROR_NONE )
                 {
                     U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
-                    result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    result |= err_full;
                 }
 
                 data_search_result_trace( &current_result );
@@ -513,11 +513,11 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
 
                 if ( ! filter )
                 {
-                    int err_full = data_search_result_list_add( io_results, &current_result );
-                    if ( err_full != 0 )
+                    const u8_error_t err_full = data_search_result_list_add( io_results, &current_result );
+                    if ( err_full != U8_ERROR_NONE )
                     {
                         U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
-                        result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                        result |= err_full;
                     }
                 }
 
@@ -689,11 +689,11 @@ u8_error_t data_database_text_search_private_get_relationships_by_textfragment( 
 
                 if ( ! filter )
                 {
-                    int err_full = data_search_result_list_add( io_results, &current_result );
-                    if ( err_full != 0 )
+                    const u8_error_t err_full = data_search_result_list_add( io_results, &current_result );
+                    if ( err_full != U8_ERROR_NONE )
                     {
                         U8_LOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
-                        result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+                        result |= err_full;
                     }
                 }
 

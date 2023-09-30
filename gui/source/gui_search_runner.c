@@ -168,8 +168,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                             "" /* match_name */,
                                                             data_diagramelement_get_diagram_row_id(&((*this_).temp_diagramelement))
                                                           );
-                        int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
-                        if ( err != 0 )
+                        const u8_error_t err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
+                        if ( err != U8_ERROR_NONE )
                         {
                             /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                             U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
@@ -197,8 +197,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                          data_diagram_get_diagram_type( &((*this_).temp_diagrams[0]) ),
                                                          data_diagram_get_name_const( &((*this_).temp_diagrams[0]) )
                                                        );
-                        int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
-                        if ( err != 0 )
+                        const u8_error_t err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
+                        if ( err != U8_ERROR_NONE )
                         {
                             /*d_err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                             U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
@@ -312,8 +312,8 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
 
             if ( ! filter )
             {
-                const int err = data_search_result_list_add( io_list, classifier_template );
-                if ( err != 0 )
+                const u8_error_t err = data_search_result_list_add( io_list, classifier_template );
+                if ( err != U8_ERROR_NONE )
                 {
                     /*d_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;*/
                     U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );

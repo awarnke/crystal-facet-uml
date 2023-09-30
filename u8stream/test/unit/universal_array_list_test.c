@@ -40,7 +40,7 @@ static void tear_down( test_fixture_t *test_env )
 
 static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
 {
-    int err;
+    u8_error_t err;
     char (string_buf[5])[7];
     universal_array_list_t testee;
 
@@ -59,12 +59,12 @@ static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
 
     /* insert first */
     err = universal_array_list_append ( &testee, "123456" );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 1, universal_array_list_get_length( &testee ) );
 
     /* insert second */
     err = universal_array_list_append ( &testee, "abcdef" );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 2, universal_array_list_get_length( &testee ) );
     TEST_EXPECT_EQUAL_INT( false, universal_array_list_is_empty( &testee ) );
 
@@ -98,7 +98,7 @@ static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
 
 static test_case_result_t test_max_size( test_fixture_t *test_env )
 {
-    int err;
+    u8_error_t err;
     uint64_t buf[5];
     universal_array_list_t testee;
 
@@ -117,30 +117,30 @@ static test_case_result_t test_max_size( test_fixture_t *test_env )
     /* insert first element */
     const uint64_t ele1 = 0x8000cccc10004444;
     err = universal_array_list_append ( &testee, &ele1 );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 1, universal_array_list_get_length( &testee ) );
 
     /* insert second element */
     const uint64_t ele2 = 0xcccc100044440000;
     err = universal_array_list_append ( &testee, &ele2 );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 2, universal_array_list_get_length( &testee ) );
 
     /* insert self, first time */
     err = universal_array_list_append_all ( &testee, &testee );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 4, universal_array_list_get_length( &testee ) );
 
     /* insert self, second time */
     err = universal_array_list_append_all ( &testee, &testee );
-    TEST_EXPECT_EQUAL_INT( -1, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err );
     TEST_EXPECT_EQUAL_INT( 5, universal_array_list_get_length( &testee ) );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &ele1, universal_array_list_get_const( &testee, 4 ), sizeof(uint64_t) ) );
 
     /* insert third element */
     const uint64_t ele3 = 0x1000444400005b5b;
     err = universal_array_list_append ( &testee, &ele3 );
-    TEST_EXPECT_EQUAL_INT( -1, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err );
     TEST_EXPECT_EQUAL_INT( 5, universal_array_list_get_length( &testee ) );
 
     return TEST_CASE_RESULT_OK;
@@ -166,7 +166,7 @@ bool equal (const double* instance_1, const double* instance_2)
 
 static test_case_result_t test_element_lifecycle( test_fixture_t *test_env )
 {
-    int err;
+    u8_error_t err;
     double buf[4];
     universal_array_list_t testee;
 
@@ -186,7 +186,7 @@ static test_case_result_t test_element_lifecycle( test_fixture_t *test_env )
     /* insert first */
     const double ele1 = 17.125;
     err = universal_array_list_append ( &testee, &ele1 );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 1, ctor_calls );
     TEST_EXPECT_EQUAL_INT( 0, eq_calls );
     TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
@@ -199,14 +199,14 @@ static test_case_result_t test_element_lifecycle( test_fixture_t *test_env )
 
     /* insert first again */
     err = universal_array_list_append ( &testee, &ele1 );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 2, ctor_calls );
     TEST_EXPECT_EQUAL_INT( 0, eq_calls );
     TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
 
     /* insert self, first time */
     err = universal_array_list_append_all ( &testee, &testee );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
     TEST_EXPECT_EQUAL_INT( 0, eq_calls );
     TEST_EXPECT_EQUAL_INT( 1, dtor_calls );

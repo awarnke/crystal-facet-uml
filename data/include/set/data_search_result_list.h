@@ -12,6 +12,7 @@
  *  If universal_array_list_t would be a template, this type-wrapper file would not be needed.
  */
 
+#include "set/data_search_result.h"
 #include "u8list/universal_array_list.h"
 #include <stdint.h>
 #include <stdbool.h>
@@ -63,18 +64,18 @@ static inline bool data_search_result_list_is_empty ( const data_search_result_l
  *
  *  \param this_ pointer to own object attributes
  *  \param element element to be added. Only a valid object can be added, NULL is not allowed.
- *  \return -1 if list is full, 0 on success
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if list is full, U8_ERROR_NONE on success
  */
-static inline int data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element );
+static inline u8_error_t data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element );
 
 /*!
  *  \brief adds all elements of that to data_search_result_list_t
  *
  *  \param this_ pointer to own object attributes
  *  \param that list of element to be added.
- *  \return -1 if list is full, 0 on success
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if list is full, U8_ERROR_NONE on success
  */
-static inline int data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that );
+static inline u8_error_t data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that );
 
 /*!
  *  \brief returns an element

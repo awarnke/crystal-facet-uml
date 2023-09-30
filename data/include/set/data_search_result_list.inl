@@ -34,12 +34,12 @@ static inline bool data_search_result_list_is_empty ( const data_search_result_l
     return universal_array_list_is_empty( (universal_array_list_t*) this_ );
 }
 
-static inline int data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element )
+static inline u8_error_t data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element )
 {
     return universal_array_list_append( (universal_array_list_t*) this_, element );
 }
 
-static inline int data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that )
+static inline u8_error_t data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that )
 {
     return universal_array_list_append_all( (universal_array_list_t*) this_, (const universal_array_list_t*) that );
 }

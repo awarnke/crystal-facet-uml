@@ -3,6 +3,8 @@
 #include "consistency/consistency_lifeline.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
+#include "set/data_full_id.h"
+#include "set/data_full_id_list.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 

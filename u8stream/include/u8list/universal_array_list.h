@@ -11,6 +11,7 @@
  *  This is an abstract type, to be used by specialized types like data_search_result_list_t.
  */
 
+#include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -30,9 +31,9 @@ struct universal_array_list_struct {
     ptrdiff_t step_size; /*!< bytes from one array element to the next */
 
     /* callbacks to elements */
-    void (*copy_ctor)(void* to_instance, const void* from_instance); /* the copy constructor of an element, needed to add */
-    bool (*equal)(const void* instance_1, const void* instance_2); /* the compare operator, needed for get_index_of */
-    void (*dtor)(void* instance); /* the destructor of an element, needed to remove and clear */
+    void (*copy_ctor)(void* to_instance, const void* from_instance); /* the copy constructor of an element, used by append */
+    bool (*equal)(const void* instance_1, const void* instance_2); /* the compare operator, used by get_index_of */
+    void (*dtor)(void* instance); /* the destructor of an element, used by clear */
 };
 
 typedef struct universal_array_list_struct universal_array_list_t;
@@ -85,18 +86,18 @@ static inline bool universal_array_list_is_empty ( const universal_array_list_t 
  *
  *  \param this_ pointer to own object attributes
  *  \param element element to be added. Only a valid object can be added, NULL is not allowed.
- *  \return -1 if list is full, 0 on success
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if list is full, U8_ERROR_NONE on success
  */
-static inline int universal_array_list_append ( universal_array_list_t *this_, const void* element );
+static inline u8_error_t universal_array_list_append ( universal_array_list_t *this_, const void* element );
 
 /*!
  *  \brief appends all elements of that to universal_array_list_t
  *
  *  \param this_ pointer to own object attributes
  *  \param that list of elements to be added.
- *  \return -1 if list is full, 0 on success
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if list is full, U8_ERROR_NONE on success
  */
-static inline int universal_array_list_append_all ( universal_array_list_t *this_, const universal_array_list_t *that );
+static inline u8_error_t universal_array_list_append_all ( universal_array_list_t *this_, const universal_array_list_t *that );
 
 /*!
  *  \brief returns an element

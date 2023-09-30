@@ -49,7 +49,9 @@ static inline void universal_array_list_trace ( const universal_array_list_t *th
     U8_TRACE_INFO_INT( "- length:", (*this_).length );
     U8_TRACE_INFO_INT( "- max_elements:", (*this_).max_elements );
     U8_TRACE_INFO_INT( "- element_size:", (*this_).element_size );
+    U8_TRACE_INFO_INT( "- step_size:", (*this_).step_size );
     U8_TRACE_INFO_STR( "- copy_ctor:", ((*this_).copy_ctor == NULL)?"NULL":"exists" );
+    U8_TRACE_INFO_STR( "- equal:", ((*this_).equal == NULL)?"NULL":"exists" );
     U8_TRACE_INFO_STR( "- dtor:", ((*this_).dtor == NULL)?"NULL":"exists" );
 }
 
@@ -58,12 +60,12 @@ static inline bool universal_array_list_is_empty ( const universal_array_list_t 
     return ( 0 == (*this_).length );
 }
 
-static inline int universal_array_list_append ( universal_array_list_t *this_, const void* element )
+static inline u8_error_t universal_array_list_append ( universal_array_list_t *this_, const void* element )
 {
     assert( (*this_).length <= (*this_).max_elements );
     assert( (*this_).elements != NULL );
 
-    int err_result;
+    u8_error_t err_result;
 
     if ( (*this_).length < (*this_).max_elements )
     {
@@ -78,21 +80,21 @@ static inline int universal_array_list_append ( universal_array_list_t *this_, c
         {
             memcpy( pos, element, (*this_).element_size );
         }
-        err_result = 0;
+        err_result = U8_ERROR_NONE;
     }
     else
     {
-        err_result = -1;
+        err_result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
     return err_result;
 }
 
-static inline int universal_array_list_append_all ( universal_array_list_t *this_, const universal_array_list_t *that )
+static inline u8_error_t universal_array_list_append_all ( universal_array_list_t *this_, const universal_array_list_t *that )
 {
     assert( that != NULL );
 
-    int err_result = 0;
+    u8_error_t err_result = U8_ERROR_NONE;
     const unsigned int len = universal_array_list_get_length(that);
     for ( unsigned int idx = 0; (idx < len)&&(err_result == 0); idx ++ )
     {
