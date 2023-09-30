@@ -10,6 +10,8 @@ void xmi_type_converter_init ( xmi_type_converter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
+
     U8_TRACE_END();
 }
 

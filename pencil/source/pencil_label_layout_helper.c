@@ -8,6 +8,8 @@ void pencil_label_layout_helper_init( pencil_label_layout_helper_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
+
     U8_TRACE_END();
 }
 

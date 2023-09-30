@@ -20,7 +20,8 @@ static inline void universal_simple_random_init ( universal_simple_random_t *thi
 #endif
         universal_simple_random_initialized = true;
     }
-    (*this_).dummy=0;
+
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void universal_simple_random_destroy ( universal_simple_random_t *this_ )

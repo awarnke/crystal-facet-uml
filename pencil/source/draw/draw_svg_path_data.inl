@@ -6,7 +6,7 @@
 
 static inline void draw_svg_path_data_init( draw_svg_path_data_t *this_ )
 {
-
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void draw_svg_path_data_destroy( draw_svg_path_data_t *this_ )

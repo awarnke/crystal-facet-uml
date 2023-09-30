@@ -16,6 +16,7 @@
 
 #include "u8/u8_error.h"
 #include "storage/data_database_reader.h"
+#include "set/data_full_id.h"
 #include "data_rules.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -132,11 +133,11 @@ u8_error_t consistency_lifeline_create_a_lifeline ( consistency_lifeline_t *this
  *  \brief creates one lifeline, unconditional
  *
  *  \param this_ pointer to own object attributes
- *  \param the_diagramelement data of the diagramelement.
+ *  \param diagramelement_ids data of the diagramelement.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t consistency_lifeline_private_create_one_lifeline ( consistency_lifeline_t *this_,
-                                                              const data_diagramelement_t *the_diagramelement
+                                                              const data_full_id_t *diagramelement_ids
                                                             );
 
 /*!

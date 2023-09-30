@@ -3,7 +3,6 @@
 #include "consistency/consistency_lifeline.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
-#include "set/data_full_id.h"
 #include "set/data_full_id_list.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
@@ -115,6 +114,12 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
     if ( data_rules_diagram_is_scenario( &((*this_).rules), new_type ) )
     {
         /* this diagram type needs lifelines */
+        data_full_id_t lifelines_to_create_buf[ CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES ];
+        data_full_id_list_t lifelines_to_create;
+        data_full_id_list_init( &lifelines_to_create,
+                                CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES,
+                                &lifelines_to_create_buf
+                              );
 
         /* search all contained diagramelements */
         const data_row_id_t diagram_id = data_diagram_get_row_id ( updated_diagram );
@@ -139,7 +144,12 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
                 if ( DATA_ROW_ID_VOID == focused_feature )
                 {
                     /* diagramelement without focused feature found */
-                    result |= consistency_lifeline_private_create_one_lifeline ( this_, current_diagele );
+                    /* this must be copied into a local data set to make this class re-entrant for recursive calls */
+                    const data_full_id_t diagramelement_ids = {
+                        .primary_id = data_diagramelement_get_data_id( current_diagele ),
+                        .secondary_id = data_diagramelement_get_classifier_data_id( current_diagele )
+                    };
+                    result |= data_full_id_list_add( &lifelines_to_create, &diagramelement_ids );
                 }
             }
         }
@@ -147,6 +157,17 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
         {
             U8_LOG_ANOMALY( "consistency_lifeline_create_lifelines could not load all diagram_elements of a diagram." );
         }
+
+        /* create all missing lifelines */
+        /* note that (*this_).private_temp_diagele_buf cannot be used here any longer due to re-entrancy by recursion */
+        const uint32_t lifelines_count = data_full_id_list_get_length( &lifelines_to_create );
+        for ( uint32_t index2 = 0; index2 < lifelines_count; index2 ++ )
+        {
+            const data_full_id_t *const diagramelement_ids = data_full_id_list_get_const( &lifelines_to_create, index2 );
+            result |= consistency_lifeline_private_create_one_lifeline ( this_, diagramelement_ids );
+        }
+
+        data_full_id_list_destroy( &lifelines_to_create );
     }
 
     U8_TRACE_END_ERR( result );
@@ -172,7 +193,11 @@ u8_error_t consistency_lifeline_create_a_lifeline( consistency_lifeline_t *this_
         const data_diagram_type_t dig_type = data_diagram_get_diagram_type( &the_diag );
         if ( data_rules_diagram_is_scenario( &((*this_).rules), dig_type ) )
         {
-            result |= consistency_lifeline_private_create_one_lifeline ( this_, new_diagramelement );
+            const data_full_id_t diagramelement_ids = {
+                .primary_id = data_diagramelement_get_data_id( new_diagramelement ),
+                .secondary_id = data_diagramelement_get_classifier_data_id( new_diagramelement )
+            };
+            result |= consistency_lifeline_private_create_one_lifeline ( this_, &diagramelement_ids );
         }
     }
 
@@ -181,17 +206,21 @@ u8_error_t consistency_lifeline_create_a_lifeline( consistency_lifeline_t *this_
 }
 
 u8_error_t consistency_lifeline_private_create_one_lifeline( consistency_lifeline_t *this_,
-                                                             const data_diagramelement_t *the_diagramelement )
+                                                             const data_full_id_t *diagramelement_ids )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != the_diagramelement );
+    assert( NULL != diagramelement_ids );
     u8_error_t result = U8_ERROR_NONE;
+    const data_id_t diagramelement_id = data_full_id_get_primary_id( diagramelement_ids );
+    assert( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &diagramelement_id ) );
+    const data_id_t classifier_id = data_full_id_get_secondary_id( diagramelement_ids );
+    assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
 
     /* define the lifeline to create */
     data_feature_t new_lifeline;
     result |= data_feature_init_new( &new_lifeline,
                                      DATA_FEATURE_TYPE_LIFELINE,
-                                     data_diagramelement_get_classifier_row_id( the_diagramelement ),
+                                     data_id_get_row_id( &classifier_id ),
                                      "",  /* key */
                                      "",  /* value or type */
                                      "",  /* description */
@@ -207,9 +236,8 @@ u8_error_t consistency_lifeline_private_create_one_lifeline( consistency_lifelin
                                                        );
 
     /* the newly created lifeline is the focused feature */
-    const data_row_id_t diagramelement_id = data_diagramelement_get_row_id( the_diagramelement );
     result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id( (*this_).diag_ctrl,
-                                                                                diagramelement_id,
+                                                                                data_id_get_row_id( &diagramelement_id ),
                                                                                 new_feature_id,
                                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                               );

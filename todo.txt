@@ -32,6 +32,7 @@ ideas for future versions:
   [ ] show stereotype names for relationships (if no icon available)
   [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] stereotype images of packages are positioned unluckily
+! [ ] sequence diagrams shall provide more automatic line breaks in classifier names
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

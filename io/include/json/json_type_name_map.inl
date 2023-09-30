@@ -9,7 +9,7 @@
 
 static inline void json_type_name_map_init( json_type_name_map_t *this_ )
 {
-    (*this_).dummy = 0;
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void json_type_name_map_destroy( json_type_name_map_t *this_ )

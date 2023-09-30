@@ -130,7 +130,6 @@ static inline data_id_t data_diagramelement_get_data_id ( const data_diagramelem
     return result;
 }
 
-
 static inline data_row_id_t data_diagramelement_get_diagram_row_id ( const data_diagramelement_t *this_ )
 {
     return (*this_).diagram_id;

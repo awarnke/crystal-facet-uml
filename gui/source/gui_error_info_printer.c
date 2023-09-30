@@ -9,6 +9,8 @@ void gui_error_info_printer_init ( gui_error_info_printer_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
+
     U8_TRACE_END();
 }
 

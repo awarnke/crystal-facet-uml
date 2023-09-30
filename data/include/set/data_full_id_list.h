@@ -22,10 +22,6 @@
  */
 typedef universal_array_list_t data_full_id_list_t;
 
-#define DATA_FULL_ID_LIST_INIT( THIS, ARRAY ) universal_array_list_init( (universal_array_list_t*)(THIS), \
-sizeof(ARRAY)/sizeof(data_full_id_t), &(ARRAY), sizeof(data_full_id_t), ((char*)(&((ARRAY)[1])))-((char*)(&((ARRAY)[0]))), \
-NULL, NULL, NULL );
-
 /*!
  *  \brief initializes the data_full_id_list_t struct
  *

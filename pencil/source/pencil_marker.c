@@ -11,6 +11,8 @@ void pencil_marker_init( pencil_marker_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
+
     U8_TRACE_END();
 }
 
@@ -38,7 +40,7 @@ void pencil_marker_mark_focused_rectangle ( const pencil_marker_t *this_, geomet
 
     /* gray lines */
     cairo_set_source_rgba( cr, 0.55, 0.55, 0.55, 1.0 );
-    
+
     cairo_rectangle ( cr, left-GAP-LINE_WIDTH, top-GAP-TOTAL_SIZE, LINE_WIDTH, YELLOW_BOX_SIZE );
     cairo_rectangle ( cr, left-GAP-TOTAL_SIZE, top-GAP-LINE_WIDTH, TOTAL_SIZE, LINE_WIDTH );
     cairo_fill (cr);
