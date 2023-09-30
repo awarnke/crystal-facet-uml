@@ -114,13 +114,15 @@ static test_case_result_t layout_good_cases( test_fixture_t *test_env )
 #ifndef NDEBUG
         const unsigned int variant = test_data_setup_get_variant( &ts_setup );
         fprintf( stdout,
-             "    variant=%i, #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
+             "    variant=%i, #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32
+             ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/L=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
              variant,
              data_stat_get_count( &layout_stats, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
              data_stat_get_series_count( &layout_stats, DATA_STAT_SERIES_EXPORTED ),
              data_stat_get_series_count( &layout_stats, DATA_STAT_SERIES_ERROR ),
              data_stat_get_count( &layout_stats, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING ),
              data_stat_get_count( &layout_stats, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &layout_stats, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_WARNING ),
              data_stat_get_count( &layout_stats, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
            );
 #endif
@@ -131,12 +133,14 @@ static test_case_result_t layout_good_cases( test_fixture_t *test_env )
     test_data_setup_destroy( &ts_setup );
 
     fprintf( stdout,
-             "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
+             "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32
+             ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/L=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
              data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_EXPORTED ),
              data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_ERROR ),
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING ),
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &total_stats, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_WARNING ),
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
            );
     data_stat_destroy( &total_stats );
@@ -181,12 +185,14 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *test_env )
     }
     test_data_setup_destroy( &ts_setup );
     fprintf( stdout,
-             "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32 ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
+             "    #Diag=%" PRIuFAST32 ", total=%" PRIuFAST32 " |  ERR=%" PRIuFAST32
+             ", W/C=%" PRIuFAST32 ", W/F=%" PRIuFAST32 ", W/L=%" PRIuFAST32 ", W/R=%" PRIuFAST32 "\n",
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED ),
              data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_EXPORTED ),
              data_stat_get_series_count( &total_stats, DATA_STAT_SERIES_ERROR ),
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_WARNING ),
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_WARNING ),
+             data_stat_get_count( &total_stats, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_WARNING ),
              data_stat_get_count( &total_stats, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING )
            );
     data_stat_destroy( &total_stats );
