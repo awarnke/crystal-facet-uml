@@ -1,3 +1,13 @@
+crystal-facet-uml (1.52.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * info: database triggers are re-entrant to allow recursion
+  * statistics are with separated lifelines now:
+    layout_good_cases: ERR=0, W/C=9, W/F=1, W/L=20, W/R=37
+    layout_challenging_cases: ERR=28, W/C=7728, W/F=520, W/L=5406, W/R=4869
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 30 Sep 2023 19:00:00 +0200
+
 crystal-facet-uml (1.52.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
