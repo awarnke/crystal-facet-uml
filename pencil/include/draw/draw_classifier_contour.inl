@@ -5,7 +5,7 @@
 
 static inline void draw_classifier_contour_init( draw_classifier_contour_t *this_ )
 {
-
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *this_ )

@@ -6,6 +6,7 @@
 
 static inline void data_rules_init ( data_rules_t *this_ )
 {
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void data_rules_destroy ( data_rules_t *this_ )

@@ -6,7 +6,7 @@
 
 static inline void draw_stereotype_image_init( draw_stereotype_image_t *this_ )
 {
-
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void draw_stereotype_image_destroy( draw_stereotype_image_t *this_ )

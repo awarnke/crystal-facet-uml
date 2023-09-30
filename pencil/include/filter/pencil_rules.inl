@@ -2,6 +2,7 @@
 
 static inline void pencil_rules_init ( pencil_rules_t *this_ )
 {
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void pencil_rules_destroy ( pencil_rules_t *this_ )

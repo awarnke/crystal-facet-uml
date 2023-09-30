@@ -44,14 +44,14 @@ static inline u8_error_t data_search_result_list_add_all ( data_search_result_li
     return universal_array_list_append_all( (universal_array_list_t*) this_, (const universal_array_list_t*) that );
 }
 
-static inline data_search_result_list_t *data_search_result_list_get_ptr ( data_search_result_list_t *this_, unsigned int index )
+static inline data_search_result_t *data_search_result_list_get_ptr ( data_search_result_list_t *this_, unsigned int index )
 {
-    return (data_search_result_list_t*) universal_array_list_get_ptr( (universal_array_list_t*) this_, index );
+    return (data_search_result_t*) universal_array_list_get_ptr( (universal_array_list_t*) this_, index );
 }
 
-static inline void const *data_search_result_list_get_const ( const data_search_result_list_t *this_, unsigned int index )
+static inline data_search_result_t const *data_search_result_list_get_const ( const data_search_result_list_t *this_, unsigned int index )
 {
-    return (data_search_result_list_t const*) universal_array_list_get_const( (universal_array_list_t*) this_, index );
+    return (data_search_result_t const*) universal_array_list_get_const( (universal_array_list_t*) this_, index );
 }
 
 static inline void data_search_result_list_clear ( data_search_result_list_t *this_ )

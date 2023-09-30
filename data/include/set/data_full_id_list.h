@@ -84,7 +84,7 @@ static inline u8_error_t data_full_id_list_add_all ( data_full_id_list_t *this_,
  *  \param index index to be returned. 0 \<= index \< universal_array_list_get_length(this_)
  *  \return pointer to the element, NULL if index is invalid
  */
-static inline data_full_id_list_t *data_full_id_list_get_ptr ( data_full_id_list_t *this_, unsigned int index );
+static inline data_full_id_t *data_full_id_list_get_ptr ( data_full_id_list_t *this_, unsigned int index );
 
 /*!
  *  \brief returns a const element
@@ -93,7 +93,7 @@ static inline data_full_id_list_t *data_full_id_list_get_ptr ( data_full_id_list
  *  \param index index to be returned. 0 \<= index \< universal_array_list_get_length(this_)
  *  \return pointer to the element, NULL if index is invalid
  */
-static inline void const *data_full_id_list_get_const ( const data_full_id_list_t *this_, unsigned int index );
+static inline data_full_id_t const *data_full_id_list_get_const ( const data_full_id_list_t *this_, unsigned int index );
 
 /*!
  *  \brief clears the data_full_id_list_t and all contained elements

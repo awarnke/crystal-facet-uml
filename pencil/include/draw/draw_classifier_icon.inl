@@ -5,7 +5,7 @@
 
 static inline void draw_classifier_icon_init( draw_classifier_icon_t *this_ )
 {
-
+    (*this_).dummy = 0;  /* prevent warnings on uninitialized usage */
 }
 
 static inline void draw_classifier_icon_destroy( draw_classifier_icon_t *this_ )

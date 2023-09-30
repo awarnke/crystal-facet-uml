@@ -44,14 +44,14 @@ static inline u8_error_t data_full_id_list_add_all ( data_full_id_list_t *this_,
     return universal_array_list_append_all( (universal_array_list_t*) this_, (const universal_array_list_t*) that );
 }
 
-static inline data_full_id_list_t *data_full_id_list_get_ptr ( data_full_id_list_t *this_, unsigned int index )
+static inline data_full_id_t *data_full_id_list_get_ptr ( data_full_id_list_t *this_, unsigned int index )
 {
-    return (data_full_id_list_t*) universal_array_list_get_ptr( (universal_array_list_t*) this_, index );
+    return (data_full_id_t*) universal_array_list_get_ptr( (universal_array_list_t*) this_, index );
 }
 
-static inline void const *data_full_id_list_get_const ( const data_full_id_list_t *this_, unsigned int index )
+static inline data_full_id_t const *data_full_id_list_get_const ( const data_full_id_list_t *this_, unsigned int index )
 {
-    return (data_full_id_list_t const*) universal_array_list_get_const( (universal_array_list_t*) this_, index );
+    return (data_full_id_t const*) universal_array_list_get_const( (universal_array_list_t*) this_, index );
 }
 
 static inline void data_full_id_list_clear ( data_full_id_list_t *this_ )
