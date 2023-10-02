@@ -3,7 +3,7 @@ all: html crystal-facet-uml_documentation.pdf crystal-facet-uml.1.gz info
 
 SOURCE=../../documentation/user_manual
 
-crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.pdf ${SOURCE}/*.svg ${SOURCE}/*.png ${SOURCE}/4_stereotypes/*.*
+crystal-facet-uml_documentation.pdf: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.pdf ${SOURCE}/*.svg ${SOURCE}/*.png ${SOURCE}/4_stereotypes/*.* ${SOURCE}/5_modeling_hints_export/*.svg
 	echo "you may need to install sudo zypper install rsvg-convert or sudo apt install librsvg2-bin" &&\
 	echo "PLEASE UPDATE DIAGRAMS IN ../../user_doc/doc/2_feature_gallery_export/ MANUALLY" &&\
 	dblatex -c use_rsvg-convert.conf --type=pdf ${SOURCE}/crystal-facet-uml_documentation.xml --output=./crystal-facet-uml_documentation.pdf
@@ -18,6 +18,7 @@ html: ${SOURCE}/*.xml ${SOURCE}/2_feature_gallery_export/*.png ${SOURCE}/*.png $
 	cp ${SOURCE}/4_stereotypes/*.svg ./html &&\
 	find ./html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g' &&\
 	find ./html -name '*.html' | xargs sed -i -e 's/2_feature_gallery_export\///g'
+	find ./html -name '*.html' | xargs sed -i -e 's/5_modeling_hints_export\///g'
 
 MAN_STYLESHEET_ROOT=`find /usr/share/xml/docbook/stylesheet -name manpages`
 #MAN_STYLESHEET_0="/usr/share/xml/docbook/stylesheet/nwalsh/1.78.1/manpages/docbook.xsl"

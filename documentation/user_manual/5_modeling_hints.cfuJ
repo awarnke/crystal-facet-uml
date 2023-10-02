@@ -1,0 +1,688 @@
+{
+  "head": {
+    "encoding": "utf-8",
+    "structure_format": "rfc-8259 w/o hexadecimal escapes",
+    "format": "cfu-json",
+    "major_version": 1,
+    "minor_version": 1,
+    "generator_name": "crystal-facet-uml",
+    "generator_version": "1.52.1"
+  }
+  ,
+  "views":
+  [
+    {
+      "diagram": {
+        "id": 1,
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
+        "name": "New Overview",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "uuid": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
+        "diagramelements":
+        [
+          {
+            "id": 1,
+            "display_flags": 0,
+            "classifier_name": "This file shows hints",
+            "node": "ab678d19-cff2-42a3-9108-4232e8e72f9d",
+            "uuid": "70ef2b0c-8dd8-446c-b68c-b95eb9a55bdb"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 2,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "abstract components",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "New Overview",
+        "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
+        "uuid": "94f35bca-37bf-4a89-ba75-ca39714bc72b",
+        "diagramelements":
+        [
+          {
+            "id": 2,
+            "display_flags": 0,
+            "classifier_name": "Abstract Model",
+            "node": "e7318211-6617-4692-b4b4-03679af55bec",
+            "uuid": "29edb7a8-9ec9-4fa6-9766-055016133f07"
+          },
+          {
+            "id": 3,
+            "display_flags": 0,
+            "classifier_name": "Abstract View",
+            "node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+            "uuid": "d6534f1e-9434-425e-9df9-3ddfbb96df2a"
+          },
+          {
+            "id": 4,
+            "display_flags": 0,
+            "classifier_name": "Abstract Controller",
+            "node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+            "uuid": "b0bc35ea-e79c-4080-a788-4fb98db2c2b0"
+          },
+          {
+            "id": 5,
+            "display_flags": 0,
+            "classifier_name": "View",
+            "node": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
+            "uuid": "d66dfeb3-9731-4116-ba1c-0daf8f7ae905"
+          },
+          {
+            "id": 6,
+            "display_flags": 0,
+            "classifier_name": "Model",
+            "node": "d37ad518-4d03-4ce6-9426-880ce18b594a",
+            "uuid": "1bccd7dd-5245-4c6c-a018-a3cd0f832340"
+          },
+          {
+            "id": 7,
+            "display_flags": 0,
+            "classifier_name": "Controller",
+            "node": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
+            "uuid": "5e7d191a-263d-4031-8466-8cfa52201aea"
+          },
+          {
+            "id": 8,
+            "display_flags": 0,
+            "classifier_name": "User",
+            "node": "b91a6190-b380-44ec-9b47-825653460dc0",
+            "uuid": "9b26a71a-b040-415c-8a7e-c8739c020aa4"
+          }
+        ]
+      }
+    }
+  ]
+  ,
+  "nodes":
+  [
+    {
+      "classifier": {
+        "id": 1,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "This file shows hints",
+        "description": [
+                "on modeling abstraction"
+        ],
+        "x_order": -346386954,
+        "y_order": -646238141,
+        "list_order": -646238141,
+        "uuid": "ab678d19-cff2-42a3-9108-4232e8e72f9d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 2,
+        "main_type": 121,
+        "type": "Component",
+        "name": "Abstract Model",
+        "description": [
+                ""
+        ],
+        "x_order": -1345136003,
+        "y_order": -1324947708,
+        "list_order": -1201378635,
+        "uuid": "e7318211-6617-4692-b4b4-03679af55bec",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 3,
+        "main_type": 121,
+        "type": "Component",
+        "name": "Abstract View",
+        "description": [
+                ""
+        ],
+        "x_order": 204093101,
+        "y_order": -1572681019,
+        "list_order": -1778776537,
+        "uuid": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 4,
+        "main_type": 121,
+        "type": "Component",
+        "name": "Abstract Controller",
+        "description": [
+                ""
+        ],
+        "x_order": 815405880,
+        "y_order": -1324947708,
+        "list_order": -1324947708,
+        "uuid": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 5,
+        "main_type": 121,
+        "type": "Component",
+        "name": "View",
+        "description": [
+                ""
+        ],
+        "x_order": 204093101,
+        "y_order": 1931646106,
+        "list_order": 1220844657,
+        "uuid": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
+        "features":
+        [
+          {
+            "id": 10,
+            "main_type": 6,
+            "type": "Port",
+            "key": "be notified",
+            "description": [
+                ""
+            ],
+            "list_order": 182511588,
+            "uuid": "cba45a3a-af14-4e5e-a9b1-80d5b1f98adc"
+          },
+          {
+            "id": 11,
+            "main_type": 2,
+            "type": "Port",
+            "key": "read",
+            "description": [
+                ""
+            ],
+            "list_order": -865597807,
+            "uuid": "acd869dc-eb98-4f05-82dc-93d71f8fbbb6"
+          },
+          {
+            "id": 12,
+            "main_type": 7,
+            "type": "Port",
+            "key": "request change",
+            "description": [
+                ""
+            ],
+            "list_order": -1896721345,
+            "uuid": "7515513a-a6d7-463d-ab9d-41f6f2912643"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 6,
+        "main_type": 121,
+        "type": "Component",
+        "name": "Model",
+        "description": [
+                ""
+        ],
+        "x_order": -1345136003,
+        "y_order": 1802070392,
+        "list_order": 1802070392,
+        "uuid": "d37ad518-4d03-4ce6-9426-880ce18b594a",
+        "features":
+        [
+          {
+            "id": 1,
+            "main_type": 6,
+            "type": "Port",
+            "key": "create",
+            "description": [
+                ""
+            ],
+            "list_order": -1219713014,
+            "uuid": "352d8d3a-e8a5-4252-af31-c2e7350d1f59"
+          },
+          {
+            "id": 2,
+            "main_type": 2,
+            "type": "Port",
+            "key": "read",
+            "description": [
+                ""
+            ],
+            "list_order": 1913547265,
+            "uuid": "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15"
+          },
+          {
+            "id": 3,
+            "main_type": 6,
+            "type": "Port",
+            "key": "update",
+            "description": [
+                ""
+            ],
+            "list_order": -1672307321,
+            "uuid": "25e75212-d506-442c-9f5d-c54add39f3d7"
+          },
+          {
+            "id": 4,
+            "main_type": 6,
+            "type": "Port",
+            "key": "delete",
+            "description": [
+                ""
+            ],
+            "list_order": -2085274330,
+            "uuid": "f60d8e41-4018-4f34-83a5-9b61935b46f6"
+          },
+          {
+            "id": 5,
+            "main_type": 7,
+            "type": "Port",
+            "key": "notify",
+            "description": [
+                ""
+            ],
+            "list_order": 1189271501,
+            "uuid": "e3bfe8c1-45c9-40be-b6e5-e62139a2a232"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 7,
+        "main_type": 121,
+        "type": "Component",
+        "name": "Controller",
+        "description": [
+                ""
+        ],
+        "x_order": 815405880,
+        "y_order": 1802070392,
+        "list_order": 1802070392,
+        "uuid": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
+        "features":
+        [
+          {
+            "id": 6,
+            "main_type": 7,
+            "type": "Port",
+            "key": "create",
+            "description": [
+                ""
+            ],
+            "list_order": 194998515,
+            "uuid": "2de3f74e-731f-46d3-b0ad-1f800f4bee0c"
+          },
+          {
+            "id": 7,
+            "main_type": 7,
+            "type": "Port",
+            "key": "update",
+            "description": [
+                ""
+            ],
+            "list_order": 562326763,
+            "uuid": "edc71d29-0136-47d3-a558-16a14101d534"
+          },
+          {
+            "id": 8,
+            "main_type": 2,
+            "type": "Port",
+            "key": "read",
+            "description": [
+                ""
+            ],
+            "list_order": 1320350223,
+            "uuid": "6ffaaf7e-eb33-4ef5-ae3e-f7997368758d"
+          },
+          {
+            "id": 9,
+            "main_type": 7,
+            "type": "Port",
+            "key": "delete",
+            "description": [
+                ""
+            ],
+            "list_order": 987884872,
+            "uuid": "0483ebe0-662f-4ecf-8c46-2a3f77ac3899"
+          },
+          {
+            "id": 13,
+            "main_type": 6,
+            "type": "Port",
+            "key": "do change",
+            "description": [
+                ""
+            ],
+            "list_order": 1891502556,
+            "uuid": "66e28b3c-4cb9-4998-b7bc-4997cda9c1c7"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 8,
+        "main_type": 100,
+        "type": "Actor",
+        "name": "User",
+        "description": [
+                ""
+        ],
+        "x_order": -1828339185,
+        "y_order": -1324947708,
+        "list_order": -1324947708,
+        "uuid": "b91a6190-b380-44ec-9b47-825653460dc0",
+        "features":
+        [
+        ]
+      }
+    }
+  ]
+  ,
+  "edges":
+  [
+    {
+      "relationship": {
+        "id": 4,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "notify on change",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Abstract Model",
+        "to_classifier_name": "Abstract View",
+        "from_node": "e7318211-6617-4692-b4b4-03679af55bec",
+        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "uuid": "95ff56fd-61fc-473a-9728-32ba38de21e8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 3,
+        "main_type": 200,
+        "type": "Association",
+        "name": "read",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Abstract View",
+        "to_classifier_name": "Abstract Model",
+        "from_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "to_node": "e7318211-6617-4692-b4b4-03679af55bec",
+        "uuid": "e231dc5a-f2aa-40ac-bcb3-defabaa7163e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 5,
+        "main_type": 200,
+        "type": "Association",
+        "name": "trigger on user interaction",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Abstract View",
+        "to_classifier_name": "Abstract Controller",
+        "from_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "to_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "uuid": "9ef140b7-bd3f-4f9b-9fe8-3f46e777a41b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 1,
+        "main_type": 200,
+        "type": "Association",
+        "name": "read/write",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Abstract Controller",
+        "to_classifier_name": "Abstract Model",
+        "from_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "to_node": "e7318211-6617-4692-b4b4-03679af55bec",
+        "uuid": "c651e390-12a4-4b47-ad1e-63393c8f777a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 6,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "notify un success",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Abstract Controller",
+        "to_classifier_name": "Abstract View",
+        "from_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "uuid": "a54b204f-e61a-49f1-bf8d-e1a83f0a0515"
+      }
+    },
+    {
+      "relationship": {
+        "id": 8,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "View",
+        "to_classifier_name": "Abstract View",
+        "from_node": "4b5476ad-f94e-41c6-a8e6-bee9aba3cd62",
+        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "uuid": "5f3ea6e5-1cd4-4f37-8aff-88ef176e41c6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 12,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "View",
+        "from_feature_key": "read",
+        "to_classifier_name": "Model",
+        "to_feature_key": "read",
+        "from_node": "acd869dc-eb98-4f05-82dc-93d71f8fbbb6",
+        "to_node": "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15",
+        "uuid": "576d90f5-7854-4cfa-9fba-6d0df8d029e0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 17,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "View",
+        "from_feature_key": "request change",
+        "to_classifier_name": "Controller",
+        "to_feature_key": "do change",
+        "from_node": "7515513a-a6d7-463d-ab9d-41f6f2912643",
+        "to_node": "66e28b3c-4cb9-4998-b7bc-4997cda9c1c7",
+        "uuid": "5859cab2-45a8-4d61-bcae-adbd781e9686"
+      }
+    },
+    {
+      "relationship": {
+        "id": 9,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "Model",
+        "to_classifier_name": "Abstract Model",
+        "from_node": "d37ad518-4d03-4ce6-9426-880ce18b594a",
+        "to_node": "e7318211-6617-4692-b4b4-03679af55bec",
+        "uuid": "df857943-fc4b-4a94-b9a6-618586f82c44"
+      }
+    },
+    {
+      "relationship": {
+        "id": 11,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "Model",
+        "from_feature_key": "notify",
+        "to_classifier_name": "View",
+        "to_feature_key": "be notified",
+        "from_node": "e3bfe8c1-45c9-40be-b6e5-e62139a2a232",
+        "to_node": "cba45a3a-af14-4e5e-a9b1-80d5b1f98adc",
+        "uuid": "0950b921-d08c-40d4-b507-1b05cf5032b5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 7,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Controller",
+        "to_classifier_name": "Abstract Controller",
+        "from_node": "5d2037ec-24ee-4c77-a557-f6fd0fd898d2",
+        "to_node": "a96ab724-84a5-4d2d-b198-d595630612fe",
+        "uuid": "a7f7fff7-16b7-47e8-bf67-80b3236ad84f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 13,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "Controller",
+        "from_feature_key": "read",
+        "to_classifier_name": "Model",
+        "to_feature_key": "read",
+        "from_node": "6ffaaf7e-eb33-4ef5-ae3e-f7997368758d",
+        "to_node": "f45b5dc1-1e4f-4b10-bfc4-902d8fd7fe15",
+        "uuid": "841e8638-6d8d-4056-9b91-a57b7246f7aa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 14,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "Controller",
+        "from_feature_key": "delete",
+        "to_classifier_name": "Model",
+        "to_feature_key": "delete",
+        "from_node": "0483ebe0-662f-4ecf-8c46-2a3f77ac3899",
+        "to_node": "f60d8e41-4018-4f34-83a5-9b61935b46f6",
+        "uuid": "616816ba-9574-4b5d-891c-cfa0df6a6e91"
+      }
+    },
+    {
+      "relationship": {
+        "id": 15,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "Controller",
+        "from_feature_key": "update",
+        "to_classifier_name": "Model",
+        "to_feature_key": "update",
+        "from_node": "edc71d29-0136-47d3-a558-16a14101d534",
+        "to_node": "25e75212-d506-442c-9f5d-c54add39f3d7",
+        "uuid": "a9793829-8963-4b59-87c4-ccc814f1e1fd"
+      }
+    },
+    {
+      "relationship": {
+        "id": 16,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "Controller",
+        "from_feature_key": "create",
+        "to_classifier_name": "Model",
+        "to_feature_key": "create",
+        "from_node": "2de3f74e-731f-46d3-b0ad-1f800f4bee0c",
+        "to_node": "352d8d3a-e8a5-4252-af31-c2e7350d1f59",
+        "uuid": "6c8520f9-2b69-4746-8acd-7ff06234274e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 10,
+        "main_type": 200,
+        "type": "Association",
+        "name": "interacts",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "User",
+        "to_classifier_name": "Abstract View",
+        "from_node": "b91a6190-b380-44ec-9b47-825653460dc0",
+        "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
+        "uuid": "c1ce72e9-8a3b-4c39-ac58-84dc4c059272"
+      }
+    }
+  ]
+}

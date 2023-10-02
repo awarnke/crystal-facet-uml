@@ -613,12 +613,27 @@
             The notification bar appears automatically when there is a new message.
         </para>
         <para>
-            Such a message may show statistics on performed actions like created, exported, modified, deleted:
-            classifiers refer to the model-nodes,
-            classifier-occurrences refer to an implicit visualization of a classifier in a diagram,
-            features denote properties, operations and ports of classifiers,
-            relationships are the edges between the classifiers,
-            lifelines refer to implicit and automatically managed objects needed to visualize temporal behavior.
+            Such a message may show statistics on performed actions like created, exported, modified, deleted for the elements
+            <itemizedlist>
+            <listitem>
+                <para>diagrams (when created or deleted, the navigation tree visualizes changes),</para>
+            </listitem>
+            <listitem>
+                <para>classifiers refer to the model-nodes,</para>
+            </listitem>
+            <listitem>
+                <para>classifier-occurrences refer to the visualization of a classifier in a diagram,</para>
+            </listitem>
+            <listitem>
+                <para>features denote properties, operations and ports of classifiers,</para>
+            </listitem>
+            <listitem>
+                <para>relationships are the edges between the classifiers or features or lifelines,</para>
+            </listitem>
+            <listitem>
+                <para>lifelines refer to implicit and automatically managed objects needed to visualize temporal behavior.</para>
+            </listitem>
+            </itemizedlist>
         </para>
 
         <section><title>Information</title>

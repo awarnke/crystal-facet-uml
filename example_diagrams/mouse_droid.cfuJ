@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.52.0"
+    "generator_version": "1.52.1"
   }
   ,
   "views":
@@ -3795,7 +3795,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1127544510,
+        "x_order": -1130598988,
         "y_order": -1054017037,
         "list_order": -1054007896,
         "uuid": "a4d4ef8c-8379-4048-820d-37c61d72894e",
@@ -3872,6 +3872,17 @@
         "uuid": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "features":
         [
+          {
+            "id": 31,
+            "main_type": 2,
+            "type": "Port",
+            "key": "Main Board Connector",
+            "description": [
+                ""
+            ],
+            "list_order": 282260930,
+            "uuid": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b"
+          }
         ]
       }
     },
@@ -7995,25 +8006,6 @@
     },
     {
       "relationship": {
-        "id": 68,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "status and control",
-        "description": [
-                ""
-        ],
-        "list_order": 425984,
-        "from_classifier_name": "Main Logic Board",
-        "from_feature_key": "Base Board Connector",
-        "to_classifier_name": "Base Micro Controller",
-        "to_feature_key": "Main Board Connector",
-        "from_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
-        "to_node": "b2533db8-6881-4300-a224-3f8a5724481a",
-        "uuid": "8018be89-cc26-454a-aebc-3e937dd48acb"
-      }
-    },
-    {
-      "relationship": {
         "id": 69,
         "main_type": 300,
         "type": "Association",
@@ -8135,6 +8127,25 @@
     },
     {
       "relationship": {
+        "id": 280,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "status and control",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "Main Logic Board",
+        "from_feature_key": "Base Board Connector",
+        "to_classifier_name": "Base Logic Board",
+        "to_feature_key": "Main Board Connector",
+        "from_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
+        "to_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
+        "uuid": "cf0a4566-874e-451c-af04-e5fb01809094"
+      }
+    },
+    {
+      "relationship": {
         "id": 49,
         "main_type": 300,
         "type": "Association",
@@ -8233,6 +8244,25 @@
         "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "to_node": "848376fc-1475-4adc-b35f-200e17103025",
         "uuid": "7f8a6afc-2cd9-4ddf-9865-30f290983e5f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 279,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "Base Logic Board",
+        "from_feature_key": "Main Board Connector",
+        "to_classifier_name": "Base Micro Controller",
+        "to_feature_key": "Main Board Connector",
+        "from_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
+        "to_node": "b2533db8-6881-4300-a224-3f8a5724481a",
+        "uuid": "d7c66b64-caf8-4ebb-92ed-48048b064385"
       }
     },
     {

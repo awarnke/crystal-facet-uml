@@ -50,10 +50,21 @@
             </para>
             <para>
                 When distributing different aspects to different diagrams,
-                a remaining challenge may be that there is no filter on relationships.
+                a remaining challenge may be that there is no filter on features and relationships.
                 If e.g. two classes are connected via a generalization arrow and an aggregation arrow,
                 each diagram will show both arrows even if only one is of interest for the shown aspect
                 (except for interaction diagrams).
+            </para>
+            <para>
+                Solutions may be:
+                <itemizedlist>
+                <listitem>
+                    <para>Separate abstract classes/components/blocks and their specializations</para>
+                </listitem>
+                </itemizedlist>
+                <mediaobject>
+                    <imageobject><imagedata fileref="5_modeling_hints_export/D0002_abstract_components.svg" width="12cm"/></imageobject>
+                </mediaobject>
             </para>
         </section>
         <section>
