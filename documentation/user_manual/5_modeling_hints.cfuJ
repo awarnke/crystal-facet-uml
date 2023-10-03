@@ -471,7 +471,7 @@
         "id": 6,
         "main_type": 0,
         "type": "Dependency",
-        "name": "notify un success",
+        "name": "notify on success",
         "description": [
                 ""
         ],

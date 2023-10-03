@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.51.1"
+    "generator_version": "1.52.1"
   }
   ,
   "views":
@@ -2495,6 +2495,13 @@
             "classifier_name": "ATAM (Architecture Tradeoff Analysis)",
             "node": "06674066-9e31-465d-8010-00eb9b09e482",
             "uuid": "97b16102-7610-4ad0-a3fd-5f5d0ec441b5"
+          },
+          {
+            "id": 374,
+            "display_flags": 0,
+            "classifier_name": "HARA (Hazard and Risk Analysis)",
+            "node": "e425ba59-e773-4088-b776-6086c1f00d3f",
+            "uuid": "6922c14e-df33-40ae-a960-c422f61b1a53"
           }
         ]
       }
@@ -5871,13 +5878,13 @@
         "type": "Class",
         "name": "FMEA (Technical Risk Management)",
         "description": [
-                "Failure Mode and Effects Analysis\n",
+                "Failure Mode and Effects Analysis is performed later during project development and checks if the requirements defined by the HARA are met during the development process.\n",
                 "\n",
                 "see https://en.wikipedia.org/wiki/Failure_mode_and_effects_analysis"
         ],
         "x_order": -1723161324,
         "y_order": 0,
-        "list_order": 0,
+        "list_order": 1002052854,
         "uuid": "37a49d1d-1c9b-4c25-a988-da9c5beb14d8",
         "features":
         [
@@ -5895,7 +5902,7 @@
         ],
         "x_order": 292703274,
         "y_order": 0,
-        "list_order": 0,
+        "list_order": -708372185,
         "uuid": "eb13495d-aed6-4fbd-9636-991873ff1dcb",
         "features":
         [
@@ -5909,11 +5916,11 @@
         "type": "Class",
         "name": "Safety Case (Goal Structured Notation)",
         "description": [
-                "Goal Structured Notation"
+                "A safety case is an argument within a concrete project to provide evidence that a safety requirement is met in scope of the project context. This argument may be visualized using the Goal Structured Notation (GSN)"
         ],
         "x_order": -1695420068,
         "y_order": 0,
-        "list_order": 0,
+        "list_order": 1199409590,
         "uuid": "f5ee6c07-8ac1-46b7-aad9-c93c54b0ee9d",
         "features":
         [
@@ -6904,7 +6911,7 @@
         ],
         "x_order": -606661393,
         "y_order": 0,
-        "list_order": 0,
+        "list_order": 1330980746,
         "uuid": "06674066-9e31-465d-8010-00eb9b09e482",
         "features":
         [
@@ -8452,6 +8459,24 @@
         "y_order": 1182470415,
         "list_order": 1182470415,
         "uuid": "59c0e212-2914-428a-8118-a1515b4ef4e8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 258,
+        "main_type": 126,
+        "type": "Class",
+        "name": "HARA (Hazard and Risk Analysis)",
+        "description": [
+                "A HARA is performed at project start, classifies the risks and defines the requirements towards the development process."
+        ],
+        "x_order": 977816062,
+        "y_order": 0,
+        "list_order": 545016204,
+        "uuid": "e425ba59-e773-4088-b776-6086c1f00d3f",
         "features":
         [
         ]

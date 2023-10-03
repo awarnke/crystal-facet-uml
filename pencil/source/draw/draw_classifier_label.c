@@ -89,7 +89,8 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                                     DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                                   );
             pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
-            // TODO pango_layout_set_wrap( font_layout, PANGO_WRAP_WORD_CHAR );
+            /* option for nicer layout but harder to read: */
+            /* pango_layout_set_wrap( font_layout, PANGO_WRAP_WORD_CHAR ); */
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
             /* restore pango context */
@@ -208,7 +209,8 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
                                DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                              );
         pango_layout_set_width( font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
-        // TODO pango_layout_set_wrap( font_layout, PANGO_WRAP_WORD_CHAR );
+        /* option for nicer layout but harder to read: */
+        /* pango_layout_set_wrap( font_layout, PANGO_WRAP_WORD_CHAR ); */
         pango_layout_get_pixel_size( font_layout, &text2_width, &text2_height );
 
         /* draw text */

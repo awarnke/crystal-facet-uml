@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.52.2"
+    "generator_version": "1.52.1"
   }
   ,
   "views":
@@ -1857,28 +1857,28 @@
           {
             "id": 227,
             "display_flags": 0,
-            "classifier_name": "ctrl_diagram _trigger",
+            "classifier_name": "ctrl_ diagram_ trigger",
             "node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
             "uuid": "3033077a-fcee-4bf1-86a2-53673f40e63a"
           },
           {
             "id": 228,
             "display_flags": 0,
-            "classifier_name": "ctrl_classifier _controller",
+            "classifier_name": "ctrl_ classifier_ controller",
             "node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
             "uuid": "a93bf079-148a-456b-b979-e4d61037ea68"
           },
           {
             "id": 229,
             "display_flags": 0,
-            "classifier_name": "ctrl_diagram _controller",
+            "classifier_name": "ctrl_ diagram_ controller",
             "node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
             "uuid": "c63e48ff-ac27-4dba-b48a-817437fb5b69"
           },
           {
             "id": 230,
             "display_flags": 0,
-            "classifier_name": "ctrl_classifier _trigger",
+            "classifier_name": "ctrl_ classifier_ trigger",
             "node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
             "uuid": "19dc324f-0ad4-4c36-b699-8a32f044bd1a"
           },
@@ -1918,14 +1918,14 @@
           {
             "id": 761,
             "display_flags": 0,
-            "classifier_name": "consistency _drop_invisibles",
+            "classifier_name": "consis tency_ drop_ invisibles",
             "node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
             "uuid": "a286bee2-8046-47f0-ada3-a6b1ced40d28"
           },
           {
             "id": 762,
             "display_flags": 0,
-            "classifier_name": "consistency _lifeline",
+            "classifier_name": "consis tency_ lifeline",
             "node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
             "uuid": "69841cd3-7afa-4b52-8c3a-86b7c2af903c"
           },
@@ -1993,42 +1993,42 @@
           {
             "id": 774,
             "display_flags": 0,
-            "classifier_name": "ctrl_diagram _controller",
+            "classifier_name": "ctrl_ diagram_ controller",
             "node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
             "uuid": "e3512ba9-8429-4c0d-ba8c-a7c10722b197"
           },
           {
             "id": 775,
             "display_flags": 0,
-            "classifier_name": "ctrl_classifier _controller",
+            "classifier_name": "ctrl_ classifier_ controller",
             "node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
             "uuid": "7438b94c-07e3-4287-ac63-444485e4fdb5"
           },
           {
             "id": 776,
             "display_flags": 0,
-            "classifier_name": "ctrl_diagram _trigger",
+            "classifier_name": "ctrl_ diagram_ trigger",
             "node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
             "uuid": "c237ae39-814e-4008-a074-832534872f2b"
           },
           {
             "id": 777,
             "display_flags": 0,
-            "classifier_name": "ctrl_classifier _trigger",
+            "classifier_name": "ctrl_ classifier_ trigger",
             "node": "cf695252-18df-422c-a230-68fe6743f2d9",
             "uuid": "1c96da72-7010-4bff-9733-60d4d00c08bb"
           },
           {
             "id": 778,
             "display_flags": 0,
-            "classifier_name": "consistency _drop_invisibles",
+            "classifier_name": "consis tency_ drop_ invisibles",
             "node": "efbcb169-38c5-43a8-84c3-491dce0e3384",
             "uuid": "9da1d884-771c-4117-884b-acb1dd90e7fa"
           },
           {
             "id": 779,
             "display_flags": 0,
-            "classifier_name": "consistency _lifeline",
+            "classifier_name": "consis tency_ lifeline",
             "node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
             "uuid": "350b0f89-76ca-4752-bf67-02627a1f79a9"
           },
@@ -2038,6 +2038,13 @@
             "classifier_name": "gui",
             "node": "179946c7-bd7c-4e36-9cc0-eb0d5ed7d6f5",
             "uuid": "ade9845c-086a-4b25-99ce-86da2e40187f"
+          },
+          {
+            "id": 785,
+            "display_flags": 0,
+            "classifier_name": "re-entrance by recursion",
+            "node": "47362adb-c4d7-46da-82ef-7cb39293fc43",
+            "uuid": "4f9148a2-d756-4aa1-b159-853addd34def"
           }
         ]
       }
@@ -6600,7 +6607,6 @@
         "id": 1,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "sw-module",
         "name": "gui",
         "description": [
                 "- allows a user \n",
@@ -6633,7 +6639,6 @@
         "id": 2,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "sw-module",
         "name": "pencil",
         "description": [
                 "- renders diagrams to cairo drawing contexts\n",
@@ -6664,7 +6669,6 @@
         "id": 3,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "sw-module",
         "name": "ctrl",
         "description": [
                 "- provides write access to the database\n",
@@ -6684,7 +6688,6 @@
         "id": 4,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "sw-module",
         "name": "data/storage",
         "description": [
                 "- provides read access to ctrl, pencil and gui components\n",
@@ -9701,7 +9704,7 @@
         "id": 154,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_diagram _trigger",
+        "name": "ctrl_ diagram_ trigger",
         "description": [
                 "ensures that application level policies on the model are adhered whenever diagrams are modified."
         ],
@@ -9763,7 +9766,7 @@
         "id": 155,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_classifier _controller",
+        "name": "ctrl_ classifier_ controller",
         "description": [
                 "performs changes on classifier, feature and relationship tables"
         ],
@@ -9792,7 +9795,7 @@
         "id": 156,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_diagram _controller",
+        "name": "ctrl_ diagram_ controller",
         "description": [
                 "performs changes on diagram and diagramelement tables"
         ],
@@ -9821,7 +9824,7 @@
         "id": 157,
         "main_type": 125,
         "type": "Class",
-        "name": "ctrl_classifier _trigger",
+        "name": "ctrl_ classifier_ trigger",
         "description": [
                 "ensures that application level policies on the model are adhered whenever classifiers are modified."
         ],
@@ -10654,7 +10657,6 @@
         "id": 195,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "sw-module",
         "name": "io",
         "description": [
                 ""
@@ -16181,7 +16183,7 @@
         "id": 468,
         "main_type": 125,
         "type": "Class",
-        "name": "consistency _drop_invisibles",
+        "name": "consis tency_ drop_ invisibles",
         "description": [
                 "This class cares about deleting model elements that are not visible anymore.\n",
                 ""
@@ -16229,7 +16231,7 @@
         "id": 470,
         "main_type": 125,
         "type": "Class",
-        "name": "consistency _lifeline",
+        "name": "consis tency_ lifeline",
         "description": [
                 "This class cares about creating and deleting lifelines depending on the surrounding diagram type."
         ],
@@ -16429,6 +16431,35 @@
         "uuid": "6d669208-0eaa-4797-b927-86cd05d7ab88",
         "features":
         [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 479,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "re-entrance by recursion",
+        "description": [
+                ""
+        ],
+        "x_order": 1328796499,
+        "y_order": 0,
+        "list_order": 193669038,
+        "uuid": "7e183939-5d69-4fc6-a5d3-09ccdc2ff885",
+        "features":
+        [
+          {
+            "id": 122,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "47362adb-c4d7-46da-82ef-7cb39293fc43"
+          }
         ]
       }
     }
@@ -16637,7 +16668,7 @@
         "list_order": -1005462713,
         "from_classifier_name": "gui",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_ diagram_ controller",
         "to_feature_key": "",
         "from_node": "179946c7-bd7c-4e36-9cc0-eb0d5ed7d6f5",
         "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
@@ -16877,7 +16908,7 @@
         ],
         "list_order": 1411332549,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_diagram _trigger",
+        "to_classifier_name": "ctrl_ diagram_ trigger",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "uuid": "271fe82e-9cd8-4f9c-9bf8-e0ddb0957d95"
@@ -16894,7 +16925,7 @@
         ],
         "list_order": 1286658309,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_ classifier_ controller",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "8912224f-e0c8-49bb-a0ed-8d0b11d6c83a"
@@ -16911,7 +16942,7 @@
         ],
         "list_order": 1222249253,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_ diagram_ controller",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "uuid": "2a025529-3836-49d6-866d-8d5e382465ed"
@@ -16928,7 +16959,7 @@
         ],
         "list_order": 788893479,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "ctrl_classifier _trigger",
+        "to_classifier_name": "ctrl_ classifier_ trigger",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
         "uuid": "157ef5c2-9797-4285-a121-b50273d1f016"
@@ -16962,7 +16993,7 @@
         ],
         "list_order": 1216656999,
         "from_classifier_name": "ctrl",
-        "to_classifier_name": "consistency _drop_invisibles",
+        "to_classifier_name": "consis tency_ drop_ invisibles",
         "from_node": "906d936b-c68c-4592-b5c7-610e29065707",
         "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "uuid": "8dce284d-561b-491c-936d-05661181a9a0"
@@ -18587,7 +18618,7 @@
         ],
         "list_order": 1411335621,
         "from_classifier_name": "ctrl_controller",
-        "to_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_ classifier_ controller",
         "from_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "ba92acdd-b494-40dd-9278-b5df85da3e41"
@@ -18604,7 +18635,7 @@
         ],
         "list_order": 1411336645,
         "from_classifier_name": "ctrl_controller",
-        "to_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_ diagram_ controller",
         "from_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
         "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "uuid": "d1ff7361-4151-4dbb-bf11-3fed7c45375f"
@@ -20635,7 +20666,7 @@
                 ""
         ],
         "list_order": 1411504581,
-        "from_classifier_name": "ctrl_diagram _trigger",
+        "from_classifier_name": "ctrl_ diagram_ trigger",
         "to_classifier_name": "consistency",
         "from_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
@@ -20652,9 +20683,9 @@
                 ""
         ],
         "list_order": -671760401,
-        "from_classifier_name": "ctrl_diagram _trigger",
+        "from_classifier_name": "ctrl_ diagram_ trigger",
         "from_feature_key": "",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "to_feature_key": "",
         "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
@@ -20671,9 +20702,9 @@
                 ""
         ],
         "list_order": 774017640,
-        "from_classifier_name": "ctrl_diagram _trigger",
+        "from_classifier_name": "ctrl_ diagram_ trigger",
         "from_feature_key": "",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "to_feature_key": "",
         "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
@@ -20690,9 +20721,9 @@
                 ""
         ],
         "list_order": 1624338948,
-        "from_classifier_name": "ctrl_diagram _trigger",
+        "from_classifier_name": "ctrl_ diagram_ trigger",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_ diagram_ controller",
         "to_feature_key": "",
         "from_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
         "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
@@ -20709,8 +20740,8 @@
                 ""
         ],
         "list_order": 1520548633,
-        "from_classifier_name": "ctrl_classifier _controller",
-        "to_classifier_name": "ctrl_classifier _trigger",
+        "from_classifier_name": "ctrl_ classifier_ controller",
+        "to_classifier_name": "ctrl_ classifier_ trigger",
         "from_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "to_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
         "uuid": "5423b81d-07df-4ea8-935e-382ec898507d"
@@ -20726,9 +20757,9 @@
                 ""
         ],
         "list_order": -397285884,
-        "from_classifier_name": "ctrl_classifier _controller",
+        "from_classifier_name": "ctrl_ classifier_ controller",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_classifier _trigger",
+        "to_classifier_name": "ctrl_ classifier_ trigger",
         "to_feature_key": "",
         "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
         "to_node": "cf695252-18df-422c-a230-68fe6743f2d9",
@@ -20745,9 +20776,9 @@
                 ""
         ],
         "list_order": 464297958,
-        "from_classifier_name": "ctrl_classifier _controller",
+        "from_classifier_name": "ctrl_ classifier_ controller",
         "from_feature_key": "",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "to_feature_key": "",
         "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
@@ -20764,9 +20795,9 @@
                 ""
         ],
         "list_order": 1021793385,
-        "from_classifier_name": "ctrl_classifier _controller",
+        "from_classifier_name": "ctrl_ classifier_ controller",
         "from_feature_key": "",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "to_feature_key": "",
         "from_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
@@ -20783,8 +20814,8 @@
                 ""
         ],
         "list_order": 1411337669,
-        "from_classifier_name": "ctrl_diagram _controller",
-        "to_classifier_name": "ctrl_diagram _trigger",
+        "from_classifier_name": "ctrl_ diagram_ controller",
+        "to_classifier_name": "ctrl_ diagram_ trigger",
         "from_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "to_node": "52b9ab17-176a-46ed-965b-3dc7f891b7d7",
         "uuid": "49ec8f92-bb63-49fc-a975-d657016d70ea"
@@ -20800,9 +20831,9 @@
                 ""
         ],
         "list_order": -853418506,
-        "from_classifier_name": "ctrl_diagram _controller",
+        "from_classifier_name": "ctrl_ diagram_ controller",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_diagram _trigger",
+        "to_classifier_name": "ctrl_ diagram_ trigger",
         "to_feature_key": "",
         "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
         "to_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
@@ -20819,9 +20850,9 @@
                 ""
         ],
         "list_order": 36321671,
-        "from_classifier_name": "ctrl_diagram _controller",
+        "from_classifier_name": "ctrl_ diagram_ controller",
         "from_feature_key": "",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "to_feature_key": "",
         "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
@@ -20838,7 +20869,7 @@
                 ""
         ],
         "list_order": 1742595554,
-        "from_classifier_name": "ctrl_diagram _controller",
+        "from_classifier_name": "ctrl_ diagram_ controller",
         "from_feature_key": "",
         "to_classifier_name": "gui",
         "to_feature_key": "",
@@ -20857,9 +20888,9 @@
                 ""
         ],
         "list_order": 1320250533,
-        "from_classifier_name": "ctrl_diagram _controller",
+        "from_classifier_name": "ctrl_ diagram_ controller",
         "from_feature_key": "",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "to_feature_key": "",
         "from_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
@@ -20876,7 +20907,7 @@
                 ""
         ],
         "list_order": 1411537349,
-        "from_classifier_name": "ctrl_classifier _trigger",
+        "from_classifier_name": "ctrl_ classifier_ trigger",
         "to_classifier_name": "consistency",
         "from_node": "7b221c35-a87f-4e56-834f-9d58c6d4aa83",
         "to_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
@@ -20893,9 +20924,9 @@
                 ""
         ],
         "list_order": -301554346,
-        "from_classifier_name": "ctrl_classifier _trigger",
+        "from_classifier_name": "ctrl_ classifier_ trigger",
         "from_feature_key": "",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "to_feature_key": "",
         "from_node": "cf695252-18df-422c-a230-68fe6743f2d9",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
@@ -20912,9 +20943,9 @@
                 ""
         ],
         "list_order": 374197687,
-        "from_classifier_name": "ctrl_classifier _trigger",
+        "from_classifier_name": "ctrl_ classifier_ trigger",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_ classifier_ controller",
         "to_feature_key": "",
         "from_node": "cf695252-18df-422c-a230-68fe6743f2d9",
         "to_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
@@ -26557,7 +26588,7 @@
         ],
         "list_order": 1411373509,
         "from_classifier_name": "ctrl_multi_step_changer",
-        "to_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_ diagram_ controller",
         "from_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "uuid": "87c4f293-4a3e-4a29-a477-9fada1662596"
@@ -26574,7 +26605,7 @@
         ],
         "list_order": 1411406277,
         "from_classifier_name": "ctrl_multi_step_changer",
-        "to_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_ classifier_ controller",
         "from_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "ee3c5397-9fd0-4701-b156-c827d1aad3ca"
@@ -27647,7 +27678,7 @@
                 ""
         ],
         "list_order": 1520614169,
-        "from_classifier_name": "consistency _drop_invisibles",
+        "from_classifier_name": "consis tency_ drop_ invisibles",
         "to_classifier_name": "ARC_NO_INVISIBLE_CLASSIFIERS",
         "from_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "to_node": "56172679-9b7a-443e-99b4-dd0918e6362b",
@@ -27664,7 +27695,7 @@
                 ""
         ],
         "list_order": 1520646937,
-        "from_classifier_name": "consistency _drop_invisibles",
+        "from_classifier_name": "consis tency_ drop_ invisibles",
         "to_classifier_name": "ARC_NO_INVISIBLE_RELATIONSHIPS",
         "from_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "to_node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
@@ -27682,7 +27713,7 @@
         ],
         "list_order": 1411570117,
         "from_classifier_name": "consistency",
-        "to_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_ classifier_ controller",
         "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "a8db88b3-bc71-4c4f-b41f-0dda05d57398"
@@ -27699,7 +27730,7 @@
         ],
         "list_order": 1411602885,
         "from_classifier_name": "consistency",
-        "to_classifier_name": "consistency _drop_invisibles",
+        "to_classifier_name": "consis tency_ drop_ invisibles",
         "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
         "to_node": "aff15a0e-0b19-46b5-9b25-22c0c735385c",
         "uuid": "2c14dfff-38e6-4786-9653-da0578b5a8cf"
@@ -27716,7 +27747,7 @@
         ],
         "list_order": 1520515865,
         "from_classifier_name": "consistency",
-        "to_classifier_name": "consistency _lifeline",
+        "to_classifier_name": "consis tency_ lifeline",
         "from_node": "a6c8b17b-149a-4c63-a1ff-0c781211fe1a",
         "to_node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
         "uuid": "1499e615-c286-4143-a136-2acf2654def1"
@@ -27732,7 +27763,7 @@
                 ""
         ],
         "list_order": 1520548633,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "to_classifier_name": "ARC_LIFELINES_AT_INTERACTIONS",
         "from_node": "c5a39cf5-1b7f-480a-8743-0ad0b643aedd",
         "to_node": "09010aac-7f1b-453b-bf80-51c1c475e45e",
@@ -27749,9 +27780,9 @@
                 ""
         ],
         "list_order": -517703349,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_ classifier_ controller",
         "to_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
@@ -27768,9 +27799,9 @@
                 ""
         ],
         "list_order": -149510138,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_ diagram_ controller",
         "to_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
@@ -27787,9 +27818,9 @@
                 ""
         ],
         "list_order": 284097416,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_classifier _trigger",
+        "to_classifier_name": "ctrl_ classifier_ trigger",
         "to_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_node": "cf695252-18df-422c-a230-68fe6743f2d9",
@@ -27806,9 +27837,9 @@
                 ""
         ],
         "list_order": 554398229,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_diagram _trigger",
+        "to_classifier_name": "ctrl_ diagram_ trigger",
         "to_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
@@ -27825,9 +27856,9 @@
                 ""
         ],
         "list_order": 920430580,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_classifier _controller",
+        "to_classifier_name": "ctrl_ classifier_ controller",
         "to_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_node": "a2c5817b-1879-49c2-b15a-795a55c197ce",
@@ -27844,9 +27875,9 @@
                 ""
         ],
         "list_order": 1218887728,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_diagram _controller",
+        "to_classifier_name": "ctrl_ diagram_ controller",
         "to_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
@@ -27863,9 +27894,9 @@
                 ""
         ],
         "list_order": 1528607410,
-        "from_classifier_name": "consistency _lifeline",
+        "from_classifier_name": "consis tency_ lifeline",
         "from_feature_key": "",
-        "to_classifier_name": "ctrl_diagram _trigger",
+        "to_classifier_name": "ctrl_ diagram_ trigger",
         "to_feature_key": "",
         "from_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "to_node": "f2efd79d-d900-44d4-a7b9-fb2e3549488a",
@@ -28023,6 +28054,25 @@
         "from_node": "6d669208-0eaa-4797-b927-86cd05d7ab88",
         "to_node": "9e285c4d-912d-4008-9f13-80c9c1d1b3cb",
         "uuid": "646d6615-6938-45bf-acc2-db39a960a6d2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 797,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -219841847,
+        "from_classifier_name": "re-entrance by recursion",
+        "from_feature_key": "",
+        "to_classifier_name": "consis tency_ lifeline",
+        "to_feature_key": "",
+        "from_node": "47362adb-c4d7-46da-82ef-7cb39293fc43",
+        "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
+        "uuid": "ac4c764e-80bb-4da6-8948-7582d2d63b1c"
       }
     }
   ]
