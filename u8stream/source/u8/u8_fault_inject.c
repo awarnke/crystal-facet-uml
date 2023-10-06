@@ -2,7 +2,7 @@
 
 #include "u8/u8_fault_inject.h"
 
-__thread unsigned int u8_fault_inject_activate_id = 0;
+__thread unsigned int u8_fault_inject_condition_id = 0;
 
 
 /*

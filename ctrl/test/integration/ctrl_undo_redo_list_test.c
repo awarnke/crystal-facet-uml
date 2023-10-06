@@ -6,6 +6,7 @@
 #include "ctrl_multi_step_changer.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
+#include "u8/u8_fault_inject.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
 

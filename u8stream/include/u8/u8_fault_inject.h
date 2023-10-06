@@ -8,20 +8,32 @@
  *  \file
  *  \brief Provides functions and macros to inject faults during unit test cases
  *
- *  The macros shall avoid accidantial activation in productive code.
+ *  The macros shall avoid accidential activation in productive code.
+ *  Like asserts, these shall be active during testing.
  *
  *  The macros shall not introduce branches into the code.
  */
 
-extern __thread unsigned int u8_fault_inject_activate_id;
+/*! \brief condition that activates selected fault injection macros */
+extern __thread unsigned int u8_fault_inject_condition_id;
 
 /* example call: */
 /* result_err |= U8_FAULT_INJECT_COND ( TEST_CASE_17, U8_ERROR_LOGIC_CORRUPT ); */
 #ifndef NDEBUG
+
 #define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE) \
-    (((COND_ID)==u8_fault_inject_activate_id)?(ERR_CODE):0);
-#else  // NDEBUG
-#define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE) (0);
+    (((COND_ID)==u8_fault_inject_condition_id)?(ERR_CODE):0)
+
+#define U8_FAULT_INJECT_SETUP(COND_ID) \
+    {u8_fault_inject_condition_id=COND_ID};
+
+#define U8_FAULT_INJECT_RESET() \
+    {u8_fault_inject_condition_id=0};
+
+#else  // NDEBUG == Release
+
+#define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE) (0)
+
 #endif  // NDEBUG
 
 #endif  /* U8_FAULT_INJECT_H */

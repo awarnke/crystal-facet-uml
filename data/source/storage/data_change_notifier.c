@@ -72,10 +72,10 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
 
         data_id_init( &modified_element_id, table, row_id );
         data_id_init( &parent_element_id, parent_table, parent_row_id );
-        data_change_message_init ( &message,
-                                event_type,
-                                modified_element_id,
-                                parent_element_id
+        data_change_message_init( &message,
+                                  event_type,
+                                  modified_element_id,
+                                  parent_element_id
                                 );
 
         data_change_message_trace( &message );
