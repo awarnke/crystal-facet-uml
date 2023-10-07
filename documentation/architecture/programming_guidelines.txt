@@ -134,9 +134,13 @@
  *  The following mechanisms shall be used for detection, propagation and handling of errors:
  *  - assert
  *    \n assert statements shall be used to validate that a function is called under appropriate conditions.
+ *    \n assert statements shall be used to validate that a function returns values in the specified range.
  *    \n assert statements shall have no effect in NDEBUG mode, stop the program otherwise.
  *  - logging
  *    \n Faults and anomalies shall be logged when they occur.
+ *  - fault injecttion
+ *    \n In case a fault condition should be handled but cannot be provoked in the test environment with low efforts,
+ *    the U8_FAULT_INJECT_COND() macro shall be inserted to allow unit-testing of the error handling.
  *  - error_codes
  *    \n The return parameter of a function shall be the error code. Futher return values shall be declared as *out_xy parmeter.
  *    \n Exception to this rule are helper and utility functions which do not report errors (only perform asserts).

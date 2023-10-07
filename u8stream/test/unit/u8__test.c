@@ -116,7 +116,7 @@ static test_case_result_t test_error_info( test_fixture_t *test_env )
     u8_error_info_destroy( &probe );
 
     /* test init_name */
-    u8_error_info_init_name( &probe, U8_ERROR_READ_ONLY_DB, "Hello" );
+    u8_error_info_init_name( &probe, U8_ERROR_READ_ONLY_DB, "1 Hello World 15 ... 22 ... 29 ... 36 ... 43 ... 50" );
 
     is_err = u8_error_info_is_error( &probe );
     TEST_EXPECT_EQUAL_INT( true, is_err );
@@ -127,7 +127,7 @@ static test_case_result_t test_error_info( test_fixture_t *test_env )
     line = u8_error_info_get_line( &probe );
     TEST_EXPECT_EQUAL_INT( -1, line );
     name = u8_error_info_get_name( &probe );
-    TEST_EXPECT_EQUAL_STRING( "Hello", name );
+    TEST_EXPECT_EQUAL_STRING( "1 Hello World 15 ... 22 ... 29 ... 36 ... 43 ..", name );
 
     u8_error_info_destroy( &probe );
 

@@ -3,6 +3,8 @@
 #include "utf8string_test.h"
 #include "utf8stringbuf/utf8string.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8_test_cond.h"
+#include "u8/u8_fault_inject.h"
 #include "test_expect.h"
 #include <string.h>
 #include <assert.h>
@@ -22,6 +24,10 @@ static test_case_result_t testCharAt( test_fixture_t *test_env );
 static test_case_result_t testCharAtLoops( test_fixture_t *test_env );
 static test_case_result_t testParseInt( test_fixture_t *test_env );
 static test_case_result_t testParseFloat( test_fixture_t *test_env );
+#ifndef NDEBUG
+static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *test_env );
+static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *test_env );
+#endif
 
 test_suite_t utf8string_test_get_suite(void)
 {
@@ -40,6 +46,10 @@ test_suite_t utf8string_test_get_suite(void)
     test_suite_add_test_case( &result, "testCharAtLoops", &testCharAtLoops );
     test_suite_add_test_case( &result, "testParseInt", &testParseInt );
     test_suite_add_test_case( &result, "testParseFloat", &testParseFloat );
+#ifndef NDEBUG
+    test_suite_add_test_case( &result, "testParseIntWithInjectedFault", &testParseIntWithInjectedFault );
+    test_suite_add_test_case( &result, "testParseFloatWithInjectedFault", &testParseFloatWithInjectedFault );
+#endif
     return result;
 }
 
@@ -642,6 +652,48 @@ static test_case_result_t testParseFloat( test_fixture_t *test_env )
 
     return TEST_CASE_RESULT_OK;
 }
+
+#ifndef NDEBUG
+static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *test_env )
+{
+    unsigned int byte_length;
+    int64_t number;
+    utf8error_t u8err;
+
+    U8_FAULT_INJECT_SETUP( U8_TEST_COND_STRTOLL );
+    {
+        u8err = utf8string_parse_int( "-9223372036854775809  24", &byte_length, &number );
+        TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+        TEST_EXPECT_EQUAL_INT( 24, byte_length );
+        TEST_EXPECT( (0==number)||(LLONG_MIN==number) );
+
+    }
+    U8_FAULT_INJECT_RESET();
+
+    return TEST_CASE_RESULT_OK;
+}
+#endif
+
+#ifndef NDEBUG
+static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *test_env )
+{
+    unsigned int byte_length;
+    double number;
+    utf8error_t u8err;
+
+    U8_FAULT_INJECT_SETUP( U8_TEST_COND_STRTOD );
+    {
+        u8err = utf8string_parse_float( "-9.999e99999  16", &byte_length, &number );
+        TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+        TEST_EXPECT_EQUAL_INT( 16, byte_length );
+        TEST_EXPECT_EQUAL_DOUBLE( -INFINITY, number );
+
+    }
+    U8_FAULT_INJECT_RESET();
+
+    return TEST_CASE_RESULT_OK;
+}
+#endif
 
 
 /*

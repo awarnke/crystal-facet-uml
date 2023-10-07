@@ -12,6 +12,8 @@
 
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8_test_cond.h"
+#include "u8/u8_fault_inject.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -234,8 +236,8 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
 {
     utf8error_t result = UTF8ERROR_SUCCESS;
     if (( this_ != NULL )&&( out_number != NULL )) {
-        char *endptr;
-        errno=0;
+        char *endptr = NULL;
+        errno = 0;
         long long parseResult = strtoll( this_, &endptr, 10 /* base */);
         if ((parseResult==0)||(parseResult==LLONG_MIN)||(parseResult==LLONG_MAX))
         {
@@ -243,9 +245,10 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
                 result = UTF8ERROR_OUT_OF_RANGE;
             }
         }
+        assert( endptr != NULL );  /* this should not happen, but do not take this for granted */
+        endptr = U8_FAULT_INJECT_COND( U8_TEST_COND_STRTOLL, NULL, endptr );
         unsigned int length;
         if ( endptr == NULL ) {
-            assert(false);  /* this should not happen */
             length = utf8string_get_length( this_ );
         }
         else {
@@ -270,8 +273,8 @@ static inline utf8error_t utf8string_parse_float( const char *this_, unsigned in
 {
     utf8error_t result = UTF8ERROR_SUCCESS;
     if (( this_ != NULL )&&( out_number != NULL )) {
-        char *endptr;
-        errno=0;
+        char *endptr = NULL;
+        errno = 0;
         const char *const default_locale_temp = setlocale( LC_NUMERIC, NULL );  /* get the current locale */
         char default_locale_buf[20];  /* expecting max length = 19: sr_YU.utf8@cyrillic */
         utf8stringbuf_t default_locale = UTF8STRINGBUF( default_locale_buf );
@@ -289,9 +292,10 @@ static inline utf8error_t utf8string_parse_float( const char *this_, unsigned in
                 result = UTF8ERROR_OUT_OF_RANGE;
             }
         }
+        assert( endptr != NULL );  /* this should not happen, but do not take this for granted */
+        endptr = U8_FAULT_INJECT_COND( U8_TEST_COND_STRTOD, NULL, endptr );
         unsigned int length;
         if ( endptr == NULL ) {
-            assert(false);  /* this should not happen */
             length = utf8string_get_length( this_ );
         }
         else {

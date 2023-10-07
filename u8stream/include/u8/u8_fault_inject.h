@@ -17,22 +17,23 @@
 /*! \brief condition that activates selected fault injection macros */
 extern __thread unsigned int u8_fault_inject_condition_id;
 
-/* example call: */
-/* result_err |= U8_FAULT_INJECT_COND ( TEST_CASE_17, U8_ERROR_LOGIC_CORRUPT ); */
 #ifndef NDEBUG
 
-#define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE) \
-    (((COND_ID)==u8_fault_inject_condition_id)?(ERR_CODE):0)
+/* example calls: */
+/* result_err |= U8_FAULT_INJECT_COND( TEST_COND_17, U8_ERROR_LOGIC_CORRUPT, 0 ); */
+/* pointer = U8_FAULT_INJECT_COND( TEST_COND_18, NULL, "valid" ); */
+#define U8_FAULT_INJECT_COND(COND_ID,ERR_VALUE,OK_VALUE) \
+    (((COND_ID)==u8_fault_inject_condition_id)?(ERR_VALUE):(OK_VALUE))
 
 #define U8_FAULT_INJECT_SETUP(COND_ID) \
-    {u8_fault_inject_condition_id=COND_ID};
+    {u8_fault_inject_condition_id=(COND_ID);};
 
 #define U8_FAULT_INJECT_RESET() \
-    {u8_fault_inject_condition_id=0};
+    {u8_fault_inject_condition_id=0;};
 
 #else  // NDEBUG == Release
 
-#define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE) (0)
+#define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE,OK_VALUE) (OK_VALUE)
 
 #endif  // NDEBUG
 
