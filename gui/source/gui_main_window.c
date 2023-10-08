@@ -8,7 +8,7 @@
 #include "meta/meta_info.h"
 #ifndef NDEBUG
 #include "u8stream/universal_stream_output_stream.h"
-#include "utf8stream/universal_utf8_writer.h"
+#include "utf8stream/utf8stream_writer.h"
 #endif  /* not NDEBUG */
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
@@ -1039,8 +1039,8 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
         universal_stream_output_stream_t out_stream;
         universal_stream_output_stream_init( &out_stream, stdout );
         universal_output_stream_t *const out_base = universal_stream_output_stream_get_output_stream( &out_stream );
-        universal_utf8_writer_t out_report;
-        universal_utf8_writer_init( &out_report, out_base );
+        utf8stream_writer_t out_report;
+        utf8stream_writer_init( &out_report, out_base );
         uint32_t found_errors;
         uint32_t fixed_errors;
         ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, &out_report );
@@ -1052,7 +1052,7 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
                                                                    found_errors
                                                                  );
         }
-        universal_utf8_writer_destroy( &out_report );
+        utf8stream_writer_destroy( &out_report );
         universal_stream_output_stream_destroy( &out_stream );
 #endif
     }

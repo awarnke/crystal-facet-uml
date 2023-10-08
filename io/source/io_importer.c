@@ -52,8 +52,8 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
 
     universal_null_output_stream_t null_out;
     universal_null_output_stream_init( &null_out );
-    universal_utf8_writer_t out_writer;
-    universal_utf8_writer_init( &out_writer, universal_null_output_stream_get_output_stream( &null_out ) );
+    utf8stream_writer_t out_writer;
+    utf8stream_writer_init( &out_writer, universal_null_output_stream_get_output_stream( &null_out ) );
 
     io_import_elements_init_for_paste( &((*this_).temp_elements_importer),
                                        diagram_id,
@@ -78,7 +78,7 @@ u8_error_t io_importer_import_clipboard( io_importer_t *this_,
     json_importer_destroy( &((*this_).temp_json_importer) );
     io_import_elements_destroy( &((*this_).temp_elements_importer) );
 
-    universal_utf8_writer_destroy( &out_writer );
+    utf8stream_writer_destroy( &out_writer );
     universal_null_output_stream_destroy( &null_out );
 
     U8_TRACE_END_ERR( result );
@@ -90,7 +90,7 @@ u8_error_t io_importer_import_file( io_importer_t *this_,
                                     const char *import_file_path,
                                     data_stat_t *io_stat,
                                     u8_error_info_t *out_err_info,
-                                    universal_utf8_writer_t *out_english_report )
+                                    utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( import_file_path != NULL );
@@ -125,7 +125,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                                       universal_input_stream_t *in_stream,
                                       data_stat_t *io_stat,
                                       u8_error_info_t *out_err_info,
-                                      universal_utf8_writer_t *out_english_report )
+                                      utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( in_stream != NULL );
@@ -149,7 +149,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
         U8_TRACE_INFO("scanning file...");
         static const char *const PASS_CHECK_TITLE
             = "PASS: Check that the file structure is valid\n      ";
-        universal_utf8_writer_write_str( out_english_report, PASS_CHECK_TITLE );
+        utf8stream_writer_write_str( out_english_report, PASS_CHECK_TITLE );
 
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CHECK );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
@@ -157,7 +157,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                                                    out_err_info
                                                  );
 
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "\n" );
     }
 
     /* reset file */
@@ -175,7 +175,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
         U8_TRACE_INFO("importing file...");
         static const char *const PASS_CREATE_TITLE
             = "PASS: Create diagrams, classifiers and features\n      ";
-        universal_utf8_writer_write_str( out_english_report, PASS_CREATE_TITLE );
+        utf8stream_writer_write_str( out_english_report, PASS_CREATE_TITLE );
 
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_CREATE );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
@@ -183,7 +183,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                                                    out_err_info
                                                  );
 
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "\n" );
     }
 
     /* reset file once more */
@@ -198,7 +198,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
         U8_TRACE_INFO("importing file...");
         static const char *const PASS_LINK_TITLE
             = "PASS: Link diagrams to parents, classifiers to diagrams, create relationships\n      ";
-        universal_utf8_writer_write_str( out_english_report, PASS_LINK_TITLE );
+        utf8stream_writer_write_str( out_english_report, PASS_LINK_TITLE );
 
         io_import_elements_set_mode( &((*this_).temp_elements_importer), IO_IMPORT_MODE_LINK );
         parse_error = json_importer_import_stream( &((*this_).temp_json_importer),
@@ -206,7 +206,7 @@ u8_error_t io_importer_import_stream( io_importer_t *this_,
                                                    out_err_info
                                                  );
 
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "\n" );
     }
 
     /* commit the outer transaction */

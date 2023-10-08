@@ -13,7 +13,7 @@
 #include "data_rules.h"
 #include "set/data_stat.h"
 #include "u8stream/universal_input_stream.h"
-#include "utf8stream/universal_utf8_writer.h"
+#include "utf8stream/utf8stream_writer.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error_info.h"
 #include "u8/u8_error.h"

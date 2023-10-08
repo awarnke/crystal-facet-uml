@@ -25,8 +25,11 @@ echo "building binary"
 cd crystal-facet-uml_${VERSIONSTR}
 mkdir cmake_build
 cd cmake_build
-cmake -DCMAKE_BUILD_TYPE=Debug -DCFU_ADD_GCOV_TARGET=ON ..  # Release has optimizations that interfere with coverage measurements
-make -j4 gcov_crystal-facet-uml  # start up to 4 parallel processes to make use of quad-core processors
+# Release has optimizations that interfere with coverage measurements.
+# Only in debug mode, fault injectsions and assert statements have effect.
+cmake -DCMAKE_BUILD_TYPE=Debug -DCFU_ADD_GCOV_TARGET=ON ..
+# start up to 4 parallel processes to make use of quad-core processors:
+make -j4 gcov_crystal-facet-uml
 cd ../..
 
 echo "initializing lcov for unit tests"
@@ -34,7 +37,7 @@ lcov --capture --initialize --directory ./crystal-facet-uml_${VERSIONSTR}/cmake_
 
 echo "running unit tests"
 cd crystal-facet-uml_${VERSIONSTR}/cmake_build/
-./gcov_crystal-facet-uml -u > /dev/null || echo "ERROR == ERROR == ERROR == ERROR"
+{ ./gcov_crystal-facet-uml -u || echo "ERROR == ERROR == ERROR == ERROR" ; } | grep -e '^test ' -e '^  test ' -e 'ERROR '
 cd ../..
 
 echo "running gcov/lcov on unittest"
@@ -47,7 +50,7 @@ lcov --capture --initialize --directory ./crystal-facet-uml_${VERSIONSTR}/cmake_
 
 echo "running all tests"
 cd crystal-facet-uml_${VERSIONSTR}/cmake_build/
-./gcov_crystal-facet-uml -a > /dev/null || echo "ERROR == ERROR == ERROR == ERROR"
+{ ./gcov_crystal-facet-uml -a || echo "ERROR == ERROR == ERROR == ERROR" ; } | grep -e '^test ' -e '^  test ' -e 'ERROR '
 cd ../..
 
 echo "running gcov/lcov on alltests"

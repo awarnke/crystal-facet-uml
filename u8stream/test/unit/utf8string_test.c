@@ -666,7 +666,6 @@ static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *test_en
         TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
         TEST_EXPECT_EQUAL_INT( 24, byte_length );
         TEST_EXPECT( (0==number)||(LLONG_MIN==number) );
-
     }
     U8_FAULT_INJECT_RESET();
 
@@ -687,7 +686,6 @@ static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *test_
         TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
         TEST_EXPECT_EQUAL_INT( 16, byte_length );
         TEST_EXPECT_EQUAL_DOUBLE( -INFINITY, number );
-
     }
     U8_FAULT_INJECT_RESET();
 

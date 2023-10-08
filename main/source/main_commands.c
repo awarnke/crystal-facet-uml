@@ -67,7 +67,7 @@ void main_commands_destroy ( main_commands_t *this_ )
 
 u8_error_t main_commands_upgrade ( main_commands_t *this_,
                                    const char *data_file_path,
-                                   universal_utf8_writer_t *out_english_report )
+                                   utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -79,9 +79,9 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_,
     result |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );  /* upgrade is implicitely done */
     if ( result != U8_ERROR_NONE )
     {
-        universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
-        universal_utf8_writer_write_str( out_english_report, data_file_path );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
+        utf8stream_writer_write_str( out_english_report, data_file_path );
+        utf8stream_writer_write_str( out_english_report, "\n" );
     }
     result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
@@ -95,7 +95,7 @@ u8_error_t main_commands_upgrade ( main_commands_t *this_,
 u8_error_t main_commands_repair ( main_commands_t *this_,
                                   const char *data_file_path,
                                   bool check_only,
-                                  universal_utf8_writer_t *out_english_report )
+                                  utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( data_file_path != NULL );
@@ -107,21 +107,21 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
     result |= io_data_file_open( (*this_).data_file, data_file_path, check_only, &err_info );
     if ( result != U8_ERROR_NONE )
     {
-        universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
-        universal_utf8_writer_write_str( out_english_report, data_file_path );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
+        utf8stream_writer_write_str( out_english_report, data_file_path );
+        utf8stream_writer_write_str( out_english_report, "\n" );
     }
     result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
     U8_TRACE_INFO("reparing/testing...");
-    universal_utf8_writer_write_str( out_english_report, "\n\n" );
+    utf8stream_writer_write_str( out_english_report, "\n\n" );
     result |= ctrl_controller_repair_database( io_data_file_get_controller_ptr( (*this_).data_file ),
                                                do_repair,
                                                NULL,
                                                NULL,
                                                out_english_report
                                              );
-    universal_utf8_writer_write_str( out_english_report, "\n" );
+    utf8stream_writer_write_str( out_english_report, "\n" );
     U8_TRACE_INFO("reparing/testing finished.");
 
     U8_TRACE_INFO("closing DB...");
@@ -133,7 +133,7 @@ u8_error_t main_commands_repair ( main_commands_t *this_,
 
 u8_error_t main_commands_start_gui ( main_commands_t *this_,
                                      const char *data_file_path,
-                                     universal_utf8_writer_t *out_english_report )
+                                     utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -146,9 +146,9 @@ u8_error_t main_commands_start_gui ( main_commands_t *this_,
         result |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );
         if ( result != U8_ERROR_NONE )
         {
-            universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
-            universal_utf8_writer_write_str( out_english_report, data_file_path );
-            universal_utf8_writer_write_str( out_english_report, "\n" );
+            utf8stream_writer_write_str( out_english_report, "error opening database_file " );
+            utf8stream_writer_write_str( out_english_report, data_file_path );
+            utf8stream_writer_write_str( out_english_report, "\n" );
         }
         result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
     }
@@ -170,7 +170,7 @@ u8_error_t main_commands_export ( main_commands_t *this_,
                                   const char *data_file_path,
                                   io_file_format_t export_format,
                                   const char *export_directory,
-                                  universal_utf8_writer_t *out_english_report )
+                                  utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( data_file_path != NULL );
@@ -182,9 +182,9 @@ u8_error_t main_commands_export ( main_commands_t *this_,
     export_err |= io_data_file_open_read_only( (*this_).data_file, data_file_path, &err_info );
     if ( export_err != U8_ERROR_NONE )
     {
-        universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
-        universal_utf8_writer_write_str( out_english_report, data_file_path );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
+        utf8stream_writer_write_str( out_english_report, data_file_path );
+        utf8stream_writer_write_str( out_english_report, "\n" );
     }
     export_err |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
@@ -224,7 +224,7 @@ u8_error_t main_commands_import ( main_commands_t *this_,
                                   const char *data_file_path,
                                   io_import_mode_t import_mode,
                                   const char *import_file_path,
-                                  universal_utf8_writer_t *out_english_report )
+                                  utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( data_file_path != NULL );
@@ -236,9 +236,9 @@ u8_error_t main_commands_import ( main_commands_t *this_,
     import_err |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );
     if ( import_err != U8_ERROR_NONE )
     {
-        universal_utf8_writer_write_str( out_english_report, "error opening database_file " );
-        universal_utf8_writer_write_str( out_english_report, data_file_path );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
+        utf8stream_writer_write_str( out_english_report, data_file_path );
+        utf8stream_writer_write_str( out_english_report, "\n" );
     }
     import_err |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
 
@@ -272,10 +272,10 @@ u8_error_t main_commands_import ( main_commands_t *this_,
     io_data_file_close( (*this_).data_file );
 
     {
-        universal_utf8_writer_write_str( out_english_report, "\nplease test the integrity of the database_file:\n" );
-        universal_utf8_writer_write_str( out_english_report, "crystal-facet-uml -t " );
-        universal_utf8_writer_write_str( out_english_report, data_file_path );
-        universal_utf8_writer_write_str( out_english_report, "\n\n" );
+        utf8stream_writer_write_str( out_english_report, "\nplease test the integrity of the database_file:\n" );
+        utf8stream_writer_write_str( out_english_report, "crystal-facet-uml -t " );
+        utf8stream_writer_write_str( out_english_report, data_file_path );
+        utf8stream_writer_write_str( out_english_report, "\n\n" );
     }
 
     U8_TRACE_END_ERR( import_err );
@@ -303,7 +303,7 @@ static const char *const tables[DATA_STAT_TABLE_MAX] = {
 u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
                                                const data_stat_t *stat,
                                                const char* mode_name,
-                                               universal_utf8_writer_t *out_english_report )
+                                               utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( stat != NULL );
@@ -312,14 +312,14 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* HEADLINE */
-    write_err |= universal_utf8_writer_write_str( out_english_report, "\n\t" );
+    write_err |= utf8stream_writer_write_str( out_english_report, "\n\t" );
 
     for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
     {
-        write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
-        write_err |= universal_utf8_writer_write_str( out_english_report, tables[tables_idx] );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\t" );
+        write_err |= utf8stream_writer_write_str( out_english_report, tables[tables_idx] );
     }
-    write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+    write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
 
     /* TABLE */
     for ( int series_idx = 0; series_idx < DATA_STAT_SERIES_MAX; series_idx ++ )
@@ -328,41 +328,41 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
 
         if ( series_idx == DATA_STAT_SERIES_CREATED )
         {
-            write_err |= universal_utf8_writer_write_str( out_english_report, mode_name );
+            write_err |= utf8stream_writer_write_str( out_english_report, mode_name );
         }
         else
         {
-            write_err |= universal_utf8_writer_write_str( out_english_report, series[series_idx] );
+            write_err |= utf8stream_writer_write_str( out_english_report, series[series_idx] );
         }
-        write_err |= universal_utf8_writer_write_str( out_english_report, ": " );
+        write_err |= utf8stream_writer_write_str( out_english_report, ": " );
 
         for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
         {
-            write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
+            write_err |= utf8stream_writer_write_str( out_english_report, "\t" );
             const uint_fast32_t cnt = data_stat_get_count( stat, tables_idx, series_idx );
             if ( cnt != 0 )
             {
-                write_err |= universal_utf8_writer_write_int( out_english_report, cnt );
+                write_err |= utf8stream_writer_write_int( out_english_report, cnt );
             }
         }
 
-        write_err |= universal_utf8_writer_write_str( out_english_report, "\t: " );
-        write_err |= universal_utf8_writer_write_int( out_english_report, s_cnt );
-        write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\t: " );
+        write_err |= utf8stream_writer_write_int( out_english_report, s_cnt );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
     }
 
     /* ROW OF SUMS */
-    write_err |= universal_utf8_writer_write_str( out_english_report, "     SUM:" );
+    write_err |= utf8stream_writer_write_str( out_english_report, "     SUM:" );
     for ( int tables_idx = 0; tables_idx < DATA_STAT_TABLE_MAX; tables_idx ++ )
     {
         const uint_fast32_t t_cnt = data_stat_get_table_count( stat, tables_idx );
-        write_err |= universal_utf8_writer_write_str( out_english_report, "\t" );
-        write_err |= universal_utf8_writer_write_int( out_english_report, t_cnt );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\t" );
+        write_err |= utf8stream_writer_write_int( out_english_report, t_cnt );
     }
     const uint_fast32_t total = data_stat_get_total_count( stat );
-    write_err |= universal_utf8_writer_write_str( out_english_report, "\t: " );
-    write_err |= universal_utf8_writer_write_int( out_english_report, total );
-    write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+    write_err |= utf8stream_writer_write_str( out_english_report, "\t: " );
+    write_err |= utf8stream_writer_write_int( out_english_report, total );
+    write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
 
     U8_TRACE_END_ERR( write_err );
     return write_err;
@@ -370,7 +370,7 @@ u8_error_t main_commands_private_report_stat ( main_commands_t *this_,
 
 u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
                                                      const u8_error_info_t *error_info,
-                                                     universal_utf8_writer_t *out_english_report )
+                                                     utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( error_info != NULL );
@@ -388,8 +388,8 @@ u8_error_t main_commands_private_report_error_info ( main_commands_t *this_,
             write_err |= gui_error_info_printer_show_error_info( &my_err_info_printer, error_info, info_string );
             gui_error_info_printer_destroy( &my_err_info_printer );
         }
-        write_err |= universal_utf8_writer_write_str( out_english_report, utf8stringbuf_get_string(info_string) );
-        write_err |= universal_utf8_writer_write_str( out_english_report, "\n" );
+        write_err |= utf8stream_writer_write_str( out_english_report, utf8stringbuf_get_string(info_string) );
+        write_err |= utf8stream_writer_write_str( out_english_report, "\n" );
     }
 
     U8_TRACE_END_ERR( write_err );

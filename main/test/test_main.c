@@ -55,8 +55,9 @@
 #include "unit/utf8stringview_test.h"
 #include "unit/utf8stringviewiterator_test.h"
 #include "unit/utf8stringviewtokenizer_test.h"
-#include "utf8stringbuf/utf8string.h"
+#include "unit/utf8stream_writer_test.h"
 /* TEST_ENVIRONMENT */
+#include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include "meta/meta_info.h"
@@ -180,6 +181,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, utf8stringview_test_get_suite() );
         test_runner_run_suite( &runner, utf8stringviewiterator_test_get_suite() );
         test_runner_run_suite( &runner, utf8stringviewtokenizer_test_get_suite() );
+        test_runner_run_suite( &runner, utf8stream_writer_test_get_suite() );
         test_runner_run_suite( &runner, gui_sketch_nav_tree_test_get_suite() );
     }
 

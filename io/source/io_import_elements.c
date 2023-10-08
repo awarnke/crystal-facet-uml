@@ -12,7 +12,7 @@ void io_import_elements_init( io_import_elements_t *this_,
                               data_database_reader_t *db_reader,
                               ctrl_controller_t *controller,
                               data_stat_t *io_stat,
-                              universal_utf8_writer_t *out_english_report )
+                              utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -69,7 +69,7 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
                                         data_stat_t *io_stat,
-                                        universal_utf8_writer_t *out_english_report )
+                                        utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
 
@@ -928,11 +928,11 @@ void io_import_elements_private_report_id_differs( io_import_elements_t *this_, 
     U8_TRACE_BEGIN();
     u8_error_t report_err = U8_ERROR_NONE;
 
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "Id changed: " );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, "Id changed: " );
     report_err |= data_id_to_utf8_writer( &req_id, (*this_).english_report );
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, " -> " );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, " -> " );
     report_err |= data_id_to_utf8_writer( &act_id, (*this_).english_report );
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, ", " );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, ", " );
     if ( report_err != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "Could not write report on import, ERR:", report_err );
@@ -948,11 +948,11 @@ void io_import_elements_private_report_name_differs( io_import_elements_t *this_
     assert( NULL != act_name );
     u8_error_t report_err = U8_ERROR_NONE;
 
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "Name changed: \"" );
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, req_name );
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "\" -> \"" );
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, act_name );
-    report_err |= universal_utf8_writer_write_str( (*this_).english_report, "\", " );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, "Name changed: \"" );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, req_name );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, "\" -> \"" );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, act_name );
+    report_err |= utf8stream_writer_write_str( (*this_).english_report, "\", " );
     if ( report_err != U8_ERROR_NONE )
     {
         U8_LOG_ERROR_HEX( "Could not write report on import, ERR:", report_err );

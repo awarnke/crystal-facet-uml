@@ -1,22 +1,22 @@
-/* File: universal_utf8_writer.c; Copyright and License: see below */
+/* File: utf8stream_writer.c; Copyright and License: see below */
 
 #include "u8/u8_trace.h"
 #include <string.h>
 #include <inttypes.h>
 #include <assert.h>
 
-static inline void universal_utf8_writer_init ( universal_utf8_writer_t *this_, universal_output_stream_t* out_stream )
+static inline void utf8stream_writer_init ( utf8stream_writer_t *this_, universal_output_stream_t* out_stream )
 {
     assert( out_stream != NULL );
     (*this_).output_stream = out_stream;
 }
 
-static inline void universal_utf8_writer_destroy ( universal_utf8_writer_t *this_ )
+static inline void utf8stream_writer_destroy ( utf8stream_writer_t *this_ )
 {
     (*this_).output_stream = NULL;
 }
 
-static inline u8_error_t universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string )
+static inline u8_error_t utf8stream_writer_write_str ( utf8stream_writer_t *this_, const void *utf8_string )
 {
     assert( (*this_).output_stream != NULL );
     assert( utf8_string != NULL );
@@ -27,7 +27,7 @@ static inline u8_error_t universal_utf8_writer_write_str ( universal_utf8_writer
     return err;
 }
 
-static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number ) {
+static inline u8_error_t utf8stream_writer_write_int ( utf8stream_writer_t *this_, const int64_t number ) {
     char number_str[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
     /* Note: snprintf is not available on every OS */
     sprintf( number_str, "%" PRIi64, number );
@@ -37,7 +37,7 @@ static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer
     return err;
 }
 
-static inline u8_error_t universal_utf8_writer_write_hex ( universal_utf8_writer_t *this_, const int64_t number ) {
+static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this_, const int64_t number ) {
     char number_str[17]; /* this is sufficient for 64 bit integers */
     /* Note: snprintf is not available on every OS */
     sprintf( number_str, "%" PRIx64, number );
@@ -47,7 +47,7 @@ static inline u8_error_t universal_utf8_writer_write_hex ( universal_utf8_writer
     return err;
 }
 
-static inline int universal_utf8_writer_flush ( universal_utf8_writer_t *this_ )
+static inline int utf8stream_writer_flush ( utf8stream_writer_t *this_ )
 {
     assert( (*this_).output_stream != NULL );
 

@@ -252,44 +252,44 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
     return result;
 }
 
-static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, universal_utf8_writer_t *out_writer )
+static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, utf8stream_writer_t *out_writer )
 {
     u8_error_t result = U8_ERROR_NONE;
     switch ( (*this_).table )
     {
         case DATA_TABLE_VOID:
         {
-            result |= universal_utf8_writer_write_str( out_writer, "void" );
+            result |= utf8stream_writer_write_str( out_writer, "void" );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            result |= universal_utf8_writer_write_str( out_writer, "C" );
+            result |= utf8stream_writer_write_str( out_writer, "C" );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            result |= universal_utf8_writer_write_str( out_writer, "F" );
+            result |= utf8stream_writer_write_str( out_writer, "F" );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            result |= universal_utf8_writer_write_str( out_writer, "R" );
+            result |= utf8stream_writer_write_str( out_writer, "R" );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            result |= universal_utf8_writer_write_str( out_writer, "E" );
+            result |= utf8stream_writer_write_str( out_writer, "E" );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            result |= universal_utf8_writer_write_str( out_writer, "D" );
+            result |= utf8stream_writer_write_str( out_writer, "D" );
         }
         break;
 
@@ -308,7 +308,7 @@ static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, univer
             {
                 if ( 0 <= (*this_).row_id )
                 {
-                    result |= universal_utf8_writer_write_str( out_writer, "000" );
+                    result |= utf8stream_writer_write_str( out_writer, "000" );
                 }
                 else
                 {
@@ -317,21 +317,21 @@ static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, univer
             }
             else
             {
-                result |= universal_utf8_writer_write_str( out_writer, "00" );
+                result |= utf8stream_writer_write_str( out_writer, "00" );
             }
         }
         else
         {
             if ( 1000 > (*this_).row_id )
             {
-                result |= universal_utf8_writer_write_str( out_writer, "0" );
+                result |= utf8stream_writer_write_str( out_writer, "0" );
             }
             else
             {
                 /* row_id is greater than 1000 */
             }
         }
-        result |= universal_utf8_writer_write_int( out_writer, (*this_).row_id );
+        result |= utf8stream_writer_write_int( out_writer, (*this_).row_id );
     }
 
     return result;

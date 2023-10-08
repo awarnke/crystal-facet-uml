@@ -12615,7 +12615,7 @@
                 "a degradation mode is acceptable if\n",
                 "- no data from the database is lost\n",
                 "- the focused diagram is displayed correctly\n",
-                "- the data export is works reliably\n",
+                "- the data export works reliably\n",
                 "- 3 undo operations are possible\n",
                 "\n",
                 "In degradation mode, \n",
@@ -12776,7 +12776,7 @@
                 "Memory may be dynamically allocated\n",
                 "from heap for non-base use cases.\n",
                 "The program shall continue operation\n",
-                "if no memorry is available anymore.\n",
+                "if no memory is available anymore.\n",
                 "See D0067#name."
         ],
         "x_order": 1321225413,

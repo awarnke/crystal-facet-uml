@@ -43,7 +43,7 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
                                                       bool modify_db,
                                                       uint32_t *out_err,
                                                       uint32_t *out_fix,
-                                                      universal_utf8_writer_t *out_english_report )
+                                                      utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_english_report );
@@ -54,11 +54,11 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
     /* write report title */
     if ( modify_db )
     {
-        universal_utf8_writer_write_str( out_english_report, "TITLE: Repair database\n" );
+        utf8stream_writer_write_str( out_english_report, "TITLE: Repair database\n" );
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "TITLE: Check database\n" );
+        utf8stream_writer_write_str( out_english_report, "TITLE: Check database\n" );
     }
 
     /* == find inconsistencies in drawings == */
@@ -101,17 +101,17 @@ u8_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t
 
     /* write report summary */
     const char *db_filename = data_database_get_filename_ptr ( (*this_).database );
-    universal_utf8_writer_write_str( out_english_report, "SUMMARY: " );
+    utf8stream_writer_write_str( out_english_report, "SUMMARY: " );
     if ( db_filename != NULL )
     {
-        universal_utf8_writer_write_str( out_english_report, "\n    File: " );
-        universal_utf8_writer_write_str( out_english_report, db_filename );
+        utf8stream_writer_write_str( out_english_report, "\n    File: " );
+        utf8stream_writer_write_str( out_english_report, db_filename );
     }
-    universal_utf8_writer_write_str( out_english_report, "\n    Errors found: " );
-    universal_utf8_writer_write_int( out_english_report, error_count );
-    universal_utf8_writer_write_str( out_english_report, "\n    Errors fixed: " );
-    universal_utf8_writer_write_int( out_english_report, fix_count );
-    universal_utf8_writer_write_str( out_english_report, "\n" );
+    utf8stream_writer_write_str( out_english_report, "\n    Errors found: " );
+    utf8stream_writer_write_int( out_english_report, error_count );
+    utf8stream_writer_write_str( out_english_report, "\n    Errors fixed: " );
+    utf8stream_writer_write_int( out_english_report, fix_count );
+    utf8stream_writer_write_str( out_english_report, "\n" );
 
     /* if not all errors fixed, set result to U8_ERROR_DB_STRUCTURE */
     if ( error_count > fix_count )
@@ -127,7 +127,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
                                                                          bool modify_db,
                                                                          uint32_t *io_err,
                                                                          uint32_t *io_fix,
-                                                                         universal_utf8_writer_t *out_english_report )
+                                                                         utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -137,7 +137,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure a single root diagram\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure a single root diagram\n" );
 
     /* get all root diagrams */
     uint32_t out_diagram_count;
@@ -150,21 +150,21 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
 
     if ( U8_ERROR_NONE == data_err )
     {
-        universal_utf8_writer_write_str( out_english_report, "    ROOT DIAGRAM COUNT: " );
-        universal_utf8_writer_write_int( out_english_report, out_diagram_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    ROOT DIAGRAM COUNT: " );
+        utf8stream_writer_write_int( out_english_report, out_diagram_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
         for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
         {
-            universal_utf8_writer_write_str( out_english_report, "    INFO: Root diagram: " );
-            universal_utf8_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
-            universal_utf8_writer_write_str( out_english_report, ": " );
-            universal_utf8_writer_write_str( out_english_report, data_diagram_get_name_const( &((*this_).temp_diagram_buffer[list_pos]) ) );
-            universal_utf8_writer_write_str( out_english_report, "\n" );
+            utf8stream_writer_write_str( out_english_report, "    INFO: Root diagram: " );
+            utf8stream_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
+            utf8stream_writer_write_str( out_english_report, ": " );
+            utf8stream_writer_write_str( out_english_report, data_diagram_get_name_const( &((*this_).temp_diagram_buffer[list_pos]) ) );
+            utf8stream_writer_write_str( out_english_report, "\n" );
         }
         if ( out_diagram_count == 0 )
         {
             (*io_err) ++;
-            universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Create a diagram via the GUI.\n" );
+            utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Create a diagram via the GUI.\n" );
         }
         else if ( out_diagram_count > 1 )
         {
@@ -172,9 +172,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
             data_row_id_t proposed_root_diagram_id = data_diagram_get_row_id( &((*this_).temp_diagram_buffer[0]) );
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Attach additional root diagrams below the first: " );
-                universal_utf8_writer_write_int( out_english_report, proposed_root_diagram_id );
-                universal_utf8_writer_write_str( out_english_report, "\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Attach additional root diagrams below the first: " );
+                utf8stream_writer_write_int( out_english_report, proposed_root_diagram_id );
+                utf8stream_writer_write_str( out_english_report, "\n" );
             }
             else
             {
@@ -187,16 +187,16 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
                                                                              );
                     if ( U8_ERROR_NONE == data_err )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Diagram " );
-                        universal_utf8_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
-                        universal_utf8_writer_write_str( out_english_report, " attached to " );
-                        universal_utf8_writer_write_int( out_english_report, proposed_root_diagram_id);
-                        universal_utf8_writer_write_str( out_english_report, "\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Diagram " );
+                        utf8stream_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
+                        utf8stream_writer_write_str( out_english_report, " attached to " );
+                        utf8stream_writer_write_int( out_english_report, proposed_root_diagram_id);
+                        utf8stream_writer_write_str( out_english_report, "\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                         err_result |= data_err;
                     }
                 }
@@ -205,7 +205,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 
@@ -217,7 +217,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                                                                            bool modify_db,
                                                                            uint32_t *io_err,
                                                                            uint32_t *io_fix,
-                                                                           universal_utf8_writer_t *out_english_report )
+                                                                           utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -226,7 +226,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure that no circular/invalid references of diagram parents exist\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure that no circular/invalid references of diagram parents exist\n" );
 
     data_small_set_t circ_ref;
     data_small_set_init( &circ_ref );
@@ -235,9 +235,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
     {
         uint32_t circ_ref_count = data_small_set_get_count( &circ_ref );
 
-        universal_utf8_writer_write_str( out_english_report, "    DIAGRAMS WITH CIRCLUAR OR INVALID PARENT REFERENCES: " );
-        universal_utf8_writer_write_int( out_english_report, circ_ref_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    DIAGRAMS WITH CIRCLUAR OR INVALID PARENT REFERENCES: " );
+        utf8stream_writer_write_int( out_english_report, circ_ref_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
 
         if ( circ_ref_count != 0 )
         {
@@ -261,11 +261,11 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
 
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Move " );
-                universal_utf8_writer_write_int( out_english_report, circ_ref_count );
-                universal_utf8_writer_write_str( out_english_report, " diagrams below root diagram " );
-                universal_utf8_writer_write_int( out_english_report, root_diag_id );
-                universal_utf8_writer_write_str( out_english_report, ".\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Move " );
+                utf8stream_writer_write_int( out_english_report, circ_ref_count );
+                utf8stream_writer_write_str( out_english_report, " diagrams below root diagram " );
+                utf8stream_writer_write_int( out_english_report, root_diag_id );
+                utf8stream_writer_write_str( out_english_report, ".\n" );
             }
             else
             {
@@ -281,16 +281,16 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                     );
                     if ( U8_ERROR_NONE == data_err )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Diagram " );
-                        universal_utf8_writer_write_int( out_english_report, diagram_row_id );
-                        universal_utf8_writer_write_str( out_english_report, " moved below root diagram " );
-                        universal_utf8_writer_write_int( out_english_report, root_diag_id );
-                        universal_utf8_writer_write_str( out_english_report, ".\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Diagram " );
+                        utf8stream_writer_write_int( out_english_report, diagram_row_id );
+                        utf8stream_writer_write_str( out_english_report, " moved below root diagram " );
+                        utf8stream_writer_write_int( out_english_report, root_diag_id );
+                        utf8stream_writer_write_str( out_english_report, ".\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                         err_result |= data_err;
                     }
                 }
@@ -299,7 +299,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 
@@ -311,7 +311,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
                                                                            bool modify_db,
                                                                            uint32_t *io_err,
                                                                            uint32_t *io_fix,
-                                                                           universal_utf8_writer_t *out_english_report )
+                                                                           utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -321,7 +321,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure that diagramelements reference valid diagrams and classifiers\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure that diagramelements reference valid diagrams and classifiers\n" );
 
     data_small_set_t unref;
     data_small_set_init( &unref );
@@ -330,9 +330,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
-        universal_utf8_writer_write_str( out_english_report, "    NONREFERENCING DIAGRAMELEMENTS COUNT: " );
-        universal_utf8_writer_write_int( out_english_report, unref_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    NONREFERENCING DIAGRAMELEMENTS COUNT: " );
+        utf8stream_writer_write_int( out_english_report, unref_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
 
         if ( unref_count != 0 )
         {
@@ -340,9 +340,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
 
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
-                universal_utf8_writer_write_int( out_english_report, unref_count );
-                universal_utf8_writer_write_str( out_english_report, " diagramelements.\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
+                utf8stream_writer_write_int( out_english_report, unref_count );
+                utf8stream_writer_write_str( out_english_report, " diagramelements.\n" );
             }
             else
             {
@@ -353,14 +353,14 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
                     data_err = data_database_writer_delete_diagramelement ( (*this_).db_writer, diagramelement_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Diagramelement " );
-                        universal_utf8_writer_write_int( out_english_report, diagramelement_row_id );
-                        universal_utf8_writer_write_str( out_english_report, " deleted.\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Diagramelement " );
+                        utf8stream_writer_write_int( out_english_report, diagramelement_row_id );
+                        utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                         err_result |= data_err;
                     }
                 }
@@ -369,7 +369,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 
@@ -381,7 +381,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
                                                                             bool modify_db,
                                                                             uint32_t *io_err,
                                                                             uint32_t *io_fix,
-                                                                            universal_utf8_writer_t *out_english_report )
+                                                                            utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -391,7 +391,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure that diagramelements reference NULL or valid features\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure that diagramelements reference NULL or valid features\n" );
 
     data_small_set_t unref;
     data_small_set_init( &unref );
@@ -400,9 +400,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
-        universal_utf8_writer_write_str( out_english_report, "    ILLREFERENCING DIAGRAMELEMENTS COUNT: " );
-        universal_utf8_writer_write_int( out_english_report, unref_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    ILLREFERENCING DIAGRAMELEMENTS COUNT: " );
+        utf8stream_writer_write_int( out_english_report, unref_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
 
         if ( unref_count != 0 )
         {
@@ -410,9 +410,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
 
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Unlink focused features from " );
-                universal_utf8_writer_write_int( out_english_report, unref_count );
-                universal_utf8_writer_write_str( out_english_report, " diagramelements.\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Unlink focused features from " );
+                utf8stream_writer_write_int( out_english_report, unref_count );
+                utf8stream_writer_write_str( out_english_report, " diagramelements.\n" );
             }
             else
             {
@@ -423,14 +423,14 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
                     data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row_id, DATA_ROW_ID_VOID, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Focused features unlinked from " );
-                        universal_utf8_writer_write_int( out_english_report, diagramelement_row_id );
-                        universal_utf8_writer_write_str( out_english_report, " diagramelements.\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Focused features unlinked from " );
+                        utf8stream_writer_write_int( out_english_report, diagramelement_row_id );
+                        utf8stream_writer_write_str( out_english_report, " diagramelements.\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                         err_result |= data_err;
                     }
                 }
@@ -439,7 +439,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 
@@ -451,7 +451,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
                                                                             bool modify_db,
                                                                             uint32_t *io_err,
                                                                             uint32_t *io_fix,
-                                                                            universal_utf8_writer_t *out_english_report )
+                                                                            utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -461,7 +461,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure that classifiers are referenced\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure that classifiers are referenced\n" );
 
     data_small_set_t unref;
     data_small_set_init( &unref );
@@ -470,9 +470,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
-        universal_utf8_writer_write_str( out_english_report, "    UNREFERENCED CLASSIFIER COUNT: " );
-        universal_utf8_writer_write_int( out_english_report, unref_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    UNREFERENCED CLASSIFIER COUNT: " );
+        utf8stream_writer_write_int( out_english_report, unref_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
 
         if ( unref_count != 0 )
         {
@@ -480,9 +480,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
 
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
-                universal_utf8_writer_write_int( out_english_report, unref_count );
-                universal_utf8_writer_write_str( out_english_report, " classifiers.\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
+                utf8stream_writer_write_int( out_english_report, unref_count );
+                utf8stream_writer_write_str( out_english_report, " classifiers.\n" );
             }
             else
             {
@@ -493,14 +493,14 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
                     err_result |= data_database_consistency_checker_kill_classifier ( &((*this_).db_checker), classifier_row_id );
                     if ( U8_ERROR_NONE == err_result )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Classifier " );
-                        universal_utf8_writer_write_int( out_english_report, classifier_row_id );
-                        universal_utf8_writer_write_str( out_english_report, " deleted.\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Classifier " );
+                        utf8stream_writer_write_int( out_english_report, classifier_row_id );
+                        utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                     }
                 }
             }
@@ -508,7 +508,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 
@@ -520,7 +520,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
                                                                            bool modify_db,
                                                                            uint32_t *io_err,
                                                                            uint32_t *io_fix,
-                                                                           universal_utf8_writer_t *out_english_report )
+                                                                           utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -530,7 +530,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure that features have valid classifiers\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure that features have valid classifiers\n" );
 
     data_small_set_t unref;
     data_small_set_init( &unref );
@@ -539,9 +539,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
-        universal_utf8_writer_write_str( out_english_report, "    NONREFERENCING FEATURES COUNT: " );
-        universal_utf8_writer_write_int( out_english_report, unref_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    NONREFERENCING FEATURES COUNT: " );
+        utf8stream_writer_write_int( out_english_report, unref_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
 
         if ( unref_count != 0 )
         {
@@ -549,9 +549,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
 
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
-                universal_utf8_writer_write_int( out_english_report, unref_count );
-                universal_utf8_writer_write_str( out_english_report, " features.\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
+                utf8stream_writer_write_int( out_english_report, unref_count );
+                utf8stream_writer_write_str( out_english_report, " features.\n" );
             }
             else
             {
@@ -562,14 +562,14 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
                     data_err = data_database_writer_delete_feature ( (*this_).db_writer, feature_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Feature " );
-                        universal_utf8_writer_write_int( out_english_report, feature_row_id );
-                        universal_utf8_writer_write_str( out_english_report, " deleted.\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Feature " );
+                        utf8stream_writer_write_int( out_english_report, feature_row_id );
+                        utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                         err_result |= data_err;
                     }
                 }
@@ -578,7 +578,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 
@@ -590,7 +590,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
                                                                                     bool modify_db,
                                                                                     uint32_t *io_err,
                                                                                     uint32_t *io_fix,
-                                                                                    universal_utf8_writer_t *out_english_report )
+                                                                                    utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -600,7 +600,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure that relationships link valid classifiers\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure that relationships link valid classifiers\n" );
 
     data_small_set_t unref;
     data_small_set_init( &unref );
@@ -609,9 +609,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
-        universal_utf8_writer_write_str( out_english_report, "    NONREFERENCING RELATIONSHIPS COUNT: " );
-        universal_utf8_writer_write_int( out_english_report, unref_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    NONREFERENCING RELATIONSHIPS COUNT: " );
+        utf8stream_writer_write_int( out_english_report, unref_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
 
         if ( unref_count != 0 )
         {
@@ -619,9 +619,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
 
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
-                universal_utf8_writer_write_int( out_english_report, unref_count );
-                universal_utf8_writer_write_str( out_english_report, " relationships.\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
+                utf8stream_writer_write_int( out_english_report, unref_count );
+                utf8stream_writer_write_str( out_english_report, " relationships.\n" );
             }
             else
             {
@@ -632,14 +632,14 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
                     data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Relationship " );
-                        universal_utf8_writer_write_int( out_english_report, relation_row_id );
-                        universal_utf8_writer_write_str( out_english_report, " deleted.\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Relationship " );
+                        utf8stream_writer_write_int( out_english_report, relation_row_id );
+                        utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                         err_result |= data_err;
                     }
                 }
@@ -648,7 +648,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 
@@ -660,7 +660,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
                                                                                  bool modify_db,
                                                                                  uint32_t *io_err,
                                                                                  uint32_t *io_fix,
-                                                                                 universal_utf8_writer_t *out_english_report )
+                                                                                 utf8stream_writer_t *out_english_report )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -670,7 +670,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
     u8_error_t data_err;
 
     /* write report title */
-    universal_utf8_writer_write_str( out_english_report, "STEP: Ensure that relationships link NULL or valid features\n" );
+    utf8stream_writer_write_str( out_english_report, "STEP: Ensure that relationships link NULL or valid features\n" );
 
     data_small_set_t unref;
     data_small_set_init( &unref );
@@ -679,9 +679,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
 
-        universal_utf8_writer_write_str( out_english_report, "    ILLREFERENCING RELATIONSHIPS COUNT: " );
-        universal_utf8_writer_write_int( out_english_report, unref_count );
-        universal_utf8_writer_write_str( out_english_report, "\n" );
+        utf8stream_writer_write_str( out_english_report, "    ILLREFERENCING RELATIONSHIPS COUNT: " );
+        utf8stream_writer_write_int( out_english_report, unref_count );
+        utf8stream_writer_write_str( out_english_report, "\n" );
 
         if ( unref_count != 0 )
         {
@@ -689,9 +689,9 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
 
             if ( ! modify_db )
             {
-                universal_utf8_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
-                universal_utf8_writer_write_int( out_english_report, unref_count );
-                universal_utf8_writer_write_str( out_english_report, " relationships.\n" );
+                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Delete " );
+                utf8stream_writer_write_int( out_english_report, unref_count );
+                utf8stream_writer_write_str( out_english_report, " relationships.\n" );
             }
             else
             {
@@ -702,14 +702,14 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
                     data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
-                        universal_utf8_writer_write_str( out_english_report, "    FIX: Relationship " );
-                        universal_utf8_writer_write_int( out_english_report, relation_row_id );
-                        universal_utf8_writer_write_str( out_english_report, " deleted.\n" );
+                        utf8stream_writer_write_str( out_english_report, "    FIX: Relationship " );
+                        utf8stream_writer_write_int( out_english_report, relation_row_id );
+                        utf8stream_writer_write_str( out_english_report, " deleted.\n" );
                         (*io_fix) ++;
                     }
                     else
                     {
-                        universal_utf8_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
                         err_result |= data_err;
                     }
                 }
@@ -718,7 +718,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
     }
     else
     {
-        universal_utf8_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
 

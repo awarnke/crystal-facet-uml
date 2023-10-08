@@ -7,7 +7,7 @@
 #include "storage/data_database_reader.h"
 #include "u8stream/universal_stream_output_stream.h"
 #include "u8stream/universal_null_output_stream.h"
-#include "utf8stream/universal_utf8_writer.h"
+#include "utf8stream/utf8stream_writer.h"
 #include "u8/u8_trace.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
@@ -69,7 +69,7 @@ static universal_null_output_stream_t out_stream;
 /*!
  *  \brief output report writer
  */
-static universal_utf8_writer_t out_report;
+static utf8stream_writer_t out_report;
 
 test_suite_t ctrl_consistency_checker_test_get_suite(void)
 {
@@ -171,13 +171,13 @@ static test_fixture_t * set_up()
     universal_null_output_stream_init( &out_stream );
     universal_output_stream_t *const out_base = universal_null_output_stream_get_output_stream( &out_stream );
 #endif
-    universal_utf8_writer_init( &out_report, out_base );
+    utf8stream_writer_init( &out_report, out_base );
     return NULL;
 }
 
 static void tear_down( test_fixture_t *test_env )
 {
-    universal_utf8_writer_destroy( &out_report );
+    utf8stream_writer_destroy( &out_report );
 #ifndef NDEBUG
     universal_stream_output_stream_destroy( &out_stream );
 #else
@@ -226,21 +226,21 @@ static test_case_result_t diagram_two_roots_consistency( test_fixture_t *test_en
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* two roots, not fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* two roots */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* two roots */
     TEST_EXPECT_EQUAL_INT( 1, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );  /* ok */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -300,21 +300,21 @@ static test_case_result_t diagram_missing_parent_consistency( test_fixture_t *te
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_EXPECT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -374,21 +374,21 @@ static test_case_result_t diagram_circular_referenced_diagrams_consistency( test
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_EXPECT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -459,21 +459,21 @@ static test_case_result_t diagram_nonreferencing_diagramelements_consistency( te
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-15,17,19 */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-15,17,19 */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the diagrams */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -566,21 +566,21 @@ static test_case_result_t diagram_illreferencing_diagramelements_consistency( te
 
     /* check the diagramelements */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* 2nd and 3rd diagramelements have non-healthy references */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagramelements */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 2, found_errors );  /* 2nd and 3rd diagramelements have non-healthy references */
     TEST_EXPECT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagramelements */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -620,21 +620,21 @@ static test_case_result_t repair_unreferenced_classifiers( test_fixture_t *test_
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-13 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-13 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 1, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -715,21 +715,21 @@ static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *tes
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-6 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-6 is unreferenced, after deleting, also the relationship and the feature are unreferenced. */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -787,21 +787,21 @@ static test_case_result_t repair_invalid_feature_parent( test_fixture_t *test_en
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 1, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -909,21 +909,21 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *test_env 
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the database */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
@@ -1106,21 +1106,21 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *test_
 
     /* check the relationships */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, ctrl_err );  /* there are errors not yet fixed */
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /*! illegal: relationships 35, 36 and 37 */
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the relationships */
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 3, found_errors );  /*! illegal: relationships 35, 36 and 37 */
     TEST_EXPECT_EQUAL_INT( 3, fixed_errors );
 
     /* check the relationships */
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, &out_report );
-    universal_utf8_writer_flush( &out_report );
+    utf8stream_writer_flush( &out_report );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( 0, found_errors );
     TEST_EXPECT_EQUAL_INT( 0, fixed_errors );

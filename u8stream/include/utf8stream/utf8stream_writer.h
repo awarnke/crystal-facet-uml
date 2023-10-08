@@ -1,4 +1,4 @@
-/* File: universal_utf8_writer.h; Copyright and License: see below */
+/* File: utf8stream_writer.h; Copyright and License: see below */
 
 #ifndef UNIVERSAL_UTF8_WRITER_H
 #define UNIVERSAL_UTF8_WRITER_H
@@ -13,37 +13,40 @@
 #include <stdio.h>
 
 /*!
- *  \brief attributes of the universal_utf8_writer
+ *  \brief attributes of the utf8stream_writer
  */
-struct universal_utf8_writer_struct {
+struct utf8stream_writer_struct {
     universal_output_stream_t *output_stream;  /*!< pointer to external \c universal_output_stream_t */
 };
 
-typedef struct universal_utf8_writer_struct universal_utf8_writer_t;
+typedef struct utf8stream_writer_struct utf8stream_writer_t;
 
 /*!
- *  \brief initializes the universal_utf8_writer_t
+ *  \brief initializes the utf8stream_writer_t
  *
  *  \param this_ pointer to own object attributes
  *  \param out_stream output stream
  */
-static inline void universal_utf8_writer_init ( universal_utf8_writer_t *this_, universal_output_stream_t* out_stream );
+static inline void utf8stream_writer_init ( utf8stream_writer_t *this_, universal_output_stream_t* out_stream );
 
 /*!
- *  \brief destroys the universal_utf8_writer_t
+ *  \brief destroys the utf8stream_writer_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_utf8_writer_destroy ( universal_utf8_writer_t *this_ );
+static inline void utf8stream_writer_destroy ( utf8stream_writer_t *this_ );
 
 /*!
  *  \brief writes a utf8 string to a stream
+ *
+ *  Note that the underlying universal_output_stream_t may cut the stream when e.g. the sink location is full.
+ *  This may cut an utf8 code point in half.
  *
  *  \param this_ pointer to own object attributes
  *  \param utf8_string 0-terminated string to write
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline u8_error_t universal_utf8_writer_write_str ( universal_utf8_writer_t *this_, const void *utf8_string );
+static inline u8_error_t utf8stream_writer_write_str ( utf8stream_writer_t *this_, const void *utf8_string );
 
 /*!
  *  \brief writes an integer to a stream
@@ -52,7 +55,7 @@ static inline u8_error_t universal_utf8_writer_write_str ( universal_utf8_writer
  *  \param number number to write
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer_t *this_, const int64_t number );
+static inline u8_error_t utf8stream_writer_write_int ( utf8stream_writer_t *this_, const int64_t number );
 
 /*!
  *  \brief writes an integer as hexadecimal number to a stream
@@ -61,7 +64,7 @@ static inline u8_error_t universal_utf8_writer_write_int ( universal_utf8_writer
  *  \param number number to write in hexadecimal
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline u8_error_t universal_utf8_writer_write_hex ( universal_utf8_writer_t *this_, const int64_t number );
+static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this_, const int64_t number );
 
 /*!
  *  \brief flushes buffers
@@ -69,9 +72,9 @@ static inline u8_error_t universal_utf8_writer_write_hex ( universal_utf8_writer
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline u8_error_t universal_utf8_writer_flush ( universal_utf8_writer_t *this_ );
+static inline u8_error_t utf8stream_writer_flush ( utf8stream_writer_t *this_ );
 
-#include "universal_utf8_writer.inl"
+#include "utf8stream_writer.inl"
 
 #endif  /* UNIVERSAL_UTF8_WRITER_H */
 

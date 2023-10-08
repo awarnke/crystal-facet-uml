@@ -7,7 +7,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
-#include "utf8stream/universal_utf8_writer.h"
+#include "utf8stream/utf8stream_writer.h"
 #include "u8stream/universal_memory_input_stream.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8/u8_trace.h"
@@ -792,8 +792,8 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
         char report_buffer[32];
         universal_memory_output_stream_t report_stream;
         universal_memory_output_stream_init( &report_stream, &report_buffer, sizeof(report_buffer) );
-        universal_utf8_writer_t report;
-        universal_utf8_writer_init( &report, universal_memory_output_stream_get_output_stream( &report_stream ) );
+        utf8stream_writer_t report;
+        utf8stream_writer_init( &report, universal_memory_output_stream_get_output_stream( &report_stream ) );
 
         universal_memory_input_stream_t mem_json;
         universal_memory_input_stream_init( &mem_json, test_json_own_diagram, utf8string_get_length( test_json_own_diagram ) );
@@ -813,7 +813,7 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
         TEST_EXPECT_EQUAL_INT( 99, u8_error_info_get_line( &read_pos ) );
 
         universal_memory_input_stream_destroy( &mem_json );
-        universal_utf8_writer_destroy( &report );
+        utf8stream_writer_destroy( &report );
         universal_memory_output_stream_destroy( &report_stream );
         data_stat_destroy(&stat);
     }

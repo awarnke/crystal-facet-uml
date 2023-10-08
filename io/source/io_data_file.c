@@ -292,8 +292,8 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
     static const io_import_mode_t import_mode = IO_IMPORT_MODE_CREATE|IO_IMPORT_MODE_LINK;
     universal_null_output_stream_t dev_null;
     universal_null_output_stream_init( &dev_null );
-    universal_utf8_writer_t out_null;
-    universal_utf8_writer_init( &out_null, universal_null_output_stream_get_output_stream( &dev_null ) );
+    utf8stream_writer_t out_null;
+    utf8stream_writer_init( &out_null, universal_null_output_stream_get_output_stream( &dev_null ) );
 
     U8_TRACE_INFO_STR( "importing file:", src_file );
     if ( io_data_file_is_open( this_ ) )
@@ -317,7 +317,7 @@ u8_error_t io_data_file_private_import ( io_data_file_t *this_, const char *src_
         import_err = U8_ERROR_NO_DB;
     }
 
-    universal_utf8_writer_destroy( &out_null );
+    utf8stream_writer_destroy( &out_null );
     universal_null_output_stream_destroy( &dev_null );
     U8_TRACE_END_ERR( import_err );
     return import_err;

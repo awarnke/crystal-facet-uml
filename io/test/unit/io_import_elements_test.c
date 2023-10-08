@@ -53,7 +53,7 @@ static universal_null_output_stream_t null_out;
 /*!
  *  \brief ignore report of io_import_elements_t
  */
-static universal_utf8_writer_t out_writer;
+static utf8stream_writer_t out_writer;
 
 test_suite_t io_import_elements_test_get_suite(void)
 {
@@ -75,7 +75,7 @@ static test_fixture_t * set_up()
     data_stat_init( &stats );
 
     universal_null_output_stream_init( &null_out );
-    universal_utf8_writer_init( &out_writer, universal_null_output_stream_get_output_stream( &null_out ) );
+    utf8stream_writer_init( &out_writer, universal_null_output_stream_get_output_stream( &null_out ) );
     io_import_elements_init( &elements_importer, &db_reader, &controller, &stats, &out_writer );
     return NULL;
 }
@@ -83,7 +83,7 @@ static test_fixture_t * set_up()
 static void tear_down( test_fixture_t *test_env )
 {
     io_import_elements_destroy( &elements_importer );
-    universal_utf8_writer_destroy( &out_writer );
+    utf8stream_writer_destroy( &out_writer );
     universal_null_output_stream_destroy( &null_out );
 
     data_stat_destroy( &stats );

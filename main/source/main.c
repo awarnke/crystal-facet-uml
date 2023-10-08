@@ -8,7 +8,7 @@
 #include "meta/meta_version.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8stream/universal_stream_output_stream.h"
-#include "utf8stream/universal_utf8_writer.h"
+#include "utf8stream/utf8stream_writer.h"
 #include <sys/types.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -48,22 +48,22 @@ int main (int argc, char **argv) {
     io_import_mode_t import_mode = 0;
     universal_stream_output_stream_t out_stream;
     universal_stream_output_stream_init( &out_stream, stdout );
-    universal_utf8_writer_t writer;
-    universal_utf8_writer_init( &writer, universal_stream_output_stream_get_output_stream( &out_stream ) );
+    utf8stream_writer_t writer;
+    utf8stream_writer_init( &writer, universal_stream_output_stream_get_output_stream( &out_stream ) );
 
     /* handle options */
     if ( argc == 2 )
     {
         if ( utf8string_equals_str( argv[1], "-h" ) )
         {
-            universal_utf8_writer_write_str( &writer, MAIN_HELP );
+            utf8stream_writer_write_str( &writer, MAIN_HELP );
             do_not_start = true;
         }
         if ( utf8string_equals_str( argv[1], "-v" ) )
         {
-            universal_utf8_writer_write_str( &writer, "\n" );
-            universal_utf8_writer_write_str( &writer, META_VERSION_STR );
-            universal_utf8_writer_write_str( &writer, "\n" );
+            utf8stream_writer_write_str( &writer, "\n" );
+            utf8stream_writer_write_str( &writer, META_VERSION_STR );
+            utf8stream_writer_write_str( &writer, "\n" );
             do_not_start = true;
         }
         if ( ! utf8string_starts_with_str( argv[1], "-" ) )
@@ -152,7 +152,7 @@ int main (int argc, char **argv) {
 
         main_commands_destroy( &commands );
     }
-    universal_utf8_writer_destroy( &writer );
+    utf8stream_writer_destroy( &writer );
     universal_stream_output_stream_destroy( &out_stream );
 
     U8_LOG_STATS();

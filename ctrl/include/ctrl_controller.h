@@ -21,7 +21,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
-#include "utf8stream/universal_utf8_writer.h"
+#include "utf8stream/utf8stream_writer.h"
 
 /*!
  *  \brief all data attributes needed for the controller functions
@@ -164,7 +164,7 @@ static inline u8_error_t ctrl_controller_repair_database ( ctrl_controller_t *th
                                                            bool modify_db,
                                                            uint32_t *out_err,
                                                            uint32_t *out_fix,
-                                                           universal_utf8_writer_t *out_english_report
+                                                           utf8stream_writer_t *out_english_report
                                                          );
 
 #include "ctrl_controller.inl"
