@@ -11,19 +11,20 @@
 #include "u8/u8_trace.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_fixture.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t diagram_two_roots_consistency( test_fixture_t *test_env );
-static test_case_result_t diagram_missing_parent_consistency( test_fixture_t *test_env );
-static test_case_result_t diagram_circular_referenced_diagrams_consistency( test_fixture_t *test_env );
-static test_case_result_t diagram_nonreferencing_diagramelements_consistency( test_fixture_t *test_env );
-static test_case_result_t diagram_illreferencing_diagramelements_consistency( test_fixture_t *test_env );
-static test_case_result_t repair_unreferenced_classifiers( test_fixture_t *test_env );
-static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *test_env );
-static test_case_result_t repair_invalid_feature_parent( test_fixture_t *test_env );
-static test_case_result_t repair_invalid_relationship( test_fixture_t *test_env );
-static test_case_result_t repair_ill_feature_relationship( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t diagram_two_roots_consistency( test_fixture_t *fix );
+static test_case_result_t diagram_missing_parent_consistency( test_fixture_t *fix );
+static test_case_result_t diagram_circular_referenced_diagrams_consistency( test_fixture_t *fix );
+static test_case_result_t diagram_nonreferencing_diagramelements_consistency( test_fixture_t *fix );
+static test_case_result_t diagram_illreferencing_diagramelements_consistency( test_fixture_t *fix );
+static test_case_result_t repair_unreferenced_classifiers( test_fixture_t *fix );
+static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *fix );
+static test_case_result_t repair_invalid_feature_parent( test_fixture_t *fix );
+static test_case_result_t repair_invalid_relationship( test_fixture_t *fix );
+static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix );
 
 test_suite_t ctrl_consistency_checker_test_get_suite(void)
 {
@@ -65,11 +66,11 @@ struct test_fixture_struct {
     utf8stream_writer_t out_report;  /*!< output report writer */
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
-static test_fixture_t test_environment;
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_fixture;
     data_database_init( &((*fix).database) );
     data_database_open_in_memory( &((*fix).database) );
     data_database_reader_init( &((*fix).db_reader), &((*fix).database) );

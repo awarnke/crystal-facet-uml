@@ -5,36 +5,17 @@
 #include "storage/data_database_writer.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_fixture.h"
 #include <errno.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_search_diagrams( test_fixture_t *test_env );
-static test_case_result_t test_search_diagramelements( test_fixture_t *test_env );
-static test_case_result_t test_search_classifiers( test_fixture_t *test_env );
-static test_case_result_t test_search_features( test_fixture_t *test_env );
-static test_case_result_t test_search_relationships( test_fixture_t *test_env );
-static test_case_result_t test_iterate_over_classifiers( test_fixture_t *test_env );
-
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database filename on which the tests are performed and which is automatically deleted when finished
- */
-static const char* DATABASE_FILENAME = "unittest_crystal_facet_uml_default.cfu1";
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief database writer to access the database
- */
-static data_database_writer_t db_writer;
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_search_diagrams( test_fixture_t *fix );
+static test_case_result_t test_search_diagramelements( test_fixture_t *fix );
+static test_case_result_t test_search_classifiers( test_fixture_t *fix );
+static test_case_result_t test_search_features( test_fixture_t *fix );
+static test_case_result_t test_search_relationships( test_fixture_t *fix );
+static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix );
 
 test_suite_t data_database_reader_test_get_suite(void)
 {
@@ -49,6 +30,19 @@ test_suite_t data_database_reader_test_get_suite(void)
     return result;
 }
 
+/*!
+ *  \brief database filename on which the tests are performed and which is automatically deleted when finished
+ */
+static const char *const DATABASE_FILENAME = "unittest_crystal_facet_uml_default.cfu1";
+
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    data_database_writer_t db_writer;  /*!< database writer to access the database */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
     /* remove old database files first */
@@ -57,11 +51,11 @@ static test_fixture_t * set_up()
     TEST_ENVIRONMENT_ASSERT ( ( 0 == err )|| (( -1 == err )&&( errno == ENOENT )) );
 
     /* open a database and initialize a reader and a writer */
-    data_database_init( &database );
-    data_database_open( &database, DATABASE_FILENAME );
-
-    data_database_reader_init( &db_reader, &database );
-    data_database_writer_init( &db_writer, &db_reader, &database );
+    test_fixture_t *fix = &test_fixture;
+    data_database_init( &((*fix).database) );
+    data_database_open( &((*fix).database), DATABASE_FILENAME );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    data_database_writer_init( &((*fix).db_writer), &((*fix).db_reader), &((*fix).database) );
 
     /* initialize some entries */
     u8_error_t data_err;
@@ -81,7 +75,7 @@ static test_fixture_t * set_up()
                                 );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_diagram ( &db_writer, &root_diagram, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_diagram ( &((*fix).db_writer), &root_diagram, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create a valid child diagram */
@@ -99,7 +93,7 @@ static test_fixture_t * set_up()
                                 );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_diagram ( &((*fix).db_writer), &current_diagram, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create two valid classifiers */
@@ -117,7 +111,7 @@ static test_fixture_t * set_up()
                                    );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_classifier( &((*fix).db_writer), &current_classifier, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_classifier_t second_classifier;
@@ -134,7 +128,7 @@ static test_fixture_t * set_up()
                                    );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_classifier( &((*fix).db_writer), &second_classifier, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create four valid diagramelements */
@@ -149,7 +143,7 @@ static test_fixture_t * set_up()
                                        );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_diagramelement( &db_writer, &first_diagramelement, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &first_diagramelement, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_diagramelement_t duplicate_diagramelement;
@@ -163,7 +157,7 @@ static test_fixture_t * set_up()
                                        );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_diagramelement( &db_writer, &duplicate_diagramelement, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &duplicate_diagramelement, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_diagramelement_t second_diagramelement;
@@ -177,7 +171,7 @@ static test_fixture_t * set_up()
                                        );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &second_diagramelement, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_diagramelement_t third_diagramelement;
@@ -191,7 +185,7 @@ static test_fixture_t * set_up()
                                        );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_diagramelement( &((*fix).db_writer), &third_diagramelement, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* define two valid relationships */
@@ -211,7 +205,7 @@ static test_fixture_t * set_up()
                                      );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &v_relation, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_relationship_t second_relation;
@@ -230,7 +224,7 @@ static test_fixture_t * set_up()
                                      );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_relationship ( &db_writer, &second_relation, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_relationship ( &((*fix).db_writer), &second_relation, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     /* create three valid features */
@@ -247,7 +241,7 @@ static test_fixture_t * set_up()
                                 );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_feature ( &((*fix).db_writer), &v_feature, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_feature_t second_feature;
@@ -263,7 +257,7 @@ static test_fixture_t * set_up()
                                 );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_feature ( &db_writer, &second_feature, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_feature ( &((*fix).db_writer), &second_feature, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
     data_feature_t thrid_feature;
@@ -279,38 +273,38 @@ static test_fixture_t * set_up()
                                 );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-    data_err = data_database_writer_create_feature ( &db_writer, &thrid_feature, NULL /*=out_new_id*/ );
+    data_err = data_database_writer_create_feature ( &((*fix).db_writer), &thrid_feature, NULL /*=out_new_id*/ );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
-    return NULL;
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    int err;
+    assert( fix != NULL );
 
     /* de-initialize the reader and the writer and close the database */
-    data_database_writer_destroy( &db_writer );
-    data_database_reader_destroy( &db_reader );
-
-    data_database_close( &database );
-    data_database_destroy( &database );
-    err = remove( DATABASE_FILENAME );
-    TEST_ENVIRONMENT_ASSERT( err == 0 );
+    data_database_writer_destroy( &((*fix).db_writer) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
+    const u8_error_t err = remove( DATABASE_FILENAME );
+    TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
 }
 
-static test_case_result_t test_search_diagrams( test_fixture_t *test_env )
+static test_case_result_t test_search_diagrams( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t data_err;
     data_diagram_t diagram_list[3];
     static const int MAX_ARRAY_SIZE = 3;
     uint32_t out_diagram_count;
 
     /* test 1 */
-    data_err = data_database_reader_get_diagram_by_id ( &db_reader, 7, &(diagram_list[0]) );
+    data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), 7, &(diagram_list[0]) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
-    data_err = data_database_reader_get_diagram_by_uuid ( &db_reader,
+    data_err = data_database_reader_get_diagram_by_uuid ( &((*fix).db_reader),
                                                           "f6d0084a-5d5b-4c26-8c64-782c150feec8",
                                                           &(diagram_list[0])
                                                         );
@@ -318,7 +312,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 7, data_diagram_get_row_id( &(diagram_list[0]) ) );
 
     /* test 2 */
-    data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader,
+    data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader),
                                                                 6,
                                                                 MAX_ARRAY_SIZE,
                                                                 &(diagram_list),
@@ -330,7 +324,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *test_env )
     /* test 3 */
     data_small_set_t out_diagram_ids;
     data_small_set_init( &out_diagram_ids );
-    data_err = data_database_reader_get_diagram_ids_by_parent_id ( &db_reader,
+    data_err = data_database_reader_get_diagram_ids_by_parent_id ( &((*fix).db_reader),
                                                                    6,
                                                                    &out_diagram_ids
                                                                  );
@@ -338,7 +332,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
 
     /* test 4 */
-    data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader,
+    data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader),
                                                                     12,
                                                                     MAX_ARRAY_SIZE,
                                                                     &(diagram_list),
@@ -350,7 +344,7 @@ static test_case_result_t test_search_diagrams( test_fixture_t *test_env )
     /* test 5 */
     data_small_set_t out_showing_diagram_ids;
     data_small_set_init( &out_showing_diagram_ids );
-    data_err = data_database_reader_get_diagram_ids_by_classifier_id ( &db_reader,
+    data_err = data_database_reader_get_diagram_ids_by_classifier_id ( &((*fix).db_reader),
                                                                        12,
                                                                        &out_showing_diagram_ids
                                                                      );
@@ -359,17 +353,18 @@ static test_case_result_t test_search_diagrams( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_search_diagramelements( test_fixture_t *test_env )
+static test_case_result_t test_search_diagramelements( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t data_err;
     data_diagramelement_t out_diagramelement;
 
     /* test 1 */
-    data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, 130, &out_diagramelement );
+    data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), 130, &out_diagramelement );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
-    data_err = data_database_reader_get_diagramelement_by_uuid ( &db_reader,
+    data_err = data_database_reader_get_diagramelement_by_uuid ( &((*fix).db_reader),
                                                                  "02088b41-e71d-466d-a413-2551ba3bf10a",
                                                                  &out_diagramelement
                                                                );
@@ -378,8 +373,9 @@ static test_case_result_t test_search_diagramelements( test_fixture_t *test_env 
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_search_classifiers( test_fixture_t *test_env )
+static test_case_result_t test_search_classifiers( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t data_err;
     data_classifier_t out_classifier;
     data_visible_classifier_t visible_classifier_list[3];
@@ -387,11 +383,11 @@ static test_case_result_t test_search_classifiers( test_fixture_t *test_env )
     uint32_t out_classifier_count;
 
     /* test 1 */
-    data_err = data_database_reader_get_classifier_by_id ( &db_reader, 13, &out_classifier );
+    data_err = data_database_reader_get_classifier_by_id ( &((*fix).db_reader), 13, &out_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
-    data_err = data_database_reader_get_classifier_by_uuid ( &db_reader,
+    data_err = data_database_reader_get_classifier_by_uuid ( &((*fix).db_reader),
                                                              "b9495b71-99c3-406d-88d5-1aa233b09e2d",
                                                              &out_classifier
                                                            );
@@ -399,7 +395,7 @@ static test_case_result_t test_search_classifiers( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 2 */
-    data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader,
+    data_err = data_database_reader_get_classifiers_by_diagram_id ( &((*fix).db_reader),
                                                                     7,
                                                                     MAX_ARRAY_SIZE,
                                                                     &(visible_classifier_list),
@@ -409,7 +405,7 @@ static test_case_result_t test_search_classifiers( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 3, out_classifier_count );
 
     /* test 3 */
-    data_err = data_database_reader_get_classifier_by_name ( &db_reader,
+    data_err = data_database_reader_get_classifier_by_name ( &((*fix).db_reader),
                                                              "name-12",
                                                              &out_classifier
                                                            );
@@ -417,7 +413,7 @@ static test_case_result_t test_search_classifiers( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 4 */
-    data_err = data_database_reader_get_classifier_by_name ( &db_reader,
+    data_err = data_database_reader_get_classifier_by_name ( &((*fix).db_reader),
                                                              "does not exist",
                                                              &out_classifier
                                                            );
@@ -425,19 +421,20 @@ static test_case_result_t test_search_classifiers( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_search_features( test_fixture_t *test_env )
+static test_case_result_t test_search_features( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t data_err;
     data_feature_t feature_list[4];
     static const int MAX_ARRAY_SIZE = 4;
     uint32_t out_feature_count;
 
     /* test 1 */
-    data_err = data_database_reader_get_feature_by_id ( &db_reader, 19, &(feature_list[0]) );
+    data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), 19, &(feature_list[0]) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
-    data_err = data_database_reader_get_feature_by_uuid ( &db_reader,
+    data_err = data_database_reader_get_feature_by_uuid ( &((*fix).db_reader),
                                                           "17d8377a-cf84-402c-b4d8-0dbfc8f8222e",
                                                           &(feature_list[0])
                                                         );
@@ -445,7 +442,7 @@ static test_case_result_t test_search_features( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 18, data_feature_get_row_id( &(feature_list[0]) ) );
 
     /* test 2 */
-    data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+    data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
                                                                     13, /* classifier_id*/
                                                                     MAX_ARRAY_SIZE,
                                                                     &(feature_list),
@@ -455,7 +452,7 @@ static test_case_result_t test_search_features( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 2, out_feature_count );
 
     /* test 3 */
-    data_err = data_database_reader_get_features_by_diagram_id ( &db_reader,
+    data_err = data_database_reader_get_features_by_diagram_id ( &((*fix).db_reader),
                                                                  7, /* diagram_id */
                                                                  MAX_ARRAY_SIZE,
                                                                  &(feature_list),
@@ -466,19 +463,20 @@ static test_case_result_t test_search_features( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_search_relationships( test_fixture_t *test_env )
+static test_case_result_t test_search_relationships( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t data_err;
     data_relationship_t relation_list[3];
     static const int MAX_ARRAY_SIZE = 3;
     uint32_t out_relationship_count;
 
     /* test 1 */
-    data_err = data_database_reader_get_relationship_by_id ( &db_reader, 34, &(relation_list[0]) );
+    data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), 34, &(relation_list[0]) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
-    data_err = data_database_reader_get_relationship_by_uuid ( &db_reader,
+    data_err = data_database_reader_get_relationship_by_uuid ( &((*fix).db_reader),
                                                                "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113",
                                                                &(relation_list[0])
                                                              );
@@ -486,7 +484,7 @@ static test_case_result_t test_search_relationships( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 34, data_relationship_get_row_id( &(relation_list[0]) ) );
 
     /* test 2 */
-    data_err = data_database_reader_get_relationships_by_classifier_id ( &db_reader,
+    data_err = data_database_reader_get_relationships_by_classifier_id ( &((*fix).db_reader),
                                                                          13, /*classifier_id*/
                                                                          MAX_ARRAY_SIZE,
                                                                          &(relation_list),
@@ -496,7 +494,7 @@ static test_case_result_t test_search_relationships( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 2, out_relationship_count );
 
     /* test 3 */
-    data_err = data_database_reader_get_relationships_by_diagram_id ( &db_reader,
+    data_err = data_database_reader_get_relationships_by_diagram_id ( &((*fix).db_reader),
                                                                       7, /* diagram_id */
                                                                       MAX_ARRAY_SIZE,
                                                                       &(relation_list),
@@ -507,8 +505,9 @@ static test_case_result_t test_search_relationships( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_iterate_over_classifiers( test_fixture_t *test_env )
+static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t data_err;
     data_database_iterator_classifiers_t classifier_iterator;
     data_classifier_t out_classifier;
@@ -516,7 +515,7 @@ static test_case_result_t test_iterate_over_classifiers( test_fixture_t *test_en
 
     /* test the iterator, init */
     data_database_iterator_classifiers_init_empty( &classifier_iterator );
-    data_err = data_database_reader_get_all_classifiers_iterator ( &db_reader, true, &classifier_iterator );
+    data_err = data_database_reader_get_all_classifiers_iterator ( &((*fix).db_reader), true, &classifier_iterator );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test the iterator, step 1 */

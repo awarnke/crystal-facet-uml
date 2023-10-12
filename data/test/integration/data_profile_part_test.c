@@ -8,37 +8,14 @@
 #include "storage/data_database_writer.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_fixture.h"
 #include "test_vector/test_vector_db.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t no_results( test_fixture_t *test_env );
-static test_case_result_t search_and_filter( test_fixture_t *test_env );
-static test_case_result_t too_much_input( test_fixture_t *test_env );
-
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief db_writer instance to write to the database.
- *
- *  Typically this should by done via a controller.
- *  But here, this test cases should not use layers above the currently tested one.
- */
-static data_database_writer_t db_writer;
-
-/*!
- *  \brief the test cases need a big data straucture
- *         containing all elements visible in a diagram
- */
-data_visible_set_t loaded_elements;
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t no_results( test_fixture_t *fix );
+static test_case_result_t search_and_filter( test_fixture_t *fix );
+static test_case_result_t too_much_input( test_fixture_t *fix );
 
 test_suite_t data_profile_part_test_get_suite(void)
 {
@@ -50,29 +27,39 @@ test_suite_t data_profile_part_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    data_database_writer_t db_writer;  /*!< database writer to access the database */
+    data_visible_set_t loaded_elements;  /*!< database writer to access the database containing all elements visible in a diagram*/
+};
+typedef struct test_fixture_struct test_fixture_t;  /* big data structure */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
-
-    data_database_reader_init( &db_reader, &database );
-    data_database_writer_init( &db_writer, &db_reader, &database );
-    return NULL;
+    test_fixture_t *fix = &test_fixture;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    data_database_writer_init( &((*fix).db_writer), &((*fix).db_reader), &((*fix).database) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    data_database_writer_destroy( &db_writer );
-    data_database_reader_destroy( &db_reader );
-
-    data_database_close( &database );
-    data_database_destroy( &database );
+    assert( fix != NULL );
+    data_database_writer_destroy( &((*fix).db_writer) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static test_case_result_t no_results( test_fixture_t *test_env )
+static test_case_result_t no_results( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     test_vector_db_t setup_env;
-    test_vector_db_init( &setup_env, &db_writer );
+    test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
     /* create the root diagram */
     const data_row_id_t root_diag_id
@@ -114,12 +101,12 @@ static test_case_result_t no_results( test_fixture_t *test_env )
 
     /* load a visible set of elements */
     {
-        data_visible_set_init( &loaded_elements );
+        data_visible_set_init( &((*fix).loaded_elements) );
 
-        const u8_error_t init_err = data_visible_set_load( &loaded_elements, root_diag_id, &db_reader );
+        const u8_error_t init_err = data_visible_set_load( &((*fix).loaded_elements), root_diag_id, &((*fix).db_reader) );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
         const uint32_t diag_classifier_count
-            = data_visible_set_get_visible_classifier_count( &loaded_elements );
+            = data_visible_set_get_visible_classifier_count( &((*fix).loaded_elements) );
         TEST_ENVIRONMENT_ASSERT( 2 == diag_classifier_count );
 
         /* load a profile */
@@ -127,7 +114,7 @@ static test_case_result_t no_results( test_fixture_t *test_env )
             data_profile_part_t profile;
             data_profile_part_init( &profile );
 
-            const u8_error_t fetch_err = data_profile_part_load( &profile, &loaded_elements, &db_reader );
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &((*fix).loaded_elements), &((*fix).db_reader) );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, fetch_err );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
@@ -136,15 +123,16 @@ static test_case_result_t no_results( test_fixture_t *test_env )
             data_profile_part_destroy( &profile );
         }
 
-        data_visible_set_destroy( &loaded_elements );
+        data_visible_set_destroy( &((*fix).loaded_elements) );
     }
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t search_and_filter( test_fixture_t *test_env )
+static test_case_result_t search_and_filter( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     test_vector_db_t setup_env;
-    test_vector_db_init( &setup_env, &db_writer );
+    test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
     /* create the root diagram */
     const data_row_id_t root_diag_id
@@ -186,12 +174,12 @@ static test_case_result_t search_and_filter( test_fixture_t *test_env )
 
     /* load a visible set of elements */
     {
-        data_visible_set_init( &loaded_elements );
+        data_visible_set_init( &((*fix).loaded_elements) );
 
-        const u8_error_t init_err = data_visible_set_load( &loaded_elements, root_diag_id, &db_reader );
+        const u8_error_t init_err = data_visible_set_load( &((*fix).loaded_elements), root_diag_id, &((*fix).db_reader) );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
         const uint32_t diag_classifier_count
-            = data_visible_set_get_visible_classifier_count( &loaded_elements );
+            = data_visible_set_get_visible_classifier_count( &((*fix).loaded_elements) );
         TEST_ENVIRONMENT_ASSERT( 2 == diag_classifier_count );
 
         /* load a profile */
@@ -199,7 +187,7 @@ static test_case_result_t search_and_filter( test_fixture_t *test_env )
             data_profile_part_t profile;
             data_profile_part_init( &profile );
 
-            const u8_error_t fetch_err = data_profile_part_load( &profile, &loaded_elements, &db_reader );
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &((*fix).loaded_elements), &((*fix).db_reader) );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, fetch_err );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
@@ -213,15 +201,16 @@ static test_case_result_t search_and_filter( test_fixture_t *test_env )
             data_profile_part_destroy( &profile );
         }
 
-        data_visible_set_destroy( &loaded_elements );
+        data_visible_set_destroy( &((*fix).loaded_elements) );
     }
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t too_much_input( test_fixture_t *test_env )
+static test_case_result_t too_much_input( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     test_vector_db_t setup_env;
-    test_vector_db_init( &setup_env, &db_writer );
+    test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
     /* create the root diagram */
     const data_row_id_t root_diag_id
@@ -258,12 +247,12 @@ static test_case_result_t too_much_input( test_fixture_t *test_env )
 
     /* load a visible set of elements */
     {
-        data_visible_set_init( &loaded_elements );
+        data_visible_set_init( &((*fix).loaded_elements) );
 
-        const u8_error_t init_err = data_visible_set_load( &loaded_elements, root_diag_id, &db_reader );
+        const u8_error_t init_err = data_visible_set_load( &((*fix).loaded_elements), root_diag_id, &((*fix).db_reader) );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == init_err );
         const uint32_t diag_classifier_count
-            = data_visible_set_get_visible_classifier_count( &loaded_elements );
+            = data_visible_set_get_visible_classifier_count( &((*fix).loaded_elements) );
         TEST_ENVIRONMENT_ASSERT( test_count == diag_classifier_count );
 
         /* load a profile */
@@ -271,7 +260,7 @@ static test_case_result_t too_much_input( test_fixture_t *test_env )
             data_profile_part_t profile;
             data_profile_part_init( &profile );
 
-            const u8_error_t fetch_err = data_profile_part_load( &profile, &loaded_elements, &db_reader );
+            const u8_error_t fetch_err = data_profile_part_load( &profile, &((*fix).loaded_elements), &((*fix).db_reader) );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, fetch_err );
 
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
@@ -285,7 +274,7 @@ static test_case_result_t too_much_input( test_fixture_t *test_env )
             data_profile_part_destroy( &profile );
         }
 
-        data_visible_set_destroy( &loaded_elements );
+        data_visible_set_destroy( &((*fix).loaded_elements) );
     }
     return TEST_CASE_RESULT_OK;
 }

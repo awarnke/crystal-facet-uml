@@ -12,12 +12,13 @@
 #include "data_relationship.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_fixture.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t classifier_create_read_modify_read( test_fixture_t *test_env );
-static test_case_result_t features_CRURDR( test_fixture_t *test_env );
-static test_case_result_t relationship_CRURDR( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fix );
+static test_case_result_t features_CRURDR( test_fixture_t *fix );
+static test_case_result_t relationship_CRURDR( test_fixture_t *fix );
 
 test_suite_t ctrl_classifier_controller_test_get_suite(void)
 {
@@ -35,11 +36,11 @@ struct test_fixture_struct {
     ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
-static test_fixture_t test_environment;
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_fixture;
     data_database_init( &((*fix).database) );
     data_database_open_in_memory( &((*fix).database) );
     data_database_reader_init( &((*fix).db_reader), &((*fix).database) );

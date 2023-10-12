@@ -8,12 +8,13 @@
 #include "u8/u8_trace.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_fixture.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t *test_env );
-static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_env );
-static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t *fix );
+static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix );
+static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t *fix );
 
 test_suite_t consistency_lifeline_test_get_suite(void)
 {
@@ -32,11 +33,11 @@ struct test_fixture_struct {
     ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
-static test_fixture_t test_environment;
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_fixture;
     data_database_init( &((*fix).database) );
     data_database_open_in_memory( &((*fix).database) );
     data_database_reader_init( &((*fix).db_reader), &((*fix).database) );

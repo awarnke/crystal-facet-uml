@@ -8,11 +8,11 @@
 #include "test_suite.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *test_env );  /* extreme case */
-static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture_t *test_env );  /* no parent, no siblings, no children */
-static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test_fixture_t *test_env );  /* standard case, but no siblings */
-static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( test_fixture_t *test_env );  /* standard case, but no children */
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *fix );  /* extreme case */
+static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture_t *fix );  /* no parent, no siblings, no children */
+static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test_fixture_t *fix );  /* standard case, but no siblings */
+static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( test_fixture_t *fix );  /* standard case, but no children */
 
 test_suite_t gui_sketch_nav_tree_test_get_suite(void)
 {
@@ -25,64 +25,71 @@ test_suite_t gui_sketch_nav_tree_test_get_suite(void)
     return result;
 }
 
-gui_resources_t res;
-shape_int_rectangle_t bounds;
 static const int LEFT = 100;
 static const int TOP = 57;
 static const int WIDTH = 50;
 static const int HEIGHT = 400;
-data_diagram_t self;
-data_diagram_t parent;
-data_diagram_t child;
-data_diagram_t other_child;
 
-/* cairo and pango objects */
-static cairo_surface_t *surface;
-static cairo_t *cr;
-static PangoLayout *font_layout;
+struct test_fixture_struct {
+    gui_resources_t res;
+    shape_int_rectangle_t bounds;
+    data_diagram_t self;
+    data_diagram_t parent;
+    data_diagram_t child;
+    data_diagram_t other_child;
+
+    /* cairo and pango objects */
+    cairo_surface_t *surface;
+    cairo_t *cr;
+    PangoLayout *font_layout;
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
+    test_fixture_t *fix = &test_fixture;
     /* init cairo and pango objects */
     {
-        surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32, 640, 480 );
-        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( surface ) );
-        cr = cairo_create (surface);
-        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( cr ) );
-        font_layout = pango_cairo_create_layout (cr);
+        (*fix).surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32, 640, 480 );
+        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_surface_status( (*fix).surface ) );
+        (*fix).cr = cairo_create( (*fix).surface );
+        TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == cairo_status( (*fix).cr ) );
+        (*fix).font_layout = pango_cairo_create_layout( (*fix).cr );
     }
 
-    gui_resources_init ( &res );
-    shape_int_rectangle_init( &bounds, LEFT, TOP, WIDTH, HEIGHT );
-    data_diagram_init_empty( &parent );
-    data_diagram_set_row_id( &parent, 1000 );
-    data_diagram_init_empty( &self );
-    data_diagram_set_row_id( &self, 1001 );
-    data_diagram_set_parent_row_id( &self, 1000 );
-    data_diagram_init_empty( &child );
-    data_diagram_set_row_id( &child, 1002 );
-    data_diagram_set_parent_row_id( &child, 1001 );
-    data_diagram_init_empty( &other_child );
-    data_diagram_set_row_id( &other_child, 1003 );
-    data_diagram_set_parent_row_id( &other_child, 1001 );
-    return NULL;
+    gui_resources_init( &((*fix).res) );
+    shape_int_rectangle_init( &((*fix).bounds), LEFT, TOP, WIDTH, HEIGHT );
+    data_diagram_init_empty( &((*fix).parent) );
+    data_diagram_set_row_id( &((*fix).parent), 1000 );
+    data_diagram_init_empty( &((*fix).self) );
+    data_diagram_set_row_id( &((*fix).self), 1001 );
+    data_diagram_set_parent_row_id( &((*fix).self), 1000 );
+    data_diagram_init_empty( &((*fix).child) );
+    data_diagram_set_row_id( &((*fix).child), 1002 );
+    data_diagram_set_parent_row_id( &((*fix).child), 1001 );
+    data_diagram_init_empty( &((*fix).other_child) );
+    data_diagram_set_row_id( &((*fix).other_child), 1003 );
+    data_diagram_set_parent_row_id( &((*fix).other_child), 1001 );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    data_diagram_destroy( &parent );
-    data_diagram_destroy( &self );
-    data_diagram_destroy( &child );
-    data_diagram_destroy( &other_child );
-    shape_int_rectangle_destroy( &bounds );
-    gui_resources_destroy ( &res );
+    assert( fix != NULL );
+    data_diagram_destroy( &((*fix).parent) );
+    data_diagram_destroy( &((*fix).self) );
+    data_diagram_destroy( &((*fix).child) );
+    data_diagram_destroy( &((*fix).other_child) );
+    shape_int_rectangle_destroy( &((*fix).bounds) );
+    gui_resources_destroy( &((*fix).res) );
 
     /* destroy cairo and pango objects */
     {
-        g_object_unref (font_layout);
-        cairo_destroy (cr);
-        cairo_surface_finish ( surface );
-        cairo_surface_destroy ( surface );
+        g_object_unref( (*fix).font_layout );
+        cairo_destroy( (*fix).cr );
+        cairo_surface_finish( (*fix).surface );
+        cairo_surface_destroy( (*fix).surface );
     }
 }
 
@@ -98,14 +105,16 @@ test_case_result_t get_node_coords( const gui_sketch_nav_tree_t *testee, uint32_
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *test_env )
+static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *fix )
 {
+    assert( fix != NULL );
+
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &res );
-        gui_sketch_nav_tree_set_bounds( &testee, bounds );
-        gui_sketch_nav_tree_do_layout( &testee, cr );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_set_bounds( &testee, ((*fix).bounds) );
+        gui_sketch_nav_tree_do_layout( &testee, (*fix).cr );
     }
 
     /* get position */
@@ -146,21 +155,23 @@ static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture_t *test_env )
+static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture_t *fix )
 {
+    assert( fix != NULL );
+
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &res );
-        gui_sketch_nav_tree_set_bounds( &testee, bounds );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_set_bounds( &testee, (*fix).bounds );
         {
             testee.ancestors_count = 1;
-            testee.ancestor_diagrams[0] = parent;
+            testee.ancestor_diagrams[0] = (*fix).parent;
             testee.siblings_count = 1;
-            testee.sibling_diagrams[0] = parent;
+            testee.sibling_diagrams[0] = (*fix).parent;
             testee.siblings_self_index = 0;
         }
-        gui_sketch_nav_tree_do_layout( &testee, cr );
+        gui_sketch_nav_tree_do_layout( &testee, (*fix).cr );
     }
 
     /* node positions */
@@ -219,24 +230,26 @@ static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test_fixture_t *test_env )
+static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test_fixture_t *fix )
 {
+    assert( fix != NULL );
+
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &res );
-        gui_sketch_nav_tree_set_bounds( &testee, bounds );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_set_bounds( &testee, (*fix).bounds );
         {
             testee.ancestors_count = 2;
-            testee.ancestor_diagrams[0] = self;
-            testee.ancestor_diagrams[1] = parent;
+            testee.ancestor_diagrams[0] = (*fix).self;
+            testee.ancestor_diagrams[1] = (*fix).parent;
             testee.siblings_count = 1;
-            testee.sibling_diagrams[0] = self;
+            testee.sibling_diagrams[0] = (*fix).self;
             testee.siblings_self_index = 0;
             testee.children_count = 1;
-            testee.child_diagrams[0] = child;
+            testee.child_diagrams[0] = (*fix).child;
         }
-        gui_sketch_nav_tree_do_layout( &testee, cr );
+        gui_sketch_nav_tree_do_layout( &testee, (*fix).cr );
     }
 
     /* node positions */
@@ -334,25 +347,27 @@ static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( test_fixture_t *test_env )
+static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( test_fixture_t *fix )
 {
+    assert( fix != NULL );
+
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &res );
-        gui_sketch_nav_tree_set_bounds( &testee, bounds );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_set_bounds( &testee, ((*fix).bounds) );
         {
             testee.ancestors_count = 3;
-            testee.ancestor_diagrams[0] = child;
-            testee.ancestor_diagrams[1] = self;
-            testee.ancestor_diagrams[2] = parent;
+            testee.ancestor_diagrams[0] = (*fix).child;
+            testee.ancestor_diagrams[1] = (*fix).self;
+            testee.ancestor_diagrams[2] = (*fix).parent;
             testee.siblings_count = 3;
-            testee.sibling_diagrams[0] = other_child;
-            testee.sibling_diagrams[1] = child;
-            testee.sibling_diagrams[2] = other_child;
+            testee.sibling_diagrams[0] = (*fix).other_child;
+            testee.sibling_diagrams[1] = (*fix).child;
+            testee.sibling_diagrams[2] = (*fix).other_child;
             testee.siblings_self_index = 1;
         }
-        gui_sketch_nav_tree_do_layout( &testee, cr );
+        gui_sketch_nav_tree_do_layout( &testee, (*fix).cr );
     }
 
     /* node positions */
