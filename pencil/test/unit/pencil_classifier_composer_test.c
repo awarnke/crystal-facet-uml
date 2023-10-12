@@ -5,10 +5,10 @@
 #include "test_expect.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_expand_space( test_fixture_t *test_env );
-static test_case_result_t test_set_envelope_box( test_fixture_t *test_env );
-static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_expand_space( test_fixture_t *fix );
+static test_case_result_t test_set_envelope_box( test_fixture_t *fix );
+static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *fix );
 
 test_suite_t pencil_classifier_composer_test_get_suite(void)
 {
@@ -20,7 +20,7 @@ test_suite_t pencil_classifier_composer_test_get_suite(void)
     return result;
 }
 
-struct fixture_struct {
+struct test_fixture_struct {
     layout_visible_classifier_t layout_vis_classifier;
     data_visible_classifier_t data_vis_classifier;
     data_profile_part_t profile;
@@ -31,12 +31,12 @@ struct fixture_struct {
     geometry_rectangle_t diagram_bounds;
     PangoLayout *font_layout;
 };
-typedef struct fixture_struct fixture_t;
-static fixture_t test_environment;
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
 
 static test_fixture_t * set_up()
 {
-    fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_environment;
     /* init a pango font layout */
     {
         geometry_rectangle_init( &(*fix).diagram_bounds, 0.0, 0.0, 640.0, 480.0 );
@@ -96,10 +96,9 @@ static test_fixture_t * set_up()
     return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     /* destroy the layout visible classifier */
     {
         layout_visible_classifier_destroy( &(*fix).layout_vis_classifier );
@@ -122,10 +121,9 @@ static void tear_down( test_fixture_t *test_env )
     }
 }
 
-static test_case_result_t test_expand_space( test_fixture_t *test_env )
+static test_case_result_t test_expand_space( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
@@ -181,10 +179,9 @@ static test_case_result_t test_expand_space( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
+static test_case_result_t test_set_envelope_box( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 
@@ -232,10 +229,9 @@ static test_case_result_t test_set_envelope_box( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *test_env )
+static test_case_result_t test_set_envelope_box_too_small( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     pencil_classifier_composer_t classifier_composer;
     pencil_classifier_composer_init( &classifier_composer );
 

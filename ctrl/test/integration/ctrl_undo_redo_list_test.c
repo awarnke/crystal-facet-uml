@@ -17,21 +17,6 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env );
 static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *test_env );
 static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env );
 
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
-
 test_suite_t ctrl_undo_redo_list_test_get_suite(void)
 {
     test_suite_t result;
@@ -43,38 +28,45 @@ test_suite_t ctrl_undo_redo_list_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
-
-    data_database_reader_init( &db_reader, &database );
-
-    ctrl_controller_init( &controller, &database );
-    return NULL;
+    test_fixture_t *fix = &test_environment;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    ctrl_controller_destroy( &controller );
-
-    data_database_reader_destroy( &db_reader );
-
-    data_database_close( &database );
-    data_database_destroy( &database );
+    assert( fix != NULL );
+    ctrl_controller_destroy( &((*fix).controller) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
+static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     data_row_id_t root_diagram_id;
     data_row_id_t classifier_id;
     data_row_id_t diagele_id;
     ctrl_diagram_controller_t *diag_ctrl;
-    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
     ctrl_classifier_controller_t *classifier_ctrl;
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
 
     /* create the root diagram */
     root_diagram_id = DATA_ROW_ID_VOID;
@@ -138,7 +130,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -149,7 +141,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_DELETED ));
@@ -162,7 +154,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         uint32_t read_vis_classifiers_count;
         data_visible_classifier_t read_vis_classifiers[1];
 
-        data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
+        data_err = data_database_reader_get_classifiers_by_diagram_id ( &((*fix).db_reader), root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 0, read_vis_classifiers_count );
     }
@@ -171,7 +163,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -181,7 +173,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     /* check what is in the database */
     {
         data_diagram_t read_diagram;
-        data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
+        data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), root_diagram_id, &read_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
@@ -189,7 +181,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -199,7 +191,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     /* check what is in the database */
     {
         data_diagram_t read_diagram;
-        data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
+        data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), root_diagram_id, &read_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
@@ -213,7 +205,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ));
@@ -225,7 +217,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -237,7 +229,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
         uint32_t read_vis_classifiers_count;
         data_visible_classifier_t read_vis_classifiers[1];
 
-        data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
+        data_err = data_database_reader_get_classifiers_by_diagram_id ( &((*fix).db_reader), root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 1, read_vis_classifiers_count );
 
@@ -266,13 +258,14 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
+static test_case_result_t undo_redo_list_limits( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     data_row_id_t root_diagram_id;
     data_row_id_t child_diag_id;
     ctrl_diagram_controller_t *diag_ctrl;
-    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
 
     /* create the root diagram */
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
@@ -286,7 +279,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -297,7 +290,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -307,7 +300,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -318,7 +311,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -352,7 +345,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
         {
             data_stat_t stat;
             data_stat_init(&stat);
-            ctrl_err = ctrl_controller_undo ( &controller, &stat );
+            ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
             TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
             TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -364,7 +357,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -374,7 +367,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -394,7 +387,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -405,7 +398,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -416,7 +409,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -427,7 +420,7 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -435,12 +428,13 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *test_env )
+static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
     data_feature_t check_f;
     data_relationship_t check_r;
 
@@ -528,7 +522,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
         {
             ctrl_multi_step_changer_t multi_stepper;
-            ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
+            ctrl_multi_step_changer_init( &multi_stepper, &((*fix).controller), &((*fix).db_reader) );
             data_stat_t stat;
             data_stat_init(&stat);
 
@@ -549,7 +543,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
@@ -559,7 +553,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
@@ -570,7 +564,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         TEST_EXPECT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "8490c942-e425-4764-8212-37d2bfcc7e1e", data_feature_get_uuid_const( &check_f ) ) );
 
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
@@ -589,7 +583,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -598,7 +592,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_const( &check_r ) ) );
     }
@@ -607,7 +601,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
@@ -617,11 +611,11 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_const( &check_f ) ) );
 
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
@@ -629,7 +623,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -638,7 +632,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
     }
@@ -647,7 +641,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -656,10 +650,10 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
 
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
@@ -667,7 +661,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -677,7 +671,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -686,7 +680,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
     }
@@ -695,7 +689,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -704,11 +698,11 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_const( &check_f ) ) );
 
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
@@ -716,7 +710,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_MODIFIED ));
@@ -726,7 +720,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_const( &check_r ) ) );
     }
@@ -735,7 +729,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -744,7 +738,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_feature_id, data_feature_get_row_id( &check_f ) );
         TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
@@ -755,7 +749,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
         TEST_EXPECT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "8490c942-e425-4764-8212-37d2bfcc7e1e", data_feature_get_uuid_const( &check_f ) ) );
 
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( new_relationship_id, data_relationship_get_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
@@ -774,7 +768,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_FEATURE, DATA_STAT_SERIES_DELETED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_DELETED ));
@@ -784,10 +778,10 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
 
     /* check what is in the database */
     {
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), new_feature_id, &check_f );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
 
-        data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+        data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), new_relationship_id, &check_r );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
@@ -795,7 +789,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 0, data_stat_get_total_count ( &stat ));
         data_stat_destroy(&stat);
@@ -803,12 +797,13 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *te
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
+static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_diagram_controller_t *diag_ctrl;
-    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
 
     /* step 1: create a diagram */
     data_row_id_t root_diagram_id;
@@ -880,7 +875,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -891,7 +886,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -902,7 +897,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -912,7 +907,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     /* check the diagram */
     {
         data_diagram_t read_diagram;
-        data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
+        data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), root_diagram_id, &read_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
@@ -923,7 +918,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     /* check the diagramelement */
     {
         data_diagramelement_t read_diagele;
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diagele_id, &read_diagele );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), diagele_id, &read_diagele );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( diagele_id, data_diagramelement_get_row_id( &read_diagele ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( &read_diagele ) );
@@ -934,7 +929,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -945,7 +940,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_total_count ( &stat ));
@@ -956,7 +951,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_redo ( &controller, &stat );
+        ctrl_err = ctrl_controller_redo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
         TEST_EXPECT_EQUAL_INT( 2, data_stat_get_total_count ( &stat ));
@@ -966,7 +961,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     /* check the diagram */
     {
         data_diagram_t read_diagram;
-        data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
+        data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), root_diagram_id, &read_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
@@ -977,7 +972,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *test_env )
     /* check the diagramelement */
     {
         data_diagramelement_t read_diagele;
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diagele_id, &read_diagele );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), diagele_id, &read_diagele );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( diagele_id, data_diagramelement_get_row_id( &read_diagele ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE, data_diagramelement_get_display_flags( &read_diagele ) );

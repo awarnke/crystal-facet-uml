@@ -16,21 +16,6 @@ static void tear_down( test_fixture_t *test_env );
 static test_case_result_t create_read_modify_read( test_fixture_t *test_env );
 static test_case_result_t create_diagramelements_and_delete( test_fixture_t *test_env );
 
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
-
 test_suite_t ctrl_diagram_controller_test_get_suite(void)
 {
     test_suite_t result;
@@ -40,29 +25,36 @@ test_suite_t ctrl_diagram_controller_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
-
-    data_database_reader_init( &db_reader, &database );
-
-    ctrl_controller_init( &controller, &database );
-    return NULL;
+    test_fixture_t *fix = &test_environment;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    ctrl_controller_destroy( &controller );
-
-    data_database_reader_destroy( &db_reader );
-
-    data_database_close( &database );
-    data_database_destroy( &database );
+    assert( fix != NULL );
+    ctrl_controller_destroy( &((*fix).controller) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
+static test_case_result_t create_read_modify_read( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     const static data_row_id_t PARENT_ID = 17;
@@ -70,7 +62,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
     uint32_t read_diagrams_count;
     data_diagram_t read_diagrams[2];
     ctrl_diagram_controller_t *diag_ctrl;
-    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
 
     /* create a record */
     {
@@ -83,7 +75,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
     /* read this record */
     {
         data_diagram_init_empty( &(read_diagrams[0]) );
-        data_err = data_database_reader_get_diagram_by_id ( &db_reader, diagram_id, &(read_diagrams[0]) );
+        data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), diagram_id, &(read_diagrams[0]) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
         TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
@@ -119,7 +111,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
 
     /* search several records, result array too small */
     {
-        data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader, PARENT_ID, 0, &read_diagrams, &read_diagrams_count );
+        data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader), PARENT_ID, 0, &read_diagrams, &read_diagrams_count );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
         TEST_EXPECT_EQUAL_INT( 0, read_diagrams_count );
         /* check that old data is not overwritten: */
@@ -133,7 +125,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
 
     /* search several records, result array sufficient */
     {
-        data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader, PARENT_ID, 2, &read_diagrams, &read_diagrams_count );
+        data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader), PARENT_ID, 2, &read_diagrams, &read_diagrams_count );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 1, read_diagrams_count );
         /* check that new data is available */
@@ -149,7 +141,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
     {
         data_small_set_t the_set;
         data_small_set_init( &the_set );
-        data_err = data_database_reader_get_diagram_ids_by_parent_id ( &db_reader, PARENT_ID, &the_set );
+        data_err = data_database_reader_get_diagram_ids_by_parent_id ( &((*fix).db_reader), PARENT_ID, &the_set );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &the_set ) );
         /* check that new data is available */
@@ -161,16 +153,17 @@ static test_case_result_t create_read_modify_read( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t create_diagramelements_and_delete( test_fixture_t *test_env )
+static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
     data_row_id_t diagram_id;
     data_row_id_t classifier_id;
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
     uint32_t read_vis_classifiers_count;
     data_visible_classifier_t read_vis_classifiers[2];
     data_diagramelement_t *diag_element_ptr;
@@ -235,7 +228,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *tes
 
     /* get the id of the diagramelement */
     {
-        data_err = data_database_reader_get_classifiers_by_diagram_id( &db_reader,
+        data_err = data_database_reader_get_classifiers_by_diagram_id( &((*fix).db_reader),
                                                                        diagram_id,
                                                                        2,
                                                                        &read_vis_classifiers,
@@ -251,7 +244,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *tes
 
     /* get the data_diagramelement_t by id */
     {
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diag_element_id, &diag_element );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), diag_element_id, &diag_element );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( &diag_element ) );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( &diag_element ) );
@@ -261,7 +254,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *tes
 
     /* get all diagrams by classifier id */
     {
-        data_err = data_database_reader_get_diagrams_by_classifier_id( &db_reader,
+        data_err = data_database_reader_get_diagrams_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
                                                                        2,
                                                                        &out_diagram,
@@ -288,13 +281,13 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *tes
 
     /* get the deleted data_diagramelement_t */
     {
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diag_element_id, &diag_element );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), diag_element_id, &diag_element );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err );
     }
 
     /* get all diagrams by classifier id */
     {
-        data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader, classifier_id, 2, &out_diagram, &out_diagram_count );
+        data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader), classifier_id, 2, &out_diagram, &out_diagram_count );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( 0, out_diagram_count );
     }

@@ -15,26 +15,6 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
 static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_env );
 static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t *test_env );
 
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief database writer to access the database
- */
-static data_database_writer_t db_writer;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
-
 test_suite_t consistency_lifeline_test_get_suite(void)
 {
     test_suite_t result;
@@ -45,38 +25,46 @@ test_suite_t consistency_lifeline_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    data_database_writer_t db_writer;  /*!< database writer to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
-
-    data_database_reader_init( &db_reader, &database );
-    data_database_writer_init( &db_writer, &db_reader, &database );
-
-    ctrl_controller_init( &controller, &database );
-    return NULL;
+    test_fixture_t *fix = &test_environment;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    data_database_writer_init( &((*fix).db_writer), &((*fix).db_reader), &((*fix).database) );
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    ctrl_controller_destroy( &controller );
-
-    data_database_writer_destroy( &db_writer );
-    data_database_reader_destroy( &db_reader );
-
-    data_database_close( &database );
-    data_database_destroy( &database );
+    assert( fix != NULL );
+    ctrl_controller_destroy( &((*fix).controller) );
+    data_database_writer_destroy( &((*fix).db_writer) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t *test_env )
+static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
 
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
 
     /* create a diagram of type DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     data_row_id_t root_diag_id;
@@ -158,7 +146,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     uint32_t feature_count;
     data_row_id_t lifeline_id;
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
                                                                         classifier_id,
                                                                         max_featues_size,
                                                                         &features,
@@ -183,7 +171,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     /* check that the diagramelement does not reference the deleted lifeline anymore */
     {
         data_diagramelement_t check_diagele2;
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, first_diag_element_id, &check_diagele2 );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), first_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
@@ -195,7 +183,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     {
         data_stat_t stat;
         data_stat_init(&stat);
-        ctrl_err = ctrl_controller_undo ( &controller, &stat );
+        ctrl_err = ctrl_controller_undo ( &((*fix).controller), &stat );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_LIFELINE, DATA_STAT_SERIES_CREATED ));
         TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count ( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_MODIFIED ));
@@ -206,7 +194,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     /* check that the feature exists again */
     {
         data_feature_t check_feature;
-        data_err = data_database_reader_get_feature_by_id ( &db_reader, lifeline_id, &check_feature );
+        data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), lifeline_id, &check_feature );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         data_feature_destroy( &check_feature );
@@ -215,7 +203,7 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     /* check that the diagramelement references the feature again */
     {
         data_diagramelement_t check_diagele3;
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, first_diag_element_id, &check_diagele3 );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), first_diag_element_id, &check_diagele3 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_EXPECT_EQUAL_INT( lifeline_id, data_diagramelement_get_focused_feature_row_id( &check_diagele3 ) );
@@ -225,15 +213,16 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_env )
+static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
 
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
 
     /* create a diagram of type DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
     data_row_id_t root_diag_id;
@@ -417,7 +406,7 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_
     data_feature_t features[2];
     uint32_t feature_count;
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
                                                                         classifier_id,
                                                                         max_featues_size,
                                                                         &features,
@@ -431,7 +420,7 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_
     /* check that this is referenced */
     {
         data_diagramelement_t check_diagele2;
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, child_diag_element_id, &check_diagele2 );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), child_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &(features[0])), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
@@ -456,7 +445,7 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_
 
     /* check that the feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
                                                                         classifier_id,
                                                                         max_featues_size,
                                                                         &features,
@@ -468,15 +457,16 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *test_
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t *test_env )
+static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
 
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
 
     /* create a diagram of type DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
     data_row_id_t root_diag_id;
@@ -581,7 +571,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
     data_feature_t features[3];
     uint32_t feature_count;
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
                                                                         classifier_id,
                                                                         max_featues_size,
                                                                         &features,
@@ -604,7 +594,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
 
     /* check that one feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
                                                                         classifier_id,
                                                                         max_featues_size,
                                                                         &features,
@@ -618,7 +608,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
     /* check that this is referenced */
     {
         data_diagramelement_t check_diagele2;
-        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, second_diag_element_id, &check_diagele2 );
+        data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), second_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
         TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &(features[0])), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );

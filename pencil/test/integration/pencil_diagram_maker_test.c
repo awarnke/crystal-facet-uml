@@ -12,11 +12,11 @@
 #include "test_environment_assert.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t render_good_cases( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t render_good_cases( test_fixture_t *fix );
 #ifndef NDEBUG
-static test_case_result_t render_challenging_cases( test_fixture_t *test_env );
-static test_case_result_t render_edge_cases( test_fixture_t *test_env );
+static test_case_result_t render_challenging_cases( test_fixture_t *fix );
+static test_case_result_t render_edge_cases( test_fixture_t *fix );
 #endif
 
 #ifndef NDEBUG
@@ -37,7 +37,7 @@ test_suite_t pencil_diagram_maker_test_get_suite(void)
     return result;
 }
 
-struct fixture_struct {
+struct test_fixture_struct {
     data_visible_set_t data_set;
     data_profile_part_t profile;
     pencil_diagram_maker_t painter;
@@ -45,12 +45,12 @@ struct fixture_struct {
     cairo_t *cr;
     geometry_rectangle_t diagram_bounds;
 };
-typedef struct fixture_struct fixture_t;
-static fixture_t test_environment;
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
 
 static test_fixture_t * set_up()
 {
-    fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_environment;
     data_profile_part_init( &((*fix).profile) );
     data_visible_set_init( &((*fix).data_set) );
     pencil_diagram_maker_init( &((*fix).painter), &((*fix).data_set), &((*fix).profile) );
@@ -64,10 +64,9 @@ static test_fixture_t * set_up()
     return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     cairo_destroy ( (*fix).cr );
     cairo_surface_finish ( (*fix).surface );
     cairo_surface_destroy ( (*fix).surface );
@@ -144,10 +143,9 @@ static void render_to_file( cairo_surface_t *surface,
 }
 #endif
 
-static test_case_result_t render_good_cases( test_fixture_t *test_env )
+static test_case_result_t render_good_cases( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
@@ -185,10 +183,9 @@ static test_case_result_t render_good_cases( test_fixture_t *test_env )
 }
 
 #ifndef NDEBUG
-static test_case_result_t render_challenging_cases( test_fixture_t *test_env )
+static test_case_result_t render_challenging_cases( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_CHALLENGING_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
@@ -225,10 +222,9 @@ static test_case_result_t render_challenging_cases( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t render_edge_cases( test_fixture_t *test_env )
+static test_case_result_t render_edge_cases( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )

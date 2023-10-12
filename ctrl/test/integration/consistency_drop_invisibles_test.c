@@ -14,26 +14,6 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t no_hidden_relationships( test_fixture_t *test_env );
 
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief database writer to access the database
- */
-static data_database_writer_t db_writer;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
-
 test_suite_t consistency_drop_invisibles_test_get_suite(void)
 {
     test_suite_t result;
@@ -42,35 +22,43 @@ test_suite_t consistency_drop_invisibles_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    data_database_writer_t db_writer;  /*!< database writer to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
-
-    data_database_reader_init( &db_reader, &database );
-    data_database_writer_init( &db_writer, &db_reader, &database );
-
-    ctrl_controller_init( &controller, &database );
-    return NULL;
+    test_fixture_t *fix = &test_environment;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    data_database_writer_init( &((*fix).db_writer), &((*fix).db_reader), &((*fix).database) );
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    ctrl_controller_destroy( &controller );
-
-    data_database_writer_destroy( &db_writer );
-    data_database_reader_destroy( &db_reader );
-
-    data_database_close( &database );
-    data_database_destroy( &database );
+    assert( fix != NULL );
+    ctrl_controller_destroy( &((*fix).controller) );
+    data_database_writer_destroy( &((*fix).db_writer) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static test_case_result_t no_hidden_relationships( test_fixture_t *test_env )
+static test_case_result_t no_hidden_relationships( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     ctrl_diagram_controller_t *diagram_ctrl;
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
     test_env_setup_t test_environ;
-    test_env_setup_init( &test_environ, &controller );
+    test_env_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
     const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_ID_VOID, "root diag" );
@@ -113,12 +101,12 @@ static test_case_result_t no_hidden_relationships( test_fixture_t *test_env )
     /* is local rel deleted? */
     data_relationship_t probe;
     const u8_error_t local_err
-        = data_database_reader_get_relationship_by_id( &db_reader, local_rel, &probe );
+        = data_database_reader_get_relationship_by_id( &((*fix).db_reader), local_rel, &probe );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, local_err );
 
     /* is double rel existing? */
     const u8_error_t double_err
-        = data_database_reader_get_relationship_by_id( &db_reader, double_rel, &probe );
+        = data_database_reader_get_relationship_by_id( &((*fix).db_reader), double_rel, &probe );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, double_err );
     return TEST_CASE_RESULT_OK;
 }

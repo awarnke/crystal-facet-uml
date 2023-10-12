@@ -10,11 +10,11 @@
 #include <inttypes.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t layout_good_cases( test_fixture_t *test_env );
-static test_case_result_t layout_challenging_cases( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t layout_good_cases( test_fixture_t *fix );
+static test_case_result_t layout_challenging_cases( test_fixture_t *fix );
 #ifndef NDEBUG
-static test_case_result_t layout_edge_cases( test_fixture_t *test_env );
+static test_case_result_t layout_edge_cases( test_fixture_t *fix );
 #endif
 
 /*
@@ -33,7 +33,7 @@ test_suite_t pencil_layouter_test_get_suite(void)
     return result;
 }
 
-struct fixture_struct {
+struct test_fixture_struct {
     data_visible_set_t data_set;
     data_profile_part_t profile;
     pencil_layouter_t layouter;
@@ -42,12 +42,12 @@ struct fixture_struct {
     geometry_rectangle_t diagram_bounds;
     PangoLayout *font_layout;
 };
-typedef struct fixture_struct fixture_t;
-static fixture_t test_environment;
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
 
 static test_fixture_t * set_up()
 {
-    fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_environment;
     data_visible_set_init( &((*fix).data_set) );
     data_profile_part_init( &((*fix).profile) );
     pencil_layouter_init( &((*fix).layouter), &((*fix).data_set), &((*fix).profile) );
@@ -63,10 +63,9 @@ static test_fixture_t * set_up()
     return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     g_object_unref( (*fix).font_layout );
     cairo_destroy( (*fix).cr );
     cairo_surface_finish( (*fix).surface );
@@ -77,10 +76,9 @@ static void tear_down( test_fixture_t *test_env )
     data_visible_set_destroy( &((*fix).data_set) );
 }
 
-static test_case_result_t layout_good_cases( test_fixture_t *test_env )
+static test_case_result_t layout_good_cases( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     data_stat_t total_stats;
     data_stat_init( &total_stats );
 
@@ -147,10 +145,9 @@ static test_case_result_t layout_good_cases( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t layout_challenging_cases( test_fixture_t *test_env )
+static test_case_result_t layout_challenging_cases( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     data_stat_t total_stats;
     data_stat_init( &total_stats );
 
@@ -200,10 +197,9 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *test_env )
 }
 
 #ifndef NDEBUG
-static test_case_result_t layout_edge_cases( test_fixture_t *test_env )
+static test_case_result_t layout_edge_cases( test_fixture_t *fix )
 {
-    assert( test_env == &test_environment );  /* for this test suite, any other pointer would be wrong */
-    fixture_t *fix = test_env;
+    assert( fix != NULL );
     test_data_setup_t ts_setup;
     test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_EDGE_CASES );
     for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )

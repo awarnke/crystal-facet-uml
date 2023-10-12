@@ -10,12 +10,16 @@
  */
 
 /*!
- *  \brief a pointer to a test fixture is a pointer to a struct.
+ *  \brief a forward declaration to a test fixture.
  *
- *  Because the struct is specific to the test suite,
- *  type casts from and to void are needed.
+ *  Because the struct is specific to the test suite, the type can be declared here only as incomplete type.
  */
-typedef void test_fixture_t;
+struct test_fixture_struct;
+
+/*!
+ *  \brief a type declaration to a test fixture.
+ */
+typedef struct test_fixture_struct test_fixture_t;
 
 #endif  /* TEST_FIXTURE_H */
 

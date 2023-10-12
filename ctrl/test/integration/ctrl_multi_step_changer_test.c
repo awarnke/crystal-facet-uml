@@ -19,21 +19,6 @@ static void tear_down( test_fixture_t *test_env );
 static test_case_result_t delete_set_successfully( test_fixture_t *test_env );
 static test_case_result_t delete_set_not_possible( test_fixture_t *test_env );
 
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
-
 test_suite_t ctrl_multi_step_changer_test_get_suite(void)
 {
     test_suite_t result;
@@ -43,31 +28,38 @@ test_suite_t ctrl_multi_step_changer_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_environment;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
-
-    data_database_reader_init( &db_reader, &database );
-
-    ctrl_controller_init( &controller, &database );
-    return NULL;
+    test_fixture_t *fix = &test_environment;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    ctrl_controller_destroy( &controller );
-
-    data_database_reader_destroy( &db_reader );
-
-    data_database_close( &database );
-    data_database_destroy( &database );
+    assert( fix != NULL );
+    ctrl_controller_destroy( &((*fix).controller) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static test_case_result_t delete_set_not_possible( test_fixture_t *test_env )
+static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     test_env_setup_t test_environ;
-    test_env_setup_init( &test_environ, &controller );
+    test_env_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
     const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_ID_VOID, "root diag" );
@@ -99,7 +91,7 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *test_env )
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
 
         ctrl_multi_step_changer_t multi_stepper;
-        ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
+        ctrl_multi_step_changer_init( &multi_stepper, &((*fix).controller), &((*fix).db_reader) );
         data_stat_t stat;
         data_stat_init(&stat);
 
@@ -120,10 +112,11 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t delete_set_successfully( test_fixture_t *test_env )
+static test_case_result_t delete_set_successfully( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     test_env_setup_t test_environ;
-    test_env_setup_init( &test_environ, &controller );
+    test_env_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
     const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_ID_VOID, "root diag" );
@@ -174,7 +167,7 @@ static test_case_result_t delete_set_successfully( test_fixture_t *test_env )
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
 
         ctrl_multi_step_changer_t multi_stepper;
-        ctrl_multi_step_changer_init( &multi_stepper, &controller, &db_reader );
+        ctrl_multi_step_changer_init( &multi_stepper, &((*fix).controller), &((*fix).db_reader) );
         data_stat_t stat;
         data_stat_init(&stat);
 
@@ -201,13 +194,13 @@ static test_case_result_t delete_set_successfully( test_fixture_t *test_env )
     {
         data_feature_t check2;
         const u8_error_t data_err2
-            = data_database_reader_get_feature_by_id ( &db_reader, test_feature, &check2 );
+            = data_database_reader_get_feature_by_id ( &((*fix).db_reader), test_feature, &check2 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err2 );
     }
     {
         data_diagramelement_t check3;
         const u8_error_t data_err3
-            = data_database_reader_get_diagramelement_by_id ( &db_reader, test_diagele, &check3 );
+            = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), test_diagele, &check3 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, data_err3 );
     }
     return TEST_CASE_RESULT_OK;
