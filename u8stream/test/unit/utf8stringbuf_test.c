@@ -10,96 +10,6 @@
 #include <pthread.h>
 #include <assert.h>
 
-static const char * const SQL_ENCODE[][2] = {
-         { "\0", "\\0" },  //  within strings, null cannot be represented.
-         { "\x09", "\\t" },
-         { "\x0a", "\\n" },
-         { "\x0d", "\\r" },
-         { "\x0e", "\\b" },
-         { "\x1a", "\\z" },
-         { "\"", "\\\"" },
-         { "'", "\\'" },
-         { "\\", "\\\\" },
-         { "%", "\\%" },  //  % replacement only needed in searches by LIKE operator
-         { "_", "\\_" },  //  _ replacement only needed in searches by LIKE operator
-         { NULL, NULL } };
-static const char *const XML_ENCODE[][2] = {
-         { "<", "&lt;" },
-         { ">", "&gt;" },
-         { "&", "&amp;" },
-         { "\"", "&quot;" },  //  " replacement only needed in attribute values
-         { "'", "&apos;" },  //  " replacement only needed in attribute values
-         { NULL, NULL } };
-
-const char END[] = "";
-
-static const char *const TO_UPPER_CASE[][2] = {
-         { "a", "A" }, { "b", "B" }, { "c", "C" }, { "d", "D" }, { "e", "E" }, { "f", "F" }, { "g", "G" }, { "h", "H" },
-         { "i", "I" }, { "j", "J" }, { "k", "K" }, { "l", "L" }, { "m", "M" }, { "n", "N" }, { "o", "O" }, { "p", "P" },
-         { "q", "Q" }, { "r", "R" }, { "s", "S" }, { "t", "T" }, { "u", "U" }, { "v", "V" }, { "w", "W" }, { "x", "X" },
-         { "y", "Y" }, { "z", "Z" }, { "\xc3\xa4", "\xc3\x84" }, { "\xc3\xb6", "\xc3\x96" },
-         { "\xc3\xbc", "\xc3\x9c" },
-         { NULL, NULL } };
-
-static const char *const TO_LOWER_CASE[][2] = {
-         { "A", "a" }, { "B", "b" }, { "C", "c" }, { "D", "d" }, { "E", "e" }, { "F", "f" }, { "G", "g" }, { "H", "h" },
-         { "I", "i" }, { "J", "j" }, { "K", "k" }, { "L", "l" }, { "M", "m" }, { "N", "n" }, { "O", "o" }, { "P", "p" },
-         { "Q", "q" }, { "R", "r" }, { "S", "s" }, { "T", "t" }, { "U", "u" }, { "V", "v" }, { "W", "w" }, { "X", "x" },
-         { "Y", "y" }, { "Z", "z" }, { "\xc3\x84", "\xc3\xa4" }, { "\xc3\x96", "\xc3\xb6" },
-         { "\xc3\x9c", "\xc3\xbc" },
-         { NULL, NULL } };
-
-static const char *const SHRINK_DUPLICATES_EXCEPT_Z[][2] = {
-         { "aa", "A" }, { "bb", "B" }, { "cc", "C" }, { "dd", "D" }, { "ee", "E" }, { "ff", "F" }, { "gg", "G" }, { "hh", "H" },
-         { "ii", "I" }, { "jj", "J" }, { "kk", "K" }, { "ll", "L" }, { "mm", "M" }, { "nn", "N" }, { "oo", "O" }, { "pp", "P" },
-         { "qq", "Q" }, { "rr", "R" }, { "ss", "S" }, { "tt", "T" }, { "uu", "U" }, { "vv", "V" }, { "ww", "W" }, { "xx", "X" },
-         { "yy", "Y" },
-         { NULL, NULL } };
-
-static const char *const EXPAND_SINGLES_EXCEPT_Z[][2] = {
-         { "A", "aa" }, { "B", "bb" }, { "C", "cc" }, { "D", "dd" }, { "E", "ee" }, { "F", "ff" }, { "G", "gg" }, { "H", "hh" },
-         { "I", "ii" }, { "J", "jj" }, { "K", "kk" }, { "L", "ll" }, { "M", "mm" }, { "N", "nn" }, { "O", "oo" }, { "P", "pp" },
-         { "Q", "qq" }, { "R", "rr" }, { "S", "ss" }, { "T", "tt" }, { "U", "uu" }, { "V", "vv" }, { "W", "ww" }, { "X", "xx" },
-         { "Y", "yy" },
-         { NULL, NULL } };
-
-static char oneByteArr[] = "";
-static utf8stringbuf_t oneByteBuf = UTF8STRINGBUF(oneByteArr);
-
-static char fourByteArr[4] = "12";
-static utf8stringbuf_t fourByteBuf = UTF8STRINGBUF(fourByteArr);
-
-struct InitTestStruct {
-    char urlArr[8192];
-    utf8stringbuf_t url;
-    pthread_mutex_t lock;
-};
-typedef struct InitTestStruct InitTest_t;
-static InitTest_t structTest = { "http://", UTF8STRINGBUF( structTest.urlArr), PTHREAD_MUTEX_INITIALIZER, };
-
-#define INITTEST(testStr,this_) { testStr, UTF8STRINGBUF( this_.urlArr), PTHREAD_MUTEX_INITIALIZER, }
-static InitTest_t structArrTest[] = {
-        INITTEST( "svn://first", structArrTest[0] ),
-        INITTEST( "http://second", structArrTest[1] ),
-        INITTEST( "ftp://third", structArrTest[2] ),
-        INITTEST( "file://last", structArrTest[3] ),
-};
-
-static char ThousandPathNames[1000][256];
-#define PATH_INIT(x) UTF8STRINGBUF( ThousandPathNames[x] )
-#define FIVE_PATHS_INIT(x) PATH_INIT(x+0), PATH_INIT(x+1), PATH_INIT(x+2), PATH_INIT(x+3), PATH_INIT(x+4)
-#define TWENTY_PATHS_INIT(x) FIVE_PATHS_INIT(x+0), FIVE_PATHS_INIT(x+5), FIVE_PATHS_INIT(x+10), FIVE_PATHS_INIT(x+15)
-#define HUNDRED_PATHS_INIT(x) TWENTY_PATHS_INIT(x+0), TWENTY_PATHS_INIT(x+20), TWENTY_PATHS_INIT(x+40), TWENTY_PATHS_INIT(x+60), TWENTY_PATHS_INIT(x+80)
-static utf8stringbuf_t ThousandPaths[1000] = {
-        HUNDRED_PATHS_INIT(0), HUNDRED_PATHS_INIT(100), HUNDRED_PATHS_INIT(200), HUNDRED_PATHS_INIT(300),
-        HUNDRED_PATHS_INIT(400), HUNDRED_PATHS_INIT(500), HUNDRED_PATHS_INIT(600), HUNDRED_PATHS_INIT(700),
-        HUNDRED_PATHS_INIT(800), HUNDRED_PATHS_INIT(900),
-};
-
-enum { UTF8STRINGBUFTEST_MEGASIZE = (1024*1024), };
-static char megaByteArr[UTF8STRINGBUFTEST_MEGASIZE] = "";
-static utf8stringbuf_t megaByteBuf = UTF8STRINGBUF(megaByteArr);
-
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testInit( test_fixture_t *fix );
@@ -184,29 +94,133 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     return result;
 }
 
+static const char * const SQL_ENCODE[][2] = {
+         { "\0", "\\0" },  //  within strings, null cannot be represented.
+         { "\x09", "\\t" },
+         { "\x0a", "\\n" },
+         { "\x0d", "\\r" },
+         { "\x0e", "\\b" },
+         { "\x1a", "\\z" },
+         { "\"", "\\\"" },
+         { "'", "\\'" },
+         { "\\", "\\\\" },
+         { "%", "\\%" },  //  % replacement only needed in searches by LIKE operator
+         { "_", "\\_" },  //  _ replacement only needed in searches by LIKE operator
+         { NULL, NULL } };
+static const char *const XML_ENCODE[][2] = {
+         { "<", "&lt;" },
+         { ">", "&gt;" },
+         { "&", "&amp;" },
+         { "\"", "&quot;" },  //  " replacement only needed in attribute values
+         { "'", "&apos;" },  //  " replacement only needed in attribute values
+         { NULL, NULL } };
+
+static const char *const TO_UPPER_CASE[][2] = {
+         { "a", "A" }, { "b", "B" }, { "c", "C" }, { "d", "D" }, { "e", "E" }, { "f", "F" }, { "g", "G" }, { "h", "H" },
+         { "i", "I" }, { "j", "J" }, { "k", "K" }, { "l", "L" }, { "m", "M" }, { "n", "N" }, { "o", "O" }, { "p", "P" },
+         { "q", "Q" }, { "r", "R" }, { "s", "S" }, { "t", "T" }, { "u", "U" }, { "v", "V" }, { "w", "W" }, { "x", "X" },
+         { "y", "Y" }, { "z", "Z" }, { "\xc3\xa4", "\xc3\x84" }, { "\xc3\xb6", "\xc3\x96" },
+         { "\xc3\xbc", "\xc3\x9c" },
+         { NULL, NULL } };
+
+static const char *const TO_LOWER_CASE[][2] = {
+         { "A", "a" }, { "B", "b" }, { "C", "c" }, { "D", "d" }, { "E", "e" }, { "F", "f" }, { "G", "g" }, { "H", "h" },
+         { "I", "i" }, { "J", "j" }, { "K", "k" }, { "L", "l" }, { "M", "m" }, { "N", "n" }, { "O", "o" }, { "P", "p" },
+         { "Q", "q" }, { "R", "r" }, { "S", "s" }, { "T", "t" }, { "U", "u" }, { "V", "v" }, { "W", "w" }, { "X", "x" },
+         { "Y", "y" }, { "Z", "z" }, { "\xc3\x84", "\xc3\xa4" }, { "\xc3\x96", "\xc3\xb6" },
+         { "\xc3\x9c", "\xc3\xbc" },
+         { NULL, NULL } };
+
+static const char *const SHRINK_DUPLICATES_EXCEPT_Z[][2] = {
+         { "aa", "A" }, { "bb", "B" }, { "cc", "C" }, { "dd", "D" }, { "ee", "E" }, { "ff", "F" }, { "gg", "G" }, { "hh", "H" },
+         { "ii", "I" }, { "jj", "J" }, { "kk", "K" }, { "ll", "L" }, { "mm", "M" }, { "nn", "N" }, { "oo", "O" }, { "pp", "P" },
+         { "qq", "Q" }, { "rr", "R" }, { "ss", "S" }, { "tt", "T" }, { "uu", "U" }, { "vv", "V" }, { "ww", "W" }, { "xx", "X" },
+         { "yy", "Y" },
+         { NULL, NULL } };
+
+static const char *const EXPAND_SINGLES_EXCEPT_Z[][2] = {
+         { "A", "aa" }, { "B", "bb" }, { "C", "cc" }, { "D", "dd" }, { "E", "ee" }, { "F", "ff" }, { "G", "gg" }, { "H", "hh" },
+         { "I", "ii" }, { "J", "jj" }, { "K", "kk" }, { "L", "ll" }, { "M", "mm" }, { "N", "nn" }, { "O", "oo" }, { "P", "pp" },
+         { "Q", "qq" }, { "R", "rr" }, { "S", "ss" }, { "T", "tt" }, { "U", "uu" }, { "V", "vv" }, { "W", "ww" }, { "X", "xx" },
+         { "Y", "yy" },
+         { NULL, NULL } };
+
+struct InitTestStruct {
+    char urlArr[8192];
+    utf8stringbuf_t url;
+    pthread_mutex_t lock;
+};
+typedef struct InitTestStruct InitTest_t;
+static InitTest_t structTest = { "http://", UTF8STRINGBUF_INIT( structTest.urlArr), PTHREAD_MUTEX_INITIALIZER, };
+
+#define INITTEST(testStr,this_) { testStr, UTF8STRINGBUF_INIT( this_.urlArr), PTHREAD_MUTEX_INITIALIZER, }
+static InitTest_t structArrTest[] = {
+        INITTEST( "svn://first", structArrTest[0] ),
+        INITTEST( "http://second", structArrTest[1] ),
+        INITTEST( "ftp://third", structArrTest[2] ),
+        INITTEST( "file://last", structArrTest[3] ),
+};
+
+static char ThousandPathNames[1000][256];
+#define PATH_INIT(x) UTF8STRINGBUF_INIT( ThousandPathNames[x] )
+#define FIVE_PATHS_INIT(x) PATH_INIT(x+0), PATH_INIT(x+1), PATH_INIT(x+2), PATH_INIT(x+3), PATH_INIT(x+4)
+#define TWENTY_PATHS_INIT(x) FIVE_PATHS_INIT(x+0), FIVE_PATHS_INIT(x+5), FIVE_PATHS_INIT(x+10), FIVE_PATHS_INIT(x+15)
+#define HUNDRED_PATHS_INIT(x) TWENTY_PATHS_INIT(x+0), TWENTY_PATHS_INIT(x+20), TWENTY_PATHS_INIT(x+40), TWENTY_PATHS_INIT(x+60), TWENTY_PATHS_INIT(x+80)
+static utf8stringbuf_t ThousandPaths[1000] = {
+        HUNDRED_PATHS_INIT(0), HUNDRED_PATHS_INIT(100), HUNDRED_PATHS_INIT(200), HUNDRED_PATHS_INIT(300),
+        HUNDRED_PATHS_INIT(400), HUNDRED_PATHS_INIT(500), HUNDRED_PATHS_INIT(600), HUNDRED_PATHS_INIT(700),
+        HUNDRED_PATHS_INIT(800), HUNDRED_PATHS_INIT(900),
+};
+
+enum { UTF8STRINGBUFTEST_MEGASIZE = (1024*1024), };
+
+struct test_fixture_struct {
+    char one_byte_arr[1];
+    utf8stringbuf_t one_byte_buf;
+    char four_byte_arr[4];
+    utf8stringbuf_t four_byte_buf;
+    char mega_byte_arr[UTF8STRINGBUFTEST_MEGASIZE];
+    utf8stringbuf_t mega_byte_buf;
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    memset( megaByteArr, 'a', UTF8STRINGBUFTEST_MEGASIZE-1 );
-    megaByteArr[UTF8STRINGBUFTEST_MEGASIZE-1] = '\0';
-    megaByteArr[1000] = 'Z';
-    megaByteArr[1004] = 'Z';
-    megaByteArr[900000] = 'Z';
-    return NULL;
+    test_fixture_t *fix = &test_fixture;
+    (*fix).one_byte_arr[0] = '\0';
+    (*fix).one_byte_buf = UTF8STRINGBUF((*fix).one_byte_arr);
+    memcpy( (*fix).four_byte_arr, "12\0", sizeof( (*fix).four_byte_arr ) );
+    (*fix).four_byte_buf = UTF8STRINGBUF((*fix).four_byte_arr);
+    memset( (*fix).mega_byte_arr, 'a', UTF8STRINGBUFTEST_MEGASIZE-1 );
+    (*fix).mega_byte_arr[UTF8STRINGBUFTEST_MEGASIZE-1] = '\0';
+    (*fix).mega_byte_arr[1000] = 'Z';
+    (*fix).mega_byte_arr[1004] = 'Z';
+    (*fix).mega_byte_arr[900000] = 'Z';
+    (*fix).mega_byte_buf = UTF8STRINGBUF((*fix).mega_byte_arr);
+    return fix;
 }
 
 static void tear_down( test_fixture_t *fix )
 {
 }
 
+static char staticByteArr[] = "12345";
+static utf8stringbuf_t staticByteBuf = UTF8STRINGBUF_INIT(staticByteArr);
+
 static test_case_result_t testInit( test_fixture_t *fix )
 {
+    /* check test_fixture_t */
+    TEST_EXPECT( utf8stringbuf_get_string( (*fix).one_byte_buf ) == (*fix).one_byte_arr );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringbuf_get_size( (*fix).one_byte_buf ) );
+    TEST_EXPECT( utf8stringbuf_get_string( (*fix).four_byte_buf ) == (*fix).four_byte_arr );
+    TEST_EXPECT_EQUAL_INT( 4, utf8stringbuf_get_size( (*fix).four_byte_buf ) );
+    TEST_EXPECT( utf8stringbuf_get_string( (*fix).mega_byte_buf ) == (*fix).mega_byte_arr );
+    TEST_EXPECT_EQUAL_INT( UTF8STRINGBUFTEST_MEGASIZE, utf8stringbuf_get_size( (*fix).mega_byte_buf ) );
+
     /* check static initialization */
-    TEST_EXPECT( utf8stringbuf_get_string( oneByteBuf ) == oneByteArr );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringbuf_get_size( oneByteBuf ) );
-    TEST_EXPECT( utf8stringbuf_get_string( fourByteBuf ) == fourByteArr );
-    TEST_EXPECT_EQUAL_INT( 4, utf8stringbuf_get_size( fourByteBuf ) );
-    TEST_EXPECT( utf8stringbuf_get_string( megaByteBuf ) == megaByteArr );
-    TEST_EXPECT_EQUAL_INT( UTF8STRINGBUFTEST_MEGASIZE, utf8stringbuf_get_size( megaByteBuf ) );
+    TEST_EXPECT( utf8stringbuf_get_string( staticByteBuf ) == staticByteArr );
+    TEST_EXPECT_EQUAL_INT( 6, utf8stringbuf_get_size( staticByteBuf ) );
 
     /* check dynamic initialization */
     char dynTestArr[] = "Hello";
@@ -287,7 +301,7 @@ static test_case_result_t testEquals( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8stringbuf_equals_buf( dynTestBuf2, dynTestBuf1 );
     TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8stringbuf_equals_buf( dynTestBuf2, oneByteBuf );
+    equal = utf8stringbuf_equals_buf( dynTestBuf2, (*fix).one_byte_buf );
     TEST_EXPECT_EQUAL_INT( 0, equal );
 
     //  test utf8stringbuf_equals_str
@@ -297,9 +311,9 @@ static test_case_result_t testEquals( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
     equal = utf8stringbuf_equals_str( dynTestBuf2, dynTestArr1 );
     TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8stringbuf_equals_str( oneByteBuf, "Hi" );
+    equal = utf8stringbuf_equals_str( (*fix).one_byte_buf, "Hi" );
     TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8stringbuf_equals_str( oneByteBuf, NULL );
+    equal = utf8stringbuf_equals_str( (*fix).one_byte_buf, NULL );
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8stringbuf_equals_str( dynTestBuf1, NULL );
     TEST_EXPECT_EQUAL_INT( 0, equal );
@@ -334,7 +348,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
     equal = utf8stringbuf_equals_region_buf( dynTestBuf2, 17, dynTestBuf1 );
     TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8stringbuf_equals_region_buf( dynTestBuf2, 3, oneByteBuf );
+    equal = utf8stringbuf_equals_region_buf( dynTestBuf2, 3, (*fix).one_byte_buf );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     //  test utf8stringbuf_equals_region_str
@@ -350,9 +364,9 @@ static test_case_result_t testEqualsRegion( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8stringbuf_equals_region_str( dynTestBuf2, 17, dynTestArr1 );
     TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8stringbuf_equals_region_str( oneByteBuf, 0, "Hi" );
+    equal = utf8stringbuf_equals_region_str( (*fix).one_byte_buf, 0, "Hi" );
     TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8stringbuf_equals_region_str( oneByteBuf, 0, NULL );
+    equal = utf8stringbuf_equals_region_str( (*fix).one_byte_buf, 0, NULL );
     TEST_EXPECT_EQUAL_INT( 0, equal );
     equal = utf8stringbuf_equals_region_str( dynTestBuf1, -1, NULL );
     TEST_EXPECT_EQUAL_INT( 0, equal );
@@ -364,11 +378,11 @@ static test_case_result_t testLength( test_fixture_t *fix )
     int len;
 
     /* check utf8stringbuf_get_length */
-    len = utf8stringbuf_get_length( oneByteBuf );
+    len = utf8stringbuf_get_length( (*fix).one_byte_buf );
     TEST_EXPECT_EQUAL_INT( 0, len );
-    len = utf8stringbuf_get_length( fourByteBuf );
+    len = utf8stringbuf_get_length( (*fix).four_byte_buf );
     TEST_EXPECT_EQUAL_INT( 2, len );
-    len = utf8stringbuf_get_length( megaByteBuf );
+    len = utf8stringbuf_get_length( (*fix).mega_byte_buf );
     TEST_EXPECT_EQUAL_INT( UTF8STRINGBUFTEST_MEGASIZE-1, len );
     return TEST_CASE_RESULT_OK;
 }
@@ -464,9 +478,9 @@ static test_case_result_t testCopyBuf( test_fixture_t *fix )
     equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
-    error = utf8stringbuf_copy_buf( oneByteBuf, dynTestBuf2 );
+    error = utf8stringbuf_copy_buf( (*fix).one_byte_buf, dynTestBuf2 );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
-    equal = utf8stringbuf_equals_str( oneByteBuf, "" );
+    equal = utf8stringbuf_equals_str( (*fix).one_byte_buf, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_buf( dynTestBuf2, dynTestBuf1 );
@@ -474,7 +488,7 @@ static test_case_result_t testCopyBuf( test_fixture_t *fix )
     equal = utf8stringbuf_equals_str( dynTestBuf2, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
-    error = utf8stringbuf_copy_buf( dynTestBuf2, oneByteBuf );
+    error = utf8stringbuf_copy_buf( dynTestBuf2, (*fix).one_byte_buf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
@@ -494,9 +508,9 @@ static test_case_result_t testCopyStr( test_fixture_t *fix )
     equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
-    error = utf8stringbuf_copy_str( oneByteBuf, "Hi" );
+    error = utf8stringbuf_copy_str( (*fix).one_byte_buf, "Hi" );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
-    equal = utf8stringbuf_equals_str( oneByteBuf, "" );
+    equal = utf8stringbuf_equals_str( (*fix).one_byte_buf, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( dynTestBuf1, NULL );
@@ -607,41 +621,41 @@ static test_case_result_t testFindFirst( test_fixture_t *fix )
     char srchArr3[] = "N/A";
     utf8stringbuf_t srchBuf3 = UTF8STRINGBUF(srchArr3);
 
-    pos = utf8stringbuf_find_first_str( megaByteBuf, srchArr1);
+    pos = utf8stringbuf_find_first_str( (*fix).mega_byte_buf, srchArr1);
     TEST_EXPECT_EQUAL_INT( 0, pos );
 
-    pos = utf8stringbuf_find_first_str( megaByteBuf, srchArr2);
+    pos = utf8stringbuf_find_first_str( (*fix).mega_byte_buf, srchArr2);
     TEST_EXPECT_EQUAL_INT( 980, pos );
 
-    pos = utf8stringbuf_find_first_str( megaByteBuf, "");
+    pos = utf8stringbuf_find_first_str( (*fix).mega_byte_buf, "");
     TEST_EXPECT_EQUAL_INT( 0, pos );
 
-    pos = utf8stringbuf_find_first_str( megaByteBuf, NULL);
+    pos = utf8stringbuf_find_first_str( (*fix).mega_byte_buf, NULL);
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_first_str( megaByteBuf, srchArr3);
+    pos = utf8stringbuf_find_first_str( (*fix).mega_byte_buf, srchArr3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_first_str( oneByteBuf, srchArr3);
+    pos = utf8stringbuf_find_first_str( (*fix).one_byte_buf, srchArr3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
     pos = utf8stringbuf_find_first_str( srchBuf3, srchArr3);
     TEST_EXPECT_EQUAL_INT( 0, pos );
 
 
-    pos = utf8stringbuf_find_first_buf( megaByteBuf, srchBuf1);
+    pos = utf8stringbuf_find_first_buf( (*fix).mega_byte_buf, srchBuf1);
     TEST_EXPECT_EQUAL_INT( 0, pos );
 
-    pos = utf8stringbuf_find_first_buf( megaByteBuf, srchBuf2);
+    pos = utf8stringbuf_find_first_buf( (*fix).mega_byte_buf, srchBuf2);
     TEST_EXPECT_EQUAL_INT( 980, pos );
 
-    pos = utf8stringbuf_find_first_buf( megaByteBuf, oneByteBuf);
+    pos = utf8stringbuf_find_first_buf( (*fix).mega_byte_buf, (*fix).one_byte_buf);
     TEST_EXPECT_EQUAL_INT( 0, pos );
 
-    pos = utf8stringbuf_find_first_buf( megaByteBuf, srchBuf3);
+    pos = utf8stringbuf_find_first_buf( (*fix).mega_byte_buf, srchBuf3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_first_buf( oneByteBuf, srchBuf3);
+    pos = utf8stringbuf_find_first_buf( (*fix).one_byte_buf, srchBuf3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
     pos = utf8stringbuf_find_first_buf( srchBuf3, srchBuf3);
@@ -659,44 +673,44 @@ static test_case_result_t testFindNext( test_fixture_t *fix )
     char srchArr3[] = "N/A";
     utf8stringbuf_t srchBuf3 = UTF8STRINGBUF(srchArr3);
 
-    pos = utf8stringbuf_find_next_buf( oneByteBuf, srchBuf3, -17 );
+    pos = utf8stringbuf_find_next_buf( (*fix).one_byte_buf, srchBuf3, -17 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_next_buf( oneByteBuf, srchBuf3, 17 );
+    pos = utf8stringbuf_find_next_buf( (*fix).one_byte_buf, srchBuf3, 17 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_next_buf( oneByteBuf, srchBuf3, 0 );
+    pos = utf8stringbuf_find_next_buf( (*fix).one_byte_buf, srchBuf3, 0 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_next_buf( srchBuf1, megaByteBuf, 1 );
+    pos = utf8stringbuf_find_next_buf( srchBuf1, (*fix).mega_byte_buf, 1 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_next_buf( megaByteBuf, srchBuf1, 0 );
+    pos = utf8stringbuf_find_next_buf( (*fix).mega_byte_buf, srchBuf1, 0 );
     TEST_EXPECT_EQUAL_INT( 0, pos );
 
-    pos = utf8stringbuf_find_next_buf( megaByteBuf, srchBuf1, 1 );
+    pos = utf8stringbuf_find_next_buf( (*fix).mega_byte_buf, srchBuf1, 1 );
     TEST_EXPECT_EQUAL_INT( 1, pos );
 
-    pos = utf8stringbuf_find_next_buf( megaByteBuf, srchBuf2, 1 );
+    pos = utf8stringbuf_find_next_buf( (*fix).mega_byte_buf, srchBuf2, 1 );
     TEST_EXPECT_EQUAL_INT( 997, pos );
 
-    pos = utf8stringbuf_find_next_buf( megaByteBuf, srchBuf2, 1001 );
+    pos = utf8stringbuf_find_next_buf( (*fix).mega_byte_buf, srchBuf2, 1001 );
     TEST_EXPECT_EQUAL_INT( 1001, pos );
 
-    pos = utf8stringbuf_find_next_buf( megaByteBuf, srchBuf2, 1002 );
+    pos = utf8stringbuf_find_next_buf( (*fix).mega_byte_buf, srchBuf2, 1002 );
     TEST_EXPECT_EQUAL_INT( 899997, pos );
 
-    pos = utf8stringbuf_find_next_buf( megaByteBuf, srchBuf2, 899998 );
+    pos = utf8stringbuf_find_next_buf( (*fix).mega_byte_buf, srchBuf2, 899998 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_next_buf( megaByteBuf, srchBuf3, 1000 );
+    pos = utf8stringbuf_find_next_buf( (*fix).mega_byte_buf, srchBuf3, 1000 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
 
-    pos = utf8stringbuf_find_next_str( megaByteBuf, NULL, 1000 );
+    pos = utf8stringbuf_find_next_str( (*fix).mega_byte_buf, NULL, 1000 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_next_str( megaByteBuf, srchArr1, 1000 );
+    pos = utf8stringbuf_find_next_str( (*fix).mega_byte_buf, srchArr1, 1000 );
     TEST_EXPECT_EQUAL_INT( 1005, pos );
 
     return TEST_CASE_RESULT_OK;
@@ -712,28 +726,28 @@ static test_case_result_t testFindLast( test_fixture_t *fix )
     char srchArr3[] = "N/A";
     utf8stringbuf_t srchBuf3 = UTF8STRINGBUF(srchArr3);
 
-    pos = utf8stringbuf_find_last_buf( oneByteBuf, srchBuf3 );
+    pos = utf8stringbuf_find_last_buf( (*fix).one_byte_buf, srchBuf3 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_last_buf( srchBuf1, megaByteBuf );
+    pos = utf8stringbuf_find_last_buf( srchBuf1, (*fix).mega_byte_buf );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_last_buf( megaByteBuf, srchBuf1 );
+    pos = utf8stringbuf_find_last_buf( (*fix).mega_byte_buf, srchBuf1 );
     TEST_EXPECT_EQUAL_INT( UTF8STRINGBUFTEST_MEGASIZE - 1 - 4, pos );
 
-    pos = utf8stringbuf_find_last_buf( megaByteBuf, srchBuf2 );
+    pos = utf8stringbuf_find_last_buf( (*fix).mega_byte_buf, srchBuf2 );
     TEST_EXPECT_EQUAL_INT( 899997, pos );
 
-    pos = utf8stringbuf_find_last_buf( megaByteBuf, srchBuf3 );
+    pos = utf8stringbuf_find_last_buf( (*fix).mega_byte_buf, srchBuf3 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
     pos = utf8stringbuf_find_last_buf( srchBuf2, srchBuf2 );
     TEST_EXPECT_EQUAL_INT( 0, pos );
 
-    pos = utf8stringbuf_find_last_str( megaByteBuf, NULL );
+    pos = utf8stringbuf_find_last_str( (*fix).mega_byte_buf, NULL );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringbuf_find_last_str( megaByteBuf, "" );
+    pos = utf8stringbuf_find_last_str( (*fix).mega_byte_buf, "" );
     TEST_EXPECT_EQUAL_INT( UTF8STRINGBUFTEST_MEGASIZE - 1, pos );
 
     pos = utf8stringbuf_find_last_str( srchBuf2, "aaa" );
@@ -1069,36 +1083,36 @@ static test_case_result_t testReplaceAll ( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* change nearly everything */
-    error = utf8stringbuf_replace_all( megaByteBuf, &TO_UPPER_CASE );
+    error = utf8stringbuf_replace_all( (*fix).mega_byte_buf, &TO_UPPER_CASE );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
-    equal = utf8stringbuf_starts_with_str( megaByteBuf, "AAAAAAAAAA" );
+    equal = utf8stringbuf_starts_with_str( (*fix).mega_byte_buf, "AAAAAAAAAA" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* change everything */
-    error = utf8stringbuf_replace_all( megaByteBuf, &TO_LOWER_CASE );
+    error = utf8stringbuf_replace_all( (*fix).mega_byte_buf, &TO_LOWER_CASE );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
-    equal = utf8stringbuf_starts_with_str( megaByteBuf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
+    equal = utf8stringbuf_starts_with_str( (*fix).mega_byte_buf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* change nothing */
-    error = utf8stringbuf_replace_all( megaByteBuf, &TO_LOWER_CASE );
+    error = utf8stringbuf_replace_all( (*fix).mega_byte_buf, &TO_LOWER_CASE );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
-    equal = utf8stringbuf_starts_with_str( megaByteBuf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
+    equal = utf8stringbuf_starts_with_str( (*fix).mega_byte_buf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* shrink because performance hungry function */
-    utf8stringbuf_delete_to_end( megaByteBuf, 20000 );
+    utf8stringbuf_delete_to_end( (*fix).mega_byte_buf, 20000 );
 
     /* shrink at each replacement */
-    error = utf8stringbuf_replace_all( megaByteBuf, &SHRINK_DUPLICATES_EXCEPT_Z );
+    error = utf8stringbuf_replace_all( (*fix).mega_byte_buf, &SHRINK_DUPLICATES_EXCEPT_Z );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
-    equal = utf8stringbuf_starts_with_str( megaByteBuf, "AAAAAAAAAA" );
+    equal = utf8stringbuf_starts_with_str( (*fix).mega_byte_buf, "AAAAAAAAAA" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* grow at each replacement */
-    error = utf8stringbuf_replace_all( megaByteBuf, &EXPAND_SINGLES_EXCEPT_Z );
+    error = utf8stringbuf_replace_all( (*fix).mega_byte_buf, &EXPAND_SINGLES_EXCEPT_Z );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
-    equal = utf8stringbuf_starts_with_str( megaByteBuf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
+    equal = utf8stringbuf_starts_with_str( (*fix).mega_byte_buf, "aaaaaaaaaaaaaaaaaaaaaaaaaaa" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     return TEST_CASE_RESULT_OK;

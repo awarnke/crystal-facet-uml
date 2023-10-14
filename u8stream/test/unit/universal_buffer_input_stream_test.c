@@ -16,11 +16,6 @@ static test_case_result_t test_read_chunks( test_fixture_t *fix );
 static test_case_result_t test_read_all( test_fixture_t *fix );
 static test_case_result_t test_peek( test_fixture_t *fix );
 
-static char my_in_buffer[10];
-static universal_memory_input_stream_t my_mem_in_stream;
-static char my_buffer[6];
-static universal_buffer_input_stream_t my_buf_in_stream;
-
 test_suite_t universal_buffer_input_stream_test_get_suite(void)
 {
     test_suite_t result;
@@ -31,28 +26,40 @@ test_suite_t universal_buffer_input_stream_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    char in_buffer[10];
+    universal_memory_input_stream_t mem_in_stream;
+    char buffer[6];
+    universal_buffer_input_stream_t buf_in_stream;
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    memcpy( &my_in_buffer, "123456789", sizeof(my_in_buffer) );
-    universal_memory_input_stream_init( &my_mem_in_stream, &my_in_buffer, sizeof(my_in_buffer) );
-    universal_input_stream_t *my_mem_in_stream_ptr = universal_memory_input_stream_get_input_stream( &my_mem_in_stream );
-    universal_buffer_input_stream_init( &my_buf_in_stream, &my_buffer, sizeof(my_buffer), my_mem_in_stream_ptr );
-    return NULL;
+    test_fixture_t *fix = &test_fixture;
+    memcpy( &((*fix).in_buffer), "123456789", sizeof((*fix).in_buffer) );
+    universal_memory_input_stream_init( &((*fix).mem_in_stream), &((*fix).in_buffer), sizeof((*fix).in_buffer) );
+    universal_input_stream_t *mem_in_stream_ptr = universal_memory_input_stream_get_input_stream( &((*fix).mem_in_stream) );
+    universal_buffer_input_stream_init( &((*fix).buf_in_stream), &((*fix).buffer), sizeof((*fix).buffer), mem_in_stream_ptr );
+    return fix;
 }
 
 static void tear_down( test_fixture_t *fix )
 {
-    universal_buffer_input_stream_destroy( &my_buf_in_stream );
-    universal_memory_input_stream_destroy( &my_mem_in_stream );
+    assert( fix != NULL );
+    universal_buffer_input_stream_destroy( &((*fix).buf_in_stream) );
+    universal_memory_input_stream_destroy( &((*fix).mem_in_stream) );
 }
 
 static test_case_result_t test_read_chunks( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     int err;
 
     /* get universal_input_stream_t */
     universal_input_stream_t *my_in_stream;
-    my_in_stream = universal_buffer_input_stream_get_input_stream( &my_buf_in_stream );
+    my_in_stream = universal_buffer_input_stream_get_input_stream( &((*fix).buf_in_stream) );
     TEST_EXPECT( my_in_stream != NULL );
 
     /* get universal_input_stream_if_t */
@@ -61,7 +68,7 @@ static test_case_result_t test_read_chunks( test_fixture_t *fix )
 
     /* get objectdata */
     void *my_obj_data = universal_input_stream_get_objectdata ( my_in_stream );
-    TEST_EXPECT_EQUAL_PTR( &my_buf_in_stream, my_obj_data );
+    TEST_EXPECT_EQUAL_PTR( &((*fix).buf_in_stream), my_obj_data );
 
     /* read first 5 */
     size_t len;
@@ -87,11 +94,12 @@ static test_case_result_t test_read_chunks( test_fixture_t *fix )
 
 static test_case_result_t test_read_all( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     int err;
 
     /* get universal_input_stream_t */
     universal_input_stream_t *my_in_stream;
-    my_in_stream = universal_buffer_input_stream_get_input_stream( &my_buf_in_stream );
+    my_in_stream = universal_buffer_input_stream_get_input_stream( &((*fix).buf_in_stream) );
     TEST_EXPECT( my_in_stream != NULL );
 
     /* read first 12 */
@@ -99,19 +107,19 @@ static test_case_result_t test_read_all( test_fixture_t *fix )
     char buf12[12];
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
     TEST_EXPECT_EQUAL_INT( 0, err );
-    TEST_EXPECT_EQUAL_INT( sizeof(my_in_buffer), len );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( sizeof((*fix).in_buffer), len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof((*fix).in_buffer) ) );
 
     /* reset */
-    err = universal_memory_input_stream_reset ( &my_mem_in_stream );
-    universal_buffer_input_stream_reset ( &my_buf_in_stream );
+    err = universal_memory_input_stream_reset ( &((*fix).mem_in_stream) );
+    universal_buffer_input_stream_reset ( &((*fix).buf_in_stream) );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* read first 12 */
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
     TEST_EXPECT_EQUAL_INT( 0, err );
-    TEST_EXPECT_EQUAL_INT( sizeof(my_in_buffer), len );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof(my_in_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( sizeof((*fix).in_buffer), len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf12, "123456789", sizeof((*fix).in_buffer) ) );
 
     /* read after end */
     err = universal_input_stream_read ( my_in_stream, &buf12, sizeof(buf12), &len );
@@ -122,19 +130,20 @@ static test_case_result_t test_read_all( test_fixture_t *fix )
 
 static test_case_result_t test_peek( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     /* peek and read the 10 bytes */
-    for ( int idx = 0; idx < sizeof(my_in_buffer); idx ++ )
+    for ( int idx = 0; idx < sizeof((*fix).in_buffer); idx ++ )
     {
-        char nxt = universal_buffer_input_stream_peek_next( &my_buf_in_stream );
-        TEST_EXPECT_EQUAL_INT( my_in_buffer[idx], nxt );
-        char cur = universal_buffer_input_stream_read_next( &my_buf_in_stream );
-        TEST_EXPECT_EQUAL_INT( my_in_buffer[idx], cur );
+        char nxt = universal_buffer_input_stream_peek_next( &((*fix).buf_in_stream) );
+        TEST_EXPECT_EQUAL_INT( (*fix).in_buffer[idx], nxt );
+        char cur = universal_buffer_input_stream_read_next( &((*fix).buf_in_stream) );
+        TEST_EXPECT_EQUAL_INT( (*fix).in_buffer[idx], cur );
     }
 
     /* peek+read after end */
-    char last1 = universal_buffer_input_stream_peek_next( &my_buf_in_stream );
+    char last1 = universal_buffer_input_stream_peek_next( &((*fix).buf_in_stream) );
     TEST_EXPECT_EQUAL_INT( '\0', last1 );
-    char last2 = universal_buffer_input_stream_read_next( &my_buf_in_stream );
+    char last2 = universal_buffer_input_stream_read_next( &((*fix).buf_in_stream) );
     TEST_EXPECT_EQUAL_INT( '\0', last2 );
     return TEST_CASE_RESULT_OK;
 }

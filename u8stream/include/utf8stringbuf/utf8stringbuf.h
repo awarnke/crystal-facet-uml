@@ -53,74 +53,6 @@ extern "C" {
 /*       __forceinline                                         */
 
 /*!
- *  \def UTF8STRINGBUF(charArr)
- *  \brief Macro to facilitate static initialisation of an utf8stringbuf_t
- *
- *  Example usage:
- *  \n
- *  If you need only a small, temporary stringbuffer, consider to create this dynamically on the stack:
- *  \code
- *      #include "utf8stringbuf/utf8stringbuf.h"
- *      void MySampleFunction() {
- *          char myArr[50] = "";
- *          utf8stringbuf_t myStrBuf = UTF8STRINGBUF(myArr);
- *  \endcode
- *  \n
- *  If you need a stringbuffer that is either big or permanent,
- *  and which is accessed only by one single thread,
- *  consider to create this in the data section of your compilation-unit:
- *  \code
- *      #include "utf8stringbuf/utf8stringbuf.h"
- *      static char mySqlArr[16384] = "";
- *      utf8stringbuf_t mySqlBuf = UTF8STRINGBUF(mySqlArr);
- *  \endcode
- *  \n
- *  In a bigger project or in a multithreaded environment,
- *  consider to encapsulate your stringbuffer within a struct.
- *  You still have to cope with locking but all functions can work on a pointer
- *  to that struct instead of accessing global variables.
- *  \code
- *      #include "utf8stringbuf/utf8stringbuf.h"
- *      struct InitTestStruct {
- *          char urlArr[8192];
- *          utf8stringbuf_t url;
- *          pthread_mutex_t lock;
- *      };
- *      typedef struct InitTestStruct InitTest_t;
- *      static InitTest_t structTest = { "http://", UTF8STRINGBUF(structTest.urlArr), PTHREAD_MUTEX_INITIALIZER, };
- *  \endcode
- *  \n
- *  To statically initialize a whole array of the struct shown above, an own macro may help:
- *  \code
- *      #define INITTEST(testStr,this_) { testStr, UTF8STRINGBUF( this_.urlArr), PTHREAD_MUTEX_INITIALIZER, }
- *      static InitTest_t structArrTest[] = {
- *          INITTEST( "svn://first", structArrTest[0] ),
- *          INITTEST( "http://second", structArrTest[1] ),
- *          INITTEST( "ftp://third", structArrTest[2] ),
- *          INITTEST( "file://last", structArrTest[3] ),
- *      };
- *  \endcode
- *  \n
- *  To reduce footprint size while allocating static strings, put the character-arrays to bss-segment
- *  while initializing the utf8stringbufs in the data segment:
- *  \code
- *      static char ThousandPathNames[1000][256];  // no initialiation given here, will be located in bss and be initialized to zero
- *      #define PATH_INIT(x) UTF8STRINGBUF( ThousandPathNames[x] )
- *      #define FIVE_PATHS_INIT(x) PATH_INIT(x+0), PATH_INIT(x+1), PATH_INIT(x+2), PATH_INIT(x+3), PATH_INIT(x+4)
- *      #define TWENTY_PATHS_INIT(x) FIVE_PATHS_INIT(x+0), FIVE_PATHS_INIT(x+5), FIVE_PATHS_INIT(x+10), FIVE_PATHS_INIT(x+15)
- *      #define HUNDRED_PATHS_INIT(x) TWENTY_PATHS_INIT(x+0), TWENTY_PATHS_INIT(x+20), TWENTY_PATHS_INIT(x+40), TWENTY_PATHS_INIT(x+60), TWENTY_PATHS_INIT(x+80)
- *      static utf8stringbuf_t ThousandPaths[1000] = {
- *          HUNDRED_PATHS_INIT(0), HUNDRED_PATHS_INIT(100), HUNDRED_PATHS_INIT(200), HUNDRED_PATHS_INIT(300),
- *          HUNDRED_PATHS_INIT(400), HUNDRED_PATHS_INIT(500), HUNDRED_PATHS_INIT(600), HUNDRED_PATHS_INIT(700),
- *          HUNDRED_PATHS_INIT(800), HUNDRED_PATHS_INIT(900),
- *      };  // only these utf8stringbuf_t objects will exist in data segment. On a 32-bit platform, this should be 8kB.
- *  \endcode
- *  \n
- *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- */
-#define UTF8STRINGBUF(charArr) {.size=sizeof(charArr),.buf=charArr}
-
-/*!
  *  \brief A string buffer is a pair of size and an array of that size.
  *
  *  \invariant size must not be zero.
@@ -141,6 +73,82 @@ struct utf8stringbuf_struct {
  *  Errors are reported via an utf8error_t, in some exceptional cases via -1 as special-index.
  */
 typedef struct utf8stringbuf_struct utf8stringbuf_t;
+
+/*!
+ *  \def UTF8STRINGBUF(charArr)
+ *  \brief Macro to facilitate static initialisation of an utf8stringbuf_t, can also be used as typed r_value
+ *
+ *  Example usage:
+ *  \n
+ *  If you need only a small, temporary stringbuffer, consider to create this dynamically on the stack:
+ *  \code
+ *      #include "utf8stringbuf/utf8stringbuf.h"
+ *      void MySampleFunction() {
+ *          char myArr[50] = "";
+ *          utf8stringbuf_t myStrBuf = UTF8STRINGBUF(myArr);
+ *  \endcode
+ *  \n
+ *  If you need a stringbuffer that is either big or permanent,
+ *  and which is accessed only by one single thread,
+ *  consider to create this in the data section of your compilation-unit:
+ *  \code
+ *      #include "utf8stringbuf/utf8stringbuf.h"
+ *      static char mySqlArr[16384] = "";
+ *      utf8stringbuf_t mySqlBuf = UTF8STRINGBUF(mySqlArr);
+ *  \endcode
+ *  \n
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ */
+#define UTF8STRINGBUF(charArr) (utf8stringbuf_t){.size=sizeof(charArr),.buf=charArr}
+
+/*!
+ *  \def UTF8STRINGBUF_INIT(charArr)
+ *  \brief Macro to facilitate static initialisation of an utf8stringbuf_t as struct member
+ *  \n
+ *  In a bigger project or in a multithreaded environment,
+ *  consider to encapsulate your stringbuffer within a struct.
+ *  You still have to cope with locking but all functions can work on a pointer
+ *  to that struct instead of accessing global variables.
+ *  \code
+ *      #include "utf8stringbuf/utf8stringbuf.h"
+ *      struct InitTestStruct {
+ *          char urlArr[8192];
+ *          utf8stringbuf_t url;
+ *          pthread_mutex_t lock;
+ *      };
+ *      typedef struct InitTestStruct InitTest_t;
+ *      static InitTest_t structTest = { "http://", UTF8STRINGBUF_INIT(structTest.urlArr), PTHREAD_MUTEX_INITIALIZER, };
+ *  \endcode
+ *  \n
+ *  To statically initialize a whole array of the struct shown above, an own macro may help:
+ *  \code
+ *      #define INITTEST(testStr,this_) { testStr, UTF8STRINGBUF_INIT( this_.urlArr), PTHREAD_MUTEX_INITIALIZER, }
+ *      static InitTest_t structArrTest[] = {
+ *          INITTEST( "svn://first", structArrTest[0] ),
+ *          INITTEST( "http://second", structArrTest[1] ),
+ *          INITTEST( "ftp://third", structArrTest[2] ),
+ *          INITTEST( "file://last", structArrTest[3] ),
+ *      };
+ *  \endcode
+ *  \n
+ *  To reduce footprint size while allocating static strings, put the character-arrays to bss-segment
+ *  while initializing the utf8stringbufs in the data segment:
+ *  \code
+ *      static char ThousandPathNames[1000][256];  // no initialiation given here, will be located in bss and be initialized to zero
+ *      #define PATH_INIT(x) UTF8STRINGBUF_INIT( ThousandPathNames[x] )
+ *      #define FIVE_PATHS_INIT(x) PATH_INIT(x+0), PATH_INIT(x+1), PATH_INIT(x+2), PATH_INIT(x+3), PATH_INIT(x+4)
+ *      #define TWENTY_PATHS_INIT(x) FIVE_PATHS_INIT(x+0), FIVE_PATHS_INIT(x+5), FIVE_PATHS_INIT(x+10), FIVE_PATHS_INIT(x+15)
+ *      #define HUNDRED_PATHS_INIT(x) TWENTY_PATHS_INIT(x+0), TWENTY_PATHS_INIT(x+20), TWENTY_PATHS_INIT(x+40), TWENTY_PATHS_INIT(x+60), TWENTY_PATHS_INIT(x+80)
+ *      static utf8stringbuf_t ThousandPaths[1000] = {
+ *          HUNDRED_PATHS_INIT(0), HUNDRED_PATHS_INIT(100), HUNDRED_PATHS_INIT(200), HUNDRED_PATHS_INIT(300),
+ *          HUNDRED_PATHS_INIT(400), HUNDRED_PATHS_INIT(500), HUNDRED_PATHS_INIT(600), HUNDRED_PATHS_INIT(700),
+ *          HUNDRED_PATHS_INIT(800), HUNDRED_PATHS_INIT(900),
+ *      };  // only these utf8stringbuf_t objects will exist in data segment. On a 32-bit platform, this should be 8kB.
+ *  \endcode
+ *  \n
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ */
+#define UTF8STRINGBUF_INIT(charArr) {.size=sizeof(charArr),.buf=charArr}
 
 /*!
  * \brief Creates a utf8stringbuf_t struct from a 0-terminated string
