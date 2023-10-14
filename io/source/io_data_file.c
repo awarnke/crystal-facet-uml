@@ -5,7 +5,7 @@
 #include "io_file_format.h"
 #include "io_importer.h"
 #include "io_import_mode.h"
-#include "u8dir/dir_file.h"
+#include "u8dir/u8dir_file.h"
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_null_output_stream.h"
 #include "u8stream/universal_output_stream.h"
@@ -87,7 +87,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
-            dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
+            u8dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
         }
         else
         {
@@ -121,7 +121,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= utf8stringbuf_copy_str( (*this_).data_file_name, db_file_path );
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
             err |= io_data_file_private_replace_file_extension( this_, (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
-            dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
+            u8dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
 
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
             if ( err != U8_ERROR_NONE )
@@ -139,7 +139,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
                 if ( err != U8_ERROR_NONE )
                 {
                     U8_LOG_ERROR("An error occurred at reading a json data file")
-                    dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible additional errors */
+                    u8dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible additional errors */
                     U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;
                     (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu files when import was not successful */
@@ -190,7 +190,7 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
     if ( (*this_).delete_db_when_finished )
     {
         U8_TRACE_INFO( "CASE: delete_db_when_finished == true" );
-        dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
+        u8dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
     }
 
     (*this_).auto_writeback_to_json = false;

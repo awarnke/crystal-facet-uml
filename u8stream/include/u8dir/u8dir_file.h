@@ -1,7 +1,7 @@
-/* File: dir_file.h; Copyright and License: see below */
+/* File: u8dir_file.h; Copyright and License: see below */
 
-#ifndef DIR_FILE_H
-#define DIR_FILE_H
+#ifndef U8DIR_FILE_H
+#define U8DIR_FILE_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -13,9 +13,9 @@
 #include <errno.h>
 
 /*!
- *  \brief a dir_file_t is simply a string identifying a file
+ *  \brief a u8dir_file_t is simply a string identifying a file
  */
-typedef const char * dir_file_t;
+typedef const char * u8dir_file_t;
 
 /*!
  *  \brief removes the file from the file system
@@ -28,9 +28,9 @@ typedef const char * dir_file_t;
  *          U8_ERROR_FILE_ALREADY_REMOVED if file was not there,
  *          U8_ERROR_AT_FILE_WRITE otherwise
  */
-u8_error_t dir_file_remove( dir_file_t this_ );
+u8_error_t u8dir_file_remove( u8dir_file_t this_ );
 
-#endif  /* DIR_FILE_H */
+#endif  /* U8DIR_FILE_H */
 
 
 /*

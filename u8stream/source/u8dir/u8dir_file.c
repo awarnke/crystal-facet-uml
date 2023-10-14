@@ -1,13 +1,13 @@
-/* File: dir_file.c; Copyright and License: see below */
+/* File: u8dir_file.c; Copyright and License: see below */
 
-#include "u8dir/dir_file.h"
+#include "u8dir/u8dir_file.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
 
-u8_error_t dir_file_remove( dir_file_t this_ )
+u8_error_t u8dir_file_remove( u8dir_file_t this_ )
 {
     U8_TRACE_BEGIN();
     assert( this_ != NULL );
