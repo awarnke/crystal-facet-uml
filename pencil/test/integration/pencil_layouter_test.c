@@ -45,11 +45,11 @@ struct test_fixture_struct {
     PangoLayout *font_layout;
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
-static test_fixture_t test_environment;
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_fixture;
     data_visible_set_init( &((*fix).data_set) );
     data_profile_part_init( &((*fix).profile) );
     pencil_layouter_init( &((*fix).layouter), &((*fix).data_set), &((*fix).profile) );

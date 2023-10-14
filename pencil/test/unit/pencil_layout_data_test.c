@@ -9,11 +9,11 @@
 #include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_empty_model( test_fixture_t *test_env );
-static test_case_result_t test_normal_model( test_fixture_t *test_env );
-static test_case_result_t test_too_big_model( test_fixture_t *test_env );
-static test_case_result_t test_inconsistent_model( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_empty_model( test_fixture_t *fix );
+static test_case_result_t test_normal_model( test_fixture_t *fix );
+static test_case_result_t test_too_big_model( test_fixture_t *fix );
+static test_case_result_t test_inconsistent_model( test_fixture_t *fix );
 static data_visible_set_t* init_empty_input_data();
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships );
 
@@ -33,7 +33,7 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
@@ -166,7 +166,7 @@ static const int DUPLICATE_PARENT_CLASSIFIER=2;
 static const int DUPLICATE_FROM_CLASSIFIER=2;
 static const int DUPLICATE_TO_CLASSIFIER=2;
 
-static test_case_result_t test_empty_model( test_fixture_t *test_env )
+static test_case_result_t test_empty_model( test_fixture_t *fix )
 {
     data_visible_set_t* empty_input_data;
     empty_input_data = init_empty_input_data();
@@ -193,7 +193,7 @@ static test_case_result_t test_empty_model( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_normal_model( test_fixture_t *test_env )
+static test_case_result_t test_normal_model( test_fixture_t *fix )
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(15,30,20);
@@ -214,7 +214,7 @@ static test_case_result_t test_normal_model( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_too_big_model( test_fixture_t *test_env )
+static test_case_result_t test_too_big_model( test_fixture_t *fix )
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data( DATA_VISIBLE_SET_MAX_CLASSIFIERS,
@@ -234,7 +234,7 @@ static test_case_result_t test_too_big_model( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_inconsistent_model( test_fixture_t *test_env )
+static test_case_result_t test_inconsistent_model( test_fixture_t *fix )
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(5,5,5);

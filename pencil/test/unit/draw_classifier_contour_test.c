@@ -9,9 +9,9 @@
 #include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *test_env );
-static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *fix );
+static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *fix );
 
 test_suite_t draw_classifier_contour_test_get_suite(void)
 {
@@ -23,20 +23,25 @@ test_suite_t draw_classifier_contour_test_get_suite(void)
     return result;
 }
 
-static pencil_size_t pencil_size;
+struct test_fixture_struct {
+    pencil_size_t pencil_size;  /*!< the pencil size object needed for tested functions */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    pencil_size_init( &pencil_size, 640.0, 480.0 );
-    return NULL;
+    test_fixture_t *fix = &test_fixture;
+    pencil_size_init( &((*fix).pencil_size), 640.0, 480.0 );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    pencil_size_destroy( &pencil_size );
+    pencil_size_destroy( &((*fix).pencil_size) );
 }
 
-static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *test_env )
+static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *fix )
 {
     draw_classifier_contour_t contour_calculator;
     draw_classifier_contour_init( &contour_calculator );
@@ -52,7 +57,7 @@ static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *test_en
             = draw_classifier_contour_calc_inner_area( &contour_calculator,
                                                        classifier_type,
                                                        &outer_bounds_before,
-                                                       &pencil_size
+                                                       &((*fix).pencil_size)
                                                      );
 
         TEST_EXPECT( geometry_rectangle_is_containing( &outer_bounds_before, &inner_area ) );
@@ -62,7 +67,7 @@ static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *test_en
             = draw_classifier_contour_calc_outer_bounds( &contour_calculator,
                                                          classifier_type,
                                                          &inner_area,
-                                                         &pencil_size
+                                                         &((*fix).pencil_size)
                                                        );
 
         TEST_EXPECT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_left( &outer_bounds_after ) );
@@ -75,12 +80,12 @@ static test_case_result_t test_calc_inner_area_and_back( test_fixture_t *test_en
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *test_env )
+static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *fix )
 {
     draw_classifier_contour_t contour_calculator;
     draw_classifier_contour_init( &contour_calculator );
 
-    const double gap = pencil_size_get_standard_object_border( &pencil_size );
+    const double gap = pencil_size_get_standard_object_border( &((*fix).pencil_size) );
 
     const geometry_rectangle_t outer_bounds = { .left = 0.0, .top = 0.0, .width = gap, .height = gap };
 
@@ -90,7 +95,7 @@ static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *test_e
         = draw_classifier_contour_calc_inner_area( &contour_calculator,
                                                    classifier_type,
                                                    &outer_bounds,
-                                                   &pencil_size
+                                                   &((*fix).pencil_size)
                                                  );
 
     TEST_EXPECT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_width( &inner_area ) );

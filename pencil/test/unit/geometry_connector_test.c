@@ -10,15 +10,15 @@
 #include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_base_methods( test_fixture_t *test_env );
-static test_case_result_t test_bounding_rectangle( test_fixture_t *test_env );
-static test_case_result_t test_segment_bounds( test_fixture_t *test_env );
-static test_case_result_t test_intersecting_rectangle_simple( test_fixture_t *test_env );
-static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *test_env );
-static test_case_result_t test_connector_intersects( test_fixture_t *test_env );
-static test_case_result_t test_calc_waypoint_good( test_fixture_t *test_env );
-static test_case_result_t test_calc_waypoint_zero( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_base_methods( test_fixture_t *fix );
+static test_case_result_t test_bounding_rectangle( test_fixture_t *fix );
+static test_case_result_t test_segment_bounds( test_fixture_t *fix );
+static test_case_result_t test_intersecting_rectangle_simple( test_fixture_t *fix );
+static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *fix );
+static test_case_result_t test_connector_intersects( test_fixture_t *fix );
+static test_case_result_t test_calc_waypoint_good( test_fixture_t *fix );
+static test_case_result_t test_calc_waypoint_zero( test_fixture_t *fix );
 
 test_suite_t geometry_connector_test_get_suite(void)
 {
@@ -40,11 +40,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t test_base_methods( test_fixture_t *test_env )
+static test_case_result_t test_base_methods( test_fixture_t *fix )
 {
     geometry_connector_t my_connector;
     geometry_connector_init_empty( &my_connector );
@@ -77,7 +77,7 @@ static test_case_result_t test_base_methods( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_bounding_rectangle( test_fixture_t *test_env )
+static test_case_result_t test_bounding_rectangle( test_fixture_t *fix )
 {
     geometry_connector_t my_connector;
     geometry_rectangle_t bounds;
@@ -122,7 +122,7 @@ static test_case_result_t test_bounding_rectangle( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_segment_bounds( test_fixture_t *test_env )
+static test_case_result_t test_segment_bounds( test_fixture_t *fix )
 {
     geometry_connector_t my_connector;
     geometry_rectangle_t bounds;
@@ -160,7 +160,7 @@ static test_case_result_t test_segment_bounds( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_intersecting_rectangle_simple( test_fixture_t *test_env )
+static test_case_result_t test_intersecting_rectangle_simple( test_fixture_t *fix )
 {
     geometry_connector_t my_connector;
     geometry_rectangle_t overlap;
@@ -211,7 +211,7 @@ static test_case_result_t test_intersecting_rectangle_simple( test_fixture_t *te
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *test_env )
+static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *fix )
 {
     geometry_connector_t my_connector;
     geometry_rectangle_t touching;
@@ -275,7 +275,7 @@ static test_case_result_t test_intersecting_rectangle_corner( test_fixture_t *te
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_connector_intersects( test_fixture_t *test_env )
+static test_case_result_t test_connector_intersects( test_fixture_t *fix )
 {
     geometry_connector_t my_connector_1;
     geometry_connector_t my_connector_2;
@@ -397,7 +397,7 @@ static test_case_result_t test_connector_intersects( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_calc_waypoint_good( test_fixture_t *test_env )
+static test_case_result_t test_calc_waypoint_good( test_fixture_t *fix )
 {
     geometry_connector_t my_connector_1;
 
@@ -431,7 +431,7 @@ static test_case_result_t test_calc_waypoint_good( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_calc_waypoint_zero( test_fixture_t *test_env )
+static test_case_result_t test_calc_waypoint_zero( test_fixture_t *fix )
 {
     geometry_connector_t my_connector_2; /* main line length = 0 */
     geometry_connector_t my_connector_3; /* srd+dest end line length = 0 */

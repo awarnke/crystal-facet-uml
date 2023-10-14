@@ -48,11 +48,11 @@ struct test_fixture_struct {
     geometry_rectangle_t diagram_bounds;
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
-static test_fixture_t test_environment;
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_fixture;
     data_profile_part_init( &((*fix).profile) );
     data_visible_set_init( &((*fix).data_set) );
     pencil_diagram_maker_init( &((*fix).painter), &((*fix).data_set), &((*fix).profile) );

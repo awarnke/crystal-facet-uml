@@ -35,11 +35,11 @@ struct test_fixture_struct {
     PangoLayout *font_layout;
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
-static test_fixture_t test_environment;
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_fixture;
     /* init a pango font layout */
     {
         geometry_rectangle_init( &(*fix).diagram_bounds, 0.0, 0.0, 640.0, 480.0 );

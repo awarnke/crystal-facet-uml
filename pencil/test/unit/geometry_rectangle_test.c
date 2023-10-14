@@ -8,18 +8,18 @@
 #include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_contain( test_fixture_t *test_env );
-static test_case_result_t test_intersect( test_fixture_t *test_env );
-static test_case_result_t test_bounds( test_fixture_t *test_env );
-static test_case_result_t test_difference_basic( test_fixture_t *test_env );
-static test_case_result_t test_difference_4_candidates( test_fixture_t *test_env );
-static test_case_result_t test_difference_3_candidates( test_fixture_t *test_env );
-static test_case_result_t test_difference_2_corner_candidates( test_fixture_t *test_env );
-static test_case_result_t test_difference_2_stripe_candidates( test_fixture_t *test_env );
-static test_case_result_t test_difference_1_candidate( test_fixture_t *test_env );
-static test_case_result_t test_expand_4d( test_fixture_t *test_env );
-static test_case_result_t test_embrace( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_contain( test_fixture_t *fix );
+static test_case_result_t test_intersect( test_fixture_t *fix );
+static test_case_result_t test_bounds( test_fixture_t *fix );
+static test_case_result_t test_difference_basic( test_fixture_t *fix );
+static test_case_result_t test_difference_4_candidates( test_fixture_t *fix );
+static test_case_result_t test_difference_3_candidates( test_fixture_t *fix );
+static test_case_result_t test_difference_2_corner_candidates( test_fixture_t *fix );
+static test_case_result_t test_difference_2_stripe_candidates( test_fixture_t *fix );
+static test_case_result_t test_difference_1_candidate( test_fixture_t *fix );
+static test_case_result_t test_expand_4d( test_fixture_t *fix );
+static test_case_result_t test_embrace( test_fixture_t *fix );
 
 
 test_suite_t geometry_rectangle_test_get_suite(void)
@@ -45,11 +45,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t test_contain( test_fixture_t *test_env )
+static test_case_result_t test_contain( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -91,7 +91,7 @@ static test_case_result_t test_contain( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_intersect( test_fixture_t *test_env )
+static test_case_result_t test_intersect( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -164,7 +164,7 @@ static test_case_result_t test_intersect( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_bounds( test_fixture_t *test_env )
+static test_case_result_t test_bounds( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -188,7 +188,7 @@ static test_case_result_t test_bounds( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_difference_basic( test_fixture_t *test_env )
+static test_case_result_t test_difference_basic( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -244,7 +244,7 @@ static test_case_result_t test_difference_basic( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_difference_4_candidates( test_fixture_t *test_env )
+static test_case_result_t test_difference_4_candidates( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -271,7 +271,7 @@ static test_case_result_t test_difference_4_candidates( test_fixture_t *test_env
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_difference_3_candidates( test_fixture_t *test_env )
+static test_case_result_t test_difference_3_candidates( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -310,7 +310,7 @@ static test_case_result_t test_difference_3_candidates( test_fixture_t *test_env
 /*  9  .  .  .  .  .  .  .  .  .  .    */
 /* 10                                  */
 
-static test_case_result_t test_difference_2_corner_candidates( test_fixture_t *test_env )
+static test_case_result_t test_difference_2_corner_candidates( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -334,7 +334,7 @@ static test_case_result_t test_difference_2_corner_candidates( test_fixture_t *t
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_difference_2_stripe_candidates( test_fixture_t *test_env )
+static test_case_result_t test_difference_2_stripe_candidates( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -360,7 +360,7 @@ static test_case_result_t test_difference_2_stripe_candidates( test_fixture_t *t
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_difference_1_candidate( test_fixture_t *test_env )
+static test_case_result_t test_difference_1_candidate( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
     geometry_rectangle_t rect_b;
@@ -383,7 +383,7 @@ static test_case_result_t test_difference_1_candidate( test_fixture_t *test_env 
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_expand_4d( test_fixture_t *test_env )
+static test_case_result_t test_expand_4d( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
 
@@ -407,7 +407,7 @@ static test_case_result_t test_expand_4d( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_embrace( test_fixture_t *test_env )
+static test_case_result_t test_embrace( test_fixture_t *fix )
 {
     geometry_rectangle_t rect_a;
 

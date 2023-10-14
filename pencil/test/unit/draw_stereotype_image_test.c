@@ -9,10 +9,10 @@
 #include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *test_env );
-static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *test_env );
-static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *fix );
+static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *fix );
+static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *fix );
 
 test_suite_t draw_stereotype_image_test_get_suite(void)
 {
@@ -30,13 +30,13 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
 #define DRAW_STEREOTYPE_IMAGE_SIMPLE_TESTS_MAX (20)
 
-static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *test_env )
+static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *fix )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
@@ -87,7 +87,7 @@ static test_case_result_t test_parse_valid_simple_svg_xml( test_fixture_t *test_
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *test_env )
+static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *fix )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;
@@ -137,7 +137,7 @@ static test_case_result_t test_parse_valid_svg_xml( test_fixture_t *test_env )
 
 #define DRAW_STEREOTYPE_IMAGE_INVALID_TESTS_MAX (8)
 
-static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *test_env )
+static test_case_result_t test_parse_invalid_svg_xml( test_fixture_t *fix )
 {
     geometry_rectangle_t view_rect;
     u8_error_info_t svg_err_info;

@@ -8,8 +8,8 @@
 #include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_scale_conversion( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_scale_conversion( test_fixture_t *fix );
 
 test_suite_t geometry_non_linear_scale_test_get_suite(void)
 {
@@ -24,11 +24,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t test_scale_conversion( test_fixture_t *test_env )
+static test_case_result_t test_scale_conversion( test_fixture_t *fix )
 {
     geometry_non_linear_scale_t my_scale;
     double location;
