@@ -2,7 +2,10 @@
 
 #include "universal_memory_arena_test.h"
 #include "u8arena/universal_memory_arena.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 #include <string.h>
 #include <stdint.h>
 #include <assert.h>

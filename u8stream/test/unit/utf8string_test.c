@@ -5,7 +5,10 @@
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8_test_cond.h"
 #include "u8/u8_fault_inject.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 #include <string.h>
 #include <assert.h>
 

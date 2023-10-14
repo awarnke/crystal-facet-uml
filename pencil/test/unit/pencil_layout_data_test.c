@@ -3,8 +3,10 @@
 #include "pencil_layout_data_test.h"
 #include "pencil_layout_data.h"
 #include "set/data_visible_set.h"
+#include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );

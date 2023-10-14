@@ -8,8 +8,10 @@
 #include "set/data_profile_part.h"
 #include "test_data/test_data_setup.h"
 #include "u8/u8_trace.h"
+#include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );

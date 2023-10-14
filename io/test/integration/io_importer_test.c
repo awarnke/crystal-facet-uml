@@ -11,37 +11,25 @@
 #include "u8stream/universal_memory_input_stream.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8/u8_trace.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t insert_invalid_json( test_fixture_t *test_env );
-static test_case_result_t insert_invalid_parent_diag( test_fixture_t *test_env );
-static test_case_result_t insert_empty_set( test_fixture_t *test_env );
-static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *test_env );
-static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *test_env );
-static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *test_env );
-static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *test_env );
-static test_case_result_t insert_unconditional_relationships( test_fixture_t *test_env );
-static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *test_env );
-static test_case_result_t insert_scenario_relationships_to_scenario( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t insert_invalid_json( test_fixture_t *fix );
+static test_case_result_t insert_invalid_parent_diag( test_fixture_t *fix );
+static test_case_result_t insert_empty_set( test_fixture_t *fix );
+static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *fix );
+static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *fix );
+static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *fix );
+static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *fix );
+static test_case_result_t insert_unconditional_relationships( test_fixture_t *fix );
+static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *fix );
+static test_case_result_t insert_scenario_relationships_to_scenario( test_fixture_t *fix );
 
-static data_row_id_t create_root_diag();  /* helper function */
-
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
+static data_row_id_t create_root_diag( ctrl_controller_t *controller );  /* helper function */
 
 test_suite_t io_importer_test_get_suite(void)
 {
@@ -60,34 +48,44 @@ test_suite_t io_importer_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
+    test_fixture_t *fix = &test_fixture;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
 
-    data_database_reader_init( &db_reader, &database );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
 
-    ctrl_controller_init( &controller, &database );
-    return NULL;
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    ctrl_controller_destroy( &controller );
+    assert( fix != NULL );
+    ctrl_controller_destroy( &((*fix).controller) );
 
-    data_database_reader_destroy( &db_reader );
+    data_database_reader_destroy( &((*fix).db_reader) );
 
-    data_database_close( &database );
-    data_database_destroy( &database );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static data_row_id_t create_root_diag()
+static data_row_id_t create_root_diag( ctrl_controller_t *controller )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_diagram_controller_t *diagram_ctrl;
 
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( controller );
 
     /* create a diagram of type DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
     data_row_id_t root_diag_id;
@@ -287,12 +285,13 @@ static const char *const test_json_no_diag =
     "  ]\n"
     "}\n";
 
-static test_case_result_t insert_invalid_json( test_fixture_t *test_env )
+static test_case_result_t insert_invalid_json( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     data_stat_t stat;
@@ -332,12 +331,13 @@ static test_case_result_t insert_invalid_json( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t insert_invalid_parent_diag( test_fixture_t *test_env )
+static test_case_result_t insert_invalid_parent_diag( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     data_stat_t stat;
@@ -360,12 +360,13 @@ static test_case_result_t insert_invalid_parent_diag( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t insert_empty_set( test_fixture_t *test_env )
+static test_case_result_t insert_empty_set( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     data_stat_t stat;
@@ -389,12 +390,13 @@ static test_case_result_t insert_empty_set( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *test_env )
+static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     data_stat_t stat;
@@ -423,12 +425,13 @@ static test_case_result_t insert_new_classifier_to_existing_diagram( test_fixtur
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *test_env )
+static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     data_stat_t stat;
@@ -459,12 +462,13 @@ static test_case_result_t insert_new_classifier_to_new_diagram( test_fixture_t *
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *test_env )
+static test_case_result_t insert_existing_feature_to_other_classifier( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     {
@@ -518,12 +522,13 @@ static test_case_result_t insert_existing_feature_to_other_classifier( test_fixt
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *test_env )
+static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     {
@@ -578,12 +583,13 @@ static test_case_result_t insert_existing_classifier_to_new_diagram( test_fixtur
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t insert_unconditional_relationships( test_fixture_t *test_env )
+static test_case_result_t insert_unconditional_relationships( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     {
@@ -710,12 +716,13 @@ static const char *const test_non_scenario_relationship =
     "  ]\n"
     "}\n";
 
-static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *test_env )
+static test_case_result_t insert_relationships_to_non_scenario( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
 
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     data_stat_t stat;
@@ -779,10 +786,11 @@ static const char *const test_json_scenario_self_relation =
     "  ]\n"
     "}\n";
 
-static test_case_result_t insert_scenario_relationships_to_scenario( test_fixture_t *test_env )
+static test_case_result_t insert_scenario_relationships_to_scenario( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     io_importer_t importer;
-    io_importer_init ( &importer, &db_reader, &controller );
+    io_importer_init ( &importer, &((*fix).db_reader), &((*fix).controller) );
 
     u8_error_t data_err;
     {

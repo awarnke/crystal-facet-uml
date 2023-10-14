@@ -3,7 +3,10 @@
 #include "draw_stereotype_image_test.h"
 #include "draw/draw_stereotype_image.h"
 #include "data_classifier_type.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );

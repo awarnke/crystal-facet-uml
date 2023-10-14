@@ -6,9 +6,10 @@
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_writer.h"
+#include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
-#include "test_fixture.h"
+#include "test_case_result.h"
 #include "test_vector/test_vector_db.h"
 
 static test_fixture_t * set_up();

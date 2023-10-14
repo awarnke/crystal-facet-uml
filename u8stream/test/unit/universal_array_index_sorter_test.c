@@ -2,7 +2,10 @@
 
 #include "u8list/universal_array_index_sorter.h"
 #include "universal_array_index_sorter_test.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 #include <stdio.h>
 #include <assert.h>
 

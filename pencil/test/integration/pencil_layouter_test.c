@@ -5,8 +5,10 @@
 #include "pencil_diagram_maker.h"
 #include "test_data/test_data_setup.h"
 #include "u8/u8_trace.h"
+#include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
+#include "test_case_result.h"
 #include <inttypes.h>
 
 static test_fixture_t * set_up();

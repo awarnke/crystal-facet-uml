@@ -2,24 +2,22 @@
 
 #include "io_data_file_test.h"
 #include "io_data_file.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 #include <stdio.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t create_new_db( test_fixture_t *test_env );
-static test_case_result_t open_existing_db( test_fixture_t *test_env );
-static test_case_result_t open_invalid_file( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t create_new_db( test_fixture_t *fix );
+static test_case_result_t open_existing_db( test_fixture_t *fix );
+static test_case_result_t open_invalid_file( test_fixture_t *fix );
 
 /*!
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
  */
 static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu1";
-
-/*!
- *  \brief data_file instance on which the tests are performed
- */
-static io_data_file_t data_file;
 
 test_suite_t io_data_file_test_get_suite(void)
 {
@@ -31,76 +29,87 @@ test_suite_t io_data_file_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    io_data_file_t data_file;  /*!< data_file instance on which the tests are performed */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    io_data_file_init( &data_file );
-    return NULL;
+    test_fixture_t *fix = &test_fixture;
+    io_data_file_init( &((*fix).data_file) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     int stdio_err;
-    io_data_file_destroy( &data_file );
+    io_data_file_destroy( &((*fix).data_file) );
     stdio_err = remove( DATABASE_FILENAME );
     TEST_ENVIRONMENT_ASSERT ( 0 == stdio_err );
 }
 
-static test_case_result_t create_new_db( test_fixture_t *test_env )
+static test_case_result_t create_new_db( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     bool isopen;
 
-    isopen = io_data_file_is_open( &data_file );
+    isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* create a new db */
     u8_error_info_t err_info;
-    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
+    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
-    isopen = io_data_file_is_open( &data_file );
+    isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( true, isopen );
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t open_existing_db( test_fixture_t *test_env )
+static test_case_result_t open_existing_db( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
     bool isopen;
 
-    isopen = io_data_file_is_open( &data_file );
+    isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* create a db first */
     u8_error_info_t err_info;
-    data_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
+    data_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
-    data_err = io_data_file_close ( &data_file );
+    data_err = io_data_file_close ( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
-    isopen = io_data_file_is_open( &data_file );
+    isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* open an existing db */
     u8_error_info_init_line( &err_info, U8_ERROR_PARSER_STRUCTURE, 123 /*line*/ );
-    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
+    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
-    isopen = io_data_file_is_open( &data_file );
+    isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( true, isopen );
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t open_invalid_file( test_fixture_t *test_env )
+static test_case_result_t open_invalid_file( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     u8_error_t ctrl_err;
     int stdio_err;
     bool isopen;
@@ -118,18 +127,18 @@ static test_case_result_t open_invalid_file( test_fixture_t *test_env )
     stdio_err = fclose( nondb );
     TEST_EXPECT_EQUAL_INT( 0, stdio_err );
 
-    isopen = io_data_file_is_open( &data_file );
+    isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( false, isopen );
 
     /* open an existing non-db file */
     u8_error_info_t err_info;
-    ctrl_err = io_data_file_open_writeable( &data_file, DATABASE_FILENAME, &err_info );
+    ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_PARSER_STRUCTURE, u8_error_info_get_error( &err_info ) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_LINE, u8_error_info_get_unit( &err_info ) );
     TEST_EXPECT_EQUAL_INT( 1, u8_error_info_get_line( &err_info ) );
 
-    isopen = io_data_file_is_open( &data_file );
+    isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( false, isopen );
     return TEST_CASE_RESULT_OK;
 }

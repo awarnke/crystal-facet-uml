@@ -3,7 +3,10 @@
 #include "universal_escaping_output_stream_test.h"
 #include "u8stream/universal_escaping_output_stream.h"
 #include "u8stream/universal_memory_output_stream.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 #include <string.h>
 #include <assert.h>
 

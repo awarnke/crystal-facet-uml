@@ -2,7 +2,10 @@
 
 #include "pencil_classifier_composer_test.h"
 #include "pencil_classifier_composer.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );

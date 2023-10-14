@@ -2,7 +2,10 @@
 
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf_performance.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 #include <string.h>
 #include <time.h>
 #include <assert.h>

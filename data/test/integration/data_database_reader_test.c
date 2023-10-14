@@ -3,9 +3,10 @@
 #include "data_database_reader_test.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_writer.h"
+#include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
-#include "test_fixture.h"
+#include "test_case_result.h"
 #include <errno.h>
 
 static test_fixture_t * set_up();
@@ -287,8 +288,8 @@ static void tear_down( test_fixture_t *fix )
     data_database_reader_destroy( &((*fix).db_reader) );
     data_database_close( &((*fix).database) );
     data_database_destroy( &((*fix).database) );
-    const u8_error_t err = remove( DATABASE_FILENAME );
-    TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
+    const int stdio_err = remove( DATABASE_FILENAME );
+    TEST_ENVIRONMENT_ASSERT( stdio_err == 0 );
 }
 
 static test_case_result_t test_search_diagrams( test_fixture_t *fix )

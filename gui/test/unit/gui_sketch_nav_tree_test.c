@@ -1,11 +1,14 @@
 /* File: gui_sketch_nav_tree_test.c; Copyright and License: see below */
 
+#include "gui_sketch_nav_tree_test.h"
 #include "sketch/gui_sketch_nav_tree.h"
 #include "shape/shape_int_rectangle.h"
 #include "gui_resources.h"
 #include "data_diagram.h"
+#include "test_fixture.h"
 #include "test_expect.h"
-#include "test_suite.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );

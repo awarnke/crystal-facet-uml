@@ -12,16 +12,20 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "u8/u8_trace.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix );
 
 /*!
  *  \brief helper function to initialize the database
  */
-static void create_mini_model( data_row_id_t * out_root_diagram,
+static void create_mini_model( ctrl_controller_t *controller,
+                               data_row_id_t * out_root_diagram,
                                data_row_id_t * out_from_classifier_parent,
                                data_row_id_t * out_from_classifier,
                                data_row_id_t * out_from_feature,
@@ -34,31 +38,6 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                data_row_id_t * out_relation_feat_feat
                              );
 
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
-
-/*!
- *  \brief stream to write to a memory buffer
- */
-static universal_memory_output_stream_t mem_output_stream;
-
-/*!
- *  \brief mem-buffer to be written by mem_output_stream
- */
-static char mem_buffer[16384];
-
 test_suite_t io_export_model_traversal_test_get_suite(void)
 {
     test_suite_t result;
@@ -67,31 +46,44 @@ test_suite_t io_export_model_traversal_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+    universal_memory_output_stream_t mem_output_stream;  /*!< stream to write to a memory buffer */
+    char mem_buffer[16384];  /*!< mem-buffer to be written by mem_output_stream */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
-    data_database_reader_init( &db_reader, &database );
-    ctrl_controller_init( &controller, &database );
+    test_fixture_t *fix = &test_fixture;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
 
-    universal_memory_output_stream_init( &mem_output_stream,
-                                         &mem_buffer,
-                                         sizeof(mem_buffer)
+    universal_memory_output_stream_init( &((*fix).mem_output_stream),
+                                         &((*fix).mem_buffer),
+                                         sizeof(test_fixture.mem_buffer)
                                        );
-    return NULL;
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    universal_memory_output_stream_destroy( &mem_output_stream );
+    assert( fix != NULL );
+    universal_memory_output_stream_destroy( &((*fix).mem_output_stream) );
 
-    ctrl_controller_destroy( &controller );
-    data_database_reader_destroy( &db_reader );
-    data_database_close( &database );
-    data_database_destroy( &database );
+    ctrl_controller_destroy( &((*fix).controller) );
+    data_database_reader_destroy( &((*fix).db_reader) );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static void create_mini_model( data_row_id_t * out_root_diagram,
+static void create_mini_model( ctrl_controller_t *controller,
+                               data_row_id_t * out_root_diagram,
                                data_row_id_t * out_from_classifier_parent,
                                data_row_id_t * out_from_classifier,
                                data_row_id_t * out_from_feature,
@@ -104,10 +96,10 @@ static void create_mini_model( data_row_id_t * out_root_diagram,
                                data_row_id_t * out_relation_feat_feat )
 {
     ctrl_classifier_controller_t *classifier_ctrl;
-    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
     u8_error_t c_err;
     test_env_setup_t test_env;
-    test_env_setup_init( &test_env, &controller );
+    test_env_setup_init( &test_env, controller );
 
     *out_root_diagram = test_env_setup_data_create_diagram( &test_env, DATA_ROW_ID_VOID, "root diag" );
 
@@ -260,8 +252,9 @@ static const data_relationship_type_t relationship_types[]
     (data_relationship_type_t) IO_EXPORT_MODEL_TRAVERSAL_TEST_FUTURE_TYPE,  /* downwards compatibility check */
 };
 
-static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env )
+static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     /* fill database with mini model */
     data_row_id_t from_classifier_parent;
     data_row_id_t from_classifier;
@@ -274,7 +267,8 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env 
     data_row_id_t relation_feat_clas;
     data_row_id_t relation_feat_feat;
     data_row_id_t root_diag_id;
-    create_mini_model( &root_diag_id,
+    create_mini_model( &((*fix).controller),
+                       &root_diag_id,
                        &from_classifier_parent,
                        &from_classifier,
                        &from_feature,
@@ -301,7 +295,7 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env 
                     U8_LOG_ANOMALY_INT("variation_idx",variation_idx);
                     /* update types in database */
                     ctrl_classifier_controller_t *const c_ctrl
-                        = ctrl_controller_get_classifier_control_ptr( &controller );
+                        = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
 
                     /* determine if all 4 relationships between from_classifier and to_classifier shall have the same type */
                     const unsigned int rel2_idx
@@ -340,14 +334,14 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env 
                         static io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
                         xmi_element_writer_t temp_xmi_writer;  /*!< memory for a temporary xmi writer */
 
-                        universal_memory_output_stream_reset( &mem_output_stream );
-                        universal_output_stream_t* output = universal_memory_output_stream_get_output_stream( &mem_output_stream );
+                        universal_memory_output_stream_reset( &((*fix).mem_output_stream) );
+                        universal_output_stream_t* output = universal_memory_output_stream_get_output_stream( &((*fix).mem_output_stream) );
 
                         {
                             xmi_element_writer_init( &temp_xmi_writer, &stat, output );
                             /* init the model_traversal */
                             io_export_model_traversal_init( &temp_model_traversal,
-                                                            &db_reader,
+                                                            &((*fix).db_reader),
                                                             &temp_input_data,
                                                             &stat,
                                                             xmi_element_writer_get_element_writer( &temp_xmi_writer )
@@ -370,16 +364,16 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *test_env 
                         }
                     }
                     //static const char TERM2[4]="qQe\n";
-                    //universal_memory_output_stream_write( &mem_output_stream, &TERM2, sizeof(TERM2) );
+                    //universal_memory_output_stream_write( &((*fix).mem_output_stream), &TERM2, sizeof(TERM2) );
                     static const char TERM='\00';
-                    int write_err = universal_memory_output_stream_write( &mem_output_stream, &TERM, sizeof(TERM) );
+                    int write_err = universal_memory_output_stream_write( &((*fix).mem_output_stream), &TERM, sizeof(TERM) );
                     TEST_ENVIRONMENT_ASSERT( 0 == write_err );
-                    universal_memory_output_stream_flush( &mem_output_stream );
+                    universal_memory_output_stream_flush( &((*fix).mem_output_stream) );
 #ifndef NDEBUG
-                    fprintf( stdout, "\n%s\n", &(mem_buffer[0]) );
+                    fprintf( stdout, "\n%s\n", &((*fix).mem_buffer[0]) );
 #endif
 
-                    const int xml_is_error = test_result_check_xml_validate_xml( &(mem_buffer[0]) );
+                    const int xml_is_error = test_result_check_xml_validate_xml( &((*fix).mem_buffer[0]) );
                     TEST_EXPECT_EQUAL_INT( 0, xml_is_error );
 
                     data_stat_trace( &stat );

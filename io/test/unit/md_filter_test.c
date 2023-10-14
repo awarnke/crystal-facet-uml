@@ -9,44 +9,18 @@
 #include "storage/data_database_reader.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8/u8_trace.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_md_plain_mixed( test_fixture_t *test_env );
-static test_case_result_t test_valid_links( test_fixture_t *test_env );
-static test_case_result_t test_invalid_links( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_md_plain_mixed( test_fixture_t *fix );
+static test_case_result_t test_valid_links( test_fixture_t *fix );
+static test_case_result_t test_invalid_links( test_fixture_t *fix );
 
-static data_row_id_t create_root_diag();  /* helper function */
-
-/*!
- *  \brief database instance on which the tests are performed
- */
-static data_database_t database;
-
-/*!
- *  \brief database reader to access the database
- */
-static data_database_reader_t db_reader;
-
-/*!
- *  \brief controller instance on which the tests are performed
- */
-static ctrl_controller_t controller;
-
-/*!
- *  \brief md_filter to be tested
- */
-static md_filter_t md_filter;
-
-#define TAG_BREAK "&LN;"
-#define TAG_LINK1 "<REF TO=\""
-#define TAG_LINK2 "\">"
-#define TAG_LINK3 "</REF>"
-
-static char my_out_buffer[200];
-static universal_memory_output_stream_t my_out_stream;
-static xml_writer_t xml_writer;
+static data_row_id_t create_root_diag( ctrl_controller_t *controller );  /* helper function */
 
 test_suite_t md_filter_test_get_suite(void)
 {
@@ -58,46 +32,65 @@ test_suite_t md_filter_test_get_suite(void)
     return result;
 }
 
+#define TAG_BREAK "&LN;"
+#define TAG_LINK1 "<REF TO=\""
+#define TAG_LINK2 "\">"
+#define TAG_LINK3 "</REF>"
+
+struct test_fixture_struct {
+    data_database_t database;  /*!< database instance on which the tests are performed */
+    data_database_reader_t db_reader;  /*!< database reader to access the database */
+    ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
+    md_filter_t md_filter;  /*!< md_filter to be tested */
+    char out_buffer[200];
+    universal_memory_output_stream_t out_stream;
+    xml_writer_t xml_writer;
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    data_database_init( &database );
-    data_database_open_in_memory( &database );
+    test_fixture_t *fix = &test_fixture;
+    data_database_init( &((*fix).database) );
+    data_database_open_in_memory( &((*fix).database) );
 
-    data_database_reader_init( &db_reader, &database );
+    data_database_reader_init( &((*fix).db_reader), &((*fix).database) );
 
-    ctrl_controller_init( &controller, &database );
+    ctrl_controller_init( &((*fix).controller), &((*fix).database) );
 
-    memset( &my_out_buffer, '\0', sizeof(my_out_buffer) );
-    universal_memory_output_stream_init( &my_out_stream, &my_out_buffer, sizeof(my_out_buffer) );
-    xml_writer_init( &xml_writer, universal_memory_output_stream_get_output_stream( &my_out_stream ) );
+    memset( &((*fix).out_buffer), '\0', sizeof( (*fix).out_buffer) );
+    universal_memory_output_stream_init( &((*fix).out_stream), &((*fix).out_buffer), sizeof( (*fix).out_buffer) );
+    xml_writer_init( &((*fix).xml_writer), universal_memory_output_stream_get_output_stream( &((*fix).out_stream) ) );
 
-    md_filter_init( &md_filter, &db_reader, TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &xml_writer );
-    return NULL;
+    md_filter_init( &((*fix).md_filter), &((*fix).db_reader), TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &((*fix).xml_writer) );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    md_filter_destroy( &md_filter );
+    assert( fix != NULL );
+    md_filter_destroy( &((*fix).md_filter) );
 
-    xml_writer_destroy( &xml_writer );
+    xml_writer_destroy( &((*fix).xml_writer) );
 
-    universal_memory_output_stream_destroy( &my_out_stream );
+    universal_memory_output_stream_destroy( &((*fix).out_stream) );
 
-    ctrl_controller_destroy( &controller );
+    ctrl_controller_destroy( &((*fix).controller) );
 
-    data_database_reader_destroy( &db_reader );
+    data_database_reader_destroy( &((*fix).db_reader) );
 
-    data_database_close( &database );
-    data_database_destroy( &database );
+    data_database_close( &((*fix).database) );
+    data_database_destroy( &((*fix).database) );
 }
 
-static data_row_id_t create_root_diag()
+static data_row_id_t create_root_diag( ctrl_controller_t *controller )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
     ctrl_diagram_controller_t *diagram_ctrl;
 
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( controller );
 
     /* create a diagram */
     data_row_id_t root_diag_id;
@@ -129,24 +122,25 @@ static data_row_id_t create_root_diag()
 }
 
 
-static test_case_result_t test_md_plain_mixed( test_fixture_t *test_env )
+static test_case_result_t test_md_plain_mixed( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     int err;
 
     /* plain */
-    err = xml_writer_write_plain ( &xml_writer, "<!DTD><body>" );
+    err = xml_writer_write_plain ( &((*fix).xml_writer), "<!DTD><body>" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* xml enc */
-    err = md_filter_transform ( &md_filter, "plain &amp; \"\'<>D3D#name#id" );
+    err = md_filter_transform ( &((*fix).md_filter), "plain &amp; \"\'<>D3D#name#id" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* md */
-    err = md_filter_transform ( &md_filter, "ln 1a\nln 1b\n\nln 2\n- ln 3\n4\n5 ln 5\n\n\nln 7a\n ln 7b\n> ln8\n" );
+    err = md_filter_transform ( &((*fix).md_filter), "ln 1a\nln 1b\n\nln 2\n- ln 3\n4\n5 ln 5\n\n\nln 7a\n ln 7b\n> ln8\n" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* plain */
-    err = xml_writer_write_plain ( &xml_writer, "</body>" );
+    err = xml_writer_write_plain ( &((*fix).xml_writer), "</body>" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "<!DTD><body>plain &amp;amp; &quot;\'&lt;&gt;D3D#name#id"
@@ -155,19 +149,20 @@ static test_case_result_t test_md_plain_mixed( test_fixture_t *test_env )
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
-    TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
-    TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    TEST_ENVIRONMENT_ASSERT( sizeof( (*fix).out_buffer ) >= sizeof(expected)-1 );
+    TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), expected, sizeof(expected)-1 ) );
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_valid_links( test_fixture_t *test_env )
+static test_case_result_t test_valid_links( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
     int err;
 
     /* 2 valid links, 1 valid but half link */
-    err = md_filter_transform ( &md_filter, ">D3DD0001#name#idD0001#id#nameD0001" );
+    err = md_filter_transform ( &((*fix).md_filter), ">D3DD0001#name#idD0001#id#nameD0001" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "&gt;D3D" TAG_LINK1 "D0001" TAG_LINK2 "Th&amp; &lt;root&gt; d&quot;agram" TAG_LINK3 "#id"
@@ -175,27 +170,28 @@ static test_case_result_t test_valid_links( test_fixture_t *test_env )
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
-    TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
-    TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    TEST_ENVIRONMENT_ASSERT( sizeof( (*fix).out_buffer ) >= sizeof(expected)-1 );
+    TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), expected, sizeof(expected)-1 ) );
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_invalid_links( test_fixture_t *test_env )
+static test_case_result_t test_invalid_links( test_fixture_t *fix )
 {
-    data_row_id_t root_diag_id = create_root_diag();
+    assert( fix != NULL );
+    data_row_id_t root_diag_id = create_root_diag( &((*fix).controller) );
     TEST_ENVIRONMENT_ASSERT( 1 == root_diag_id );  /* otherwise D0001 needs to be adapted (hint: delete old database file) */
     int err;
 
     /* 2 invalid links, 1 valid but non-existig link, 1 valid but half link */
-    err = md_filter_transform ( &md_filter, ">D3DD001#nameC0001#idD0002#id#nameD0001#nam" );
+    err = md_filter_transform ( &((*fix).md_filter), ">D3DD001#nameC0001#idD0002#id#nameD0001#nam" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "&gt;D3DD001#nameC0001#idD0002#id#nameD0001#nam";
     //fprintf( stdout, "%s\n", &(expected[0]) );
     //fprintf( stdout, "%s\n", &(my_out_buffer[0]) );
     //fflush(stdout);
-    TEST_ENVIRONMENT_ASSERT( sizeof(my_out_buffer) >= sizeof(expected)-1 );
-    TEST_EXPECT( 0 == memcmp( &my_out_buffer, expected, sizeof(expected)-1 ) );
+    TEST_ENVIRONMENT_ASSERT( sizeof( (*fix).out_buffer ) >= sizeof(expected)-1 );
+    TEST_EXPECT( 0 == memcmp( &((*fix).out_buffer), expected, sizeof(expected)-1 ) );
     return TEST_CASE_RESULT_OK;
 }
 

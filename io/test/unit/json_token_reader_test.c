@@ -3,17 +3,20 @@
 #include "json_token_reader_test.h"
 #include "json/json_token_reader.h"
 #include "u8stream/universal_memory_input_stream.h"
+#include "test_fixture.h"
 #include "test_expect.h"
+#include "test_environment_assert.h"
+#include "test_case_result.h"
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_skip_whitespace( test_fixture_t *test_env );
-static test_case_result_t test_is_value_end( test_fixture_t *test_env );
-static test_case_result_t test_get_value_type( test_fixture_t *test_env );
-static test_case_result_t test_parse_string( test_fixture_t *test_env );
-static test_case_result_t test_parse_integer( test_fixture_t *test_env );
-static test_case_result_t test_skip_number( test_fixture_t *test_env );
-static test_case_result_t test_parse( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_skip_whitespace( test_fixture_t *fix );
+static test_case_result_t test_is_value_end( test_fixture_t *fix );
+static test_case_result_t test_get_value_type( test_fixture_t *fix );
+static test_case_result_t test_parse_string( test_fixture_t *fix );
+static test_case_result_t test_parse_integer( test_fixture_t *fix );
+static test_case_result_t test_skip_number( test_fixture_t *fix );
+static test_case_result_t test_parse( test_fixture_t *fix );
 
 
 test_suite_t json_token_reader_test_get_suite(void)
@@ -35,13 +38,13 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
 static json_token_reader_t tok;
 
-static test_case_result_t test_skip_whitespace( test_fixture_t *test_env )
+static test_case_result_t test_skip_whitespace( test_fixture_t *fix )
 {
     universal_memory_input_stream_t test_input;
     const char test_str1[3] = "4 ";
@@ -75,7 +78,7 @@ static test_case_result_t test_skip_whitespace( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_is_value_end( test_fixture_t *test_env )
+static test_case_result_t test_is_value_end( test_fixture_t *fix )
 {
     const char test_str[17] = "+2f\r"  "5,7:"  "9}b "  "\"e\".";
     const char results[18] = "0001"  "0101"  "0101"  "00001";
@@ -100,7 +103,7 @@ static test_case_result_t test_is_value_end( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_get_value_type( test_fixture_t *test_env )
+static test_case_result_t test_get_value_type( test_fixture_t *fix )
 {
     u8_error_t test_err;
     universal_memory_input_stream_t test_input;
@@ -201,7 +204,7 @@ static test_case_result_t test_get_value_type( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_parse_string( test_fixture_t *test_env )
+static test_case_result_t test_parse_string( test_fixture_t *fix )
 {
    u8_error_t test_err;
    const char test_str[6][17] = {
@@ -242,7 +245,7 @@ static test_case_result_t test_parse_string( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_parse_integer( test_fixture_t *test_env )
+static test_case_result_t test_parse_integer( test_fixture_t *fix )
 {
     u8_error_t test_err;
     const char test_str[8][16] = {
@@ -279,7 +282,7 @@ static test_case_result_t test_parse_integer( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_skip_number( test_fixture_t *test_env )
+static test_case_result_t test_skip_number( test_fixture_t *fix )
 {
     u8_error_t test_err;
     const char test_str[8][16] = {
@@ -312,7 +315,7 @@ static test_case_result_t test_skip_number( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_parse( test_fixture_t *test_env )
+static test_case_result_t test_parse( test_fixture_t *fix )
 {
     static const char test_str[] =
         "\n{"

@@ -2,9 +2,10 @@
 
 #include "data_change_notifier_test.h"
 #include "storage/data_change_notifier.h"
+#include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
-#include "test_fixture.h"
+#include "test_case_result.h"
 #include <glib-object.h>
 
 static test_fixture_t * set_up();

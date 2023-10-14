@@ -18,6 +18,10 @@ struct test_fixture_struct;
 
 /*!
  *  \brief a type declaration to a test fixture.
+ *
+ *  A test fixture provides the context for the function under test.
+ *  This is on one hand the test environment like database, file system, controller;
+ *  on the other hand it also hosts the own data structures needed by the function under test.
  */
 typedef struct test_fixture_struct test_fixture_t;
 
