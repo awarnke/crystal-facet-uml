@@ -12,11 +12,11 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_error( test_fixture_t *test_env );
-static test_case_result_t test_error_info( test_fixture_t *test_env );
-static test_case_result_t test_f64( test_fixture_t *test_env );
-static test_case_result_t test_i32( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_error( test_fixture_t *fix );
+static test_case_result_t test_error_info( test_fixture_t *fix );
+static test_case_result_t test_f64( test_fixture_t *fix );
+static test_case_result_t test_i32( test_fixture_t *fix );
 
 test_suite_t u8__test_get_suite(void)
 {
@@ -34,11 +34,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t test_error( test_fixture_t *test_env )
+static test_case_result_t test_error( test_fixture_t *fix )
 {
     bool contains;
 
@@ -61,7 +61,7 @@ static test_case_result_t test_error( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_error_info( test_fixture_t *test_env )
+static test_case_result_t test_error_info( test_fixture_t *fix )
 {
     u8_error_info_t probe;
     bool is_err;
@@ -153,7 +153,7 @@ static test_case_result_t test_error_info( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_f64( test_fixture_t *test_env )
+static test_case_result_t test_f64( test_fixture_t *fix )
 {
     double result;
 
@@ -172,7 +172,7 @@ static test_case_result_t test_f64( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_i32( test_fixture_t *test_env )
+static test_case_result_t test_i32( test_fixture_t *fix )
 {
     int_fast32_t result;
 

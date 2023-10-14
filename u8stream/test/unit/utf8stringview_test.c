@@ -11,10 +11,10 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t testInitMacros( test_fixture_t *test_env );
-static test_case_result_t testInitFunctions( test_fixture_t *test_env );
-static test_case_result_t testFindFirst( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t testInitMacros( test_fixture_t *fix );
+static test_case_result_t testInitFunctions( test_fixture_t *fix );
+static test_case_result_t testFindFirst( test_fixture_t *fix );
 
 test_suite_t utf8stringview_test_get_suite(void)
 {
@@ -31,11 +31,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t testInitMacros( test_fixture_t *test_env )
+static test_case_result_t testInitMacros( test_fixture_t *fix )
 {
     const char* start;
     size_t len;
@@ -84,7 +84,7 @@ static test_case_result_t testInitMacros( test_fixture_t *test_env )
 }
 
 
-static test_case_result_t testInitFunctions( test_fixture_t *test_env )
+static test_case_result_t testInitFunctions( test_fixture_t *fix )
 {
     static const char *const my_txt = "txt";
 
@@ -117,7 +117,7 @@ static test_case_result_t testInitFunctions( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindFirst( test_fixture_t *test_env )
+static test_case_result_t testFindFirst( test_fixture_t *fix )
 {
     int pos;
     char memoryArr[] = "beforeHELLO ANANASafter";

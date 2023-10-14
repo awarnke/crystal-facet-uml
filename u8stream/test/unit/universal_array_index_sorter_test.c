@@ -10,8 +10,8 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix );
 
 test_suite_t universal_array_index_sorter_test_get_suite(void)
 {
@@ -26,11 +26,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix )
 {
     int err;
     uint32_t count;

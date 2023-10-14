@@ -12,8 +12,8 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_append( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_append( test_fixture_t *fix );
 
 test_suite_t universal_arena_list_test_get_suite(void)
 {
@@ -23,24 +23,34 @@ test_suite_t universal_arena_list_test_get_suite(void)
     return result;
 }
 
-static char one_and_half_element[ sizeof(universal_arena_list_element_t) + 2*sizeof(double) + sizeof(int) ];
-universal_memory_arena_t small_arena;
+struct test_fixture_struct {
+    char one_and_half_element[ sizeof(universal_arena_list_element_t) + 2*sizeof(double) + sizeof(int) ];
+    universal_memory_arena_t small_arena;
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    universal_memory_arena_init( &small_arena, &one_and_half_element, sizeof(one_and_half_element) );
-    return NULL;
+    test_fixture_t *fix = &test_fixture;
+    universal_memory_arena_init( &((*fix).small_arena),
+                                 &((*fix).one_and_half_element),
+                                 sizeof( (*fix).one_and_half_element )
+                               );
+    return fix;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
-    universal_memory_arena_destroy( &small_arena );
+    assert( fix != NULL );
+    universal_memory_arena_destroy( &((*fix).small_arena) );
 }
 
-static test_case_result_t test_append( test_fixture_t *test_env )
+static test_case_result_t test_append( test_fixture_t *fix )
 {
+    assert( fix != NULL );
     universal_arena_list_t test_me;
-    universal_arena_list_init( &test_me, &small_arena );
+    universal_arena_list_init( &test_me, &((*fix).small_arena) );
 
     /* check empty iterator */
     universal_arena_list_element_t *it1 = universal_arena_list_get_begin( &test_me );
@@ -48,7 +58,7 @@ static test_case_result_t test_append( test_fixture_t *test_env )
 
     /* get memory from arena */
     double *ele_1;
-    int err1 = universal_memory_arena_get_block( &small_arena, sizeof(double), (void**)&ele_1 );
+    int err1 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_1 );
     TEST_EXPECT_EQUAL_INT( 0, err1 );
     *ele_1 = 34.5;
 
@@ -58,7 +68,7 @@ static test_case_result_t test_append( test_fixture_t *test_env )
 
     /* get memory from arena */
     double *ele_2;
-    int err3 = universal_memory_arena_get_block( &small_arena, sizeof(double), (void**)&ele_2 );
+    int err3 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_2 );
     TEST_EXPECT_EQUAL_INT( 0, err3 );
     *ele_1 = 17.25;
 

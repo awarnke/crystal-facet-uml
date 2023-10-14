@@ -11,14 +11,14 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t testStandardUseCase( test_fixture_t *test_env );
-static test_case_result_t testNoSeparatorUseCase( test_fixture_t *test_env );
-static test_case_result_t testEmptyElementsUseCase( test_fixture_t *test_env );
-static test_case_result_t testEmptyListUseCase( test_fixture_t *test_env );
-static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *test_env );
-static test_case_result_t testNullListUseCase( test_fixture_t *test_env );
-static test_case_result_t testNullSeparatorUseCase( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t testStandardUseCase( test_fixture_t *fix );
+static test_case_result_t testNoSeparatorUseCase( test_fixture_t *fix );
+static test_case_result_t testEmptyElementsUseCase( test_fixture_t *fix );
+static test_case_result_t testEmptyListUseCase( test_fixture_t *fix );
+static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *fix );
+static test_case_result_t testNullListUseCase( test_fixture_t *fix );
+static test_case_result_t testNullSeparatorUseCase( test_fixture_t *fix );
 
 test_suite_t utf8stringviewiterator_test_get_suite(void)
 {
@@ -39,11 +39,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t testStandardUseCase( test_fixture_t *test_env )
+static test_case_result_t testStandardUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -79,7 +79,7 @@ static test_case_result_t testStandardUseCase( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testNoSeparatorUseCase( test_fixture_t *test_env )
+static test_case_result_t testNoSeparatorUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -108,7 +108,7 @@ static test_case_result_t testNoSeparatorUseCase( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEmptyElementsUseCase( test_fixture_t *test_env )
+static test_case_result_t testEmptyElementsUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -165,7 +165,7 @@ static test_case_result_t testEmptyElementsUseCase( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEmptyListUseCase( test_fixture_t *test_env )
+static test_case_result_t testEmptyListUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -193,7 +193,7 @@ static test_case_result_t testEmptyListUseCase( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *test_env )
+static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -222,7 +222,7 @@ static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testNullListUseCase( test_fixture_t *test_env )
+static test_case_result_t testNullListUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -249,7 +249,7 @@ static test_case_result_t testNullListUseCase( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testNullSeparatorUseCase( test_fixture_t *test_env )
+static test_case_result_t testNullSeparatorUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;

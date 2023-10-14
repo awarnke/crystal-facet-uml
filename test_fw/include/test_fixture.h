@@ -10,14 +10,14 @@
  */
 
 /*!
- *  \brief a forward declaration to a test fixture.
+ *  \brief a forward declaration of a test fixture structure.
  *
  *  Because the struct is specific to the test suite, the type can be declared here only as incomplete type.
  */
 struct test_fixture_struct;
 
 /*!
- *  \brief a type declaration to a test fixture.
+ *  \brief a type declaration of a test fixture.
  *
  *  A test fixture provides the context for the function under test.
  *  This is on one hand the test environment like database, file system, controller;

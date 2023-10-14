@@ -27,11 +27,11 @@ struct test_fixture_struct {
     universal_memory_output_stream_t mem_out_stream;
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
-static test_fixture_t test_environment;
+static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture_t *fix = &test_environment;
+    test_fixture_t *fix = &test_fixture;
     memset( &((*fix).out_buffer), '\0', sizeof( (*fix).out_buffer) );
     universal_memory_output_stream_init( &((*fix).mem_out_stream), &((*fix).out_buffer), sizeof( (*fix).out_buffer) );
     return fix;
@@ -39,13 +39,13 @@ static test_fixture_t * set_up()
 
 static void tear_down( test_fixture_t *fix )
 {
-    assert( fix == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    assert( fix != 0 );
     universal_memory_output_stream_destroy( &((*fix).mem_out_stream) );
 }
 
 static test_case_result_t test_write_and_flush( test_fixture_t *fix )
 {
-    assert( fix == &test_environment );  /* for this test suite, any other pointer would be wrong */
+    assert( fix != 0 );
     u8_error_t err;
 
     utf8stream_writer_t test_me;

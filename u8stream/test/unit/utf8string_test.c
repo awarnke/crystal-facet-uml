@@ -13,23 +13,23 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t testSize( test_fixture_t *test_env );
-static test_case_result_t testLength( test_fixture_t *test_env );
-static test_case_result_t testEquals( test_fixture_t *test_env );
-static test_case_result_t testEqualsRegion( test_fixture_t *test_env );
-static test_case_result_t testStartsWith( test_fixture_t *test_env );
-static test_case_result_t testEndsWith( test_fixture_t *test_env );
-static test_case_result_t testFindFirst( test_fixture_t *test_env );
-static test_case_result_t testFindNext( test_fixture_t *test_env );
-static test_case_result_t testFindLast( test_fixture_t *test_env );
-static test_case_result_t testCharAt( test_fixture_t *test_env );
-static test_case_result_t testCharAtLoops( test_fixture_t *test_env );
-static test_case_result_t testParseInt( test_fixture_t *test_env );
-static test_case_result_t testParseFloat( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t testSize( test_fixture_t *fix );
+static test_case_result_t testLength( test_fixture_t *fix );
+static test_case_result_t testEquals( test_fixture_t *fix );
+static test_case_result_t testEqualsRegion( test_fixture_t *fix );
+static test_case_result_t testStartsWith( test_fixture_t *fix );
+static test_case_result_t testEndsWith( test_fixture_t *fix );
+static test_case_result_t testFindFirst( test_fixture_t *fix );
+static test_case_result_t testFindNext( test_fixture_t *fix );
+static test_case_result_t testFindLast( test_fixture_t *fix );
+static test_case_result_t testCharAt( test_fixture_t *fix );
+static test_case_result_t testCharAtLoops( test_fixture_t *fix );
+static test_case_result_t testParseInt( test_fixture_t *fix );
+static test_case_result_t testParseFloat( test_fixture_t *fix );
 #ifndef NDEBUG
-static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *test_env );
-static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *test_env );
+static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *fix );
+static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *fix );
 #endif
 
 test_suite_t utf8string_test_get_suite(void)
@@ -61,11 +61,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t testSize( test_fixture_t *test_env )
+static test_case_result_t testSize( test_fixture_t *fix )
 {
     unsigned int size;
 
@@ -85,7 +85,7 @@ static test_case_result_t testSize( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEquals( test_fixture_t *test_env )
+static test_case_result_t testEquals( test_fixture_t *fix )
 {
     //  prepare
     int equal;
@@ -124,7 +124,7 @@ static test_case_result_t testEquals( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEqualsRegion( test_fixture_t *test_env )
+static test_case_result_t testEqualsRegion( test_fixture_t *fix )
 {
     //  prepare
     int equal;
@@ -180,7 +180,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testLength( test_fixture_t *test_env )
+static test_case_result_t testLength( test_fixture_t *fix )
 {
     int len;
 
@@ -197,7 +197,7 @@ static test_case_result_t testLength( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testStartsWith( test_fixture_t *test_env )
+static test_case_result_t testStartsWith( test_fixture_t *fix )
 {
     //  prepare
     int matches;
@@ -241,7 +241,7 @@ static test_case_result_t testStartsWith( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEndsWith( test_fixture_t *test_env )
+static test_case_result_t testEndsWith( test_fixture_t *fix )
 {
     //  prepare
     int matches;
@@ -285,7 +285,7 @@ static test_case_result_t testEndsWith( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindFirst( test_fixture_t *test_env )
+static test_case_result_t testFindFirst( test_fixture_t *fix )
 {
     int pos;
     char srchArr3[] = "N/A";
@@ -334,7 +334,7 @@ static test_case_result_t testFindFirst( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindNext( test_fixture_t *test_env )
+static test_case_result_t testFindNext( test_fixture_t *fix )
 {
     int pos;
     char srchArr1[10] = "aaaa";
@@ -377,7 +377,7 @@ static test_case_result_t testFindNext( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindLast( test_fixture_t *test_env )
+static test_case_result_t testFindLast( test_fixture_t *fix )
 {
     int pos;
     char srchArr1[10] = "aaaab";
@@ -419,7 +419,7 @@ static test_case_result_t testFindLast( test_fixture_t *test_env )
 }
 
 
-static test_case_result_t testCharAt( test_fixture_t *test_env )
+static test_case_result_t testCharAt( test_fixture_t *fix )
 {
     utf8codepoint_t result;
     char dynTestArr1[6] = "He\xE2\x82\xAC";
@@ -458,7 +458,7 @@ static test_case_result_t testCharAt( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testCharAtLoops( test_fixture_t *test_env )
+static test_case_result_t testCharAtLoops( test_fixture_t *fix )
 {
     utf8codepoint_t result;
     char dynTestArr1[6] = "He\xE2\x82\xAC";
@@ -524,7 +524,7 @@ static test_case_result_t testCharAtLoops( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testParseInt( test_fixture_t *test_env )
+static test_case_result_t testParseInt( test_fixture_t *fix )
 {
     unsigned int byte_length;
     int64_t number;
@@ -590,7 +590,7 @@ static test_case_result_t testParseInt( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testParseFloat( test_fixture_t *test_env )
+static test_case_result_t testParseFloat( test_fixture_t *fix )
 {
     unsigned int byte_length;
     double number;
@@ -657,7 +657,7 @@ static test_case_result_t testParseFloat( test_fixture_t *test_env )
 }
 
 #ifndef NDEBUG
-static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *test_env )
+static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *fix )
 {
     unsigned int byte_length;
     int64_t number;
@@ -677,7 +677,7 @@ static test_case_result_t testParseIntWithInjectedFault( test_fixture_t *test_en
 #endif
 
 #ifndef NDEBUG
-static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *test_env )
+static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *fix )
 {
     unsigned int byte_length;
     double number;

@@ -11,17 +11,17 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t testIntEmpty( test_fixture_t *test_env );
-static test_case_result_t testIntSpaceSeparators( test_fixture_t *test_env );
-static test_case_result_t testIntMixedCodepoints( test_fixture_t *test_env );
-static test_case_result_t testIntIntegers( test_fixture_t *test_env );
-static test_case_result_t testFloatEmpty( test_fixture_t *test_env );
-static test_case_result_t testFloatValidFloats( test_fixture_t *test_env );
-static test_case_result_t testFloatInvalidFloats( test_fixture_t *test_env );
-static test_case_result_t testFloatOnly( test_fixture_t *test_env );
-static test_case_result_t testTextMixedNumbers( test_fixture_t *test_env );
-static test_case_result_t testSwitchModes( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t testIntEmpty( test_fixture_t *fix );
+static test_case_result_t testIntSpaceSeparators( test_fixture_t *fix );
+static test_case_result_t testIntMixedCodepoints( test_fixture_t *fix );
+static test_case_result_t testIntIntegers( test_fixture_t *fix );
+static test_case_result_t testFloatEmpty( test_fixture_t *fix );
+static test_case_result_t testFloatValidFloats( test_fixture_t *fix );
+static test_case_result_t testFloatInvalidFloats( test_fixture_t *fix );
+static test_case_result_t testFloatOnly( test_fixture_t *fix );
+static test_case_result_t testTextMixedNumbers( test_fixture_t *fix );
+static test_case_result_t testSwitchModes( test_fixture_t *fix );
 
 test_suite_t utf8stringviewtokenizer_test_get_suite(void)
 {
@@ -45,11 +45,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t testIntEmpty( test_fixture_t *test_env )
+static test_case_result_t testIntEmpty( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -95,7 +95,7 @@ static test_case_result_t testIntEmpty( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testIntSpaceSeparators( test_fixture_t *test_env )
+static test_case_result_t testIntSpaceSeparators( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -159,7 +159,7 @@ static test_case_result_t testIntSpaceSeparators( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testIntMixedCodepoints( test_fixture_t *test_env )
+static test_case_result_t testIntMixedCodepoints( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -233,7 +233,7 @@ static test_case_result_t testIntMixedCodepoints( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testIntIntegers( test_fixture_t *test_env )
+static test_case_result_t testIntIntegers( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -279,7 +279,7 @@ static test_case_result_t testIntIntegers( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFloatEmpty( test_fixture_t *test_env )
+static test_case_result_t testFloatEmpty( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -325,7 +325,7 @@ static test_case_result_t testFloatEmpty( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFloatValidFloats( test_fixture_t *test_env )
+static test_case_result_t testFloatValidFloats( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -380,7 +380,7 @@ static test_case_result_t testFloatValidFloats( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFloatInvalidFloats( test_fixture_t *test_env )
+static test_case_result_t testFloatInvalidFloats( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -450,7 +450,7 @@ static test_case_result_t testFloatInvalidFloats( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFloatOnly( test_fixture_t *test_env )
+static test_case_result_t testFloatOnly( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -501,7 +501,7 @@ static test_case_result_t testFloatOnly( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testTextMixedNumbers( test_fixture_t *test_env )
+static test_case_result_t testTextMixedNumbers( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;
@@ -540,7 +540,7 @@ static test_case_result_t testTextMixedNumbers( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testSwitchModes( test_fixture_t *test_env )
+static test_case_result_t testSwitchModes( test_fixture_t *fix )
 {
     bool has_next;
     utf8stringview_t next;

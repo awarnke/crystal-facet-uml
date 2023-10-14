@@ -101,44 +101,44 @@ static char megaByteArr[UTF8STRINGBUFTEST_MEGASIZE] = "";
 static utf8stringbuf_t megaByteBuf = UTF8STRINGBUF(megaByteArr);
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t testInit( test_fixture_t *test_env );
-static test_case_result_t testClear( test_fixture_t *test_env );
-static test_case_result_t testLength( test_fixture_t *test_env );
-static test_case_result_t testEquals( test_fixture_t *test_env );
-static test_case_result_t testEqualsRegion( test_fixture_t *test_env );
-static test_case_result_t testStartsWith( test_fixture_t *test_env );
-static test_case_result_t testEndsWith( test_fixture_t *test_env );
-static test_case_result_t testFindFirst( test_fixture_t *test_env );
-static test_case_result_t testFindNext( test_fixture_t *test_env );
-static test_case_result_t testFindLast( test_fixture_t *test_env );
-static test_case_result_t testCopyBuf( test_fixture_t *test_env );
-static test_case_result_t testCopyStr( test_fixture_t *test_env );
-static test_case_result_t testCopyWithCutUtf8( test_fixture_t *test_env );
-static test_case_result_t testCopyRegion( test_fixture_t *test_env );
-static test_case_result_t testReplaceRegion( test_fixture_t *test_env );
-static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *test_env );
-static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *test_env );
-static test_case_result_t testReplaceRegionBuf( test_fixture_t *test_env );
-static test_case_result_t testReplaceAll( test_fixture_t *test_env );
-static test_case_result_t testReplaceAllBadCases( test_fixture_t *test_env );
-static test_case_result_t testReplaceAllStr( test_fixture_t *test_env );
-static test_case_result_t testReplaceAllBuf( test_fixture_t *test_env );
-static test_case_result_t testInsertBuf( test_fixture_t *test_env );
-static test_case_result_t testInsertStr( test_fixture_t *test_env );
-static test_case_result_t testDelete( test_fixture_t *test_env );
-static test_case_result_t testDeleteToEnd( test_fixture_t *test_env );
-static test_case_result_t testDeleteFromEnd( test_fixture_t *test_env );
-static test_case_result_t testAppendStr( test_fixture_t *test_env );
-static test_case_result_t testAppendBuf( test_fixture_t *test_env );
-static test_case_result_t testAppendInt( test_fixture_t *test_env );
-static test_case_result_t testAppendHex( test_fixture_t *test_env );
-static test_case_result_t testAppendChar( test_fixture_t *test_env );
-static test_case_result_t testAppendWStr( test_fixture_t *test_env );
-static test_case_result_t testAppendView( test_fixture_t *test_env );
-static test_case_result_t testCharAt( test_fixture_t *test_env );
-static test_case_result_t testCharAtLoops( test_fixture_t *test_env );
-static test_case_result_t testGetEnd( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t testInit( test_fixture_t *fix );
+static test_case_result_t testClear( test_fixture_t *fix );
+static test_case_result_t testLength( test_fixture_t *fix );
+static test_case_result_t testEquals( test_fixture_t *fix );
+static test_case_result_t testEqualsRegion( test_fixture_t *fix );
+static test_case_result_t testStartsWith( test_fixture_t *fix );
+static test_case_result_t testEndsWith( test_fixture_t *fix );
+static test_case_result_t testFindFirst( test_fixture_t *fix );
+static test_case_result_t testFindNext( test_fixture_t *fix );
+static test_case_result_t testFindLast( test_fixture_t *fix );
+static test_case_result_t testCopyBuf( test_fixture_t *fix );
+static test_case_result_t testCopyStr( test_fixture_t *fix );
+static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix );
+static test_case_result_t testCopyRegion( test_fixture_t *fix );
+static test_case_result_t testReplaceRegion( test_fixture_t *fix );
+static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *fix );
+static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *fix );
+static test_case_result_t testReplaceRegionBuf( test_fixture_t *fix );
+static test_case_result_t testReplaceAll( test_fixture_t *fix );
+static test_case_result_t testReplaceAllBadCases( test_fixture_t *fix );
+static test_case_result_t testReplaceAllStr( test_fixture_t *fix );
+static test_case_result_t testReplaceAllBuf( test_fixture_t *fix );
+static test_case_result_t testInsertBuf( test_fixture_t *fix );
+static test_case_result_t testInsertStr( test_fixture_t *fix );
+static test_case_result_t testDelete( test_fixture_t *fix );
+static test_case_result_t testDeleteToEnd( test_fixture_t *fix );
+static test_case_result_t testDeleteFromEnd( test_fixture_t *fix );
+static test_case_result_t testAppendStr( test_fixture_t *fix );
+static test_case_result_t testAppendBuf( test_fixture_t *fix );
+static test_case_result_t testAppendInt( test_fixture_t *fix );
+static test_case_result_t testAppendHex( test_fixture_t *fix );
+static test_case_result_t testAppendChar( test_fixture_t *fix );
+static test_case_result_t testAppendWStr( test_fixture_t *fix );
+static test_case_result_t testAppendView( test_fixture_t *fix );
+static test_case_result_t testCharAt( test_fixture_t *fix );
+static test_case_result_t testCharAtLoops( test_fixture_t *fix );
+static test_case_result_t testGetEnd( test_fixture_t *fix );
 
 test_suite_t utf8stringbuf_test_get_suite(void)
 {
@@ -194,11 +194,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t testInit( test_fixture_t *test_env )
+static test_case_result_t testInit( test_fixture_t *fix )
 {
     /* check static initialization */
     TEST_EXPECT( utf8stringbuf_get_string( oneByteBuf ) == oneByteArr );
@@ -254,7 +254,7 @@ static test_case_result_t testInit( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testClear( test_fixture_t *test_env )
+static test_case_result_t testClear( test_fixture_t *fix )
 {
     /* clear regular string */
     char dynTestArr[] = "Hello";
@@ -271,7 +271,7 @@ static test_case_result_t testClear( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEquals( test_fixture_t *test_env )
+static test_case_result_t testEquals( test_fixture_t *fix )
 {
     //  prepare
     int equal;
@@ -306,7 +306,7 @@ static test_case_result_t testEquals( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEqualsRegion( test_fixture_t *test_env )
+static test_case_result_t testEqualsRegion( test_fixture_t *fix )
 {
     //  prepare
     int equal;
@@ -359,7 +359,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testLength( test_fixture_t *test_env )
+static test_case_result_t testLength( test_fixture_t *fix )
 {
     int len;
 
@@ -373,7 +373,7 @@ static test_case_result_t testLength( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testStartsWith( test_fixture_t *test_env )
+static test_case_result_t testStartsWith( test_fixture_t *fix )
 {
     //  prepare
     int matches;
@@ -411,7 +411,7 @@ static test_case_result_t testStartsWith( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEndsWith( test_fixture_t *test_env )
+static test_case_result_t testEndsWith( test_fixture_t *fix )
 {
     //  prepare
     int matches;
@@ -449,7 +449,7 @@ static test_case_result_t testEndsWith( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testCopyBuf( test_fixture_t *test_env )
+static test_case_result_t testCopyBuf( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -481,7 +481,7 @@ static test_case_result_t testCopyBuf( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testCopyStr( test_fixture_t *test_env )
+static test_case_result_t testCopyStr( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -522,7 +522,7 @@ static test_case_result_t testCopyStr( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testCopyWithCutUtf8( test_fixture_t *test_env )
+static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -597,7 +597,7 @@ static test_case_result_t testCopyWithCutUtf8( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindFirst( test_fixture_t *test_env )
+static test_case_result_t testFindFirst( test_fixture_t *fix )
 {
     int pos;
     char srchArr1[] = "aaaaaaaaaaaaaaaaaaaaaaa";
@@ -649,7 +649,7 @@ static test_case_result_t testFindFirst( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindNext( test_fixture_t *test_env )
+static test_case_result_t testFindNext( test_fixture_t *fix )
 {
     int pos;
     char srchArr1[10] = "aaaa";
@@ -702,7 +702,7 @@ static test_case_result_t testFindNext( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindLast( test_fixture_t *test_env )
+static test_case_result_t testFindLast( test_fixture_t *fix )
 {
     int pos;
     char srchArr1[10] = "aaaa";
@@ -741,7 +741,7 @@ static test_case_result_t testFindLast( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testCopyRegion( test_fixture_t *test_env )
+static test_case_result_t testCopyRegion( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -861,7 +861,7 @@ static test_case_result_t testCopyRegion( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testReplaceRegion( test_fixture_t *test_env )
+static test_case_result_t testReplaceRegion( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -915,7 +915,7 @@ static test_case_result_t testReplaceRegion( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *test_env )
+static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -989,7 +989,7 @@ static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *test_
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *test_env )
+static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1025,7 +1025,7 @@ static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *test_env
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testReplaceRegionBuf( test_fixture_t *test_env )
+static test_case_result_t testReplaceRegionBuf( test_fixture_t *fix )
 {
     /* utf8stringbuf_replace_region_by_buf is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
@@ -1044,7 +1044,7 @@ static test_case_result_t testReplaceRegionBuf( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testReplaceAll ( test_fixture_t *test_env )
+static test_case_result_t testReplaceAll ( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1117,7 +1117,7 @@ static const char *const TEST_PATTERNS[][2] = {
          { "5E", "5 \xE2\x82\xAC" },
          { NULL, "anything"  } };
 
-static test_case_result_t testReplaceAllBadCases( test_fixture_t *test_env )
+static test_case_result_t testReplaceAllBadCases( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1207,7 +1207,7 @@ static test_case_result_t testReplaceAllBadCases( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testReplaceAllStr( test_fixture_t *test_env )
+static test_case_result_t testReplaceAllStr( test_fixture_t *fix )
 {
     /* utf8stringbuf_replace_all_str_by_str is just a wrapper around utf8stringbuf_replace_all */
     /* therefore, we do only two tests */
@@ -1229,7 +1229,7 @@ static test_case_result_t testReplaceAllStr( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testReplaceAllBuf( test_fixture_t *test_env )
+static test_case_result_t testReplaceAllBuf( test_fixture_t *fix )
 {
     /* utf8stringbuf_replace_all_buf_by_buf is just a wrapper around utf8stringbuf_replace_all */
     /* therefore, we do only one test */
@@ -1246,7 +1246,7 @@ static test_case_result_t testReplaceAllBuf( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testInsertBuf( test_fixture_t *test_env )
+static test_case_result_t testInsertBuf( test_fixture_t *fix )
 {
     /* utf8stringbuf_insert_buf is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
@@ -1265,7 +1265,7 @@ static test_case_result_t testInsertBuf( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testInsertStr( test_fixture_t *test_env )
+static test_case_result_t testInsertStr( test_fixture_t *fix )
 {
     /* utf8stringbuf_insert_str is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
@@ -1282,7 +1282,7 @@ static test_case_result_t testInsertStr( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testDelete( test_fixture_t *test_env )
+static test_case_result_t testDelete( test_fixture_t *fix )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
@@ -1299,7 +1299,7 @@ static test_case_result_t testDelete( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testDeleteFromEnd( test_fixture_t *test_env )
+static test_case_result_t testDeleteFromEnd( test_fixture_t *fix )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
@@ -1316,7 +1316,7 @@ static test_case_result_t testDeleteFromEnd( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testDeleteToEnd( test_fixture_t *test_env )
+static test_case_result_t testDeleteToEnd( test_fixture_t *fix )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
     /* therefore, we do only one test */
@@ -1333,7 +1333,7 @@ static test_case_result_t testDeleteToEnd( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testAppendStr( test_fixture_t *test_env )
+static test_case_result_t testAppendStr( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1385,7 +1385,7 @@ static test_case_result_t testAppendStr( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testAppendBuf( test_fixture_t *test_env )
+static test_case_result_t testAppendBuf( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1415,7 +1415,7 @@ static test_case_result_t testAppendBuf( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testAppendInt( test_fixture_t *test_env )
+static test_case_result_t testAppendInt( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1461,7 +1461,7 @@ static test_case_result_t testAppendInt( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testAppendHex( test_fixture_t *test_env )
+static test_case_result_t testAppendHex( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1489,7 +1489,7 @@ static test_case_result_t testAppendHex( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testAppendChar( test_fixture_t *test_env )
+static test_case_result_t testAppendChar( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1533,7 +1533,7 @@ static test_case_result_t testAppendChar( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testAppendWStr( test_fixture_t *test_env )
+static test_case_result_t testAppendWStr( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1579,7 +1579,7 @@ static test_case_result_t testAppendWStr( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testAppendView( test_fixture_t *test_env )
+static test_case_result_t testAppendView( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;
@@ -1625,7 +1625,7 @@ static test_case_result_t testAppendView( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testCharAt( test_fixture_t *test_env )
+static test_case_result_t testCharAt( test_fixture_t *fix )
 {
     utf8codepoint_t result;
     char dynTestArr1[6] = "He\xE2\x82\xAC";
@@ -1666,7 +1666,7 @@ static test_case_result_t testCharAt( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testCharAtLoops( test_fixture_t *test_env )
+static test_case_result_t testCharAtLoops( test_fixture_t *fix )
 {
     utf8codepoint_t result;
     char dynTestArr1[6] = "He\xE2\x82\xAC";
@@ -1732,7 +1732,7 @@ static test_case_result_t testCharAtLoops( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testGetEnd( test_fixture_t *test_env )
+static test_case_result_t testGetEnd( test_fixture_t *fix )
 {
     utf8error_t error;
     int equal;

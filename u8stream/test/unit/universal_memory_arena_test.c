@@ -11,8 +11,8 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_alloc_blocks( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_alloc_blocks( test_fixture_t *fix );
 
 test_suite_t universal_memory_arena_test_get_suite(void)
 {
@@ -27,11 +27,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t test_alloc_blocks( test_fixture_t *test_env )
+static test_case_result_t test_alloc_blocks( test_fixture_t *fix )
 {
     char thirty_three[33];
 

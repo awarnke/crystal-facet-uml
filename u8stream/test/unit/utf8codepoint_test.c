@@ -11,12 +11,12 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t testInit1( test_fixture_t *test_env );
-static test_case_result_t testInit2( test_fixture_t *test_env );
-static test_case_result_t testIntToUtf8ToInt( test_fixture_t *test_env );
-static test_case_result_t testIntToUtf8( test_fixture_t *test_env );
-static test_case_result_t testUnicode( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t testInit1( test_fixture_t *fix );
+static test_case_result_t testInit2( test_fixture_t *fix );
+static test_case_result_t testIntToUtf8ToInt( test_fixture_t *fix );
+static test_case_result_t testIntToUtf8( test_fixture_t *fix );
+static test_case_result_t testUnicode( test_fixture_t *fix );
 
 test_suite_t utf8codepoint_test_get_suite(void)
 {
@@ -35,11 +35,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t testInit1( test_fixture_t *test_env )
+static test_case_result_t testInit1( test_fixture_t *fix )
 {
     /* check initialization */
     utf8codepoint_t code_point1 = utf8codepoint( 'a' );
@@ -84,7 +84,7 @@ static test_case_result_t testInit1( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testInit2( test_fixture_t *test_env )
+static test_case_result_t testInit2( test_fixture_t *fix )
 {
     /* check init function */
     utf8codepoint_t code_point2 = utf8codepoint_init( "a", 1 );
@@ -152,7 +152,7 @@ static test_case_result_t testInit2( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testIntToUtf8ToInt( test_fixture_t *test_env )
+static test_case_result_t testIntToUtf8ToInt( test_fixture_t *fix )
 {
     utf8codepoint_t result;
     char dynTestArr1[7] = "";
@@ -235,7 +235,7 @@ static test_case_result_t testIntToUtf8ToInt( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testIntToUtf8( test_fixture_t *test_env )
+static test_case_result_t testIntToUtf8( test_fixture_t *fix )
 {
     utf8codepoint_t probe;
     utf8codepointseq_t expect;
@@ -292,7 +292,7 @@ static test_case_result_t testIntToUtf8( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testUnicode( test_fixture_t *test_env )
+static test_case_result_t testUnicode( test_fixture_t *fix )
 {
     /* check valid code points */
     utf8codepoint_t code_point1 = utf8codepoint( '\0' );

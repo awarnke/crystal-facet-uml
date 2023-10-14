@@ -10,10 +10,10 @@
 #include <assert.h>
 
 static test_fixture_t * set_up();
-static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env );
-static test_case_result_t test_max_size( test_fixture_t *test_env );
-static test_case_result_t test_element_lifecycle( test_fixture_t *test_env );
+static void tear_down( test_fixture_t *fix );
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix );
+static test_case_result_t test_max_size( test_fixture_t *fix );
+static test_case_result_t test_element_lifecycle( test_fixture_t *fix );
 
 unsigned int ctor_calls;  /* count constructor callbacks */
 unsigned int dtor_calls;  /* count destructor callbacks */
@@ -37,11 +37,11 @@ static test_fixture_t * set_up()
     return NULL;
 }
 
-static void tear_down( test_fixture_t *test_env )
+static void tear_down( test_fixture_t *fix )
 {
 }
 
-static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
+static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix )
 {
     u8_error_t err;
     char (string_buf[5])[7];
@@ -99,7 +99,7 @@ static test_case_result_t test_insert_and_retrieve( test_fixture_t *test_env )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t test_max_size( test_fixture_t *test_env )
+static test_case_result_t test_max_size( test_fixture_t *fix )
 {
     u8_error_t err;
     uint64_t buf[5];
@@ -167,7 +167,7 @@ bool equal (const double* instance_1, const double* instance_2)
     return ( *instance_1 == *instance_2 );
 }
 
-static test_case_result_t test_element_lifecycle( test_fixture_t *test_env )
+static test_case_result_t test_element_lifecycle( test_fixture_t *fix )
 {
     u8_error_t err;
     double buf[4];
