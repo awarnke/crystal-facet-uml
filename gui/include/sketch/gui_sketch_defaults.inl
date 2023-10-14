@@ -175,13 +175,14 @@ static inline data_relationship_type_t gui_sketch_defaults_get_relationship_type
 
             case DATA_CLASSIFIER_TYPE_USE_CASE:
             {
-                result = DATA_RELATIONSHIP_TYPE_UML_INCLUDE;  /* include is preferred over DATA_RELATIONSHIP_TYPE_UML_EXTEND (?) */
+                result = DATA_RELATIONSHIP_TYPE_UML_INCLUDE;  /* a simple include is preferred over the more complex DATA_RELATIONSHIP_TYPE_UML_EXTEND. */
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_SUBSYSTEM:
             {
-                result = DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT;  /* containment is a not-so-nice default type - but nothing else makes sense */
+                /* containment would make sense here but is not intuitive from a useability point of view */
+                result = DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION;
             }
             break;
 
