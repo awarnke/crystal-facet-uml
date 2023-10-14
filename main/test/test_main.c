@@ -109,10 +109,6 @@ int main (int argc, char *argv[]) {
         {
             do_integration_tests = true;
         }
-        if ( utf8string_equals_str( argv[1], "-m" ) )  /* compatibility to 1.27.3 and older */
-        {
-            do_integration_tests = true;
-        }
         if ( utf8string_equals_str( argv[1], "-a" ) )
         {
             do_unit_tests = true;
@@ -177,7 +173,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, utf8codepointiterator_test_get_suite() );
         test_runner_run_suite( &runner, utf8stringbuf_test_get_suite() );
         test_runner_run_suite( &runner, utf8string_test_get_suite() );
-#ifndef NDEGUG
+#ifndef NDEBUG
         /* test_runner_run_suite( &runner, utf8stringbuf_performance_get_list() ); -- performance measurements are not reliable - depend on system config+load */
 #endif
         test_runner_run_suite( &runner, utf8stringview_test_get_suite() );

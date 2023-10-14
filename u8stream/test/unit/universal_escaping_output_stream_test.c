@@ -49,7 +49,7 @@ static test_fixture_t * set_up()
 static void tear_down( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    int err;
+    u8_error_t err;
     err = universal_escaping_output_stream_destroy( &((*fix).esc_out_stream) );
     universal_memory_output_stream_destroy( &((*fix).mem_out_stream) );
     TEST_ENVIRONMENT_ASSERT( err == 0 );
@@ -58,7 +58,7 @@ static void tear_down( test_fixture_t *fix )
 static test_case_result_t test_write_regular( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    int err;
+    u8_error_t err;
 
     /* get universal_output_stream_t */
     universal_output_stream_t *my_out_stream;
@@ -68,23 +68,23 @@ static test_case_result_t test_write_regular( test_fixture_t *fix )
     /* write */
     const char test_1[] = "&";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), "&amp;" ) );
 
     /* flush */
     err = universal_output_stream_flush (my_out_stream);
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
 
     /* write */
     const char test_2[] = "---4\n";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), "&amp;- - -4  \n" ) );
 
     /* write */
     const char test_3[] = "";
     err = universal_output_stream_write ( my_out_stream, test_3, strlen(test_3) );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), "&amp;- - -4  \n" ) );
     return TEST_CASE_RESULT_OK;
 }
@@ -92,7 +92,7 @@ static test_case_result_t test_write_regular( test_fixture_t *fix )
 static test_case_result_t test_write_border_cases( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    int err;
+    u8_error_t err;
 
     /* get universal_output_stream_t */
     universal_output_stream_t *my_out_stream;
@@ -107,7 +107,7 @@ static test_case_result_t test_write_border_cases( test_fixture_t *fix )
 
     /* reset underlying memory output stream */
     err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
 
     /* write */
     const char test_2[] = "&&-----";
