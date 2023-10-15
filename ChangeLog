@@ -1,6 +1,7 @@
-crystal-facet-uml (1.52.2) UNRELEASED; urgency=medium
+crystal-facet-uml (1.53.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
+  * relationships draw stereotypes as text if no image defined
   * Default relationship type from SUBSYSTEM is ASSOCIATION, not CONTAINMENT
   * info: unit test coverage increased from 21.5 % to 21.8 %
 

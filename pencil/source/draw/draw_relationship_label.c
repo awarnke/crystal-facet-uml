@@ -50,63 +50,36 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
         const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
-        /* calc dimensions of typename as stereotype, */
-        /* needed for relations that look like DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY */
-        int text3_height = 0;
-        int text3_width = 0;
+        /* calc dimensions of stereotype as text */
+        int text1_height = 0;
+        int text1_width = 0;
         {
-            const char *type_text;
-            switch ( data_relationship_get_main_type( relationship ) )
+            const data_relationship_type_t rel_type = data_relationship_get_main_type( relationship );
+            const char *const pseudo_stereotype
+                = draw_relationship_label_private_stereotype_from_type( this_, rel_type );
+            const bool has_pseudo_stereotype = ( ! utf8string_equals_str( pseudo_stereotype, "" ) );
+            const bool has_stereotype = ( ! utf8string_equals_str( relationship_stereotype, "" ) );
+
+            if ( ( ! has_stereotype_image ) && ( has_pseudo_stereotype || has_stereotype ) )
             {
-                case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+                /* prepare text */
+                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
+                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
+                utf8stringbuf_copy_str( stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
+                if ( has_stereotype )
                 {
-                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "extends" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
+                    utf8stringbuf_append_str( stereotype_buf, relationship_stereotype );
                 }
-                break;
-
-                case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+                else
                 {
-                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "includes" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
+                    utf8stringbuf_append_str( stereotype_buf, pseudo_stereotype );
                 }
-                break;
+                utf8stringbuf_append_str( stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
 
-                case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
-                {
-                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "deploy" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-                }
-                break;
-
-                case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
-                {
-                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "manifest" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-                }
-                break;
-
-                case DATA_RELATIONSHIP_TYPE_UML_REFINE:
-                {
-                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "refine" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-                }
-                break;
-
-                case DATA_RELATIONSHIP_TYPE_UML_TRACE:
-                {
-                    type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "trace" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-                }
-                break;
-
-                default:
-                {
-                    /* other types do not show their type */
-                    type_text = NULL;
-                }
-                break;
-            }
-
-            if ( NULL != type_text )
-            {
-                pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, type_text, DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH);
-                pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+                /* determine text width and height */
+                pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
+                pango_layout_set_text( font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH );
+                pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
             }
         }
 
@@ -127,8 +100,8 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         }
 
         *out_label_dim = (geometry_dimensions_t){
-            .width = geometry_dimensions_get_width( &icon_dim ) + icon_gap + u8_i32_max2( text2_width, text3_width ),
-            .height = u8_f64_max2( geometry_dimensions_get_height( &icon_dim ), text3_height + f_line_gap + text2_height )
+            .width = geometry_dimensions_get_width( &icon_dim ) + icon_gap + u8_i32_max2( text2_width, text1_width ),
+            .height = u8_f64_max2( geometry_dimensions_get_height( &icon_dim ), text1_height + f_line_gap + text2_height )
         };
     }
     else
@@ -207,68 +180,43 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     const double top = geometry_rectangle_get_top( label_box );
     const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
-    /* draw the typename as stereotype, */
-    /* needed for relations that look like DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY */
-    int text3_height = 0;
+    /* draw stereotype as text */
+    int text1_height = 0;
     {
-        const char *type_text;
-        switch ( data_relationship_get_main_type( relationship ) )
+        const data_relationship_type_t rel_type = data_relationship_get_main_type( relationship );
+        const char *const pseudo_stereotype
+            = draw_relationship_label_private_stereotype_from_type( this_, rel_type );
+        const bool has_pseudo_stereotype = ( ! utf8string_equals_str( pseudo_stereotype, "" ) );
+        const bool has_stereotype = ( ! utf8string_equals_str( relationship_stereotype, "" ) );
+
+        if ( ( ! has_stereotype_image ) && ( has_pseudo_stereotype || has_stereotype ) )
         {
-            case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+            /* prepare text */
+            char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
+            utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
+            utf8stringbuf_copy_str( stereotype_buf, DRAW_RELATIONSHIP_LEFT_GUILLEMENTS );
+            if ( has_stereotype )
             {
-                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "extends" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
+                utf8stringbuf_append_str( stereotype_buf, relationship_stereotype );
             }
-            break;
-
-            case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+            else
             {
-                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "includes" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
+                utf8stringbuf_append_str( stereotype_buf, pseudo_stereotype );
             }
-            break;
+            utf8stringbuf_append_str( stereotype_buf, DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS );
 
-            case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
-            {
-                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "deploy" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-            }
-            break;
-
-            case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
-            {
-                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "manifest" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-            }
-            break;
-
-            case DATA_RELATIONSHIP_TYPE_UML_REFINE:
-            {
-                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "refine" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-            }
-            break;
-
-            case DATA_RELATIONSHIP_TYPE_UML_TRACE:
-            {
-                type_text = DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "trace" DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS;
-            }
-            break;
-
-            default:
-            {
-                /* other types do not show their type */
-                type_text = NULL;
-            }
-            break;
-        }
-
-        if ( NULL != type_text )
-        {
-            int text3_width;
+            int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
-            pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, type_text, DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH);
-            pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+            pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
+            pango_layout_set_text( font_layout,
+                                   utf8stringbuf_get_string( stereotype_buf ),
+                                   DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
+                                 );
+            pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
 
             /* draw text */
-            cairo_move_to ( cr, center_x - 0.5*text3_width, top );
-            pango_cairo_show_layout (cr, font_layout);
+            cairo_move_to ( cr, center_x - 0.5*text1_width, top );
+            pango_cairo_show_layout( cr, font_layout );
         }
     }
 
@@ -288,7 +236,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
         /* draw text */
-        cairo_move_to ( cr, center_x - 0.5*text2_width, top + text3_height + f_line_gap );
+        cairo_move_to ( cr, center_x - 0.5*text2_width, top + text1_height + f_line_gap );
         pango_cairo_show_layout (cr, font_layout);
 
         /* restore pango context */

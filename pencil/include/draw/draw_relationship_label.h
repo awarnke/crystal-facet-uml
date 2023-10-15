@@ -88,6 +88,17 @@ void draw_relationship_label_draw_type_and_name( const draw_relationship_label_t
                                                  cairo_t *cr
                                                );
 
+/*!
+ *  \brief gets the stereotype name for a given data_relationship_type_t.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rel_type the relationship type to convert to a stereotype
+ *  \return name of the stereotype if there is one associated to the rel_type, empty string "" otherwise, never NULL.
+ */
+static inline char const * draw_relationship_label_private_stereotype_from_type( const draw_relationship_label_t *this_,
+                                                                                 data_relationship_type_t rel_type
+                                                                               );
+
 #include "draw_relationship_label.inl"
 
 #endif  /* DRAW_RELATIONSHIP_LABEL_H */

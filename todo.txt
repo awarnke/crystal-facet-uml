@@ -16,7 +16,7 @@ ideas for future versions:
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   [ ] store edited text fields before performing undo/redo operations
-  [ ] auto-save when losing focus
+! [ ] auto-save when losing focus
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
   @pencil
@@ -29,7 +29,6 @@ ideas for future versions:
   [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()
   [?] A "contains" relationship towards features shall not influence the grid-layouting.
       check data_visible_set.c data_visible_set_private_update_containment_cache()
-  [ ] show stereotype names for relationships (if no icon available)
   [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] stereotype images of packages are positioned unluckily
 ! [ ] sequence diagrams shall provide more automatic line breaks in classifier names

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.52.1"
+    "generator_version": "1.53.0"
   }
   ,
   "views":
@@ -1102,6 +1102,53 @@
             "classifier_name": "UML::Port",
             "node": "46314570-5ae4-42eb-abb2-264e3492a6ab",
             "uuid": "b56a6ac1-46e2-43d8-8b92-d123437e7e1f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 110,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "UML Relationships",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Base classes of UML ",
+        "parent": "5aed7cea-ac4a-44e9-b7de-67311bbe2e8f",
+        "uuid": "7e0850a5-ea28-429b-ae56-4e207a636b3f",
+        "diagramelements":
+        [
+          {
+            "id": 786,
+            "display_flags": 0,
+            "classifier_name": "UML::DirectedRelationship",
+            "node": "1101a827-1ef8-4c22-b9c6-9a5934a558dc",
+            "uuid": "40957c6f-fc5c-49c0-89f6-d1e08bc9e8d8"
+          },
+          {
+            "id": 787,
+            "display_flags": 0,
+            "classifier_name": "UML::Usage",
+            "node": "784bc757-e129-4ff0-874a-e56d33067933",
+            "uuid": "4bed7232-55bc-453c-8e82-8b8d7c8b8bb5"
+          },
+          {
+            "id": 788,
+            "display_flags": 0,
+            "classifier_name": "UML::Abstraction",
+            "node": "d6b21fbc-5498-4d89-94eb-abd3bd0d2d43",
+            "uuid": "0d7845d1-b61b-4647-9da6-98b1dd21b6bf"
+          },
+          {
+            "id": 789,
+            "display_flags": 0,
+            "classifier_name": "UML::Deployment",
+            "node": "1c9943d1-7971-479f-8a42-80b0aa925a0a",
+            "uuid": "92772465-416a-46bc-9aeb-1a32fcd5ab21"
           }
         ]
       }
@@ -16462,6 +16509,63 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 480,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "metaclass",
+        "name": "UML::Usage",
+        "description": [
+                ""
+        ],
+        "x_order": -1874990659,
+        "y_order": 1251313087,
+        "list_order": 1335311661,
+        "uuid": "784bc757-e129-4ff0-874a-e56d33067933",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 481,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "metaclass",
+        "name": "UML::Abstraction",
+        "description": [
+                ""
+        ],
+        "x_order": -1599124477,
+        "y_order": 1251313087,
+        "list_order": 1251313087,
+        "uuid": "d6b21fbc-5498-4d89-94eb-abd3bd0d2d43",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 482,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "metaclass",
+        "name": "UML::Deployment",
+        "description": [
+                ""
+        ],
+        "x_order": -668908443,
+        "y_order": 1251313087,
+        "list_order": 1311779264,
+        "uuid": "1c9943d1-7971-479f-8a42-80b0aa925a0a",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -28073,6 +28177,57 @@
         "from_node": "47362adb-c4d7-46da-82ef-7cb39293fc43",
         "to_node": "4e0475f7-190b-46b7-862f-d3991f4a3c2e",
         "uuid": "ac4c764e-80bb-4da6-8948-7582d2d63b1c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 800,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "UML::Usage",
+        "to_classifier_name": "UML::DirectedRelationship",
+        "from_node": "784bc757-e129-4ff0-874a-e56d33067933",
+        "to_node": "1101a827-1ef8-4c22-b9c6-9a5934a558dc",
+        "uuid": "7537d295-c8ea-48e1-9bb1-d19f7fe68655"
+      }
+    },
+    {
+      "relationship": {
+        "id": 798,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "UML::Abstraction",
+        "to_classifier_name": "UML::DirectedRelationship",
+        "from_node": "d6b21fbc-5498-4d89-94eb-abd3bd0d2d43",
+        "to_node": "1101a827-1ef8-4c22-b9c6-9a5934a558dc",
+        "uuid": "3e13bd87-07d2-44a6-b9ed-f80a3a8f888f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 799,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "UML::Deployment",
+        "to_classifier_name": "UML::DirectedRelationship",
+        "from_node": "1c9943d1-7971-479f-8a42-80b0aa925a0a",
+        "to_node": "1101a827-1ef8-4c22-b9c6-9a5934a558dc",
+        "uuid": "dd2ce04a-58d7-467a-b8b5-843e563f4d49"
       }
     }
   ]

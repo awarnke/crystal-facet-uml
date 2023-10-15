@@ -13,6 +13,58 @@ static inline void draw_relationship_label_destroy( draw_relationship_label_t *t
     draw_stereotype_image_destroy( &((*this_).image_renderer) );
 }
 
+static inline char const * draw_relationship_label_private_stereotype_from_type( const draw_relationship_label_t *this_,
+                                                                                 data_relationship_type_t rel_type )
+{
+    char const * result = "";
+    switch ( rel_type )
+    {
+        case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+        {
+            result = "extends";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+        {
+            result = "includes";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+        {
+            result = "deploy";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
+        {
+            result = "manifest";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+        {
+            result = "refine";
+        }
+        break;
+
+        case DATA_RELATIONSHIP_TYPE_UML_TRACE:
+        {
+            result = "trace";
+        }
+        break;
+
+        default:
+        {
+            /* other types do not show a stereotype label */
+            result = "";
+        }
+        break;
+    }
+    return result;
+}
+
 
 /*
 Copyright 2019-2023 Andreas Warnke
