@@ -463,8 +463,11 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
                 = layout_visible_classifier_get_symbol_box_const ( visible_classifier );
             const geometry_rectangle_t *const classifier_space
                 = layout_visible_classifier_get_space_const ( visible_classifier );
+            const geometry_rectangle_t *const classifier_label_box
+                = layout_visible_classifier_get_label_box_const( visible_classifier );
 
-            if ( geometry_rectangle_contains( classifier_symbol_box, x, y ) )
+            if ( geometry_rectangle_contains( classifier_symbol_box, x, y )
+                || geometry_rectangle_contains( classifier_label_box, x, y ) )
             {
                 if ( geometry_rectangle_contains( classifier_space, x, y ) )
                 {
@@ -522,8 +525,11 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
             = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
         const geometry_rectangle_t *const feature_symbol_box
             = layout_feature_get_symbol_box_const ( the_feature );
+        const geometry_rectangle_t *const feature_label_box
+            = layout_feature_get_label_box_const( the_feature );
 
-        if ( geometry_rectangle_contains( feature_symbol_box, x, y ) )
+        if ( geometry_rectangle_contains( feature_symbol_box, x, y )
+            || geometry_rectangle_contains( feature_label_box, x, y ) )
         {
             /* feature is found */
             const data_feature_t *const data_feature
@@ -585,8 +591,11 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
             = pencil_layout_data_get_relationship_const( &((*this_).layout_data), rel_index );
         const geometry_connector_t *const relationship_shape
             = layout_relationship_get_shape_const( the_relationship );
+        const geometry_rectangle_t *const rel_label_box
+            = layout_relationship_get_label_box_const( the_relationship );
 
-        if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance ) )
+        if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance )
+            || geometry_rectangle_contains( rel_label_box, x, y ) )
         {
             /* ensure that every relation at that location can be selected by small mouse movements */
             if ( ((uint32_t)(x+y))%(matching_relations_found+1) == 0 )

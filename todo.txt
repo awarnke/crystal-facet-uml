@@ -19,6 +19,7 @@ ideas for future versions:
 ! [ ] auto-save when losing focus
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
+  [ ] select elements also by click on label - not only by click on symbol
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
