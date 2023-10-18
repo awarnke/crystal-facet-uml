@@ -17,7 +17,6 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
 
     (*this_).diagram_types_start = idx;
     {
-
         /* order: structural from abstract to concrete, behavioral from abstract to concrete */
         current = &((*this_).type_name_icon_list[idx]); idx++;
         const GdkPixbuf *icon_diag_list = gui_resources_get_type_diag_list ( (*this_).resources );

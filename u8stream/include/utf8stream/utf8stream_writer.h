@@ -37,7 +37,7 @@ static inline void utf8stream_writer_init ( utf8stream_writer_t *this_, universa
 static inline void utf8stream_writer_destroy ( utf8stream_writer_t *this_ );
 
 /*!
- *  \brief writes a utf8 string to a stream
+ *  \brief writes an utf8 string to a stream
  *
  *  Note that the underlying universal_output_stream_t may cut the stream when e.g. the sink location is full.
  *  This may cut an utf8 code point in half.

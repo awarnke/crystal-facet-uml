@@ -49,6 +49,13 @@
             "classifier_name": "Scope",
             "node": "4e4e3b4a-3d55-454e-be11-8d9d0b2bdf7b",
             "uuid": "56eafbc5-d1a9-4469-a583-ba813c0f159a"
+          },
+          {
+            "id": 294,
+            "display_flags": 0,
+            "classifier_name": "",
+            "node": "a929e73e-8f9d-40a7-81c2-f2e4da7ba93f",
+            "uuid": "433c0f34-4bb1-48be-a92f-b6998a93ae7a"
           }
         ]
       }
@@ -6461,6 +6468,25 @@
         "y_order": -1883935665,
         "list_order": -1883935665,
         "uuid": "86f4bde2-1367-45b0-9f63-60230cd088a3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 173,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "mouse-droid",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "x_order": -1882092648,
+        "y_order": 0,
+        "list_order": -1451649116,
+        "uuid": "a929e73e-8f9d-40a7-81c2-f2e4da7ba93f",
         "features":
         [
         ]

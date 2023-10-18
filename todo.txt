@@ -17,9 +17,12 @@ ideas for future versions:
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus
+      Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
-  [ ] select elements also by click on label - not only by click on symbol
+! [ ] gtk4 has some challenges with the gtk_icon_view_new() - this requires blank space at the bottom
+      Note: The doc says: Deprecated since: 4.10; Use GtkGridView instead. - A GridView is new in gtk4
+      A GridView is a complicated concept - maybe just show 14 buttons with pre-chosen "quick-select-types"?
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
