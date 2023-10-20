@@ -164,6 +164,11 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
 void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkTreePath *path, gpointer user_data );
 
 /*!
+ *  \brief callback that informs that a type quick button was pressed
+ */
+void gui_attributes_editor_type_quick_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
  *  \brief callback that informs that the focus of a widget is lost
  */
 #if ( GTK_MAJOR_VERSION >= 4 )

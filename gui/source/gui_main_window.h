@@ -18,9 +18,17 @@
 #include "gui_file_export_dialog.h"
 #include "gui_search_request.h"
 #include "gui_search_runner.h"
+#include "gui_attribute_type_of_classifier.h"
+#include "gui_attribute_type_of_diagram.h"
+#include "gui_attribute_type_of_feature.h"
+#include "gui_attribute_type_of_relationship.h"
 #include "io_data_file.h"
 #include "storage/data_change_message.h"
 #include "ctrl_controller.h"
+#include "data_diagram_type.h"
+#include "data_classifier_type.h"
+#include "data_feature_type.h"
+#include "data_relationship_type.h"
 #include "observer/observer.h"
 #include <gtk/gtk.h>
 
@@ -54,6 +62,8 @@ struct gui_main_window_struct {
     GtkButton *file_new_db;
     GtkWidget *file_use_db_icon;
     GtkButton *file_use_db;
+    GtkWidget *file_save_icon;
+    GtkWidget *file_save_button;
     /*
     GtkWidget *file_save_as_icon;
     GtkButton *file_save_as;
@@ -117,10 +127,24 @@ struct gui_main_window_struct {
     GtkWidget *type_label;
     GtkWidget *type_combo_box;
     GtkWidget *type_icon_grid;
+    GtkGrid   *type_diag_grid;
+    GtkImage  *( type_diag_img[ DATA_DIAGRAM_TYPE_COUNT ] );
+    GtkButton *( type_diag_btn[ DATA_DIAGRAM_TYPE_COUNT ] );
+    gui_attribute_type_of_diagram_t type_diag_data[ DATA_DIAGRAM_TYPE_COUNT ];
+    GtkGrid   *type_clas_grid;
+    GtkImage  *( type_clas_img[ DATA_CLASSIFIER_TYPE_COUNT ] );
+    GtkButton *( type_clas_btn[ DATA_CLASSIFIER_TYPE_COUNT ] );
+    gui_attribute_type_of_classifier_t type_clas_data[ DATA_CLASSIFIER_TYPE_COUNT ];
+    GtkGrid   *type_feat_grid;
+    GtkImage  *( type_feat_img[ DATA_FEATURE_TYPE_COUNT ] );
+    GtkButton *( type_feat_btn[ DATA_FEATURE_TYPE_COUNT ] );
+    gui_attribute_type_of_feature_t type_feat_data[ DATA_FEATURE_TYPE_COUNT ];
+    GtkGrid   *type_rel_grid;
+    GtkImage  *( type_rel_img[ DATA_RELATIONSHIP_TYPE_COUNT ] );
+    GtkButton *( type_rel_btn[ DATA_RELATIONSHIP_TYPE_COUNT ] );
+    gui_attribute_type_of_relationship_t type_rel_data[ DATA_RELATIONSHIP_TYPE_COUNT ];
     GtkWidget *stereotype_label;
     GtkWidget *stereotype_entry;
-    GtkWidget *file_save_icon;
-    GtkWidget *file_save_button;
 
     GtkWidget *search_row;
     GtkWidget *search_label;

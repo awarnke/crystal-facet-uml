@@ -417,6 +417,16 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
     U8_TRACE_END();
 }
 
+void gui_attributes_editor_type_quick_btn_callback( GtkWidget* button, gpointer data )
+{
+    U8_TRACE_BEGIN();
+
+    /* TODO */
+
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
+}
+
 #if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data )
 {

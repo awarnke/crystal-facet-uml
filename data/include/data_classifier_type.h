@@ -24,7 +24,7 @@ enum data_classifier_type_enum {
     /* Parametric Diagram: */
     DATA_CLASSIFIER_TYPE_CONSTRAINT_BLOCK = 96,  /* SysML, this is an equation */
     /* Requirements Diagram: */
-    DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE = 98,  /* deprecated since version 1.25.0 */
+    /* DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE = 98, */  /* deprecated since version 1.25.0 */
     DATA_CLASSIFIER_TYPE_REQUIREMENT = 99,  /* SysML */
     /* Use Case Diagram */
     DATA_CLASSIFIER_TYPE_ACTOR = 100,
@@ -61,10 +61,11 @@ enum data_classifier_type_enum {
     // missing: activity-bars and life-end-cross on lifelines - maybe these can be auto-generated?
     DATA_CLASSIFIER_TYPE_INTERACTION = 190,  /* a uml interaction. Currently this does not exist in the data model but is faked at xmi export */
 };
+#define DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE (98)
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
 
-#define DATA_CLASSIFIER_TYPE_COUNT (33)
+#define DATA_CLASSIFIER_TYPE_COUNT (32)
 
 /*!
  *  \brief lists all values of data_classifier_type_t, excluding DATA_CLASSIFIER_TYPE_VOID

@@ -1,4 +1,4 @@
-/* File: gui_attributes_editor_types_types.c; Copyright and License: see below */
+/* File: gui_attributes_editor_types.c; Copyright and License: see below */
 
 #include "gui_attributes_editor_types.h"
 #include "gtk_helper/gtk_helper_tree_model.h"

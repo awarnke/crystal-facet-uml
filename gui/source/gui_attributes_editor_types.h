@@ -1,4 +1,4 @@
-/* File: gui_attributes_editor_types_types.h; Copyright and License: see below */
+/* File: gui_attributes_editor_types.h; Copyright and License: see below */
 
 #ifndef GUI_ATTRIBUTES_EDITOR_TYPES_H
 #define GUI_ATTRIBUTES_EDITOR_TYPES_H

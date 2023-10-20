@@ -28,7 +28,7 @@ enum data_diagram_type_enum {
     DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM = 12,
     DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM = 13,
     DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM = 14,
-    DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM = 15,  /* deprecated since version 1.25.0 */
+    /* DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM = 15,*/  /* deprecated since version 1.25.0 */
     DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM = 16,
     DATA_DIAGRAM_TYPE_INTERACTION_OVERVIEW_DIAGRAM = 17,  /* new since version 1.25.0 */
     DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM = 30,
@@ -39,10 +39,11 @@ enum data_diagram_type_enum {
     /*DATA_DIAGRAM_TYPE_UML_OBJECT_DIAGRAM = 35,*/ /* - obsolete in UML 2.5, use a class diagram instead */
     DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM = 39,
 };
+#define DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM (15)
 
 typedef enum data_diagram_type_enum data_diagram_type_t;
 
-#define DATA_DIAGRAM_TYPE_COUNT (20)
+#define DATA_DIAGRAM_TYPE_COUNT (19)
 
 /*!
  *  \brief lists all values of data_diagram_type_t, excluding DATA_DIAGRAM_TYPE_VOID

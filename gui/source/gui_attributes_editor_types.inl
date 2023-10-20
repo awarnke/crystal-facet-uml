@@ -1,4 +1,4 @@
-/* File: gui_attributes_editor_types_types.inl; Copyright and License: see below */
+/* File: gui_attributes_editor_types.inl; Copyright and License: see below */
 
 static inline const GtkListStore* gui_attributes_editor_types_get_undef ( const gui_attributes_editor_types_t *this_ )
 {

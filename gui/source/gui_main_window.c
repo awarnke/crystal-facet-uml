@@ -807,6 +807,22 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 #else
 #endif
 
+    /* TODO Just a test, how to get rid of the unsupporrted gtk_icon_view_new() */
+    GtkWidget *(img[7]);
+    GtkWidget *(btn[7]);
+    GtkWidget *quick_grid = gtk_grid_new();
+    //gtk_grid_attach( GTK_GRID(quick_grid), gtk_label_new( "  Quick:" ), 0, 0, 1, 1 );
+    gtk_widget_set_halign( quick_grid, GTK_ALIGN_END );
+    for ( int idx = 0; idx < 7; idx ++ )
+    {
+        img[idx] = gtk_image_new_from_pixbuf( (void*) gui_resources_get_type_clas_class( res ));
+        gtk_widget_set_size_request( img[idx], 32 /*=w*/ , 24 /*=h*/ );
+        btn[idx] = gtk_button_new();
+        gtk_button_set_image( GTK_BUTTON(btn[idx]), img[idx] );
+        gtk_widget_set_tooltip_text( btn[idx], "New DB" );
+        gtk_grid_attach( GTK_GRID(quick_grid), btn[idx], idx+1, 0, 1, 1 );
+    }
+
     /* insert widgets to box container */
     {
         (*this_).attr_edit_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 4 );
@@ -817,9 +833,10 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
         //gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(grid_frame) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(quick_grid) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #else
@@ -829,8 +846,9 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET(quick_grid) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #endif
