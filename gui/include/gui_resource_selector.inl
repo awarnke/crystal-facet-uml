@@ -2,9 +2,9 @@
 
 #include <assert.h>
 
-static inline const GdkPixbuf *gui_resource_selector_get_diagram_icon ( const gui_resource_selector_t *this_, data_diagram_type_t diag_type )
+static inline GdkPixbuf *gui_resource_selector_get_diagram_icon ( const gui_resource_selector_t *this_, data_diagram_type_t diag_type )
 {
-    const GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
+    GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
     for ( unsigned int idx = 0; idx < (*this_).diagram_types_length; idx ++ )
     {
         const gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).diagram_types_start+idx]);
@@ -17,9 +17,9 @@ static inline const GdkPixbuf *gui_resource_selector_get_diagram_icon ( const gu
     return result;
 }
 
-static inline const GdkPixbuf *gui_resource_selector_get_classifier_icon ( const gui_resource_selector_t *this_, data_classifier_type_t clas_type )
+static inline GdkPixbuf *gui_resource_selector_get_classifier_icon ( const gui_resource_selector_t *this_, data_classifier_type_t clas_type )
 {
-    const GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
+    GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
     for ( unsigned int idx = 0; idx < (*this_).classifier_types_length; idx ++ )
     {
         const gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).classifier_types_start+idx]);
@@ -32,9 +32,9 @@ static inline const GdkPixbuf *gui_resource_selector_get_classifier_icon ( const
     return result;
 }
 
-static inline const GdkPixbuf *gui_resource_selector_get_feature_icon ( const gui_resource_selector_t *this_, data_feature_type_t feat_type )
+static inline GdkPixbuf *gui_resource_selector_get_feature_icon ( const gui_resource_selector_t *this_, data_feature_type_t feat_type )
 {
-    const GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
+    GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
     for ( unsigned int idx = 0; idx < (*this_).feature_types_length; idx ++ )
     {
         const gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).feature_types_start+idx]);
@@ -47,9 +47,9 @@ static inline const GdkPixbuf *gui_resource_selector_get_feature_icon ( const gu
     return result;
 }
 
-static inline const GdkPixbuf *gui_resource_selector_get_relationship_icon ( const gui_resource_selector_t *this_, data_relationship_type_t rel_type )
+static inline GdkPixbuf *gui_resource_selector_get_relationship_icon ( const gui_resource_selector_t *this_, data_relationship_type_t rel_type )
 {
-    const GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
+    GdkPixbuf *result = gui_resources_get_type_undef( (*this_).resources );
     for ( unsigned int idx = 0; idx < (*this_).relationship_types_length; idx ++ )
     {
         const gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).relationship_types_start+idx]);

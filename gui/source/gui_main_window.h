@@ -13,15 +13,15 @@
 #include "sketch/gui_sketch_area.h"
 #include "gui_toolbox.h"
 #include "gui_resources.h"
-#include "gui_attributes_editor.h"
+#include "attributes/gui_attributes_editor.h"
 #include "gui_file_use_db_dialog.h"
 #include "gui_file_export_dialog.h"
 #include "gui_search_request.h"
 #include "gui_search_runner.h"
-#include "gui_attribute_type_of_classifier.h"
-#include "gui_attribute_type_of_diagram.h"
-#include "gui_attribute_type_of_feature.h"
-#include "gui_attribute_type_of_relationship.h"
+#include "attributes/gui_attribute_type_of_classifier.h"
+#include "attributes/gui_attribute_type_of_diagram.h"
+#include "attributes/gui_attribute_type_of_feature.h"
+#include "attributes/gui_attribute_type_of_relationship.h"
 #include "io_data_file.h"
 #include "storage/data_change_message.h"
 #include "ctrl_controller.h"
@@ -126,9 +126,6 @@ struct gui_main_window_struct {
     GtkWidget *description_scroll_win;
     GtkWidget *type_label;
     GtkWidget *type_combo_box;
-#if 0
-    GtkWidget *type_icon_grid;
-#endif
     GtkGrid   *type_diag_grid;
     GtkImage  *( type_diag_img[ DATA_DIAGRAM_TYPE_COUNT ] );
     GtkButton *( type_diag_btn[ DATA_DIAGRAM_TYPE_COUNT ] );

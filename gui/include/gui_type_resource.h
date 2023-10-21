@@ -34,7 +34,7 @@ struct gui_type_resource_struct {
     data_table_t context;  /*!<  element type for which this type resource applies */
     union gui_type_resource_union type;  /*!<  type id for which this type resource applies */
     const char * name;  /*!<  display name */
-    const GdkPixbuf * icon;  /*!<  icon to be displayed */
+    GdkPixbuf * icon;  /*!<  icon to be displayed */
 };
 
 typedef struct gui_type_resource_struct gui_type_resource_t;
@@ -50,7 +50,7 @@ typedef struct gui_type_resource_struct gui_type_resource_t;
 static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
                                                     data_diagram_type_t type,
                                                     const char * name,
-                                                    const GdkPixbuf * icon
+                                                    GdkPixbuf * icon
                                                   );
 
 /*!
@@ -64,7 +64,7 @@ static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this_,
                                                        data_classifier_type_t type,
                                                        const char * name,
-                                                       const GdkPixbuf * icon
+                                                       GdkPixbuf * icon
                                                      );
 
 /*!
@@ -78,7 +78,7 @@ static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this
 static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
                                                     data_feature_type_t type,
                                                     const char * name,
-                                                    const GdkPixbuf * icon
+                                                    GdkPixbuf * icon
                                                   );
 
 /*!
@@ -92,7 +92,7 @@ static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_relationship ( gui_type_resource_t *this_,
                                                          data_relationship_type_t type,
                                                          const char * name,
-                                                         const GdkPixbuf * icon
+                                                         GdkPixbuf * icon
                                                        );
 
 /*!
@@ -132,7 +132,7 @@ static inline const char * gui_type_resource_get_name ( const gui_type_resource_
  *  \param this_ pointer to own object attributes
  *  \return icon of this gui_type_resource_t
  */
-static inline const GdkPixbuf * gui_type_resource_get_icon ( const gui_type_resource_t *this_ );
+static inline GdkPixbuf * gui_type_resource_get_icon ( const gui_type_resource_t *this_ );
 
 #include "gui_type_resource.inl"
 

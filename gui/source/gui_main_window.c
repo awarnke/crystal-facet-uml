@@ -84,19 +84,6 @@ void gui_main_window_init( gui_main_window_t *this_,
     {
 #if ( GTK_MAJOR_VERSION >= 4 )
         current_clipboard = gtk_widget_get_clipboard( GTK_WIDGET((*this_).window) );  /* idea taken from gtk demo */
-        /*
-        GdkDisplay *const current_display = gdk_display_get_default();
-        if ( current_display != NULL )
-        {
-            U8_TRACE_INFO_STR( "GdkDisplay:", gdk_display_get_name( current_display ) );
-            current_clipboard = gdk_display_get_primary_clipboard( current_display );
-            Alternative: current_clipboard = gdk_display_get_clipboard( current_display );
-        }
-        else
-        {
-            U8_LOG_WARNING( "No display could be found. No clipboard is available." );
-        }
-        */
 #else
         GdkScreen *const current_screen = gtk_window_get_screen( GTK_WINDOW( (*this_).window ) );
         GdkDisplay *const current_display = gdk_screen_get_display( current_screen );
@@ -151,9 +138,6 @@ void gui_main_window_init( gui_main_window_t *this_,
                                 GTK_ENTRY( (*this_).name_entry ),
                                 GTK_ENTRY( (*this_).stereotype_entry ),
                                 GTK_COMBO_BOX( (*this_).type_combo_box ),
-#if 0
-                                GTK_ICON_VIEW( (*this_).type_icon_grid ),
-#endif
                                 GTK_WIDGET( (*this_).type_diag_grid ),
                                 GTK_WIDGET( (*this_).type_clas_grid ),
                                 GTK_WIDGET( (*this_).type_feat_grid ),
@@ -244,16 +228,17 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).view_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
 
-    g_signal_connect( G_OBJECT((*this_).view_navigate), "clicked", G_CALLBACK(gui_toolbox_navigate_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).view_edit), "clicked", G_CALLBACK(gui_toolbox_edit_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).view_create), "clicked", G_CALLBACK(gui_toolbox_create_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).view_search), "clicked", G_CALLBACK(gui_toolbox_search_btn_callback), &((*this_).tools_data) );
+    gui_toolbox_t *const tools = &((*this_).tools_data);
+    g_signal_connect( G_OBJECT((*this_).view_navigate), "clicked", G_CALLBACK(gui_toolbox_navigate_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).view_edit), "clicked", G_CALLBACK(gui_toolbox_edit_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).view_create), "clicked", G_CALLBACK(gui_toolbox_create_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).view_search), "clicked", G_CALLBACK(gui_toolbox_search_btn_callback), tools );
 
     /* The search id button is connected to two callback functions: one to switch to search mode, one to perform a search: */
     g_signal_connect( G_OBJECT((*this_).id_search_btn),
                       "clicked",
                       G_CALLBACK(gui_toolbox_search_id_btn_callback),
-                      &((*this_).tools_data)
+                      tools
                     );
     g_signal_connect( G_OBJECT((*this_).id_search_btn),
                       "clicked",
@@ -266,15 +251,15 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).search_entry), "activate", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_button), "clicked", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
 
-    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_toolbox_delete_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_toolbox_instantiate_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_toolbox_highlight_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_toolbox_delete_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_toolbox_instantiate_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_toolbox_highlight_btn_callback), tools );
+    g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), tools );
 
     g_signal_connect( G_OBJECT((*this_).name_entry),
                       "activate",
@@ -328,9 +313,38 @@ void gui_main_window_init( gui_main_window_t *this_,
 #endif
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "activate", G_CALLBACK(gui_attributes_editor_stereotype_enter_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
-#if 0
-    g_signal_connect( G_OBJECT((*this_).type_icon_grid), "item-activated", G_CALLBACK(gui_attributes_editor_type_shortlist_callback), &((*this_).attributes_editor) );
-#endif
+    for( int_fast32_t diag_idx = 0; diag_idx < DATA_DIAGRAM_TYPE_COUNT; diag_idx ++ )
+    {
+        g_signal_connect( G_OBJECT((*this_).type_diag_btn[ diag_idx ]),
+                          "clicked",
+                          G_CALLBACK( gui_attributes_editor_type_of_diagram_btn_callback ),
+                          &((*this_).type_diag_data[diag_idx])
+                        );
+    }
+    for( int_fast32_t clas_idx = 0; clas_idx < DATA_CLASSIFIER_TYPE_COUNT; clas_idx ++ )
+    {
+        g_signal_connect( G_OBJECT((*this_).type_clas_btn[ clas_idx ]),
+                          "clicked",
+                          G_CALLBACK( gui_attributes_editor_type_of_classifier_btn_callback ),
+                          &((*this_).type_clas_data[clas_idx])
+                        );
+    }
+    for( int_fast32_t feat_idx = 0; feat_idx < DATA_FEATURE_TYPE_COUNT; feat_idx ++ )
+    {
+        g_signal_connect( G_OBJECT((*this_).type_feat_btn[ feat_idx ]),
+                          "clicked",
+                          G_CALLBACK( gui_attributes_editor_type_of_feature_btn_callback ),
+                          &((*this_).type_feat_data[feat_idx])
+                        );
+    }
+    for( int_fast32_t rel_idx = 0; rel_idx < DATA_RELATIONSHIP_TYPE_COUNT; rel_idx ++ )
+    {
+        g_signal_connect( G_OBJECT((*this_).type_rel_btn[ rel_idx ]),
+                          "clicked",
+                          G_CALLBACK( gui_attributes_editor_type_of_relationship_btn_callback ),
+                          &((*this_).type_rel_data[rel_idx])
+                        );
+    }
     g_signal_connect( G_OBJECT((*this_).window), GUI_MARKED_SET_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_focused_object_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
         /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
@@ -797,33 +811,6 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
 
-#if 0
-    (*this_).type_icon_grid = gtk_icon_view_new();
-    gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_END );
-#if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_icon_view_set_activate_on_single_click( GTK_ICON_VIEW((*this_).type_icon_grid), true );
-#else
-#endif
-    gtk_icon_view_set_tooltip_column( GTK_ICON_VIEW((*this_).type_icon_grid), 1 );
-    gtk_icon_view_set_pixbuf_column( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
-    gtk_icon_view_set_selection_mode( GTK_ICON_VIEW((*this_).type_icon_grid), GTK_SELECTION_NONE );
-    gtk_icon_view_set_item_padding( GTK_ICON_VIEW((*this_).type_icon_grid), 2 );
-    gtk_icon_view_set_margin( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
-    gtk_icon_view_set_column_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 4 );
-    gtk_icon_view_set_row_spacing( GTK_ICON_VIEW((*this_).type_icon_grid), 0 );
-    gtk_icon_view_set_columns( GTK_ICON_VIEW((*this_).type_icon_grid), 7 );
-#if ( GTK_MAJOR_VERSION >= 4 )
-    /* workaround for endless loop in gtk layouting, possibly fixed in 4.6.9? */
-    GtkWidget *grid_frame = gtk_grid_new();
-    gtk_grid_attach( GTK_GRID(grid_frame), (*this_).type_icon_grid, 0, 0, 1, 1 );
-    gtk_widget_set_halign( grid_frame, GTK_ALIGN_END );
-    //gtk_orientable_set_orientation( GTK_ORIENTABLE(grid_frame), GTK_ORIENTATION_HORIZONTAL );
-    gtk_widget_set_vexpand( GTK_WIDGET(grid_frame), FALSE );
-    gtk_widget_set_hexpand( GTK_WIDGET(grid_frame), TRUE );
-#else
-#endif
-#endif
-
     static gui_resource_selector_t res_select;
     gui_resource_selector_init( &res_select, res );
     {
@@ -833,8 +820,8 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         {
             const data_diagram_type_t diag_type = DATA_DIAGRAM_TYPE_ARRAY[ diag_idx ];
             gui_attribute_type_of_diagram_init( &((*this_).type_diag_data[diag_idx]), diag_type, &((*this_).attributes_editor) );
-            const GdkPixbuf *const diag_icon = gui_resource_selector_get_diagram_icon( &res_select, diag_type );
-            (*this_).type_diag_img[ diag_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( (void*) diag_icon ) );
+            GdkPixbuf *const diag_icon = gui_resource_selector_get_diagram_icon( &res_select, diag_type );
+            (*this_).type_diag_img[ diag_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( diag_icon ) );
             gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
             (*this_).type_diag_btn[ diag_idx ] = GTK_BUTTON( gtk_button_new() );
             gtk_button_set_image( (*this_).type_diag_btn[ diag_idx ], GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ) );
@@ -843,16 +830,32 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         }
         (*this_).type_clas_grid = GTK_GRID( gtk_grid_new() );
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_clas_grid ), GTK_ALIGN_END );
+        for( int_fast32_t clas_idx = 0; clas_idx < DATA_CLASSIFIER_TYPE_COUNT; clas_idx ++ )
         {
-
+            const data_classifier_type_t clas_type = DATA_CLASSIFIER_TYPE_ARRAY[ clas_idx ];
+            gui_attribute_type_of_classifier_init( &((*this_).type_clas_data[clas_idx]), clas_type, &((*this_).attributes_editor) );
+            GdkPixbuf *const clas_icon = gui_resource_selector_get_classifier_icon( &res_select, clas_type );
+#if ( GTK_MAJOR_VERSION >= 4 )
+            GdkTexture* texture = gdk_texture_new_for_pixbuf( clas_icon );
+            (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( texture ) ) );
+#else
+            (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( clas_icon ) );
+#endif
+            gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_clas_img[ clas_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
+            (*this_).type_clas_btn[ clas_idx ] = GTK_BUTTON( gtk_button_new() );
+            gtk_button_set_image( (*this_).type_clas_btn[ clas_idx ], GTK_WIDGET( (*this_).type_clas_img[ clas_idx ] ) );
+            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_clas_btn[ clas_idx ] ), "TODO" );
+            gtk_grid_attach( (*this_).type_clas_grid, GTK_WIDGET( (*this_).type_clas_btn[ clas_idx ] ), clas_idx%7, clas_idx/7, 1, 1 );
         }
         (*this_).type_feat_grid = GTK_GRID( gtk_grid_new() );
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_feat_grid ), GTK_ALIGN_END );
+        for( int_fast32_t feat_idx = 0; feat_idx < DATA_FEATURE_TYPE_COUNT; feat_idx ++ )
         {
 
         }
         (*this_).type_rel_grid = GTK_GRID( gtk_grid_new() );
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_rel_grid ), GTK_ALIGN_END );
+        for( int_fast32_t rel_idx = 0; rel_idx < DATA_RELATIONSHIP_TYPE_COUNT; rel_idx ++ )
         {
 
         }
@@ -877,21 +880,6 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     GtkButton *( type_rel_btn[ DATA_RELATIONSHIP_TYPE_COUNT ] );
     gui_attribute_type_of_relationship_t type_rel_data[ DATA_RELATIONSHIP_TYPE_COUNT ];
 
-    /* TODO Just a test, how to get rid of the unsupporrted gtk_icon_view_new() */
-    GtkWidget *(img[7]);
-    GtkWidget *(btn[7]);
-    GtkWidget *quick_grid = gtk_grid_new();
-    //gtk_grid_attach( GTK_GRID(quick_grid), gtk_label_new( "  Quick:" ), 0, 0, 1, 1 );
-    gtk_widget_set_halign( quick_grid, GTK_ALIGN_END );
-    for ( int idx = 0; idx < 7; idx ++ )
-    {
-        img[idx] = gtk_image_new_from_pixbuf( (void*) gui_resources_get_type_clas_class( res ));
-        gtk_widget_set_size_request( img[idx], 32 /*=w*/ , 24 /*=h*/ );
-        btn[idx] = gtk_button_new();
-        gtk_button_set_image( GTK_BUTTON(btn[idx]), img[idx] );
-        gtk_widget_set_tooltip_text( btn[idx], "New DB" );
-        gtk_grid_attach( GTK_GRID(quick_grid), btn[idx], idx+1, 0, 1, 1 );
-    }
 #endif
 
     /* insert widgets to box container */
@@ -904,12 +892,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
-#if 0
-        //gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(grid_frame) );
-#endif
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_clas_grid ) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_feat_grid ) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_rel_grid ) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #else
@@ -919,11 +906,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
-#if 0
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
-#endif
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_clas_grid ) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_feat_grid ) );
+//         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_rel_grid ) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #endif

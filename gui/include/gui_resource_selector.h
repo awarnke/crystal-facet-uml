@@ -74,7 +74,7 @@ const GdkPixbuf *gui_resource_selector_get_icon ( const gui_resource_selector_t 
  *  \param diag_type the diagram type for which to retrieve the icon
  *  \return pointer to the specified icon or &type_undef if unknown diag_type
  */
-static inline const GdkPixbuf *gui_resource_selector_get_diagram_icon ( const gui_resource_selector_t *this_, data_diagram_type_t diag_type );
+static inline GdkPixbuf *gui_resource_selector_get_diagram_icon ( const gui_resource_selector_t *this_, data_diagram_type_t diag_type );
 
 /*!
  *  \brief gets the icon for the specified classifier type
@@ -83,7 +83,7 @@ static inline const GdkPixbuf *gui_resource_selector_get_diagram_icon ( const gu
  *  \param clas_type the classifier type for which to retrieve the icon
  *  \return pointer to the specified icon or &type_undef if unknown clas_type
  */
-static inline const GdkPixbuf *gui_resource_selector_get_classifier_icon ( const gui_resource_selector_t *this_, data_classifier_type_t clas_type );
+static inline GdkPixbuf *gui_resource_selector_get_classifier_icon ( const gui_resource_selector_t *this_, data_classifier_type_t clas_type );
 
 /*!
  *  \brief gets the icon for the specified feature type
@@ -92,7 +92,7 @@ static inline const GdkPixbuf *gui_resource_selector_get_classifier_icon ( const
  *  \param feat_type the feature type for which to retrieve the icon
  *  \return pointer to the specified icon or &type_undef if unknown feat_type
  */
-static inline const GdkPixbuf *gui_resource_selector_get_feature_icon ( const gui_resource_selector_t *this_, data_feature_type_t feat_type );
+static inline GdkPixbuf *gui_resource_selector_get_feature_icon ( const gui_resource_selector_t *this_, data_feature_type_t feat_type );
 
 /*!
  *  \brief gets the icon for the specified relationship type
@@ -101,7 +101,7 @@ static inline const GdkPixbuf *gui_resource_selector_get_feature_icon ( const gu
  *  \param rel_type the relationship type for which to retrieve the icon
  *  \return pointer to the specified icon or &type_undef if unknown rel_type
  */
-static inline const GdkPixbuf *gui_resource_selector_get_relationship_icon ( const gui_resource_selector_t *this_, data_relationship_type_t rel_type );
+static inline GdkPixbuf *gui_resource_selector_get_relationship_icon ( const gui_resource_selector_t *this_, data_relationship_type_t rel_type );
 
 /*!
  *  \brief gets a pointer to an array of gui_type_resource_t containing diagram types

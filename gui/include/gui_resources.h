@@ -390,518 +390,518 @@ static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_activity
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_activity ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_activity ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_block
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_block ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_block ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_box
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_class
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_class ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_class ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_communication
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_communication ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_communication ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_component
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_component ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_component ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_composite
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_composite ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_composite ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_deployment
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_deployment ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_deployment ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_internal
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_internal ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_internal ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_list
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_list ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_list ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_overview
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_overview ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_overview ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_package
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_package ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_package ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_parametric
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_parametric ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_parametric ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_profile
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_profile ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_profile ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_requirement
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_requirement ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_requirement ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_sequence
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_sequence ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_sequence ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_state
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_state ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_state ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_timing
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_timing ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_timing ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_usecase
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_accept
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_accept ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_accept ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_actor
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_actor ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_actor ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_artifact
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_artifact ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_artifact ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_block
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_block ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_block ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_class
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_class ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_class ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_comment
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_comment ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_comment ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_component
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_component ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_component ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_constraint
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_constraint ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_constraint ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_decision
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_decision ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_decision ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_deephistory
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_deephistory ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_deephistory ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_diagram
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_diagram ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_diagram ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_final
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_final ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_final ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_fork
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_fork ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_fork ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_history
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_history ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_history ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_initial
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_join
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_join ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_join ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_node
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_node ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_node ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_package
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_part
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_part ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_part ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_region
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_region ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_region ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_requirement
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_requirement ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_requirement ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_send
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_send ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_send ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_state
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_state ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_state ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_stereotype
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_stereotype ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_stereotype ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_subsystem
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_subsystem ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_subsystem ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_time
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_time ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_time ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_usecase
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_usecase ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_clas_usecase ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_entry
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_entry ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_entry ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_exit
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_exit ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_exit ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_life
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_life ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_life ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_operation
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_operation ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_operation ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_port
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_port ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_port ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_property
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_property ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_property ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_provide
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_provide ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_provide ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_require
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_require ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_rx
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_rx ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_rx ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_tag
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_tag ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_tag ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_tx
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_feat_tx ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_feat_tx ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_aggregate
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_aggregate ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_aggregate ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_associate
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_compose
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_compose ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_compose ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_communication_path
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_communication_path ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_communication_path ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_contain
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_contain ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_contain ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_depend
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_depend ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_depend ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_deploy
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_deploy ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_deploy ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_extend
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_extend ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_extend ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_generalize
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_generalize ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_generalize ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_include
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_include ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_include ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_manifest
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_manifest ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_manifest ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_realize
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_realize ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_realize ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_refine
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_refine ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_refine ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_return
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_return ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_return ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_sync
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_sync ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_sync ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_trace
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_rel_trace ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_type_rel_trace ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

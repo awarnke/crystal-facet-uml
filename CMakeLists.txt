@@ -58,6 +58,7 @@ INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
 #MESSAGE("PANGOCAIRO: ${PANGOCAIRO_INCLUDE_DIRS}")
 
 FILE(GLOB commonSource gui/source/*.c
+                       gui/source/attributes/*.c
                        gui/source/sketch/*.c
                        ctrl/source/*.c
                        ctrl/source/consistency/*.c

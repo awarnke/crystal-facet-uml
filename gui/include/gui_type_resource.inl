@@ -3,7 +3,7 @@
 static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
                                                     data_diagram_type_t type,
                                                     const char * name,
-                                                    const GdkPixbuf * icon )
+                                                    GdkPixbuf * icon )
 {
     (*this_).context = DATA_TABLE_DIAGRAM;
     (*this_).type.diagram = type;
@@ -14,7 +14,7 @@ static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this_,
                                                        data_classifier_type_t type,
                                                        const char * name,
-                                                       const GdkPixbuf * icon )
+                                                       GdkPixbuf * icon )
 {
     (*this_).context = DATA_TABLE_CLASSIFIER;
     (*this_).type.classifier = type;
@@ -25,7 +25,7 @@ static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this
 static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
                                                     data_feature_type_t type,
                                                     const char * name,
-                                                    const GdkPixbuf * icon )
+                                                    GdkPixbuf * icon )
 {
     (*this_).context = DATA_TABLE_FEATURE;
     (*this_).type.feature = type;
@@ -36,7 +36,7 @@ static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_relationship ( gui_type_resource_t *this_,
                                                          data_relationship_type_t type,
                                                          const char * name,
-                                                         const GdkPixbuf * icon )
+                                                         GdkPixbuf * icon )
 {
     (*this_).context = DATA_TABLE_RELATIONSHIP;
     (*this_).type.relationship = type;
@@ -63,7 +63,7 @@ static inline const char * gui_type_resource_get_name ( const gui_type_resource_
     return ( (*this_).name );
 }
 
-static inline const GdkPixbuf * gui_type_resource_get_icon ( const gui_type_resource_t *this_ )
+static inline GdkPixbuf * gui_type_resource_get_icon ( const gui_type_resource_t *this_ )
 {
     return ( (*this_).icon );
 }

@@ -52,6 +52,7 @@ INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/freetype2")
 #INCLUDE_DIRECTORIES("${THIRD_PARTY_ROOT}/usr/local/include/textstyle")
 
 FILE(GLOB commonSource ../../gui/source/*.c
+                       ../../gui/source/attributes/*.c
                        ../../gui/source/sketch/*.c
                        ../../ctrl/source/*.c
                        ../../ctrl/source/consistency/*.c
