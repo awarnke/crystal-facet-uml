@@ -1837,7 +1837,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
     //    const int w = gtk_widget_get_width( GTK_WIDGET(type_icon_grid) );
     //    const int h = gtk_widget_get_height( GTK_WIDGET(type_icon_grid) );
     //    gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), w, h );
-    gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), 7*40, 5*30 );
+    //gtk_widget_set_size_request( GTK_WIDGET(type_icon_grid), 7*40, 5*30 );
     //gtk_layout_manager_layout_changed( gtk_widget_get_layout_manager( GTK_WIDGET(type_icon_grid) ));
 #else
 #endif

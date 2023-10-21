@@ -55,7 +55,10 @@ void gui_main_window_init( gui_main_window_t *this_,
         gtk_window_set_title(GTK_WINDOW( (*this_).window ), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
         gtk_widget_set_size_request( (*this_).window, 800, 400 );
         gtk_window_set_default_size( GTK_WINDOW( (*this_).window ), 16*70, 9*70 );
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
         gtk_window_set_icon( GTK_WINDOW( (*this_).window ), gui_resources_get_crystal_facet_uml( res ) );
+#endif
     }
 
     /* init the message widgets */

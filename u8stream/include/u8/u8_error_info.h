@@ -12,6 +12,7 @@
 #include "u8/u8_error.h"
 #include "u8/u8_error_info_unit.h"
 #include <stdbool.h>
+#include <stdint.h>
 
 /*!
  *  \brief constants for max string sizes

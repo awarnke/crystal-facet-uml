@@ -5,6 +5,7 @@ crystal-facet-uml (1.53.0) UNRELEASED; urgency=medium
   * Default relationship type from SUBSYSTEM is ASSOCIATION, not CONTAINMENT
   * Elements can be selected by click on their label, not only on their symbol
   * The window system shows an icon for the gtk3-window of crystal-facet-uml
+  * Type-selector buttons are layouted by an gtk4-compatible grid
   * info: Unit test coverage increased from 21.5 % to 21.8 %
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 30 Sep 2023 19:00:00 +0200

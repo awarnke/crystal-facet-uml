@@ -20,9 +20,6 @@ ideas for future versions:
       Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
-! [ ] gtk4 has some challenges with the gtk_icon_view_new() - this requires blank space at the bottom
-      Note: The doc says: Deprecated since: 4.10; Use GtkGridView instead. - A GridView is new in gtk4
-      A GridView is a complicated concept - maybe just show 14 buttons with pre-chosen "quick-select-types"?
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
