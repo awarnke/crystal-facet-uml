@@ -3,6 +3,10 @@
 #include "gui_main_window.h"
 #include "gui_clipboard.h"
 #include "u8/u8_trace.h"
+#include "data_diagram_type.h"
+#include "data_classifier_type.h"
+#include "data_feature_type.h"
+#include "data_relationship_type.h"
 #include "storage/data_database.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
@@ -144,7 +148,13 @@ void gui_main_window_init( gui_main_window_t *this_,
                                 GTK_ENTRY( (*this_).name_entry ),
                                 GTK_ENTRY( (*this_).stereotype_entry ),
                                 GTK_COMBO_BOX( (*this_).type_combo_box ),
+#if 0
                                 GTK_ICON_VIEW( (*this_).type_icon_grid ),
+#endif
+                                GTK_WIDGET( (*this_).type_diag_grid ),
+                                GTK_WIDGET( (*this_).type_clas_grid ),
+                                GTK_WIDGET( (*this_).type_feat_grid ),
+                                GTK_WIDGET( (*this_).type_rel_grid ),
                                 GTK_TEXT_VIEW( (*this_).description_text_view ),
                                 GTK_BUTTON( (*this_).file_save_button ),
                                 res,
@@ -315,7 +325,9 @@ void gui_main_window_init( gui_main_window_t *this_,
 #endif
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "activate", G_CALLBACK(gui_attributes_editor_stereotype_enter_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
+#if 0
     g_signal_connect( G_OBJECT((*this_).type_icon_grid), "item-activated", G_CALLBACK(gui_attributes_editor_type_shortlist_callback), &((*this_).attributes_editor) );
+#endif
     g_signal_connect( G_OBJECT((*this_).window), GUI_MARKED_SET_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_focused_object_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
         /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
@@ -782,6 +794,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
 
+#if 0
     (*this_).type_icon_grid = gtk_icon_view_new();
     gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_END );
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -806,6 +819,60 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_widget_set_hexpand( GTK_WIDGET(grid_frame), TRUE );
 #else
 #endif
+#endif
+
+    static gui_resource_selector_t res_select;
+    gui_resource_selector_init( &res_select, res );
+    {
+        (*this_).type_diag_grid = GTK_GRID( gtk_grid_new() );
+        gtk_widget_set_halign( GTK_WIDGET( (*this_).type_diag_grid ), GTK_ALIGN_END );
+        for( int_fast32_t diag_idx = 0; diag_idx < DATA_DIAGRAM_TYPE_COUNT; diag_idx ++ )
+        {
+            const data_diagram_type_t diag_type = DATA_DIAGRAM_TYPE_ARRAY[ diag_idx ];
+            gui_attribute_type_of_diagram_init( &((*this_).type_diag_data[diag_idx]), diag_type, &((*this_).attributes_editor) );
+            const GdkPixbuf *const diag_icon = gui_resource_selector_get_diagram_icon( &res_select, diag_type );
+            (*this_).type_diag_img[ diag_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( (void*) diag_icon ) );
+            gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
+            (*this_).type_diag_btn[ diag_idx ] = GTK_BUTTON( gtk_button_new() );
+            gtk_button_set_image( (*this_).type_diag_btn[ diag_idx ], GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ) );
+            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_diag_btn[ diag_idx ] ), "TODO" );
+            gtk_grid_attach( (*this_).type_diag_grid, GTK_WIDGET( (*this_).type_diag_btn[ diag_idx ] ), diag_idx%7, diag_idx/7, 1, 1 );
+        }
+        (*this_).type_clas_grid = GTK_GRID( gtk_grid_new() );
+        gtk_widget_set_halign( GTK_WIDGET( (*this_).type_clas_grid ), GTK_ALIGN_END );
+        {
+
+        }
+        (*this_).type_feat_grid = GTK_GRID( gtk_grid_new() );
+        gtk_widget_set_halign( GTK_WIDGET( (*this_).type_feat_grid ), GTK_ALIGN_END );
+        {
+
+        }
+        (*this_).type_rel_grid = GTK_GRID( gtk_grid_new() );
+        gtk_widget_set_halign( GTK_WIDGET( (*this_).type_rel_grid ), GTK_ALIGN_END );
+        {
+
+        }
+    }
+    gui_resource_selector_destroy( &res_select );
+
+#if 0
+    GtkGrid   *type_diag_grid;
+    GtkImage  *( type_diag_img[ DATA_DIAGRAM_TYPE_COUNT ] );
+    GtkButton *( type_diag_btn[ DATA_DIAGRAM_TYPE_COUNT ] );
+    gui_attribute_type_of_diagram_t type_diag_data[ DATA_DIAGRAM_TYPE_COUNT ];
+    GtkGrid   *type_clas_grid;
+    GtkImage  *( type_clas_img[ DATA_CLASSIFIER_TYPE_COUNT ] );
+    GtkButton *( type_clas_btn[ DATA_CLASSIFIER_TYPE_COUNT ] );
+    gui_attribute_type_of_classifier_t type_clas_data[ DATA_CLASSIFIER_TYPE_COUNT ];
+    GtkGrid   *type_feat_grid;
+    GtkImage  *( type_feat_img[ DATA_FEATURE_TYPE_COUNT ] );
+    GtkButton *( type_feat_btn[ DATA_FEATURE_TYPE_COUNT ] );
+    gui_attribute_type_of_feature_t type_feat_data[ DATA_FEATURE_TYPE_COUNT ];
+    GtkGrid   *type_rel_grid;
+    GtkImage  *( type_rel_img[ DATA_RELATIONSHIP_TYPE_COUNT ] );
+    GtkButton *( type_rel_btn[ DATA_RELATIONSHIP_TYPE_COUNT ] );
+    gui_attribute_type_of_relationship_t type_rel_data[ DATA_RELATIONSHIP_TYPE_COUNT ];
 
     /* TODO Just a test, how to get rid of the unsupporrted gtk_icon_view_new() */
     GtkWidget *(img[7]);
@@ -822,6 +889,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_widget_set_tooltip_text( btn[idx], "New DB" );
         gtk_grid_attach( GTK_GRID(quick_grid), btn[idx], idx+1, 0, 1, 1 );
     }
+#endif
 
     /* insert widgets to box container */
     {
@@ -833,10 +901,12 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
+#if 0
         //gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(grid_frame) );
+#endif
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(quick_grid) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #else
@@ -846,9 +916,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
+#if 0
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_icon_grid) );
+#endif
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET(quick_grid) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #endif

@@ -126,7 +126,9 @@ struct gui_main_window_struct {
     GtkWidget *description_scroll_win;
     GtkWidget *type_label;
     GtkWidget *type_combo_box;
+#if 0
     GtkWidget *type_icon_grid;
+#endif
     GtkGrid   *type_diag_grid;
     GtkImage  *( type_diag_img[ DATA_DIAGRAM_TYPE_COUNT ] );
     GtkButton *( type_diag_btn[ DATA_DIAGRAM_TYPE_COUNT ] );

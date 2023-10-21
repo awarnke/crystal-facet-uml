@@ -1,6 +1,10 @@
 /* File: gui_attributes_editor.c; Copyright and License: see below */
 
 #include "gui_attributes_editor.h"
+#include "gui_attribute_type_of_classifier.h"
+#include "gui_attribute_type_of_diagram.h"
+#include "gui_attribute_type_of_feature.h"
+#include "gui_attribute_type_of_relationship.h"
 #include "gtk_helper/gtk_helper_tree_model.h"
 #include "draw/draw_stereotype_image.h"
 #include "u8/u8_trace.h"
@@ -16,7 +20,13 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkEntry *name_entry,
                                   GtkEntry *stereotype_entry,
                                   GtkComboBox *type_combo_box,
+                                  GtkWidget *type_diag_grid,
+                                  GtkWidget *type_clas_grid,
+                                  GtkWidget *type_feat_grid,
+                                  GtkWidget *type_rel_grid,
+#if 0
                                   GtkIconView *type_icon_grid,
+#endif
                                   GtkTextView *description_text_view,
                                   GtkButton *commit_button,
                                   gui_resources_t *resources,
@@ -30,7 +40,10 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     assert( NULL != name_entry );
     assert( NULL != stereotype_entry );
     assert( NULL != type_combo_box );
-    assert( NULL != type_icon_grid );
+    assert( NULL != type_diag_grid );
+    assert( NULL != type_clas_grid );
+    assert( NULL != type_feat_grid );
+    assert( NULL != type_rel_grid );
     assert( NULL != description_text_view );
     assert( NULL != commit_button );
 
@@ -43,7 +56,10 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     (*this_).name_entry = name_entry;
     (*this_).stereotype_entry = stereotype_entry;
     (*this_).type_combo_box = type_combo_box;
-    (*this_).type_icon_grid = type_icon_grid;
+    (*this_).type_diag_grid = type_diag_grid;
+    (*this_).type_clas_grid = type_clas_grid;
+    (*this_).type_feat_grid = type_feat_grid;
+    (*this_).type_rel_grid = type_rel_grid;
     (*this_).description_text_view = description_text_view;
     (*this_).commit_button = commit_button;
 
@@ -90,7 +106,10 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     (*this_).name_entry = NULL;
     (*this_).stereotype_entry = NULL;
     (*this_).type_combo_box = NULL;
-    (*this_).type_icon_grid = NULL;
+    (*this_).type_diag_grid = NULL;
+    (*this_).type_clas_grid = NULL;
+    (*this_).type_feat_grid = NULL;
+    (*this_).type_rel_grid = NULL;
     (*this_).description_text_view = NULL;
 
     U8_TRACE_END();
@@ -390,6 +409,7 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
     U8_TRACE_END();
 }
 
+#if 0
 void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkTreePath *path, gpointer user_data )
 {
     U8_TRACE_BEGIN();
@@ -416,12 +436,75 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
 }
+#endif
 
-void gui_attributes_editor_type_quick_btn_callback( GtkWidget* button, gpointer data )
+void gui_attributes_editor_type_of_diagram_btn_callback( GtkWidget* button, gpointer data )
 {
     U8_TRACE_BEGIN();
+    const gui_attribute_type_of_diagram_t *const btn_data = (gui_attribute_type_of_diagram_t*) data;
+    assert ( NULL != btn_data );
+    gui_attributes_editor_t *const this_ = gui_attribute_type_of_diagram_get_editor( btn_data );
+    assert ( NULL != this_ );
+    const data_diagram_type_t selected_type = gui_attribute_type_of_diagram_get_selected_type( btn_data );
 
-    /* TODO */
+    /* commit possibly changed texts before causing update events */
+    gui_attributes_editor_commit_changes( this_ );
+
+    gui_attributes_editor_private_type_commit_changes ( this_, selected_type );
+
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
+}
+
+void gui_attributes_editor_type_of_classifier_btn_callback( GtkWidget* button, gpointer data )
+{
+    U8_TRACE_BEGIN();
+    const gui_attribute_type_of_classifier_t *const btn_data = (gui_attribute_type_of_classifier_t*) data;
+    assert ( NULL != btn_data );
+    gui_attributes_editor_t *const this_ = gui_attribute_type_of_classifier_get_editor( btn_data );
+    assert ( NULL != this_ );
+    const data_diagram_type_t selected_type = gui_attribute_type_of_classifier_get_selected_type( btn_data );
+
+    /* commit possibly changed texts before causing update events */
+    gui_attributes_editor_commit_changes( this_ );
+
+    gui_attributes_editor_private_type_commit_changes ( this_, selected_type );
+
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
+}
+
+void gui_attributes_editor_type_of_feature_btn_callback( GtkWidget* button, gpointer data )
+{
+    U8_TRACE_BEGIN();
+    const gui_attribute_type_of_feature_t *const btn_data = (gui_attribute_type_of_feature_t*) data;
+    assert ( NULL != btn_data );
+    gui_attributes_editor_t *const this_ = gui_attribute_type_of_feature_get_editor( btn_data );
+    assert ( NULL != this_ );
+    const data_diagram_type_t selected_type = gui_attribute_type_of_feature_get_selected_type( btn_data );
+
+    /* commit possibly changed texts before causing update events */
+    gui_attributes_editor_commit_changes( this_ );
+
+    gui_attributes_editor_private_type_commit_changes ( this_, selected_type );
+
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
+}
+
+void gui_attributes_editor_type_of_relation_btn_callback( GtkWidget* button, gpointer data )
+{
+    U8_TRACE_BEGIN();
+    const gui_attribute_type_of_relationship_t *const btn_data = (gui_attribute_type_of_relationship_t*) data;
+    assert ( NULL != btn_data );
+    gui_attributes_editor_t *const this_ = gui_attribute_type_of_relationship_get_editor( btn_data );
+    assert ( NULL != this_ );
+    const data_diagram_type_t selected_type = gui_attribute_type_of_relationship_get_selected_type( btn_data );
+
+    /* commit possibly changed texts before causing update events */
+    gui_attributes_editor_commit_changes( this_ );
+
+    gui_attributes_editor_private_type_commit_changes ( this_, selected_type );
 
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
@@ -1574,8 +1657,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
     U8_TRACE_BEGIN();
     GtkComboBox *type_widget;
     type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
-    GtkIconView *type_icon_grid;
-    type_icon_grid = (*this_).type_icon_grid;
 
     switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
     {
@@ -1587,8 +1668,14 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             /* prevent that a user accidentally enters a type for a non-existing object */
 
             /* the icon grid: */
-            gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );
+#if 0
+            gtk_widget_hide ( GTK_WIDGET ( (*this_).type_icon_grid ) );
             gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( undef_type_list ) );
+#endif
+            gtk_widget_hide( (*this_).type_diag_grid );
+            gtk_widget_hide( (*this_).type_clas_grid );
+            gtk_widget_hide( (*this_).type_feat_grid );
+            gtk_widget_hide( (*this_).type_rel_grid );
         }
         break;
 
@@ -1605,8 +1692,14 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
             /* the icon grid: */
+#if 0
             gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( classifier_type_list ) );
             gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
+#endif
+            gtk_widget_hide( (*this_).type_diag_grid );
+            gtk_widget_show( (*this_).type_clas_grid );
+            gtk_widget_hide( (*this_).type_feat_grid );
+            gtk_widget_hide( (*this_).type_rel_grid );
         }
         break;
 
@@ -1625,8 +1718,14 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
                 /* the icon grid: */
+#if 0
                 gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );
                 gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( lifeline_type_list ) );
+#endif
+                gtk_widget_hide( (*this_).type_diag_grid );
+                gtk_widget_hide( (*this_).type_clas_grid );
+                gtk_widget_hide( (*this_).type_feat_grid );
+                gtk_widget_hide( (*this_).type_rel_grid );
             }
             else
             {
@@ -1640,8 +1739,14 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
                 /* the icon grid: */
+#if 0
                 gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( feature_type_list ) );
                 gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
+#endif
+                gtk_widget_hide( (*this_).type_diag_grid );
+                gtk_widget_hide( (*this_).type_clas_grid );
+                gtk_widget_show( (*this_).type_feat_grid );
+                gtk_widget_hide( (*this_).type_rel_grid );
             }
         }
         break;
@@ -1659,8 +1764,14 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
             /* the icon grid: */
+#if 0
             gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( relationship_type_list ) );
             gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
+#endif
+            gtk_widget_hide( (*this_).type_diag_grid );
+            gtk_widget_hide( (*this_).type_clas_grid );
+            gtk_widget_hide( (*this_).type_feat_grid );
+            gtk_widget_show( (*this_).type_rel_grid );
         }
         break;
 
@@ -1671,8 +1782,14 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
 
             /* the icon grid: */
+#if 0
             gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );
             gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( undef_type_list ) );
+#endif
+            gtk_widget_hide( (*this_).type_diag_grid );
+            gtk_widget_hide( (*this_).type_clas_grid );
+            gtk_widget_hide( (*this_).type_feat_grid );
+            gtk_widget_hide( (*this_).type_rel_grid );
         }
         break;
 
@@ -1689,8 +1806,14 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
             /* the icon grid: */
+#if 0
             gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( diagram_type_list ) );
             gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
+#endif
+            gtk_widget_show( (*this_).type_diag_grid );
+            gtk_widget_hide( (*this_).type_clas_grid );
+            gtk_widget_hide( (*this_).type_feat_grid );
+            gtk_widget_hide( (*this_).type_rel_grid );
         }
         break;
 

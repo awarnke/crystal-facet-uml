@@ -56,7 +56,13 @@ struct gui_attributes_editor_struct {
     GtkEntry *name_entry;  /*!< pointer to external text entry widget */
     GtkEntry *stereotype_entry;  /*!< pointer to external text entry widget */
     GtkComboBox *type_combo_box;  /*!< pointer to external combo box widget */
+    GtkWidget *type_diag_grid;  /*!< pointer to external type icon grid widget of diagram types */
+    GtkWidget *type_clas_grid;  /*!< pointer to external type icon grid widget of classifier types */
+    GtkWidget *type_feat_grid;  /*!< pointer to external type icon grid widget of feature types */
+    GtkWidget *type_rel_grid;  /*!< pointer to external type icon grid widget of relationship types */
+#if 0
     GtkIconView *type_icon_grid;  /*!< pointer to external icon view widget */
+#endif
     GtkTextView *description_text_view;  /*!< pointer to external text view widget */
     GtkButton *commit_button;  /*!< pointer to external button widget */
 };
@@ -71,7 +77,10 @@ typedef struct gui_attributes_editor_struct gui_attributes_editor_t;
  *  \param name_entry pointer to text entry widget
  *  \param stereotype_entry pointer to external text entry widget
  *  \param type_combo_box pointer to external combo box widget
- *  \param type_icon_grid pointer to external type-icons view widget
+ *  \param type_diag_grid pointer to external type-icon grid widget of diagram types
+ *  \param type_clas_grid pointer to external type-icon grid widget of classifier types
+ *  \param type_feat_grid pointer to external type-icon grid widget of feature types
+ *  \param type_rel_grid pointer to external type-icon grid widget of relationship types
  *  \param description_text_view pointer to text entry widget
  *  \param commit_button pointer to button widget
  *  \param resources pointer to a resource provider
@@ -85,7 +94,14 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkEntry *name_entry,
                                   GtkEntry *stereotype_entry,
                                   GtkComboBox *type_combo_box,
+                                  GtkWidget *type_diag_grid,
+                                  GtkWidget *type_clas_grid,
+                                  GtkWidget *type_feat_grid,
+                                  GtkWidget *type_rel_grid,
+#if 0
+ *  \param type_icon_grid pointer to external type-icons view widget
                                   GtkIconView *type_icon_grid,
+#endif
                                   GtkTextView *description_text_view,
                                   GtkButton *commit_button,
                                   gui_resources_t *resources,
@@ -158,15 +174,32 @@ void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointe
  */
 void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer user_data );
 
+#if 0
 /*!
  *  \brief callback that informs that an entry of the shortlist of type icons was activated
  */
 void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkTreePath *path, gpointer user_data );
+#endif
 
 /*!
  *  \brief callback that informs that a type quick button was pressed
  */
-void gui_attributes_editor_type_quick_btn_callback( GtkWidget* button, gpointer data );
+void gui_attributes_editor_type_of_diagram_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that a type quick button was pressed
+ */
+void gui_attributes_editor_type_of_classifier_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that a type quick button was pressed
+ */
+void gui_attributes_editor_type_of_feature_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that a type quick button was pressed
+ */
+void gui_attributes_editor_type_of_relation_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
  *  \brief callback that informs that the focus of a widget is lost
