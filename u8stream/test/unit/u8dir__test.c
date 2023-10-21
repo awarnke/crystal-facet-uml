@@ -62,6 +62,9 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
 
     /* case: non_removable */
+#ifdef _WIN32
+    /* this part of the test case does not work on windows/wine */
+#else
     const u8dir_file_t temp_dir = "local_temp.dir";
     const u8dir_file_t non_removable = "local_temp.dir/non_removable.file";
     int mode_err;
@@ -86,6 +89,7 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
         err = u8dir_file_remove( temp_dir );
         TEST_ENVIRONMENT_ASSERT( err == U8_ERROR_NONE );
     }
+#endif
 
     return TEST_CASE_RESULT_OK;
 }
