@@ -30,6 +30,7 @@ enum gui_resource_selector_max_enum {
 struct gui_resource_selector_struct {
     gui_resources_t *resources;
     gui_type_resource_t type_name_icon_list[GUI_RESOURCE_SELECTOR_MAX_TYPES];
+    gui_type_resource_t type_undef;
     unsigned int diagram_types_start;
     unsigned int diagram_types_length;
     unsigned int feature_types_start;
@@ -63,45 +64,56 @@ void gui_resource_selector_destroy ( gui_resource_selector_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param table identifier for the table
  *  \param type the element type for which to retrieve the icon
- *  \return pointer to the specified icon or &type_undef if unknown table or type
+ *  \return pointer to the requested gui_type_resource_t struct or &type_undef if unknown table or type
  */
-const GdkPixbuf *gui_resource_selector_get_icon ( const gui_resource_selector_t *this_, data_table_t table, int type );
+gui_type_resource_t * gui_resource_selector_get_type ( gui_resource_selector_t *this_,
+                                                       data_table_t table,
+                                                       int type
+                                                     );
 
 /*!
  *  \brief gets the icon for the specified diagram type
  *
  *  \param this_ pointer to own object attributes
  *  \param diag_type the diagram type for which to retrieve the icon
- *  \return pointer to the specified icon or &type_undef if unknown diag_type
+ *  \return pointer to the requested gui_type_resource_t struct or &type_undef if unknown diag_type
  */
-static inline GdkPixbuf *gui_resource_selector_get_diagram_icon ( const gui_resource_selector_t *this_, data_diagram_type_t diag_type );
+static inline gui_type_resource_t * gui_resource_selector_get_diagram_type ( gui_resource_selector_t *this_,
+                                                                             data_diagram_type_t diag_type
+                                                                           );
 
 /*!
  *  \brief gets the icon for the specified classifier type
  *
  *  \param this_ pointer to own object attributes
  *  \param clas_type the classifier type for which to retrieve the icon
- *  \return pointer to the specified icon or &type_undef if unknown clas_type
+ *  \return pointer to the requested gui_type_resource_t struct or &type_undef if unknown clas_type
  */
-static inline GdkPixbuf *gui_resource_selector_get_classifier_icon ( const gui_resource_selector_t *this_, data_classifier_type_t clas_type );
+static inline gui_type_resource_t * gui_resource_selector_get_classifier_type ( gui_resource_selector_t *this_,
+                                                                                data_classifier_type_t clas_type
+                                                                              );
 
 /*!
  *  \brief gets the icon for the specified feature type
  *
  *  \param this_ pointer to own object attributes
  *  \param feat_type the feature type for which to retrieve the icon
- *  \return pointer to the specified icon or &type_undef if unknown feat_type
+ *  \return pointer to the requested gui_type_resource_t struct or &type_undef if unknown feat_type
  */
-static inline GdkPixbuf *gui_resource_selector_get_feature_icon ( const gui_resource_selector_t *this_, data_feature_type_t feat_type );
+static inline gui_type_resource_t * gui_resource_selector_get_feature_type ( gui_resource_selector_t *this_,
+                                                                             data_feature_type_t feat_type
+                                                                           );
 
 /*!
  *  \brief gets the icon for the specified relationship type
  *
  *  \param this_ pointer to own object attributes
  *  \param rel_type the relationship type for which to retrieve the icon
- *  \return pointer to the specified icon or &type_undef if unknown rel_type
+ *  \return pointer to the requested gui_type_resource_t struct or &type_undef if unknown rel_type
  */
-static inline GdkPixbuf *gui_resource_selector_get_relationship_icon ( const gui_resource_selector_t *this_, data_relationship_type_t rel_type );
+static inline gui_type_resource_t * gui_resource_selector_get_relationship_type ( gui_resource_selector_t *this_,
+                                                                                  data_relationship_type_t rel_type
+                                                                                );
 
 /*!
  *  \brief gets a pointer to an array of gui_type_resource_t containing diagram types

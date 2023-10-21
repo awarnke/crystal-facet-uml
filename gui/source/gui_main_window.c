@@ -820,12 +820,14 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         {
             const data_diagram_type_t diag_type = DATA_DIAGRAM_TYPE_ARRAY[ diag_idx ];
             gui_attribute_type_of_diagram_init( &((*this_).type_diag_data[diag_idx]), diag_type, &((*this_).attributes_editor) );
-            GdkPixbuf *const diag_icon = gui_resource_selector_get_diagram_icon( &res_select, diag_type );
+            gui_type_resource_t *const type_data = gui_resource_selector_get_diagram_type ( &res_select, diag_type );
+            GdkPixbuf *const diag_icon = gui_type_resource_get_icon( type_data );
+            const char *const diag_name = gui_type_resource_get_name( type_data );
             (*this_).type_diag_img[ diag_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( diag_icon ) );
             gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
             (*this_).type_diag_btn[ diag_idx ] = GTK_BUTTON( gtk_button_new() );
             gtk_button_set_image( (*this_).type_diag_btn[ diag_idx ], GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ) );
-            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_diag_btn[ diag_idx ] ), "TODO" );
+            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_diag_btn[ diag_idx ] ), diag_name );
             gtk_grid_attach( (*this_).type_diag_grid, GTK_WIDGET( (*this_).type_diag_btn[ diag_idx ] ), diag_idx%7, diag_idx/7, 1, 1 );
         }
         (*this_).type_clas_grid = GTK_GRID( gtk_grid_new() );
@@ -834,53 +836,56 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         {
             const data_classifier_type_t clas_type = DATA_CLASSIFIER_TYPE_ARRAY[ clas_idx ];
             gui_attribute_type_of_classifier_init( &((*this_).type_clas_data[clas_idx]), clas_type, &((*this_).attributes_editor) );
-            GdkPixbuf *const clas_icon = gui_resource_selector_get_classifier_icon( &res_select, clas_type );
+            gui_type_resource_t *const type_data = gui_resource_selector_get_classifier_type ( &res_select, clas_type );
+            GdkPixbuf *const clas_icon = gui_type_resource_get_icon( type_data );
+            const char *const clas_name = gui_type_resource_get_name( type_data );
 #if ( GTK_MAJOR_VERSION >= 4 )
             GdkTexture* texture = gdk_texture_new_for_pixbuf( clas_icon );
             (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( texture ) ) );
+            /* TODO: check who owns the texture now */
 #else
             (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( clas_icon ) );
 #endif
             gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_clas_img[ clas_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
             (*this_).type_clas_btn[ clas_idx ] = GTK_BUTTON( gtk_button_new() );
             gtk_button_set_image( (*this_).type_clas_btn[ clas_idx ], GTK_WIDGET( (*this_).type_clas_img[ clas_idx ] ) );
-            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_clas_btn[ clas_idx ] ), "TODO" );
+            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_clas_btn[ clas_idx ] ), clas_name );
             gtk_grid_attach( (*this_).type_clas_grid, GTK_WIDGET( (*this_).type_clas_btn[ clas_idx ] ), clas_idx%7, clas_idx/7, 1, 1 );
         }
         (*this_).type_feat_grid = GTK_GRID( gtk_grid_new() );
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_feat_grid ), GTK_ALIGN_END );
         for( int_fast32_t feat_idx = 0; feat_idx < DATA_FEATURE_TYPE_COUNT; feat_idx ++ )
         {
-
+            const data_feature_type_t feat_type = DATA_FEATURE_TYPE_ARRAY[ feat_idx ];
+            gui_attribute_type_of_feature_init( &((*this_).type_feat_data[feat_idx]), feat_type, &((*this_).attributes_editor) );
+            gui_type_resource_t *const type_data = gui_resource_selector_get_feature_type ( &res_select, feat_type );
+            GdkPixbuf *const feat_icon = gui_type_resource_get_icon( type_data );
+            const char *const feat_name = gui_type_resource_get_name( type_data );
+            (*this_).type_feat_img[ feat_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( feat_icon ) );
+            gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_feat_img[ feat_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
+            (*this_).type_feat_btn[ feat_idx ] = GTK_BUTTON( gtk_button_new() );
+            gtk_button_set_image( (*this_).type_feat_btn[ feat_idx ], GTK_WIDGET( (*this_).type_feat_img[ feat_idx ] ) );
+            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_feat_btn[ feat_idx ] ), feat_name );
+            gtk_grid_attach( (*this_).type_feat_grid, GTK_WIDGET( (*this_).type_feat_btn[ feat_idx ] ), feat_idx%7, feat_idx/7, 1, 1 );
         }
         (*this_).type_rel_grid = GTK_GRID( gtk_grid_new() );
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_rel_grid ), GTK_ALIGN_END );
         for( int_fast32_t rel_idx = 0; rel_idx < DATA_RELATIONSHIP_TYPE_COUNT; rel_idx ++ )
         {
-
+            const data_relationship_type_t rel_type = DATA_RELATIONSHIP_TYPE_ARRAY[ rel_idx ];
+            gui_attribute_type_of_relationship_init( &((*this_).type_rel_data[rel_idx]), rel_type, &((*this_).attributes_editor) );
+            gui_type_resource_t *const type_data = gui_resource_selector_get_relationship_type ( &res_select, rel_type );
+            GdkPixbuf *const rel_icon = gui_type_resource_get_icon( type_data );
+            const char *const rel_name = gui_type_resource_get_name( type_data );
+            (*this_).type_rel_img[ rel_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( rel_icon ) );
+            gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_rel_img[ rel_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
+            (*this_).type_rel_btn[ rel_idx ] = GTK_BUTTON( gtk_button_new() );
+            gtk_button_set_image( (*this_).type_rel_btn[ rel_idx ], GTK_WIDGET( (*this_).type_rel_img[ rel_idx ] ) );
+            gtk_widget_set_tooltip_text( GTK_WIDGET( (*this_).type_rel_btn[ rel_idx ] ), rel_name );
+            gtk_grid_attach( (*this_).type_rel_grid, GTK_WIDGET( (*this_).type_rel_btn[ rel_idx ] ), rel_idx%7, rel_idx/7, 1, 1 );
         }
     }
     gui_resource_selector_destroy( &res_select );
-
-#if 0
-    GtkGrid   *type_diag_grid;
-    GtkImage  *( type_diag_img[ DATA_DIAGRAM_TYPE_COUNT ] );
-    GtkButton *( type_diag_btn[ DATA_DIAGRAM_TYPE_COUNT ] );
-    gui_attribute_type_of_diagram_t type_diag_data[ DATA_DIAGRAM_TYPE_COUNT ];
-    GtkGrid   *type_clas_grid;
-    GtkImage  *( type_clas_img[ DATA_CLASSIFIER_TYPE_COUNT ] );
-    GtkButton *( type_clas_btn[ DATA_CLASSIFIER_TYPE_COUNT ] );
-    gui_attribute_type_of_classifier_t type_clas_data[ DATA_CLASSIFIER_TYPE_COUNT ];
-    GtkGrid   *type_feat_grid;
-    GtkImage  *( type_feat_img[ DATA_FEATURE_TYPE_COUNT ] );
-    GtkButton *( type_feat_btn[ DATA_FEATURE_TYPE_COUNT ] );
-    gui_attribute_type_of_feature_t type_feat_data[ DATA_FEATURE_TYPE_COUNT ];
-    GtkGrid   *type_rel_grid;
-    GtkImage  *( type_rel_img[ DATA_RELATIONSHIP_TYPE_COUNT ] );
-    GtkButton *( type_rel_btn[ DATA_RELATIONSHIP_TYPE_COUNT ] );
-    gui_attribute_type_of_relationship_t type_rel_data[ DATA_RELATIONSHIP_TYPE_COUNT ];
-
-#endif
 
     /* insert widgets to box container */
     {
@@ -910,7 +915,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_clas_grid ) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_feat_grid ) );
-//         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_rel_grid ) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_rel_grid ) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #endif

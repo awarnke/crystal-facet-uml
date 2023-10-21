@@ -314,63 +314,69 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
     assert( (*this_).diagram_types_length + (*this_).classifier_types_length + (*this_).feature_types_length + (*this_).relationship_types_length
             == GUI_RESOURCE_SELECTOR_MAX_TYPES );
 
+    GdkPixbuf *icon_undef = gui_resources_get_type_undef( (*this_).resources );
+    gui_type_resource_init_classifier( &((*this_).type_undef), DATA_CLASSIFIER_TYPE_VOID, "", icon_undef );
+
     U8_TRACE_END();
 }
 
 void gui_resource_selector_destroy ( gui_resource_selector_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+    gui_type_resource_destroy( &((*this_).type_undef) );
+
     U8_TRACE_END();
 }
 
-const GdkPixbuf *gui_resource_selector_get_icon ( const gui_resource_selector_t *this_, data_table_t table, int type )
+gui_type_resource_t * gui_resource_selector_get_type ( gui_resource_selector_t *this_, data_table_t table, int type )
 {
     U8_TRACE_BEGIN();
 
-    const GdkPixbuf *result;
+    gui_type_resource_t *result;
 
     switch (table) {
         case DATA_TABLE_VOID:
         {
-            result = gui_resources_get_type_undef( (*this_).resources );
+            result = &((*this_).type_undef);
             U8_LOG_ANOMALY("unexpected data_table_t in gui_resource_selector_get_icon");
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            result = gui_resource_selector_get_classifier_icon( this_, (data_classifier_type_t) type );
+            result = gui_resource_selector_get_classifier_type( this_, (data_classifier_type_t) type );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            result = gui_resource_selector_get_feature_icon( this_, (data_feature_type_t) type );
+            result = gui_resource_selector_get_feature_type( this_, (data_feature_type_t) type );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            result = gui_resource_selector_get_relationship_icon( this_, (data_relationship_type_t) type );
+            result = gui_resource_selector_get_relationship_type( this_, (data_relationship_type_t) type );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            result = gui_resources_get_type_undef( (*this_).resources );
+            result = &((*this_).type_undef);
             U8_LOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            result = gui_resource_selector_get_diagram_icon( this_, (data_diagram_type_t) type );
+            result = gui_resource_selector_get_diagram_type( this_, (data_diagram_type_t) type );
         }
         break;
 
         default:
         {
-            result = gui_resources_get_type_undef( (*this_).resources );
+            result = &((*this_).type_undef);
             U8_LOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
         }
         break;

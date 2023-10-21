@@ -97,7 +97,9 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
     {
         const data_table_t result_table = data_search_result_get_match_table( result );
         const int result_type = data_search_result_get_match_type( result );
-        const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), result_table, result_type );
+        gui_type_resource_t *const type_data
+            = gui_resource_selector_get_type ( &((*this_).selector), result_table, result_type );
+        const GdkPixbuf *const icon = gui_type_resource_get_icon( type_data );
         const double icon_width = gdk_pixbuf_get_width( icon );
         const double icon_height = gdk_pixbuf_get_height( icon );
 
@@ -275,7 +277,9 @@ void gui_sketch_result_list_private_draw_element( gui_sketch_result_list_t *this
         /* what to draw */
         const data_table_t result_table = data_search_result_get_match_table( result );
         const int result_type = data_search_result_get_match_type( result );
-        const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), result_table, result_type );
+        gui_type_resource_t *const type_data
+            = gui_resource_selector_get_type ( &((*this_).selector), result_table, result_type );
+        const GdkPixbuf *const icon = gui_type_resource_get_icon( type_data );
 
         /* where to draw to */
         const shape_int_rectangle_t *const icon_box
