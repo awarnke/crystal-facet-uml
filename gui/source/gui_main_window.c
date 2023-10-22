@@ -789,10 +789,10 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     //gtk_widget_set_size_request( GTK_WIDGET((*this_).description_text_view), 128 /*=w*/ , 48 /*=h*/ );
     /* need own scroll window container */
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_text_view_set_bottom_margin( (*this_).description_text_view, 12 );
-    gtk_text_view_set_left_margin( (*this_).description_text_view, 12 );
-    gtk_text_view_set_right_margin( (*this_).description_text_view, 12 );
-    gtk_text_view_set_top_margin( (*this_).description_text_view, 12 );
+    gtk_text_view_set_bottom_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
+    gtk_text_view_set_left_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
+    gtk_text_view_set_right_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
+    gtk_text_view_set_top_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
     (*this_).description_scroll_win = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child( GTK_SCROLLED_WINDOW((*this_).description_scroll_win), (*this_).description_text_view );
 #else
@@ -857,7 +857,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 #if ( GTK_MAJOR_VERSION >= 4 )
             GdkTexture* texture = gdk_texture_new_for_pixbuf( clas_icon );
             (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( texture ) ) );
-            unref( texture );  /* no further need of texture here */
+            g_object_unref( texture );  /* no further need of texture here */
 #else
             (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( clas_icon ) );
 #endif
