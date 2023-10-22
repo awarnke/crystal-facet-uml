@@ -24,6 +24,15 @@ enum gui_resource_selector_max_enum {
     GUI_RESOURCE_SELECTOR_MAX_TYPES = 80,
 };
 
+/* no exclusions */
+#define GUI_RESOURCE_SELECTOR_DIAGRAMS ( DATA_DIAGRAM_TYPE_COUNT )
+/* exclusions: DATA_CLASSIFIER_TYPE_INTERACTION */
+#define GUI_RESOURCE_SELECTOR_CLASSIFIERS ( DATA_CLASSIFIER_TYPE_COUNT - 1 )
+/* no exclusions; even the lifeline is contained: DATA_FEATURE_TYPE_LIFELINE */
+#define GUI_RESOURCE_SELECTOR_FEATURES ( DATA_FEATURE_TYPE_COUNT )
+/* no exclusions */
+#define GUI_RESOURCE_SELECTOR_RELATIONS ( DATA_RELATIONSHIP_TYPE_COUNT )
+
 /*!
  *  \brief attributes of the gui_resource_selector_t
  */

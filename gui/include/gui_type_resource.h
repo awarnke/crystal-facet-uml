@@ -13,26 +13,15 @@
 #include "data_feature_type.h"
 #include "data_classifier_type.h"
 #include "data_diagram_type.h"
+#include "data_type.h"
 #include <gdk/gdk.h>
 #include <stdint.h>
-
-/*!
- *  \brief union of type ids
- */
-union gui_type_resource_union {
-    data_relationship_type_t relationship;  /*!<  type id in case the element type is DATA_TABLE_RELATIONSHIP */
-    data_feature_type_t feature;  /*!<  type id in case the element type is DATA_TABLE_FEATURE */
-    data_classifier_type_t classifier;  /*!<  type id in case the element type is DATA_TABLE_CLASSIFIER */
-    data_diagram_type_t diagram;  /*!<  type id in case the element type is DATA_TABLE_DIAGRAM */
-    int as_int;  /*!<  type id in case the element type is unknown/not of interest */
-};
 
 /*!
  *  \brief attributes of the type resource
  */
 struct gui_type_resource_struct {
-    data_table_t context;  /*!<  element type for which this type resource applies */
-    union gui_type_resource_union type;  /*!<  type id for which this type resource applies */
+    data_type_t type;  /*!<  element type for which this type resource applies */
     const char * name;  /*!<  display name */
     GdkPixbuf * icon;  /*!<  icon to be displayed */
 };
@@ -103,20 +92,12 @@ static inline void gui_type_resource_init_relationship ( gui_type_resource_t *th
 static inline void gui_type_resource_destroy ( gui_type_resource_t *this_ );
 
 /*!
- *  \brief gets the context
- *
- *  \param this_ pointer to own object attributes
- *  \return context of this gui_type_resource_t
- */
-static inline data_table_t gui_type_resource_get_context ( const gui_type_resource_t *this_ );
-
-/*!
  *  \brief gets the type
  *
  *  \param this_ pointer to own object attributes
  *  \return type of this gui_type_resource_t
  */
-static inline union gui_type_resource_union gui_type_resource_get_type ( const gui_type_resource_t *this_ );
+static inline const data_type_t * gui_type_resource_get_type ( const gui_type_resource_t *this_ );
 
 /*!
  *  \brief gets the name
@@ -128,6 +109,8 @@ static inline const char * gui_type_resource_get_name ( const gui_type_resource_
 
 /*!
  *  \brief gets the icon
+ *
+ *  GdkPixbuf cannot be const because most gtk functions require mutable GdkPixbuf as parameter.
  *
  *  \param this_ pointer to own object attributes
  *  \return icon of this gui_type_resource_t

@@ -38,7 +38,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
-        int type = gui_type_resource_get_type( res ).as_int;
+        int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
         const GdkPixbuf *icon = gui_type_resource_get_icon( res );
 
@@ -55,7 +55,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
-        int type = gui_type_resource_get_type( res ).as_int;
+        int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
         const GdkPixbuf *icon = gui_type_resource_get_icon( res );
 
@@ -73,7 +73,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
-        int type = gui_type_resource_get_type( res ).as_int;
+        int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
         const GdkPixbuf *icon = gui_type_resource_get_icon( res );
 
@@ -99,7 +99,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
-        int type = gui_type_resource_get_type( res ).as_int;
+        int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
         const GdkPixbuf *icon = gui_type_resource_get_icon( res );
 

@@ -13,6 +13,7 @@
 #include "sketch/gui_sketch_area.h"
 #include "gui_toolbox.h"
 #include "gui_resources.h"
+#include "gui_resource_selector.h"
 #include "attributes/gui_attributes_editor.h"
 #include "gui_file_use_db_dialog.h"
 #include "gui_file_export_dialog.h"
@@ -127,21 +128,21 @@ struct gui_main_window_struct {
     GtkWidget *type_label;
     GtkWidget *type_combo_box;
     GtkGrid   *type_diag_grid;
-    GtkImage  *( type_diag_img[ DATA_DIAGRAM_TYPE_COUNT ] );
-    GtkButton *( type_diag_btn[ DATA_DIAGRAM_TYPE_COUNT ] );
-    gui_attribute_type_of_diagram_t type_diag_data[ DATA_DIAGRAM_TYPE_COUNT ];
+    GtkImage  *( type_diag_img[ GUI_RESOURCE_SELECTOR_DIAGRAMS ] );
+    GtkButton *( type_diag_btn[ GUI_RESOURCE_SELECTOR_DIAGRAMS ] );
+    gui_attribute_type_of_diagram_t type_diag_data[ GUI_RESOURCE_SELECTOR_DIAGRAMS ];
     GtkGrid   *type_clas_grid;
-    GtkImage  *( type_clas_img[ DATA_CLASSIFIER_TYPE_COUNT ] );
-    GtkButton *( type_clas_btn[ DATA_CLASSIFIER_TYPE_COUNT ] );
-    gui_attribute_type_of_classifier_t type_clas_data[ DATA_CLASSIFIER_TYPE_COUNT ];
+    GtkImage  *( type_clas_img[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ] );
+    GtkButton *( type_clas_btn[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ] );
+    gui_attribute_type_of_classifier_t type_clas_data[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ];
     GtkGrid   *type_feat_grid;
-    GtkImage  *( type_feat_img[ DATA_FEATURE_TYPE_COUNT ] );
-    GtkButton *( type_feat_btn[ DATA_FEATURE_TYPE_COUNT ] );
-    gui_attribute_type_of_feature_t type_feat_data[ DATA_FEATURE_TYPE_COUNT ];
+    GtkImage  *( type_feat_img[ GUI_RESOURCE_SELECTOR_FEATURES-1 ] );  /* ignore the lifeline */
+    GtkButton *( type_feat_btn[ GUI_RESOURCE_SELECTOR_FEATURES-1 ] );  /* ignore the lifeline */
+    gui_attribute_type_of_feature_t type_feat_data[ GUI_RESOURCE_SELECTOR_FEATURES-1 ];  /* ignore the lifeline */
     GtkGrid   *type_rel_grid;
-    GtkImage  *( type_rel_img[ DATA_RELATIONSHIP_TYPE_COUNT ] );
-    GtkButton *( type_rel_btn[ DATA_RELATIONSHIP_TYPE_COUNT ] );
-    gui_attribute_type_of_relationship_t type_rel_data[ DATA_RELATIONSHIP_TYPE_COUNT ];
+    GtkImage  *( type_rel_img[ GUI_RESOURCE_SELECTOR_RELATIONS ] );
+    GtkButton *( type_rel_btn[ GUI_RESOURCE_SELECTOR_RELATIONS ] );
+    gui_attribute_type_of_relationship_t type_rel_data[ GUI_RESOURCE_SELECTOR_RELATIONS ];
     GtkWidget *stereotype_label;
     GtkWidget *stereotype_entry;
 

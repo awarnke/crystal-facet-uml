@@ -15,7 +15,7 @@
  *  \brief enumeration of all diagram types
  */
 enum data_diagram_type_enum {
-    /*DATA_DIAGRAM_TYPE_VOID = -1,*/  /* ! < invalid diagram, reserved for future use */
+    DATA_DIAGRAM_TYPE_VOID = -1,  /* ! < invalid diagram */
     DATA_DIAGRAM_TYPE_LIST = 0,
     DATA_DIAGRAM_TYPE_BOX_DIAGRAM = 1,
     /*DATA_DIAGRAM_TYPE_TABLE = 2,*/  /* Table of tagged value, to show e.g. resource consumption */

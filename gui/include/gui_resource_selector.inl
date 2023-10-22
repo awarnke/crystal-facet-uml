@@ -9,9 +9,8 @@ static inline gui_type_resource_t * gui_resource_selector_get_diagram_type ( gui
     for ( unsigned int idx = 0; idx < (*this_).diagram_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).diagram_types_start+idx]);
-        if ( gui_type_resource_get_type( current ).diagram == diag_type )
+        if ( data_type_get_diagram_type( gui_type_resource_get_type( current ) ) == diag_type )
         {
-            assert( gui_type_resource_get_context( current ) == DATA_TABLE_DIAGRAM );
             result = current;
         }
     }
@@ -25,9 +24,8 @@ static inline gui_type_resource_t * gui_resource_selector_get_classifier_type ( 
     for ( unsigned int idx = 0; idx < (*this_).classifier_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).classifier_types_start+idx]);
-        if ( gui_type_resource_get_type( current ).classifier == clas_type )
+        if ( data_type_get_classifier_type( gui_type_resource_get_type( current ) ) == clas_type )
         {
-            assert( gui_type_resource_get_context( current ) == DATA_TABLE_CLASSIFIER );
             result = current;
         }
     }
@@ -41,9 +39,8 @@ static inline gui_type_resource_t * gui_resource_selector_get_feature_type ( gui
     for ( unsigned int idx = 0; idx < (*this_).feature_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).feature_types_start+idx]);
-        if ( gui_type_resource_get_type( current ).feature == feat_type )
+        if ( data_type_get_feature_type( gui_type_resource_get_type( current ) ) == feat_type )
         {
-            assert( gui_type_resource_get_context( current ) == DATA_TABLE_FEATURE );
             result = current;
         }
     }
@@ -57,9 +54,8 @@ static inline gui_type_resource_t * gui_resource_selector_get_relationship_type 
     for ( unsigned int idx = 0; idx < (*this_).relationship_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).relationship_types_start+idx]);
-        if ( gui_type_resource_get_type( current ).relationship == rel_type )
+        if ( data_type_get_relationship_type( gui_type_resource_get_type( current ) ) == rel_type )
         {
-            assert( gui_type_resource_get_context( current ) == DATA_TABLE_RELATIONSHIP );
             result = current;
         }
     }

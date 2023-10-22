@@ -13,7 +13,7 @@
  *  \brief enumeration of all relationship types
  */
 enum data_relationship_type_enum {
-    /*DATA_RELATIONSHIP_TYPE_VOID = -1,*/  /* ! < invalid relationship, reserved for future use */
+    DATA_RELATIONSHIP_TYPE_VOID = -1,  /* ! < invalid relationship */
     /* any diagram: */
     DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY = 0,
     /* class and use-case diagram: */

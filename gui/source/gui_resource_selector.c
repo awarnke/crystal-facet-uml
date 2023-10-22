@@ -82,6 +82,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, "Timing Diagram (UML)", icon_diag_timing );
     }
     (*this_).diagram_types_length = idx - (*this_).diagram_types_start;
+    assert( GUI_RESOURCE_SELECTOR_DIAGRAMS == (*this_).diagram_types_length );
 
     (*this_).classifier_types_start = idx;
     {
@@ -179,6 +180,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY, "Deep History", icon_clas_deephistory );
     }
     (*this_).classifier_types_length = idx - (*this_).classifier_types_start;
+    assert( GUI_RESOURCE_SELECTOR_CLASSIFIERS == (*this_).classifier_types_length );
 
     (*this_).feature_types_start = idx;
     {
@@ -229,6 +231,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_LIFELINE, "Lifeline", icon_feat_life );
     }
     (*this_).feature_types_length = idx - (*this_).feature_types_start;
+    assert( GUI_RESOURCE_SELECTOR_FEATURES == (*this_).feature_types_length );
 
     (*this_).relationship_types_start = idx;
     {
@@ -309,6 +312,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL, "Return Call", icon_rel_return );
     }
     (*this_).relationship_types_length = idx - (*this_).relationship_types_start;
+    assert( GUI_RESOURCE_SELECTOR_RELATIONS == (*this_).relationship_types_length );
 
     assert( idx == GUI_RESOURCE_SELECTOR_MAX_TYPES );
     assert( (*this_).diagram_types_length + (*this_).classifier_types_length + (*this_).feature_types_length + (*this_).relationship_types_length

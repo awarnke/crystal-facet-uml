@@ -5,8 +5,7 @@ static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
                                                     const char * name,
                                                     GdkPixbuf * icon )
 {
-    (*this_).context = DATA_TABLE_DIAGRAM;
-    (*this_).type.diagram = type;
+    data_type_init_diagram( &((*this_).type), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -16,8 +15,7 @@ static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this
                                                        const char * name,
                                                        GdkPixbuf * icon )
 {
-    (*this_).context = DATA_TABLE_CLASSIFIER;
-    (*this_).type.classifier = type;
+    data_type_init_classifier( &((*this_).type), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -27,8 +25,7 @@ static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
                                                     const char * name,
                                                     GdkPixbuf * icon )
 {
-    (*this_).context = DATA_TABLE_FEATURE;
-    (*this_).type.feature = type;
+    data_type_init_feature( &((*this_).type), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -38,8 +35,7 @@ static inline void gui_type_resource_init_relationship ( gui_type_resource_t *th
                                                          const char * name,
                                                          GdkPixbuf * icon )
 {
-    (*this_).context = DATA_TABLE_RELATIONSHIP;
-    (*this_).type.relationship = type;
+    data_type_init_relationship( &((*this_).type), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -48,14 +44,9 @@ static inline void gui_type_resource_destroy ( gui_type_resource_t *this_ )
 {
 }
 
-static inline data_table_t gui_type_resource_get_context ( const gui_type_resource_t *this_ )
+static inline const data_type_t * gui_type_resource_get_type ( const gui_type_resource_t *this_ )
 {
-    return ( (*this_).context );
-}
-
-static inline union gui_type_resource_union gui_type_resource_get_type ( const gui_type_resource_t *this_ )
-{
-    return ( (*this_).type );
+    return ( &((*this_).type) );
 }
 
 static inline const char * gui_type_resource_get_name ( const gui_type_resource_t *this_ )
