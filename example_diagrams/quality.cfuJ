@@ -2874,6 +2874,13 @@
             "classifier_name": "Software Quality Engineering",
             "node": "ca2cccdd-a224-4d51-b51b-7bb726362a6c",
             "uuid": "e6d49c47-8138-4945-afcc-3b3e79144af2"
+          },
+          {
+            "id": 375,
+            "display_flags": 0,
+            "classifier_name": "Adaptive AUTOSAR Coding Guidelines",
+            "node": "5d0934b9-fca0-4f9f-be18-79c79ec7d63c",
+            "uuid": "afc2905c-db68-4039-8840-5a742cafbf33"
           }
         ]
       }
@@ -6682,7 +6689,7 @@
         ],
         "x_order": 1151884421,
         "y_order": 0,
-        "list_order": 1479539337,
+        "list_order": 1281419449,
         "uuid": "e510b679-2f70-4861-92e4-df6a0cffa487",
         "features":
         [
@@ -8477,6 +8484,27 @@
         "y_order": 0,
         "list_order": 545016204,
         "uuid": "e425ba59-e773-4088-b776-6086c1f00d3f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 259,
+        "main_type": 126,
+        "type": "Class",
+        "name": "Adaptive AUTOSAR Coding Guidelines",
+        "description": [
+                "Guidelines for the use of the\n",
+                "C++14 language in critical and\n",
+                "safety-related systems\n",
+                "https://www.autosar.org/fileadmin/standards/R18-10/AP/AUTOSAR_RS_CPP14Guidelines.pdf"
+        ],
+        "x_order": 1595449394,
+        "y_order": 0,
+        "list_order": 1478954414,
+        "uuid": "5d0934b9-fca0-4f9f-be18-79c79ec7d63c",
         "features":
         [
         ]

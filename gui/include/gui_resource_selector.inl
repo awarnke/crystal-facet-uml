@@ -95,6 +95,23 @@ static inline void gui_resource_selector_get_all_feature_types ( const gui_resou
     *out_length = (*this_).feature_types_length;
 }
 
+static inline void gui_resource_selector_get_invariant_feature_types ( const gui_resource_selector_t *this_,
+                                                                       const gui_type_resource_t (**out_types)[],
+                                                                       unsigned int *out_length )
+{
+    assert( out_types != NULL );
+    assert( out_length != NULL );
+#ifndef NDEBUG
+    /* ensure that the DATA_FEATURE_TYPE_LIFELINE is excluded - this should follow 1 list entry after the result list: */
+    const gui_type_resource_t *const first_after_result
+        = &(((*this_).type_name_icon_list[ (*this_).feature_types_start + (*this_).feature_types_length - 1 ]));
+    assert( data_type_get_feature_type( gui_type_resource_get_type( first_after_result ) ) == DATA_FEATURE_TYPE_LIFELINE );
+#endif
+    const gui_type_resource_t *start_element_ptr = &((*this_).type_name_icon_list[(*this_).feature_types_start]);
+    *out_types = (const gui_type_resource_t((*)[])) start_element_ptr;
+    *out_length = (*this_).feature_types_length - 1;
+}
+
 static inline void gui_resource_selector_get_all_relationship_types ( const gui_resource_selector_t *this_,
                                                                       const gui_type_resource_t (**out_types)[],
                                                                       unsigned int *out_length )

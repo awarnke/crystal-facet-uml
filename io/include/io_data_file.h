@@ -157,7 +157,7 @@ u8_error_t io_data_file_trace_stats ( io_data_file_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return NULL if no database is open, the filename otherwise
  */
-static inline const char *io_data_file_get_filename_ptr ( io_data_file_t *this_ );
+static inline const char *io_data_file_get_filename_const ( const io_data_file_t *this_ );
 
 /*!
  *  \brief checks if the database file is open
@@ -178,7 +178,7 @@ static inline bool io_data_file_is_open ( io_data_file_t *this_ );
  *  \param[out] out_json true if filename refers to a json file, false otherwise.
  *  \return U8_ERROR_NONE in case of success; other values if file does not exist or cannot be read
  */
-u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const char *filename, bool *out_json );
+u8_error_t io_data_file_private_guess_db_type ( const io_data_file_t *this_, const char *filename, bool *out_json );
 
 /*!
  *  \brief replaces the file extension

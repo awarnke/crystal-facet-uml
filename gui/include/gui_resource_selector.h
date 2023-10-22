@@ -24,13 +24,16 @@ enum gui_resource_selector_max_enum {
     GUI_RESOURCE_SELECTOR_MAX_TYPES = 80,
 };
 
-/* no exclusions */
+/* all diagram types, no exclusions */
 #define GUI_RESOURCE_SELECTOR_DIAGRAMS ( DATA_DIAGRAM_TYPE_COUNT )
-/* exclusions: DATA_CLASSIFIER_TYPE_INTERACTION */
+/* all classifier types, exclusions: DATA_CLASSIFIER_TYPE_INTERACTION */
 #define GUI_RESOURCE_SELECTOR_CLASSIFIERS ( DATA_CLASSIFIER_TYPE_COUNT - 1 )
-/* no exclusions; even the lifeline is contained: DATA_FEATURE_TYPE_LIFELINE */
-#define GUI_RESOURCE_SELECTOR_FEATURES ( DATA_FEATURE_TYPE_COUNT )
-/* no exclusions */
+/* all feature types, no exclusions */
+/* separated to invariant features and scenario-specific features (DATA_FEATURE_TYPE_LIFELINE) */
+#define GUI_RESOURCE_SELECTOR_INV_FEATURES ( DATA_FEATURE_TYPE_COUNT - 1 )
+#define GUI_RESOURCE_SELECTOR_SCENARIOS ( 1 )
+#define GUI_RESOURCE_SELECTOR_FEATURES ( GUI_RESOURCE_SELECTOR_INV_FEATURES + GUI_RESOURCE_SELECTOR_SCENARIOS )
+/* all diagram types, no exclusions */
 #define GUI_RESOURCE_SELECTOR_RELATIONS ( DATA_RELATIONSHIP_TYPE_COUNT )
 
 /*!
@@ -159,6 +162,20 @@ static inline void gui_resource_selector_get_all_feature_types ( const gui_resou
                                                                  const gui_type_resource_t (**out_types)[],
                                                                  unsigned int *out_length
                                                                );
+
+/*!
+ *  \brief gets a pointer to an array of gui_type_resource_t containing invariant feature types
+ *
+ *  The scenario-specific type DATA_FEATURE_TYPE_LIFELINE is excluded.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_types a memory address where to store a pointer to an array of gui_type_resource_t
+ *  \param out_length a memory address where to store the length of the array
+ */
+static inline void gui_resource_selector_get_invariant_feature_types ( const gui_resource_selector_t *this_,
+                                                                       const gui_type_resource_t (**out_types)[],
+                                                                       unsigned int *out_length
+                                                                     );
 
 /*!
  *  \brief gets a pointer to an array of gui_type_resource_t containing relationship types

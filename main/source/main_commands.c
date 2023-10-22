@@ -190,7 +190,7 @@ u8_error_t main_commands_export ( main_commands_t *this_,
 
     U8_TRACE_INFO("exporting DB...");
     U8_TRACE_INFO_STR( "chosen folder:", export_directory );
-    const char *document_filename = io_data_file_get_filename_ptr( (*this_).data_file );
+    const char *document_filename = io_data_file_get_filename_const( (*this_).data_file );
     if ( io_data_file_is_open( (*this_).data_file ) )
     {
         static data_database_reader_t db_reader;

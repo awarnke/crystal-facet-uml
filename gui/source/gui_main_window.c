@@ -51,7 +51,7 @@ void gui_main_window_init( gui_main_window_t *this_,
         (*this_).window = gtk_window_new( GTK_WINDOW_TOPLEVEL );
 #endif
         const char *window_title;
-        window_title = io_data_file_get_filename_ptr( data_file );
+        window_title = io_data_file_get_filename_const( data_file );
         gtk_window_set_title(GTK_WINDOW( (*this_).window ), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
         gtk_widget_set_size_request( (*this_).window, 800, 400 );
         gtk_window_set_default_size( GTK_WINDOW( (*this_).window ), 16*70, 9*70 );
@@ -329,7 +329,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                           &((*this_).type_clas_data[clas_idx])
                         );
     }
-    for( int_fast32_t feat_idx = 0; feat_idx < (GUI_RESOURCE_SELECTOR_FEATURES-1); feat_idx ++ )  /* ignore the lifeline */
+    for( int_fast32_t feat_idx = 0; feat_idx < GUI_RESOURCE_SELECTOR_INV_FEATURES; feat_idx ++ )
     {
         g_signal_connect( G_OBJECT((*this_).type_feat_btn[ feat_idx ]),
                           "clicked",
@@ -789,11 +789,15 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     //gtk_widget_set_size_request( GTK_WIDGET((*this_).description_text_view), 128 /*=w*/ , 48 /*=h*/ );
     /* need own scroll window container */
 #if ( GTK_MAJOR_VERSION >= 4 )
+    gtk_text_view_set_bottom_margin( (*this_).description_text_view, 12 );
+    gtk_text_view_set_left_margin( (*this_).description_text_view, 12 );
+    gtk_text_view_set_right_margin( (*this_).description_text_view, 12 );
+    gtk_text_view_set_top_margin( (*this_).description_text_view, 12 );
     (*this_).description_scroll_win = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child( GTK_SCROLLED_WINDOW((*this_).description_scroll_win), (*this_).description_text_view );
 #else
-    (*this_).description_scroll_win = gtk_scrolled_window_new( NULL, NULL );
     gtk_container_set_border_width( GTK_CONTAINER( (*this_).description_text_view ), 12 );
+    (*this_).description_scroll_win = gtk_scrolled_window_new( NULL, NULL );
     gtk_container_add( GTK_CONTAINER( (*this_).description_scroll_win ), (*this_).description_text_view );
 #endif
     gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ),
@@ -853,7 +857,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 #if ( GTK_MAJOR_VERSION >= 4 )
             GdkTexture* texture = gdk_texture_new_for_pixbuf( clas_icon );
             (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( texture ) ) );
-            /* TODO: check who owns the texture now */
+            unref( texture );  /* no further need of texture here */
 #else
             (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( clas_icon ) );
 #endif
@@ -868,9 +872,9 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_feat_grid ), GTK_ALIGN_END );
         const gui_type_resource_t (*feat_data)[];
         unsigned int feat_data_length;
-        gui_resource_selector_get_all_feature_types( &res_select, &feat_data, &feat_data_length );
-        assert( feat_data_length == GUI_RESOURCE_SELECTOR_FEATURES );
-        for( int_fast32_t feat_idx = 0; feat_idx < (GUI_RESOURCE_SELECTOR_FEATURES-1); feat_idx ++ )  /* ignore the lifeline */
+        gui_resource_selector_get_invariant_feature_types( &res_select, &feat_data, &feat_data_length );
+        assert( feat_data_length == GUI_RESOURCE_SELECTOR_INV_FEATURES );
+        for( int_fast32_t feat_idx = 0; feat_idx < GUI_RESOURCE_SELECTOR_INV_FEATURES; feat_idx ++ )  /* ignore the lifeline */
         {
             const gui_type_resource_t *const type_data = &((*feat_data)[feat_idx]);
             const data_feature_type_t feat_type = data_type_get_feature_type( gui_type_resource_get_type( type_data ) );
@@ -1139,10 +1143,15 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
         gui_simple_message_to_user_show_message( &((*this_).message_to_user),
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
-        );
+                                               );
     }
     else
     {
+        gui_simple_message_to_user_show_message_with_name( &((*this_).message_to_user),
+                                                           GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN,
+                                                           io_data_file_get_filename_const( (*this_).data_file )
+                                                         );
 #ifndef NDEBUG
         /* in debug mode, also check consistency of database */
         universal_stream_output_stream_t out_stream;
@@ -1238,7 +1247,7 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
         || ( DATA_CHANGE_EVENT_TYPE_DB_CLOSED == data_change_message_get_event( msg ) ))
     {
         /* the database has changed */
-        const char *filename = io_data_file_get_filename_ptr( (*this_).data_file );
+        const char *filename = io_data_file_get_filename_const( (*this_).data_file );
         if ( NULL == filename )
         {
             gtk_window_set_title(GTK_WINDOW((*this_).window), META_INFO_PROGRAM_NAME_STR );

@@ -136,9 +136,9 @@ struct gui_main_window_struct {
     GtkButton *( type_clas_btn[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ] );
     gui_attribute_type_of_classifier_t type_clas_data[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ];
     GtkGrid   *type_feat_grid;
-    GtkImage  *( type_feat_img[ GUI_RESOURCE_SELECTOR_FEATURES-1 ] );  /* ignore the lifeline */
-    GtkButton *( type_feat_btn[ GUI_RESOURCE_SELECTOR_FEATURES-1 ] );  /* ignore the lifeline */
-    gui_attribute_type_of_feature_t type_feat_data[ GUI_RESOURCE_SELECTOR_FEATURES-1 ];  /* ignore the lifeline */
+    GtkImage  *( type_feat_img[ GUI_RESOURCE_SELECTOR_INV_FEATURES ] );
+    GtkButton *( type_feat_btn[ GUI_RESOURCE_SELECTOR_INV_FEATURES ] );
+    gui_attribute_type_of_feature_t type_feat_data[ GUI_RESOURCE_SELECTOR_INV_FEATURES ];
     GtkGrid   *type_rel_grid;
     GtkImage  *( type_rel_img[ GUI_RESOURCE_SELECTOR_RELATIONS ] );
     GtkButton *( type_rel_btn[ GUI_RESOURCE_SELECTOR_RELATIONS ] );

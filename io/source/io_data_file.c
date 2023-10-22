@@ -227,7 +227,7 @@ u8_error_t io_data_file_trace_stats ( io_data_file_t *this_ )
     return result;
 }
 
-u8_error_t io_data_file_private_guess_db_type ( io_data_file_t *this_, const char *filename, bool *out_json )
+u8_error_t io_data_file_private_guess_db_type ( const io_data_file_t *this_, const char *filename, bool *out_json )
 {
     U8_TRACE_BEGIN();
     assert( filename != NULL );
@@ -330,7 +330,7 @@ u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_
     u8_error_t export_err = U8_ERROR_NONE;
 
     U8_TRACE_INFO_STR( "exporting file:", dst_file );
-    const char *document_filename = io_data_file_get_filename_ptr( this_ );
+    const char *document_filename = io_data_file_get_filename_const( this_ );
     if ( io_data_file_is_open( this_ ) )
     {
         static data_database_reader_t db_reader;
