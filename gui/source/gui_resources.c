@@ -69,6 +69,7 @@
 #include "resources/type_diag_usecase.c"
 
 #include "resources/type_clas_accept.c"
+#include "resources/type_clas_activity.c"
 #include "resources/type_clas_actor.c"
 #include "resources/type_clas_artifact.c"
 #include "resources/type_clas_block.c"
@@ -82,9 +83,12 @@
 #include "resources/type_clas_final.c"
 #include "resources/type_clas_fork.c"
 #include "resources/type_clas_history.c"
+#include "resources/type_clas_image.c"
 #include "resources/type_clas_initial.c"
+#include "resources/type_clas_interface.c"
 #include "resources/type_clas_join.c"
 #include "resources/type_clas_node.c"
+#include "resources/type_clas_object.c"
 #include "resources/type_clas_package.c"
 #include "resources/type_clas_part.c"
 #include "resources/type_clas_region.c"
@@ -204,6 +208,7 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_diag_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_usecase ) );
 
     (*this_).type_clas_accept = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_accept ) );
+    (*this_).type_clas_activity = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_activity ) );
     (*this_).type_clas_actor = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_actor ) );
     (*this_).type_clas_artifact = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_artifact ) );
     (*this_).type_clas_block = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_block ) );
@@ -217,9 +222,12 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_clas_final = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_final ) );
     (*this_).type_clas_fork = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_fork ) );
     (*this_).type_clas_history = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_history ) );
+    (*this_).type_clas_image = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_image ) );
     (*this_).type_clas_initial = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_initial ) );
+    (*this_).type_clas_interface = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_interface ) );
     (*this_).type_clas_join = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_join ) );
     (*this_).type_clas_node = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_node ) );
+    (*this_).type_clas_object = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_object ) );
     (*this_).type_clas_package = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_package ) );
     (*this_).type_clas_part = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_part ) );
     (*this_).type_clas_region = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_region ) );
@@ -337,6 +345,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_diag_usecase);
 
     g_object_unref ((*this_).type_clas_accept);
+    g_object_unref ((*this_).type_clas_activity);
     g_object_unref ((*this_).type_clas_actor);
     g_object_unref ((*this_).type_clas_artifact);
     g_object_unref ((*this_).type_clas_block);
@@ -350,9 +359,12 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).type_clas_final);
     g_object_unref ((*this_).type_clas_fork);
     g_object_unref ((*this_).type_clas_history);
+    g_object_unref ((*this_).type_clas_image);
     g_object_unref ((*this_).type_clas_initial);
+    g_object_unref ((*this_).type_clas_interface);
     g_object_unref ((*this_).type_clas_join);
     g_object_unref ((*this_).type_clas_node);
+    g_object_unref ((*this_).type_clas_object);
     g_object_unref ((*this_).type_clas_package);
     g_object_unref ((*this_).type_clas_part);
     g_object_unref ((*this_).type_clas_region);

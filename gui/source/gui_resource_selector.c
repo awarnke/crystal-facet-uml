@@ -106,15 +106,17 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         GdkPixbuf *icon_clas_part = gui_resources_get_type_clas_part( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_PART, "Part (component instance)", icon_clas_part );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        GdkPixbuf *icon_clas_class = gui_resources_get_type_clas_class( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_INTERFACE, "Interface", icon_clas_class );
+        GdkPixbuf *icon_clas_interface = gui_resources_get_type_clas_interface( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_INTERFACE, "Interface", icon_clas_interface );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkPixbuf *icon_clas_package = gui_resources_get_type_clas_package( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_PACKAGE, "Package", icon_clas_package );
         current = &((*this_).type_name_icon_list[idx]); idx++;
+        GdkPixbuf *icon_clas_class = gui_resources_get_type_clas_class( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_CLASS, "Class", icon_clas_class );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_OBJECT, "Object (class instance)", icon_clas_part );
+        GdkPixbuf *icon_clas_object = gui_resources_get_type_clas_object( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_OBJECT, "Object (class instance)", icon_clas_object );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkPixbuf *icon_clas_artifact = gui_resources_get_type_clas_artifact( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ARTIFACT, "Artifact", icon_clas_artifact );
@@ -122,9 +124,10 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         GdkPixbuf *icon_clas_comment = gui_resources_get_type_clas_comment( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_COMMENT, "Comment", icon_clas_comment );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        GdkPixbuf *icon_clas_stereotype = gui_resources_get_type_clas_stereotype( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_IMAGE, "Image (profile)", icon_clas_stereotype );
+        GdkPixbuf *icon_clas_image = gui_resources_get_type_clas_image( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_IMAGE, "Image (profile)", icon_clas_image );
         current = &((*this_).type_name_icon_list[idx]); idx++;
+        GdkPixbuf *icon_clas_stereotype = gui_resources_get_type_clas_stereotype( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_STEREOTYPE, "Stereotype (profile)", icon_clas_stereotype );
         /* requirements classifiers: */
         current = &((*this_).type_name_icon_list[idx]); idx++;
@@ -141,8 +144,8 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         GdkPixbuf *icon_clas_diagram = gui_resources_get_type_clas_diagram( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE, "Interaction Diagram Reference", icon_clas_diagram );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        GdkPixbuf *icon_clas_state = gui_resources_get_type_clas_state( (*this_).resources );
-        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ACTIVITY, "Activity/Action", icon_clas_state );
+        GdkPixbuf *icon_clas_activity = gui_resources_get_type_clas_activity( (*this_).resources );
+        gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_ACTIVITY, "Activity/Action", icon_clas_activity );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkPixbuf *icon_clas_region = gui_resources_get_type_clas_region( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION, "Interruptable Region", icon_clas_region );
@@ -171,6 +174,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         GdkPixbuf *icon_clas_final = gui_resources_get_type_clas_final( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE, "Final Node", icon_clas_final );
         current = &((*this_).type_name_icon_list[idx]); idx++;
+        GdkPixbuf *icon_clas_state = gui_resources_get_type_clas_state( (*this_).resources );
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_STATE, "State", icon_clas_state );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkPixbuf *icon_clas_history = gui_resources_get_type_clas_history( (*this_).resources );

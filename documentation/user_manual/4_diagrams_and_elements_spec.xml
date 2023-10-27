@@ -127,8 +127,7 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_class.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_class.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_interface.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Interface</para></entry>
                             <entry><para>UML</para></entry>
@@ -157,8 +156,7 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_part.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_part.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_object.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Object</para></entry>
                             <entry><para>UML</para></entry>
@@ -185,7 +183,7 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_image.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Image
                                 </para>
@@ -203,7 +201,6 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_stereotype.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Stereotype</para></entry>
@@ -281,7 +278,7 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_activity.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Activity/Action
                                 </para>
@@ -465,7 +462,6 @@
                             <entry>
                                 <para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.pdf" width="1cm"/></imageobject>
                                     <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 State

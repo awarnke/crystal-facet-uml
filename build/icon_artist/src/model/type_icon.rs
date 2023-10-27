@@ -4,6 +4,7 @@ use super::geometry;
 use super::geometry::get_circle_abs;
 use super::geometry::Color;
 use super::geometry::DrawDirective::Close;
+use super::geometry::DrawDirective::CurveRel;
 use super::geometry::DrawDirective::LineRel;
 use super::geometry::DrawDirective::Move;
 use super::geometry::Offset;
@@ -27,7 +28,7 @@ static GRAY: Color = Color {
     blue: 0x7f,
 };
 
-/// The function generates a steering wheel of ship navigation to vector graphics drawing directives
+/// The function generates a gear wheel to vector graphics drawing directives
 ///
 /// # Panics
 ///
@@ -96,12 +97,86 @@ pub fn generate_type_clas_stereotype(out: &mut VecRenderer) -> () {
     out.path(&icon_segs, &Some(GRAY), &None);
 }
 
+/// The function generates a flower image to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if VecRenderer cannot write to the output sink.
+///
+pub fn generate_type_clas_image(out: &mut VecRenderer) -> () {
+    /* flower leaves */
+    let r3: f32 = 11.0;
+    let r2: f32 = 9.0;
+    let r1: f32 = 4.25;
+    let cx: f32 = 16.0;
+    let cy: f32 = 12.0;
+    let mut icon_segs: [geometry::DrawDirective; 21] = [Close; 21];
+    icon_segs[0] = Move(Point { x: cx + r1, y: cy });
+    for index in 0..10 {
+        let alpha: f32 = std::f32::consts::PI / 5.0 * (index as f32);
+        let a_dx = alpha.cos();
+        let a_dy = alpha.sin();
+        let beta: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.3);
+        let b_dx = beta.cos();
+        let b_dy = beta.sin();
+        let gamma: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.5);
+        let g_dx = gamma.cos();
+        let g_dy = gamma.sin();
+        let delta: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 0.7);
+        let d_dx = delta.cos();
+        let d_dy = delta.sin();
+        let omega: f32 = std::f32::consts::PI / 5.0 * ((index as f32) + 1.0);
+        let o_dx = omega.cos();
+        let o_dy = omega.sin();
+        icon_segs[index * 2 + 1] = CurveRel(
+            Offset {
+                dx: (-r1) * a_dx + r2 * a_dx,
+                dy: (-r1) * a_dy + r2 * a_dy,
+            },
+            Offset {
+                dx: (-r1) * a_dx + r3 * b_dx,
+                dy: (-r1) * a_dy + r3 * b_dy,
+            },
+            Offset {
+                dx: (-r1) * a_dx + r3 * g_dx,
+                dy: (-r1) * a_dy + r3 * g_dy,
+            },
+        );
+        icon_segs[index * 2 + 2] = CurveRel(
+            Offset {
+                dx: (-r3) * g_dx + r3 * d_dx,
+                dy: (-r3) * g_dy + r3 * d_dy,
+            },
+            Offset {
+                dx: (-r3) * g_dx + r2 * o_dx,
+                dy: (-r3) * g_dy + r2 * o_dy,
+            },
+            Offset {
+                dx: (-r3) * g_dx + r1 * o_dx,
+                dy: (-r3) * g_dy + r1 * o_dy,
+            },
+        );
+    }
+    out.path(&icon_segs, &Some(GRAY), &None);
+
+    /* flower center */
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 3.25, 3.25);
+    out.path(&icon_segs, &Some(GRAY), &None);
+}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
-    &[IconSource {
-        name: "type_clas_stereotype",
-        viewport: ICON_VIEW_RECT,
-        generate: generate_type_clas_stereotype,
-    }]
+    &[
+        IconSource {
+            name: "type_clas_stereotype",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_stereotype,
+        },
+        IconSource {
+            name: "type_clas_image",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_clas_image,
+        },
+    ]
 }

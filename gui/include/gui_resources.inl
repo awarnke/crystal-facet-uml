@@ -280,6 +280,11 @@ static inline GdkPixbuf *gui_resources_get_type_clas_artifact ( gui_resources_t 
     return (*this_).type_clas_artifact;
 }
 
+static inline GdkPixbuf *gui_resources_get_type_clas_activity ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_activity;
+}
+
 static inline GdkPixbuf *gui_resources_get_type_clas_actor ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_actor;
@@ -340,9 +345,19 @@ static inline GdkPixbuf *gui_resources_get_type_clas_history ( gui_resources_t *
     return (*this_).type_clas_history;
 }
 
+static inline GdkPixbuf *gui_resources_get_type_clas_image ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_image;
+}
+
 static inline GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_initial;
+}
+
+static inline GdkPixbuf *gui_resources_get_type_clas_interface ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_interface;
 }
 
 static inline GdkPixbuf *gui_resources_get_type_clas_join ( gui_resources_t *this_ )
@@ -353,6 +368,11 @@ static inline GdkPixbuf *gui_resources_get_type_clas_join ( gui_resources_t *thi
 static inline GdkPixbuf *gui_resources_get_type_clas_node ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_node;
+}
+
+static inline GdkPixbuf *gui_resources_get_type_clas_object ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_object;
 }
 
 static inline GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ )

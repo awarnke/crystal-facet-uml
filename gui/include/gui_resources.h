@@ -74,6 +74,7 @@ struct gui_resources_struct {
     GdkPixbuf *type_diag_usecase;
 
     GdkPixbuf *type_clas_accept;
+    GdkPixbuf *type_clas_activity;
     GdkPixbuf *type_clas_actor;
     GdkPixbuf *type_clas_artifact;
     GdkPixbuf *type_clas_block;
@@ -87,9 +88,12 @@ struct gui_resources_struct {
     GdkPixbuf *type_clas_final;
     GdkPixbuf *type_clas_fork;
     GdkPixbuf *type_clas_history;
+    GdkPixbuf *type_clas_image;
     GdkPixbuf *type_clas_initial;
+    GdkPixbuf *type_clas_interface;
     GdkPixbuf *type_clas_join;
     GdkPixbuf *type_clas_node;
+    GdkPixbuf *type_clas_object;
     GdkPixbuf *type_clas_package;
     GdkPixbuf *type_clas_part;
     GdkPixbuf *type_clas_region;
@@ -533,6 +537,13 @@ static inline GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *
 static inline GdkPixbuf *gui_resources_get_type_clas_accept ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_clas_activity
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_clas_activity ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_clas_actor
  *
  *  \param this_ pointer to own object attributes
@@ -624,11 +635,25 @@ static inline GdkPixbuf *gui_resources_get_type_clas_fork ( gui_resources_t *thi
 static inline GdkPixbuf *gui_resources_get_type_clas_history ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_clas_image
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_clas_image ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_clas_initial
  *
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_interface
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_clas_interface ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_join
@@ -643,6 +668,13 @@ static inline GdkPixbuf *gui_resources_get_type_clas_join ( gui_resources_t *thi
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_type_clas_node ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_object
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_clas_object ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_package
