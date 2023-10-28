@@ -981,8 +981,7 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_control_flow.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Control Flow/Transition</para></entry>
                             <entry>
@@ -996,8 +995,7 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_object_flow.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Object Flow</para></entry>
                             <entry>
@@ -1009,8 +1007,7 @@
                         <row>
                             <entry><para>
                                 <mediaobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.pdf" width="1cm"/></imageobject>
-                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.svg" width="1cm"/></imageobject>
+                                    <imageobject><imagedata fileref="../../gui/source/resources/type_rel_async.svg" width="1cm"/></imageobject>
                                 </mediaobject>
                                 Async. Call
                                 </para>

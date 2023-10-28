@@ -114,15 +114,18 @@
 
 #include "resources/type_rel_aggregate.c"
 #include "resources/type_rel_associate.c"
+#include "resources/type_rel_async.c"
 #include "resources/type_rel_compose.c"
 #include "resources/type_rel_communication_path.c"
 #include "resources/type_rel_contain.c"
+#include "resources/type_rel_control_flow.c"
 #include "resources/type_rel_depend.c"
 #include "resources/type_rel_deploy.c"
 #include "resources/type_rel_extend.c"
 #include "resources/type_rel_generalize.c"
 #include "resources/type_rel_include.c"
 #include "resources/type_rel_manifest.c"
+#include "resources/type_rel_object_flow.c"
 #include "resources/type_rel_realize.c"
 #include "resources/type_rel_refine.c"
 #include "resources/type_rel_return.c"
@@ -253,15 +256,18 @@ void gui_resources_init ( gui_resources_t *this_ )
 
     (*this_).type_rel_aggregate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_aggregate ) );
     (*this_).type_rel_associate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_associate ) );
+    (*this_).type_rel_async = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_async ) );
     (*this_).type_rel_communication_path = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_communication_path ) );
     (*this_).type_rel_compose = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_compose ) );
     (*this_).type_rel_contain = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_contain ) );
+    (*this_).type_rel_control_flow = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_control_flow ) );
     (*this_).type_rel_depend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_depend ) );
     (*this_).type_rel_deploy = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_deploy ) );
     (*this_).type_rel_extend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_extend ) );
     (*this_).type_rel_generalize = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_generalize ) );
     (*this_).type_rel_include = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_include ) );
     (*this_).type_rel_manifest = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_manifest ) );
+    (*this_).type_rel_object_flow = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_object_flow ) );
     (*this_).type_rel_realize = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_realize ) );
     (*this_).type_rel_refine = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_refine ) );
     (*this_).type_rel_return = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_return ) );
@@ -390,14 +396,17 @@ void gui_resources_destroy ( gui_resources_t *this_ )
 
     g_object_unref ((*this_).type_rel_aggregate);
     g_object_unref ((*this_).type_rel_associate);
+    g_object_unref ((*this_).type_rel_async);
     g_object_unref ((*this_).type_rel_compose);
     g_object_unref ((*this_).type_rel_contain);
+    g_object_unref ((*this_).type_rel_control_flow);
     g_object_unref ((*this_).type_rel_depend);
     g_object_unref ((*this_).type_rel_deploy);
     g_object_unref ((*this_).type_rel_extend);
     g_object_unref ((*this_).type_rel_generalize);
     g_object_unref ((*this_).type_rel_include);
     g_object_unref ((*this_).type_rel_manifest);
+    g_object_unref ((*this_).type_rel_object_flow);
     g_object_unref ((*this_).type_rel_realize);
     g_object_unref ((*this_).type_rel_refine);
     g_object_unref ((*this_).type_rel_return);

@@ -7,7 +7,7 @@ crystal-facet-uml (1.53.0) UNRELEASED; urgency=medium
   * The window system shows an icon for the gtk3-window of crystal-facet-uml
   * Type-selector buttons are layouted by an gtk4-compatible grid
   * Type icons are different for part/object, class/interface, activity/state,
-    stereotype/icon
+    stereotype/icon, assocication/ctrl-flow/object-flow/async-call
   * The database save action is confirmed by a status message
   * info: Unit test coverage increased from 21.5 % to 21.8 %
 

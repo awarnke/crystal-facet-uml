@@ -239,8 +239,6 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
 
     (*this_).relationship_types_start = idx;
     {
-        GdkPixbuf *icon_simple_arrow = gui_resources_get_type_rel_associate( (*this_).resources );
-
         /* order: structural from abstract to concrete, behavioral from abstract to concrete */
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
@@ -264,7 +262,8 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, "Communication Path", icon_rel_communication_path );
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, "Association", icon_simple_arrow );
+        GdkPixbuf *icon_rel_associate = gui_resources_get_type_rel_associate( (*this_).resources );
+        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, "Association", icon_rel_associate );
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkPixbuf *icon_rel_aggregate = gui_resources_get_type_rel_aggregate( (*this_).resources );
@@ -300,12 +299,15 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         GdkPixbuf *icon_rel_include = gui_resources_get_type_rel_include( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, "Include (use case)", icon_rel_include );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, "Control Flow/Transition", icon_simple_arrow );
+        GdkPixbuf *icon_rel_control_flow = gui_resources_get_type_rel_control_flow( (*this_).resources );
+        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, "Control Flow/Transition", icon_rel_control_flow );
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, "Object Flow", icon_simple_arrow );
+        GdkPixbuf *icon_rel_object_flow = gui_resources_get_type_rel_object_flow( (*this_).resources );
+        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, "Object Flow", icon_rel_object_flow );
         current = &((*this_).type_name_icon_list[idx]); idx++;
-        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, "Async. Call", icon_simple_arrow );
+        GdkPixbuf *icon_rel_async = gui_resources_get_type_rel_async( (*this_).resources );
+        gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, "Async. Call", icon_rel_async );
         assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkPixbuf *icon_rel_sync = gui_resources_get_type_rel_sync( (*this_).resources );

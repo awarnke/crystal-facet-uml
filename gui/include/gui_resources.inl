@@ -490,6 +490,11 @@ static inline GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resources_t 
     return (*this_).type_rel_associate;
 }
 
+static inline GdkPixbuf *gui_resources_get_type_rel_async ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_async;
+}
+
 static inline GdkPixbuf *gui_resources_get_type_rel_communication_path ( gui_resources_t *this_ )
 {
     return (*this_).type_rel_communication_path;
@@ -503,6 +508,11 @@ static inline GdkPixbuf *gui_resources_get_type_rel_compose ( gui_resources_t *t
 static inline GdkPixbuf *gui_resources_get_type_rel_contain ( gui_resources_t *this_ )
 {
     return (*this_).type_rel_contain;
+}
+
+static inline GdkPixbuf *gui_resources_get_type_rel_control_flow ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_control_flow;
 }
 
 static inline GdkPixbuf *gui_resources_get_type_rel_depend ( gui_resources_t *this_ )
@@ -533,6 +543,11 @@ static inline GdkPixbuf *gui_resources_get_type_rel_include ( gui_resources_t *t
 static inline GdkPixbuf *gui_resources_get_type_rel_manifest ( gui_resources_t *this_ )
 {
     return (*this_).type_rel_manifest;
+}
+
+static inline GdkPixbuf *gui_resources_get_type_rel_object_flow ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_object_flow;
 }
 
 static inline GdkPixbuf *gui_resources_get_type_rel_realize ( gui_resources_t *this_ )

@@ -20,7 +20,6 @@ ideas for future versions:
       Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
-  [ ] make type icons unique: assoc/ctrl/obj/async-flow
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

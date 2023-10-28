@@ -119,15 +119,18 @@ struct gui_resources_struct {
 
     GdkPixbuf *type_rel_aggregate;
     GdkPixbuf *type_rel_associate;
+    GdkPixbuf *type_rel_async;
     GdkPixbuf *type_rel_communication_path;
     GdkPixbuf *type_rel_compose;
     GdkPixbuf *type_rel_contain;
+    GdkPixbuf *type_rel_control_flow;
     GdkPixbuf *type_rel_depend;
     GdkPixbuf *type_rel_deploy;
     GdkPixbuf *type_rel_extend;
     GdkPixbuf *type_rel_generalize;
     GdkPixbuf *type_rel_include;
     GdkPixbuf *type_rel_manifest;
+    GdkPixbuf *type_rel_object_flow;
     GdkPixbuf *type_rel_realize;
     GdkPixbuf *type_rel_refine;
     GdkPixbuf *type_rel_return;
@@ -838,6 +841,13 @@ static inline GdkPixbuf *gui_resources_get_type_rel_aggregate ( gui_resources_t 
 static inline GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_rel_async
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_rel_async ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_rel_compose
  *
  *  \param this_ pointer to own object attributes
@@ -857,6 +867,13 @@ static inline GdkPixbuf *gui_resources_get_type_rel_communication_path ( gui_res
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_type_rel_contain ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_control_flow
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_rel_control_flow ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_depend
@@ -899,6 +916,13 @@ static inline GdkPixbuf *gui_resources_get_type_rel_include ( gui_resources_t *t
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_type_rel_manifest ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_object_flow
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_rel_object_flow ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_realize
