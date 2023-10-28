@@ -9,9 +9,9 @@ crystal-facet-uml (1.53.0) UNRELEASED; urgency=medium
   * Type icons are different for part/object, class/interface, activity/state,
     stereotype/icon, assocication/ctrl-flow/object-flow/async-call
   * The database save action is confirmed by a status message
-  * info: Unit test coverage increased from 21.5 % to 21.8 %
+  * info: Unit test coverage increased from 21.5 % to 21.7 %
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 28 Oct 2023 19:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 28 Oct 2023 07:00:00 +0200
 
 crystal-facet-uml (1.52.1) UNRELEASED; urgency=medium
 
