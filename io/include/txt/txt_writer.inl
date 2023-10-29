@@ -3,11 +3,11 @@
 #include <assert.h>
 #include "utf8stringbuf/utf8error.h"
 
-static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text )
+static inline u8_error_t txt_writer_write_plain ( txt_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
     assert ( NULL != (*this_).output );
-    int write_err;
+    u8_error_t write_err;
 
     const size_t text_len = strlen(text);
     write_err = universal_output_stream_write ( (*this_).output, text, text_len );

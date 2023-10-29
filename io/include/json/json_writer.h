@@ -77,7 +77,7 @@ void json_writer_destroy( json_writer_t *this_ );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_plain ( json_writer_t *this_, utf8string_t text );
+static inline u8_error_t json_writer_write_plain ( json_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes stringview to a file, unencoded
@@ -86,7 +86,7 @@ static inline int json_writer_write_plain ( json_writer_t *this_, utf8string_t t
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline int json_writer_write_plain_view ( json_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t json_writer_write_plain_view ( json_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief prints an id

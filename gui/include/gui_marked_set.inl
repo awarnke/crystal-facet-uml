@@ -32,7 +32,7 @@ static inline data_id_t gui_marked_set_get_highlighted_diagram ( const gui_marke
     return( (*this_).highlighted_diagram );
 }
 
-static inline uint32_t gui_marked_set_get_highlighted_button ( const gui_marked_set_t *this_ )
+static inline gui_sketch_action_t gui_marked_set_get_highlighted_button ( const gui_marked_set_t *this_ )
 {
     return( (*this_).highlighted_button );
 }
