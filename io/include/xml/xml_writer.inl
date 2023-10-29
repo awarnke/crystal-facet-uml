@@ -5,10 +5,10 @@
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8codepointiterator.h"
 
-static inline int xml_writer_write_plain ( xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t xml_writer_write_plain ( xml_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
-    int write_err;
+    u8_error_t write_err;
 
     const size_t text_len = utf8string_get_length(text);
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );
@@ -17,9 +17,9 @@ static inline int xml_writer_write_plain ( xml_writer_t *this_, utf8string_t tex
     return ( write_err );
 }
 
-static inline int xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringview_t string_view )
 {
-    int write_err;
+    u8_error_t write_err;
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
@@ -29,10 +29,10 @@ static inline int xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringv
     return ( write_err );
 }
 
-static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
-    int write_err;
+    u8_error_t write_err;
 
     const size_t text_len = utf8string_get_length(text);
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_encode_table );
@@ -41,9 +41,9 @@ static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t t
     return write_err;
 }
 
-static inline int xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8stringview_t string_view )
 {
-    int write_err;
+    u8_error_t write_err;
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
@@ -53,10 +53,10 @@ static inline int xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8strin
     return write_err;
 }
 
-static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
-    int write_err;
+    u8_error_t write_err;
 
     const size_t text_len = utf8string_get_length(text);
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_comments_encode_table );
@@ -65,9 +65,9 @@ static inline int xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string
     return write_err;
 }
 
-static inline int xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8stringview_t string_view )
 {
-    int write_err;
+    u8_error_t write_err;
 
     const size_t length = utf8stringview_get_length( string_view );
     const char *const start = utf8stringview_get_start( string_view );
@@ -96,9 +96,9 @@ static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *t
     return result;
 }
 
-static inline int xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view )
 {
-    int result = U8_ERROR_NOT_FOUND;
+    u8_error_t result = U8_ERROR_NOT_FOUND;
     bool is_start = true;
 
     universal_escaping_output_stream_change_rules( &((*this_).esc_output), (*this_).xml_plain_table );

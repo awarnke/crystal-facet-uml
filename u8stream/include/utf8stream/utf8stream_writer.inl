@@ -47,7 +47,7 @@ static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this
     return err;
 }
 
-static inline int utf8stream_writer_flush ( utf8stream_writer_t *this_ )
+static inline u8_error_t utf8stream_writer_flush ( utf8stream_writer_t *this_ )
 {
     assert( (*this_).output_stream != NULL );
 

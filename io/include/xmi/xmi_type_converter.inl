@@ -36,12 +36,12 @@ static inline bool xmi_type_converter_can_nest_relationship ( xmi_type_converter
 
 /* ================================ RELATIONSHIP ================================ */
 
-static inline int xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                             data_classifier_type_t hosting_type,
-                                                                             data_relationship_type_t rel_type,
-                                                                             data_classifier_type_t from_classifier_type,
-                                                                             data_feature_type_t from_feature_type,
-                                                                             char const * *out_xmi_name )
+static inline u8_error_t xmi_type_converter_get_xmi_from_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                    data_classifier_type_t hosting_type,
+                                                                                    data_relationship_type_t rel_type,
+                                                                                    data_classifier_type_t from_classifier_type,
+                                                                                    data_feature_type_t from_feature_type,
+                                                                                    char const * *out_xmi_name )
 {
     return xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, 
                                                                             hosting_type, 
@@ -53,12 +53,12 @@ static inline int xmi_type_converter_get_xmi_from_property_of_relationship ( xmi
                                                                           );
 }
 
-static inline int xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
-                                                                           data_classifier_type_t hosting_type,
-                                                                           data_relationship_type_t rel_type,
-                                                                           data_classifier_type_t to_classifier_type,
-                                                                           data_feature_type_t to_feature_type,
-                                                                           char const * *out_xmi_name )
+static inline u8_error_t xmi_type_converter_get_xmi_to_property_of_relationship ( xmi_type_converter_t *this_,
+                                                                                  data_classifier_type_t hosting_type,
+                                                                                  data_relationship_type_t rel_type,
+                                                                                  data_classifier_type_t to_classifier_type,
+                                                                                  data_feature_type_t to_feature_type,
+                                                                                  char const * *out_xmi_name )
 {
     return xmi_type_converter_private_get_xmi_end_property_of_relationship( this_, 
                                                                             hosting_type, 
