@@ -35,8 +35,8 @@ void txt_writer_destroy( txt_writer_t *this_ )
 }
 
 u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
-                                               const char *indent,
-                                               const char *multiline_string )
+                                                      const char *indent,
+                                                      const char *multiline_string )
 {
     U8_TRACE_BEGIN();
     assert( NULL != indent );
@@ -106,8 +106,8 @@ u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
 }
 
 u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
-                                 int indent_width,
-                                 data_id_t id )
+                                        int indent_width,
+                                        data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );

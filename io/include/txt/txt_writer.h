@@ -82,7 +82,7 @@ u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
-                                        u8_error_t indent_width,
+                                        int indent_width,
                                         data_id_t id
                                       );
 
