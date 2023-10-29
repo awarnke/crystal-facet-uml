@@ -26,7 +26,7 @@ cd ../../..
 echo "building binary"
 mkdir cmake_build
 cd cmake_build
-cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml-$VERSIONSTR
+cmake -DCMAKE_BUILD_TYPE=Release -DCFU_USE_GTK4=OFF ../crystal-facet-uml-$VERSIONSTR
 make -j4    # start up to 4 parallel processes to make use of quad-core processors
 cd ..
 
