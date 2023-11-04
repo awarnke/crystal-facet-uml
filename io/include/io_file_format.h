@@ -26,6 +26,7 @@ enum io_file_format_enum {
     IO_FILE_FORMAT_CSS     = 0x00400,  /*!< css for xhtml */
     IO_FILE_FORMAT_XMI2    = 0x01000,  /*!< xmi version 2.5.1 */
     IO_FILE_FORMAT_JSON    = 0x10000,  /*!< json; json-ld: https://www.w3.org/TR/json-ld/ */
+    IO_FILE_FORMAT_SCHEMA  = 0x20000,  /*!< json schema of Internet Engineering Task Force */
 };
 
 typedef enum io_file_format_enum io_file_format_t;

@@ -24,7 +24,7 @@ ideas for future versions:
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
   [?] more relationship types needed: one-way x--> and no x--x association (maybe x is a feature?)
-  [?] check dot notation at relationship ends
+  [?] check dot notation at opposite relationship ends
   [?] sequence diagrams need if/loop-boxes
   [?] activity diagrams need swimlanes/partition
   [ ] reduce overlaps, analyze the overlaps in test cases by extending pencil_layout_data_get_statistics()

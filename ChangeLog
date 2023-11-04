@@ -8,7 +8,7 @@ crystal-facet-uml (1.53.2) UNRELEASED; urgency=medium
 crystal-facet-uml (1.53.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * uncrtical compiler warnings on enum/int type mismatches fixed
+  * uncritical compiler warnings on enum/int type mismatches fixed
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 29 Oct 2023 07:00:00 +0100
 

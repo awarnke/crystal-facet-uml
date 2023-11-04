@@ -130,7 +130,7 @@ static const char CSS_ALL[]
 "}\n";
 
 void xhtml_stylesheet_writer_init ( xhtml_stylesheet_writer_t *this_,
-                                     universal_output_stream_t *output )
+                                    universal_output_stream_t *output )
 {
     U8_TRACE_BEGIN();
     assert( NULL != output );

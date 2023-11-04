@@ -2,6 +2,7 @@
 
 #include "io_exporter.h"
 #include "xhtml/xhtml_stylesheet_writer.h"
+#include "json/json_schema_writer.h"
 #include "u8stream/universal_file_output_stream.h"
 #include "u8stream/universal_output_stream.h"
 #include "xmi/xmi_writer_pass.h"
@@ -42,10 +43,10 @@ void io_exporter_destroy( io_exporter_t *this_ )
 }
 
 u8_error_t io_exporter_export_files( io_exporter_t *this_,
-                              io_file_format_t export_type,
-                              const char *target_folder,
-                              const char *document_file_path,
-                              data_stat_t *io_export_stat )
+                                     io_file_format_t export_type,
+                                     const char *target_folder,
+                                     const char *document_file_path,
+                                     data_stat_t *io_export_stat )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != target_folder );
@@ -93,13 +94,34 @@ u8_error_t io_exporter_export_files( io_exporter_t *this_,
 
         if ( ( export_type & IO_FILE_FORMAT_XHTML ) != 0 )
         {
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XHTML, target_folder, document_file_name, io_export_stat );
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_CSS, target_folder, document_file_name, io_export_stat );
+            export_err |= io_exporter_private_export_document_file( this_,
+                                                                    IO_FILE_FORMAT_XHTML,
+                                                                    target_folder,
+                                                                    document_file_name,
+                                                                    io_export_stat
+                                                                  );
+            export_err |= io_exporter_private_export_document_file( this_,
+                                                                    IO_FILE_FORMAT_CSS,
+                                                                    target_folder,
+                                                                    document_file_name,
+                                                                    io_export_stat
+                                                                  );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_JSON ) != 0 )
         {
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_JSON, target_folder, document_file_name, io_export_stat );
+            export_err |= io_exporter_private_export_document_file( this_,
+                                                                    IO_FILE_FORMAT_JSON,
+                                                                    target_folder,
+                                                                    document_file_name,
+                                                                    io_export_stat
+                                                                  );
+            export_err |= io_exporter_private_export_document_file( this_,
+                                                                    IO_FILE_FORMAT_SCHEMA,
+                                                                    target_folder,
+                                                                    document_file_name,
+                                                                    io_export_stat
+                                                                  );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_XMI2 ) != 0 )
@@ -118,8 +140,8 @@ u8_error_t io_exporter_export_files( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
-                                      const char* path,
-                                      utf8stringbuf_t out_base_filename )
+                                             const char* path,
+                                             utf8stringbuf_t out_base_filename )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != path );
@@ -144,11 +166,11 @@ u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_private_export_image_files( io_exporter_t *this_,
-                                            data_id_t diagram_id,
-                                            uint32_t max_recursion,
-                                            io_file_format_t export_type,
-                                            const char *target_folder,
-                                            data_stat_t *io_export_stat )
+                                                   data_id_t diagram_id,
+                                                   uint32_t max_recursion,
+                                                   io_file_format_t export_type,
+                                                   const char *target_folder,
+                                                   data_stat_t *io_export_stat )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != target_folder );
@@ -229,10 +251,10 @@ u8_error_t io_exporter_private_export_image_files( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_export_image_file( io_exporter_t *this_,
-                                   data_id_t diagram_id,
-                                   io_file_format_t export_type,
-                                   const char *file_path,
-                                   data_stat_t *io_export_stat )
+                                          data_id_t diagram_id,
+                                          io_file_format_t export_type,
+                                          const char *file_path,
+                                          data_stat_t *io_export_stat )
 {
     U8_TRACE_BEGIN();
     assert ( data_id_is_valid( &diagram_id ) );
@@ -313,10 +335,10 @@ u8_error_t io_exporter_export_image_file( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_private_export_document_file( io_exporter_t *this_,
-                                              io_file_format_t export_type,
-                                              const char *target_folder,
-                                              const char *document_file_name,
-                                              data_stat_t *io_export_stat )
+                                                     io_file_format_t export_type,
+                                                     const char *target_folder,
+                                                     const char *document_file_name,
+                                                     data_stat_t *io_export_stat )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != target_folder );
@@ -356,6 +378,12 @@ u8_error_t io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         break;
 
+        case IO_FILE_FORMAT_SCHEMA:
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".schema" );
+        }
+        break;
+
         case IO_FILE_FORMAT_XMI2:
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".xmi" );
@@ -383,10 +411,10 @@ u8_error_t io_exporter_private_export_document_file( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
-                                      io_file_format_t export_type,
-                                      const char *document_title,
-                                      const char *file_path,
-                                      data_stat_t *io_export_stat )
+                                             io_file_format_t export_type,
+                                             const char *document_title,
+                                             const char *file_path,
+                                             data_stat_t *io_export_stat )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != document_title );
@@ -408,6 +436,13 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
             xhtml_stylesheet_writer_init( &css_writer, output );
             export_err |= xhtml_stylesheet_writer_write_stylesheet( &css_writer );
             xhtml_stylesheet_writer_destroy( &css_writer );
+        }
+        else if ( IO_FILE_FORMAT_SCHEMA == export_type )
+        {
+            json_schema_writer_t schema_writer;
+            json_schema_writer_init( &schema_writer, output );
+            export_err |= json_schema_writer_write_schema( &schema_writer );
+            json_schema_writer_destroy( &schema_writer );
         }
         else if ( IO_FILE_FORMAT_XMI2 == export_type )
         {
@@ -514,9 +549,9 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
-                                              data_id_t diagram_id,
-                                              uint32_t max_recursion,
-                                              data_stat_t *io_export_stat )
+                                                     data_id_t diagram_id,
+                                                     uint32_t max_recursion,
+                                                     data_stat_t *io_export_stat )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_export_stat );
@@ -578,9 +613,9 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
-                                                  data_id_t diagram_id,
-                                                  uint32_t max_recursion,
-                                                  xhtml_element_writer_t *format_writer )
+                                                         data_id_t diagram_id,
+                                                         uint32_t max_recursion,
+                                                         xhtml_element_writer_t *format_writer )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != format_writer );
@@ -652,8 +687,8 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
 }
 
 u8_error_t io_exporter_private_get_filename_for_diagram( io_exporter_t *this_,
-                                                  data_id_t diagram_id,
-                                                  utf8stringbuf_t filename )
+                                                         data_id_t diagram_id,
+                                                         utf8stringbuf_t filename )
 {
     U8_TRACE_BEGIN();
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );

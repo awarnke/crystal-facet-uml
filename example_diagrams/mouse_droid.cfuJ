@@ -5314,7 +5314,7 @@
         "id": 108,
         "main_type": 121,
         "type": "Component",
-        "stereotype": "main_logic",
+        "stereotype": "main_logic ",
         "name": "Tactics Calculator",
         "description": [
                 "Calculate tactics based on given strategy and current situation model"
