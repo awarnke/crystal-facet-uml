@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.51.0"
+    "generator_version": "1.53.0"
   }
   ,
   "views":
@@ -35,14 +35,14 @@
           {
             "id": 86,
             "display_flags": 0,
-            "classifier_name": "View UML Diagram Examples",
+            "classifier_name": "View Examples of UML Diagrams",
             "node": "3328cd45-4906-4211-87b6-1fe5f466d0a9",
             "uuid": "4be79229-c87d-4040-8e71-07ee55cad6b1"
           },
           {
             "id": 87,
             "display_flags": 0,
-            "classifier_name": "View Feature Listings",
+            "classifier_name": "View List of Features",
             "node": "b8e0e9de-4ddc-429e-a92b-1b9fc51d8b8e",
             "uuid": "7c2ece7d-e5fb-4235-8961-e9e9d6d900dc"
           }
@@ -585,6 +585,13 @@
             "classifier_name": "UML Diagrams",
             "node": "1985bb09-0f8d-418e-a49c-d6a3a3267006",
             "uuid": "a67cdf30-65aa-44a0-8c65-238acdbe0424"
+          },
+          {
+            "id": 190,
+            "display_flags": 0,
+            "classifier_name": "SysML Diagrams",
+            "node": "77bac38d-5c3f-4e5b-bfc0-65097a0fcccd",
+            "uuid": "8218e4d2-e85a-4765-ba4f-06a6586772b6"
           }
         ]
       }
@@ -1293,14 +1300,14 @@
           {
             "id": 82,
             "display_flags": 0,
-            "classifier_name": "Tuner Station",
+            "classifier_name": "Contract",
             "node": "4932e997-c410-489d-8dc9-d5118ba4ceaa",
             "uuid": "672cb111-068a-4119-a363-90615c54139c"
           },
           {
             "id": 83,
             "display_flags": 0,
-            "classifier_name": "List of Stations",
+            "classifier_name": "List of Contracts",
             "node": "4cec37b4-0b32-4ad2-af76-0bb6b0d93426",
             "uuid": "0a10320d-f3aa-4fe6-93f3-3f64abd95254"
           },
@@ -1340,7 +1347,7 @@
           {
             "id": 69,
             "display_flags": 0,
-            "classifier_name": "Performance SoC",
+            "classifier_name": "Main Processor",
             "node": "a4057f7a-9030-4296-9a50-96354390febc",
             "uuid": "6bc78d34-a886-443c-92bc-5336ea508d14"
           },
@@ -1567,6 +1574,7 @@
         "id": 1,
         "main_type": 127,
         "type": "Artifact",
+        "stereotype": "node",
         "name": "Classifier",
         "description": [
                 ""
@@ -1596,6 +1604,7 @@
         "id": 2,
         "main_type": 127,
         "type": "Artifact",
+        "stereotype": "edge",
         "name": "Relationship",
         "description": [
                 ""
@@ -1848,6 +1857,7 @@
         "id": 14,
         "main_type": 127,
         "type": "Artifact",
+        "stereotype": "view",
         "name": "Diagram",
         "description": [
                 ""
@@ -1905,8 +1915,8 @@
         "type": "Comment",
         "name": "Note 1",
         "description": [
-                "مشاهدة أفكارك\n",
-                "watch your thoughts"
+                "وعيًا بأفكارك\n",
+                "be mindful of your thoughts"
         ],
         "x_order": -1425939969,
         "y_order": 2067398757,
@@ -2206,7 +2216,7 @@
                 ""
         ],
         "x_order": -1152828029,
-        "y_order": -768365843,
+        "y_order": -997624143,
         "list_order": 0,
         "uuid": "33aa2542-3744-46bb-b032-38e8f514c0da",
         "features":
@@ -2278,7 +2288,7 @@
                 ""
         ],
         "x_order": -1602746959,
-        "y_order": 1665558627,
+        "y_order": 1557081809,
         "list_order": 0,
         "uuid": "cc4ec715-ccf4-4ba7-b58a-4f8a05639080",
         "features":
@@ -2451,7 +2461,7 @@
             "description": [
                 ""
             ],
-            "list_order": 134653516,
+            "list_order": -34613123,
             "uuid": "6f81c351-1dda-454b-9c01-e25ff625a7f0"
           },
           {
@@ -2485,7 +2495,7 @@
             "description": [
                 ""
             ],
-            "list_order": 63027407,
+            "list_order": -35974523,
             "uuid": "2bf08931-160a-408a-b1b9-5660ed659cfe"
           }
         ]
@@ -2543,7 +2553,7 @@
         "id": 47,
         "main_type": 120,
         "type": "Node",
-        "name": "Performance SoC",
+        "name": "Main Processor",
         "description": [
                 ""
         ],
@@ -2634,7 +2644,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1080589876,
+            "list_order": 1182906881,
             "uuid": "855a2464-0ec7-4a3a-9d63-5e772b40950d"
           },
           {
@@ -2646,7 +2656,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1332828983,
+            "list_order": 1863187599,
             "uuid": "f645ef7e-2dc0-4b27-8aa8-2935abcc2c15"
           },
           {
@@ -2658,7 +2668,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1285943621,
+            "list_order": 1820409126,
             "uuid": "9b7121a8-7cea-4e0c-bd55-af1b8b372f64"
           },
           {
@@ -2700,7 +2710,7 @@
             "description": [
                 ""
             ],
-            "list_order": 300343342,
+            "list_order": -29341104,
             "uuid": "5bf3239f-343d-4ece-bffc-e3d22fefce6f"
           },
           {
@@ -2711,7 +2721,7 @@
             "description": [
                 ""
             ],
-            "list_order": 187442834,
+            "list_order": -4290598,
             "uuid": "078b818f-2cef-4208-a636-ed4fa3d75ff9"
           }
         ]
@@ -2884,7 +2894,7 @@
         "id": 59,
         "main_type": 90,
         "type": "Block",
-        "name": "Tuner Station",
+        "name": "Contract",
         "description": [
                 ""
         ],
@@ -2902,7 +2912,7 @@
         "id": 60,
         "main_type": 90,
         "type": "Block",
-        "name": "List of Stations",
+        "name": "List of Contracts",
         "description": [
                 ""
         ],
@@ -2957,7 +2967,7 @@
         "id": 63,
         "main_type": 101,
         "type": "UseCase",
-        "name": "View UML Diagram Examples",
+        "name": "View Examples of UML Diagrams",
         "description": [
                 "The reader checks examples of diagrams"
         ],
@@ -2975,7 +2985,7 @@
         "id": 64,
         "main_type": 101,
         "type": "UseCase",
-        "name": "View Feature Listings",
+        "name": "View List of Features",
         "description": [
                 "The reader checks lists of features"
         ],
@@ -3480,8 +3490,8 @@
             "id": 22,
             "main_type": 0,
             "type": "Property",
-            "key": "16 bits @ 48000 Hz",
-            "value": "sample rate",
+            "key": "sample rate",
+            "value": "16 bits @ 48000 Hz",
             "description": [
                 ""
             ],
@@ -3497,7 +3507,7 @@
             "description": [
                 ""
             ],
-            "list_order": -1290156358,
+            "list_order": -1164764580,
             "uuid": "47d836df-a0f5-4d1f-9fb4-59e4470a61c4"
           }
         ]
@@ -3520,10 +3530,10 @@
         [
           {
             "id": 21,
-            "main_type": 1,
-            "type": "Operation",
-            "key": "16 bits @ 24000 Hz",
-            "value": "playback rate",
+            "main_type": 0,
+            "type": "Property",
+            "key": "playback rate",
+            "value": "16 bits @ 24000 Hz",
             "description": [
                 ""
             ],
@@ -3539,7 +3549,7 @@
             "description": [
                 ""
             ],
-            "list_order": -799492799,
+            "list_order": -266501542,
             "uuid": "2fd25990-9b40-460a-8659-ba2aba7fe4d8"
           }
         ]
@@ -3681,8 +3691,8 @@
             "id": 20,
             "main_type": 0,
             "type": "Property",
-            "key": "RISC 64 bit",
-            "value": "type",
+            "key": "kind",
+            "value": "octacore, 64 bit",
             "description": [
                 ""
             ],
@@ -3698,7 +3708,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1311917584,
+            "list_order": 971269677,
             "uuid": "cd460687-2492-4a76-b831-68c1c7eea81b"
           },
           {
@@ -3710,7 +3720,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1975267523,
+            "list_order": 1421646088,
             "uuid": "ac28a630-1679-4693-8001-25e109ad1bc9"
           }
         ]
@@ -5312,6 +5322,24 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 157,
+        "main_type": 124,
+        "type": "Package",
+        "name": "SysML Diagrams",
+        "description": [
+                ""
+        ],
+        "x_order": -1345218273,
+        "y_order": 1335553338,
+        "list_order": 1335553338,
+        "uuid": "77bac38d-5c3f-4e5b-bfc0-65097a0fcccd",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -6210,7 +6238,7 @@
         ],
         "list_order": 2048,
         "from_classifier_name": "Box",
-        "to_classifier_name": "Performance SoC",
+        "to_classifier_name": "Main Processor",
         "from_node": "e5f05f66-e9a6-41c1-8548-f54aef76a2fd",
         "to_node": "a4057f7a-9030-4296-9a50-96354390febc",
         "uuid": "f29a4485-24c7-4988-ad8b-d184a42f908f"
@@ -6277,7 +6305,7 @@
                 ""
         ],
         "list_order": 421743311,
-        "from_classifier_name": "Performance SoC",
+        "from_classifier_name": "Main Processor",
         "to_classifier_name": "Amplifier",
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
         "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
@@ -6294,7 +6322,7 @@
                 ""
         ],
         "list_order": 421744335,
-        "from_classifier_name": "Performance SoC",
+        "from_classifier_name": "Main Processor",
         "to_classifier_name": "Tuner Chip",
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
         "to_node": "eb86f050-0a69-456b-aeba-52da0a304bc1",
@@ -6311,7 +6339,7 @@
                 ""
         ],
         "list_order": 421745359,
-        "from_classifier_name": "Performance SoC",
+        "from_classifier_name": "Main Processor",
         "to_classifier_name": "Amplifier",
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
         "to_node": "2010aec3-c246-4155-8ac9-28f67d5c84bb",
@@ -6328,7 +6356,7 @@
                 ""
         ],
         "list_order": 421778127,
-        "from_classifier_name": "Performance SoC",
+        "from_classifier_name": "Main Processor",
         "to_classifier_name": "Watchdog",
         "from_node": "a4057f7a-9030-4296-9a50-96354390febc",
         "to_node": "ea080c10-82cc-4f5d-8e32-39f6e25392c0",
@@ -6596,7 +6624,7 @@
                 ""
         ],
         "list_order": 1024,
-        "from_classifier_name": "List of Stations",
+        "from_classifier_name": "List of Contracts",
         "to_classifier_name": "List",
         "from_node": "4cec37b4-0b32-4ad2-af76-0bb6b0d93426",
         "to_node": "cbb8c23c-04a0-45cd-8c11-9b7af21c91a0",
@@ -6613,8 +6641,8 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_name": "List of Stations",
-        "to_classifier_name": "Tuner Station",
+        "from_classifier_name": "List of Contracts",
+        "to_classifier_name": "Contract",
         "from_node": "4cec37b4-0b32-4ad2-af76-0bb6b0d93426",
         "to_node": "4932e997-c410-489d-8dc9-d5118ba4ceaa",
         "uuid": "bcdd0f5e-ca7a-40a7-954e-bfbc72ebe4a3"
@@ -6631,7 +6659,7 @@
         ],
         "list_order": 1024,
         "from_classifier_name": "Reader",
-        "to_classifier_name": "View UML Diagram Examples",
+        "to_classifier_name": "View Examples of UML Diagrams",
         "from_node": "b89da5a3-66e4-4577-9e2e-86e0ff92d3c2",
         "to_node": "3328cd45-4906-4211-87b6-1fe5f466d0a9",
         "uuid": "b8687be7-647f-4392-abd1-9d6dcfcb68fd"
@@ -6648,7 +6676,7 @@
         ],
         "list_order": 2048,
         "from_classifier_name": "Reader",
-        "to_classifier_name": "View Feature Listings",
+        "to_classifier_name": "View List of Features",
         "from_node": "b89da5a3-66e4-4577-9e2e-86e0ff92d3c2",
         "to_node": "b8e0e9de-4ddc-429e-a92b-1b9fc51d8b8e",
         "uuid": "a5749fb9-2328-48d9-be1d-13a04caba24c"

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.53.0"
+    "generator_version": "1.53.2"
   }
   ,
   "views":
@@ -3442,22 +3442,6 @@
         "diagramelements":
         [
           {
-            "id": 19,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "u8log",
-            "node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
-            "uuid": "e897cb9d-cc81-46f5-ae31-0d91a5b8292f"
-          },
-          {
-            "id": 20,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "u8trace",
-            "node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
-            "uuid": "f44f3239-7cf7-40be-bd9f-a0949b4a5354"
-          },
-          {
             "id": 30,
             "display_flags": 0,
             "classifier_name": "u8stream/",
@@ -3486,14 +3470,6 @@
             "uuid": "d48b289d-c86c-436d-83c8-b10c51167342"
           },
           {
-            "id": 639,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "u8_error",
-            "node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
-            "uuid": "935ad6d9-3d42-422d-b940-1b12db0ca5d8"
-          },
-          {
             "id": 640,
             "display_flags": 0,
             "classifier_name": "u8list",
@@ -3506,14 +3482,6 @@
             "classifier_name": "utf8stream",
             "node": "e1f3ec79-56d3-46d9-be30-b694bc7bccf8",
             "uuid": "147aa28a-5093-4f7e-8d46-cc2b144c7207"
-          },
-          {
-            "id": 652,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "u8_error_info",
-            "node": "f92162b7-0bd8-4ad2-af1b-ad53b7aceae5",
-            "uuid": "4e39526a-aa17-4686-bec8-f0b651b4b80d"
           },
           {
             "id": 667,
@@ -3897,6 +3865,67 @@
     },
     {
       "diagram": {
+        "id": 111,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "u8 types and functions",
+        "description": [
+                ""
+        ],
+        "list_order": 81920,
+        "display_flags": 0,
+        "parent_name": "u8stream overview",
+        "parent": "f596d365-dc16-48ca-9be1-d6ede80ae10a",
+        "uuid": "d0c623f8-3ef6-4af1-ab96-038d72cbf802",
+        "diagramelements":
+        [
+          {
+            "id": 790,
+            "display_flags": 0,
+            "classifier_name": "u8",
+            "node": "d19d23ae-52cd-4fb8-a759-1fb15dd239f5",
+            "uuid": "1c3defcc-a966-4156-87fd-40e741f6bbf4"
+          },
+          {
+            "id": 791,
+            "display_flags": 0,
+            "classifier_name": "u8_error_info",
+            "node": "f92162b7-0bd8-4ad2-af1b-ad53b7aceae5",
+            "uuid": "00b60896-2b0d-4569-9a51-9936c2b70a71"
+          },
+          {
+            "id": 792,
+            "display_flags": 0,
+            "classifier_name": "u8trace",
+            "node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
+            "uuid": "3c179118-5387-4071-aac1-d38e5fb4f93a"
+          },
+          {
+            "id": 793,
+            "display_flags": 0,
+            "classifier_name": "u8log",
+            "node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
+            "uuid": "09d69021-a36d-44cb-94fb-29a812acd9b2"
+          },
+          {
+            "id": 794,
+            "display_flags": 0,
+            "classifier_name": "u8_error",
+            "node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+            "uuid": "534f24f2-22e1-45cb-9eaf-a83281e4a30c"
+          },
+          {
+            "id": 795,
+            "display_flags": 0,
+            "classifier_name": "u8_fault_inject",
+            "node": "13c6303d-9f1b-4966-8e95-984d91e8665a",
+            "uuid": "6e7df76a-20ef-4c38-9d4e-ea0673cfe1e6"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 3,
         "diagram_type": 33,
         "type": "UMLPackageDiagram",
@@ -4117,6 +4146,14 @@
             "classifier_name": "test_fixture",
             "node": "726cc90b-050b-4a6f-8eab-c219b99baa17",
             "uuid": "0fa22a75-7315-4d07-ab35-d55626c35595"
+          },
+          {
+            "id": 796,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "u8_fault_inject",
+            "node": "13c6303d-9f1b-4966-8e95-984d91e8665a",
+            "uuid": "615ba897-3a96-43f1-b7f6-ebd9fa997697"
           }
         ]
       }
@@ -16566,6 +16603,24 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 483,
+        "main_type": 125,
+        "type": "Class",
+        "name": "u8_fault_inject",
+        "description": [
+                "Provides some macros that allow test cases to inject faults into the code under test."
+        ],
+        "x_order": -237850281,
+        "y_order": 764130239,
+        "list_order": -1463198586,
+        "uuid": "13c6303d-9f1b-4966-8e95-984d91e8665a",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -18074,57 +18129,6 @@
     },
     {
       "relationship": {
-        "id": 617,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -105281114,
-        "from_classifier_name": "u8stream/",
-        "to_classifier_name": "u8_error",
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
-        "uuid": "445370d4-5580-4172-8481-5e25cfc38fe1"
-      }
-    },
-    {
-      "relationship": {
-        "id": 620,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 41290894,
-        "from_classifier_name": "u8stream/",
-        "to_classifier_name": "u8log",
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
-        "uuid": "6b47b94e-64be-4add-8b27-5419855b418a"
-      }
-    },
-    {
-      "relationship": {
-        "id": 621,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 41323662,
-        "from_classifier_name": "u8stream/",
-        "to_classifier_name": "u8trace",
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "ad0dea96-6d0c-4975-8449-9bce5308c324",
-        "uuid": "baa2e9ea-c58c-4737-8dda-efc84f1c6e07"
-      }
-    },
-    {
-      "relationship": {
         "id": 623,
         "main_type": 300,
         "type": "Association",
@@ -18138,23 +18142,6 @@
         "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
         "to_node": "e1f3ec79-56d3-46d9-be30-b694bc7bccf8",
         "uuid": "fd7787af-e2b6-4ef1-aa24-e3d692f47714"
-      }
-    },
-    {
-      "relationship": {
-        "id": 638,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1568843722,
-        "from_classifier_name": "u8stream/",
-        "to_classifier_name": "u8_error_info",
-        "from_node": "fa5f17e6-4ccd-4838-84a1-2c6536c29679",
-        "to_node": "f92162b7-0bd8-4ad2-af1b-ad53b7aceae5",
-        "uuid": "aecac66c-04b3-4c45-a1d7-4afde6375bc0"
       }
     },
     {
@@ -26883,6 +26870,23 @@
         "from_node": "d19d23ae-52cd-4fb8-a759-1fb15dd239f5",
         "to_node": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
         "uuid": "fa6c96f0-9dd6-47a1-9eff-d4c47d18cc0f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 801,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1463198586,
+        "from_classifier_name": "u8",
+        "to_classifier_name": "u8_fault_inject",
+        "from_node": "d19d23ae-52cd-4fb8-a759-1fb15dd239f5",
+        "to_node": "13c6303d-9f1b-4966-8e95-984d91e8665a",
+        "uuid": "1556ed52-196b-433a-8f0e-034af9294534"
       }
     },
     {

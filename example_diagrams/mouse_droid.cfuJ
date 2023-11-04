@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.53.0"
+    "generator_version": "1.53.2"
   }
   ,
   "views":
@@ -96,23 +96,30 @@
           {
             "id": 6,
             "display_flags": 0,
-            "classifier_name": "Perform a 1-day Mission",
+            "classifier_name": "Perform a 1-day mission",
             "node": "101916e8-de57-400a-bfa9-d97e8128a011",
             "uuid": "ac7ebe7e-e33a-4643-97f6-19a4003bc411"
           },
           {
             "id": 7,
             "display_flags": 0,
-            "classifier_name": "Drive to Location",
+            "classifier_name": "Drive to location",
             "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
             "uuid": "e19fd028-4ba5-4445-a341-7aafb90e5a27"
           },
           {
             "id": 8,
             "display_flags": 0,
-            "classifier_name": "Use Tools",
+            "classifier_name": "Repair using tools",
             "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
             "uuid": "6e569cfc-635a-4478-9136-130aa32ddd00"
+          },
+          {
+            "id": 298,
+            "display_flags": 0,
+            "classifier_name": "Return to base location",
+            "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+            "uuid": "0245c91e-1903-4eee-aa30-261f93f4f539"
           }
         ]
       }
@@ -122,7 +129,7 @@
         "id": 44,
         "diagram_type": 9,
         "type": "SysMLRequirementDiagram",
-        "name": "L1 Requirements",
+        "name": "L1 Requirements View",
         "description": [
                 "This diagram shows examples of system level L1 requirements."
         ],
@@ -137,7 +144,7 @@
             "id": 235,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Drive to Location",
+            "classifier_name": "Drive to location",
             "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
             "uuid": "964266f7-c823-4607-af35-a7b6e3395b99"
           },
@@ -145,7 +152,7 @@
             "id": 236,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Use Tools",
+            "classifier_name": "Repair using tools",
             "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
             "uuid": "d817f954-4887-469c-bb2f-0c52a9fb9193"
           },
@@ -162,6 +169,14 @@
             "classifier_name": "L1Req: Position screw driver",
             "node": "62045894-795a-4a7d-bea6-5cd5b733317f",
             "uuid": "ea4fed52-d285-41a7-91c3-393eac2064f3"
+          },
+          {
+            "id": 299,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Return to base location",
+            "node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+            "uuid": "27779e91-747a-4fc4-b99e-6d4f9824cd42"
           }
         ]
       }
@@ -345,6 +360,204 @@
     },
     {
       "diagram": {
+        "id": 50,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "L1 Functional View",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Solution Strategy",
+        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "uuid": "73596088-5c4a-4e29-8a51-c01db258b7ea",
+        "diagramelements":
+        [
+          {
+            "id": 300,
+            "display_flags": 0,
+            "classifier_name": "Motors to move the MoD5G (L1-Fct)",
+            "node": "3233e365-0b41-4e34-9b0b-0f9af2269820",
+            "uuid": "b753ed1c-e88e-447b-ae17-96d1786046e2"
+          },
+          {
+            "id": 301,
+            "display_flags": 0,
+            "classifier_name": "Recognize paths (L1-Fkt)",
+            "node": "4037dfd8-7322-4f92-baff-b09701ff86f9",
+            "uuid": "e781cc4a-d3f1-4bdb-bee5-f6cb9ed72a82"
+          },
+          {
+            "id": 302,
+            "display_flags": 0,
+            "classifier_name": "Recognize objects to repair (L1-Fct)",
+            "node": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
+            "uuid": "d7cd1f97-b1d9-4d16-ac3e-a1429043a6bf"
+          },
+          {
+            "id": 303,
+            "display_flags": 0,
+            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "uuid": "ffc2fdd9-066a-4ee2-87e2-490e661c9e62"
+          },
+          {
+            "id": 304,
+            "display_flags": 0,
+            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "uuid": "1dc993e5-f5bb-412e-83cb-7d89cbf77b06"
+          },
+          {
+            "id": 305,
+            "display_flags": 0,
+            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "uuid": "eab23e26-1e9f-4266-8e3b-108451e07bc8"
+          },
+          {
+            "id": 306,
+            "display_flags": 0,
+            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "6726cbab-e20a-478e-bf6d-2ac496a389e0"
+          },
+          {
+            "id": 307,
+            "display_flags": 0,
+            "classifier_name": "Tools to repair",
+            "node": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
+            "uuid": "2e7980ed-64ae-4865-bc6e-21bd04d66b27"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 51,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "L1 Logical View",
+        "description": [
+                "This view maps the functions to a form.\n",
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Solution Strategy",
+        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "uuid": "0a061bdf-1c88-4f16-9a75-f73a0bc8ae42",
+        "diagramelements":
+        [
+          {
+            "id": 311,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "uuid": "a5823752-35f7-41c5-ac93-d1f78fcf601f"
+          },
+          {
+            "id": 312,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "uuid": "34d03598-69ef-48ea-a1a7-a185b9f63991"
+          },
+          {
+            "id": 313,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "8c0b6001-ccb1-416c-811b-55c2552e00f6"
+          },
+          {
+            "id": 314,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "uuid": "389f4dee-e393-4f37-ac3f-072041769ecb"
+          },
+          {
+            "id": 322,
+            "display_flags": 0,
+            "classifier_name": "Strategy planning (L1)",
+            "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+            "uuid": "075e95b1-23fc-4a9f-9c96-01f9826e33b4"
+          },
+          {
+            "id": 323,
+            "display_flags": 0,
+            "classifier_name": "Tactic execution (L1)",
+            "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+            "uuid": "6479c3cd-e93b-46a2-aeae-276d1364153e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 52,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "L1 Physical View",
+        "description": [
+                "This view maps the logical form to physical artifacts.\n",
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "Solution Strategy",
+        "parent": "87b93eda-a594-4656-b78b-0f96c7c1c1be",
+        "uuid": "61265c3f-d931-47ca-8986-0a6b52a666ab",
+        "diagramelements":
+        [
+          {
+            "id": 315,
+            "display_flags": 0,
+            "classifier_name": "Electrical Parts and Electronics",
+            "node": "c1419268-c407-4e91-a9de-386c65b7459b",
+            "uuid": "83555e5f-5a30-4b74-974a-aec1ef69fad0"
+          },
+          {
+            "id": 320,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "a7ef67f8-7d70-44e0-bd3d-d8c77a2780c2"
+          },
+          {
+            "id": 321,
+            "display_flags": 0,
+            "classifier_name": "Main Logic Board",
+            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+            "uuid": "8b2a00ce-cb47-44c5-8361-95f65e0170e4"
+          },
+          {
+            "id": 324,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Tactic execution (L1)",
+            "node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+            "uuid": "a3e3e8c7-9471-4344-8155-1812b7a6795e"
+          },
+          {
+            "id": 325,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Strategy planning (L1)",
+            "node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+            "uuid": "1a5ef1cf-8cf1-4f1f-a11d-bd8f309446da"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 6,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
@@ -388,7 +601,7 @@
         "id": 14,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "Mechanics",
+        "name": "L2 Mechanics",
         "description": [
                 "This section shows the mechanical parts of the MoD5G system (Solution Space, System Level L2)"
         ],
@@ -528,7 +741,7 @@
         "id": 18,
         "diagram_type": 4,
         "type": "SysMLBlockDefinitionDiagram",
-        "name": "Electric Parts and Electronics",
+        "name": "L2 Electric Parts and Electronics",
         "description": [
                 "This section shows the electric parts and electronics of the MoD5G system (Solution Space, System Level L2)"
         ],
@@ -645,7 +858,7 @@
         ],
         "list_order": 0,
         "display_flags": 0,
-        "parent_name": "Electric Parts and Electronics",
+        "parent_name": "L2 Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "6ebd18ba-a213-47c4-8759-dad84724b329",
         "diagramelements":
@@ -699,7 +912,7 @@
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Electric Parts and Electronics",
+        "parent_name": "L2 Electric Parts and Electronics",
         "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
         "uuid": "185ac87a-cd2a-4214-8d4e-3a619c182e59",
         "diagramelements":
@@ -747,7 +960,7 @@
         "id": 19,
         "diagram_type": 30,
         "type": "UMLDeploymentDiagram",
-        "name": "Software [subsystem]",
+        "name": "L2 Software [subsystem]",
         "description": [
                 "This diagram shows the virtual machines and specialized (non-versatile) execution environments (Solution Space, System Level L2)\n",
                 "\n",
@@ -829,7 +1042,7 @@
         ],
         "list_order": 32768,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6d06f859-47df-4b97-b724-b0715cdf17db",
         "diagramelements":
@@ -846,7 +1059,7 @@
             "id": 85,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Drive to Location",
+            "classifier_name": "Drive to location",
             "node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
             "uuid": "5bf69c4c-8957-476c-8b33-d6c5bbe2d52f"
           },
@@ -854,7 +1067,7 @@
             "id": 86,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "Use Tools",
+            "classifier_name": "Repair using tools",
             "node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
             "uuid": "3e63801e-c178-4eaf-ad74-03fef216fb5e"
           },
@@ -1011,7 +1224,7 @@
         ],
         "list_order": 49152,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "1ab8813b-9a68-4802-9d1b-9fd7848f1272",
         "diagramelements":
@@ -1044,7 +1257,7 @@
         ],
         "list_order": 98304,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "a8d88bf1-56a0-44e0-b9b2-4cd16263585d",
         "diagramelements":
@@ -1084,7 +1297,7 @@
         ],
         "list_order": 131072,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "16e1db70-8751-4a21-a6b2-aadbf2affa65",
         "diagramelements":
@@ -1139,7 +1352,7 @@
         ],
         "list_order": 163840,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b76e24bf-e4f6-4f5b-b377-54c921671283",
         "diagramelements":
@@ -1332,7 +1545,7 @@
         ],
         "list_order": 196608,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "64d98f20-0c99-4e7b-9e56-b074bc62d9e8",
         "diagramelements":
@@ -1527,7 +1740,7 @@
         ],
         "list_order": 245760,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "46914369-d7f3-41d9-90f9-7fe468f556f0",
         "diagramelements":
@@ -1627,7 +1840,7 @@
         ],
         "list_order": 262144,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "90ccb77d-8c35-4571-a1ae-085f332c19bf",
         "diagramelements":
@@ -1669,7 +1882,7 @@
         ],
         "list_order": 294912,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "6870f3b2-7681-4af9-931c-97cd8597f98c",
         "diagramelements":
@@ -1705,7 +1918,7 @@
         ],
         "list_order": 327680,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "b21e4349-6451-46c8-a44a-bf03154ba13e",
         "diagramelements":
@@ -1839,7 +2052,7 @@
         ],
         "list_order": 360448,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "2476d37a-3857-4f2a-90e5-f81511108236",
         "diagramelements":
@@ -1880,7 +2093,7 @@
         ],
         "list_order": 1610649598,
         "display_flags": 0,
-        "parent_name": "Software [subsystem]",
+        "parent_name": "L2 Software [subsystem]",
         "parent": "0bb7259e-4918-4a28-b8a3-f1ee2d0b0607",
         "uuid": "92c7183a-bc28-40f6-a2bd-e282015dea2b",
         "diagramelements":
@@ -2664,6 +2877,28 @@
             "classifier_name": "flag",
             "node": "86f4bde2-1367-45b0-9f63-60230cd088a3",
             "uuid": "6565c5bd-d0a0-4dbd-8dbb-a21e94cac347"
+          },
+          {
+            "id": 295,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "UML:Actor",
+            "node": "a40c7590-aee5-4ba4-ad33-5e7809f824eb",
+            "uuid": "4b61e839-7c24-49a9-8104-e1978d80641a"
+          },
+          {
+            "id": 296,
+            "display_flags": 0,
+            "classifier_name": "environment",
+            "node": "513e2c1c-cfa3-42e2-8260-c13177a8f48b",
+            "uuid": "e553e2b6-2864-4925-841a-646cbbbe88cd"
+          },
+          {
+            "id": 297,
+            "display_flags": 0,
+            "classifier_name": "env-img",
+            "node": "edff4c72-ece2-4ccb-9db4-279dbea3cc96",
+            "uuid": "e6c94838-715e-4277-aeb8-58c3b54de7d9"
           }
         ]
       }
@@ -2810,6 +3045,7 @@
         "id": 2,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "environment",
         "name": "Cosmic Rays",
         "description": [
                 "The droid shall ensure data and program integrity.\n",
@@ -2824,18 +3060,6 @@
         "uuid": "a165b404-76ec-4eec-a34b-9648249f774f",
         "features":
         [
-          {
-            "id": 30,
-            "main_type": 10,
-            "type": "Tag",
-            "key": "constraint",
-            "value": "environment",
-            "description": [
-                ""
-            ],
-            "list_order": 32768,
-            "uuid": "8690f1a3-60ea-44df-b869-7c481105d691"
-          }
         ]
       }
     },
@@ -2844,6 +3068,7 @@
         "id": 3,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "environment",
         "name": "Operating Temperatures",
         "description": [
                 "The droid shall be fully functional in the range 240K..360K,\n",
@@ -2887,7 +3112,7 @@
                 "The commander instructs the MoD5G on the mission to perform."
         ],
         "x_order": 1578856553,
-        "y_order": -474887197,
+        "y_order": 34386514,
         "list_order": -474887197,
         "uuid": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
         "features":
@@ -2901,7 +3126,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "goal",
-        "name": "Perform a 1-day Mission",
+        "name": "Perform a 1-day mission",
         "description": [
                 "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one terrestrial day.\n",
                 "\n",
@@ -2918,6 +3143,17 @@
         "uuid": "101916e8-de57-400a-bfa9-d97e8128a011",
         "features":
         [
+          {
+            "id": 34,
+            "main_type": 0,
+            "type": "Property",
+            "key": "post: MoD5G is at base location",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "1d7f1189-c0c5-40ac-9ec5-5deb11e6e43e"
+          }
         ]
       }
     },
@@ -2927,7 +3163,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "goal",
-        "name": "Drive to Location",
+        "name": "Drive to location",
         "description": [
                 "The mouse droid can explore its environment and calculate a route from its actual position to the target location.\n",
                 "\n",
@@ -2944,6 +3180,17 @@
         "uuid": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "features":
         [
+          {
+            "id": 32,
+            "main_type": 0,
+            "type": "Property",
+            "key": "pre: defined mission",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "0dc127b4-0c09-43d3-bcd7-9e04c2b909aa"
+          }
         ]
       }
     },
@@ -2953,7 +3200,7 @@
         "main_type": 101,
         "type": "UseCase",
         "stereotype": "goal",
-        "name": "Use Tools",
+        "name": "Repair using tools",
         "description": [
                 "The mouse droid has a couple of tools inside its chassis.\n",
                 "\n",
@@ -2965,8 +3212,8 @@
                 "\n",
                 "(see D0014#name)"
         ],
-        "x_order": 205870834,
-        "y_order": 34386514,
+        "x_order": 676128467,
+        "y_order": 146225752,
         "list_order": 34386514,
         "uuid": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "features":
@@ -3621,7 +3868,7 @@
                 ""
         ],
         "x_order": -1044323579,
-        "y_order": -1168769568,
+        "y_order": -1412570674,
         "list_order": -1054051627,
         "uuid": "fb814893-cb03-454a-96aa-6ae8c313096d",
         "features":
@@ -3674,8 +3921,8 @@
         "description": [
                 "A fan prevents overheating in hot environment conditions."
         ],
-        "x_order": -1044323579,
-        "y_order": -1412570674,
+        "x_order": -855507639,
+        "y_order": -1053978658,
         "list_order": -1051813110,
         "uuid": "5e00054a-23a4-4e74-8029-628d165a7c3d",
         "features":
@@ -3692,7 +3939,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1127544510,
+        "x_order": -1044323579,
         "y_order": -1053978658,
         "list_order": -1053978658,
         "uuid": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
@@ -3711,8 +3958,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1127544510,
-        "y_order": -1412570674,
+        "x_order": -1130653626,
+        "y_order": -1137259057,
         "list_order": -1053965549,
         "uuid": "fb66c906-d06a-4518-8701-229af4169a30",
         "features":
@@ -3730,7 +3977,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1130598988,
+        "x_order": -1130653626,
         "y_order": -1412570674,
         "list_order": -1054017037,
         "uuid": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
@@ -3749,7 +3996,7 @@
                 ""
         ],
         "x_order": -1130653626,
-        "y_order": -1054017037,
+        "y_order": -1081426715,
         "list_order": -1053973790,
         "uuid": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
         "features":
@@ -3766,7 +4013,7 @@
         "description": [
                 ""
         ],
-        "x_order": -855507639,
+        "x_order": -1042125167,
         "y_order": -1053978658,
         "list_order": -1054003895,
         "uuid": "4247b2e1-f3da-4356-81c5-160af47f3e11",
@@ -3784,7 +4031,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1042125167,
+        "x_order": -855793269,
         "y_order": -1053978658,
         "list_order": -1053968664,
         "uuid": "c066d6a7-1959-4300-9aad-a75cb496da36",
@@ -3802,8 +4049,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1130598988,
-        "y_order": -1054017037,
+        "x_order": -858822106,
+        "y_order": -1053978658,
         "list_order": -1054007896,
         "uuid": "a4d4ef8c-8379-4048-820d-37c61d72894e",
         "features":
@@ -3835,7 +4082,7 @@
             "description": [
                 ""
             ],
-            "list_order": 442719271,
+            "list_order": 523433152,
             "uuid": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9"
           },
           {
@@ -3847,7 +4094,7 @@
             "description": [
                 ""
             ],
-            "list_order": 959276956,
+            "list_order": -534726015,
             "uuid": "168231f5-4ca5-4ae2-92a1-96da722d4bdd"
           },
           {
@@ -3902,7 +4149,7 @@
         "description": [
                 "Power Management Integrated Circuit"
         ],
-        "x_order": -1043583391,
+        "x_order": -855793269,
         "y_order": -1081426715,
         "list_order": -1133597166,
         "uuid": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
@@ -3945,7 +4192,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1532923889,
+            "list_order": 1230957002,
             "uuid": "001ecb64-b47f-4387-b256-2f50e99c203c"
           },
           {
@@ -3957,7 +4204,7 @@
             "description": [
                 ""
             ],
-            "list_order": 106115460,
+            "list_order": 889345449,
             "uuid": "0c7cc002-e769-4914-ac08-cb08a480273b"
           },
           {
@@ -3969,7 +4216,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1915709895,
+            "list_order": 1636059470,
             "uuid": "e4cc1e9e-becc-4254-b397-fd8a4858ba73"
           },
           {
@@ -3980,7 +4227,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1175609340,
+            "list_order": 1958407483,
             "uuid": "fa28faf1-8994-4707-ac83-e9eb11910ccd"
           },
           {
@@ -4048,7 +4295,7 @@
         "description": [
                 "A tool that allows to grab objects and move them."
         ],
-        "x_order": -1127544510,
+        "x_order": -1042125167,
         "y_order": -1168769568,
         "list_order": -1058861716,
         "uuid": "a28d75e1-1447-462b-95f9-9093d65419e7",
@@ -4068,7 +4315,7 @@
                 "It can be opened and closed by a motor."
         ],
         "x_order": -1044323579,
-        "y_order": -1054017037,
+        "y_order": -1137259057,
         "list_order": -1161718484,
         "uuid": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "features":
@@ -5867,6 +6114,7 @@
         "id": 144,
         "main_type": 124,
         "type": "Package",
+        "stereotype": "environment",
         "name": "Environmental Constraints",
         "description": [
                 "This package lists technical/physical constraints imposed by the environment in which to operate."
@@ -5919,8 +6167,8 @@
                 "The skeleton frame provides stability to the assembly of parts.\n",
                 "Anchorage points latch the assembled parts at their positions."
         ],
-        "x_order": -1044323579,
-        "y_order": -1053978658,
+        "x_order": -1042125167,
+        "y_order": -1412570674,
         "list_order": -1427757613,
         "uuid": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
         "features":
@@ -5996,7 +6244,7 @@
         "description": [
                 "The MoDG5 shall bring the screw driver into a given 3D position."
         ],
-        "x_order": -903871926,
+        "x_order": 481944194,
         "y_order": 898896125,
         "list_order": 898896125,
         "uuid": "62045894-795a-4a7d-bea6-5cd5b733317f",
@@ -6491,6 +6739,389 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 174,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "Metaclass",
+        "name": "UML:Actor",
+        "description": [
+                ""
+        ],
+        "x_order": 1539430211,
+        "y_order": -1738517685,
+        "list_order": -1738517685,
+        "uuid": "a40c7590-aee5-4ba4-ad33-5e7809f824eb",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 175,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "environment",
+        "description": [
+                "<path fill=\"#eeff88\" d=\"\n",
+                "M 1,0\n",
+                "C 1,0.55 0.55,1 0,1\n",
+                "C -0.55,1 -1,0.55, -1,0\n",
+                "C -1,-0.55 -0.55,-1 0,-1\n",
+                "C 0.55,-1, 1,-0.55, 1,0\n",
+                "\"/>\n",
+                "<path d=\"\n",
+                "M 2,0 L 4,0\n",
+                "M 1.73,1 L 3.46,2 \n",
+                "M 1,1.72 L 2,3.46\n",
+                "M 0,2 L 0,4\n",
+                "M -1,1.72 L -2,3.46\n",
+                "M -1.73,1 L -3.46,2 \n",
+                "M -2,0 L -4,0\n",
+                "M -1.73,-1 L -3.46,-2 \n",
+                "M -1,-1.72 L -2,-3.46\n",
+                "M 0,-2 L 0,-4\n",
+                "M 1,-1.72 L 2,-3.46\n",
+                "M 1.73,-1 L 3.46,-2 \n",
+                "\"/>\n",
+                ""
+        ],
+        "x_order": 1539430211,
+        "y_order": -481737125,
+        "list_order": -481737125,
+        "uuid": "513e2c1c-cfa3-42e2-8260-c13177a8f48b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 176,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "environment",
+        "name": "env-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1510836225,
+        "y_order": -481737125,
+        "list_order": -481737125,
+        "uuid": "edff4c72-ece2-4ccb-9db4-279dbea3cc96",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 177,
+        "main_type": 101,
+        "type": "UseCase",
+        "stereotype": "goal",
+        "name": "Return to base location",
+        "description": [
+                "see D0013#name."
+        ],
+        "x_order": 147603683,
+        "y_order": 372821632,
+        "list_order": 30149766,
+        "uuid": "e4c2a555-0632-4446-9c41-576e182f7e08",
+        "features":
+        [
+          {
+            "id": 33,
+            "main_type": 0,
+            "type": "Property",
+            "key": "post: MoD5G is at base location",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "b0db4ac3-b29b-4d11-a883-66634c97b733"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 178,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "device",
+        "name": "Motors to move the MoD5G (L1-Fct)",
+        "description": [
+                ""
+        ],
+        "x_order": -1680233828,
+        "y_order": -1335545141,
+        "list_order": -1335545141,
+        "uuid": "3233e365-0b41-4e34-9b0b-0f9af2269820",
+        "features":
+        [
+          {
+            "id": 41,
+            "main_type": 6,
+            "type": "Port",
+            "key": "ctrl",
+            "description": [
+                ""
+            ],
+            "list_order": -897996200,
+            "uuid": "ce62d2c3-c8b1-4018-8daf-916c64a1d085"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 179,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "device",
+        "name": "Recognize paths (L1-Fkt)",
+        "description": [
+                ""
+        ],
+        "x_order": -1680233828,
+        "y_order": -1827732092,
+        "list_order": -1827732092,
+        "uuid": "4037dfd8-7322-4f92-baff-b09701ff86f9",
+        "features":
+        [
+          {
+            "id": 35,
+            "main_type": 7,
+            "type": "Port",
+            "key": "paths",
+            "description": [
+                ""
+            ],
+            "list_order": -991714663,
+            "uuid": "457cfe4e-a7eb-467c-a92e-af809334591f"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 180,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "device",
+        "name": "Recognize objects to repair (L1-Fct)",
+        "description": [
+                ""
+        ],
+        "x_order": 1547156011,
+        "y_order": -1827732092,
+        "list_order": -1335545141,
+        "uuid": "9fc49bdb-eb69-4e66-9625-316d763c4e1f",
+        "features":
+        [
+          {
+            "id": 37,
+            "main_type": 7,
+            "type": "Port",
+            "key": "objects",
+            "description": [
+                ""
+            ],
+            "list_order": -328972753,
+            "uuid": "d6a693e9-55e4-4cc9-9865-9e81b87942dd"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 181,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "role",
+        "name": "Plan movement strategy (L1-Fct)",
+        "description": [
+                ""
+        ],
+        "x_order": -1254427654,
+        "y_order": -1827732092,
+        "list_order": -1827732092,
+        "uuid": "55b579a4-2727-4027-b366-a74a871c92b9",
+        "features":
+        [
+          {
+            "id": 36,
+            "main_type": 6,
+            "type": "Port",
+            "key": "paths",
+            "description": [
+                ""
+            ],
+            "list_order": -131333138,
+            "uuid": "0217c6e6-45af-4fd6-8178-aa2ec084ac4e"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 182,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "role",
+        "name": "Plan repair strategy (L1-Fct)",
+        "description": [
+                ""
+        ],
+        "x_order": 726008015,
+        "y_order": -1827732092,
+        "list_order": -1827732092,
+        "uuid": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+        "features":
+        [
+          {
+            "id": 38,
+            "main_type": 6,
+            "type": "Port",
+            "key": "objects",
+            "description": [
+                ""
+            ],
+            "list_order": -906922788,
+            "uuid": "932c6170-d7be-4029-a51d-4026d3520ecc"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 183,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "role",
+        "name": "Perform movement tactic (L1-Fct)",
+        "description": [
+                ""
+        ],
+        "x_order": -1254427654,
+        "y_order": -1602549089,
+        "list_order": -1602549089,
+        "uuid": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+        "features":
+        [
+          {
+            "id": 42,
+            "main_type": 7,
+            "type": "Port",
+            "key": "ctrl",
+            "description": [
+                ""
+            ],
+            "list_order": 948220085,
+            "uuid": "465e8534-ba80-467d-838e-bfc598b8b192"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 184,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "role",
+        "name": "Perform repair tactic (L1-Fct)",
+        "description": [
+                ""
+        ],
+        "x_order": 726008015,
+        "y_order": -1602549089,
+        "list_order": -1602549089,
+        "uuid": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+        "features":
+        [
+          {
+            "id": 39,
+            "main_type": 7,
+            "type": "Port",
+            "key": "ctrl",
+            "description": [
+                ""
+            ],
+            "list_order": -2062057862,
+            "uuid": "412eae12-077c-4483-b1e9-d63e73d4985a"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 185,
+        "main_type": 90,
+        "type": "Block",
+        "stereotype": "device",
+        "name": "Tools to repair",
+        "description": [
+                ""
+        ],
+        "x_order": 1547156011,
+        "y_order": -1335545141,
+        "list_order": -1335545141,
+        "uuid": "1fdec724-61e4-4d34-b41f-edc1d87e252f",
+        "features":
+        [
+          {
+            "id": 40,
+            "main_type": 6,
+            "type": "Port",
+            "key": "ctrl",
+            "description": [
+                ""
+            ],
+            "list_order": -250447945,
+            "uuid": "9ca8de70-0834-4e53-a7c6-08dd5ac2e0eb"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 186,
+        "main_type": 90,
+        "type": "Block",
+        "name": "Strategy planning (L1)",
+        "description": [
+                ""
+        ],
+        "x_order": 1835627669,
+        "y_order": -1886953723,
+        "list_order": -1886953723,
+        "uuid": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 187,
+        "main_type": 90,
+        "type": "Block",
+        "name": "Tactic execution (L1)",
+        "description": [
+                ""
+        ],
+        "x_order": 2001393748,
+        "y_order": -1886953723,
+        "list_order": -1753737764,
+        "uuid": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -6507,7 +7138,7 @@
         ],
         "list_order": 24715831,
         "from_classifier_name": "Mouse Droid MoD5G",
-        "to_classifier_name": "Perform a 1-day Mission",
+        "to_classifier_name": "Perform a 1-day mission",
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "uuid": "bc7db11e-92f0-429d-9e70-818f8cbb0299"
@@ -6524,7 +7155,7 @@
         ],
         "list_order": 34386514,
         "from_classifier_name": "Mouse Droid MoD5G",
-        "to_classifier_name": "Drive to Location",
+        "to_classifier_name": "Drive to location",
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "ac85bcdf-0c9c-44d4-969a-913e5c8ebb73"
@@ -6541,10 +7172,27 @@
         ],
         "list_order": 34386514,
         "from_classifier_name": "Mouse Droid MoD5G",
-        "to_classifier_name": "Use Tools",
+        "to_classifier_name": "Repair using tools",
         "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "bda8dbdf-98fa-43c3-b427-28111e312f0c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 283,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 30149766,
+        "from_classifier_name": "Mouse Droid MoD5G",
+        "to_classifier_name": "Return to base location",
+        "from_node": "2f61b86c-de26-478f-9ac1-b2e17dcce141",
+        "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+        "uuid": "db6c2a7c-bdb3-491d-aa87-2cb79180bff9"
       }
     },
     {
@@ -6558,7 +7206,7 @@
         ],
         "list_order": 24748599,
         "from_classifier_name": "Commander",
-        "to_classifier_name": "Perform a 1-day Mission",
+        "to_classifier_name": "Perform a 1-day mission",
         "from_node": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
         "to_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "uuid": "028fa4b9-5001-4b0b-8a80-2b68b2a865ab"
@@ -6569,13 +7217,13 @@
         "id": 5,
         "main_type": 261,
         "type": "Include",
-        "name": "",
+        "name": "1.)",
         "description": [
                 ""
         ],
         "list_order": 34419282,
-        "from_classifier_name": "Perform a 1-day Mission",
-        "to_classifier_name": "Drive to Location",
+        "from_classifier_name": "Perform a 1-day mission",
+        "to_classifier_name": "Drive to location",
         "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "ffd14d46-d17c-4bd4-a030-5c13f8872fb5"
@@ -6586,16 +7234,33 @@
         "id": 6,
         "main_type": 261,
         "type": "Include",
-        "name": "",
+        "name": "2.)",
         "description": [
                 ""
         ],
         "list_order": 34452050,
-        "from_classifier_name": "Perform a 1-day Mission",
-        "to_classifier_name": "Use Tools",
+        "from_classifier_name": "Perform a 1-day mission",
+        "to_classifier_name": "Repair using tools",
         "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "7b8ec957-56ad-4d32-89d4-b0ff06c298e7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 284,
+        "main_type": 261,
+        "type": "Include",
+        "name": "3.)",
+        "description": [
+                ""
+        ],
+        "list_order": 34484818,
+        "from_classifier_name": "Perform a 1-day mission",
+        "to_classifier_name": "Return to base location",
+        "from_node": "101916e8-de57-400a-bfa9-d97e8128a011",
+        "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+        "uuid": "c7c79f02-dd82-46a3-aa3e-8b21b68d42df"
       }
     },
     {
@@ -6608,7 +7273,7 @@
                 ""
         ],
         "list_order": 37910628,
-        "from_classifier_name": "Drive to Location",
+        "from_classifier_name": "Drive to location",
         "to_classifier_name": "Plan tasks",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
@@ -6625,7 +7290,7 @@
                 ""
         ],
         "list_order": 38074468,
-        "from_classifier_name": "Drive to Location",
+        "from_classifier_name": "Drive to location",
         "to_classifier_name": "Explore Environment",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
@@ -6642,7 +7307,7 @@
                 ""
         ],
         "list_order": 38107236,
-        "from_classifier_name": "Drive to Location",
+        "from_classifier_name": "Drive to location",
         "to_classifier_name": "Perform Movement",
         "from_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "to_node": "936fe58f-da28-4424-ab39-57acf1ca7066",
@@ -6659,7 +7324,7 @@
                 ""
         ],
         "list_order": 37877860,
-        "from_classifier_name": "Use Tools",
+        "from_classifier_name": "Repair using tools",
         "to_classifier_name": "Plan tasks",
         "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
@@ -6676,7 +7341,7 @@
                 ""
         ],
         "list_order": 38041700,
-        "from_classifier_name": "Use Tools",
+        "from_classifier_name": "Repair using tools",
         "to_classifier_name": "Steer motors of tools",
         "from_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "to_node": "5abd446d-1efc-4dec-833b-d1e65ba0e661",
@@ -8172,6 +8837,23 @@
     },
     {
       "relationship": {
+        "id": 296,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "Main Logic Board",
+        "to_classifier_name": "Strategy planning (L1)",
+        "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+        "to_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "uuid": "97b05956-73ad-470a-8f9a-659b48d88f91"
+      }
+    },
+    {
+      "relationship": {
         "id": 49,
         "main_type": 300,
         "type": "Association",
@@ -8289,6 +8971,23 @@
         "from_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
         "to_node": "b2533db8-6881-4300-a224-3f8a5724481a",
         "uuid": "d7c66b64-caf8-4ebb-92ed-48048b064385"
+      }
+    },
+    {
+      "relationship": {
+        "id": 297,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "Base Logic Board",
+        "to_classifier_name": "Tactic execution (L1)",
+        "from_node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+        "to_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "uuid": "2048e4be-3705-4899-86ac-b566f2391b62"
       }
     },
     {
@@ -10350,10 +11049,27 @@
         ],
         "list_order": 32768,
         "from_classifier_name": "L1Req: Recognize paths",
-        "to_classifier_name": "Drive to Location",
+        "to_classifier_name": "Drive to location",
         "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
         "to_node": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "uuid": "b9891529-89d9-4aa9-9c26-3f32d80fc132"
+      }
+    },
+    {
+      "relationship": {
+        "id": 285,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "L1Req: Recognize paths",
+        "to_classifier_name": "Return to base location",
+        "from_node": "5c702e2a-c5fc-460c-a92e-fa145ed90d28",
+        "to_node": "e4c2a555-0632-4446-9c41-576e182f7e08",
+        "uuid": "ba0553c5-9971-4a2b-aed3-71b3d94596ab"
       }
     },
     {
@@ -10367,7 +11083,7 @@
         ],
         "list_order": 65536,
         "from_classifier_name": "L1Req: Position screw driver",
-        "to_classifier_name": "Use Tools",
+        "to_classifier_name": "Repair using tools",
         "from_node": "62045894-795a-4a7d-bea6-5cd5b733317f",
         "to_node": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "uuid": "ff4c421b-3f79-4cae-8217-19284a6649c4"
@@ -10734,6 +11450,218 @@
         "from_node": "cb8b0ab1-9a22-4167-80ac-7fa9332a9fe4",
         "to_node": "86f4bde2-1367-45b0-9f63-60230cd088a3",
         "uuid": "510ac168-8c3f-43db-b2db-7119e63b7afa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 281,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "environment",
+        "to_classifier_name": "UML:Actor",
+        "from_node": "513e2c1c-cfa3-42e2-8260-c13177a8f48b",
+        "to_node": "a40c7590-aee5-4ba4-ad33-5e7809f824eb",
+        "uuid": "e81d0ff6-f8ae-4415-8705-85f73de8348e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 282,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "environment",
+        "to_classifier_name": "env-img",
+        "from_node": "513e2c1c-cfa3-42e2-8260-c13177a8f48b",
+        "to_node": "edff4c72-ece2-4ccb-9db4-279dbea3cc96",
+        "uuid": "ead0253b-1998-41ed-8244-4acfb7842a48"
+      }
+    },
+    {
+      "relationship": {
+        "id": 286,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Recognize paths (L1-Fkt)",
+        "from_feature_key": "paths",
+        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "to_feature_key": "paths",
+        "from_node": "457cfe4e-a7eb-467c-a92e-af809334591f",
+        "to_node": "0217c6e6-45af-4fd6-8178-aa2ec084ac4e",
+        "uuid": "a05b6b55-c63b-4ecc-9ed3-0091ff6ed891"
+      }
+    },
+    {
+      "relationship": {
+        "id": 287,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Recognize objects to repair (L1-Fct)",
+        "from_feature_key": "objects",
+        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "to_feature_key": "objects",
+        "from_node": "d6a693e9-55e4-4cc9-9865-9e81b87942dd",
+        "to_node": "932c6170-d7be-4029-a51d-4026d3520ecc",
+        "uuid": "d5e2143e-4c29-4641-a62a-e37e8a9bc776"
+      }
+    },
+    {
+      "relationship": {
+        "id": 288,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Plan movement strategy (L1-Fct)",
+        "to_classifier_name": "Perform movement tactic (L1-Fct)",
+        "from_node": "55b579a4-2727-4027-b366-a74a871c92b9",
+        "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+        "uuid": "5c7beb9a-1554-46ab-8cf7-ac0fe0011a2c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 289,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Plan repair strategy (L1-Fct)",
+        "to_classifier_name": "Perform repair tactic (L1-Fct)",
+        "from_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+        "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+        "uuid": "daf7aeb8-d527-4933-81b3-2200c256d98d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 290,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Perform movement tactic (L1-Fct)",
+        "from_feature_key": "ctrl",
+        "to_classifier_name": "Motors to move the MoD5G (L1-Fct)",
+        "to_feature_key": "ctrl",
+        "from_node": "465e8534-ba80-467d-838e-bfc598b8b192",
+        "to_node": "ce62d2c3-c8b1-4018-8daf-916c64a1d085",
+        "uuid": "e8483bd4-d3f9-4059-97d9-f32e91ebe089"
+      }
+    },
+    {
+      "relationship": {
+        "id": 291,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Perform repair tactic (L1-Fct)",
+        "from_feature_key": "ctrl",
+        "to_classifier_name": "Tools to repair",
+        "to_feature_key": "ctrl",
+        "from_node": "412eae12-077c-4483-b1e9-d63e73d4985a",
+        "to_node": "9ca8de70-0834-4e53-a7c6-08dd5ac2e0eb",
+        "uuid": "a6823b0d-10bd-4c2e-8b5c-fee6c8512157"
+      }
+    },
+    {
+      "relationship": {
+        "id": 292,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Strategy planning (L1)",
+        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
+        "uuid": "e8411628-810a-4dcc-903a-3cb98a7237fb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 293,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Strategy planning (L1)",
+        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "from_node": "189778eb-1c9f-41ec-807d-610fa6566b20",
+        "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+        "uuid": "41653eca-df57-4bb0-8060-81590942fa12"
+      }
+    },
+    {
+      "relationship": {
+        "id": 294,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Tactic execution (L1)",
+        "to_classifier_name": "Perform movement tactic (L1-Fct)",
+        "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+        "uuid": "3649e486-6ee2-4207-8c63-f66ed13a90e6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 295,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "Tactic execution (L1)",
+        "to_classifier_name": "Perform repair tactic (L1-Fct)",
+        "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
+        "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+        "uuid": "66eeb5c2-c638-4426-9cb4-f987c09923cb"
       }
     }
   ]
