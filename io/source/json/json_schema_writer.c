@@ -1,18 +1,31 @@
 /* File: json_schema_writer.c; Copyright and License: see below */
 
 #include "json/json_schema_writer.h"
+#include "json/json_constants.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
-#include "u8/u8_log.h"
-#include <stdbool.h>
+//#include "u8/u8_log.h"
+//#include <stdbool.h>
 #include <assert.h>
 
 /* IO_FILE_FORMAT_SCHEMA */
 
 static const char SCHEMA_ALL[]
 ="{\n"
-"    \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n"
-"    \"$id\": \"https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json\"\n"
+"  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n"
+"  \"$id\": \"https://localhost/1d0f422c-9c68-4fe4-a295-87bc8e8d080d/crystal-facet-uml.schema.json\",\n"
+"  \"title\": \"crystal-facet-uml model\",\n"
+"  \"description\": \"defines the structure of json objects to store a uml/sysml model\",\n"
+"  \"type\": \"object\",\n"
+"  \"required\": [\"" JSON_CONSTANTS_KEY_HEAD "\"],\n"
+"  \"properties\":\n"
+"  {\n"
+"    \"" JSON_CONSTANTS_KEY_HEAD "\":\n"
+"    {\n"
+"      \"description\": \"defines properties of the json file\",\n"
+"      \"type\": \"object\"\n"
+"    }\n"
+"  }\n"
 "}\n";
 
 void json_schema_writer_init ( json_schema_writer_t *this_,
