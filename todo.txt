@@ -42,7 +42,6 @@ ideas for future versions:
   [ ] json export declares "type": "ActivityFinalNode" even if type is state-final
   [ ] json export declares "type": "DecisionNode" even if type is ChoiceNode (statemachine)
   [ ] json export: determining if statemachine_context - is a good guess but not 100% correct
-  [ ] json export: create a schema that can be verified by e.g. kwalify, jsonlint or similar ...
   [ ] add test case for opening non-cfuJ files
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.

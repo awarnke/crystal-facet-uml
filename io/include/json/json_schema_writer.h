@@ -10,12 +10,13 @@
  */
 
 #include "u8stream/universal_output_stream.h"
+#include "utf8stream/utf8stream_writer.h"
 
 /*!
  *  \brief attributes of the json schema writer
  */
 struct json_schema_writer_struct {
-    universal_output_stream_t *output;  /*!< reference to a universal_output_stream_t */
+    utf8stream_writer_t writer;  /*!< an own universal_output_stream_t, wrapping the *output */
 };
 
 typedef struct json_schema_writer_struct json_schema_writer_t;
@@ -26,9 +27,7 @@ typedef struct json_schema_writer_struct json_schema_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param output output stream where to write the generated output to
  */
-void json_schema_writer_init( json_schema_writer_t *this_,
-                              universal_output_stream_t *output
-                            );
+void json_schema_writer_init( json_schema_writer_t *this_, universal_output_stream_t *output );
 
 /*!
  *  \brief destroys the json schema writer
@@ -44,6 +43,36 @@ void json_schema_writer_destroy( json_schema_writer_t *this_ );
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ );
+
+/*!
+ *  \brief writes a json member declaration of type number
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent indentation of the member declaration in the json schema file
+ *  \param name name of the member to declare
+ *  \param description description of the member
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t json_schema_writer_declare_number( json_schema_writer_t *this_,
+                                              const char* indent,
+                                              const char* name,
+                                              const char* description
+                                            );
+
+/*!
+ *  \brief writes a json member declaration of type string
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent indentation of the member declaration in the json schema file
+ *  \param name name of the member to declare
+ *  \param description description of the member
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t json_schema_writer_declare_string( json_schema_writer_t *this_,
+                                              const char* indent,
+                                              const char* name,
+                                              const char* description
+                                            );
 
 #endif  /* JSON_SCHEMA_WRITER_H */
 
