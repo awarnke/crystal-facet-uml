@@ -54,14 +54,14 @@
 
 #define JSON_CONSTANTS_KEY_DIAGRAM "diagram"
 #define JSON_CONSTANTS_KEY_DIAGRAM_ID "id"
-/* deprecated: */
+/* deprecated: parent_id */
 #define JSON_CONSTANTS_KEY_DIAGRAM_PARENT_ID "parent_id"
 #define JSON_CONSTANTS_KEY_DIAGRAM_PARENT_NAME "parent_name"
 /* parent is the uuid of the parent diagram (if not root) */
 #define JSON_CONSTANTS_KEY_DIAGRAM_PARENT "parent"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE "diagram_type"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME "type"
-/* new in 1.43.0: stereotype */
+/* new in 1.43.0/1.47.0: stereotype */
 #define JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE "stereotype"
 #define JSON_CONSTANTS_KEY_DIAGRAM_NAME "name"
 #define JSON_CONSTANTS_KEY_DIAGRAM_DESCRIPTION "description"
@@ -71,11 +71,12 @@
 #define JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS "diagramelements"
 
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_ID "id"
+/* deprecated: diagram_id */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DIAGRAM_ID "diagram_id"
-/* deprecated: */
+/* deprecated: classifier_id */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_ID "classifier_id"
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_CLASSIFIER_NAME "classifier_name"
-/* deprecated: */
+/* deprecated: focused_feature_id */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_ID "focused_feature_id"
 /* unused because always empty: */
 #define JSON_CONSTANTS_KEY_DIAGRAMELEMENT_FOCUSED_FEATURE_NAME "focused_feature_name"
@@ -106,25 +107,25 @@
 
 #define JSON_CONSTANTS_KEY_RELATIONSHIP "relationship"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_ID "id"
-/* deprecated: */
+/* deprecated: from_classifier_id */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID "from_classifier_id"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME "from_classifier_name"
-/* deprecated: */
+/* deprecated: from_feature_id */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID "from_feature_id"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY "from_feature_key"
 /* from_node is the uuid of either the from_classifier or (if defined) the from_feature */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE "from_node"
-/* deprecated: */
+/* deprecated: to_classifier_id */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID "to_classifier_id"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME "to_classifier_name"
-/* deprecated: */
+/* deprecated: to_feature_id */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID "to_feature_id"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY "to_feature_key"
 /* to_node is the uuid of either the to_classifier or (if defined) the to_feature */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE "to_node"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE "main_type"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME "type"
-/* new in 1.43.0: stereotype */
+/* new in 1.43.0/1.47.0: stereotype */
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE "stereotype"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_NAME "name"
 #define JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION "description"

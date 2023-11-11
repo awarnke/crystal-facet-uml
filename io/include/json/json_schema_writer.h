@@ -48,31 +48,54 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ );
  *  \brief writes a json member declaration of type number
  *
  *  \param this_ pointer to own object attributes
- *  \param indent indentation of the member declaration in the json schema file
+ *  \param indent indentation level: 7 and 10 are supported
  *  \param name name of the member to declare
  *  \param description description of the member
+ *  \param has_next true if the member declaration shall end with a comma to allow a next member declaration
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t json_schema_writer_declare_number( json_schema_writer_t *this_,
-                                              const char* indent,
-                                              const char* name,
-                                              const char* description
-                                            );
+u8_error_t json_schema_writer_private_declare_number( json_schema_writer_t *this_,
+                                                      unsigned int indent,
+                                                      const char* name,
+                                                      const char* description,
+                                                      bool has_next
+                                                    );
 
 /*!
  *  \brief writes a json member declaration of type string
  *
  *  \param this_ pointer to own object attributes
- *  \param indent indentation of the member declaration in the json schema file
+ *  \param indent indentation level: 7 and 10 are supported
  *  \param name name of the member to declare
  *  \param description description of the member
+ *  \param has_next true if the member declaration shall end with a comma to allow a next member declaration
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t json_schema_writer_declare_string( json_schema_writer_t *this_,
-                                              const char* indent,
-                                              const char* name,
-                                              const char* description
-                                            );
+u8_error_t json_schema_writer_private_declare_string( json_schema_writer_t *this_,
+                                                      unsigned int indent,
+                                                      const char* name,
+                                                      const char* description,
+                                                      bool has_next
+                                                    );
+
+/*!
+ *  \brief writes a json member declaration of type array of strings
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent indentation level: 7 and 10 are supported
+ *  \param name name of the member to declare
+ *  \param description description of the member
+ *  \param element_description description of the array element
+ *  \param has_next true if the member declaration shall end with a comma to allow a next member declaration
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_writer_t *this_,
+                                                               unsigned int indent,
+                                                               const char* name,
+                                                               const char* description,
+                                                               const char* element_description,
+                                                               bool has_next
+                                                             );
 
 #endif  /* JSON_SCHEMA_WRITER_H */
 
