@@ -38,7 +38,8 @@ struct xhtml_element_writer_struct {
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
 
     io_file_format_t export_type;  /*!< format of output document */
-    uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, increases with every call to xhtml_element_writer_start_diagram */
+    uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, */
+                                  /*!< increases with every call to xhtml_element_writer_start_diagram() */
 
     txt_writer_t txt_writer;  /*!< own instance of a txt writer */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */

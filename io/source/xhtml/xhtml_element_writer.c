@@ -111,7 +111,8 @@ static const char XHTML_DOC_START[]
     = "\n<html xmlns=\"http://www.w3.org/1999/xhtml\">";
 static const char XHTML_HEAD_START[]
     = "\n<head>"
-      "\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
+      "\n    <meta charset=\"utf-8\" />";
+      /* "\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"; < old */
 static const char XHTML_HEAD_TITLE_START[]
     = "\n<title>";
 static const char XHTML_HEAD_TITLE_END[]
@@ -581,8 +582,8 @@ u8_error_t xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ 
 }
 
 u8_error_t xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
-                                           data_classifier_type_t host_type,
-                                           const data_classifier_t *classifier_ptr )
+                                                  data_classifier_type_t host_type,
+                                                  const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -629,8 +630,8 @@ u8_error_t xhtml_element_writer_start_classifier( xhtml_element_writer_t *this_,
 }
 
 u8_error_t xhtml_element_writer_assemble_classifier( xhtml_element_writer_t *this_,
-                                              data_classifier_type_t host_type,
-                                              const data_classifier_t *classifier_ptr )
+                                                     data_classifier_type_t host_type,
+                                                     const data_classifier_t *classifier_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -771,8 +772,8 @@ u8_error_t xhtml_element_writer_end_classifier( xhtml_element_writer_t *this_,
 }
 
 u8_error_t xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
-                                        data_classifier_type_t parent_type,
-                                        const data_feature_t *feature_ptr)
+                                               data_classifier_type_t parent_type,
+                                               const data_feature_t *feature_ptr)
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
@@ -782,8 +783,8 @@ u8_error_t xhtml_element_writer_start_feature( xhtml_element_writer_t *this_,
 }
 
 u8_error_t xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
-                                           const data_classifier_t *parent,
-                                           const data_feature_t *feature_ptr )
+                                                  const data_classifier_t *parent,
+                                                  const data_feature_t *feature_ptr )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != feature_ptr );
@@ -902,8 +903,8 @@ u8_error_t xhtml_element_writer_assemble_feature( xhtml_element_writer_t *this_,
 }
 
 u8_error_t xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
-                                      data_classifier_type_t parent_type,
-                                      const data_feature_t *feature_ptr)
+                                             data_classifier_type_t parent_type,
+                                             const data_feature_t *feature_ptr)
 {
     U8_TRACE_BEGIN();
     assert( feature_ptr != NULL );
@@ -913,8 +914,8 @@ u8_error_t xhtml_element_writer_end_feature( xhtml_element_writer_t *this_,
 }
 
 u8_error_t xhtml_element_writer_start_relationship( xhtml_element_writer_t *this_,
-                                             data_classifier_type_t host_type,
-                                             const data_relationship_t *relation_ptr)
+                                                    data_classifier_type_t host_type,
+                                                    const data_relationship_t *relation_ptr)
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
@@ -924,12 +925,12 @@ u8_error_t xhtml_element_writer_start_relationship( xhtml_element_writer_t *this
 }
 
 u8_error_t xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *this_,
-                                                const data_classifier_t *host,
-                                                const data_relationship_t *relation_ptr,
-                                                const data_classifier_t *from_c,
-                                                const data_feature_t *from_f,
-                                                const data_classifier_t *to_c,
-                                                const data_feature_t *to_f )
+                                                       const data_classifier_t *host,
+                                                       const data_relationship_t *relation_ptr,
+                                                       const data_classifier_t *from_c,
+                                                       const data_feature_t *from_f,
+                                                       const data_classifier_t *to_c,
+                                                       const data_feature_t *to_f )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != relation_ptr );
@@ -1063,8 +1064,8 @@ u8_error_t xhtml_element_writer_assemble_relationship( xhtml_element_writer_t *t
 }
 
 u8_error_t xhtml_element_writer_end_relationship( xhtml_element_writer_t *this_,
-                                           data_classifier_type_t host_type,
-                                           const data_relationship_t *relation_ptr)
+                                                  data_classifier_type_t host_type,
+                                                  const data_relationship_t *relation_ptr)
 {
     U8_TRACE_BEGIN();
     assert( relation_ptr != NULL );
@@ -1133,9 +1134,9 @@ u8_error_t xhtml_element_writer_start_diagram( xhtml_element_writer_t *this_, co
 }
 
 u8_error_t xhtml_element_writer_assemble_diagram( xhtml_element_writer_t *this_,
-                                           const data_diagram_t *parent,
-                                           const data_diagram_t *diag_ptr,
-                                           const char *diagram_file_base_name )
+                                                  const data_diagram_t *parent,
+                                                  const data_diagram_t *diag_ptr,
+                                                  const char *diagram_file_base_name )
 {
     U8_TRACE_BEGIN();
     /* parent may be NULL */
@@ -1268,8 +1269,8 @@ u8_error_t xhtml_element_writer_end_diagram( xhtml_element_writer_t *this_, cons
 }
 
 u8_error_t xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *this_,
-                                               const data_diagram_t *parent,
-                                               const data_diagramelement_t *diagramelement_ptr )
+                                                      const data_diagram_t *parent,
+                                                      const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
@@ -1281,10 +1282,10 @@ u8_error_t xhtml_element_writer_start_diagramelement( xhtml_element_writer_t *th
 }
 
 u8_error_t xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t *this_,
-                                                  const data_diagram_t *parent,
-                                                  const data_diagramelement_t *diagramelement_ptr,
-                                                  const data_classifier_t *occurrence,
-                                                  const data_feature_t *feat_occur )
+                                                         const data_diagram_t *parent,
+                                                         const data_diagramelement_t *diagramelement_ptr,
+                                                         const data_classifier_t *occurrence,
+                                                         const data_feature_t *feat_occur )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );
@@ -1298,8 +1299,8 @@ u8_error_t xhtml_element_writer_assemble_diagramelement( xhtml_element_writer_t 
 }
 
 u8_error_t xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this_,
-                                             const data_diagram_t *parent,
-                                             const data_diagramelement_t *diagramelement_ptr )
+                                                    const data_diagram_t *parent,
+                                                    const data_diagramelement_t *diagramelement_ptr )
 {
     U8_TRACE_BEGIN();
     assert( diagramelement_ptr != NULL );

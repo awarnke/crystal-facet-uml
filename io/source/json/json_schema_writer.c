@@ -214,7 +214,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
 
     static const char *const ANY_ID = "id is a proposal, may be changed automatically";
     static const char *const ANY_UUID = "uuid is an identifier, all letters must be lowercase";
-    static const char *const ANY_STEREO = "stereotype is invalid before 1.43.0, then ignored, used in 1.47.0";
+    static const char *const ANY_STEREO = "stereotype is available since version 1.47.0";
     static const char *const ANY_DESCR = "a part of the description (to be concatenated)";
     static const char *const ANY_ORDER
         = "a value between –2147483648 and 2147483647 by which to order elements in 1 or 2 dimensions";
@@ -234,6 +234,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE, D_DIAGTYPE_ID );
     static const char *const D_DIAGTYPE_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE " as string, exported for reviews by humans, ignored at import";
+    /* TODO: generate an enum listing all options */
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_DIAGRAM_TYPE_NAME, D_DIAGTYPE_NAME );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE, ANY_STEREO );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_NAME, "" );
@@ -243,6 +244,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS, D_FLAGS );
     static const char *const D_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
+    /* TODO: generate an enum listing all options */
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAG_NAMES, D_FLAG_NAME );
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, true /*elements follow*/ );
 
@@ -260,6 +262,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS, E_FLAGS );
     static const char *const E_FLAG_NAME
         = JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAGS " as string, exported for reviews by humans, ignored at import";
+    /* TODO: generate an enum listing all options */
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_DISPLAY_FLAG_NAMES, E_FLAG_NAME );
     static const char *const E_NODE = "the uuid of either the classifier or the feature (type lifeline only)";
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_DIAGRAMELEMENT_NODE, E_NODE, true );
@@ -276,8 +279,9 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE, C_TYPE_ID );
     static const char *const C_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ", exported for reviews by humans, ignored at import";
+    /* TODO: generate an enum listing all options */
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE_NAME, C_TYPE_NAME );
-    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE, ANY_STEREO );
+    export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE, "" );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_NAME, "" );
     export_err |= json_schema_writer_private_declare_array_of_string( this_, JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION, "", ANY_DESCR );
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_CLASSIFIER_X_ORDER, ANY_ORDER );
@@ -293,6 +297,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE, F_TYPE_ID );
     static const char *const F_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE ", exported for reviews by humans, ignored at import";
+    /* TODO: generate an enum listing all options */
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_FEATURE_MAIN_TYPE_NAME, F_TYPE_NAME );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_FEATURE_KEY, "name" );
     static const char *const F_VALUE = "valuetype in case of properties, value in case of tagges values, stereotype otherwise";
@@ -312,6 +317,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= json_schema_writer_private_declare_integer( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE, R_TYPE_ID );
     static const char *const R_TYPE_NAME
         = "name of " JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ", exported for reviews by humans, ignored at import";
+    /* TODO: generate an enum listing all options */
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE_NAME, R_TYPE_NAME );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_STEREOTYPE, ANY_STEREO );
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME, "" );
@@ -321,7 +327,7 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = "name of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE "/classifier, exported for reviews by humans, ignored at import";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME, E_FROM_NODE_C_NAME );
     static const char *const E_FROM_NODE_F_NAME
-        = "name(key) of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE "/feature if applicable, exported for reviews by humans, ignored at import";
+        = "key of " JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE "/feature if applicable, exported for reviews by humans, ignored at import";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY, E_FROM_NODE_F_NAME );
     static const char *const E_FROM_NODE = "the uuid of the source: either the classifier or the feature";
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE, E_FROM_NODE, true );
@@ -329,13 +335,11 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
         = "name of " JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE "/classifier, exported for reviews by humans, ignored at import";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME, E_TO_NODE_C_NAME );
     static const char *const E_TO_NODE_F_NAME
-        = "name(key) of " JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE "/feature if applicable, exported for reviews by humans, ignored at import";
+        = "key of " JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE "/feature if applicable, exported for reviews by humans, ignored at import";
     export_err |= json_schema_writer_private_declare_string( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY, E_TO_NODE_F_NAME );
     static const char *const E_TO_NODE = "the uuid of the destination: either the classifier or the feature";
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_NODE, E_TO_NODE, true );
     export_err |= json_schema_writer_private_declare_uuid( this_, JSON_CONSTANTS_KEY_UUID, ANY_UUID, false );
-
-
 
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_RELATIONSHIP_FOOTER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_FOOTER );
@@ -352,24 +356,25 @@ u8_error_t json_schema_writer_private_declare_integer( json_schema_writer_t *thi
     assert( name != NULL );
     assert( description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), name );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\":\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "{\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"description\": \"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), description );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"type\": \"number\"\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "},\n" );
 
     U8_TRACE_END_ERR( export_err );
@@ -384,24 +389,25 @@ u8_error_t json_schema_writer_private_declare_string( json_schema_writer_t *this
     assert( name != NULL );
     assert( description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), name );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\":\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "{\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"description\": \"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), description );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"type\": \"string\"\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "},\n" );
 
     U8_TRACE_END_ERR( export_err );
@@ -418,42 +424,43 @@ u8_error_t json_schema_writer_private_declare_array_of_string( json_schema_write
     assert( description != NULL );
     assert( element_description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7  );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent  );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), name );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\":\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "{\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"description\": \"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), description );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"type\": \"array\",\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"items\":\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  {\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "    \"description\": \"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), element_description );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "    \"type\": \"string\"\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  }\n" );
 
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "},\n");
 
     U8_TRACE_END_ERR( export_err );
@@ -469,24 +476,25 @@ u8_error_t json_schema_writer_private_declare_uuid( json_schema_writer_t *this_,
     assert( name != NULL );
     assert( description != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
+    const char *const indent = ((*this_).indent==10) ? INDENT_10 : INDENT_7;
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), name );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\":\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "{\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"description\": \"" );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), description );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "\",\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), "  \"type\": \"string\"\n" );
 
-    export_err |= utf8stream_writer_write_str( &((*this_).writer), ((*this_).indent==10) ? INDENT_10 : INDENT_7 );
+    export_err |= utf8stream_writer_write_str( &((*this_).writer), indent );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), has_next ? "},\n" : "}\n" );
 
     U8_TRACE_END_ERR( export_err );

@@ -538,9 +538,9 @@ const char* gui_sketch_object_creator_private_propose_classifier_name( gui_sketc
     static const char *(REQUIREMENT_NAMES[8])
         = {"New Reaction Time","New Startup Time","New Latency","New Resource Consumption","New Update","New Fault Tolerance","New Availability","New Hardware Abstraction"};
     static const char *const (ACTOR_NAMES[8])
-        = {"New Customer","New Database","New Service/Maintenance","New Operator","New Backend/Server","New Authorities","New Hacker/Cheater","New Peer/Client"};
+        = {"New Customer","New Database","New Service/Maintenance","New Operator","New Backend/Server","New Authorities","New Hacker","New Peer/Client"};
     static const char *const (USECASE_NAMES[8])
-        = {"New Get Status","New Perform Transaction","New SW Update","New Pay Order","New Deliver","New Debug","New Prove Eventlog","New Manage Rights"};
+        = {"New Get Status","New Perform Transaction","New SW Update","New Pay Order","New Deliver","New Debug","New Check Eventlog","New Manage Rights"};
     static const char *const (BOUNDARIES_NAMES[8])
         = {"New Controller SW","New Machine","New Backend","New Virtual Machine","New Security Module","New Terminal","New Smart Device","New PC"};
     static const char *const (ACTIVITY_NAMES[8])

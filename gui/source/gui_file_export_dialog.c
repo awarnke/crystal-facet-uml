@@ -46,7 +46,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     (*this_).format_latex = gtk_check_button_new_with_label ("latex");
     (*this_).format_rtf = gtk_check_button_new_with_label ("rtf");
     */
-    (*this_).format_xhtml = gtk_check_button_new_with_label ("xhtml");
+    (*this_).format_xhtml = gtk_check_button_new_with_label ("html");
     (*this_).format_xmi2 = gtk_check_button_new_with_label ("xmi");
     (*this_).format_json= gtk_check_button_new_with_label ("json");
 
