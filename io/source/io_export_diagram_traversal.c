@@ -43,8 +43,8 @@ void io_export_diagram_traversal_destroy( io_export_diagram_traversal_t *this_ )
 }
 
 u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagram_traversal_t *this_,
-                                                         data_id_t diagram_id,
-                                                         const char *diagram_file_base_name )
+                                                                data_id_t diagram_id,
+                                                                const char *diagram_file_base_name )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &diagram_id ) );
@@ -103,8 +103,7 @@ u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagra
     return write_err;
 }
 
-u8_error_t io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_,
-                                              data_id_t diagram_id )
+u8_error_t io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal_t *this_, data_id_t diagram_id )
 {
     U8_TRACE_BEGIN();
     assert( data_id_is_valid( &diagram_id ) );
@@ -134,7 +133,7 @@ u8_error_t io_export_diagram_traversal_end_diagram ( io_export_diagram_traversal
 }
 
 u8_error_t io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_export_diagram_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data )
+                                                                             const data_visible_set_t *diagram_data )
 {
     U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
@@ -224,8 +223,8 @@ u8_error_t io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_
 }
 
 u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_export_diagram_traversal_t *this_,
-                                                                      const data_visible_set_t *diagram_data,
-                                                                      data_id_t classifier_id )
+                                                                             const data_visible_set_t *diagram_data,
+                                                                             data_id_t classifier_id )
 {
     U8_TRACE_BEGIN();
     assert( diagram_data != NULL );
@@ -283,8 +282,8 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_
 }
 
 u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships ( io_export_diagram_traversal_t *this_,
-                                                                           const data_visible_set_t *diagram_data,
-                                                                           data_id_t from_classifier_id )
+                                                                                  const data_visible_set_t *diagram_data,
+                                                                                  data_id_t from_classifier_id )
 {
     U8_TRACE_BEGIN();
     assert( diagram_data != NULL );

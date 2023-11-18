@@ -126,6 +126,14 @@ bool xhtml_element_writer_can_classifier_nest_relationship( xhtml_element_writer
                                                           );
 
 /*!
+ *  \brief starts a table-of-contents section
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t xhtml_element_writer_start_toc ( xhtml_element_writer_t *this_ );
+
+/*!
  *  \brief starts a table-of-contents sublist
  *
  *  \param this_ pointer to own object attributes
@@ -151,7 +159,7 @@ u8_error_t xhtml_element_writer_start_toc_entry ( xhtml_element_writer_t *this_ 
 u8_error_t xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_, const data_diagram_t *diag_ptr );
 
 /*!
- *  \brief end a table-of-contents entry, consisting of an entry and an optional sublist
+ *  \brief ends a table-of-contents entry, consisting of an entry and an optional sublist
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success
@@ -159,12 +167,20 @@ u8_error_t xhtml_element_writer_write_toc_entry ( xhtml_element_writer_t *this_,
 u8_error_t xhtml_element_writer_end_toc_entry ( xhtml_element_writer_t *this_ );
 
 /*!
- *  \brief end a table-of-contents sublist
+ *  \brief ends a table-of-contents sublist
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ );
+
+/*!
+ *  \brief ends a table-of-contents section
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success
+ */
+u8_error_t xhtml_element_writer_end_toc ( xhtml_element_writer_t *this_ );
 
 /*!
  *  \brief writes a classifier start

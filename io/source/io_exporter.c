@@ -362,7 +362,7 @@ u8_error_t io_exporter_private_export_document_file( io_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, ".xhtml" );
+            utf8stringbuf_append_str( (*this_).temp_filename, ".html" );
         }
         break;
 
@@ -530,8 +530,19 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
                                             );
             /* write the document */
             export_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), document_title );
-            export_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
-            export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, io_export_stat );
+            export_err |= xhtml_element_writer_start_toc( &((*this_).temp_format_writer) );
+            export_err |= io_exporter_private_export_table_of_contents( this_,
+                                                                        DATA_ID_VOID,
+                                                                        IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH,
+                                                                        &((*this_).temp_format_writer)
+                                                                      );
+            export_err |= xhtml_element_writer_end_toc( &((*this_).temp_format_writer) );
+            export_err |= xhtml_element_writer_start_main( &((*this_).temp_format_writer), document_title );
+            export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID,
+                                                                    IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH,
+                                                                    io_export_stat
+                                                                  );
+            export_err |= xhtml_element_writer_end_main( &((*this_).temp_format_writer) );
             export_err |= xhtml_element_writer_write_footer( &((*this_).temp_format_writer) );
 
             io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );

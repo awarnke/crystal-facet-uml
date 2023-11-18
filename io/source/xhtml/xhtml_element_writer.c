@@ -125,6 +125,16 @@ static const char XHTML_HEAD_END[]
     = "\n</head>";
 static const char XHTML_BODY_START[]
     = "\n<body>";
+static const char XHTML_NAV_START[]
+    = "\n<nav>";
+static const char XHTML_NAV_END[]
+    = "\n</nav>";
+static const char XHTML_ARTICLE_START[]
+    = "\n<main>"
+      "\n<article>";
+static const char XHTML_ARTICLE_END[]
+    = "\n</article>"
+      "\n</main>";
 static const char XHTML_BODY_END[]
     = "\n</body>";
 static const char XHTML_DOC_END[]
@@ -414,9 +424,45 @@ u8_error_t xhtml_element_writer_start_main( xhtml_element_writer_t *this_, const
 {
     U8_TRACE_BEGIN();
     assert( document_title != NULL );
-    u8_error_t write_error = U8_ERROR_NONE;
-    U8_TRACE_END_ERR(write_error);
-    return write_error;
+    u8_error_t export_err = U8_ERROR_NONE;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_DOCBOOK:
+        {
+            /* no main start */
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            assert(false);  /* use the xmi_element_writer instead */
+        }
+        break;
+
+        case IO_FILE_FORMAT_XHTML:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ARTICLE_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+        }
+        break;
+
+        case IO_FILE_FORMAT_TXT:
+        {
+            /* no main start */
+        }
+        break;
+
+        default:
+        {
+            U8_LOG_ERROR("error: unknown_format.");
+            export_err = U8_ERROR_LOGIC_STATE;
+        }
+        break;
+    }
+
+    U8_TRACE_END_ERR(export_err);
+    return export_err;
 }
 
 bool xhtml_element_writer_can_classifier_nest_classifier( xhtml_element_writer_t *this_,
@@ -437,6 +483,31 @@ bool xhtml_element_writer_can_classifier_nest_relationship( xhtml_element_writer
     const bool can_nest = true;
     U8_TRACE_END();
     return can_nest;
+}
+
+u8_error_t xhtml_element_writer_start_toc ( xhtml_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t export_err = U8_ERROR_NONE;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XHTML:
+        {
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_NAV_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+        }
+        break;
+
+        default:
+        {
+            /* nothing to do, only xhtml provides a table of contents */
+        }
+        break;
+    }
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
 }
 
 u8_error_t xhtml_element_writer_start_toc_sublist ( xhtml_element_writer_t *this_ )
@@ -576,6 +647,31 @@ u8_error_t xhtml_element_writer_end_toc_sublist ( xhtml_element_writer_t *this_ 
 
     /* decrease tree depth */
     (*this_).current_tree_depth --;
+
+    U8_TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+u8_error_t xhtml_element_writer_end_toc ( xhtml_element_writer_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t export_err = U8_ERROR_NONE;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XHTML:
+        {
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_NAV_END );
+        }
+        break;
+
+        default:
+        {
+            /* nothing to do, only xhtml provides a table of contents */
+        }
+        break;
+    }
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -1314,10 +1410,45 @@ u8_error_t xhtml_element_writer_end_diagramelement( xhtml_element_writer_t *this
 u8_error_t xhtml_element_writer_end_main( xhtml_element_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
-    u8_error_t write_error = U8_ERROR_NONE;
+    u8_error_t export_err = U8_ERROR_NONE;
 
-    U8_TRACE_END_ERR(write_error);
-    return write_error;
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_DOCBOOK:
+        {
+            /* no main end */
+        }
+        break;
+
+        case IO_FILE_FORMAT_XMI2:
+        {
+            assert(false);  /* use the xmi_element_writer instead */
+        }
+        break;
+
+        case IO_FILE_FORMAT_XHTML:
+        {
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ARTICLE_END );
+        }
+        break;
+
+        case IO_FILE_FORMAT_TXT:
+        {
+            /* no main end */
+        }
+        break;
+
+        default:
+        {
+            U8_LOG_ERROR("error: unknown_format.");
+            export_err = U8_ERROR_LOGIC_STATE;
+        }
+        break;
+    }
+
+    U8_TRACE_END_ERR(export_err);
+    return export_err;
 }
 
 u8_error_t xhtml_element_writer_write_footer( xhtml_element_writer_t *this_ )
