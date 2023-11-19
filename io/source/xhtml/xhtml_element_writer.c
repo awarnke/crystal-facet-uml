@@ -103,15 +103,13 @@ static const char DOCBOOK_ELEMENT_LIST_END[]
 /* IO_FILE_FORMAT_XHTML */
 
 enum XHTML_DIAGRAM_MAX { XHTML_DIAGRAM_MAX_DEPTH = 6, };
-static const char XHTML_ENC[]
-    = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
 static const char XHTML_DTD[]
-    = "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">";
+    = "\n<!DOCTYPE html>";
 static const char XHTML_DOC_START[]
     = "\n<html xmlns=\"http://www.w3.org/1999/xhtml\">";
 static const char XHTML_HEAD_START[]
     = "\n<head>"
-      "\n    <meta charset=\"utf-8\" />";
+      "\n    <meta charset=\"UTF-8\" />";
       /* "\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"; < old */
 static const char XHTML_HEAD_TITLE_START[]
     = "\n<title>";
@@ -384,7 +382,6 @@ u8_error_t xhtml_element_writer_write_header( xhtml_element_writer_t *this_, con
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ENC );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DTD );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DOC_START );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_START );
