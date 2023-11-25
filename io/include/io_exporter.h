@@ -14,7 +14,7 @@
 #include "io_export_model_traversal.h"
 #include "io_export_diagram_traversal.h"
 #include "io_export_flat_traversal.h"
-#include "xhtml/xhtml_element_writer.h"
+#include "document/document_element_writer.h"
 #include "xmi/xmi_element_writer.h"
 #include "json/json_element_writer.h"
 #include "storage/data_database.h"
@@ -44,7 +44,7 @@ struct io_exporter_struct {
     io_export_model_traversal_t temp_model_traversal;  /*!< own instance of a model_traversal for text export */
     io_export_diagram_traversal_t temp_diagram_traversal;  /*!< own instance of a diagram_traversal for text export */
     io_export_flat_traversal_t temp_flat_traversal;  /*!< own instance of a flat_nodes_traversal for json export */
-    xhtml_element_writer_t temp_format_writer;  /*!< memory for a temporary format writer */
+    document_element_writer_t temp_format_writer;  /*!< memory for a temporary format writer */
     xmi_element_writer_t temp_xmi_writer;  /*!< memory for a temporary xmi writer */
     json_element_writer_t temp_json_writer;  /*!< memory for a temporary json writer */
 
@@ -191,7 +191,7 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
 u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
                                                   data_id_t diagram_id,
                                                   uint32_t max_recursion,
-                                                  xhtml_element_writer_t *format_writer
+                                                  document_element_writer_t *format_writer
                                                 );
 
 /*!

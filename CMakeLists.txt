@@ -77,7 +77,7 @@ FILE(GLOB commonSource gui/source/*.c
                        io/source/json/*.c
                        io/source/xml/*.c
                        io/source/txt/*.c
-                       io/source/xhtml/*.c
+                       io/source/document/*.c
                        io/source/xmi/*.c
                        io/source/md/*.c)
 FILE(GLOB appSource    main/source/*.c)

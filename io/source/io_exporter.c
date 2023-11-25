@@ -1,7 +1,7 @@
 /* File: io_exporter.c; Copyright and License: see below */
 
 #include "io_exporter.h"
-#include "xhtml/xhtml_stylesheet_writer.h"
+#include "document/document_css_writer.h"
 #include "json/json_schema_writer.h"
 #include "u8stream/universal_file_output_stream.h"
 #include "u8stream/universal_output_stream.h"
@@ -296,24 +296,24 @@ u8_error_t io_exporter_export_image_file( io_exporter_t *this_,
 
             /* temporarily use the temp_model_traversal */
             /* write file */
-            xhtml_element_writer_init( &((*this_).temp_format_writer ),
-                                       (*this_).db_reader,
-                                       IO_FILE_FORMAT_TXT,
-                                       io_export_stat,
-                                       output
-                                     );
+            document_element_writer_init( &((*this_).temp_format_writer ),
+                                          (*this_).db_reader,
+                                          IO_FILE_FORMAT_TXT,
+                                          io_export_stat,
+                                          output
+                                        );
             io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
                                               (*this_).db_reader,
                                               &((*this_).temp_input_data),
                                               io_export_stat,
-                                              xhtml_element_writer_get_element_writer( &((*this_).temp_format_writer) )
+                                              document_element_writer_get_element_writer( &((*this_).temp_format_writer) )
                                             );
-            write_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
+            write_err |= document_element_writer_write_header( &((*this_).temp_format_writer), "DUMMY_TITLE" );
             write_err |= io_export_diagram_traversal_begin_and_walk_diagram ( &((*this_).temp_diagram_traversal), diagram_id, "NO_IMAGE_FILE" );
             write_err |= io_export_diagram_traversal_end_diagram ( &((*this_).temp_diagram_traversal), diagram_id );
-            write_err |= xhtml_element_writer_write_footer( &((*this_).temp_format_writer) );
+            write_err |= document_element_writer_write_footer( &((*this_).temp_format_writer) );
             io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
-            xhtml_element_writer_destroy( &((*this_).temp_format_writer ) );
+            document_element_writer_destroy( &((*this_).temp_format_writer ) );
 
             if ( 0 != write_err )
             {
@@ -432,10 +432,10 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
         /* write file */
         if ( IO_FILE_FORMAT_CSS == export_type )
         {
-            xhtml_stylesheet_writer_t css_writer;
-            xhtml_stylesheet_writer_init( &css_writer, output );
-            export_err |= xhtml_stylesheet_writer_write_stylesheet( &css_writer );
-            xhtml_stylesheet_writer_destroy( &css_writer );
+            document_css_writer_t css_writer;
+            document_css_writer_init( &css_writer, output );
+            export_err |= document_css_writer_write_stylesheet( &css_writer );
+            document_css_writer_destroy( &css_writer );
         }
         else if ( IO_FILE_FORMAT_SCHEMA == export_type )
         {
@@ -515,38 +515,38 @@ u8_error_t io_exporter_export_document_file( io_exporter_t *this_,
         }
         else
         {
-            xhtml_element_writer_init( &((*this_).temp_format_writer ),
-                                       (*this_).db_reader,
-                                       export_type,
-                                       io_export_stat,
-                                       output
-                                     );
+            document_element_writer_init( &((*this_).temp_format_writer ),
+                                          (*this_).db_reader,
+                                          export_type,
+                                          io_export_stat,
+                                          output
+                                        );
             /* init the diagram_traversal */
             io_export_diagram_traversal_init( &((*this_).temp_diagram_traversal),
                                               (*this_).db_reader,
                                               &((*this_).temp_input_data),
                                               io_export_stat,
-                                              xhtml_element_writer_get_element_writer( &((*this_).temp_format_writer) )
+                                              document_element_writer_get_element_writer( &((*this_).temp_format_writer) )
                                             );
             /* write the document */
-            export_err |= xhtml_element_writer_write_header( &((*this_).temp_format_writer), document_title );
-            export_err |= xhtml_element_writer_start_toc( &((*this_).temp_format_writer) );
+            export_err |= document_element_writer_write_header( &((*this_).temp_format_writer), document_title );
+            export_err |= document_element_writer_start_toc( &((*this_).temp_format_writer) );
             export_err |= io_exporter_private_export_table_of_contents( this_,
                                                                         DATA_ID_VOID,
                                                                         IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH,
                                                                         &((*this_).temp_format_writer)
                                                                       );
-            export_err |= xhtml_element_writer_end_toc( &((*this_).temp_format_writer) );
-            export_err |= xhtml_element_writer_start_main( &((*this_).temp_format_writer), document_title );
+            export_err |= document_element_writer_end_toc( &((*this_).temp_format_writer) );
+            export_err |= document_element_writer_start_main( &((*this_).temp_format_writer), document_title );
             export_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID,
                                                                     IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH,
                                                                     io_export_stat
                                                                   );
-            export_err |= xhtml_element_writer_end_main( &((*this_).temp_format_writer) );
-            export_err |= xhtml_element_writer_write_footer( &((*this_).temp_format_writer) );
+            export_err |= document_element_writer_end_main( &((*this_).temp_format_writer) );
+            export_err |= document_element_writer_write_footer( &((*this_).temp_format_writer) );
 
             io_export_diagram_traversal_destroy( &((*this_).temp_diagram_traversal) );
-            xhtml_element_writer_destroy( &((*this_).temp_format_writer ) );
+            document_element_writer_destroy( &((*this_).temp_format_writer ) );
         }
 
         /* close file */
@@ -626,7 +626,7 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
 u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
                                                          data_id_t diagram_id,
                                                          uint32_t max_recursion,
-                                                         xhtml_element_writer_t *format_writer )
+                                                         document_element_writer_t *format_writer )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != format_writer );
@@ -638,7 +638,7 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     {
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
-        export_err |= xhtml_element_writer_start_toc_entry( format_writer );
+        export_err |= document_element_writer_start_toc_entry( format_writer );
 
         /* load data to be drawn */
         u8_error_t db_err;
@@ -650,7 +650,7 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
         }
         else
         {
-            export_err |= xhtml_element_writer_write_toc_entry ( format_writer, &((*this_).temp_diagram) );
+            export_err |= document_element_writer_write_toc_entry ( format_writer, &((*this_).temp_diagram) );
             data_diagram_destroy( &((*this_).temp_diagram) );
         }
     }
@@ -672,7 +672,7 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
             const uint32_t child_count = data_small_set_get_count( &the_set );
             if ( child_count != 0 )
             {
-                export_err |= xhtml_element_writer_start_toc_sublist( format_writer );
+                export_err |= document_element_writer_start_toc_sublist( format_writer );
                 for ( uint32_t pos = 0; pos < child_count; pos ++ )
                 {
                     data_id_t probe_id = data_small_set_get_id( &the_set, pos );
@@ -681,7 +681,7 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
 
                     data_id_destroy( &probe_id );
                 }
-                export_err |= xhtml_element_writer_end_toc_sublist ( format_writer );
+                export_err |= document_element_writer_end_toc_sublist ( format_writer );
             }
         }
         data_small_set_destroy( &the_set );
@@ -690,7 +690,7 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     /* end toc entry */
     if ( DATA_ROW_ID_VOID != diagram_row_id )
     {
-        export_err |= xhtml_element_writer_end_toc_entry( format_writer );
+        export_err |= document_element_writer_end_toc_entry( format_writer );
     }
 
     U8_TRACE_END_ERR( export_err );

@@ -1,7 +1,7 @@
-/* File: xhtml_stylesheet_writer.h; Copyright and License: see below */
+/* File: document_css_writer.h; Copyright and License: see below */
 
-#ifndef XHTML_STYLESHEET_WRITER_H
-#define XHTML_STYLESHEET_WRITER_H
+#ifndef DOCUMENT_CSS_WRITER
+#define DOCUMENT_CSS_WRITER
 
 /* public file for the doxygen documentation: */
 /*!
@@ -14,11 +14,11 @@
 /*!
  *  \brief attributes of the format writer
  */
-struct xhtml_stylesheet_writer_struct {
+struct document_css_writer_struct {
     universal_output_stream_t *output;  /*!< reference to a universal_output_stream_t */
 };
 
-typedef struct xhtml_stylesheet_writer_struct xhtml_stylesheet_writer_t;
+typedef struct document_css_writer_struct document_css_writer_t;
 
 /*!
  *  \brief initializes the format writer
@@ -26,16 +26,16 @@ typedef struct xhtml_stylesheet_writer_struct xhtml_stylesheet_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param output output stream where to write the generated output to
  */
-void xhtml_stylesheet_writer_init( xhtml_stylesheet_writer_t *this_,
-                                   universal_output_stream_t *output
-                                 );
+void document_css_writer_init( document_css_writer_t *this_,
+                               universal_output_stream_t *output
+                             );
 
 /*!
  *  \brief destroys the format writer
  *
  *  \param this_ pointer to own object attributes
  */
-void xhtml_stylesheet_writer_destroy( xhtml_stylesheet_writer_t *this_ );
+void document_css_writer_destroy( document_css_writer_t *this_ );
 
 /*!
  *  \brief writes a css stylesheet file
@@ -43,9 +43,9 @@ void xhtml_stylesheet_writer_destroy( xhtml_stylesheet_writer_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t xhtml_stylesheet_writer_write_stylesheet( xhtml_stylesheet_writer_t *this_ );
+u8_error_t document_css_writer_write_stylesheet( document_css_writer_t *this_ );
 
-#endif  /* XHTML_STYLESHEET_WRITER_H */
+#endif  /* DOCUMENT_CSS_WRITER */
 
 
 /*

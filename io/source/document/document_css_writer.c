@@ -1,6 +1,6 @@
-/* File: xhtml_stylesheet_writer.c; Copyright and License: see below */
+/* File: document_css_writer.c; Copyright and License: see below */
 
-#include "xhtml/xhtml_stylesheet_writer.h"
+#include "document/document_css_writer.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
@@ -129,8 +129,8 @@ static const char CSS_ALL[]
 "    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \".\" counter(cnt-head-six) \"\\0000a0 \";\n"
 "}\n";
 
-void xhtml_stylesheet_writer_init ( xhtml_stylesheet_writer_t *this_,
-                                    universal_output_stream_t *output )
+void document_css_writer_init ( document_css_writer_t *this_,
+                                universal_output_stream_t *output )
 {
     U8_TRACE_BEGIN();
     assert( NULL != output );
@@ -140,7 +140,7 @@ void xhtml_stylesheet_writer_init ( xhtml_stylesheet_writer_t *this_,
     U8_TRACE_END();
 }
 
-void xhtml_stylesheet_writer_destroy( xhtml_stylesheet_writer_t *this_ )
+void document_css_writer_destroy( document_css_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -149,7 +149,7 @@ void xhtml_stylesheet_writer_destroy( xhtml_stylesheet_writer_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t xhtml_stylesheet_writer_write_stylesheet( xhtml_stylesheet_writer_t *this_ )
+u8_error_t document_css_writer_write_stylesheet( document_css_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
