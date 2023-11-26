@@ -102,44 +102,44 @@ static const char DOCBOOK_ELEMENT_LIST_END[]
 
 /* IO_FILE_FORMAT_XHTML */
 
-enum XHTML_DIAGRAM_MAX { XHTML_DIAGRAM_MAX_DEPTH = 6, };
-static const char XHTML_DTD[]
+enum HTML_DIAGRAM_MAX { HTML_DIAGRAM_MAX_DEPTH = 6, };
+static const char HTML_DTD[]
     = "<!DOCTYPE html>";
-static const char XHTML_DOC_START[]
+static const char HTML_DOC_START[]
     = "\n<html xmlns=\"http://www.w3.org/1999/xhtml\">";
-static const char XHTML_HEAD_START[]
+static const char HTML_HEAD_START[]
     = "\n<head>"
       "\n    <meta charset=\"UTF-8\" />";
       /* "\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"; < old */
-static const char XHTML_HEAD_TITLE_START[]
+static const char HTML_HEAD_TITLE_START[]
     = "\n<title>";
-static const char XHTML_HEAD_TITLE_END[]
+static const char HTML_HEAD_TITLE_END[]
     = "</title>";
-static const char XHTML_HEAD_CSS_START[]
+static const char HTML_HEAD_CSS_START[]
     = "\n<link rel=\"stylesheet\" type=\"text/css\" href=\"";
-static const char XHTML_HEAD_CSS_END[]
+static const char HTML_HEAD_CSS_END[]
     = ".css\" />";
-static const char XHTML_HEAD_END[]
+static const char HTML_HEAD_END[]
     = "\n</head>";
-static const char XHTML_BODY_START[]
+static const char HTML_BODY_START[]
     = "\n<body>";
-static const char XHTML_NAV_START[]
+static const char HTML_NAV_START[]
     = "\n<nav>";
-static const char XHTML_NAV_END[]
+static const char HTML_NAV_END[]
     = "\n</nav>";
-static const char XHTML_ARTICLE_START[]
+static const char HTML_ARTICLE_START[]
     = "\n<main>"
       "\n<article>";
-static const char XHTML_ARTICLE_END[]
+static const char HTML_ARTICLE_END[]
     = "\n</article>"
       "\n</main>";
-static const char XHTML_BODY_END[]
+static const char HTML_BODY_END[]
     = "\n</body>";
-static const char XHTML_DOC_END[]
+static const char HTML_DOC_END[]
     = "\n</html>\n";
-static const char XHTML_TOC_SUBLIST_START[]
+static const char HTML_TOC_SUBLIST_START[]
     = "\n<ul class=\"toc\">";
-static const char *XHTML_TOC_SUBLIST_ENTRY_START[XHTML_DIAGRAM_MAX_DEPTH]
+static const char *HTML_TOC_SUBLIST_ENTRY_START[HTML_DIAGRAM_MAX_DEPTH]
     = {
       "\n<li class=\"toc1\">",
       "\n<li class=\"toc2\">",
@@ -148,22 +148,22 @@ static const char *XHTML_TOC_SUBLIST_ENTRY_START[XHTML_DIAGRAM_MAX_DEPTH]
       "\n<li class=\"toc5\">",
       "\n<li class=\"toc6\">"
       };
-static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_START[]
+static const char HTML_TOC_SUBLIST_ENTRY_TITLE_START[]
     = "\n<a href=\"#";
-static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE[]
+static const char HTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE[]
     = "\">";
-static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_END[]
+static const char HTML_TOC_SUBLIST_ENTRY_TITLE_END[]
     = "</a>";
-static const char XHTML_TOC_SUBLIST_ENTRY_END[]
+static const char HTML_TOC_SUBLIST_ENTRY_END[]
     = "\n</li>";
-static const char XHTML_TOC_SUBLIST_END[]
+static const char HTML_TOC_SUBLIST_END[]
     = "\n</ul>";
 
-static const char XHTML_DIAGRAM_START[]
+static const char HTML_DIAGRAM_START[]
     = "\n<div class=\"diagram\" id=\"";
-static const char XHTML_DIAGRAM_MIDDLE[]
+static const char HTML_DIAGRAM_MIDDLE[]
     = "\">";
-static const char *XHTML_DIAGRAM_TITLE_START[XHTML_DIAGRAM_MAX_DEPTH]
+static const char *HTML_DIAGRAM_TITLE_START[HTML_DIAGRAM_MAX_DEPTH]
     = {
       "\n<h1 class=\"title\">",
       "\n<h2 class=\"title\">",
@@ -172,7 +172,7 @@ static const char *XHTML_DIAGRAM_TITLE_START[XHTML_DIAGRAM_MAX_DEPTH]
       "\n<h5 class=\"title\">",
       "\n<h6 class=\"title\">"
       };
-static const char *XHTML_DIAGRAM_TITLE_END[XHTML_DIAGRAM_MAX_DEPTH]
+static const char *HTML_DIAGRAM_TITLE_END[HTML_DIAGRAM_MAX_DEPTH]
     = {
       "</h1>",
       "</h2>",
@@ -181,47 +181,69 @@ static const char *XHTML_DIAGRAM_TITLE_END[XHTML_DIAGRAM_MAX_DEPTH]
       "</h5>",
       "</h6>"
       };
-static const char XHTML_DIAGRAM_IMG_START[]
+static const char HTML_DIAGRAM_IMG_START[]
     = "\n<div class=\"mediaobject\"><img src=\"";
-static const char XHTML_DIAGRAM_IMG_END[]
+static const char HTML_DIAGRAM_IMG_END[]
     = ".png\" width=\"840\" alt=\"\" /></div>";
-static const char XHTML_DIAGRAM_END[]
+static const char HTML_DIAGRAM_END[]
     = "\n</div>";
 
-static const char XHTML_DESCRIPTION_START[]
+static const char HTML_DESCRIPTION_START[]
     = "\n<div class=\"description\"><p>";
-static const char XHTML_DESCRIPTION_MIDDLE[]  /* optional */
+static const char HTML_DESCRIPTION_MIDDLE[]  /* optional */
     = "\n<br />\n";
-static const char XHTML_DESCRIPTION_XREF_START[]
+static const char HTML_DESCRIPTION_XREF_START[]
     = "<a href=\"#";
-static const char XHTML_DESCRIPTION_XREF_MIDDLE[]
+static const char HTML_DESCRIPTION_XREF_MIDDLE[]
     = "\">";
-static const char XHTML_DESCRIPTION_XREF_END[]
+static const char HTML_DESCRIPTION_XREF_END[]
     = "</a>";
-static const char XHTML_DESCRIPTION_END[]
+static const char HTML_DESCRIPTION_END[]
     = "\n</p></div>";
 
-static const char XHTML_ELEMENT_LIST_START[]
+static const char HTML_ELEMENT_LIST_START[]
     = "\n<div class=\"element\">";
-static const char XHTML_ELEMENT_START[]
-    = "\n<p>";
-static const char XHTML_ELEMENT_NAME_START[]
-    = "\n<strong class=\"elementname\">";
-static const char XHTML_ELEMENT_NAME_END[]
+static const char HTML_ELEMENT_START[]
+    = "<p>";  /* hint: no whitespace before p */
+static const char HTML_ELEMENT_NAME_START[]
+    = "<strong class=\"elementname\">";
+static const char HTML_ELEMENT_NAME_END[]
     = "</strong>";
-static const char XHTML_ELEMENT_ID_START[]
-    = "\n<em class=\"elementid\">";
-static const char XHTML_ELEMENT_ID_END[]
+static const char HTML_ELEMENT_ID_START[]
+    = "<em class=\"elementid\">";
+static const char HTML_ELEMENT_ID_END[]
     = "</em>";
-static const char XHTML_ELEMENT_DESCR_START[]  /* optional */
+static const char HTML_ELEMENT_DESCR_START[]  /* optional */
     = "\n</p>"
-      "\n<p class=\"elementdescr\">\n";
-static const char XHTML_ELEMENT_DESCR_END[]  /* optional */
+      "<p class=\"elementdescr\">\n";  /* hint: no whitespace before p */
+static const char HTML_ELEMENT_DESCR_END[]  /* optional */
     = "\n";
-static const char XHTML_ELEMENT_END[]
+static const char HTML_ELEMENT_END[]
     = "\n</p>";
-static const char XHTML_ELEMENT_LIST_END[]
-    = "\n</div>";
+static const char HTML_ELEMENT_LIST_END[]
+    = "</div>";  /* hint: no whitespace after p */
+
+static const char HTML_EDGE_LIST_START[]
+    = "\n<div class=\"edge\">";
+static const char HTML_EDGE_START[]
+    = "<p>";  /* hint: no whitespace before p */
+static const char HTML_EDGE_NAME_START[]
+    = "<strong class=\"edgename\">";
+static const char HTML_EDGE_NAME_END[]
+    = "</strong>";
+static const char HTML_EDGE_ID_START[]
+    = "<em class=\"edgeid\">";
+static const char HTML_EDGE_ID_END[]
+    = "</em>";
+static const char HTML_EDGE_DESCR_START[]  /* optional */
+    = "\n</p>"
+      "<p class=\"edgedescr\">\n";  /* hint: no whitespace before p */
+static const char HTML_EDGE_DESCR_END[]  /* optional */
+    = "\n";
+static const char HTML_EDGE_END[]
+    = "\n</p>";
+static const char HTML_EDGE_LIST_END[]
+    = "</div>";  /* hint: no whitespace after p */
 
 /* IO_FILE_FORMAT_TXT */
 
@@ -309,10 +331,10 @@ void document_element_writer_init ( document_element_writer_t *this_,
         {
             md_filter_init( &((*this_).md_filter),
                             db_reader,
-                            XHTML_DESCRIPTION_MIDDLE,
-                            XHTML_DESCRIPTION_XREF_START,
-                            XHTML_DESCRIPTION_XREF_MIDDLE,
-                            XHTML_DESCRIPTION_XREF_END,
+                            HTML_DESCRIPTION_MIDDLE,
+                            HTML_DESCRIPTION_XREF_START,
+                            HTML_DESCRIPTION_XREF_MIDDLE,
+                            HTML_DESCRIPTION_XREF_END,
                             &((*this_).xml_writer)
                           );
         }
@@ -384,19 +406,19 @@ u8_error_t document_element_writer_write_header( document_element_writer_t *this
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DTD );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DOC_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DTD );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DOC_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_HEAD_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_TITLE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_HEAD_TITLE_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_TITLE_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_CSS_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_HEAD_TITLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_HEAD_CSS_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_CSS_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_HEAD_CSS_END );
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_BODY_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_HEAD_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_BODY_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
@@ -435,7 +457,7 @@ u8_error_t document_element_writer_start_main( document_element_writer_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ARTICLE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ARTICLE_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
@@ -487,7 +509,7 @@ u8_error_t document_element_writer_start_toc ( document_element_writer_t *this_ 
     {
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_NAV_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_NAV_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
@@ -515,7 +537,7 @@ u8_error_t document_element_writer_start_toc_sublist ( document_element_writer_t
     {
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_TOC_SUBLIST_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
@@ -540,10 +562,10 @@ u8_error_t document_element_writer_start_toc_entry ( document_element_writer_t *
     {
         case IO_FILE_FORMAT_XHTML:
         {
-            const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
-                ? (XHTML_DIAGRAM_MAX_DEPTH-1)
+            const unsigned int index_of_depth = ((*this_).current_tree_depth > HTML_DIAGRAM_MAX_DEPTH)
+                ? (HTML_DIAGRAM_MAX_DEPTH-1)
                 : ((*this_).current_tree_depth-1);
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_START[index_of_depth] );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_TOC_SUBLIST_ENTRY_START[index_of_depth] );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
@@ -572,11 +594,11 @@ u8_error_t document_element_writer_write_toc_entry ( document_element_writer_t *
             const char *const diag_name = data_diagram_get_name_const(diag_ptr);
             const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
 
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_TOC_SUBLIST_ENTRY_TITLE_START );
             export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_TOC_SUBLIST_ENTRY_TITLE_END );
         }
         break;
 
@@ -602,7 +624,7 @@ u8_error_t document_element_writer_end_toc_entry ( document_element_writer_t *th
         case IO_FILE_FORMAT_XHTML:
         {
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_TOC_SUBLIST_ENTRY_END );
         }
         break;
 
@@ -627,7 +649,7 @@ u8_error_t document_element_writer_end_toc_sublist ( document_element_writer_t *
         case IO_FILE_FORMAT_XHTML:
         {
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_TOC_SUBLIST_END );
         }
         break;
 
@@ -655,7 +677,7 @@ u8_error_t document_element_writer_end_toc ( document_element_writer_t *this_ )
         case IO_FILE_FORMAT_XHTML:
         {
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_NAV_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_NAV_END );
         }
         break;
 
@@ -690,7 +712,7 @@ u8_error_t document_element_writer_start_classifier( document_element_writer_t *
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_LIST_START );
         }
         break;
 
@@ -752,20 +774,20 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_NAME_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_ID_END );
             if ( 0 != classifier_descr_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_DESCR_START );
                 export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_DESCR_END );
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_END );
         }
         break;
 
@@ -820,7 +842,7 @@ u8_error_t document_element_writer_end_classifier( document_element_writer_t *th
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_LIST_END );
         }
         break;
 
@@ -901,7 +923,7 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             if ( 0 != feature_value_len )
@@ -909,18 +931,17 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_ID_END );
             if ( 0 != feature_descr_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_DESCR_START );
                 export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_DESCR_END );
             }
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ELEMENT_END );
         }
         break;
 
@@ -1050,24 +1071,26 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         case IO_FILE_FORMAT_XHTML:
         {
             /* list start */
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_LIST_START );
             /* element */
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_NAME_END );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_ID_END );
             if ( 0 != relation_descr_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_START );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_DESCR_START );
                 export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_DESCR_END );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_DESCR_END );
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_END );
             /* list end */
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_EDGE_LIST_END );
         }
         break;
 
@@ -1157,9 +1180,9 @@ u8_error_t document_element_writer_start_diagram( document_element_writer_t *thi
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_START );
             export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_MIDDLE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_MIDDLE );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
         }
         break;
@@ -1221,18 +1244,18 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
 
         case IO_FILE_FORMAT_XHTML:
         {
-            const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
-                ? (XHTML_DIAGRAM_MAX_DEPTH-1)
+            const unsigned int index_of_depth = ((*this_).current_tree_depth > HTML_DIAGRAM_MAX_DEPTH)
+                ? (HTML_DIAGRAM_MAX_DEPTH-1)
                 : ((*this_).current_tree_depth-1);
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_START[index_of_depth] );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_TITLE_START[index_of_depth] );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_END[index_of_depth] );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_TITLE_END[index_of_depth] );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DESCRIPTION_START );
             export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DESCRIPTION_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_IMG_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_IMG_END );
         }
         break;
 
@@ -1284,7 +1307,7 @@ u8_error_t document_element_writer_end_diagram( document_element_writer_t *this_
         case IO_FILE_FORMAT_XHTML:
         {
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_END );
         }
         break;
 
@@ -1368,7 +1391,7 @@ u8_error_t document_element_writer_end_main( document_element_writer_t *this_ )
         case IO_FILE_FORMAT_XHTML:
         {
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ARTICLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ARTICLE_END );
         }
         break;
 
@@ -1407,8 +1430,8 @@ u8_error_t document_element_writer_write_footer( document_element_writer_t *this
         case IO_FILE_FORMAT_XHTML:
         {
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_BODY_END );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DOC_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_BODY_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DOC_END );
         }
         break;
 
