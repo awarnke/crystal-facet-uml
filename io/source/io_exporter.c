@@ -77,7 +77,7 @@ u8_error_t io_exporter_export_files( io_exporter_t *this_,
             export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PS, target_folder, io_export_stat );
         }
 
-        if ( ( export_type & ( IO_FILE_FORMAT_PNG | IO_FILE_FORMAT_DOCBOOK | IO_FILE_FORMAT_XHTML ) ) != 0 )
+        if ( ( export_type & ( IO_FILE_FORMAT_PNG | IO_FILE_FORMAT_DOCBOOK | IO_FILE_FORMAT_HTML ) ) != 0 )
         {
             export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PNG, target_folder, io_export_stat );
         }
@@ -92,10 +92,10 @@ u8_error_t io_exporter_export_files( io_exporter_t *this_,
             export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_DOCBOOK, target_folder, document_file_name, io_export_stat );
         }
 
-        if ( ( export_type & IO_FILE_FORMAT_XHTML ) != 0 )
+        if ( ( export_type & IO_FILE_FORMAT_HTML ) != 0 )
         {
             export_err |= io_exporter_private_export_document_file( this_,
-                                                                    IO_FILE_FORMAT_XHTML,
+                                                                    IO_FILE_FORMAT_HTML,
                                                                     target_folder,
                                                                     document_file_name,
                                                                     io_export_stat
@@ -360,7 +360,7 @@ u8_error_t io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         break;
 
-        case IO_FILE_FORMAT_XHTML:
+        case IO_FILE_FORMAT_HTML:
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".html" );
         }

@@ -197,7 +197,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
-                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_HTML; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
     #else
@@ -207,7 +207,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
                 if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
                 if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
                 if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
-                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
+                if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_HTML; }
                 if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
                 if ( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
     #endif

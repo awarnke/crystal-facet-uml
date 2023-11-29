@@ -198,11 +198,11 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
     }
     else if ( utf8string_equals_str( arg_fmt, "html" ) )
     {
-        result = IO_FILE_FORMAT_XHTML;
+        result = IO_FILE_FORMAT_HTML;
     }
     else if ( utf8string_equals_str( arg_fmt, "xhtml" ) /* legacy option */ )
     {
-        result = IO_FILE_FORMAT_XHTML;
+        result = IO_FILE_FORMAT_HTML;
     }
     else if ( utf8string_equals_str( arg_fmt, "xmi" ) )
     {
