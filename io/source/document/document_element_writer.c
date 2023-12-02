@@ -159,19 +159,17 @@ static const char HTML_TOC_SUBLIST_ENTRY_END[]
 static const char HTML_TOC_SUBLIST_END[]
     = "\n</ul>";
 
-static const char HTML_DIAGRAM_START[]
-    = "\n<div class=\"diag\" id=\"";
-static const char HTML_DIAGRAM_MIDDLE[]
-    = "\">";
 static const char *HTML_DIAGRAM_TITLE_START[HTML_DIAGRAM_MAX_DEPTH]
     = {
-      "\n<h1 class=\"diag-name\">",
-      "\n<h2 class=\"diag-name\">",
-      "\n<h3 class=\"diag-name\">",
-      "\n<h4 class=\"diag-name\">",
-      "\n<h5 class=\"diag-name\">",
-      "\n<h6 class=\"diag-name\">"
+      "\n\n<h1 id=\"",
+      "\n\n<h2 id=\"",
+      "\n\n<h3 id=\"",
+      "\n\n<h4 id=\"",
+      "\n\n<h5 id=\"",
+      "\n\n<h6 id=\""
       };
+static const char HTML_DIAGRAM_TITLE_MIDDLE[]
+    = "\" class=\"diag-title\">";
 static const char *HTML_DIAGRAM_TITLE_END[HTML_DIAGRAM_MAX_DEPTH]
     = {
       "</h1>",
@@ -185,26 +183,39 @@ static const char HTML_DIAGRAM_IMG_START[]
     = "\n<div class=\"mediaobject\"><img src=\"";
 static const char HTML_DIAGRAM_IMG_END[]
     = ".png\" width=\"840\" alt=\"\" /></div>";
-static const char HTML_DIAGRAM_END[]
-    = "\n</div>";
 
-static const char HTML_DESCRIPTION_START[]
-    = "\n<div class=\"diag-descr\"><p>";
-static const char HTML_DESCRIPTION_MIDDLE[]  /* optional */
+static const char HTML_ANY_DESCR_NEWLINE[]
     = "\n<br />\n";
-static const char HTML_DESCRIPTION_XREF_START[]
+static const char HTML_ANY_DESCR_XREF_START[]
     = "<a href=\"#";
-static const char HTML_DESCRIPTION_XREF_MIDDLE[]
+static const char HTML_ANY_DESCR_XREF_MIDDLE[]
     = "\">";
-static const char HTML_DESCRIPTION_XREF_END[]
+static const char HTML_ANY_DESCR_XREF_END[]
     = "</a>";
-static const char HTML_DESCRIPTION_END[]
-    = "\n</p></div>";
+
+static const char HTML_DIAG_LIST_START[] = "\n<div class=\"diag\">";
+static const char HTML_DIAG_START[] = "<p>";  /* hint: no whitespace before p */
+static const char HTML_DIAG_NAME_START[] = "<strong class=\"diag-name\">";
+static const char HTML_DIAG_NAME_END[] = "</strong>";
+static const char HTML_DIAG_STEREO_START[] = "<em class=\"diag-stereo\">";
+static const char HTML_DIAG_STEREO_END[] = "</em>";
+static const char HTML_DIAG_TYPE_START[] = "<em class=\"diag-type\">";
+static const char HTML_DIAG_TYPE_END[] = "</em>";
+static const char HTML_DIAG_ID_START[] = "<em class=\"diag-id\">";
+static const char HTML_DIAG_ID_END[] = "</em>";
+static const char HTML_DIAG_DESCR_START[] = "\n</p><p class=\"diag-descr\">\n";  /* hint: no whitespace before p */
+static const char HTML_DIAG_DESCR_END[] = "\n";
+static const char HTML_DIAG_END[] = "\n</p>";
+static const char HTML_DIAG_LIST_END[] = "</div>";  /* hint: no whitespace after p */
 
 static const char HTML_CLAS_LIST_START[] = "\n<div class=\"clas\">";
 static const char HTML_CLAS_START[] = "<p>";  /* hint: no whitespace before p */
 static const char HTML_CLAS_NAME_START[] = "<strong class=\"clas-name\">";
 static const char HTML_CLAS_NAME_END[] = "</strong>";
+static const char HTML_CLAS_STEREO_START[] = "<em class=\"clas-stereo\">";
+static const char HTML_CLAS_STEREO_END[] = "</em>";
+static const char HTML_CLAS_TYPE_START[] = "<em class=\"clas-type\">";
+static const char HTML_CLAS_TYPE_END[] = "</em>";
 static const char HTML_CLAS_ID_START[] = "<em class=\"clas-id\">";
 static const char HTML_CLAS_ID_END[] = "</em>";
 static const char HTML_CLAS_DESCR_START[] = "\n</p><p class=\"clas-descr\">\n";  /* hint: no whitespace before p */
@@ -216,6 +227,10 @@ static const char HTML_FEAT_LIST_START[] = "\n<div class=\"feat\">";
 static const char HTML_FEAT_START[] = "<p>";  /* hint: no whitespace before p */
 static const char HTML_FEAT_NAME_START[] = "<strong class=\"feat-name\">";
 static const char HTML_FEAT_NAME_END[] = "</strong>";
+static const char HTML_FEAT_STEREO_START[] = "<em class=\"feat-stereo\">";
+static const char HTML_FEAT_STEREO_END[] = "</em>";
+static const char HTML_FEAT_TYPE_START[] = "<em class=\"feat-type\">";
+static const char HTML_FEAT_TYPE_END[] = "</em>";
 static const char HTML_FEAT_ID_START[] = "<em class=\"feat-id\">";
 static const char HTML_FEAT_ID_END[] = "</em>";
 static const char HTML_FEAT_DESCR_START[] = "\n</p><p class=\"feat-descr\">\n";  /* hint: no whitespace before p */
@@ -227,6 +242,10 @@ static const char HTML_REL_LIST_START[] = "\n<div class=\"rel\">";
 static const char HTML_REL_START[] = "<p>";  /* hint: no whitespace before p */
 static const char HTML_REL_NAME_START[] = "<strong class=\"rel-name\">";
 static const char HTML_REL_NAME_END[] = "</strong>";
+static const char HTML_REL_STEREO_START[] = "<em class=\"rel-stereo\">";
+static const char HTML_REL_STEREO_END[] = "</em>";
+static const char HTML_REL_TYPE_START[] = "<em class=\"rel-type\">";
+static const char HTML_REL_TYPE_END[] = "</em>";
 static const char HTML_REL_ID_START[] = "<em class=\"rel-id\">";
 static const char HTML_REL_ID_END[] = "</em>";
 static const char HTML_REL_DESCR_START[] = "\n</p><p class=\"rel-descr\">\n";  /* hint: no whitespace before p */
@@ -298,6 +317,8 @@ void document_element_writer_init ( document_element_writer_t *this_,
     (*this_).export_type = export_type;
     (*this_).current_tree_depth = 0;
 
+    json_type_name_map_init( &((*this_).type_map) );
+
     txt_writer_init( &((*this_).txt_writer), output );
     xml_writer_init( &((*this_).xml_writer), output );
 
@@ -320,10 +341,10 @@ void document_element_writer_init ( document_element_writer_t *this_,
         {
             md_filter_init( &((*this_).md_filter),
                             db_reader,
-                            HTML_DESCRIPTION_MIDDLE,
-                            HTML_DESCRIPTION_XREF_START,
-                            HTML_DESCRIPTION_XREF_MIDDLE,
-                            HTML_DESCRIPTION_XREF_END,
+                            HTML_ANY_DESCR_NEWLINE,
+                            HTML_ANY_DESCR_XREF_START,
+                            HTML_ANY_DESCR_XREF_MIDDLE,
+                            HTML_ANY_DESCR_XREF_END,
                             &((*this_).xml_writer)
                           );
         }
@@ -354,6 +375,8 @@ void document_element_writer_destroy( document_element_writer_t *this_ )
     md_filter_destroy( &((*this_).md_filter) );
     xml_writer_destroy( &((*this_).xml_writer) );
     txt_writer_destroy( &((*this_).txt_writer) );
+
+    json_type_name_map_destroy( &((*this_).type_map) );
 
     (*this_).export_stat = NULL;
 
@@ -735,6 +758,12 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
     const char *const classifier_descr = data_classifier_get_description_const(classifier_ptr);
     const size_t classifier_descr_len = utf8string_get_length(classifier_descr);
     const data_id_t classifier_id = data_classifier_get_data_id(classifier_ptr);
+    const char *const classifier_type_name
+        = json_type_name_map_get_classifier_type( &((*this_).type_map),
+                                                  host_type,
+                                                  data_classifier_get_main_type( classifier_ptr )
+                                                );
+    const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier_ptr );
 
     switch ( (*this_).export_type )
     {
@@ -764,9 +793,18 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
         case IO_FILE_FORMAT_HTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_START );
+            if ( 0 != utf8string_get_length( classifier_stereotype ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_STEREO_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_stereotype );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_STEREO_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_TYPE_START );
+            export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), classifier_type_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_ID_END );
@@ -881,6 +919,12 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
     const char *const feature_descr = data_feature_get_description_const( feature_ptr );
     const size_t feature_descr_len = utf8string_get_length(feature_descr);
     const data_id_t feature_id = data_feature_get_data_id( feature_ptr );
+    const data_classifier_type_t parent_type = data_classifier_get_main_type( parent );
+    const char *const feature_type_name
+        = json_type_name_map_get_feature_type( &((*this_).type_map),
+                                               parent_type,
+                                               data_feature_get_main_type( feature_ptr )
+                                             );
 
     switch ( (*this_).export_type )
     {
@@ -922,8 +966,13 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
             if ( 0 != feature_value_len )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_START );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_END );
             }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_TYPE_START );
+            export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), feature_type_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_ID_END );
@@ -1024,6 +1073,23 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         = (NULL != to_c)
         ? data_classifier_get_name_const( to_c )
         : "";
+    const bool from_c_valid = ( from_c == NULL ) ? false : data_classifier_is_valid( from_c );
+    const bool to_c_valid = ( to_c == NULL ) ? false : data_classifier_is_valid( to_c );
+    const bool statemachine_context
+        = (from_c_valid
+        && ((data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_STATE)
+        || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
+        || (data_classifier_get_main_type( from_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)))
+        || (to_c_valid
+        && (( data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_STATE)
+        || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY)
+        || (data_classifier_get_main_type( to_c ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY)));
+    const char *const relation_type_name
+        = json_type_name_map_get_relationship_type( &((*this_).type_map),
+                                                    statemachine_context,
+                                                    data_relationship_get_main_type( relation_ptr )
+                                                  );
+    const char *const relation_stereotype = data_relationship_get_stereotype_const( relation_ptr );
 
     switch ( (*this_).export_type )
     {
@@ -1067,11 +1133,20 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_LIST_START );
             /* element */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_START );
+            if ( 0 != utf8string_get_length( relation_stereotype ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_STEREO_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_stereotype );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_STEREO_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_END );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_TYPE_START );
+            export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), relation_type_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_TYPE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_ID_END );
@@ -1173,10 +1248,7 @@ u8_error_t document_element_writer_start_diagram( document_element_writer_t *thi
 
         case IO_FILE_FORMAT_HTML:
         {
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_START );
-            export_err |= xml_writer_write_plain_id ( &((*this_).xml_writer), diag_id );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_MIDDLE );
-            xml_writer_increase_indent ( &((*this_).xml_writer) );
+            /* no start diagram tags */
         }
         break;
 
@@ -1216,6 +1288,11 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
     const char *const diag_name = data_diagram_get_name_const( diag_ptr );
     const char *const diag_description = data_diagram_get_description_const( diag_ptr );
     const data_id_t diag_id = data_diagram_get_data_id(diag_ptr);
+    const char *const diag_type_name
+        = json_type_name_map_get_diagram_type( &((*this_).type_map),
+                                               data_diagram_get_diagram_type( diag_ptr )
+                                              );
+    const char *const diag_stereotype = data_diagram_get_stereotype_const( diag_ptr );
 
     switch ( (*this_).export_type )
     {
@@ -1241,11 +1318,37 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
                 ? (HTML_DIAGRAM_MAX_DEPTH-1)
                 : ((*this_).current_tree_depth-1);
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_TITLE_START[index_of_depth] );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), diag_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_TITLE_MIDDLE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_TITLE_END[index_of_depth] );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DESCRIPTION_START );
-            export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DESCRIPTION_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_LIST_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_START );
+            if ( 0 != utf8string_get_length( diag_stereotype ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_STEREO_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_stereotype );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_STEREO_END );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_NAME_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_TYPE_START );
+            export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), diag_type_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_TYPE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_ID_START );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), diag_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_ID_END );
+            if ( 0 != utf8string_get_length( diag_description ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_DESCR_START );
+                export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_DESCR_END );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_LIST_END );
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_IMG_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_IMG_END );
@@ -1299,8 +1402,7 @@ u8_error_t document_element_writer_end_diagram( document_element_writer_t *this_
 
         case IO_FILE_FORMAT_HTML:
         {
-            xml_writer_decrease_indent ( &((*this_).xml_writer) );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAGRAM_END );
+            /* no end diagram tags */
         }
         break;
 

@@ -20,6 +20,7 @@
 #include "txt/txt_writer.h"
 #include "xmi/xmi_type_converter.h"
 #include "md/md_filter.h"
+#include "json/json_type_name_map.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
@@ -40,6 +41,8 @@ struct document_element_writer_struct {
     io_file_format_t export_type;  /*!< format of output document */
     uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, */
                                   /*!< increases with every call to document_element_writer_start_diagram() */
+
+    json_type_name_map_t type_map;  /*!< own instance of a mapping from type ids to type names */
 
     txt_writer_t txt_writer;  /*!< own instance of a txt writer */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */
