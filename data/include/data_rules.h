@@ -198,6 +198,19 @@ static inline bool data_rules_classifier_has_scenario_semantics ( const data_rul
                                                                   data_classifier_type_t classifier_type
                                                                 );
 
+/*!
+ *  \brief determines if the feature value is a stereotype
+ *
+ *  Properties, Operations and Tagges Values do not have stereotypes, the value is the value.
+ *  Other types do not have a value, the value stores the stereotype instead.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_type the feature type
+ *  \return true if the feature type is not DATA_FEATURE_TYPE_PROPERTY, DATA_FEATURE_TYPE_OPERATION,
+ *          DATA_FEATURE_TYPE_TAGGED_VALUE.
+ */
+static inline bool data_rules_feature_value_is_stereotype ( const data_rules_t *this_, data_feature_type_t feature_type );
+
 /* ================================ RELATIONSHIP ================================ */
 
 /*!

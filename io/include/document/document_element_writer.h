@@ -23,6 +23,7 @@
 #include "json/json_type_name_map.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
+#include "data_rules.h"
 #include "set/data_visible_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
@@ -43,6 +44,7 @@ struct document_element_writer_struct {
                                   /*!< increases with every call to document_element_writer_start_diagram() */
 
     json_type_name_map_t type_map;  /*!< own instance of a mapping from type ids to type names */
+    data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
     txt_writer_t txt_writer;  /*!< own instance of a txt writer */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */

@@ -259,10 +259,18 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_
                         = data_visible_set_get_classifier_by_id_const( diagram_data, data_id_get_row_id( &classifier_id ));
                     if ( parent_classifier != NULL )
                     {
-                        write_err |=  io_element_writer_assemble_feature( (*this_).element_writer,
-                                                                          parent_classifier,
-                                                                          feature
-                                                                        );
+                        write_err |= io_element_writer_start_feature( (*this_).element_writer,
+                                                                      data_classifier_get_main_type( parent_classifier ),
+                                                                      feature
+                                                                    );
+                        write_err |= io_element_writer_assemble_feature( (*this_).element_writer,
+                                                                         parent_classifier,
+                                                                         feature
+                                                                       );
+                        write_err |= io_element_writer_end_feature( (*this_).element_writer,
+                                                                    data_classifier_get_main_type( parent_classifier ),
+                                                                    feature
+                                                                  );
                     }
                     else
                     {
@@ -319,6 +327,10 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships 
                     if ( dest_classifier != NULL )
                     {
                         /* destination classifier found, print the relation */
+                        write_err |= io_element_writer_start_relationship( (*this_).element_writer,
+                                                                           DATA_CLASSIFIER_TYPE_VOID,
+                                                                           relation
+                                                                         );
                         write_err |= io_element_writer_assemble_relationship( (*this_).element_writer,
                                                                               NULL,
                                                                               relation,
@@ -327,6 +339,10 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships 
                                                                               dest_classifier,
                                                                               NULL
                                                                             );
+                        write_err |= io_element_writer_end_relationship( (*this_).element_writer,
+                                                                         DATA_CLASSIFIER_TYPE_VOID,
+                                                                         relation
+                                                                       );
                     }
                     else
                     {

@@ -151,6 +151,15 @@ static inline bool data_rules_classifier_has_scenario_semantics ( const data_rul
     return ( ! lifeline_has_no_semantics);
 }
 
+static inline bool data_rules_feature_value_is_stereotype ( const data_rules_t *this_, data_feature_type_t feature_type )
+{
+    bool has_value;
+    has_value = (( feature_type == DATA_FEATURE_TYPE_PROPERTY )
+           || ( feature_type == DATA_FEATURE_TYPE_OPERATION )
+           || ( feature_type == DATA_FEATURE_TYPE_TAGGED_VALUE ));
+    return ( ! has_value );
+}
+
 /* ================================ RELATIONSHIP ================================ */
 
 static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_,
