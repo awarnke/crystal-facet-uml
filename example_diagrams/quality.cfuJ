@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.53.0"
+    "generator_version": "1.54.0"
   }
   ,
   "views":
@@ -5197,7 +5197,7 @@
                 ""
         ],
         "x_order": -1759479307,
-        "y_order": -2082107451,
+        "y_order": -2082267716,
         "list_order": 0,
         "uuid": "2e9d9457-8a98-4e60-83cd-610851908b4a",
         "features":
@@ -5234,7 +5234,7 @@
                 ""
         ],
         "x_order": -1759479307,
-        "y_order": -2082267716,
+        "y_order": -2082107451,
         "list_order": 0,
         "uuid": "b8e25e3b-fa91-4566-ad94-1b7756ebcecf",
         "features":
@@ -5293,7 +5293,7 @@
                 "make information accessible only via defined interfaces\n",
                 ""
         ],
-        "x_order": 1922433016,
+        "x_order": 1304008326,
         "y_order": -2145862063,
         "list_order": 0,
         "uuid": "a49d24cf-0ed2-4c39-b190-3b5fa6834825",
@@ -5672,8 +5672,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1759479307,
-        "y_order": -2145862063,
+        "x_order": 1922433016,
+        "y_order": 509414036,
         "list_order": -2082043851,
         "uuid": "d8b8bc49-d4bc-477e-b7aa-1444ddc3397a",
         "features":

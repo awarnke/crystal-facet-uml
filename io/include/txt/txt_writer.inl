@@ -1,4 +1,4 @@
-/* File: xml_writer.inl; Copyright and License: see below */
+/* File: txt_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
 #include "utf8stringbuf/utf8error.h"

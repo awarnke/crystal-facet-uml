@@ -277,6 +277,10 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_
                         assert ( false );  /* is_visible should not be true if parent_classifier == NULL */
                     }
                 }
+                else
+                {
+                    /* do not export invisible features or lifelines */
+                }
             }
         }
         else
