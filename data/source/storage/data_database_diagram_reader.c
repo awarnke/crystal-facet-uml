@@ -19,9 +19,7 @@ u8_error_t data_database_diagram_reader_init ( data_database_diagram_reader_t *t
     (*this_).statement_diagram_by_uuid = NULL;
     (*this_).statement_diagrams_by_parent_id = NULL;
     (*this_).statement_diagrams_by_parent_id_null = NULL;
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
     (*this_).statement_diagrams_by_classifier_id = NULL;
-#endif
     (*this_).statement_diagram_ids_by_parent_id = NULL;
     (*this_).statement_diagram_ids_by_parent_id_null = NULL;
     (*this_).statement_diagram_ids_by_classifier_id = NULL;
@@ -79,7 +77,6 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
     "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 /*!
  *  \brief predefined search statement to find diagrams by classifier-id
  */
@@ -91,7 +88,6 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
     "WHERE diagramelements.classifier_id=? "
     "GROUP BY diagrams.id "  /* filter duplicates if a classifier exists twice in a diagram */
     "ORDER BY diagrams.list_order ASC;";
-#endif
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -353,7 +349,6 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
     return result;
 }
 
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
                                                                         data_row_id_t classifier_id,
                                                                         uint32_t max_out_array_size,
@@ -421,7 +416,6 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
     U8_TRACE_END_ERR( result );
     return result;
 }
-#endif
 
 u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_database_diagram_reader_t *this_,
                                                                        data_row_id_t parent_id,
@@ -859,13 +853,11 @@ u8_error_t data_database_diagram_reader_private_open ( data_database_diagram_rea
                                                                            &((*this_).statement_diagrams_by_parent_id_null)
                                                                          );
 
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID,
                                                                            sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID ),
                                                                            &((*this_).statement_diagrams_by_classifier_id)
                                                                          );
-#endif
 
         result |= data_database_diagram_reader_private_prepare_statement ( this_,
                                                                            DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID,
@@ -937,10 +929,8 @@ u8_error_t data_database_diagram_reader_private_close ( data_database_diagram_re
         result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagrams_by_parent_id_null );
         (*this_).statement_diagrams_by_parent_id_null = NULL;
 
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
         result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagrams_by_classifier_id );
         (*this_).statement_diagrams_by_classifier_id = NULL;
-#endif
 
         result |= data_database_diagram_reader_private_finalize_statement( this_, (*this_).statement_diagram_ids_by_parent_id );
         (*this_).statement_diagram_ids_by_parent_id = NULL;

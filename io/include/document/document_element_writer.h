@@ -13,11 +13,13 @@
  *  Sink: universal_output_stream_t
  */
 
+#include "document_link_provider.h"
 #include "io_element_writer.h"
 #include "io_file_format.h"
 #include "xmi/xmi_writer_pass.h"
 #include "xml/xml_writer.h"
 #include "txt/txt_writer.h"
+#include "txt/txt_icon.h"
 #include "xmi/xmi_type_converter.h"
 #include "md/md_filter.h"
 #include "json/json_type_name_map.h"
@@ -45,6 +47,8 @@ struct document_element_writer_struct {
 
     json_type_name_map_t type_map;  /*!< own instance of a mapping from type ids to type names */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
+    document_link_provider_t link_provider;  /*!< own instance of a document_link_provider_t */
+    txt_icon_t txt_icon;  /*!< own instance of a txt_icon provider for relationship types */
 
     txt_writer_t txt_writer;  /*!< own instance of a txt writer */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */

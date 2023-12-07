@@ -135,7 +135,7 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagram array of diagrams read from the database (in case of success)
+ *  \param[out] out_diagram array of diagrams read from the database (in case of success or exceeded buffer)
  *  \param[out] out_diagram_count number of diagram records stored in out_diagram
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          U8_ERROR_NO_DB if the database is not open,

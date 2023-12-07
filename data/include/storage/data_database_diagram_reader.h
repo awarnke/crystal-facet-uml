@@ -26,8 +26,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT 1
-
 /*!
  *  \brief all data attributes needed for the database functions
  */
@@ -38,9 +36,7 @@ struct data_database_diagram_reader_struct {
     sqlite3_stmt *statement_diagram_by_uuid;
     sqlite3_stmt *statement_diagrams_by_parent_id;
     sqlite3_stmt *statement_diagrams_by_parent_id_null;
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
     sqlite3_stmt *statement_diagrams_by_classifier_id;
-#endif
     sqlite3_stmt *statement_diagram_ids_by_parent_id;
     sqlite3_stmt *statement_diagram_ids_by_parent_id_null;
     sqlite3_stmt *statement_diagram_ids_by_classifier_id;
@@ -122,7 +118,6 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
                                                                     uint32_t *out_diagram_count
                                                                   );
 
-#ifdef DATA_DATABASE_READER_PROVIDE_DEPRECATED_FKT
 /*!
  *  \brief reads all classifier-displaying diagrams from the database
  *
@@ -131,7 +126,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagram array of diagrams read from the database (in case of success)
+ *  \param[out] out_diagram array of diagrams read from the database (in case of success or exceeded buffer)
  *  \param[out] out_diagram_count number of diagram records stored in out_diagram
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          U8_ERROR_NO_DB if the database is not open,
@@ -143,7 +138,6 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
                                                                         data_diagram_t (*out_diagram)[],
                                                                         uint32_t *out_diagram_count
                                                                       );
-#endif
 
 /*!
  *  \brief reads all child-diagram ids from the database
@@ -283,7 +277,9 @@ static inline u8_error_t data_database_diagram_reader_private_prepare_statement 
  *  \param statement_ptr pointer to a statement object
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline u8_error_t data_database_diagram_reader_private_finalize_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr );
+static inline u8_error_t data_database_diagram_reader_private_finalize_statement ( data_database_diagram_reader_t *this_,
+                                                                                   sqlite3_stmt *statement_ptr
+                                                                                 );
 
 /*!
  *  \brief resets a statement only, without binding.
@@ -292,7 +288,9 @@ static inline u8_error_t data_database_diagram_reader_private_finalize_statement
  *  \param statement_ptr pointer to a statement object
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline u8_error_t data_database_diagram_reader_private_bind_void_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr );
+static inline u8_error_t data_database_diagram_reader_private_bind_void_to_statement ( data_database_diagram_reader_t *this_,
+                                                                                       sqlite3_stmt *statement_ptr
+                                                                                     );
 
 /*!
  *  \brief binds a single integer to a prepared statement (after reset).
@@ -304,7 +302,10 @@ static inline u8_error_t data_database_diagram_reader_private_bind_void_to_state
  *  \param id integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline u8_error_t data_database_diagram_reader_private_bind_id_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr, data_row_id_t id );
+static inline u8_error_t data_database_diagram_reader_private_bind_id_to_statement ( data_database_diagram_reader_t *this_,
+                                                                                     sqlite3_stmt *statement_ptr,
+                                                                                     data_row_id_t id
+                                                                                   );
 
 /*!
  *  \brief binds a single string to a prepared statement (after reset).
@@ -316,7 +317,10 @@ static inline u8_error_t data_database_diagram_reader_private_bind_id_to_stateme
  *  \param text char sequence to bind to the prepared statement.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline u8_error_t data_database_diagram_reader_private_bind_text_to_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr, const char *text );
+static inline u8_error_t data_database_diagram_reader_private_bind_text_to_statement ( data_database_diagram_reader_t *this_,
+                                                                                       sqlite3_stmt *statement_ptr,
+                                                                                       const char *text
+                                                                                     );
 
 #include "storage/data_database_diagram_reader.inl"
 

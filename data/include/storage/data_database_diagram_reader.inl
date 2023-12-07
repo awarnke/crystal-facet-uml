@@ -39,7 +39,8 @@ static inline u8_error_t data_database_diagram_reader_private_prepare_statement 
     return result;
 }
 
-static inline u8_error_t data_database_diagram_reader_private_finalize_statement ( data_database_diagram_reader_t *this_, sqlite3_stmt *statement_ptr )
+static inline u8_error_t data_database_diagram_reader_private_finalize_statement ( data_database_diagram_reader_t *this_,
+                                                                                   sqlite3_stmt *statement_ptr )
 {
     assert( NULL != statement_ptr );
     u8_error_t result = U8_ERROR_NONE;

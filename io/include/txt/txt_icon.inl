@@ -20,7 +20,7 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
     {
         case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
         }
         break;
 
@@ -68,7 +68,7 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
         {
-            result = "..>>";
+            result = "\xC2\xB7\xC2\xB7>>";
         }
         break;
 
@@ -92,25 +92,25 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
         }
         break;
 
@@ -122,19 +122,19 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_REFINE:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_TRACE:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
         }
         break;
 
         default:
         {
-            result = "..>";
+            result = "\xC2\xB7\xC2\xB7>";
             U8_LOG_ERROR("error: unknown data_relationship_type_t.");
             assert(false);
         }

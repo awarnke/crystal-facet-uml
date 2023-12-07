@@ -56,10 +56,10 @@ static inline u8_error_t data_database_reader_get_diagram_by_uuid ( data_databas
 }
 
 static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
-                                                            data_row_id_t parent_id,
-                                                            uint32_t max_out_array_size,
-                                                            data_diagram_t (*out_diagram)[],
-                                                            uint32_t *out_diagram_count )
+                                                                          data_row_id_t parent_id,
+                                                                          uint32_t max_out_array_size,
+                                                                          data_diagram_t (*out_diagram)[],
+                                                                          uint32_t *out_diagram_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -84,10 +84,10 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
 }
 
 static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
-                                                                data_row_id_t classifier_id,
-                                                                uint32_t max_out_array_size,
-                                                                data_diagram_t (*out_diagram)[],
-                                                                uint32_t *out_diagram_count )
+                                                                              data_row_id_t classifier_id,
+                                                                              uint32_t max_out_array_size,
+                                                                              data_diagram_t (*out_diagram)[],
+                                                                              uint32_t *out_diagram_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -112,8 +112,8 @@ static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( da
 }
 
 static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
-                                                               data_row_id_t parent_id,
-                                                               data_small_set_t *out_diagram_ids )
+                                                                             data_row_id_t parent_id,
+                                                                             data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -136,8 +136,8 @@ static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( dat
 }
 
 static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
-                                                                   data_row_id_t classifier_id,
-                                                                   data_small_set_t *out_diagram_ids )
+                                                                                 data_row_id_t classifier_id,
+                                                                                 data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -161,7 +161,9 @@ static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id (
 
 /* ================================ CLASSIFIER ================================ */
 
-static inline u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, data_row_id_t id, data_classifier_t *out_classifier )
+static inline u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_,
+                                                                     data_row_id_t id,
+                                                                     data_classifier_t *out_classifier )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -183,7 +185,9 @@ static inline u8_error_t data_database_reader_get_classifier_by_id ( data_databa
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_, const char *name, data_classifier_t *out_classifier )
+static inline u8_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_,
+                                                                       const char *name,
+                                                                       data_classifier_t *out_classifier )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -205,7 +209,9 @@ static inline u8_error_t data_database_reader_get_classifier_by_name ( data_data
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t *this_, const char *uuid, data_classifier_t *out_classifier )
+static inline u8_error_t data_database_reader_get_classifier_by_uuid ( data_database_reader_t *this_,
+                                                                       const char *uuid,
+                                                                       data_classifier_t *out_classifier )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -228,10 +234,10 @@ static inline u8_error_t data_database_reader_get_classifier_by_uuid ( data_data
 }
 
 static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
-                                                                data_row_id_t diagram_id,
-                                                                uint32_t max_out_array_size,
-                                                                data_visible_classifier_t (*out_visible_classifier)[],
-                                                                uint32_t *out_visible_classifier_count )
+                                                                              data_row_id_t diagram_id,
+                                                                              uint32_t max_out_array_size,
+                                                                              data_visible_classifier_t (*out_visible_classifier)[],
+                                                                              uint32_t *out_visible_classifier_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -256,9 +262,8 @@ static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( da
 }
 
 static inline u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
-                                                               bool hierarchical,
-                                                               data_database_iterator_classifiers_t *io_classifier_iterator
-                                                             )
+                                                                             bool hierarchical,
+                                                                             data_database_iterator_classifiers_t *io_classifier_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -283,8 +288,8 @@ static inline u8_error_t data_database_reader_get_all_classifiers_iterator ( dat
 /* ================================ DIAGRAMELEMENT ================================ */
 
 static inline u8_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
-                                                           data_row_id_t id,
-                                                           data_diagramelement_t *out_diagramelement )
+                                                                         data_row_id_t id,
+                                                                         data_diagramelement_t *out_diagramelement )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -307,8 +312,8 @@ static inline u8_error_t data_database_reader_get_diagramelement_by_id ( data_da
 }
 
 static inline u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_database_reader_t *this_,
-                                                             const char *uuid,
-                                                             data_diagramelement_t *out_diagramelement )
+                                                                           const char *uuid,
+                                                                           data_diagramelement_t *out_diagramelement )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -331,10 +336,10 @@ static inline u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_
 }
 
 static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
-                                                                    data_row_id_t diagram_id,
-                                                                    uint32_t max_out_array_size,
-                                                                    data_diagramelement_t (*out_diagramelement)[],
-                                                                    uint32_t *out_diagramelement_count )
+                                                                                  data_row_id_t diagram_id,
+                                                                                  uint32_t max_out_array_size,
+                                                                                  data_diagramelement_t (*out_diagramelement)[],
+                                                                                  uint32_t *out_diagramelement_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -359,10 +364,10 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id 
 }
 
 static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
-                                                                       data_row_id_t classifier_id,
-                                                                       uint32_t max_out_array_size,
-                                                                       data_diagramelement_t (*out_diagramelement)[],
-                                                                       uint32_t *out_diagramelement_count )
+                                                                                     data_row_id_t classifier_id,
+                                                                                     uint32_t max_out_array_size,
+                                                                                     data_diagramelement_t (*out_diagramelement)[],
+                                                                                     uint32_t *out_diagramelement_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -389,8 +394,8 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_
 /* ================================ FEATURE ================================ */
 
 static inline u8_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
-                                                    data_row_id_t id,
-                                                    data_feature_t *out_feature )
+                                                                  data_row_id_t id,
+                                                                  data_feature_t *out_feature )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -413,8 +418,8 @@ static inline u8_error_t data_database_reader_get_feature_by_id ( data_database_
 }
 
 static inline u8_error_t data_database_reader_get_feature_by_uuid ( data_database_reader_t *this_,
-                                                      const char *uuid,
-                                                      data_feature_t *out_feature )
+                                                                    const char *uuid,
+                                                                    data_feature_t *out_feature )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -437,10 +442,10 @@ static inline u8_error_t data_database_reader_get_feature_by_uuid ( data_databas
 }
 
 static inline u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
-                                                                data_row_id_t classifier_id,
-                                                                uint32_t max_out_array_size,
-                                                                data_feature_t (*out_feature)[],
-                                                                uint32_t *out_feature_count )
+                                                                              data_row_id_t classifier_id,
+                                                                              uint32_t max_out_array_size,
+                                                                              data_feature_t (*out_feature)[],
+                                                                              uint32_t *out_feature_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -465,10 +470,10 @@ static inline u8_error_t data_database_reader_get_features_by_classifier_id ( da
 }
 
 static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
-                                                             data_row_id_t diagram_id,
-                                                             uint32_t max_out_array_size,
-                                                             data_feature_t (*out_feature)[],
-                                                             uint32_t *out_feature_count )
+                                                                           data_row_id_t diagram_id,
+                                                                           uint32_t max_out_array_size,
+                                                                           data_feature_t (*out_feature)[],
+                                                                           uint32_t *out_feature_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -495,8 +500,8 @@ static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_
 /* ================================ RELATIONSHIP ================================ */
 
 static inline u8_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
-                                                         data_row_id_t id,
-                                                         data_relationship_t *out_relationship )
+                                                                       data_row_id_t id,
+                                                                       data_relationship_t *out_relationship )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -519,8 +524,8 @@ static inline u8_error_t data_database_reader_get_relationship_by_id ( data_data
 }
 
 static inline u8_error_t data_database_reader_get_relationship_by_uuid ( data_database_reader_t *this_,
-                                                           const char *uuid,
-                                                           data_relationship_t *out_relationship )
+                                                                         const char *uuid,
+                                                                         data_relationship_t *out_relationship )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -543,10 +548,10 @@ static inline u8_error_t data_database_reader_get_relationship_by_uuid ( data_da
 }
 
 static inline u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
-                                                                     data_row_id_t classifier_id,
-                                                                     uint32_t max_out_array_size,
-                                                                     data_relationship_t (*out_relationship)[],
-                                                                     uint32_t *out_relationship_count )
+                                                                                   data_row_id_t classifier_id,
+                                                                                   uint32_t max_out_array_size,
+                                                                                   data_relationship_t (*out_relationship)[],
+                                                                                   uint32_t *out_relationship_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -571,10 +576,10 @@ static inline u8_error_t data_database_reader_get_relationships_by_classifier_id
 }
 
 static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t feature_id,
-                                                                  uint32_t max_out_array_size,
-                                                                  data_relationship_t (*out_relationship)[],
-                                                                  uint32_t *out_relationship_count )
+                                                                                data_row_id_t feature_id,
+                                                                                uint32_t max_out_array_size,
+                                                                                data_relationship_t (*out_relationship)[],
+                                                                                uint32_t *out_relationship_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -599,10 +604,10 @@ static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( 
 }
 
 static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  uint32_t max_out_array_size,
-                                                                  data_relationship_t (*out_relationship)[],
-                                                                  uint32_t *out_relationship_count )
+                                                                                data_row_id_t diagram_id,
+                                                                                uint32_t max_out_array_size,
+                                                                                data_relationship_t (*out_relationship)[],
+                                                                                uint32_t *out_relationship_count )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

@@ -223,6 +223,10 @@ static const char HTML_CLAS_TYPE_END[] = "</em>";
 static const char HTML_CLAS_ID_START[] = "\n<em class=\"clas-id\">";
 static const char HTML_CLAS_ID_END[] = "</em>";
 static const char HTML_CLAS_HEAD_END[] = "\n</p>";
+static const char HTML_CLAS_SEE_START[] = "\n<p class=\"clas-see\">\n";
+static const char HTML_CLAS_SEE_NEXT[] = ",\n";
+static const char HTML_CLAS_SEE_MORE[] = ", ...";
+static const char HTML_CLAS_SEE_END[] = "\n</p>";
 static const char HTML_CLAS_DESCR_START[] = "\n<p class=\"clas-descr\">\n";
 static const char HTML_CLAS_DESCR_END[] = "\n</p>";
 static const char HTML_CLAS_END[] = "\n</div>";
@@ -269,8 +273,7 @@ static const char TXT_SINGLE_INDENT[] = "| ";
 static const char TXT_DOUBLE_INDENT[] = "  | ";
 static const char TXT_SPACE_INDENT[] = "  ";
 static const char TXT_COLON_SPACE[] = ": ";
-static const char TXT_ARROW_SPACE[] = "--> ";
-static const char TXT_SPACE_ARROW_SPACE[] = " --> ";
+static const char TXT_SPACE[] = " ";
 
 /* define a struct where the function pointers have the exact right signatures to avoid typecasts */
 #define io_element_writer_impl_t document_element_writer_t
@@ -327,6 +330,8 @@ void document_element_writer_init ( document_element_writer_t *this_,
 
     json_type_name_map_init( &((*this_).type_map) );
     data_rules_init( &((*this_).data_rules) );
+    document_link_provider_init( &((*this_).link_provider), db_reader );
+    txt_icon_init( &((*this_).txt_icon) );
 
     txt_writer_init( &((*this_).txt_writer), output );
     xml_writer_init( &((*this_).xml_writer), output );
@@ -385,6 +390,8 @@ void document_element_writer_destroy( document_element_writer_t *this_ )
     xml_writer_destroy( &((*this_).xml_writer) );
     txt_writer_destroy( &((*this_).txt_writer) );
 
+    txt_icon_destroy( &((*this_).txt_icon) );
+    document_link_provider_destroy( &((*this_).link_provider) );
     data_rules_destroy( &((*this_).data_rules) );
     json_type_name_map_destroy( &((*this_).type_map) );
 
@@ -776,6 +783,14 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
                                                   data_classifier_get_main_type( classifier_ptr )
                                                 );
     const char *const classifier_stereotype = data_classifier_get_stereotype_const( classifier_ptr );
+    data_diagram_t (*appears_in_diagrams)[];
+    uint32_t appears_in_diagrams_count;
+    const u8_error_t appears_in_diagrams_err
+        = document_link_provider_get_occurrences( &((*this_).link_provider),
+                                                  classifier_id,
+                                                  &appears_in_diagrams,
+                                                  &appears_in_diagrams_count
+                                                );
 
     switch ( (*this_).export_type )
     {
@@ -804,6 +819,37 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
 
         case IO_FILE_FORMAT_HTML:
         {
+            if (( U8_ERROR_NONE == appears_in_diagrams_err )
+               ||( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err ))
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_START );
+                bool is_first = true;
+                for ( uint_fast32_t idx = 0; idx < appears_in_diagrams_count; idx ++ )
+                {
+                    const data_diagram_t *const current = &((*appears_in_diagrams)[idx]);
+                    const data_id_t diag_ref_id = data_diagram_get_data_id( current );
+                    if ( is_first )
+                    {
+                        is_first = false;
+                    }
+                    else
+                    {
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_NEXT );
+                    }
+                    const char *const diag_ref_name = data_diagram_get_name_const( current );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_START );
+                    export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), diag_ref_id );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_MIDDLE );
+                    export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), diag_ref_name );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_ANY_DESCR_XREF_END );
+                }
+                if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_MORE );
+                }
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_SEE_END );
+            }
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_HEAD_START );
             if ( 0 != utf8string_get_length( classifier_stereotype ) )
             {
@@ -821,6 +867,7 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_ID_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_HEAD_END );
+
             if ( 0 != classifier_descr_len )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_DESCR_START );
@@ -1134,6 +1181,7 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
     const data_id_t relation_id = data_relationship_get_data_id( relation_ptr );
     const char *const relation_descr = data_relationship_get_description_const( relation_ptr );
     const size_t relation_descr_len = utf8string_get_length(relation_descr);
+    const data_relationship_type_t relation_type = data_relationship_get_main_type( relation_ptr );
     const char *const dest_classifier_name
         = (NULL != to_c)
         ? data_classifier_get_name_const( to_c )
@@ -1152,8 +1200,10 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
     const char *const relation_type_name
         = json_type_name_map_get_relationship_type( &((*this_).type_map),
                                                     statemachine_context,
-                                                    data_relationship_get_main_type( relation_ptr )
+                                                    relation_type
                                                   );
+    const char*const relation_txticon = txt_icon_get_relationship ( &((*this_).txt_icon), relation_type );
+
     const char *const relation_stereotype = data_relationship_get_stereotype_const( relation_ptr );
 
     switch ( (*this_).export_type )
@@ -1169,7 +1219,9 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             xml_writer_increase_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_txticon );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
@@ -1204,7 +1256,9 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_END );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_txticon );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_DEST_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_DEST_END );
@@ -1227,25 +1281,27 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         case IO_FILE_FORMAT_TXT:
         {
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE_INDENT );
-            export_err |= txt_writer_write_plain ( &((*this_).txt_writer), relation_name );
 
             size_t relation_name_len = utf8string_get_length(relation_name);
             /* print arrow */
-            if ( relation_name_len == 0 )
+            if ( relation_name_len != 0 )
             {
-                export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_ARROW_SPACE );
+                export_err |= txt_writer_write_plain ( &((*this_).txt_writer), relation_name );
+                export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE );
             }
-            else
-            {
-                export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE_ARROW_SPACE );
-            }
+            export_err |= txt_writer_write_plain ( &((*this_).txt_writer), relation_txticon );
+            export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_SPACE );
 
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), dest_classifier_name );
 
             /* print id */
             size_t dest_classifier_name_len = utf8string_get_length( dest_classifier_name );
-            int id_indent_width = TXT_ID_INDENT_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - relation_name_len
-                - ((relation_name_len==0)?utf8string_get_length(TXT_ARROW_SPACE):utf8string_get_length(TXT_SPACE_ARROW_SPACE))
+            int id_indent_width
+                = TXT_ID_INDENT_COLUMN
+                - utf8string_get_length(TXT_SPACE_INDENT)
+                - ((relation_name_len==0)?0:(relation_name_len+utf8string_get_length(TXT_SPACE)))
+                - utf8string_get_length(relation_txticon)
+                - utf8string_get_length(TXT_SPACE)
                 - dest_classifier_name_len;
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       id_indent_width,
