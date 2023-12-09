@@ -425,7 +425,6 @@
                             </entry>
                             <entry>
                                 <para>Limitations: There is no distinction in ActivityInitial and FlowInitial.</para>
-                                <para>Limitations: There is no separate entryPoint state-type.</para>
                                 <para>XMI-Export/State-context: For xmi export,
                                     all states belonging to the same statemachine need an outer, enclosing state.
                                 </para>
@@ -449,7 +448,7 @@
                             </entry>
                             <entry>
                                 <para>Limitations: There is no distinction in ActivityFinal and FlowFinal.</para>
-                                <para>Limitations: There is no separate exitPoint and terminate state-type.</para>
+                                <para>Limitations: There is no separate terminate state-type.</para>
                                 <para>XMI-Export/State-context: For xmi export,
                                     all states belonging to the same statemachine need an outer, enclosing state.
                                 </para>
@@ -474,7 +473,6 @@
                             <entry>
                                 <para>Limitations: No symbol for hidden decompositions, no regions (swimlanes) in composite states.</para>
                                 <para>Limitations: entry/exit/do list.</para>
-                                <para>Limitations: entryPoint and exitPoint states cannot be drawn on parent state border line.</para>
                                 <para>XMI-Export: For xmi export, all states belonging to the same statemachine need an outer, enclosing state.
                                 </para>
                             </entry>
