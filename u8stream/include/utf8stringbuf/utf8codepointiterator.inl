@@ -4,9 +4,9 @@
 extern "C" {
 #endif
 
-static inline void utf8codepointiterator_init ( utf8codepointiterator_t *this_, utf8stringview_t string )
+static inline void utf8codepointiterator_init ( utf8codepointiterator_t *this_, utf8stringview_t stringview )
 {
-    (*this_).remaining = string;
+    (*this_).remaining = stringview;
     utf8codepointiterator_private_step_to_next( this_ );
 }
 

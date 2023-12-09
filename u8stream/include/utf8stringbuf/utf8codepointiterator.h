@@ -36,9 +36,9 @@ typedef struct utf8codepointiterator_struct utf8codepointiterator_t;
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param this_ pointer to own object attributes
- *  \param string list of code points
+ *  \param stringview list of code points
  */
-static inline void utf8codepointiterator_init ( utf8codepointiterator_t *this_, utf8stringview_t string );
+static inline void utf8codepointiterator_init ( utf8codepointiterator_t *this_, utf8stringview_t stringview );
 
 /*!
  *  \brief destroys the utf8codepointiterator_t struct

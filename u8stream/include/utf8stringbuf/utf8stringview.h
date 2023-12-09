@@ -121,6 +121,14 @@ static inline const char* utf8stringview_get_start( const utf8stringview_t this_
 static inline size_t utf8stringview_get_length( const utf8stringview_t this_ );
 
 /*!
+ * \brief Conts the code points in the character array
+ * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(1)
+ * \param this_ The string view object
+ * \return Number of (valid) code points in the character array.
+ */
+static inline size_t utf8stringview_count_codepoints( const utf8stringview_t this_ );
+
+/*!
  * \brief Checks if two strings are equal.
  *
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen

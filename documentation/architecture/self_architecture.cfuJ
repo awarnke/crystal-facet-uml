@@ -26927,19 +26927,19 @@
     },
     {
       "relationship": {
-        "id": 681,
+        "id": 802,
         "main_type": 0,
         "type": "Dependency",
         "name": "iterates on",
         "description": [
                 ""
         ],
-        "list_order": 425984,
+        "list_order": 491520,
         "from_classifier_name": "utf8:codepoint iterator",
-        "to_classifier_name": "utf8:string",
+        "to_classifier_name": "utf8:stringview",
         "from_node": "34268250-358c-4369-b581-479e8caaeeb0",
-        "to_node": "117c2b41-5ef4-4a98-a8a6-e9d65ce176da",
-        "uuid": "87fcda4c-e555-4623-a373-4da9cf20bd02"
+        "to_node": "af02efa6-245a-42db-85d9-aee3edea6d72",
+        "uuid": "0b11e65b-78a1-40f8-90bc-e6de10ea6354"
       }
     },
     {

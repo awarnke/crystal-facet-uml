@@ -14,6 +14,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testInitMacros( test_fixture_t *fix );
 static test_case_result_t testInitFunctions( test_fixture_t *fix );
+static test_case_result_t testCodepointFunctions( test_fixture_t *fix );
 static test_case_result_t testFindFirst( test_fixture_t *fix );
 
 test_suite_t utf8stringview_test_get_suite(void)
@@ -22,6 +23,7 @@ test_suite_t utf8stringview_test_get_suite(void)
     test_suite_init( &result, "utf8StringViewTest", &set_up, &tear_down );
     test_suite_add_test_case( &result, "testInitMacros", &testInitMacros );
     test_suite_add_test_case( &result, "testInitFunctions", &testInitFunctions );
+    test_suite_add_test_case( &result, "testCodepointFunctions", &testCodepointFunctions );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
     return result;
 }
@@ -114,6 +116,21 @@ static test_case_result_t testInitFunctions( test_fixture_t *fix )
     const utf8stringview_t my_view_6 = utf8stringview_init_region( my_txt, 1, 3 );
     TEST_EXPECT_EQUAL_PTR( (my_txt+1), utf8stringview_get_start( my_view_6 ) );
     TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( my_view_6 ) );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t testCodepointFunctions( test_fixture_t *fix )
+{
+    static const char *const my_txt = "1-\xc3\xb7-\xe1\xb4\x81-\xf0\x92\x80\x80";
+
+    const utf8stringview_t valid = UTF8STRINGVIEW_STR( my_txt );
+    const size_t count1 = utf8stringview_count_codepoints( valid );
+    TEST_EXPECT_EQUAL_INT( 7, count1 );
+
+    const utf8stringview_t invalidEnd = UTF8STRINGVIEW( my_txt, 12 );
+    const size_t count2 = utf8stringview_count_codepoints( invalidEnd );
+    TEST_EXPECT_EQUAL_INT( 6, count2 );
+
     return TEST_CASE_RESULT_OK;
 }
 

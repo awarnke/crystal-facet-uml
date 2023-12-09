@@ -34,6 +34,44 @@ static inline size_t utf8stringview_get_length( const utf8stringview_t this_ ) {
     return this_.length;
 }
 
+static inline size_t utf8stringview_count_codepoints( const utf8stringview_t this_ ) {
+    size_t result = 0;
+    unsigned int skip = 0;
+    if ( this_.start != NULL ) {
+        for ( size_t pos = 0; pos < this_.length; pos ++ )
+        {
+            if ( skip > 0 )
+            {
+                skip --;
+                if ( skip == 0 ) {
+                    result ++;
+                }
+            }
+            else
+            {
+                const unsigned char firstByte = (const unsigned char) (this_.start[pos]);
+                if (( 0x80 & firstByte ) == 0x00 )
+                {
+                    result ++;
+                }
+                else if ( firstByte < 0xe0 )
+                {
+                    skip = 1;  /* This is a 2 byte code point */
+                }
+                else if ( firstByte < 0xf0 )
+                {
+                    skip = 2;  /* This is a 3 byte code point */
+                }
+                else if ( firstByte < 0xf8 )
+                {
+                    skip = 3;  /* This is a 4 byte code point */
+                }
+            }
+        }
+    }
+    return result;
+}
+
 static inline int utf8stringview_equals_str( const utf8stringview_t this_, const char *that )
 {
     int result;

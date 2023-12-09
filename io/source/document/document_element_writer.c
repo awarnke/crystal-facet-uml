@@ -124,7 +124,7 @@ static const char HTML_HEAD_END[]
 static const char HTML_BODY_START[]
     = "\n<body>";
 static const char HTML_HEADER[]
-    = "\n<header />";
+    = "\n<header></header>";
 static const char HTML_NAV_START[]
     = "\n<nav>";
 static const char HTML_NAV_END[]
@@ -136,7 +136,7 @@ static const char HTML_ARTICLE_END[]
     = "\n</article>"
       "\n</main>";
 static const char HTML_FOOTER[]
-    = "\n<footer />";
+    = "\n<footer></footer>";
 static const char HTML_BODY_END[]
     = "\n</body>";
 static const char HTML_DOC_END[]
@@ -851,15 +851,15 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
             }
 
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_HEAD_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_END );
             if ( 0 != utf8string_get_length( classifier_stereotype ) )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_STEREO_START );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_stereotype );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_STEREO_END );
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_TYPE_START );
             export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), classifier_type_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_CLAS_TYPE_END );
@@ -881,8 +881,9 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
         {
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), classifier_name );
+            const size_t clas_codepoint = utf8stringview_count_codepoints( UTF8STRINGVIEW_STR( classifier_name ) );
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                      TXT_ID_INDENT_COLUMN - utf8string_get_length(classifier_name),
+                                                      TXT_ID_INDENT_COLUMN - clas_codepoint,
                                                       classifier_id
                                                     );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );
@@ -1035,15 +1036,15 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
         case IO_FILE_FORMAT_HTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_HEAD_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_NAME_END );
             if ( has_stereotype && ( 0 != feature_value_len ) )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_START );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_END );
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_NAME_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_NAME_END );
             if ( ( ! has_stereotype ) && ( 0 != feature_value_len ) )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
@@ -1077,9 +1078,10 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
                 export_err |= txt_writer_write_plain ( &((*this_).txt_writer), feature_value );
             }
 
-            size_t feature_key_len = utf8string_get_length(feature_key);
-            int id_indent_width = TXT_ID_INDENT_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - feature_key_len
-                - ((feature_value_len==0)?0:feature_value_len+utf8string_get_length(TXT_COLON_SPACE));
+            const size_t feat_key_codepoint = utf8stringview_count_codepoints( UTF8STRINGVIEW_STR( feature_key ) );
+            const size_t feat_value_codepoint = utf8stringview_count_codepoints( UTF8STRINGVIEW_STR( feature_value ) );
+            int id_indent_width = TXT_ID_INDENT_COLUMN - utf8string_get_length(TXT_SPACE_INDENT) - feat_key_codepoint
+                - ((feature_value_len==0)?0:(feat_value_codepoint+utf8string_get_length(TXT_COLON_SPACE)));
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       id_indent_width,
                                                       feature_id
@@ -1247,15 +1249,15 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         case IO_FILE_FORMAT_HTML:
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_HEAD_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_END );
             if ( 0 != utf8string_get_length( relation_stereotype ) )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_STEREO_START );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_stereotype );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_STEREO_END );
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_REL_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_txticon );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
@@ -1295,14 +1297,16 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), dest_classifier_name );
 
             /* print id */
-            size_t dest_classifier_name_len = utf8string_get_length( dest_classifier_name );
+            const size_t rel_name_codepoint = utf8stringview_count_codepoints( UTF8STRINGVIEW_STR( relation_name ) );
+            const size_t rel_icon_codepoint = utf8stringview_count_codepoints( UTF8STRINGVIEW_STR( relation_txticon ) );
+            const size_t rel_dest_codepoint = utf8stringview_count_codepoints( UTF8STRINGVIEW_STR( dest_classifier_name ) );
             int id_indent_width
                 = TXT_ID_INDENT_COLUMN
                 - utf8string_get_length(TXT_SPACE_INDENT)
-                - ((relation_name_len==0)?0:(relation_name_len+utf8string_get_length(TXT_SPACE)))
-                - utf8string_get_length(relation_txticon)
+                - ((relation_name_len==0)?0:(rel_name_codepoint+utf8string_get_length(TXT_SPACE)))
+                - rel_icon_codepoint
                 - utf8string_get_length(TXT_SPACE)
-                - dest_classifier_name_len;
+                - rel_dest_codepoint;
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
                                                       id_indent_width,
                                                       relation_id
@@ -1462,15 +1466,15 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
 
             /* diagram contents */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_HEAD_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_NAME_END );
             if ( 0 != utf8string_get_length( diag_stereotype ) )
             {
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_STEREO_START );
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_stereotype );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_STEREO_END );
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_NAME_START );
-            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_TYPE_START );
             export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), diag_type_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_DIAG_TYPE_END );
@@ -1499,8 +1503,9 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
         case IO_FILE_FORMAT_TXT:
         {
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), diag_name );
+            const size_t diag_name_codepoint = utf8stringview_count_codepoints( UTF8STRINGVIEW_STR( diag_name ) );
             export_err |= txt_writer_write_indent_id( &((*this_).txt_writer),
-                                                      TXT_ID_INDENT_COLUMN - utf8string_get_length(diag_name),
+                                                      TXT_ID_INDENT_COLUMN - diag_name_codepoint,
                                                       diag_id
                                                     );
             export_err |= txt_writer_write_plain ( &((*this_).txt_writer), TXT_NEWLINE );

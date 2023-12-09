@@ -4,6 +4,8 @@
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 
+#define TXT_ICON_TWO_MIDDLE_DOTS "\xC2\xB7\xC2\xB7"
+
 static inline void txt_icon_init( txt_icon_t *this_ )
 {
 }
@@ -20,7 +22,7 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
     {
         case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
@@ -68,7 +70,7 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
         {
-            result = "\xC2\xB7\xC2\xB7>>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">>";
         }
         break;
 
@@ -92,25 +94,25 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
@@ -122,19 +124,19 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_REFINE:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_TRACE:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         default:
         {
-            result = "\xC2\xB7\xC2\xB7>";
+            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
             U8_LOG_ERROR("error: unknown data_relationship_type_t.");
             assert(false);
         }
