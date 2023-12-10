@@ -15,6 +15,7 @@ Update all version numbers:
 >       main/include/meta/meta_version.inl : META_VERSION_STR
 >       ChangeLog : new entry
 >       documentation/user_manual/crystal_facet_documentation.xml : date
+>       cd build/user_manual/ && make && make install
 
 
 Pack

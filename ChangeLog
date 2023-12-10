@@ -3,10 +3,10 @@ crystal-facet-uml (1.54.0) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * The json export creates a schema file that explains the json format
   * The html export is html5 compliant and creates nav, main and article tags
-  * The html+docbook export shows relationship-type specific arrows
-  * The html+docbook export lists diagrams where classifiers appear
+  * The html+docbook(db) export lists diagrams where classifiers appear
+  * The html+db export show stereotypes and relationship-type specific arrows
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 29 Oct 2023 07:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 10 Dec 2023 12:00:00 +0100
 
 crystal-facet-uml (1.53.1) UNRELEASED; urgency=medium
 
