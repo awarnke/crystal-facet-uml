@@ -24,6 +24,9 @@
 
 /* IO_FILE_FORMAT_DOCBOOK */
 
+#define DOCUMENT_ELEMENT_WRITER_LEFT_POINTING_GUILLEMENTS "\xc2\xab"
+#define DOCUMENT_ELEMENT_WRITER_RIGHT_POINTING_GUILLEMENTS "\xc2\xbb"
+
 static const char DOCBOOK_ENC[]
     = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 static const char DOCBOOK_DOC_START[]
@@ -84,12 +87,24 @@ static const char DOCBOOK_ELEMENT_START[]
 static const char DOCBOOK_ELEMENT_NAME_START[]
     = "\n<term>";
 static const char DOCBOOK_ELEMENT_NAME_END[]
-    = "</term>";
+    = "</term>"
+      "\n<listitem>";
+static const char DOCBOOK_ELEMENT_ATTRIBUTES_START[]
+    = "\n<para>";
+static const char DOCBOOK_ELEMENT_STEREO_START[]
+    = "\n" DOCUMENT_ELEMENT_WRITER_LEFT_POINTING_GUILLEMENTS;
+static const char DOCBOOK_ELEMENT_STEREO_END[]
+    = DOCUMENT_ELEMENT_WRITER_RIGHT_POINTING_GUILLEMENTS;
 static const char DOCBOOK_ELEMENT_ID_START[]
-    = "\n<listitem>"
-      "\n    <para><token>";
+    = "\n<token>";
 static const char DOCBOOK_ELEMENT_ID_END[]
-    = "</token></para>";
+    = "</token>";
+static const char DOCBOOK_ELEMENT_SEE_START[] = "\n<emphasis>(appears in ";
+static const char DOCBOOK_ELEMENT_SEE_NEXT[] = ",\n";
+static const char DOCBOOK_ELEMENT_SEE_MORE[] = ", ...";
+static const char DOCBOOK_ELEMENT_SEE_END[] = ")\n</emphasis>";
+static const char DOCBOOK_ELEMENT_ATTRIBUTES_END[]
+    = "\n</para>";
 static const char DOCBOOK_ELEMENT_DESCR_START[]  /* optional */
     = "\n<para>";
 static const char DOCBOOK_ELEMENT_DESCR_END[]  /* optional */
@@ -798,20 +813,64 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+            if ( 0 != utf8string_get_length( classifier_stereotype ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_stereotype );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), classifier_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
+
+            if (( U8_ERROR_NONE == appears_in_diagrams_err )
+               ||( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err ))
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_START );
+                bool is_first = true;
+                for ( uint_fast32_t idx = 0; idx < appears_in_diagrams_count; idx ++ )
+                {
+                    const data_diagram_t *const current = &((*appears_in_diagrams)[idx]);
+                    const data_id_t diag_ref_id = data_diagram_get_data_id( current );
+                    if ( is_first )
+                    {
+                        is_first = false;
+                    }
+                    else
+                    {
+                        export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_NEXT );
+                    }
+                    const char *const diag_ref_name = data_diagram_get_name_const( current );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_START );
+                    export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), diag_ref_id );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_MIDDLE );
+                    export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), diag_ref_name );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_XREF_END );
+                }
+                if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == appears_in_diagrams_err )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_MORE );
+                }
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_SEE_END );
+            }
+
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_END );
+
             if ( 0 != classifier_descr_len )
             {
-                xml_writer_increase_indent ( &((*this_).xml_writer) );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_START );
                 export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
-                xml_writer_decrease_indent ( &((*this_).xml_writer) );
             }
+
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
@@ -1009,25 +1068,40 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
         {
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
             if ( 0 != feature_value_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                if ( has_stereotype )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_START );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_END );
+                }
+                else
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                }
             }
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), feature_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_END );
+
             if ( 0 != feature_descr_len )
             {
-                xml_writer_increase_indent ( &((*this_).xml_writer) );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_START );
                 export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
-                xml_writer_decrease_indent ( &((*this_).xml_writer) );
             }
+
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
@@ -1039,18 +1113,21 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_NAME_END );
-            if ( has_stereotype && ( 0 != feature_value_len ) )
+            if ( 0 != feature_value_len )
             {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_START );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_END );
-            }
-            if ( ( ! has_stereotype ) && ( 0 != feature_value_len ) )
-            {
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_VALUE_START );
-                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
-                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_VALUE_END );
+                if ( has_stereotype )
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_START );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_STEREO_END );
+                }
+                else
+                {
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_VALUE_START );
+                    export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
+                    export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_VALUE_END );
+                }
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), HTML_FEAT_TYPE_START );
             export_err |= xml_writer_write_xml_enc( &((*this_).xml_writer), feature_type_name );
@@ -1219,24 +1296,36 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
             /* element */
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
             xml_writer_increase_indent ( &((*this_).xml_writer) );
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+            if ( 0 != utf8string_get_length( relation_stereotype ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_stereotype );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_END );
+            }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_txticon );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), relation_id );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_END );
+
             if ( 0 != relation_descr_len )
             {
-                xml_writer_increase_indent ( &((*this_).xml_writer) );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_START );
                 export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
                 export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_DESCR_END );
-                xml_writer_decrease_indent ( &((*this_).xml_writer) );
             }
+
             xml_writer_decrease_indent ( &((*this_).xml_writer) );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
             /* list end */
@@ -1447,9 +1536,41 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
+
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_START );
+            xml_writer_increase_indent ( &((*this_).xml_writer) );
+            if ( 0 != utf8string_get_length( diag_stereotype ) )
+            {
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_START );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_stereotype );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_STEREO_END );
+            }
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
+            export_err |= xml_writer_write_plain_id( &((*this_).xml_writer), diag_id );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ATTRIBUTES_END );
+
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
+            xml_writer_decrease_indent ( &((*this_).xml_writer) );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
             export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_MIDDLE );

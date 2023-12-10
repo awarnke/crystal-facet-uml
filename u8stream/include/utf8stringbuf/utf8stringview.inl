@@ -54,17 +54,25 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t thi
                 {
                     result ++;
                 }
-                else if ( firstByte < 0xe0 )
+                else if (( 0xc0 & firstByte ) == 0x80 )
+                {
+                    /* This is not a valid first byte, skipping to the next byte... */
+                }
+                else if (( 0xe0 & firstByte ) == 0xc0 )
                 {
                     skip = 1;  /* This is a 2 byte code point */
                 }
-                else if ( firstByte < 0xf0 )
+                else if (( 0xf0 & firstByte ) == 0xe0 )
                 {
                     skip = 2;  /* This is a 3 byte code point */
                 }
-                else if ( firstByte < 0xf8 )
+                else if (( 0xf8 & firstByte ) == 0xf0 )
                 {
                     skip = 3;  /* This is a 4 byte code point */
+                }
+                else
+                {
+                    /* This is not a valid first byte, skipping to the next byte... */
                 }
             }
         }

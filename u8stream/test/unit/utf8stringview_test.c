@@ -127,9 +127,13 @@ static test_case_result_t testCodepointFunctions( test_fixture_t *fix )
     const size_t count1 = utf8stringview_count_codepoints( valid );
     TEST_EXPECT_EQUAL_INT( 7, count1 );
 
+    const utf8stringview_t invalidStart = UTF8STRINGVIEW_STR( &(my_txt[3]) );
+    const size_t count2 = utf8stringview_count_codepoints( invalidStart );
+    TEST_EXPECT_EQUAL_INT( 4, count2 );
+
     const utf8stringview_t invalidEnd = UTF8STRINGVIEW( my_txt, 12 );
-    const size_t count2 = utf8stringview_count_codepoints( invalidEnd );
-    TEST_EXPECT_EQUAL_INT( 6, count2 );
+    const size_t count3 = utf8stringview_count_codepoints( invalidEnd );
+    TEST_EXPECT_EQUAL_INT( 6, count3 );
 
     return TEST_CASE_RESULT_OK;
 }
