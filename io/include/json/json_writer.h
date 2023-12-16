@@ -30,7 +30,7 @@ enum json_writer_max_enum {
 /*!
  *  \brief indentation
  */
-extern const char JSON_CONSTANTS_INDENT[(2*JSON_WRITER_MAX_INDENT)+sizeof('\0')];
+extern const char JSON_CONSTANTS_INDENT[(2*JSON_WRITER_MAX_INDENT)+sizeof("")];
 
 /*!
  *  \brief indentation, followed by quote
