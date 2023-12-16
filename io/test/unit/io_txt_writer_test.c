@@ -1,7 +1,7 @@
-/* File: txt_writer_test.c; Copyright and License: see below */
+/* File: io_txt_writer_test.c; Copyright and License: see below */
 
-#include "txt/txt_writer.h"
-#include "txt_writer_test.h"
+#include "io_txt_writer_test.h"
+#include "format/io_txt_writer.h"
 #include "set/data_visible_set.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "test_fixture.h"
@@ -20,10 +20,10 @@ static test_case_result_t test_write_indent_multiline_string_dual( test_fixture_
 static test_case_result_t test_write_indent_multiline_string_crnl( test_fixture_t *fix );
 static test_case_result_t test_write_indent_multiline_string_cr( test_fixture_t *fix );
 
-test_suite_t txt_writer_test_get_suite(void)
+test_suite_t io_txt_writer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "txt_writer_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result, "io_txt_writer_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_write_indent_multiline_string_null", &test_write_indent_multiline_string_null );
     test_suite_add_test_case( &result, "test_write_indent_multiline_string_empty", &test_write_indent_multiline_string_empty );
     test_suite_add_test_case( &result, "test_write_indent_multiline_string_empty_last", &test_write_indent_multiline_string_empty_last );
@@ -39,7 +39,7 @@ static const int ENDMARKER_LEN = 1;
 
 struct test_fixture_struct {
     /* data_visible_set_t fake_input_data; */
-    txt_writer_t fake_testee;
+    io_txt_writer_t fake_testee;
     char out_buffer[24];
     universal_memory_output_stream_t out_stream;
 };
@@ -52,14 +52,14 @@ static test_fixture_t * set_up()
     /* data_visible_set_init( &((*fix).fake_input_data) ); */
 
     universal_memory_output_stream_init( &((*fix).out_stream), &((*fix).out_buffer), sizeof( (*fix).out_buffer ) );
-    txt_writer_init( &((*fix).fake_testee), universal_memory_output_stream_get_output_stream( &((*fix).out_stream) ) );
+    io_txt_writer_init( &((*fix).fake_testee), universal_memory_output_stream_get_output_stream( &((*fix).out_stream) ) );
     return fix;
 }
 
 static void tear_down( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    txt_writer_destroy( &((*fix).fake_testee) );
+    io_txt_writer_destroy( &((*fix).fake_testee) );
 
     universal_memory_output_stream_destroy( &((*fix).out_stream) );
 
@@ -70,7 +70,7 @@ static test_case_result_t test_write_indent_multiline_string_null( test_fixture_
 {
     assert( fix != NULL );
 
-    int err = txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", NULL );
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", NULL );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
@@ -82,7 +82,7 @@ static test_case_result_t test_write_indent_multiline_string_empty( test_fixture
 {
     assert( fix != NULL );
 
-    int err = txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "" );
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "" );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
@@ -94,7 +94,7 @@ static test_case_result_t test_write_indent_multiline_string_empty_last( test_fi
 {
     assert( fix != NULL );
 
-    int err = txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\n" );
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\n" );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
@@ -106,7 +106,7 @@ static test_case_result_t test_write_indent_multiline_string_single( test_fixtur
 {
     assert( fix != NULL );
 
-    int err = txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456" );
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456" );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
@@ -118,7 +118,7 @@ static test_case_result_t test_write_indent_multiline_string_dual( test_fixture_
 {
     assert( fix != NULL );
 
-    int err = txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\n789" );
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\n789" );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
@@ -130,7 +130,7 @@ static test_case_result_t test_write_indent_multiline_string_crnl( test_fixture_
 {
     assert( fix != NULL );
 
-    int err = txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\r\n789\r\n" );
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\r\n789\r\n" );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/
@@ -142,7 +142,7 @@ static test_case_result_t test_write_indent_multiline_string_cr( test_fixture_t 
 {
     assert( fix != NULL );
 
-    int err = txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\r789\r" );
+    int err = io_txt_writer_write_indent_multiline_string( &((*fix).fake_testee), "123_", "456\r789\r" );
     TEST_EXPECT_EQUAL_INT( 0, err );
     universal_memory_output_stream_write( &((*fix).out_stream), ENDMARKER, ENDMARKER_LEN );
     /*fprintf( stdout, "check: \"%s\"\n", &((*fix).out_buffer) );*/

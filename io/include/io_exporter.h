@@ -189,10 +189,10 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
-                                                  data_id_t diagram_id,
-                                                  uint32_t max_recursion,
-                                                  document_element_writer_t *format_writer
-                                                );
+                                                         data_id_t diagram_id,
+                                                         uint32_t max_recursion,
+                                                         document_element_writer_t *format_writer
+                                                       );
 
 /*!
  *  \brief calculates a base filename (without type extension) for a givien diagram id

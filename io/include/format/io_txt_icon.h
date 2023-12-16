@@ -1,7 +1,7 @@
-/* File: txt_icon.h; Copyright and License: see below */
+/* File: io_txt_icon.h; Copyright and License: see below */
 
-#ifndef TXT_ICON_H
-#define TXT_ICON_H
+#ifndef IO_TXT_ICON_H
+#define IO_TXT_ICON_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -14,25 +14,25 @@
 /*!
  *  \brief attributes of the txt icon provider
  */
-struct txt_icon_struct {
-    int dummy;  /*!< txt_icon_t has no attributes */
+struct io_txt_icon_struct {
+    int dummy;  /*!< io_txt_icon_t has no attributes */
 };
 
-typedef struct txt_icon_struct txt_icon_t;
+typedef struct io_txt_icon_struct io_txt_icon_t;
 
 /*!
  *  \brief initializes the txt icon provider
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void txt_icon_init( txt_icon_t *this_ );
+static inline void io_txt_icon_init( io_txt_icon_t *this_ );
 
 /*!
  *  \brief destroys the txt icon provider
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void txt_icon_destroy( txt_icon_t *this_ );
+static inline void io_txt_icon_destroy( io_txt_icon_t *this_ );
 
 /*!
  *  \brief gets a textual icon for arelationship type
@@ -41,11 +41,11 @@ static inline void txt_icon_destroy( txt_icon_t *this_ );
  *  \param type data_relationship_type_t to represent as textual icon
  *  \return textual icon of the relationship, such as "-->" or "(+)--" or "<>--"
  */
-static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_relationship_type_t type );
+static inline const char* io_txt_icon_get_relationship ( io_txt_icon_t *this_, data_relationship_type_t type );
 
-#include "txt_icon.inl"
+#include "io_txt_icon.inl"
 
-#endif  /* TXT_ICON_H */
+#endif  /* IO_TXT_ICON_H */
 
 
 /*

@@ -14,8 +14,8 @@
  */
 
 #include "xmi/xmi_atom_writer.h"
-#include "xml/xml_writer.h"
 #include "xmi/xmi_type_converter.h"
+#include "format/io_xml_writer.h"
 #include "io_file_format.h"
 #include "xmi_writer_pass.h"
 #include "data_diagram.h"
@@ -33,7 +33,7 @@ struct xmi_interaction_writer_struct {
     xmi_writer_pass_t mode;  /*!< depending on the mode, conversion from a data object to the output format differs */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    xml_writer_t *xml_writer;  /*!< pointer to external xml writer */
+    io_xml_writer_t *xml_writer;  /*!< pointer to external xml writer */
     xmi_atom_writer_t atom_writer;  /*!< own instance of an atom writer */
 
     xmi_type_converter_t xmi_types;  /*!< own instance of an xmi_type_converter_t */
@@ -50,7 +50,7 @@ typedef struct xmi_interaction_writer_struct xmi_interaction_writer_t;
  */
 void xmi_interaction_writer_init( xmi_interaction_writer_t *this_,
                                   data_stat_t *io_export_stat,
-                                  xml_writer_t *out_writer
+                                  io_xml_writer_t *out_writer
                                 );
 
 /*!

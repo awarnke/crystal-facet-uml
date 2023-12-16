@@ -22,8 +22,8 @@ enum io_file_format_enum {
     IO_FILE_FORMAT_PNG     = 0x00008,  /*!< portable network graphics */
     IO_FILE_FORMAT_TXT     = 0x00010,  /*!< utf8 encoded text */
     IO_FILE_FORMAT_DOCBOOK = 0x00100,  /*!< docbook */
-    IO_FILE_FORMAT_HTML   = 0x00200,  /*!< xhtml */
-    IO_FILE_FORMAT_CSS     = 0x00400,  /*!< css for xhtml */
+    IO_FILE_FORMAT_HTML   = 0x00200,  /*!< html */
+    IO_FILE_FORMAT_CSS     = 0x00400,  /*!< css for html */
     IO_FILE_FORMAT_XMI2    = 0x01000,  /*!< xmi version 2.5.1 */
     IO_FILE_FORMAT_JSON    = 0x10000,  /*!< json; json-ld: https://www.w3.org/TR/json-ld/ */
     IO_FILE_FORMAT_SCHEMA  = 0x20000,  /*!< json schema of Internet Engineering Task Force */

@@ -1,8 +1,8 @@
-/* File: md_filter_test.c; Copyright and License: see below */
+/* File: io_md_writer_test.c; Copyright and License: see below */
 
-#include "md_filter_test.h"
-#include "md/md_filter.h"
-#include "xml/xml_writer.h"
+#include "io_md_writer_test.h"
+#include "format/io_md_writer.h"
+#include "format/io_xml_writer.h"
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
@@ -22,10 +22,10 @@ static test_case_result_t test_invalid_links( test_fixture_t *fix );
 
 static data_row_id_t create_root_diag( ctrl_controller_t *controller );  /* helper function */
 
-test_suite_t md_filter_test_get_suite(void)
+test_suite_t io_md_writer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "md_filter_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result, "io_md_writer_test_get_suite", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_md_plain_mixed", &test_md_plain_mixed );
     test_suite_add_test_case( &result, "test_valid_links", &test_valid_links );
     test_suite_add_test_case( &result, "test_invalid_links", &test_invalid_links );
@@ -41,10 +41,10 @@ struct test_fixture_struct {
     data_database_t database;  /*!< database instance on which the tests are performed */
     data_database_reader_t db_reader;  /*!< database reader to access the database */
     ctrl_controller_t controller;  /*!< controller instance on which the tests are performed */
-    md_filter_t md_filter;  /*!< md_filter to be tested */
+    io_md_writer_t md_writer;  /*!< io_md_writer to be tested */
     char out_buffer[200];
     universal_memory_output_stream_t out_stream;
-    xml_writer_t xml_writer;
+    io_xml_writer_t xml_writer;
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
 static test_fixture_t test_fixture;
@@ -61,18 +61,18 @@ static test_fixture_t * set_up()
 
     memset( &((*fix).out_buffer), '\0', sizeof( (*fix).out_buffer) );
     universal_memory_output_stream_init( &((*fix).out_stream), &((*fix).out_buffer), sizeof( (*fix).out_buffer) );
-    xml_writer_init( &((*fix).xml_writer), universal_memory_output_stream_get_output_stream( &((*fix).out_stream) ) );
+    io_xml_writer_init( &((*fix).xml_writer), universal_memory_output_stream_get_output_stream( &((*fix).out_stream) ) );
 
-    md_filter_init( &((*fix).md_filter), &((*fix).db_reader), TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &((*fix).xml_writer) );
+    io_md_writer_init( &((*fix).md_writer), &((*fix).db_reader), TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &((*fix).xml_writer) );
     return fix;
 }
 
 static void tear_down( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    md_filter_destroy( &((*fix).md_filter) );
+    io_md_writer_destroy( &((*fix).md_writer) );
 
-    xml_writer_destroy( &((*fix).xml_writer) );
+    io_xml_writer_destroy( &((*fix).xml_writer) );
 
     universal_memory_output_stream_destroy( &((*fix).out_stream) );
 
@@ -128,19 +128,19 @@ static test_case_result_t test_md_plain_mixed( test_fixture_t *fix )
     int err;
 
     /* plain */
-    err = xml_writer_write_plain ( &((*fix).xml_writer), "<!DTD><body>" );
+    err = io_xml_writer_write_plain ( &((*fix).xml_writer), "<!DTD><body>" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* xml enc */
-    err = md_filter_transform ( &((*fix).md_filter), "plain &amp; \"\'<>D3D#name#id" );
+    err = io_md_writer_transform ( &((*fix).md_writer), "plain &amp; \"\'<>D3D#name#id" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* md */
-    err = md_filter_transform ( &((*fix).md_filter), "ln 1a\nln 1b\n\nln 2\n- ln 3\n4\n5 ln 5\n\n\nln 7a\n ln 7b\n> ln8\n" );
+    err = io_md_writer_transform ( &((*fix).md_writer), "ln 1a\nln 1b\n\nln 2\n- ln 3\n4\n5 ln 5\n\n\nln 7a\n ln 7b\n> ln8\n" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     /* plain */
-    err = xml_writer_write_plain ( &((*fix).xml_writer), "</body>" );
+    err = io_xml_writer_write_plain ( &((*fix).xml_writer), "</body>" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "<!DTD><body>plain &amp;amp; &quot;\'&lt;&gt;D3D#name#id"
@@ -162,7 +162,7 @@ static test_case_result_t test_valid_links( test_fixture_t *fix )
     int err;
 
     /* 2 valid links, 1 valid but half link */
-    err = md_filter_transform ( &((*fix).md_filter), ">D3DD0001#name#idD0001#id#nameD0001" );
+    err = io_md_writer_transform ( &((*fix).md_writer), ">D3DD0001#name#idD0001#id#nameD0001" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "&gt;D3D" TAG_LINK1 "D0001" TAG_LINK2 "Th&amp; &lt;root&gt; d&quot;agram" TAG_LINK3 "#id"
@@ -183,7 +183,7 @@ static test_case_result_t test_invalid_links( test_fixture_t *fix )
     int err;
 
     /* 2 invalid links, 1 valid but non-existig link, 1 valid but half link */
-    err = md_filter_transform ( &((*fix).md_filter), ">D3DD001#nameC0001#idD0002#id#nameD0001#nam" );
+    err = io_md_writer_transform ( &((*fix).md_writer), ">D3DD001#nameC0001#idD0002#id#nameD0001#nam" );
     TEST_EXPECT_EQUAL_INT( 0, err );
 
     static const char expected[] = "&gt;D3DD001#nameC0001#idD0002#id#nameD0001#nam";

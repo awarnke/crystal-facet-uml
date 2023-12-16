@@ -1,16 +1,16 @@
-/* File: txt_writer_test.h; Copyright and License: see below */
+/* File: io_txt_writer_test.h; Copyright and License: see below */
 
 #ifndef TXT_WRITER_TEST_H
 #define TXT_WRITER_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for txt_writer
+ *  \brief UNITTEST for io_txt_writer
  */
 
 #include "test_suite.h"
 
-test_suite_t txt_writer_test_get_suite(void);
+test_suite_t io_txt_writer_test_get_suite(void);
 
 #endif  /* TXT_WRITER_TEST_H */
 

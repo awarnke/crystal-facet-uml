@@ -29,9 +29,9 @@
 /* gui */
 #include "unit/gui_sketch_nav_tree_test.h"
 /* io */
-#include "unit/txt_writer_test.h"
+#include "unit/io_txt_writer_test.h"
 #include "unit/json_token_reader_test.h"
-#include "unit/md_filter_test.h"
+#include "unit/io_md_writer_test.h"
 #include "unit/io_import_elements_test.h"
 #include "integration/io_data_file_test.h"
 #include "integration/io_importer_test.h"
@@ -154,9 +154,9 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, pencil_layout_data_test_get_suite() );
         /* gui */
         /* io */
-        test_runner_run_suite( &runner, txt_writer_test_get_suite() );
+        test_runner_run_suite( &runner, io_txt_writer_test_get_suite() );
         test_runner_run_suite( &runner, json_token_reader_test_get_suite() );
-        test_runner_run_suite( &runner, md_filter_test_get_suite() );
+        test_runner_run_suite( &runner, io_md_writer_test_get_suite() );
         test_runner_run_suite( &runner, io_import_elements_test_get_suite() );
         /* universal stream */
         test_runner_run_suite( &runner, u8__test_get_suite() );

@@ -20,6 +20,7 @@ ideas for future versions:
       Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
+  [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

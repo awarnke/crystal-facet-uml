@@ -1,9 +1,9 @@
-/* File: txt_writer.inl; Copyright and License: see below */
+/* File: io_txt_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
 #include "utf8stringbuf/utf8error.h"
 
-static inline u8_error_t txt_writer_write_plain ( txt_writer_t *this_, const char *text )
+static inline u8_error_t io_txt_writer_write_plain ( io_txt_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
     assert ( NULL != (*this_).output );

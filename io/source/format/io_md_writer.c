@@ -1,6 +1,6 @@
-/* File: md_filter.c; Copyright and License: see below */
+/* File: io_md_writer.c; Copyright and License: see below */
 
-#include "md/md_filter.h"
+#include "format/io_md_writer.h"
 #include "utf8stringbuf/utf8stringview.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
@@ -9,17 +9,17 @@
 #include <assert.h>
 
 /* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
-static const char MD_FILTER_LINEBREAK = '\n';
-static const char MD_FILTER_LINK_AS_ID[] = "#id";
-static const char MD_FILTER_LINK_AS_NAME[] = "#name";
+static const char IO_MD_WRITER_LINEBREAK = '\n';
+static const char IO_MD_WRITER_LINK_AS_ID[] = "#id";
+static const char IO_MD_WRITER_LINK_AS_NAME[] = "#name";
 
-void md_filter_init ( md_filter_t *this_,
-                      data_database_reader_t *db_reader,
-                      const char * tag_linebreak,
-                      const char * tag_xref_start,
-                      const char * tag_xref_middle,
-                      const char * tag_xref_end,
-                      xml_writer_t *sink )
+void io_md_writer_init ( io_md_writer_t *this_,
+                         data_database_reader_t *db_reader,
+                         const char * tag_linebreak,
+                         const char * tag_xref_start,
+                         const char * tag_xref_middle,
+                         const char * tag_xref_end,
+                         io_xml_writer_t *sink )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -39,7 +39,7 @@ void md_filter_init ( md_filter_t *this_,
     U8_TRACE_END();
 }
 
-void md_filter_destroy( md_filter_t *this_ )
+void io_md_writer_destroy( io_md_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -49,7 +49,7 @@ void md_filter_destroy( md_filter_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t md_filter_transform ( md_filter_t *this_, const char *text )
+u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != text );
@@ -64,9 +64,9 @@ u8_error_t md_filter_transform ( md_filter_t *this_, const char *text )
     {
         const char current = text[text_current_byte];  /* note: only in case current<=0x7f this is a valid code point */
         const char peeknext = text[text_current_byte+1];  /* note: only in case current<=0x7f this is a valid code point, 0 at string end */
-        if ( current == MD_FILTER_LINEBREAK )
+        if ( current == IO_MD_WRITER_LINEBREAK )
         {
-            if (( peeknext == MD_FILTER_LINEBREAK )
+            if (( peeknext == IO_MD_WRITER_LINEBREAK )
                 || ( peeknext == '+' )  /* list */
                 || ( peeknext == '*' )  /* list */
                 || ( peeknext == '-' )  /* list or heading */
@@ -88,8 +88,8 @@ u8_error_t md_filter_transform ( md_filter_t *this_, const char *text )
 
             {
                 utf8stringview_t str_view = utf8stringview_init( &(text[text_start_byte]), text_current_byte-text_start_byte );
-                write_err |= xml_writer_write_xml_enc_view( (*this_).sink, str_view );
-                write_err |= xml_writer_write_plain ( (*this_).sink, (*this_).tag_linebreak );
+                write_err |= io_xml_writer_write_xml_enc_view( (*this_).sink, str_view );
+                write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_linebreak );
                 text_start_byte = text_current_byte+1;
             }
         }
@@ -101,11 +101,11 @@ u8_error_t md_filter_transform ( md_filter_t *this_, const char *text )
             data_id_init_by_string_region ( &probe_id, text, text_current_byte, &length );
             if ( data_id_is_valid( &probe_id ) )
             {
-                const bool show_id = utf8string_equals_region_str( text, text_current_byte+length, MD_FILTER_LINK_AS_ID );
+                const bool show_id = utf8string_equals_region_str( text, text_current_byte+length, IO_MD_WRITER_LINK_AS_ID );
                 const bool show_name
                     = show_id
                     ? false
-                    : utf8string_equals_region_str( text, text_current_byte+length, MD_FILTER_LINK_AS_NAME );
+                    : utf8string_equals_region_str( text, text_current_byte+length, IO_MD_WRITER_LINK_AS_NAME );
 
                 if ( show_id || show_name )
                 {
@@ -115,25 +115,25 @@ u8_error_t md_filter_transform ( md_filter_t *this_, const char *text )
                     {
                         /* write previously parsed characters */
                         utf8stringview_t str_view = utf8stringview_init( &(text[text_start_byte]), text_current_byte-text_start_byte );
-                        write_err |= xml_writer_write_xml_enc_view( (*this_).sink, str_view );
+                        write_err |= io_xml_writer_write_xml_enc_view( (*this_).sink, str_view );
                         char probe_id_str_buf[DATA_ID_MAX_UTF8STRING_SIZE] = "";
                         utf8stringbuf_t probe_id_str = UTF8STRINGBUF( probe_id_str_buf );
                         write_err |= data_id_to_utf8stringbuf ( &probe_id, probe_id_str );
-                        write_err |= xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_start );
-                        write_err |= xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
-                        write_err |= xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_middle );
+                        write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_start );
+                        write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
+                        write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_middle );
                         text_start_byte = text_current_byte;
                         if ( show_id )
                         {
-                            write_err |= xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
-                            text_current_byte += length + sizeof(MD_FILTER_LINK_AS_ID)-1 - 1;
+                            write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
+                            text_current_byte += length + sizeof(IO_MD_WRITER_LINK_AS_ID)-1 - 1;
                         }
                         else /* show_name */
                         {
-                            write_err |= xml_writer_write_xml_enc( (*this_).sink, data_diagram_get_name_const( &((*this_).temp_diagram) ) );
-                            text_current_byte += length + sizeof(MD_FILTER_LINK_AS_NAME)-1 - 1;
+                            write_err |= io_xml_writer_write_xml_enc( (*this_).sink, data_diagram_get_name_const( &((*this_).temp_diagram) ) );
+                            text_current_byte += length + sizeof(IO_MD_WRITER_LINK_AS_NAME)-1 - 1;
                         }
-                        write_err |= xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_end );
+                        write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_end );
                         text_start_byte = text_current_byte+1;
 
                         /* destroy the diagram */
@@ -153,7 +153,7 @@ u8_error_t md_filter_transform ( md_filter_t *this_, const char *text )
 
         if ( text_current_byte+1 == text_byte_length )
         {
-            write_err |= xml_writer_write_xml_enc( (*this_).sink, &(text[text_start_byte]) );
+            write_err |= io_xml_writer_write_xml_enc( (*this_).sink, &(text[text_start_byte]) );
         }
     }
 

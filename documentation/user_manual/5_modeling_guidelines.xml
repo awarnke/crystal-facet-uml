@@ -59,6 +59,9 @@
                 Solutions may be:
                 <itemizedlist>
                 <listitem>
+                    <para>Define a port at a parent to bundle multiple communication paths of children</para>
+                </listitem>
+                <listitem>
                     <para>Separate abstract classes/components/blocks and their specializations</para>
                 </listitem>
                 </itemizedlist>

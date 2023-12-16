@@ -13,8 +13,8 @@
  *  Sink: universal_output_stream_t
  */
 
-#include "xml/xml_writer.h"
-#include "md/md_filter.h"
+#include "format/io_xml_writer.h"
+#include "format/io_md_writer.h"
 #include "storage/data_database_reader.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8stream/universal_output_stream.h"
@@ -24,7 +24,7 @@
  *  \brief attributes of the xmi_atom_writer_t
  */
 struct xmi_atom_writer_struct {
-    xml_writer_t *xml_writer;  /*!< pointer to external xml writer */
+    io_xml_writer_t *xml_writer;  /*!< pointer to external xml writer */
 };
 
 typedef struct xmi_atom_writer_struct xmi_atom_writer_t;
@@ -36,7 +36,7 @@ typedef struct xmi_atom_writer_struct xmi_atom_writer_t;
  *  \param out_writer output stream where to write the generated output to
  */
 void xmi_atom_writer_init( xmi_atom_writer_t *this_,
-                           xml_writer_t *out_writer
+                           io_xml_writer_t *out_writer
                          );
 
 /*!

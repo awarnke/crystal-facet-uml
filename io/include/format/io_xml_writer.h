@@ -1,7 +1,7 @@
-/* File: xml_writer.h; Copyright and License: see below */
+/* File: io_xml_writer.h; Copyright and License: see below */
 
-#ifndef XML_WRITER_H
-#define XML_WRITER_H
+#ifndef IO_XML_WRITER_H
+#define IO_XML_WRITER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -21,30 +21,30 @@
 /*!
  *  \brief constants for max string sizes
  */
-enum xml_writer_max_enum {
-    XML_WRITER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
+enum io_xml_writer_max_enum {
+    IO_XML_WRITER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
 };
 
-extern const char XML_WRITER_START_TAG_START[2];
-extern const char XML_WRITER_START_TAG_END[2];
-extern const char XML_WRITER_END_TAG_START[3];
-extern const char XML_WRITER_END_TAG_END[2];
+extern const char IO_XML_WRITER_START_TAG_START[2];
+extern const char IO_XML_WRITER_START_TAG_END[2];
+extern const char IO_XML_WRITER_END_TAG_START[3];
+extern const char IO_XML_WRITER_END_TAG_END[2];
 /*!
  *  \brief \c XML \c empty \c tags are leaf tags that do not contain contents or other tags - only attributes
  */
-extern const char XML_WRITER_EMPTY_TAG_START[2];
-extern const char XML_WRITER_EMPTY_TAG_END[3];
-extern const char XML_WRITER_ATTR_SEPARATOR[2];
-extern const char XML_WRITER_ATTR_VALUE_START[3];
-extern const char XML_WRITER_ATTR_VALUE_END[2];
-extern const char XML_WRITER_COMMENT_START[5];
-extern const char XML_WRITER_COMMENT_END[4];
-extern const char XML_WRITER_NL[2];
+extern const char IO_XML_WRITER_EMPTY_TAG_START[2];
+extern const char IO_XML_WRITER_EMPTY_TAG_END[3];
+extern const char IO_XML_WRITER_ATTR_SEPARATOR[2];
+extern const char IO_XML_WRITER_ATTR_VALUE_START[3];
+extern const char IO_XML_WRITER_ATTR_VALUE_END[2];
+extern const char IO_XML_WRITER_COMMENT_START[5];
+extern const char IO_XML_WRITER_COMMENT_END[4];
+extern const char IO_XML_WRITER_NL[2];
 
 /*!
  *  \brief attributes of the xml writer
  */
-struct xml_writer_struct {
+struct io_xml_writer_struct {
     universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
     universal_escaping_output_stream_t esc_output;  /*!< escaping output stream filter that does the xml escaping */
     unsigned int indent_level;  /*!< current indentation level of written lines */
@@ -54,7 +54,7 @@ struct xml_writer_struct {
     const char *const ((*xml_plain_table)[][2]);  /*!< table for xml plain output, just performing indentation */
 };
 
-typedef struct xml_writer_struct xml_writer_t;
+typedef struct io_xml_writer_struct io_xml_writer_t;
 
 /*!
  *  \brief initializes the xml writer
@@ -62,16 +62,16 @@ typedef struct xml_writer_struct xml_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param output output stream where to write the generated document to
  */
-void xml_writer_init( xml_writer_t *this_,
-                      universal_output_stream_t *output
-                    );
+void io_xml_writer_init( io_xml_writer_t *this_,
+                         universal_output_stream_t *output
+                       );
 
 /*!
  *  \brief destroys the xml writer
  *
  *  \param this_ pointer to own object attributes
  */
-void xml_writer_destroy( xml_writer_t *this_ );
+void io_xml_writer_destroy( io_xml_writer_t *this_ );
 
 /*!
  *  \brief writes a string to a file, unencoded
@@ -80,7 +80,7 @@ void xml_writer_destroy( xml_writer_t *this_ );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t xml_writer_write_plain ( xml_writer_t *this_, utf8string_t text );
+static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes stringview to a file, unencoded
@@ -89,7 +89,7 @@ static inline u8_error_t xml_writer_write_plain ( xml_writer_t *this_, utf8strin
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_plain_view ( io_xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief prints an id
@@ -100,7 +100,7 @@ static inline u8_error_t xml_writer_write_plain_view ( xml_writer_t *this_, utf8
  *  \param id the identifier
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id );
+u8_error_t io_xml_writer_write_plain_id ( io_xml_writer_t *this_, data_id_t id );
 
 /*!
  *  \brief prints an integer
@@ -109,7 +109,7 @@ u8_error_t xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id );
  *  \param number the integer to print
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t xml_writer_write_int ( xml_writer_t *this_, int64_t number );
+u8_error_t io_xml_writer_write_int ( io_xml_writer_t *this_, int64_t number );
 
 /*!
  *  \brief writes a string to a file, xml encoded
@@ -118,7 +118,7 @@ u8_error_t xml_writer_write_int ( xml_writer_t *this_, int64_t number );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t text );
+static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes a stringview to a file, xml encoded
@@ -127,7 +127,7 @@ static inline u8_error_t xml_writer_write_xml_enc ( xml_writer_t *this_, utf8str
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief writes a string to a file, xml encoded and double-minus gets space-separated
@@ -136,7 +136,7 @@ static inline u8_error_t xml_writer_write_xml_enc_view ( xml_writer_t *this_, ut
  *  \param text string to write, encoded for xml comments
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string_t text );
+static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this_, utf8string_t text );
 
 /*!
  *  \brief writes a stringview to a file, xml encoded and double-minus gets space-separated
@@ -145,7 +145,7 @@ static inline u8_error_t xml_writer_write_xml_comment ( xml_writer_t *this_, utf
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief checks if the stringview contains valid characters to form an xml-tag-name.
@@ -158,7 +158,7 @@ static inline u8_error_t xml_writer_write_xml_comment_view ( xml_writer_t *this_
  *  \param string_view string_view to check
  *  \return true if string_view contains characters of which a valid xml-tag-name can be constructed
  */
-static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view );
+static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief writes a valid xml-tag-name.
@@ -172,28 +172,28 @@ static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *t
  *  \param string_view string_view to 1) filter and 2) write
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if none in string_view
  */
-static inline u8_error_t xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view );
 
 /*!
  *  \brief resets the indentation level to 0
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void xml_writer_reset_indent ( xml_writer_t *this_ );
+static inline void io_xml_writer_reset_indent ( io_xml_writer_t *this_ );
 
 /*!
  *  \brief increases the indentation level
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void xml_writer_increase_indent ( xml_writer_t *this_ );
+static inline void io_xml_writer_increase_indent ( io_xml_writer_t *this_ );
 
 /*!
  *  \brief decreases the indentation level
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void xml_writer_decrease_indent ( xml_writer_t *this_ );
+static inline void io_xml_writer_decrease_indent ( io_xml_writer_t *this_ );
 
 /*!
  *  \brief adapts the encoding tables according to the current indentation level
@@ -202,7 +202,7 @@ static inline void xml_writer_decrease_indent ( xml_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ );
+void io_xml_writer_private_update_encoding_tables ( io_xml_writer_t *this_ );
 
 /*!
  *  \brief checks if the codepoint is a valid character in an xml name
@@ -216,11 +216,11 @@ void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ );
  *  \param start true if this codepoint shall be the start of an xml name
  *  \return true if codepoint is valid in an xml-tag-name
  */
-static inline bool xml_writer_private_is_xml_tag_name_character ( xml_writer_t *this_, uint32_t codepoint, bool start );
+static inline bool io_xml_writer_private_is_xml_tag_name_character ( io_xml_writer_t *this_, uint32_t codepoint, bool start );
 
-#include "xml_writer.inl"
+#include "io_xml_writer.inl"
 
-#endif  /* XML_WRITER_H */
+#endif  /* IO_XML_WRITER_H */
 
 
 /*

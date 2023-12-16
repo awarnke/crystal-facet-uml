@@ -1,20 +1,20 @@
-/* File: txt_icon.inl; Copyright and License: see below */
+/* File: io_txt_icon.inl; Copyright and License: see below */
 
 #include <assert.h>
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 
-#define TXT_ICON_TWO_MIDDLE_DOTS "\xC2\xB7\xC2\xB7"
+#define IO_TXT_ICON_TWO_MIDDLE_DOTS "\xC2\xB7\xC2\xB7"
 
-static inline void txt_icon_init( txt_icon_t *this_ )
+static inline void io_txt_icon_init( io_txt_icon_t *this_ )
 {
 }
 
-static inline void txt_icon_destroy( txt_icon_t *this_ )
+static inline void io_txt_icon_destroy( io_txt_icon_t *this_ )
 {
 }
 
-static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_relationship_type_t type )
+static inline const char* io_txt_icon_get_relationship ( io_txt_icon_t *this_, data_relationship_type_t type )
 {
     const char* result;
 
@@ -22,7 +22,7 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
     {
         case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
@@ -70,7 +70,7 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">>";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">>";
         }
         break;
 
@@ -94,25 +94,25 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
@@ -124,19 +124,19 @@ static inline const char* txt_icon_get_relationship ( txt_icon_t *this_, data_re
 
         case DATA_RELATIONSHIP_TYPE_UML_REFINE:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         case DATA_RELATIONSHIP_TYPE_UML_TRACE:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
         }
         break;
 
         default:
         {
-            result = TXT_ICON_TWO_MIDDLE_DOTS ">";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS ">";
             U8_LOG_ERROR("error: unknown data_relationship_type_t.");
             assert(false);
         }

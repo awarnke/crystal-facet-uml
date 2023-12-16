@@ -404,7 +404,7 @@
           {
             "id": 236,
             "display_flags": 0,
-            "classifier_name": "Output: png, svg, pdf, ps, txt / db, xhtml, xmi",
+            "classifier_name": "Output: png, svg, pdf, ps, txt / db, html, xmi",
             "node": "abee0934-65af-4f26-b102-4d706c5b2f58",
             "uuid": "17076127-dc01-453e-8b21-56d00bf05c06"
           },
@@ -2735,7 +2735,7 @@
           {
             "id": 447,
             "display_flags": 0,
-            "classifier_name": "documents",
+            "classifier_name": "io_export_xxx_traversal",
             "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
             "uuid": "9cf0b6ed-c782-4759-93c4-3c7a0ff0979a"
           },
@@ -2745,6 +2745,13 @@
             "classifier_name": "io_data_file",
             "node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
             "uuid": "bcf8a8ea-659e-4dd5-85c4-f27d42ea3aef"
+          },
+          {
+            "id": 797,
+            "display_flags": 0,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "557df7d7-ebcb-4b62-97f7-1ce2f35fb572"
           }
         ]
       }
@@ -2754,7 +2761,7 @@
         "id": 73,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "io_export components",
+        "name": "io_export writers",
         "description": [
                 ""
         ],
@@ -2766,39 +2773,18 @@
         "diagramelements":
         [
           {
-            "id": 449,
-            "display_flags": 0,
-            "classifier_name": "io_export_diagram_traversal",
-            "node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
-            "uuid": "67a29c0d-1f05-49c9-a30a-7fe231013e54"
-          },
-          {
             "id": 450,
             "display_flags": 0,
-            "classifier_name": "documents",
+            "classifier_name": "io_export_xxx_traversal",
             "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
             "uuid": "cebf084c-33a6-4330-9742-e8f2a020e74a"
           },
           {
-            "id": 451,
-            "display_flags": 0,
-            "classifier_name": "io_export_model_traversal",
-            "node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
-            "uuid": "42860eeb-b328-4f19-ba54-a69d897e95be"
-          },
-          {
             "id": 452,
             "display_flags": 0,
-            "classifier_name": "xhtml_element_writer (and xml/docbook)",
+            "classifier_name": "document_element_writer",
             "node": "28d24517-4348-455a-a70e-a548fa63589b",
             "uuid": "b7b069d3-ec08-43f0-86cd-68fae37760f3"
-          },
-          {
-            "id": 453,
-            "display_flags": 0,
-            "classifier_name": "md/txt/xmi/xml/json",
-            "node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-            "uuid": "254f7a5f-59ba-4249-88a2-c17171b3fbf1"
           },
           {
             "id": 454,
@@ -2836,18 +2822,18 @@
             "uuid": "4db58daf-112d-4e08-b546-14b599ff7327"
           },
           {
-            "id": 655,
-            "display_flags": 0,
-            "classifier_name": "io_export_flat_traversal",
-            "node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
-            "uuid": "b9f0aa8c-61d3-491d-a9d8-6b06240dbab2"
-          },
-          {
             "id": 664,
             "display_flags": 0,
             "classifier_name": "json_element_writer",
             "node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
             "uuid": "41abf9c7-5fed-4392-9273-597bc18e8d85"
+          },
+          {
+            "id": 798,
+            "display_flags": 0,
+            "classifier_name": "format",
+            "node": "cffdbd1b-8427-4508-a891-a668907e394f",
+            "uuid": "94f7920e-7334-4a1c-adce-b947066fedf7"
           }
         ]
       }
@@ -2861,10 +2847,10 @@
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "list_order": 1073758207,
         "display_flags": 0,
-        "parent_name": "io_export components",
-        "parent": "e7eda656-ea48-4f05-97ff-6266c7aebdb5",
+        "parent_name": "io: White Box View",
+        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
         "uuid": "2b20a75a-336f-4a01-b709-6a5b15957f2f",
         "diagramelements":
         [
@@ -2886,7 +2872,7 @@
           {
             "id": 659,
             "display_flags": 0,
-            "classifier_name": "documents",
+            "classifier_name": "io_export_xxx_traversal",
             "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
             "uuid": "a36d4f0b-8f70-41ce-b4c2-30cf6bdfb2d1"
           },
@@ -2910,13 +2896,6 @@
             "classifier_name": "io_element_writer",
             "node": "b34ed24f-5b72-498f-b48a-24276e340253",
             "uuid": "995f142c-abf2-40ed-86c9-1cb436108af3"
-          },
-          {
-            "id": 663,
-            "display_flags": 0,
-            "classifier_name": "md/txt/xmi/xml/json",
-            "node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-            "uuid": "b5959925-87b3-47a7-81c5-de0f3f741dbf"
           }
         ]
       }
@@ -2940,16 +2919,9 @@
           {
             "id": 433,
             "display_flags": 0,
-            "classifier_name": "xhtml_element_writer (and xml/docbook)",
+            "classifier_name": "document_element_writer",
             "node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
             "uuid": "925cbe6b-886f-4e4b-b496-7526ec0c4065"
-          },
-          {
-            "id": 434,
-            "display_flags": 0,
-            "classifier_name": "md/txt/xmi/xml/json",
-            "node": "c662f6d9-856e-44b8-a03a-40441130c5c5",
-            "uuid": "44e5ca77-aba8-43ef-a928-48c325d05b62"
           },
           {
             "id": 444,
@@ -10152,7 +10124,7 @@
         "id": 163,
         "main_type": 99,
         "type": "Requirement",
-        "name": "Output: png, svg, pdf, ps, txt / db, xhtml, xmi",
+        "name": "Output: png, svg, pdf, ps, txt / db, html, xmi",
         "description": [
                 "crystal-facet-uml shall produce output suitable to be processed by text layout engines:\n",
                 "- latex\n",
@@ -10795,7 +10767,7 @@
             "description": [
                 ""
             ],
-            "list_order": 659253061,
+            "list_order": 725477139,
             "uuid": "25a150fc-b819-4e31-85a9-4937bb85a3fb"
           },
           {
@@ -11135,11 +11107,13 @@
         "id": 209,
         "main_type": 125,
         "type": "Class",
-        "name": "xhtml_element_writer (and xml/docbook)",
+        "name": "document_element_writer",
         "description": [
                 "cares about\n",
                 "- writing output-format specific meta data\n",
-                "- using right \"writer\" class to encode data"
+                "- using right \"writer\" class to encode data\n",
+                "\n",
+                "output formats are: txt, html, docbook."
         ],
         "x_order": -1202184480,
         "y_order": -1928084275,
@@ -12567,36 +12541,6 @@
     },
     {
       "classifier": {
-        "id": 282,
-        "main_type": 124,
-        "type": "Package",
-        "stereotype": "writer",
-        "name": "md/txt/xmi/xml/json",
-        "description": [
-                ""
-        ],
-        "x_order": -1202184480,
-        "y_order": -1932316474,
-        "list_order": 1248985899,
-        "uuid": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "features":
-        [
-          {
-            "id": 78,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "c662f6d9-856e-44b8-a03a-40441130c5c5"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 283,
         "main_type": 130,
         "type": "Comment",
@@ -13032,10 +12976,11 @@
         "id": 306,
         "main_type": 121,
         "type": "Component",
-        "name": "documents",
+        "name": "io_export_xxx_traversal",
         "description": [
-                "documents implements several strategies to traverse the model and diagram trees.\n",
-                "For each found element, an element writer is called."
+                "io_export_xxx_traversal implements several strategies to traverse the model and diagram trees.\n",
+                "\n",
+                "For each found element during the model or diagram traversal, an io_element_writer is called."
         ],
         "x_order": -1202184480,
         "y_order": -1937690613,
@@ -13043,6 +12988,17 @@
         "uuid": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
         "features":
         [
+          {
+            "id": 123,
+            "main_type": 7,
+            "type": "Port",
+            "key": "write",
+            "description": [
+                ""
+            ],
+            "list_order": 2129875998,
+            "uuid": "ed82a8dd-a9ed-419c-9bfc-bd1897985652"
+          }
         ]
       }
     },
@@ -16617,6 +16573,24 @@
         "y_order": 764130239,
         "list_order": -1463198586,
         "uuid": "13c6303d-9f1b-4966-8e95-984d91e8665a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 484,
+        "main_type": 124,
+        "type": "Package",
+        "name": "format",
+        "description": [
+                ""
+        ],
+        "x_order": -1400634552,
+        "y_order": -1428359190,
+        "list_order": -1428359190,
+        "uuid": "cffdbd1b-8427-4508-a891-a668907e394f",
         "features":
         [
         ]
@@ -22242,23 +22216,6 @@
     },
     {
       "relationship": {
-        "id": 393,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -982916857,
-        "from_classifier_name": "io",
-        "to_classifier_name": "md/txt/xmi/xml/json",
-        "from_node": "9a93182d-56f8-4865-a642-24d997264063",
-        "to_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "uuid": "0d3059e5-e6c2-4d75-b2ad-42f574d597d0"
-      }
-    },
-    {
-      "relationship": {
         "id": 419,
         "main_type": 300,
         "type": "Association",
@@ -22268,7 +22225,7 @@
         ],
         "list_order": -1938153358,
         "from_classifier_name": "io",
-        "to_classifier_name": "documents",
+        "to_classifier_name": "io_export_xxx_traversal",
         "from_node": "9a93182d-56f8-4865-a642-24d997264063",
         "to_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
         "uuid": "bfab5717-1efb-4e6f-b672-f5b03b9f8545"
@@ -22343,6 +22300,23 @@
         "from_node": "9a93182d-56f8-4865-a642-24d997264063",
         "to_node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
         "uuid": "c7ce7008-a06a-4a1b-933b-a7f497e51f7f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 804,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412413893,
+        "from_classifier_name": "io",
+        "to_classifier_name": "io_element_writer",
+        "from_node": "9a93182d-56f8-4865-a642-24d997264063",
+        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
+        "uuid": "61c40c71-934f-4635-84da-dce9d7bc15a0"
       }
     },
     {
@@ -22585,19 +22559,20 @@
     },
     {
       "relationship": {
-        "id": 528,
+        "id": 808,
         "main_type": 200,
         "type": "Association",
-        "name": "use",
+        "name": "out",
         "description": [
                 ""
         ],
-        "list_order": 1412643269,
+        "list_order": 1412872645,
         "from_classifier_name": "io_export_model_traversal",
-        "to_classifier_name": "io_element_writer",
+        "to_classifier_name": "io_export_xxx_traversal",
+        "to_feature_key": "write",
         "from_node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
-        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
-        "uuid": "45c561a8-a2b9-437f-a2a1-5f6215b1e965"
+        "to_node": "ed82a8dd-a9ed-419c-9bfc-bd1897985652",
+        "uuid": "a9915b22-ca40-4d2e-9677-afdf6bdddbb0"
       }
     },
     {
@@ -22647,7 +22622,7 @@
         ],
         "list_order": 1412315589,
         "from_classifier_name": "io_exporter",
-        "to_classifier_name": "documents",
+        "to_classifier_name": "io_export_xxx_traversal",
         "from_node": "eb2b04c7-1958-4787-a9fe-68696880ccf3",
         "to_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
         "uuid": "4afc1101-4670-4f0e-ba6b-e4792b861eb2"
@@ -22674,25 +22649,6 @@
     },
     {
       "relationship": {
-        "id": 413,
-        "main_type": 200,
-        "type": "Association",
-        "name": "5.) document artifacts",
-        "description": [
-                ""
-        ],
-        "list_order": 1252154010,
-        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
-        "from_feature_key": "",
-        "to_classifier_name": "md/txt/xmi/xml/json",
-        "to_feature_key": "",
-        "from_node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
-        "to_node": "c662f6d9-856e-44b8-a03a-40441130c5c5",
-        "uuid": "c8d97c97-9455-4402-ac40-ead7fb59e13a"
-      }
-    },
-    {
-      "relationship": {
         "id": 432,
         "main_type": 200,
         "type": "Association",
@@ -22701,7 +22657,7 @@
                 ""
         ],
         "list_order": 1412446661,
-        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
+        "from_classifier_name": "document_element_writer",
         "to_classifier_name": "txt_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
@@ -22718,7 +22674,7 @@
                 ""
         ],
         "list_order": 1412479429,
-        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
+        "from_classifier_name": "document_element_writer",
         "to_classifier_name": "md_filter",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "ef415086-85ec-446b-8a84-deb484e8393e",
@@ -22735,7 +22691,7 @@
                 ""
         ],
         "list_order": 1412512197,
-        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
+        "from_classifier_name": "document_element_writer",
         "to_classifier_name": "xml_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "b5960f34-5328-438f-a755-418e58dee838",
@@ -22752,11 +22708,30 @@
                 ""
         ],
         "list_order": 1412577733,
-        "from_classifier_name": "xhtml_element_writer (and xml/docbook)",
+        "from_classifier_name": "document_element_writer",
         "to_classifier_name": "io_element_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
         "uuid": "d8be9df0-53f7-4837-8ccf-d76ba8a707e6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 803,
+        "main_type": 221,
+        "type": "Message",
+        "name": "5.) document artifacts",
+        "description": [
+                ""
+        ],
+        "list_order": 849807299,
+        "from_classifier_name": "document_element_writer",
+        "from_feature_key": "",
+        "to_classifier_name": "Output Stream",
+        "to_feature_key": "",
+        "from_node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
+        "to_node": "e24ebbb4-2e68-4390-9414-b5601178cbc6",
+        "uuid": "442a771a-f940-4794-b3bb-81142cc7af04"
       }
     },
     {
@@ -24045,144 +24020,6 @@
     },
     {
       "relationship": {
-        "id": 414,
-        "main_type": 200,
-        "type": "Association",
-        "name": "6.) character stream",
-        "description": [
-                ""
-        ],
-        "list_order": 1583940597,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "from_feature_key": "",
-        "to_classifier_name": "Output Stream",
-        "to_feature_key": "",
-        "from_node": "c662f6d9-856e-44b8-a03a-40441130c5c5",
-        "to_node": "e24ebbb4-2e68-4390-9414-b5601178cbc6",
-        "uuid": "4a593b8f-5941-43c8-8354-d70f40b049ad"
-      }
-    },
-    {
-      "relationship": {
-        "id": 424,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 1412315589,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "xhtml_element_writer (and xml/docbook)",
-        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "to_node": "28d24517-4348-455a-a70e-a548fa63589b",
-        "uuid": "97876425-94fa-4459-ad2c-6880f29cc34f"
-      }
-    },
-    {
-      "relationship": {
-        "id": 425,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1928084275,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "xmi_element_writer",
-        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "to_node": "26dcb480-f664-470d-8295-6c5e2a62fdb9",
-        "uuid": "14bb4f8b-7e86-4114-af60-689630372ed4"
-      }
-    },
-    {
-      "relationship": {
-        "id": 428,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1428359190,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "txt_writer",
-        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "to_node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
-        "uuid": "1d32c70e-6d69-4da2-958f-8247382f1ed6"
-      }
-    },
-    {
-      "relationship": {
-        "id": 429,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1563887934,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "xml_writer",
-        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "to_node": "b5960f34-5328-438f-a755-418e58dee838",
-        "uuid": "d94a1eef-5b40-4807-83e9-00060a37e987"
-      }
-    },
-    {
-      "relationship": {
-        "id": 430,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1669518568,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "md_filter",
-        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "to_node": "ef415086-85ec-446b-8a84-deb484e8393e",
-        "uuid": "a0a9376b-3d80-408a-9271-d19491782782"
-      }
-    },
-    {
-      "relationship": {
-        "id": 524,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1889021299,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "io_element_writer",
-        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
-        "uuid": "f6ae8f8a-6816-4334-9919-69b1ecaad82c"
-      }
-    },
-    {
-      "relationship": {
-        "id": 645,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1861557975,
-        "from_classifier_name": "md/txt/xmi/xml/json",
-        "to_classifier_name": "json_element_writer",
-        "from_node": "7ff0038a-c68a-4814-baaf-e22ec543e9ca",
-        "to_node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
-        "uuid": "8f568386-b6b2-41ef-b0c2-d379004ebd72"
-      }
-    },
-    {
-      "relationship": {
         "id": 395,
         "main_type": 0,
         "type": "Dependency",
@@ -24463,7 +24300,7 @@
                 ""
         ],
         "list_order": -1937690613,
-        "from_classifier_name": "documents",
+        "from_classifier_name": "io_export_xxx_traversal",
         "to_classifier_name": "io_export_diagram_traversal",
         "from_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
         "to_node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
@@ -24480,7 +24317,7 @@
                 ""
         ],
         "list_order": 1412282821,
-        "from_classifier_name": "documents",
+        "from_classifier_name": "io_export_xxx_traversal",
         "to_classifier_name": "io_export_model_traversal",
         "from_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
         "to_node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
@@ -24497,7 +24334,7 @@
                 ""
         ],
         "list_order": -1937690613,
-        "from_classifier_name": "documents",
+        "from_classifier_name": "io_export_xxx_traversal",
         "to_classifier_name": "io_export_diagram_traversal",
         "from_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
         "to_node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
@@ -24514,11 +24351,29 @@
                 ""
         ],
         "list_order": -1982571059,
-        "from_classifier_name": "documents",
+        "from_classifier_name": "io_export_xxx_traversal",
         "to_classifier_name": "io_export_flat_traversal",
         "from_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
         "to_node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
         "uuid": "e85868ee-88ef-472b-931d-354d67816e4d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 806,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "render element",
+        "description": [
+                ""
+        ],
+        "list_order": 1412807109,
+        "from_classifier_name": "io_export_xxx_traversal",
+        "from_feature_key": "write",
+        "to_classifier_name": "io_element_writer",
+        "from_node": "ed82a8dd-a9ed-419c-9bfc-bd1897985652",
+        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
+        "uuid": "c248730b-0e11-475e-afc8-db172b3fc682"
       }
     },
     {
@@ -24552,7 +24407,7 @@
         "list_order": 849774531,
         "from_classifier_name": "io_export_diagram_traversal",
         "from_feature_key": "",
-        "to_classifier_name": "xhtml_element_writer (and xml/docbook)",
+        "to_classifier_name": "document_element_writer",
         "to_feature_key": "",
         "from_node": "1d5d8c36-04c2-40c3-a724-38bf291c9e79",
         "to_node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
@@ -24561,19 +24416,20 @@
     },
     {
       "relationship": {
-        "id": 527,
+        "id": 807,
         "main_type": 200,
         "type": "Association",
-        "name": "use",
+        "name": "out",
         "description": [
                 ""
         ],
-        "list_order": 1412610501,
+        "list_order": 1412839877,
         "from_classifier_name": "io_export_diagram_traversal",
-        "to_classifier_name": "io_element_writer",
+        "to_classifier_name": "io_export_xxx_traversal",
+        "to_feature_key": "write",
         "from_node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
-        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
-        "uuid": "ee7ab815-4567-402e-8a7e-18aa3edee8e9"
+        "to_node": "ed82a8dd-a9ed-419c-9bfc-bd1897985652",
+        "uuid": "c8207baf-a5fb-4200-9eca-86ae090e763a"
       }
     },
     {
@@ -26772,19 +26628,20 @@
     },
     {
       "relationship": {
-        "id": 644,
-        "main_type": 240,
-        "type": "ControlFlow",
-        "name": "use",
+        "id": 809,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "out",
         "description": [
                 ""
         ],
-        "list_order": 1412708805,
+        "list_order": 1412905413,
         "from_classifier_name": "io_export_flat_traversal",
-        "to_classifier_name": "io_element_writer",
+        "to_classifier_name": "io_export_xxx_traversal",
+        "to_feature_key": "write",
         "from_node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
-        "to_node": "b34ed24f-5b72-498f-b48a-24276e340253",
-        "uuid": "85fc650e-cec2-439d-81ac-a01cd58f7e1c"
+        "to_node": "ed82a8dd-a9ed-419c-9bfc-bd1897985652",
+        "uuid": "67ede93f-2af6-4e29-b7a8-fa91f2489ca6"
       }
     },
     {
@@ -28232,6 +28089,57 @@
         "from_node": "1c9943d1-7971-479f-8a42-80b0aa925a0a",
         "to_node": "1101a827-1ef8-4c22-b9c6-9a5934a558dc",
         "uuid": "dd2ce04a-58d7-467a-b8b5-843e563f4d49"
+      }
+    },
+    {
+      "relationship": {
+        "id": 810,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412839877,
+        "from_classifier_name": "format",
+        "to_classifier_name": "txt_writer",
+        "from_node": "cffdbd1b-8427-4508-a891-a668907e394f",
+        "to_node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
+        "uuid": "0ba913f3-e0b3-4a02-933b-3f31a875b109"
+      }
+    },
+    {
+      "relationship": {
+        "id": 811,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412872645,
+        "from_classifier_name": "format",
+        "to_classifier_name": "md_filter",
+        "from_node": "cffdbd1b-8427-4508-a891-a668907e394f",
+        "to_node": "ef415086-85ec-446b-8a84-deb484e8393e",
+        "uuid": "41aced55-f092-4a42-bc75-dd2af2d950cc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 812,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412905413,
+        "from_classifier_name": "format",
+        "to_classifier_name": "xml_writer",
+        "from_node": "cffdbd1b-8427-4508-a891-a668907e394f",
+        "to_node": "b5960f34-5328-438f-a755-418e58dee838",
+        "uuid": "ed402dca-4e02-4f65-b47b-1ebc1875d855"
       }
     }
   ]

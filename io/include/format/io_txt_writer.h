@@ -1,7 +1,7 @@
-/* File: txt_writer.h; Copyright and License: see below */
+/* File: io_txt_writer.h; Copyright and License: see below */
 
-#ifndef TXT_WRITER_H
-#define TXT_WRITER_H
+#ifndef IO_TXT_WRITER_H
+#define IO_TXT_WRITER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -10,7 +10,7 @@
  */
 
 #include "io_file_format.h"
-#include "xml/xml_writer.h"
+#include "format/io_xml_writer.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
@@ -23,11 +23,11 @@
 /*!
  *  \brief attributes of the txt writer
  */
-struct txt_writer_struct {
+struct io_txt_writer_struct {
     universal_output_stream_t *output;  /*!< output stream where to write the generated document to */
 };
 
-typedef struct txt_writer_struct txt_writer_t;
+typedef struct io_txt_writer_struct io_txt_writer_t;
 
 /*!
  *  \brief initializes the txt writer
@@ -35,16 +35,16 @@ typedef struct txt_writer_struct txt_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param output output stream where to write the generated document to
  */
-void txt_writer_init( txt_writer_t *this_,
-                      universal_output_stream_t *output
-                    );
+void io_txt_writer_init( io_txt_writer_t *this_,
+                         universal_output_stream_t *output
+                       );
 
 /*!
  *  \brief destroys the txt writer
  *
  *  \param this_ pointer to own object attributes
  */
-void txt_writer_destroy( txt_writer_t *this_ );
+void io_txt_writer_destroy( io_txt_writer_t *this_ );
 
 /*!
  *  \brief writes a string to a file
@@ -53,7 +53,7 @@ void txt_writer_destroy( txt_writer_t *this_ );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t txt_writer_write_plain ( txt_writer_t *this_, const char *text );
+static inline u8_error_t io_txt_writer_write_plain ( io_txt_writer_t *this_, const char *text );
 
 /*!
  *  \brief prints a multiline string with indentation prefix
@@ -66,10 +66,10 @@ static inline u8_error_t txt_writer_write_plain ( txt_writer_t *this_, const cha
  *  \param multiline_string string to write to out
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
-                                                      const char *indent,
-                                                      const char *multiline_string
-                                                    );
+u8_error_t io_txt_writer_write_indent_multiline_string ( io_txt_writer_t *this_,
+                                                         const char *indent,
+                                                         const char *multiline_string
+                                                       );
 
 /*!
  *  \brief prints an id with indentation prefix and surrounding brackets
@@ -81,10 +81,10 @@ u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
  *  \param id identifier
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
-                                        int indent_width,
-                                        data_id_t id
-                                      );
+u8_error_t io_txt_writer_write_indent_id ( io_txt_writer_t *this_,
+                                           int indent_width,
+                                           data_id_t id
+                                         );
 
 /*!
  *  \brief prints an id
@@ -95,11 +95,11 @@ u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
  *  \param id identifier
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id );
+u8_error_t io_txt_writer_write_plain_id ( io_txt_writer_t *this_, data_id_t id );
 
-#include "txt_writer.inl"
+#include "io_txt_writer.inl"
 
-#endif  /* TXT_WRITER_H */
+#endif  /* IO_TXT_WRITER_H */
 
 
 /*

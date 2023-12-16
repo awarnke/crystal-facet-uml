@@ -1,6 +1,6 @@
-/* File: xml_writer.c; Copyright and License: see below */
+/* File: io_xml_writer.c; Copyright and License: see below */
 
-#include "xml/xml_writer.h"
+#include "format/io_xml_writer.h"
 #include "data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
@@ -8,21 +8,21 @@
 #include <stdbool.h>
 #include <assert.h>
 
-const char XML_WRITER_START_TAG_START[2] = "<";
-const char XML_WRITER_START_TAG_END[2] = ">";
-const char XML_WRITER_END_TAG_START[3] = "</";
-const char XML_WRITER_END_TAG_END[2] = ">";
-const char XML_WRITER_EMPTY_TAG_START[2] = "<";
-const char XML_WRITER_EMPTY_TAG_END[3] = "/>";
-const char XML_WRITER_ATTR_SEPARATOR[2] = " ";
-const char XML_WRITER_ATTR_VALUE_START[3] = "=\"";
-const char XML_WRITER_ATTR_VALUE_END[2] = "\"";
-const char XML_WRITER_COMMENT_START[5] = "<!--";
-const char XML_WRITER_COMMENT_END[4] = "-->";
-const char XML_WRITER_NL[2] = "\n";
-#define XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (12)
+const char IO_XML_WRITER_START_TAG_START[2] = "<";
+const char IO_XML_WRITER_START_TAG_END[2] = ">";
+const char IO_XML_WRITER_END_TAG_START[3] = "</";
+const char IO_XML_WRITER_END_TAG_END[2] = ">";
+const char IO_XML_WRITER_EMPTY_TAG_START[2] = "<";
+const char IO_XML_WRITER_EMPTY_TAG_END[3] = "/>";
+const char IO_XML_WRITER_ATTR_SEPARATOR[2] = " ";
+const char IO_XML_WRITER_ATTR_VALUE_START[3] = "=\"";
+const char IO_XML_WRITER_ATTR_VALUE_END[2] = "\"";
+const char IO_XML_WRITER_COMMENT_START[5] = "<!--";
+const char IO_XML_WRITER_COMMENT_END[4] = "-->";
+const char IO_XML_WRITER_NL[2] = "\n";
+#define IO_XML_WRITER_PRIVATE_MAX_INDENT_LEVELS (12)
 
-static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][6][2] = {
+static const char *const IO_XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[IO_XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][6][2] = {
     {
         { "<", "&lt;" },
         { ">", "&gt;" },
@@ -121,7 +121,7 @@ static const char *const XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[XML_WRITER_PRIVAT
     }
 };
 
-static const char *const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][8][2] = {
+static const char *const IO_XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[IO_XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][8][2] = {
     {
         { "\n", "\n" },
         { "<", "&lt;" },
@@ -244,7 +244,7 @@ static const char *const XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[XML_WRITER_PRIVA
     }
 };
 
-static const char *const XML_WRITER_PRIVATE_INDENT_PLAIN[XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][2][2] = {
+static const char *const IO_XML_WRITER_PRIVATE_INDENT_PLAIN[IO_XML_WRITER_PRIVATE_MAX_INDENT_LEVELS][2][2] = {
     {
         { "\n", "\n" },  /* indentation level */
         { NULL, NULL }  /* end translation table */
@@ -295,23 +295,23 @@ static const char *const XML_WRITER_PRIVATE_INDENT_PLAIN[XML_WRITER_PRIVATE_MAX_
     }
 };
 
-void xml_writer_init ( xml_writer_t *this_, universal_output_stream_t *output )
+void io_xml_writer_init ( io_xml_writer_t *this_, universal_output_stream_t *output )
 {
     U8_TRACE_BEGIN();
     assert( NULL != output );
 
     (*this_).output = output;
-    universal_escaping_output_stream_init( &((*this_).esc_output), &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]), output );
+    universal_escaping_output_stream_init( &((*this_).esc_output), &(IO_XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]), output );
     (*this_).indent_level = 0;
 
-    (*this_).xml_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]);
-    (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[0]);
-    (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[0]);
+    (*this_).xml_encode_table = &(IO_XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[0]);
+    (*this_).xml_comments_encode_table = &(IO_XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[0]);
+    (*this_).xml_plain_table = &(IO_XML_WRITER_PRIVATE_INDENT_PLAIN[0]);
 
     U8_TRACE_END();
 }
 
-void xml_writer_destroy( xml_writer_t *this_ )
+void io_xml_writer_destroy( io_xml_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -321,7 +321,7 @@ void xml_writer_destroy( xml_writer_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
+u8_error_t io_xml_writer_write_plain_id ( io_xml_writer_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
@@ -344,7 +344,7 @@ u8_error_t xml_writer_write_plain_id ( xml_writer_t *this_, data_id_t id )
     return result;
 }
 
-u8_error_t xml_writer_write_int ( xml_writer_t *this_, int64_t number )
+u8_error_t io_xml_writer_write_int ( io_xml_writer_t *this_, int64_t number )
 {
     U8_TRACE_BEGIN();
     char numberStr[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
@@ -352,23 +352,23 @@ u8_error_t xml_writer_write_int ( xml_writer_t *this_, int64_t number )
 
     /* Note: snprintf is not available on every OS */
     sprintf( numberStr, "%" PRIi64, number );
-    result = xml_writer_write_plain( this_, &(numberStr[0]) );
+    result = io_xml_writer_write_plain( this_, &(numberStr[0]) );
 
     U8_TRACE_END_ERR( result );
     return result;
 }
 
-void xml_writer_private_update_encoding_tables ( xml_writer_t *this_ )
+void io_xml_writer_private_update_encoding_tables ( io_xml_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
 
     const unsigned int level
-        = ( (*this_).indent_level >= XML_WRITER_PRIVATE_MAX_INDENT_LEVELS )
-        ? ( XML_WRITER_PRIVATE_MAX_INDENT_LEVELS - 1 )
+        = ( (*this_).indent_level >= IO_XML_WRITER_PRIVATE_MAX_INDENT_LEVELS )
+        ? ( IO_XML_WRITER_PRIVATE_MAX_INDENT_LEVELS - 1 )
         : ( (*this_).indent_level );
-    (*this_).xml_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[level]);
-    (*this_).xml_comments_encode_table = &(XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[level]);
-    (*this_).xml_plain_table = &(XML_WRITER_PRIVATE_INDENT_PLAIN[level]);
+    (*this_).xml_encode_table = &(IO_XML_WRITER_PRIVATE_ENCODE_XML_STRINGS[level]);
+    (*this_).xml_comments_encode_table = &(IO_XML_WRITER_PRIVATE_ENCODE_XML_COMMENTS[level]);
+    (*this_).xml_plain_table = &(IO_XML_WRITER_PRIVATE_INDENT_PLAIN[level]);
 
     U8_TRACE_END();
 }

@@ -12,7 +12,7 @@
  *  It modifies and enriches the piped-through data.
  */
 
-#include "xml/xml_writer.h"
+#include "format/io_xml_writer.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"

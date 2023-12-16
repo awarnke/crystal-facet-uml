@@ -14,11 +14,11 @@
  */
 
 #include "xmi/xmi_atom_writer.h"
-#include "xml/xml_writer.h"
 #include "xmi/xmi_type_converter.h"
 #include "xmi/xmi_interaction_writer.h"
+#include "xmi/xmi_writer_pass.h"
+#include "format/io_xml_writer.h"
 #include "io_file_format.h"
-#include "xmi_writer_pass.h"
 #include "io_element_writer_if.h"
 #include "io_element_writer.h"
 #include "data_diagram.h"
@@ -46,7 +46,7 @@ struct xmi_element_writer_struct {
                                                   /*!< replaces this xmi_element_writer_t in case of interactions */
 
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
-    xml_writer_t xml_writer;  /*!< own instance of an xml writer */
+    io_xml_writer_t xml_writer;  /*!< own instance of an xml writer */
     xmi_atom_writer_t atom_writer;  /*!< own instance of an atom writer */
 
     xmi_type_converter_t xmi_types;  /*!< own instance of an xmi_type_converter_t */

@@ -1,7 +1,7 @@
-/* File: md_filter.h; Copyright and License: see below */
+/* File: io_md_writer.h; Copyright and License: see below */
 
-#ifndef MD_FILTER_H
-#define MD_FILTER_H
+#ifndef IO_MD_WRITER_H
+#define IO_MD_WRITER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -12,7 +12,7 @@
  *  It modifies and enriches the piped-through data.
  */
 
-#include "xml/xml_writer.h"
+#include "format/io_xml_writer.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
@@ -21,16 +21,16 @@
 /*!
  *  \brief constants for max string sizes
  */
-enum md_filter_max_enum {
-    MD_FILTER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
+enum io_md_writer_max_enum {
+    IO_MD_WRITER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
 };
 
 /*!
  *  \brief attributes of the xml writer
  */
-struct md_filter_struct {
+struct io_md_writer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    xml_writer_t *sink;  /*!< output sink */
+    io_xml_writer_t *sink;  /*!< output sink */
 
     const char * tag_linebreak;  /*!< tag for linebreak */
     const char * tag_xref_start;  /*!< tag for xref_start */
@@ -40,10 +40,10 @@ struct md_filter_struct {
     data_diagram_t temp_diagram;  /*!< memory for temporary diagram storage */
 };
 
-typedef struct md_filter_struct md_filter_t;
+typedef struct io_md_writer_struct io_md_writer_t;
 
 /*!
- *  \brief initializes the document exporter
+ *  \brief initializes the markdown writer
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
@@ -53,21 +53,21 @@ typedef struct md_filter_struct md_filter_t;
  *  \param tag_xref_end tag for xref_end
  *  \param sink stream sink where to write the output to
  */
-void md_filter_init( md_filter_t *this_,
-                     data_database_reader_t *db_reader,
-                     const char * tag_linebreak,
-                     const char * tag_xref_start,
-                     const char * tag_xref_middle,
-                     const char * tag_xref_end,
-                     xml_writer_t *sink
-                   );
+void io_md_writer_init( io_md_writer_t *this_,
+                        data_database_reader_t *db_reader,
+                        const char * tag_linebreak,
+                        const char * tag_xref_start,
+                        const char * tag_xref_middle,
+                        const char * tag_xref_end,
+                        io_xml_writer_t *sink
+                      );
 
 /*!
- *  \brief destroys the document exporter
+ *  \brief destroys the markdown writer
  *
  *  \param this_ pointer to own object attributes
  */
-void md_filter_destroy( md_filter_t *this_ );
+void io_md_writer_destroy( io_md_writer_t *this_ );
 
 /*!
  *  \brief parses the string, enriches it by links and paragraph-breaks and writes it to the sink
@@ -76,9 +76,9 @@ void md_filter_destroy( md_filter_t *this_ );
  *  \param text string to parse
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t md_filter_transform ( md_filter_t *this_, const char *text );
+u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text );
 
-#endif  /* MD_FILTER_H */
+#endif  /* IO_MD_WRITER_H */
 
 
 /*

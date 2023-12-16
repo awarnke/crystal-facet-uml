@@ -1,16 +1,16 @@
-/* File: md_filter_test.h; Copyright and License: see below */
+/* File: io_md_writer_test.h; Copyright and License: see below */
 
 #ifndef MD_FILTER_TEST_H
 #define MD_FILTER_TEST_H
 
 /*!
  *  \file
- *  \brief MODULE TEST for md_filter
+ *  \brief MODULE TEST for io_md_writer
  */
 
 #include "test_suite.h"
 
-test_suite_t md_filter_test_get_suite(void);
+test_suite_t io_md_writer_test_get_suite(void);
 
 #endif  /* MD_FILTER_TEST_H */
 

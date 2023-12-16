@@ -36,7 +36,7 @@ static const char XMI2_COMMENT_TYPE[]
     = "Comment";
 
 void xmi_atom_writer_init ( xmi_atom_writer_t *this_,
-                            xml_writer_t *out_writer )
+                            io_xml_writer_t *out_writer )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_writer );
@@ -63,40 +63,40 @@ u8_error_t xmi_atom_writer_write_xmi_comment( xmi_atom_writer_t *this_,
     assert( NULL != comment );
     u8_error_t export_err = U8_ERROR_NONE;
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_OWNED_COMMENT_START );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_OWNED_COMMENT_START );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_COMMENT_TYPE );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_END );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_START );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_NS_UML );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_COMMENT_TYPE );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_TYPE_END );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_START );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_START );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, element_id );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, "#" );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, comment_type );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_END );
+    export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, "#" );
+    export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, comment_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_ID_END );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_OWNED_COMMENT_MIDDLE );
-    xml_writer_increase_indent ( (*this_).xml_writer );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_OWNED_COMMENT_MIDDLE );
+    io_xml_writer_increase_indent ( (*this_).xml_writer );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_COMMENT_BODY_START );
-    xml_writer_increase_indent ( (*this_).xml_writer );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_COMMENT_BODY_START );
+    io_xml_writer_increase_indent ( (*this_).xml_writer );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XML_WRITER_NL );
-    export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, comment );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, IO_XML_WRITER_NL );
+    export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, comment );
 
-    xml_writer_decrease_indent ( (*this_).xml_writer );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_COMMENT_BODY_END );
+    io_xml_writer_decrease_indent ( (*this_).xml_writer );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_COMMENT_BODY_END );
 
     /* TODO: annotatedElement is not mandatory - refers to explicitly drawn relationships */
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_ANNOTATED_ELEMENT_START );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_IDREF_START );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_ANNOTATED_ELEMENT_START );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_IDREF_START );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, element_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_IDREF_END );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_ANNOTATED_ELEMENT_END );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI_XML_ATTR_IDREF_END );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_ANNOTATED_ELEMENT_END );
 
-    xml_writer_decrease_indent ( (*this_).xml_writer );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_OWNED_COMMENT_END );
+    io_xml_writer_decrease_indent ( (*this_).xml_writer );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, XMI2_UML_OWNED_COMMENT_END );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -119,31 +119,31 @@ u8_error_t xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_, data_id_t el
         case DATA_TABLE_CLASSIFIER:
         {
 
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, "6" /* instead of C */ );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "6" /* instead of C */ );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, "4" /* instead of F */ );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "4" /* instead of F */ );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, "8" /* instead of R */ );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "8" /* instead of R */ );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, "3" /* instead of E */ );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "3" /* instead of E */ );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, "9" /* instead of D */ );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "9" /* instead of D */ );
         }
         break;
 
@@ -162,7 +162,7 @@ u8_error_t xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_, data_id_t el
             {
                 if ( 0 <= data_id_get_row_id(&element_id) )
                 {
-                    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "000" );
+                    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "000" );
                 }
                 else
                 {
@@ -171,21 +171,21 @@ u8_error_t xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_, data_id_t el
             }
             else
             {
-                export_err |= xml_writer_write_plain ( (*this_).xml_writer, "00" );
+                export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "00" );
             }
         }
         else
         {
             if ( 1000 > data_id_get_row_id(&element_id) )
             {
-                export_err |= xml_writer_write_plain ( (*this_).xml_writer, "0" );
+                export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "0" );
             }
             else
             {
                 /* row_id is greater than 1000 */
             }
         }
-        export_err |= xml_writer_write_int ( (*this_).xml_writer, data_id_get_row_id(&element_id) );
+        export_err |= io_xml_writer_write_int ( (*this_).xml_writer, data_id_get_row_id(&element_id) );
     }
 
     U8_TRACE_END_ERR( export_err );
@@ -199,14 +199,14 @@ u8_error_t xmi_atom_writer_report_unknown_classifier( xmi_atom_writer_t *this_,
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_classifier_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, fact_classifier_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_classifier_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_classifier_type );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_classifier_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -219,14 +219,14 @@ u8_error_t xmi_atom_writer_report_unknown_feature( xmi_atom_writer_t *this_,
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_feature_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, fact_feature_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_feature_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_feature_type );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_feature_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -239,14 +239,14 @@ u8_error_t xmi_atom_writer_report_unknown_relationship( xmi_atom_writer_t *this_
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_relationship_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") has type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " which is unknown to this program version " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -281,43 +281,43 @@ u8_error_t xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
         U8_LOG_WARNING_INT("xmi_element_info_map_get_classifier could not map type", fact_classifier_type );
     }
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_classifier_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, fact_classifier_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_classifier_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_classifier_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_classifier_type );
     if ( classifier_info != NULL )
     {
         const char * classifier_type_name = xmi_element_info_get_name ( classifier_info );
         if ( classifier_type_name != NULL )
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, classifier_type_name );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, classifier_type_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " is nested in a container of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " is nested in a container of type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
     if ( parent_info != NULL )
     {
         const char * parent_type_name = xmi_element_info_get_name ( parent_info );
         if ( parent_type_name != NULL )
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable nested type to container type" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable nested type to container type" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Pack the nested element into a suitable container or change its type" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Pack the nested element into a suitable container or change its type" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -330,21 +330,21 @@ u8_error_t xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, element_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, element_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, element_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has stereotype " );
-    export_err |= xml_writer_write_xml_comment_view( (*this_).xml_writer, stereotype );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") has stereotype " );
+    export_err |= io_xml_writer_write_xml_comment_view( (*this_).xml_writer, stereotype );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Stereotype unsuitable as xml tag name" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Stereotype unsuitable as xml tag name" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the name of the stereotype" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Change the name of the stereotype" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -357,21 +357,21 @@ u8_error_t xmi_atom_writer_report_illegal_datatype( xmi_atom_writer_t *this_,
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, feature_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, feature_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, feature_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") has valuetype/datatype " );
-    export_err |= xml_writer_write_xml_comment( (*this_).xml_writer, datatype );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") has valuetype/datatype " );
+    export_err |= io_xml_writer_write_xml_comment( (*this_).xml_writer, datatype );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Feature is not a TypedElement" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Feature is not a TypedElement" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Clear the valuetype/datatype or change the type of the feature" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Clear the valuetype/datatype or change the type of the feature" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -406,43 +406,43 @@ u8_error_t xmi_atom_writer_report_illegal_parent( xmi_atom_writer_t *this_,
         U8_LOG_WARNING_INT("xmi_element_info_map_get_feature could not map type", fact_feature_type );
     }
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_feature_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, fact_feature_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_feature_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_feature_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_feature_type );
     if ( feature_info != NULL )
     {
         const char * feature_type_name = xmi_element_info_get_name ( feature_info );
         if ( feature_type_name != NULL )
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, feature_type_name );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, feature_type_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " is child to classifier of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " is child to classifier of type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_parent_type );
     if ( parent_info != NULL )
     {
         const char * parent_type_name = xmi_element_info_get_name ( parent_info );
         if ( parent_type_name != NULL )
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable child type to parent type" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable child type to parent type" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the child feature or the parent element" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the child feature or the parent element" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -478,43 +478,43 @@ u8_error_t xmi_atom_writer_report_illegal_location( xmi_atom_writer_t *this_,
         U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
     }
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_relationship_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
     if ( relation_info != NULL )
     {
         const char * relationship_type_name = xmi_element_info_get_name ( relation_info );
         if ( relationship_type_name != NULL )
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, relationship_type_name );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, relationship_type_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " is located in classifier of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_hosting_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " is located in classifier of type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_hosting_type );
     if ( host_info != NULL )
     {
         const char * parent_type_name = xmi_element_info_get_name ( host_info );
         if ( parent_type_name != NULL )
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, parent_type_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type to hosting location type" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type to hosting location type" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;
@@ -542,28 +542,28 @@ u8_error_t xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *
         U8_LOG_WARNING_INT("xmi_element_info_map_get_relationship could not map type", fact_relationship_type );
     }
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
-    export_err |= xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- STATUS:      " );
+    export_err |= io_xml_writer_write_plain_id( (*this_).xml_writer, fact_relationship_id );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (aka " );
     export_err |= xmi_atom_writer_encode_xmi_id( this_, fact_relationship_id );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
-    export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ") of type " );
+    export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_relationship_type );
     if ( relation_info != NULL )
     {
         const char * relationship_type_name = xmi_element_info_get_name ( relation_info );
         if ( relationship_type_name != NULL )
         {
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-            export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, relationship_type_name );
-            export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+            export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, relationship_type_name );
+            export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, fact_from_end
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, fact_from_end
                                                                 ? " has source of type "
                                                                 : " has target of type " );
     if ( fact_end_feature_type == DATA_FEATURE_TYPE_VOID )
     {
-        export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_classifier_type );
+        export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_classifier_type );
 
         const xmi_element_info_t *classifier_info;
         u8_error_t map_err = xmi_element_info_map_get_classifier( &xmi_element_info_map_standard,
@@ -580,15 +580,15 @@ u8_error_t xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *
             const char * end_type_name = xmi_element_info_get_name ( classifier_info );
             if ( end_type_name != NULL )
             {
-                export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-                export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, end_type_name );
-                export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+                export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+                export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, end_type_name );
+                export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
             }
         }
     }
     else
     {
-        export_err |= xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_feature_type );
+        export_err |= io_xml_writer_write_int ( (*this_).xml_writer, (int64_t)fact_end_feature_type );
 
         const xmi_element_info_t *feature_info;
         u8_error_t map_err = xmi_element_info_map_get_feature( &xmi_element_info_map_standard,
@@ -605,24 +605,24 @@ u8_error_t xmi_atom_writer_report_illegal_relationship_end ( xmi_atom_writer_t *
             const char * end_type_name = xmi_element_info_get_name ( feature_info );
             if ( end_type_name != NULL )
             {
-                export_err |= xml_writer_write_plain ( (*this_).xml_writer, " (" );
-                export_err |= xml_writer_write_xml_enc ( (*this_).xml_writer, end_type_name );
-                export_err |= xml_writer_write_plain ( (*this_).xml_writer, ")" );
+                export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " (" );
+                export_err |= io_xml_writer_write_xml_enc ( (*this_).xml_writer, end_type_name );
+                export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, ")" );
             }
         }
     }
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type connecting to " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, fact_from_end
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- CONFORMANCE: " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Unsuitable relationship type connecting to " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, fact_from_end
                                                                  ? "source end type"
                                                                  : "target end type" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
-    export_err |= xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
-    export_err |= xml_writer_write_plain ( (*this_).xml_writer, " -->" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, "\n<!-- PROPOSAL:    " );
+    export_err |= io_xml_writer_write_xml_enc( (*this_).xml_writer, "Change the type of the relationship" );
+    export_err |= io_xml_writer_write_plain ( (*this_).xml_writer, " -->" );
 
     U8_TRACE_END_ERR( export_err );
     return export_err;

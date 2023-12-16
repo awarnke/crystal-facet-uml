@@ -1,21 +1,21 @@
-/* File: txt_writer.c; Copyright and License: see below */
+/* File: io_txt_writer.c; Copyright and License: see below */
 
-#include "txt/txt_writer.h"
+#include "format/io_txt_writer.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
 
-enum txt_writer_indent_enum {
+enum io_txt_writer_indent_enum {
     TXT_WRITER_INDENT_COLUMN = 48,  /*!< the text column in which the id starts */
 };
 
 static const char TXT_ID_INDENT_SPACES[TXT_WRITER_INDENT_COLUMN+1] = "                                                ";
 static const char TXT_NEWLINE[] = "\n";
 
-void txt_writer_init ( txt_writer_t *this_,
-                       universal_output_stream_t *output )
+void io_txt_writer_init ( io_txt_writer_t *this_,
+                          universal_output_stream_t *output )
 {
     U8_TRACE_BEGIN();
     assert( NULL != output );
@@ -25,7 +25,7 @@ void txt_writer_init ( txt_writer_t *this_,
     U8_TRACE_END();
 }
 
-void txt_writer_destroy( txt_writer_t *this_ )
+void io_txt_writer_destroy( io_txt_writer_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -34,9 +34,9 @@ void txt_writer_destroy( txt_writer_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
-                                                      const char *indent,
-                                                      const char *multiline_string )
+u8_error_t io_txt_writer_write_indent_multiline_string ( io_txt_writer_t *this_,
+                                                         const char *indent,
+                                                         const char *multiline_string )
 {
     U8_TRACE_BEGIN();
     assert( NULL != indent );
@@ -105,9 +105,7 @@ u8_error_t txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
     return result;
 }
 
-u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
-                                        int indent_width,
-                                        data_id_t id )
+u8_error_t io_txt_writer_write_indent_id ( io_txt_writer_t *this_, int indent_width, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );
@@ -144,7 +142,7 @@ u8_error_t txt_writer_write_indent_id ( txt_writer_t *this_,
     return result;
 }
 
-u8_error_t txt_writer_write_plain_id ( txt_writer_t *this_, data_id_t id )
+u8_error_t io_txt_writer_write_plain_id ( io_txt_writer_t *this_, data_id_t id )
 {
     U8_TRACE_BEGIN();
     assert( DATA_TABLE_VOID != data_id_get_table(&id) );

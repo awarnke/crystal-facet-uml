@@ -75,11 +75,9 @@ FILE(GLOB commonSource gui/source/*.c
                        io/source/*.c
                        io/source/image/*.c
                        io/source/json/*.c
-                       io/source/xml/*.c
-                       io/source/txt/*.c
                        io/source/document/*.c
                        io/source/xmi/*.c
-                       io/source/md/*.c)
+                       io/source/format/*.c)
 FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/test/*.c
                        data/test/unit/*.c

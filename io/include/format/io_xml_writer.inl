@@ -1,11 +1,11 @@
-/* File: xml_writer.inl; Copyright and License: see below */
+/* File: io_xml_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
 #include "utf8stringbuf/utf8error.h"
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8codepointiterator.h"
 
-static inline u8_error_t xml_writer_write_plain ( xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -17,7 +17,7 @@ static inline u8_error_t xml_writer_write_plain ( xml_writer_t *this_, utf8strin
     return ( write_err );
 }
 
-static inline u8_error_t xml_writer_write_plain_view ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_plain_view ( io_xml_writer_t *this_, utf8stringview_t string_view )
 {
     u8_error_t write_err;
 
@@ -29,7 +29,7 @@ static inline u8_error_t xml_writer_write_plain_view ( xml_writer_t *this_, utf8
     return ( write_err );
 }
 
-static inline u8_error_t xml_writer_write_xml_enc ( xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -41,7 +41,7 @@ static inline u8_error_t xml_writer_write_xml_enc ( xml_writer_t *this_, utf8str
     return write_err;
 }
 
-static inline u8_error_t xml_writer_write_xml_enc_view ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *this_, utf8stringview_t string_view )
 {
     u8_error_t write_err;
 
@@ -53,7 +53,7 @@ static inline u8_error_t xml_writer_write_xml_enc_view ( xml_writer_t *this_, ut
     return write_err;
 }
 
-static inline u8_error_t xml_writer_write_xml_comment ( xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this_, utf8string_t text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -65,7 +65,7 @@ static inline u8_error_t xml_writer_write_xml_comment ( xml_writer_t *this_, utf
     return write_err;
 }
 
-static inline u8_error_t xml_writer_write_xml_comment_view ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t *this_, utf8stringview_t string_view )
 {
     u8_error_t write_err;
 
@@ -77,7 +77,7 @@ static inline u8_error_t xml_writer_write_xml_comment_view ( xml_writer_t *this_
     return write_err;
 }
 
-static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view )
 {
     bool result = false;
 
@@ -86,7 +86,7 @@ static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *t
     while( utf8codepointiterator_has_next( &it ) && ( ! result ) )
     {
         utf8codepoint_t next = utf8codepointiterator_next( &it );
-        if ( xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), true ) )
+        if ( io_xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), true ) )
         {
             result = true;
         }
@@ -96,7 +96,7 @@ static inline bool xml_writer_contains_xml_tag_name_characters ( xml_writer_t *t
     return result;
 }
 
-static inline u8_error_t xml_writer_write_xml_tag_name_characters ( xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view )
 {
     u8_error_t result = U8_ERROR_NOT_FOUND;
     bool is_start = true;
@@ -108,7 +108,7 @@ static inline u8_error_t xml_writer_write_xml_tag_name_characters ( xml_writer_t
     while( utf8codepointiterator_has_next( &it ) )
     {
         utf8codepoint_t next = utf8codepointiterator_next( &it );
-        if ( xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), is_start ) )
+        if ( io_xml_writer_private_is_xml_tag_name_character( this_, utf8codepoint_get_char( next ), is_start ) )
         {
             if ( is_start )
             {
@@ -126,24 +126,24 @@ static inline u8_error_t xml_writer_write_xml_tag_name_characters ( xml_writer_t
     return result;
 }
 
-static inline void xml_writer_reset_indent ( xml_writer_t *this_ )
+static inline void io_xml_writer_reset_indent ( io_xml_writer_t *this_ )
 {
     (*this_).indent_level = 0;
-    xml_writer_private_update_encoding_tables( this_ );
+    io_xml_writer_private_update_encoding_tables( this_ );
 }
 
-static inline void xml_writer_increase_indent ( xml_writer_t *this_ )
+static inline void io_xml_writer_increase_indent ( io_xml_writer_t *this_ )
 {
     (*this_).indent_level++;
-    xml_writer_private_update_encoding_tables( this_ );
+    io_xml_writer_private_update_encoding_tables( this_ );
 }
 
-static inline void xml_writer_decrease_indent ( xml_writer_t *this_ )
+static inline void io_xml_writer_decrease_indent ( io_xml_writer_t *this_ )
 {
     if ( (*this_).indent_level > 0 )
     {
         (*this_).indent_level--;
-        xml_writer_private_update_encoding_tables( this_ );
+        io_xml_writer_private_update_encoding_tables( this_ );
     }
     else
     {
@@ -151,7 +151,7 @@ static inline void xml_writer_decrease_indent ( xml_writer_t *this_ )
     }
 }
 
-static inline bool xml_writer_private_is_xml_tag_name_character ( xml_writer_t *this_, uint32_t codepoint, bool start )
+static inline bool io_xml_writer_private_is_xml_tag_name_character ( io_xml_writer_t *this_, uint32_t codepoint, bool start )
 {
     bool result = false;
 

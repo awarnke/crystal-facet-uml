@@ -10,7 +10,7 @@
  *
  *  Source: db_reader(data_database_reader_t);
  *  Task: traverse the source model-part;
- *  Sink: xhtml_element_writer_t
+ *  Sink: html_element_writer_t
  */
 
 #include "io_element_writer.h"
