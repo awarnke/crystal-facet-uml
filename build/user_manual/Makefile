@@ -49,8 +49,8 @@ clean:
 
 .PHONY: install
 install: crystal-facet-uml_documentation.pdf crystal-facet-uml.1.gz
-	cp crystal-facet-uml_documentation.pdf ../../user_doc/ &&\
-	cp ${MANPAGE_FILE}.gz ../../user_doc/
+	cp crystal-facet-uml_documentation.pdf ../../installation/ &&\
+	cp ${MANPAGE_FILE}.gz ../../installation/linux/
 
 
 # Copyright 2021-2023 Andreas Warnke

@@ -58,8 +58,8 @@ It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sql
 ./build/test_crystal-facet-uml -a
 
 %files
-%license license.txt
-%doc readme.markdown ChangeLog user_doc/crystal-facet-uml_documentation.pdf
+%license LICENSE.txt
+%doc ChangeLog installation/crystal-facet-uml_documentation.pdf
 %{_bindir}/crystal-facet-uml
 %{_datadir}/pixmaps/crystal-facet-uml.png
 %{_datadir}/applications/crystal-facet-uml.desktop

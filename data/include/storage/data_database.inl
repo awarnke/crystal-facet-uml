@@ -62,20 +62,24 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
     }
 }
 
-static inline u8_error_t data_database_private_lock ( data_database_t *this_ )
+static inline u8_error_t data_database_lock_on_write ( data_database_t *this_ )
 {
+    assert( (*this_).locked_on_write == false );
     u8_error_t result = U8_ERROR_NONE;
 
-    g_mutex_lock ( &((*this_).private_lock) );
+    g_mutex_lock ( &((*this_).lock_on_write) );
+    (*this_).locked_on_write = true;
 
     return result;
 }
 
-static inline u8_error_t data_database_private_unlock ( data_database_t *this_ )
+static inline u8_error_t data_database_unlock_on_write ( data_database_t *this_ )
 {
+    assert( (*this_).locked_on_write == true );
     u8_error_t result = U8_ERROR_NONE;
 
-    g_mutex_unlock ( &((*this_).private_lock) );
+    (*this_).locked_on_write = false;
+    g_mutex_unlock ( &((*this_).lock_on_write) );
 
     return result;
 }
@@ -84,9 +88,9 @@ static inline bool data_database_is_open( data_database_t *this_ )
 {
     bool result;
     u8_error_t locking_error;
-    locking_error = data_database_private_lock( this_ );
+    locking_error = data_database_lock_on_write( this_ );
     result = (*this_).db_state != DATA_DATABASE_STATE_CLOSED;
-    locking_error |= data_database_private_unlock( this_ );
+    locking_error |= data_database_unlock_on_write( this_ );
     return result;
 }
 

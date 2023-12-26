@@ -208,8 +208,8 @@ SET_TARGET_PROPERTIES(crystal-facet-uml PROPERTIES LINK_FLAGS "${CMAKE_CURRENT_B
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 INSTALL(TARGETS crystal-facet-uml DESTINATION "${THIRD_PARTY_ROOT}/usr/local/bin/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../installation_win/crystal-facet-uml.bat" DESTINATION "${THIRD_PARTY_ROOT}/usr/local/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../installation_win/crystal-facet-uml_readme.txt" DESTINATION "${THIRD_PARTY_ROOT}/usr/local/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../installation/win/crystal-facet-uml.bat" DESTINATION "${THIRD_PARTY_ROOT}/usr/local/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../installation/win/crystal-facet-uml_readme.txt" DESTINATION "${THIRD_PARTY_ROOT}/usr/local/")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== test Settings ==== ==== ==== ==== ==== ==== ==== ====
 

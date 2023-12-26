@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.53.0"
+    "generator_version": "1.54.1"
   }
   ,
   "views":
@@ -102,6 +102,74 @@
           }
         ]
       }
+    },
+    {
+      "diagram": {
+        "id": 3,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "parent ports",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "New Overview",
+        "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
+        "uuid": "0c121609-02b8-495e-8f97-754ceef74501",
+        "diagramelements":
+        [
+          {
+            "id": 9,
+            "display_flags": 0,
+            "classifier_name": "data exporter",
+            "node": "eaf97f94-ad89-4c29-828d-a88c94479176",
+            "uuid": "185e2705-de70-4884-a76f-b9c4b05fe9fb"
+          },
+          {
+            "id": 10,
+            "display_flags": 0,
+            "classifier_name": "xml writer",
+            "node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
+            "uuid": "0bb0083d-e16c-419b-8d03-af862afdbb74"
+          },
+          {
+            "id": 11,
+            "display_flags": 0,
+            "classifier_name": "json writer",
+            "node": "f05e1756-e939-4020-960b-699e61b35cf8",
+            "uuid": "06a1befa-d4e8-4f9c-bb96-4845777cc40d"
+          },
+          {
+            "id": 12,
+            "display_flags": 0,
+            "classifier_name": "OS abstraction",
+            "node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
+            "uuid": "56ba0733-120c-49aa-9118-2e9bea4c8365"
+          },
+          {
+            "id": 13,
+            "display_flags": 0,
+            "classifier_name": "file output stream",
+            "node": "516f2c14-065c-4552-bab3-4fc942030dcd",
+            "uuid": "5829776e-07ae-40b2-abde-83d70c57c405"
+          },
+          {
+            "id": 14,
+            "display_flags": 0,
+            "classifier_name": "socket output stream",
+            "node": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
+            "uuid": "7d995a5d-565c-4e66-9d58-e0ade3302c08"
+          },
+          {
+            "id": 15,
+            "display_flags": 0,
+            "classifier_name": "txt writer",
+            "node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
+            "uuid": "1cbf411e-62aa-45ab-ab42-a5343fd0c6aa"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -114,7 +182,12 @@
         "type": "Comment",
         "name": "This file shows hints",
         "description": [
-                "on modeling abstraction"
+                "on how to cope with relationships\n",
+                "in complex situations\n",
+                "when these cannot be hidden.\n",
+                "\n",
+                "1) modeling abstraction\n",
+                "2) use ports at parent components"
         ],
         "x_order": -346386954,
         "y_order": -646238141,
@@ -389,6 +462,154 @@
         "y_order": -1324947708,
         "list_order": -1324947708,
         "uuid": "b91a6190-b380-44ec-9b47-825653460dc0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 9,
+        "main_type": 121,
+        "type": "Component",
+        "name": "data exporter",
+        "description": [
+                ""
+        ],
+        "x_order": -1595125606,
+        "y_order": -1282468418,
+        "list_order": -1282468418,
+        "uuid": "eaf97f94-ad89-4c29-828d-a88c94479176",
+        "features":
+        [
+          {
+            "id": 14,
+            "main_type": 7,
+            "type": "Port",
+            "key": "out_byte_stream",
+            "description": [
+                ""
+            ],
+            "list_order": 1879851917,
+            "uuid": "6c395810-23d1-49bb-a915-756d918194be"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 10,
+        "main_type": 121,
+        "type": "Component",
+        "name": "xml writer",
+        "description": [
+                ""
+        ],
+        "x_order": -1735866576,
+        "y_order": -1325689788,
+        "list_order": -1325689788,
+        "uuid": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 11,
+        "main_type": 121,
+        "type": "Component",
+        "name": "json writer",
+        "description": [
+                ""
+        ],
+        "x_order": -503435609,
+        "y_order": -1431415763,
+        "list_order": -1431415763,
+        "uuid": "f05e1756-e939-4020-960b-699e61b35cf8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 12,
+        "main_type": 121,
+        "type": "Component",
+        "name": "OS abstraction",
+        "description": [
+                ""
+        ],
+        "x_order": -263890353,
+        "y_order": 1093568863,
+        "list_order": 1093568863,
+        "uuid": "9f30803e-a564-4917-8de0-7f8ac56b2036",
+        "features":
+        [
+          {
+            "id": 15,
+            "main_type": 6,
+            "type": "Port",
+            "key": "byte_stream",
+            "description": [
+                ""
+            ],
+            "list_order": 706541957,
+            "uuid": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 13,
+        "main_type": 121,
+        "type": "Component",
+        "name": "file output stream",
+        "description": [
+                ""
+        ],
+        "x_order": -294168665,
+        "y_order": 1227273063,
+        "list_order": 1227273063,
+        "uuid": "516f2c14-065c-4552-bab3-4fc942030dcd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 14,
+        "main_type": 121,
+        "type": "Component",
+        "name": "socket output stream",
+        "description": [
+                ""
+        ],
+        "x_order": 819228344,
+        "y_order": 1327558539,
+        "list_order": 1327558539,
+        "uuid": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 15,
+        "main_type": 121,
+        "type": "Component",
+        "name": "txt writer",
+        "description": [
+                ""
+        ],
+        "x_order": -1735866576,
+        "y_order": -1431415763,
+        "list_order": -1431415763,
+        "uuid": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
         "features":
         [
         ]
@@ -685,6 +906,200 @@
         "from_node": "b91a6190-b380-44ec-9b47-825653460dc0",
         "to_node": "86bff426-c583-4667-ae8c-f69fa1b9cde9",
         "uuid": "c1ce72e9-8a3b-4c39-ac58-84dc4c059272"
+      }
+    },
+    {
+      "relationship": {
+        "id": 22,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327591307,
+        "from_classifier_name": "data exporter",
+        "from_feature_key": "out_byte_stream",
+        "to_classifier_name": "OS abstraction",
+        "to_feature_key": "byte_stream",
+        "from_node": "6c395810-23d1-49bb-a915-756d918194be",
+        "to_node": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
+        "uuid": "d58f5cf7-86d9-4061-b1ea-9b6cc11c4299"
+      }
+    },
+    {
+      "relationship": {
+        "id": 29,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327787915,
+        "from_classifier_name": "data exporter",
+        "to_classifier_name": "txt writer",
+        "from_node": "eaf97f94-ad89-4c29-828d-a88c94479176",
+        "to_node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
+        "uuid": "f126e3cb-fc30-4784-afaa-a502927959cb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 30,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327820683,
+        "from_classifier_name": "data exporter",
+        "to_classifier_name": "json writer",
+        "from_node": "eaf97f94-ad89-4c29-828d-a88c94479176",
+        "to_node": "f05e1756-e939-4020-960b-699e61b35cf8",
+        "uuid": "911032cc-363e-4aaf-87ec-28a9d0561bf0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 31,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327853451,
+        "from_classifier_name": "data exporter",
+        "to_classifier_name": "xml writer",
+        "from_node": "eaf97f94-ad89-4c29-828d-a88c94479176",
+        "to_node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
+        "uuid": "669d18ac-1a48-4e66-aea2-d3d37897b53d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 23,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327624075,
+        "from_classifier_name": "xml writer",
+        "to_classifier_name": "data exporter",
+        "to_feature_key": "out_byte_stream",
+        "from_node": "531a0fdd-6229-4681-b0b8-c4318f1a84e6",
+        "to_node": "6c395810-23d1-49bb-a915-756d918194be",
+        "uuid": "5966ee65-566d-44aa-9ddf-a99505253740"
+      }
+    },
+    {
+      "relationship": {
+        "id": 24,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327656843,
+        "from_classifier_name": "json writer",
+        "to_classifier_name": "data exporter",
+        "to_feature_key": "out_byte_stream",
+        "from_node": "f05e1756-e939-4020-960b-699e61b35cf8",
+        "to_node": "6c395810-23d1-49bb-a915-756d918194be",
+        "uuid": "e7355e30-2ffd-4cee-a326-f8eb115356db"
+      }
+    },
+    {
+      "relationship": {
+        "id": 25,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327689611,
+        "from_classifier_name": "OS abstraction",
+        "from_feature_key": "byte_stream",
+        "to_classifier_name": "file output stream",
+        "from_node": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
+        "to_node": "516f2c14-065c-4552-bab3-4fc942030dcd",
+        "uuid": "77bb9d4a-155b-422a-b237-6e508488d6b8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 26,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327722379,
+        "from_classifier_name": "OS abstraction",
+        "from_feature_key": "byte_stream",
+        "to_classifier_name": "socket output stream",
+        "from_node": "f16b2ba3-e4eb-40cb-b098-98e6fa29b21d",
+        "to_node": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
+        "uuid": "e1b755f2-2d98-4c6a-b577-da6091206ce4"
+      }
+    },
+    {
+      "relationship": {
+        "id": 32,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327886219,
+        "from_classifier_name": "OS abstraction",
+        "to_classifier_name": "file output stream",
+        "from_node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
+        "to_node": "516f2c14-065c-4552-bab3-4fc942030dcd",
+        "uuid": "571193e9-e757-40f8-a6b7-e7627f4a6fc1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 33,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327918987,
+        "from_classifier_name": "OS abstraction",
+        "to_classifier_name": "socket output stream",
+        "from_node": "9f30803e-a564-4917-8de0-7f8ac56b2036",
+        "to_node": "3ae8f5ca-e9d1-412f-be79-e9e4ddb6da10",
+        "uuid": "efbc7370-30bf-4d88-b7f6-7a34eb268cdb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 28,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1327755147,
+        "from_classifier_name": "txt writer",
+        "to_classifier_name": "data exporter",
+        "to_feature_key": "out_byte_stream",
+        "from_node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
+        "to_node": "6c395810-23d1-49bb-a915-756d918194be",
+        "uuid": "20566e5c-a55a-4223-8366-31940ec063a0"
       }
     }
   ]

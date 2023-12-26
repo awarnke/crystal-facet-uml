@@ -464,14 +464,15 @@ void data_database_init ( data_database_t *this_ )
     (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
     utf8stringbuf_clear( (*this_).db_file_name );
 
-    g_mutex_init ( &((*this_).private_lock) );
+    g_mutex_init ( &((*this_).lock_on_write) );
+    (*this_).locked_on_write = false;
 
-    u8_error_t result = data_database_private_lock( this_ );
+    u8_error_t result = data_database_lock_on_write( this_ );
     {
         (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
         (*this_).transaction_recursion = 0;
     }
-    result |= data_database_private_unlock( this_ );
+    result |= data_database_unlock_on_write( this_ );
     if( result != U8_ERROR_NONE )
     {
         assert(false);
@@ -493,7 +494,7 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
     u8_error_t result = U8_ERROR_NONE;
     bool notify_listeners = false;
 
-    result |= data_database_private_lock( this_ );
+    result |= data_database_lock_on_write( this_ );
 
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
@@ -553,7 +554,7 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
         }
     }
 
-    result |= data_database_private_unlock( this_ );
+    result |= data_database_unlock_on_write( this_ );
 
     if ( notify_listeners )
     {
@@ -586,7 +587,8 @@ u8_error_t data_database_close ( data_database_t *this_ )
     u8_error_t result = U8_ERROR_NONE;
     bool notify_change_listeners = false;
 
-    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
+    /* do sent notifications before closing: */
+    if ( data_database_is_open( this_ ) )
     {
         /* do sent notifications when closing: */
         data_change_notifier_disable_stealth_mode( &((*this_).notifier) );
@@ -604,7 +606,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
         result |= data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
     }
 
-    result |= data_database_private_lock( this_ );
+    result |= data_database_lock_on_write( this_ );
 
     if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
     {
@@ -629,7 +631,7 @@ u8_error_t data_database_close ( data_database_t *this_ )
         result |= U8_ERROR_INVALID_REQUEST;
     }
 
-    result |= data_database_private_unlock( this_ );
+    result |= data_database_unlock_on_write( this_ );
 
     if ( notify_change_listeners )
     {
@@ -654,23 +656,23 @@ void data_database_destroy ( data_database_t *this_ )
     assert( (*this_).transaction_recursion == 0 );
 
     data_database_private_clear_db_listener_list( this_ );
-    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
+    if ( data_database_is_open( this_ ) )
     {
         data_database_close( this_ );
     }
     data_change_notifier_destroy( &((*this_).notifier) );
 
-    u8_error_t result = data_database_private_lock( this_ );
+    u8_error_t result = data_database_lock_on_write( this_ );
     {
         (*this_).transaction_recursion = 0;
     }
-    result |= data_database_private_unlock( this_ );
+    result |= data_database_unlock_on_write( this_ );
     if( result != U8_ERROR_NONE )
     {
         assert(false);
     }
 
-    /* g_mutex_clear ( &((*this_).private_lock) ); -- must not be called because this GMutex is not on the stack */
+    /* g_mutex_clear ( &((*this_).lock_on_write) ); -- must not be called because this GMutex is not on the stack */
 
     U8_TRACE_END();
 }
@@ -680,7 +682,7 @@ u8_error_t data_database_flush_caches ( data_database_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
-    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
+    if ( data_database_is_open( this_ ) )
     {
         U8_LOG_EVENT_INT( "sqlite3_libversion_number()", sqlite3_libversion_number() );
         if ( sqlite3_libversion_number() >= 3010000 )
@@ -718,7 +720,7 @@ u8_error_t data_database_trace_stats ( data_database_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
-    if ( (*this_).db_state != DATA_DATABASE_STATE_CLOSED )
+    if ( data_database_is_open( this_ ) )
     {
         sqlite3_int64 use;
         sqlite3_int64 max;
@@ -743,7 +745,7 @@ u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_
     u8_error_t result = U8_ERROR_NONE;
     bool already_registered = false;
 
-    result |= data_database_private_lock( this_ );
+    result |= data_database_lock_on_write( this_ );
 
     int pos = -1;
     for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
@@ -773,7 +775,7 @@ u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_
         result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
-    result |= data_database_private_unlock( this_ );
+    result |= data_database_unlock_on_write( this_ );
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -788,7 +790,7 @@ u8_error_t data_database_remove_db_listener( data_database_t *this_, data_databa
     u8_error_t result = U8_ERROR_NONE;
     int count_closed = 0;
 
-    result |= data_database_private_lock( this_ );
+    result |= data_database_lock_on_write( this_ );
 
     for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
     {
@@ -799,7 +801,7 @@ u8_error_t data_database_remove_db_listener( data_database_t *this_, data_databa
         }
     }
 
-    result |= data_database_private_unlock( this_ );
+    result |= data_database_unlock_on_write( this_ );
 
     if ( count_closed == 0 )
     {
@@ -817,11 +819,11 @@ u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, da
     data_database_listener_t *(listener_list_copy[DATA_DATABASE_MAX_LISTENERS]);
     u8_error_t result = U8_ERROR_NONE;
 
-    result |= data_database_private_lock( this_ );
+    result |= data_database_lock_on_write( this_ );
 
     memcpy( listener_list_copy, (*this_).listener_list, sizeof(listener_list_copy) );
 
-    result |= data_database_private_unlock( this_ );
+    result |= data_database_unlock_on_write( this_ );
 
     for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
     {

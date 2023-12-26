@@ -719,8 +719,9 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
             }
             else  /* lifeline in paste mode */
             {
+                assert( is_lifeline );
                 data_stat_inc_count( (*this_).stat,
-                                     is_lifeline ? DATA_STAT_TABLE_LIFELINE : DATA_STAT_TABLE_FEATURE,
+                                     DATA_STAT_TABLE_LIFELINE, /* is_lifeline is true */
                                      DATA_STAT_SERIES_IGNORED
                                    );
                 U8_TRACE_INFO( "lifeline dropped at json import." );

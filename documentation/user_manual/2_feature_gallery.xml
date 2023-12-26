@@ -124,10 +124,12 @@
                 <ulink url="https://andreaswarnke.de/crystal-facet-uml/self_architecture/self_architecture.html">self_architecture.html</ulink> /
                 <ulink url="https://andreaswarnke.de/crystal-facet-uml/self_architecture/self_architecture.pdf">self_architecture.pdf</ulink>
             </para></listitem>
+            <!--
             <listitem><para>
                 <ulink url="https://andreaswarnke.de/crystal-facet-uml/quality/quality.html">quality.html</ulink> /
                 <ulink url="https://andreaswarnke.de/crystal-facet-uml/quality/quality.pdf">quality.pdf</ulink>
             </para></listitem>
+            -->
             </itemizedlist>
             And in crystal-facet-uml json format:
             <itemizedlist>

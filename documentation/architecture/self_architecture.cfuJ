@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.54.0"
+    "generator_version": "1.54.1"
   }
   ,
   "views":
@@ -1430,17 +1430,6 @@
         "description": [
                 "This diagram shows the layering of the main software modules.\n",
                 "\n",
-                "Concept for Multithreading:\n",
-                "In general, all modules shall work in a multithreaded environment.\n",
-                "- The gui module requires own data structures in order to be thread-safe\n",
-                "  and relies on the base libraries gtk, gdk which need to support multi-threading,\n",
-                "- The pencil module requires own data structures in order to be thread safe\n",
-                "  and relies on the base libraries pango and cairo which need to support multi-threading.\n",
-                "- The data module does not need own data structures, \n",
-                "  it comes with a module-wide lock in the database_t structure.\n",
-                "- The ctrl module requires own data structures in order to be thread safe.\n",
-                "  This limitation would need to be changed if a multi-threaded gui\n",
-                "  should access a single ctrl and data instance. (Currently, the software is single-threaded)\n",
                 ""
         ],
         "list_order": 131072,
@@ -1749,7 +1738,7 @@
         "type": "UMLInteractionDiagram/sequence",
         "name": "data: Runtime View",
         "description": [
-                ""
+                "For multithreading concept see D0112#name."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -2796,21 +2785,21 @@
           {
             "id": 455,
             "display_flags": 0,
-            "classifier_name": "txt_writer",
+            "classifier_name": "io_txt_writer",
             "node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
             "uuid": "07ff49a8-c994-42cf-a912-ff32d1867a57"
           },
           {
             "id": 456,
             "display_flags": 0,
-            "classifier_name": "xml_writer",
+            "classifier_name": "io_xml_writer",
             "node": "b5960f34-5328-438f-a755-418e58dee838",
             "uuid": "7924c4a7-6d01-405e-800a-eca381c359f5"
           },
           {
             "id": 457,
             "display_flags": 0,
-            "classifier_name": "md_filter",
+            "classifier_name": "io_md_writer",
             "node": "ef415086-85ec-446b-8a84-deb484e8393e",
             "uuid": "7bf11274-cbcd-4907-977e-b8e28b72f756"
           },
@@ -4202,6 +4191,276 @@
             "classifier_name": "runmodes",
             "node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
             "uuid": "601d7265-d927-4460-a56f-3e80be8f7484"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 112,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "Multithreading in GUI Mode",
+        "description": [
+                "Concept for Multithreading:\n",
+                "In general, all modules shall work in a multithreaded environment.\n",
+                "- The gui module requires own data structures in order to be thread-safe\n",
+                "  and relies on the base libraries gtk, gdk which need to support multi-threading,\n",
+                "- The pencil module requires own data structures in order to be thread safe\n",
+                "  and relies on the base libraries pango and cairo which need to support multi-threading.\n",
+                "- The data module does not need own data structures, \n",
+                "  it comes with a module-wide lock in the database_t structure.\n",
+                "- The ctrl module requires own data structures in order to be thread safe.\n",
+                "  This limitation would need to be changed if a multi-threaded gui\n",
+                "  should access a single ctrl and data instance. (Currently, the software is single-threaded)"
+        ],
+        "list_order": -1,
+        "display_flags": 0,
+        "parent_name": "Runtime View",
+        "parent": "12c299c9-5ca3-472a-ace6-8be7e6655402",
+        "uuid": "f1f57119-8ce4-4705-9d61-65531fce7c69",
+        "diagramelements":
+        [
+          {
+            "id": 799,
+            "display_flags": 0,
+            "classifier_name": "GUI-mode",
+            "node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+            "uuid": "d3f825d1-1465-4e86-b54b-6eb3813cd722"
+          },
+          {
+            "id": 800,
+            "display_flags": 0,
+            "classifier_name": "Future Mutlithreading Concept",
+            "node": "b36b3631-0554-430d-ae40-aea26332ee94",
+            "uuid": "eb4dd240-9ba7-42df-a736-19600cae538b"
+          },
+          {
+            "id": 801,
+            "display_flags": 0,
+            "classifier_name": "start_for_MT",
+            "node": "1112eebf-316a-4a5e-9ab7-6cf07429df45",
+            "uuid": "c437ffac-0b7b-46ef-baed-2ef52017fb62"
+          },
+          {
+            "id": 802,
+            "display_flags": 0,
+            "classifier_name": "Main GUI Thread",
+            "node": "a565509e-37cc-470d-99df-594886c14348",
+            "uuid": "496bf698-c4ea-4d51-8fb5-1aad12e91a43"
+          },
+          {
+            "id": 803,
+            "display_flags": 0,
+            "classifier_name": "Load-or-Render Thread(s)",
+            "node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+            "uuid": "87c28a25-3bb9-421e-98a1-11be11ad5344"
+          },
+          {
+            "id": 804,
+            "display_flags": 0,
+            "classifier_name": "start_par",
+            "node": "56ccc0d7-dc9f-4d6a-99ca-06e0eb080ac3",
+            "uuid": "32e52cb7-c74d-43c1-8c1d-7f56867c1ff4"
+          },
+          {
+            "id": 805,
+            "display_flags": 0,
+            "classifier_name": "end_par",
+            "node": "aeb7cd4d-6960-4f80-b763-cdd021970444",
+            "uuid": "618e80c4-7ca0-4379-bcc6-42232883b712"
+          },
+          {
+            "id": 806,
+            "display_flags": 0,
+            "classifier_name": "end_from_MT",
+            "node": "1d1bdc65-0d5a-45d6-a68d-a4294d6db829",
+            "uuid": "f92cafb6-1ae9-460d-801d-750dede6bca0"
+          },
+          {
+            "id": 807,
+            "display_flags": 0,
+            "classifier_name": "wait",
+            "node": "af4fa45c-aed1-4d4e-bac0-0d6c7eed9edd",
+            "uuid": "25bd84f3-7d93-4e53-8ae5-03faf17ac901"
+          },
+          {
+            "id": 808,
+            "display_flags": 0,
+            "classifier_name": "work",
+            "node": "437652d5-db54-42b5-9d1e-5eb6d3ce5e32",
+            "uuid": "215dc1d7-541e-49fb-9b2e-44350389dd9e"
+          },
+          {
+            "id": 809,
+            "display_flags": 0,
+            "classifier_name": "orchestrate work",
+            "node": "ca929e7b-f2b6-43f9-8a02-1b9264ac80f3",
+            "uuid": "d1d37095-76b9-45ba-b1dc-26fc099b281c"
+          },
+          {
+            "id": 810,
+            "display_flags": 0,
+            "classifier_name": "run",
+            "node": "edd43c17-505d-4f45-825c-4d8bd8c5e98d",
+            "uuid": "1efe1c7b-88e8-4d90-85de-9eb4e7e1b15f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 113,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Mutexed data structures",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Multithreading in GUI Mode",
+        "parent": "f1f57119-8ce4-4705-9d61-65531fce7c69",
+        "uuid": "a6fcd089-d301-4617-acae-d320aaa4a881",
+        "diagramelements":
+        [
+          {
+            "id": 811,
+            "display_flags": 0,
+            "classifier_name": "Main GUI Thread",
+            "node": "a565509e-37cc-470d-99df-594886c14348",
+            "uuid": "2eba5fdd-388b-4a4e-8785-83c43072bc88"
+          },
+          {
+            "id": 812,
+            "display_flags": 0,
+            "classifier_name": "Load-or-Render Thread(s)",
+            "node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+            "uuid": "fe10fb6f-b101-4857-a3b0-8d4d3721b394"
+          },
+          {
+            "id": 813,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "data_database",
+            "node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
+            "uuid": "fcd57711-12db-460a-a5c8-8523a03e6ea4"
+          },
+          {
+            "id": 814,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "data_database _reader",
+            "node": "2b77c382-5a04-4472-8698-5d89b844fd20",
+            "uuid": "d2d20a1f-7cd8-4d75-bf76-81d427ea1daf"
+          },
+          {
+            "id": 816,
+            "display_flags": 33554433,
+            "display_tags": "NamedInstance, GrayOut",
+            "classifier_name": "db_reader_2 :data_database _reader",
+            "node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
+            "uuid": "139663c7-b1fe-43bf-b4af-22c9e0a06483"
+          },
+          {
+            "id": 817,
+            "display_flags": 33554433,
+            "display_tags": "NamedInstance, GrayOut",
+            "classifier_name": "db_reader_1 :data_database _reader",
+            "node": "38a1de76-2bb8-4703-9d41-fd44243539af",
+            "uuid": "0ed22baf-f324-4de9-949f-ec0433f3519d"
+          },
+          {
+            "id": 818,
+            "display_flags": 2,
+            "display_tags": "AnonymousInstance",
+            "classifier_name": "ctrl_controller",
+            "node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
+            "uuid": "1bfd1418-2a5e-4c54-a019-27d63f7ad982"
+          },
+          {
+            "id": 819,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "Only one per database",
+            "node": "1b3933c4-e0ab-479f-9114-4873e4df0a5f",
+            "uuid": "277fd4a4-b68b-4784-95c2-a98700073dcd"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 114,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Data structures per thread",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Multithreading in GUI Mode",
+        "parent": "f1f57119-8ce4-4705-9d61-65531fce7c69",
+        "uuid": "c226430b-211e-42a2-9867-7b58c923a8d2",
+        "diagramelements":
+        [
+          {
+            "id": 820,
+            "display_flags": 0,
+            "classifier_name": "db_reader_2 :data_database _reader",
+            "node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
+            "uuid": "cdf3c747-a966-4b85-aff8-e846af672651"
+          },
+          {
+            "id": 821,
+            "display_flags": 0,
+            "classifier_name": "db_reader_1 :data_database _reader",
+            "node": "38a1de76-2bb8-4703-9d41-fd44243539af",
+            "uuid": "776cee5f-5daa-4c76-8567-8e3791010471"
+          },
+          {
+            "id": 823,
+            "display_flags": 0,
+            "classifier_name": "Load-or-Render Thread(s)",
+            "node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+            "uuid": "c55d6984-f684-455d-974d-f4ae12b06264"
+          },
+          {
+            "id": 824,
+            "display_flags": 0,
+            "classifier_name": "Main GUI Thread",
+            "node": "a565509e-37cc-470d-99df-594886c14348",
+            "uuid": "ebc878b0-3e3c-4741-808a-31023fc814e9"
+          },
+          {
+            "id": 825,
+            "display_flags": 0,
+            "classifier_name": "pencil_diagram_maker",
+            "node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
+            "uuid": "81839072-ea11-496d-a57e-42ebd51b0bd4"
+          },
+          {
+            "id": 826,
+            "display_flags": 0,
+            "classifier_name": "pencil_1 :pencil_diagram_maker",
+            "node": "1b9407ad-3e92-4c73-a43e-9ad762790664",
+            "uuid": "779cddbf-4872-4186-921a-5d5d4cfed434"
+          },
+          {
+            "id": 827,
+            "display_flags": 0,
+            "classifier_name": "pencil_2 :pencil_diagram_maker",
+            "node": "ea4efb34-2553-435d-bd69-86c7b2a39e8c",
+            "uuid": "8407f719-85b7-4cbe-8b89-f327de02b7a6"
+          },
+          {
+            "id": 828,
+            "display_flags": 16777216,
+            "display_tags": "Emphasis",
+            "classifier_name": "Every thread has own data structures",
+            "node": "803ae0f5-3bac-44e3-9905-30d2093d206e",
+            "uuid": "a6dd1092-b0d4-47db-9ef8-3d3b7ca0a535"
           }
         ]
       }
@@ -7439,6 +7698,19 @@
             ],
             "list_order": 0,
             "uuid": "04f7aa39-343d-4054-9ef4-6b679740e3ca"
+          },
+          {
+            "id": 124,
+            "main_type": 0,
+            "type": "Property",
+            "key": "change_lock",
+            "value": "GMutex",
+            "description": [
+                "A single, central lock for ctrl package and data_database class.\n",
+                "A single lock prevents dead locks."
+            ],
+            "list_order": 32768,
+            "uuid": "0dc8d5ab-11b1-4c84-845c-392083abceb6"
           }
         ]
       }
@@ -13056,7 +13328,7 @@
         "id": 309,
         "main_type": 125,
         "type": "Class",
-        "name": "txt_writer",
+        "name": "io_txt_writer",
         "description": [
                 ""
         ],
@@ -13074,7 +13346,7 @@
         "id": 310,
         "main_type": 125,
         "type": "Class",
-        "name": "xml_writer",
+        "name": "io_xml_writer",
         "description": [
                 ""
         ],
@@ -13092,7 +13364,7 @@
         "id": 311,
         "main_type": 125,
         "type": "Class",
-        "name": "md_filter",
+        "name": "io_md_writer",
         "description": [
                 ""
         ],
@@ -15239,7 +15511,11 @@
         "description": [
                 "The data_database_writer\n",
                 "can handle only one\n",
-                "client-thread at a time."
+                "client-thread at a time.\n",
+                "\n",
+                "Locking is ensured by\n",
+                "the calling ctrl_controller.\n",
+                ""
         ],
         "x_order": 1134005365,
         "y_order": 0,
@@ -16591,6 +16867,319 @@
         "y_order": -1428359190,
         "list_order": -1428359190,
         "uuid": "cffdbd1b-8427-4508-a891-a668907e394f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 485,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "Future Mutlithreading Concept",
+        "description": [
+                "This diagram shows\n",
+                "a possible future multhreading conecpt.\n",
+                "Today, the software runs single threaded."
+        ],
+        "x_order": 1474089831,
+        "y_order": -1756074638,
+        "list_order": -1756074638,
+        "uuid": "b36b3631-0554-430d-ae40-aea26332ee94",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 486,
+        "main_type": 151,
+        "type": "InitialNode",
+        "name": "start_for_MT",
+        "description": [
+                ""
+        ],
+        "x_order": -159189299,
+        "y_order": -1014565162,
+        "list_order": -1192925787,
+        "uuid": "1112eebf-316a-4a5e-9ab7-6cf07429df45",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 487,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Main GUI Thread",
+        "description": [
+                ""
+        ],
+        "x_order": 314574182,
+        "y_order": -743214894,
+        "list_order": -743214894,
+        "uuid": "a565509e-37cc-470d-99df-594886c14348",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 488,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "Load-or-Render Thread(s)",
+        "description": [
+                ""
+        ],
+        "x_order": 314574182,
+        "y_order": -1192925787,
+        "list_order": -1012513578,
+        "uuid": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 489,
+        "main_type": 154,
+        "type": "ForkNode",
+        "name": "start_par",
+        "description": [
+                ""
+        ],
+        "x_order": -159189299,
+        "y_order": -1019520866,
+        "list_order": -1019520866,
+        "uuid": "56ccc0d7-dc9f-4d6a-99ca-06e0eb080ac3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 490,
+        "main_type": 155,
+        "type": "JoinNode",
+        "name": "end_par",
+        "description": [
+                ""
+        ],
+        "x_order": 1874320449,
+        "y_order": -1019520866,
+        "list_order": -838402729,
+        "uuid": "aeb7cd4d-6960-4f80-b763-cdd021970444",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 491,
+        "main_type": 152,
+        "type": "ActivityFinalNode",
+        "name": "end_from_MT",
+        "description": [
+                ""
+        ],
+        "x_order": 1874320449,
+        "y_order": -1014565162,
+        "list_order": -747303384,
+        "uuid": "1d1bdc65-0d5a-45d6-a68d-a4294d6db829",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 492,
+        "main_type": 167,
+        "type": "AcceptEventAction",
+        "name": "wait",
+        "description": [
+                ""
+        ],
+        "x_order": 1474089831,
+        "y_order": -1012513578,
+        "list_order": -1089631555,
+        "uuid": "af4fa45c-aed1-4d4e-bac0-0d6c7eed9edd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 493,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "work",
+        "description": [
+                ""
+        ],
+        "x_order": 1474089831,
+        "y_order": -743214894,
+        "list_order": -1018895867,
+        "uuid": "437652d5-db54-42b5-9d1e-5eb6d3ce5e32",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 494,
+        "main_type": 170,
+        "type": "SendSignalAction",
+        "name": "orchestrate work",
+        "description": [
+                ""
+        ],
+        "x_order": 321408711,
+        "y_order": -1012513578,
+        "list_order": 249278623,
+        "uuid": "ca929e7b-f2b6-43f9-8a02-1b9264ac80f3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 495,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "run",
+        "description": [
+                ""
+        ],
+        "x_order": 321408711,
+        "y_order": -743214894,
+        "list_order": 841605018,
+        "uuid": "edd43c17-505d-4f45-825c-4d8bd8c5e98d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 496,
+        "main_type": 126,
+        "type": "Class",
+        "name": "db_reader_2 :data_database _reader",
+        "description": [
+                ""
+        ],
+        "x_order": 792322766,
+        "y_order": 96246856,
+        "list_order": 1211078883,
+        "uuid": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 497,
+        "main_type": 126,
+        "type": "Class",
+        "name": "db_reader_1 :data_database _reader",
+        "description": [
+                ""
+        ],
+        "x_order": 151621692,
+        "y_order": 96246856,
+        "list_order": 1211078883,
+        "uuid": "38a1de76-2bb8-4703-9d41-fd44243539af",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 498,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "Only one per database",
+        "description": [
+                "Only one controller and only one database\n",
+                "class shall exist per database.\n",
+                "This ensures that\n",
+                "the undo redo history is not damaged\n",
+                "by multiple concurrent threads."
+        ],
+        "x_order": -369469973,
+        "y_order": 1211078883,
+        "list_order": 1237907499,
+        "uuid": "1b3933c4-e0ab-479f-9114-4873e4df0a5f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 499,
+        "main_type": 126,
+        "type": "Class",
+        "name": "pencil_1 :pencil_diagram_maker",
+        "description": [
+                ""
+        ],
+        "x_order": -1429582248,
+        "y_order": -743214894,
+        "list_order": -1192925787,
+        "uuid": "1b9407ad-3e92-4c73-a43e-9ad762790664",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 500,
+        "main_type": 126,
+        "type": "Class",
+        "name": "pencil_2 :pencil_diagram_maker",
+        "description": [
+                ""
+        ],
+        "x_order": -1429582248,
+        "y_order": -1192925787,
+        "list_order": -743214894,
+        "uuid": "ea4efb34-2553-435d-bd69-86c7b2a39e8c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 501,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "Every thread has own data structures",
+        "description": [
+                "Every thread has own data structures\n",
+                "to allow concurrent execution."
+        ],
+        "x_order": 792322766,
+        "y_order": -1300007225,
+        "list_order": -1300007225,
+        "uuid": "803ae0f5-3bac-44e3-9905-30d2093d206e",
         "features":
         [
         ]
@@ -21942,6 +22531,108 @@
     },
     {
       "relationship": {
+        "id": 813,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1192925787,
+        "from_classifier_name": "GUI-mode",
+        "to_classifier_name": "start_for_MT",
+        "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+        "to_node": "1112eebf-316a-4a5e-9ab7-6cf07429df45",
+        "uuid": "65589026-f71a-4803-b04d-1aadfad752d3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 814,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -743214894,
+        "from_classifier_name": "GUI-mode",
+        "to_classifier_name": "Main GUI Thread",
+        "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+        "to_node": "a565509e-37cc-470d-99df-594886c14348",
+        "uuid": "41538c09-f9dd-47f8-aa70-aee663a75c9d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 815,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1012513578,
+        "from_classifier_name": "GUI-mode",
+        "to_classifier_name": "Load-or-Render Thread(s)",
+        "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+        "to_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "uuid": "1c4e6570-e9f8-418f-a804-2cd1f82afe67"
+      }
+    },
+    {
+      "relationship": {
+        "id": 816,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1019520866,
+        "from_classifier_name": "GUI-mode",
+        "to_classifier_name": "start_par",
+        "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+        "to_node": "56ccc0d7-dc9f-4d6a-99ca-06e0eb080ac3",
+        "uuid": "e1c8c107-cc2b-4ec3-bd62-c70080eaf636"
+      }
+    },
+    {
+      "relationship": {
+        "id": 817,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -838402729,
+        "from_classifier_name": "GUI-mode",
+        "to_classifier_name": "end_par",
+        "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+        "to_node": "aeb7cd4d-6960-4f80-b763-cdd021970444",
+        "uuid": "597118da-e567-4736-a59c-46d617962d41"
+      }
+    },
+    {
+      "relationship": {
+        "id": 818,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -747303384,
+        "from_classifier_name": "GUI-mode",
+        "to_classifier_name": "end_from_MT",
+        "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+        "to_node": "1d1bdc65-0d5a-45d6-a68d-a4294d6db829",
+        "uuid": "a4f8179a-3d94-4100-80ba-187dc381b5d9"
+      }
+    },
+    {
+      "relationship": {
         "id": 660,
         "main_type": 300,
         "type": "Association",
@@ -22658,7 +23349,7 @@
         ],
         "list_order": 1412446661,
         "from_classifier_name": "document_element_writer",
-        "to_classifier_name": "txt_writer",
+        "to_classifier_name": "io_txt_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
         "uuid": "506bbabb-8241-4696-8896-d3eaa1e1f0d0"
@@ -22675,7 +23366,7 @@
         ],
         "list_order": 1412479429,
         "from_classifier_name": "document_element_writer",
-        "to_classifier_name": "md_filter",
+        "to_classifier_name": "io_md_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "ef415086-85ec-446b-8a84-deb484e8393e",
         "uuid": "167ad80d-c2ab-42fd-a7d0-ce9bbfddce67"
@@ -22692,7 +23383,7 @@
         ],
         "list_order": 1412512197,
         "from_classifier_name": "document_element_writer",
-        "to_classifier_name": "xml_writer",
+        "to_classifier_name": "io_xml_writer",
         "from_node": "28d24517-4348-455a-a70e-a548fa63589b",
         "to_node": "b5960f34-5328-438f-a755-418e58dee838",
         "uuid": "de9b489f-2782-4c20-b0fd-4b17b1b72a45"
@@ -24443,7 +25134,7 @@
         ],
         "list_order": 1412413893,
         "from_classifier_name": "xmi_element_writer",
-        "to_classifier_name": "xml_writer",
+        "to_classifier_name": "io_xml_writer",
         "from_node": "26dcb480-f664-470d-8295-6c5e2a62fdb9",
         "to_node": "b5960f34-5328-438f-a755-418e58dee838",
         "uuid": "53e64e0e-d54b-4213-9783-1d45d18d6560"
@@ -28102,7 +28793,7 @@
         ],
         "list_order": 1412839877,
         "from_classifier_name": "format",
-        "to_classifier_name": "txt_writer",
+        "to_classifier_name": "io_txt_writer",
         "from_node": "cffdbd1b-8427-4508-a891-a668907e394f",
         "to_node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
         "uuid": "0ba913f3-e0b3-4a02-933b-3f31a875b109"
@@ -28119,7 +28810,7 @@
         ],
         "list_order": 1412872645,
         "from_classifier_name": "format",
-        "to_classifier_name": "md_filter",
+        "to_classifier_name": "io_md_writer",
         "from_node": "cffdbd1b-8427-4508-a891-a668907e394f",
         "to_node": "ef415086-85ec-446b-8a84-deb484e8393e",
         "uuid": "41aced55-f092-4a42-bc75-dd2af2d950cc"
@@ -28136,10 +28827,524 @@
         ],
         "list_order": 1412905413,
         "from_classifier_name": "format",
-        "to_classifier_name": "xml_writer",
+        "to_classifier_name": "io_xml_writer",
         "from_node": "cffdbd1b-8427-4508-a891-a668907e394f",
         "to_node": "b5960f34-5328-438f-a755-418e58dee838",
         "uuid": "ed402dca-4e02-4f65-b47b-1ebc1875d855"
+      }
+    },
+    {
+      "relationship": {
+        "id": 819,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "start_for_MT",
+        "to_classifier_name": "start_par",
+        "from_node": "1112eebf-316a-4a5e-9ab7-6cf07429df45",
+        "to_node": "56ccc0d7-dc9f-4d6a-99ca-06e0eb080ac3",
+        "uuid": "adf900ab-4351-4221-8e2c-55c5b80d1e4f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 827,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 249278623,
+        "from_classifier_name": "Main GUI Thread",
+        "to_classifier_name": "orchestrate work",
+        "from_node": "a565509e-37cc-470d-99df-594886c14348",
+        "to_node": "ca929e7b-f2b6-43f9-8a02-1b9264ac80f3",
+        "uuid": "075975b2-e4b5-4b7d-a877-5c34feb401cf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 828,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 841605018,
+        "from_classifier_name": "Main GUI Thread",
+        "to_classifier_name": "run",
+        "from_node": "a565509e-37cc-470d-99df-594886c14348",
+        "to_node": "edd43c17-505d-4f45-825c-4d8bd8c5e98d",
+        "uuid": "d3bb4749-d0c5-4b57-afaf-389b50e20a72"
+      }
+    },
+    {
+      "relationship": {
+        "id": 837,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "use own reader",
+        "description": [
+                ""
+        ],
+        "list_order": 754640516,
+        "from_classifier_name": "Main GUI Thread",
+        "to_classifier_name": "db_reader_1 :data_database _reader",
+        "from_node": "a565509e-37cc-470d-99df-594886c14348",
+        "to_node": "38a1de76-2bb8-4703-9d41-fd44243539af",
+        "uuid": "22ccb6ab-3f62-4161-9296-d4dc814772a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 841,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "exclusive",
+        "name": "create/write/delete elements",
+        "description": [
+                ""
+        ],
+        "list_order": 754771588,
+        "from_classifier_name": "Main GUI Thread",
+        "to_classifier_name": "ctrl_controller",
+        "from_node": "a565509e-37cc-470d-99df-594886c14348",
+        "to_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
+        "uuid": "77749f48-8f21-4d18-910b-64e0a4a49fc7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 842,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "exclusive",
+        "name": "check open/close database",
+        "description": [
+                ""
+        ],
+        "list_order": 754804356,
+        "from_classifier_name": "Main GUI Thread",
+        "to_classifier_name": "data_database",
+        "from_node": "a565509e-37cc-470d-99df-594886c14348",
+        "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
+        "uuid": "702f890c-b716-4684-92c3-ac996076bc00"
+      }
+    },
+    {
+      "relationship": {
+        "id": 845,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "use own pencil",
+        "description": [
+                ""
+        ],
+        "list_order": 754738820,
+        "from_classifier_name": "Main GUI Thread",
+        "to_classifier_name": "pencil_1 :pencil_diagram_maker",
+        "from_node": "a565509e-37cc-470d-99df-594886c14348",
+        "to_node": "1b9407ad-3e92-4c73-a43e-9ad762790664",
+        "uuid": "e11e3883-394a-47d2-b85d-9415c36d877e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 823,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1089631555,
+        "from_classifier_name": "Load-or-Render Thread(s)",
+        "to_classifier_name": "wait",
+        "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "to_node": "af4fa45c-aed1-4d4e-bac0-0d6c7eed9edd",
+        "uuid": "39432903-ce95-4330-bd79-24425ade8942"
+      }
+    },
+    {
+      "relationship": {
+        "id": 824,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1018895867,
+        "from_classifier_name": "Load-or-Render Thread(s)",
+        "to_classifier_name": "work",
+        "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "to_node": "437652d5-db54-42b5-9d1e-5eb6d3ce5e32",
+        "uuid": "b61f69a6-9c0f-45c3-bff1-df00b080ced0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 833,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "exclusive",
+        "name": "open/close database",
+        "description": [
+                ""
+        ],
+        "list_order": 754509444,
+        "from_classifier_name": "Load-or-Render Thread(s)",
+        "to_classifier_name": "data_database",
+        "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
+        "uuid": "2341f15b-cbcf-4353-aca1-cedbf7c49342"
+      }
+    },
+    {
+      "relationship": {
+        "id": 836,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "use own reader",
+        "description": [
+                ""
+        ],
+        "list_order": 754607748,
+        "from_classifier_name": "Load-or-Render Thread(s)",
+        "to_classifier_name": "db_reader_2 :data_database _reader",
+        "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "to_node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
+        "uuid": "c7c53815-274b-4a4c-ad38-0a0580b38332"
+      }
+    },
+    {
+      "relationship": {
+        "id": 838,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "stereotype": "exclusive",
+        "name": "create/write/delete elements",
+        "description": [
+                ""
+        ],
+        "list_order": 754673284,
+        "from_classifier_name": "Load-or-Render Thread(s)",
+        "to_classifier_name": "ctrl_controller",
+        "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "to_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
+        "uuid": "9fdef538-3c49-46bb-89bf-9e0b117d60de"
+      }
+    },
+    {
+      "relationship": {
+        "id": 846,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "use own pencil",
+        "description": [
+                ""
+        ],
+        "list_order": 754771588,
+        "from_classifier_name": "Load-or-Render Thread(s)",
+        "to_classifier_name": "pencil_2 :pencil_diagram_maker",
+        "from_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "to_node": "ea4efb34-2553-435d-bd69-86c7b2a39e8c",
+        "uuid": "51b48a13-b439-4558-b1a7-0f085286cb1e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 820,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "start thread(s)",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "start_par",
+        "to_classifier_name": "Load-or-Render Thread(s)",
+        "from_node": "56ccc0d7-dc9f-4d6a-99ca-06e0eb080ac3",
+        "to_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "uuid": "19b956c9-1733-49ca-9c29-e08569d5bf7f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 821,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "start GUI main thread",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "start_par",
+        "to_classifier_name": "Main GUI Thread",
+        "from_node": "56ccc0d7-dc9f-4d6a-99ca-06e0eb080ac3",
+        "to_node": "a565509e-37cc-470d-99df-594886c14348",
+        "uuid": "32dd3db5-2abb-4c95-87f5-f87499552a50"
+      }
+    },
+    {
+      "relationship": {
+        "id": 822,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "end_par",
+        "to_classifier_name": "end_from_MT",
+        "from_node": "aeb7cd4d-6960-4f80-b763-cdd021970444",
+        "to_node": "1d1bdc65-0d5a-45d6-a68d-a4294d6db829",
+        "uuid": "8045281a-dc47-468a-8458-8eba8c3da6ef"
+      }
+    },
+    {
+      "relationship": {
+        "id": 825,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "wait",
+        "to_classifier_name": "work",
+        "from_node": "af4fa45c-aed1-4d4e-bac0-0d6c7eed9edd",
+        "to_node": "437652d5-db54-42b5-9d1e-5eb6d3ce5e32",
+        "uuid": "bedf45f2-cb39-42de-8de9-b0e3d209182b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 826,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "work",
+        "to_classifier_name": "wait",
+        "from_node": "437652d5-db54-42b5-9d1e-5eb6d3ce5e32",
+        "to_node": "af4fa45c-aed1-4d4e-bac0-0d6c7eed9edd",
+        "uuid": "1fdbf93a-3d7c-41bd-8848-c944081f37c7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 831,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "end thread",
+        "description": [
+                ""
+        ],
+        "list_order": 841703322,
+        "from_classifier_name": "work",
+        "to_classifier_name": "end_par",
+        "from_node": "437652d5-db54-42b5-9d1e-5eb6d3ce5e32",
+        "to_node": "aeb7cd4d-6960-4f80-b763-cdd021970444",
+        "uuid": "90fc1bf6-0fc1-420d-88c7-c6f1194da2e5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 830,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 841670554,
+        "from_classifier_name": "orchestrate work",
+        "to_classifier_name": "run",
+        "from_node": "ca929e7b-f2b6-43f9-8a02-1b9264ac80f3",
+        "to_node": "edd43c17-505d-4f45-825c-4d8bd8c5e98d",
+        "uuid": "0066b1fd-b242-475a-bd3f-6b6b61dbf3aa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 829,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 841637786,
+        "from_classifier_name": "run",
+        "to_classifier_name": "orchestrate work",
+        "from_node": "edd43c17-505d-4f45-825c-4d8bd8c5e98d",
+        "to_node": "ca929e7b-f2b6-43f9-8a02-1b9264ac80f3",
+        "uuid": "4b82e3d1-7491-42d2-9757-11f224fa1ed5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 832,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "end",
+        "description": [
+                ""
+        ],
+        "list_order": 841736090,
+        "from_classifier_name": "run",
+        "to_classifier_name": "end_par",
+        "from_node": "edd43c17-505d-4f45-825c-4d8bd8c5e98d",
+        "to_node": "aeb7cd4d-6960-4f80-b763-cdd021970444",
+        "uuid": "8f57e0f6-522e-44a3-a6e4-dfd7d9f2c219"
+      }
+    },
+    {
+      "relationship": {
+        "id": 835,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "instance",
+        "description": [
+                ""
+        ],
+        "list_order": 754574980,
+        "from_classifier_name": "db_reader_2 :data_database _reader",
+        "to_classifier_name": "data_database _reader",
+        "from_node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
+        "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
+        "uuid": "1de12551-8fdc-4f09-895e-6b02724ab0cf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 834,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "instance",
+        "description": [
+                ""
+        ],
+        "list_order": 754542212,
+        "from_classifier_name": "db_reader_1 :data_database _reader",
+        "to_classifier_name": "data_database _reader",
+        "from_node": "38a1de76-2bb8-4703-9d41-fd44243539af",
+        "to_node": "2b77c382-5a04-4472-8698-5d89b844fd20",
+        "uuid": "f8fbbef1-b9db-441b-a551-f3f932f5d49a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 839,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "singleton",
+        "description": [
+                ""
+        ],
+        "list_order": 754706052,
+        "from_classifier_name": "Only one per database",
+        "to_classifier_name": "ctrl_controller",
+        "from_node": "1b3933c4-e0ab-479f-9114-4873e4df0a5f",
+        "to_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
+        "uuid": "aa4f33bb-cf39-47de-b402-459e53b329e5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 840,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "singleton",
+        "description": [
+                ""
+        ],
+        "list_order": 754738820,
+        "from_classifier_name": "Only one per database",
+        "to_classifier_name": "data_database",
+        "from_node": "1b3933c4-e0ab-479f-9114-4873e4df0a5f",
+        "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
+        "uuid": "b8f6bf16-bba3-40df-9f4d-3d413002b349"
+      }
+    },
+    {
+      "relationship": {
+        "id": 843,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "instance",
+        "description": [
+                ""
+        ],
+        "list_order": 754673284,
+        "from_classifier_name": "pencil_1 :pencil_diagram_maker",
+        "to_classifier_name": "pencil_diagram_maker",
+        "from_node": "1b9407ad-3e92-4c73-a43e-9ad762790664",
+        "to_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
+        "uuid": "775a4a4a-495b-479a-abba-ce7a736d086c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 844,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "intance",
+        "description": [
+                ""
+        ],
+        "list_order": 754706052,
+        "from_classifier_name": "pencil_2 :pencil_diagram_maker",
+        "to_classifier_name": "pencil_diagram_maker",
+        "from_node": "ea4efb34-2553-435d-bd69-86c7b2a39e8c",
+        "to_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
+        "uuid": "3d48748a-0729-400d-a8ad-564f86797998"
+      }
+    },
+    {
+      "relationship": {
+        "id": 847,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 754804356,
+        "from_classifier_name": "Every thread has own data structures",
+        "to_classifier_name": "Load-or-Render Thread(s)",
+        "from_node": "803ae0f5-3bac-44e3-9905-30d2093d206e",
+        "to_node": "825dee71-ab77-42c0-af3f-cf25c8f787dc",
+        "uuid": "986cde2b-f52d-4e55-b500-f697e5fa7341"
+      }
+    },
+    {
+      "relationship": {
+        "id": 848,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 754837124,
+        "from_classifier_name": "Every thread has own data structures",
+        "to_classifier_name": "Main GUI Thread",
+        "from_node": "803ae0f5-3bac-44e3-9905-30d2093d206e",
+        "to_node": "a565509e-37cc-470d-99df-594886c14348",
+        "uuid": "9f221a29-fd7f-4ade-8b3e-fde58deaf1ed"
       }
     }
   ]

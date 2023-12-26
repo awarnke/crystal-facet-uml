@@ -32,7 +32,7 @@ INCLUDE_DIRECTORIES(${GLIB2_INCLUDE_DIRS})
 #MESSAGE("GLIB2:   ${GLIB2_INCLUDE_DIRS}")
 
 #install gtk4 and call cmake -DCFU_USE_GTK4=ON . to activate GTK4
-SET(CFU_USE_GTK4 FALSE CACHE BOOL "Set to link to the new GTK4")
+SET(CFU_USE_GTK4 TRUE CACHE BOOL "Set to link to the new GTK4")
 if(CFU_USE_GTK4)
     PKG_SEARCH_MODULE(GTK REQUIRED gtk4)
 else(CFU_USE_GTK4)
@@ -128,10 +128,10 @@ SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 # ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 INSTALL(TARGETS crystal-facet-uml DESTINATION "/usr/bin/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/crystal-facet-uml.metainfo.xml" DESTINATION "/usr/share/metainfo/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.desktop" DESTINATION "/usr/share/applications/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.metainfo.xml" DESTINATION "/usr/share/metainfo/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal-facet-uml.png")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.1.gz" DESTINATION "/usr/share/man/man1/")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== gcov Target Settings ==== ==== ==== ==== ==== ==== ==== ====
 

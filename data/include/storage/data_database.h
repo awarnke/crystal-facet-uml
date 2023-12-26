@@ -38,7 +38,8 @@ struct data_database_struct {
     sqlite3 *db;
     data_change_notifier_t notifier;  /*!< sends notifications at every change in the database */
 
-    GMutex private_lock; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
+    GMutex lock_on_write; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
+    bool locked_on_write;  /*!< marker flag to ensure that lock_on_write is not used recursively */
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
     data_database_state_t db_state;
@@ -226,20 +227,24 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
 u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
 
 /*!
- *  \brief gets a lock to protect data in data_database_t from concurrent access.
+ *  \brief gets a lock to protect data in data_database_t from concurrent change access.
+ *
+ *  This function is not suitable for recursive usage.
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline u8_error_t data_database_private_lock ( data_database_t *this_ );
+static inline u8_error_t data_database_lock_on_write ( data_database_t *this_ );
 
 /*!
  *  \brief releases the lock.
  *
+ *  This function is not suitable for recursive usage.
+ *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline u8_error_t data_database_private_unlock ( data_database_t *this_ );
+static inline u8_error_t data_database_unlock_on_write ( data_database_t *this_ );
 
 /*!
  *  \brief checks if the database file is open

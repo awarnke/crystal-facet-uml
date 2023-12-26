@@ -59,15 +59,22 @@
                 Solutions may be:
                 <itemizedlist>
                 <listitem>
-                    <para>Define a port at a parent to bundle multiple communication paths of children</para>
+                    <para>
+                        Define a port at a parent to bundle multiple communication paths of children
+                        <mediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0003_parent_ports.svg" width="12cm"/></imageobject>
+                        </mediaobject>
+                    </para>
                 </listitem>
                 <listitem>
-                    <para>Separate abstract classes/components/blocks and their specializations</para>
+                    <para>
+                        Separate abstract classes/components/blocks and their specializations
+                        <mediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0002_abstract_components.svg" width="12cm"/></imageobject>
+                        </mediaobject>
+                    </para>
                 </listitem>
                 </itemizedlist>
-                <mediaobject>
-                    <imageobject><imagedata fileref="5_modeling_hints_export/D0002_abstract_components.svg" width="12cm"/></imageobject>
-                </mediaobject>
             </para>
         </section>
         <section>

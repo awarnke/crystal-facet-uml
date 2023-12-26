@@ -98,7 +98,7 @@ sudo zypper install crystal-facet-uml
             </itemizedlist>
         </para>
         <para>
-            Follow the instructions in <userinput>/readme.markdown</userinput>.
+            Follow the instructions in <userinput>/README.md</userinput>.
         </para>
     </section>
 
