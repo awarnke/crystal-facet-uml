@@ -18,7 +18,7 @@
 
 
 Name:           crystal-facet-uml
-Version:        1.54.0
+Version:        1.55.0
 Release:        0
 Summary:        Draws UML/SysML Diagrams
 License:        Apache-2.0
@@ -27,7 +27,7 @@ URL:            https://github.com/awarnke/crystal-facet-uml
 Source:         crystal-facet-uml_%{version}.orig.tar.gz
 BuildRequires:  cmake
 BuildRequires:  gcc
-BuildRequires:  gtk3-devel
+BuildRequires:  gtk4-devel
 BuildRequires:  sqlite3-devel
 BuildRequires:  tar
 BuildRequires:  lato-fonts

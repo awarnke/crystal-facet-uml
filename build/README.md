@@ -12,17 +12,15 @@ debian/ubuntu/raspbian:
 
 > sudo apt install gcc cmake make
 >
-> sudo apt install libgtk-4-dev libsqlite3-dev # or libgtk-3-dev
+> sudo apt install libgtk-4-dev libsqlite3-dev  # or libgtk-3-dev
 >
-> sudo apt install devscripts  # for debian build, includes possibly build-essential
+> sudo apt install devscripts  # for debian build, includes build-essential
 >
-> sudo apt install build-essential  # for debian build, possibly outdated?
+> sudo apt install yamllint    # for debian script checker, possibly not needed
 >
-> sudo apt install yamllint    # for debian script checker
+> sudo apt install debsigs     # for signing debian packages, possibly not needed
 >
-> sudo apt install debsigs     # for signing debian packages
->
-> sudo apt install dblatex xmlto       # for user documentation
+> sudo apt install dblatex xmlto librsvg2-bin   # for user documentation, e.g. rsvg-convert
 >
 > sudo apt install doxygen     # for source code documentation
 >
@@ -30,7 +28,7 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install lcov        # for reporting test coverage
 >
-> sudo apt install rustc       # for running qualification tests
+> sudo apt install cargo       # for running qualification tests, includes rustc
 
 
 > mkdir my_build && cd my_build
