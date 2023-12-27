@@ -12,7 +12,7 @@ debian/ubuntu/raspbian:
 
 > sudo apt install gcc cmake make
 >
-> sudo apt install libgtk-3-dev libsqlite3-dev
+> sudo apt install libgtk-4-dev libsqlite3-dev # or libgtk-3-dev
 >
 > sudo apt install devscripts  # for debian build, includes possibly build-essential
 >
@@ -46,7 +46,7 @@ openSuSE:
 
 > sudo zypper install gcc cmake
 >
-> sudo zypper install gtk3-devel  # or gtk4-devel; switch also the comment in CMakeLists.txt
+> sudo zypper install gtk4-devel  # or gtk3-devel; switch also the comment in CMakeLists.txt
 >
 > sudo zypper install sqlite3-devel
 >

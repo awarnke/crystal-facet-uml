@@ -53,6 +53,7 @@ ideas for future versions:
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)
+      --> use a DATA_RELATIONSHIP_TYPE_UML_INSTANCE_OF
   [?] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   @ctrl

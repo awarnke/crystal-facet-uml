@@ -23,6 +23,7 @@ enum data_relationship_type_enum {
     DATA_RELATIONSHIP_TYPE_UML_COMPOSITION = 202,
     DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION = 210,  /*!< equals inherits from */
     DATA_RELATIONSHIP_TYPE_UML_REALIZATION = 211,  /*!< equals abstraction, use this also for interface realization */
+    /* DATA_RELATIONSHIP_TYPE_UML_INSTANCE_OF = 212, */  /* instantiation (UML has no graphical arrow for this) */
     /* sequence diagram: */
     DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL = 220,  /*!< equals message or signal */
     DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL = 221,  /*!< equals function call */
