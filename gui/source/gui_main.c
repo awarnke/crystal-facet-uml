@@ -27,6 +27,10 @@ static void gui_main_activate_callback( GtkApplication* app, gpointer user_data 
 }
 #endif
 
+#if (( GTK_MAJOR_VERSION == 4 ) && ( GTK_MINOR_VERSION <= 6 ))
+#define G_APPLICATION_DEFAULT_FLAGS (G_APPLICATION_FLAGS_NONE)
+#endif  /* (( GTK_MAJOR_VERSION == 4 ) && ( GTK_MINOR_VERSION <= 6 )) */
+
 void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     U8_TRACE_BEGIN();
     U8_TRACE_TIMESTAMP();
@@ -37,7 +41,6 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     /* init */
     GtkApplication *const gtk_app
         = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_DEFAULT_FLAGS );
-    /* = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_FLAGS_NONE ); */
 
     gui_window_manager_init( &window_manager, data_file, gtk_app );
 
