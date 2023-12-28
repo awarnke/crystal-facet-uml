@@ -1,5 +1,5 @@
 
-# Test cases
+# Test cases of ctrl
 
 This folder contains test cases for the ctrl component.
 
@@ -20,3 +20,7 @@ Test cases are stored based on their category:
   - trigger and observation points are at the interfaces of the application
 
 In case of contradicting criteria, the test scope precedes.
+
+## Test goal
+
+- unit and integration tests shall cover 100% lines of source code

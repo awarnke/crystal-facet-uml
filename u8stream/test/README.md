@@ -1,7 +1,7 @@
 
-# Test cases of pencil
+# Test cases of u8stream
 
-This folder contains test cases for the pencil component.
+This folder contains test cases for the u8stream component.
 
 Test cases are designed to execute fast, to be reproducible and to cover the provided functionality.
 
@@ -23,4 +23,5 @@ In case of contradicting criteria, the test scope precedes.
 
 ## Test goal
 
-- unit and integration tests shall cover 100% lines of source code
+- unit tests shall cover 100% lines of source code
+

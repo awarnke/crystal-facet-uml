@@ -290,8 +290,13 @@ static const char TXT_SPACE_INDENT[] = "  ";
 static const char TXT_COLON_SPACE[] = ": ";
 static const char TXT_SPACE[] = " ";
 
-/* define a struct where the function pointers have the exact right signatures to avoid typecasts */
 #define io_element_writer_impl_t document_element_writer_t
+/*!
+ *  \brief A struct of function pointers which is the interface of an io_element_writer
+ *
+ *  To avoid typecasts, this struct provides function pointers with the exact right signatures
+ *  provided via io_element_writer_impl_t
+ */
 struct document_element_writer_io_element_writer_if_struct {
 #include "io_element_writer_if.inl"
 };

@@ -180,6 +180,12 @@
  *    \n to pass a c-string to a function, use a pointer on the array: \c &(my_string) of type \c char(*)[].
  *  .
  *
+ *  \section cfu-external-guidelines External Coding Guidelines
+ *
+ *  To ensure high robustness and reproducability of the software, stick to MISRA-C rules wherever possible.
+ *  In case you do not have a copy at hand, consider this similar set of rules:
+ *  https://www.autosar.org/fileadmin/standards/R22-11/AP/AUTOSAR_RS_CPP14Guidelines.pdf
+ *
  *  \section cfu-programming-guidelines-apx Appendix
- *  \author Copyright 2016-2021 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ *  \author Copyright 2016-2023 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */

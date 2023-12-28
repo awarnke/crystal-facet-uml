@@ -22,6 +22,9 @@
 extern "C" {
 #endif
 
+/*!
+ *  \brief A struct to store a sequence of bytes representing one utf8 encoded code point
+ */
 struct utf8codepointseq_struct {
     char seq[4];
 };

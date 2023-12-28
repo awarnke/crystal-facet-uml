@@ -36,7 +36,9 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
 #if ( GTK_MAJOR_VERSION >= 4 )
     /* init */
     GtkApplication *const gtk_app
-        = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_FLAGS_NONE );
+        = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_DEFAULT_FLAGS );
+    /* = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_FLAGS_NONE ); */
+
     gui_window_manager_init( &window_manager, data_file, gtk_app );
 
     g_signal_connect( gtk_app, "activate", G_CALLBACK( gui_main_activate_callback ), &window_manager);

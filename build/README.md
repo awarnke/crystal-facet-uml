@@ -8,7 +8,7 @@ How to build from source
 Building from source is described in this section.
 
 
-debian/ubuntu/raspbian:
+debian/ubuntu/raspberry-os:
 
 > sudo apt install gcc cmake make
 >
@@ -20,7 +20,7 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install debsigs     # for signing debian packages, possibly not needed
 >
-> sudo apt install dblatex xmlto librsvg2-bin   # for user documentation, e.g. rsvg-convert
+> sudo apt install dblatex xmlto librsvg2-bin  # for user documentation, e.g. rsvg-convert
 >
 > sudo apt install doxygen     # for source code documentation
 >
@@ -28,12 +28,12 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install lcov        # for reporting test coverage
 >
-> sudo apt install cargo       # for running qualification tests, includes rustc
+> sudo apt install cargo rustfmt  # for running qualification tests, includes rustc
 
 
 > mkdir my_build && cd my_build
 >
-> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml/       # adapt the source directory name
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml/  # adapt the source directory path
 >
 > make crystal-facet-uml
 >
@@ -69,7 +69,7 @@ openSuSE:
 
 > mkdir my_build && cd my_build
 >
-> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml/       # adapt the source directory name
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml/  # adapt the source directory path
 >
 > make crystal-facet-uml
 >

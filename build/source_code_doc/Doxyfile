@@ -747,16 +747,17 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../../gui \
-                         ../../main \
+INPUT                  = ./source_code_doc.txt \
+                         ../../documentation/architecture/programming_guidelines.txt \
                          ../../ctrl \
                          ../../data \
-                         ../../pencil \
+                         ../../gui \
+                         ../../main \
                          ../../io \
+                         ../../pencil \
                          ../../test_fw \
-                         ../../u8stream \
-                         ./source_code_doc.txt \
-                         ../../architecture/doc/programming_guidelines.txt
+                         ../../u8stream
+
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

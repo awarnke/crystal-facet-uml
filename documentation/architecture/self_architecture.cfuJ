@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.54.1"
+    "generator_version": "1.55.0"
   }
   ,
   "views":
@@ -4204,6 +4204,7 @@
         "description": [
                 "Concept for Multithreading:\n",
                 "In general, all modules shall work in a multithreaded environment.\n",
+                "\n",
                 "- The gui module requires own data structures in order to be thread-safe\n",
                 "  and relies on the base libraries gtk, gdk which need to support multi-threading,\n",
                 "- The pencil module requires own data structures in order to be thread safe\n",
@@ -4347,30 +4348,6 @@
             "uuid": "fcd57711-12db-460a-a5c8-8523a03e6ea4"
           },
           {
-            "id": 814,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "data_database _reader",
-            "node": "2b77c382-5a04-4472-8698-5d89b844fd20",
-            "uuid": "d2d20a1f-7cd8-4d75-bf76-81d427ea1daf"
-          },
-          {
-            "id": 816,
-            "display_flags": 33554433,
-            "display_tags": "NamedInstance, GrayOut",
-            "classifier_name": "db_reader_2 :data_database _reader",
-            "node": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
-            "uuid": "139663c7-b1fe-43bf-b4af-22c9e0a06483"
-          },
-          {
-            "id": 817,
-            "display_flags": 33554433,
-            "display_tags": "NamedInstance, GrayOut",
-            "classifier_name": "db_reader_1 :data_database _reader",
-            "node": "38a1de76-2bb8-4703-9d41-fd44243539af",
-            "uuid": "0ed22baf-f324-4de9-949f-ec0433f3519d"
-          },
-          {
             "id": 818,
             "display_flags": 2,
             "display_tags": "AnonymousInstance",
@@ -4394,7 +4371,7 @@
         "id": 114,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "Data structures per thread",
+        "name": "Separate data structures per thread",
         "description": [
                 ""
         ],
@@ -4461,6 +4438,13 @@
             "classifier_name": "Every thread has own data structures",
             "node": "803ae0f5-3bac-44e3-9905-30d2093d206e",
             "uuid": "a6dd1092-b0d4-47db-9ef8-3d3b7ca0a535"
+          },
+          {
+            "id": 829,
+            "display_flags": 0,
+            "classifier_name": "data_database _reader",
+            "node": "2b77c382-5a04-4472-8698-5d89b844fd20",
+            "uuid": "dac28340-7dd3-4efe-bbf7-9ecbf1d41c7d"
           }
         ]
       }
@@ -17082,7 +17066,7 @@
                 ""
         ],
         "x_order": 792322766,
-        "y_order": 96246856,
+        "y_order": 1044476347,
         "list_order": 1211078883,
         "uuid": "9b6bc89d-d78f-4de4-88be-436b240f95a3",
         "features":
@@ -17099,8 +17083,8 @@
         "description": [
                 ""
         ],
-        "x_order": 151621692,
-        "y_order": 96246856,
+        "x_order": -1429582248,
+        "y_order": 1044476347,
         "list_order": 1211078883,
         "uuid": "38a1de76-2bb8-4703-9d41-fd44243539af",
         "features":
@@ -17122,7 +17106,7 @@
                 "by multiple concurrent threads."
         ],
         "x_order": -369469973,
-        "y_order": 1211078883,
+        "y_order": 1613385665,
         "list_order": 1237907499,
         "uuid": "1b3933c4-e0ab-479f-9114-4873e4df0a5f",
         "features":
@@ -17174,6 +17158,7 @@
         "name": "Every thread has own data structures",
         "description": [
                 "Every thread has own data structures\n",
+                "for reading data and rendering diagrams\n",
                 "to allow concurrent execution."
         ],
         "x_order": 792322766,
@@ -19293,6 +19278,26 @@
         "from_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
         "to_node": "6b9cd882-b492-4dfe-90ef-cded80288acb",
         "uuid": "d1ff7361-4151-4dbb-bf11-3fed7c45375f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 849,
+        "main_type": 200,
+        "type": "Association",
+        "name": "use central lock",
+        "description": [
+                "The controller uses the same\n",
+                "central mutex as the database.\n",
+                "This avoids dead locks."
+        ],
+        "list_order": 754837124,
+        "from_classifier_name": "ctrl_controller",
+        "to_classifier_name": "data_database",
+        "to_feature_key": "change_lock",
+        "from_node": "e39be61c-4aff-4cf2-a979-832b1d0b9bd6",
+        "to_node": "0dc8d5ab-11b1-4c84-845c-392083abceb6",
+        "uuid": "4e78e391-a74b-4d85-a4af-81fec4dcbe14"
       }
     },
     {
@@ -29216,7 +29221,7 @@
         "id": 835,
         "main_type": 211,
         "type": "Realization",
-        "name": "instance",
+        "name": "instance of",
         "description": [
                 ""
         ],
@@ -29233,7 +29238,7 @@
         "id": 834,
         "main_type": 211,
         "type": "Realization",
-        "name": "instance",
+        "name": "instance of",
         "description": [
                 ""
         ],
@@ -29284,7 +29289,7 @@
         "id": 843,
         "main_type": 211,
         "type": "Realization",
-        "name": "instance",
+        "name": "instance of",
         "description": [
                 ""
         ],
@@ -29301,7 +29306,7 @@
         "id": 844,
         "main_type": 211,
         "type": "Realization",
-        "name": "intance",
+        "name": "intance of",
         "description": [
                 ""
         ],

@@ -100,7 +100,7 @@ info:
 
 .PHONY: install
 install: all_export_test
-	cp -fr export_test $(INSTALLDIR)/
+	cp -frv export_test $(INSTALLDIR)/
 
 .PHONY: clean
 clean:

@@ -1,5 +1,5 @@
 
-# Test cases
+# Test cases of gui
 
 This folder contains test cases for the gui component.
 
@@ -20,3 +20,8 @@ Test cases are stored based on their category:
   - trigger and observation points are at the interfaces of the application
 
 In case of contradicting criteria, the test scope precedes.
+
+## Test goal
+
+- unit and integration tests shall cover relevant parts that are easy to test
+- qualification tests shall cover each user-experiencable functionality
