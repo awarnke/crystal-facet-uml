@@ -10,7 +10,7 @@ crystal-facet-uml (1.55.0-1) UNRELEASED; urgency=medium
   * -DCFU_USE_GTK4=ON is default cmake option now
   * a couple of static code analysis findings are addressed
 
- -- Andreas Warnke <cfu@andreaswarnke.de> Fri, 29 Dec 2023 11:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 29 Dec 2023 11:00:00 +0100
 
 crystal-facet-uml (1.54.0-1) UNRELEASED; urgency=medium
 
