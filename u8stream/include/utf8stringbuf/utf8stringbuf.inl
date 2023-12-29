@@ -384,7 +384,15 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
 
         const size_t appLen = strlen( appendix );
         if ( start + appLen < this_.size ) {
+            /* gcc does not reliably evaluate the if condition above */
+#if __GNUC__ >= 8
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
             memcpy( &(this_.buf[start]), appendix, appLen+1 );
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
         }
         else {
             const size_t appPartLen = (this_.size-start)-1;

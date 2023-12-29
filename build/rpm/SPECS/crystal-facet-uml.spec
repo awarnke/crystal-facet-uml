@@ -41,7 +41,7 @@ The tool exports diagrams in svg, pdf, ps and png formats
 to be used in text processing systems like DocBook, html, LaTeX.
 crystal-facet-uml exports the model to json and xmi format; json can also be imported.
 The json-based data file can be stored to git, branched and merged together with your source code.
-It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
+It runs on your local linux PC and is based on gtk (incl glib, gdk, cairo, pango) and sqlite.
 
 %prep
 %autosetup

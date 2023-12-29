@@ -1,9 +1,16 @@
 crystal-facet-uml (1.55.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * todo
+  * readme.markdown renamed to README.md
+  * license.txt renamed to LICENSE.txt
+  * moved installation_linux/ to installation/linux
+  * moved installation_win/ to installation/win
+  * moved user_doc/crystal-facet-uml.1.gz to installation/linux/
+  * moved user_doc/crystal-facet-uml_documentation.pdf to installation/
+  * -DCFU_USE_GTK4=ON is default cmake option now
+  * a couple of static code analysis findings are addressed
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 10 Dec 2023 12:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de> Fri, 29 Dec 2023 11:00:00 +0100
 
 crystal-facet-uml (1.54.0-1) UNRELEASED; urgency=medium
 
