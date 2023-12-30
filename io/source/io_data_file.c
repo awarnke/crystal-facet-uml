@@ -5,6 +5,7 @@
 #include "io_file_format.h"
 #include "io_importer.h"
 #include "io_import_mode.h"
+#include "data_head.h"
 #include "u8dir/u8dir_file.h"
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_null_output_stream.h"
