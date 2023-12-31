@@ -4,8 +4,8 @@
 #include <assert.h>
 
 static inline u8_error_t data_head_init_new ( data_head_t *this_,
-                                                 const char* head_key,
-                                                 const char* head_value)
+                                              const char* head_key,
+                                              const char* head_value )
 {
     assert( NULL != head_key );
     assert( NULL != head_value );
@@ -30,20 +30,16 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    data_uuid_init_new( &((*this_).uuid) );
-
     return result;
 }
 
 static inline u8_error_t data_head_init ( data_head_t *this_,
-                                             data_row_id_t head_id,
-                                             const char* head_key,
-                                             const char* head_value,
-                                             const char* uuid )
+                                          data_row_id_t head_id,
+                                          const char* head_key,
+                                          const char* head_value )
 {
     assert( NULL != head_key );
     assert( NULL != head_value );
-    assert( NULL != uuid );
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
@@ -65,8 +61,6 @@ static inline u8_error_t data_head_init ( data_head_t *this_,
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    result |= data_uuid_init( &((*this_).uuid), uuid );
-
     return result;
 }
 
@@ -78,7 +72,6 @@ static inline void data_head_copy ( data_head_t *this_, const data_head_t *origi
     /* repair the overwritten pointers */
     (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
     (*this_).value = utf8stringbuf_init( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
-    data_uuid_copy( &((*this_).uuid), &((*original).uuid) );
 }
 
 static inline void data_head_replace ( data_head_t *this_, const data_head_t *that )
@@ -89,13 +82,11 @@ static inline void data_head_replace ( data_head_t *this_, const data_head_t *th
     /* repair the overwritten pointers */
     (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
     (*this_).value = utf8stringbuf_init( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
-    data_uuid_replace( &((*this_).uuid), &((*that).uuid) );
 }
 
 static inline void data_head_destroy ( data_head_t *this_ )
 {
     (*this_).id = DATA_ROW_ID_VOID;
-    data_uuid_destroy( &((*this_).uuid) );
 }
 
 static inline data_row_id_t data_head_get_row_id ( const data_head_t *this_ )
@@ -106,13 +97,6 @@ static inline data_row_id_t data_head_get_row_id ( const data_head_t *this_ )
 static inline void data_head_set_row_id ( data_head_t *this_, data_row_id_t id )
 {
     (*this_).id = id;
-}
-
-static inline data_id_t data_head_get_data_id ( const data_head_t *this_ )
-{
-    data_id_t result;
-    data_id_init ( &result, DATA_TABLE_FEATURE, (*this_).id );
-    return result;
 }
 
 static inline const char *data_head_get_key_const ( const data_head_t *this_ )
@@ -158,20 +142,6 @@ static inline u8_error_t data_head_set_value ( data_head_t *this_, const char *v
     return result;
 }
 
-static inline const char *data_head_get_uuid_const ( const data_head_t *this_ )
-{
-    return data_uuid_get_string( &((*this_).uuid) );
-}
-
-static inline u8_error_t data_head_set_uuid ( data_head_t *this_, const char *uuid )
-{
-    assert( NULL != uuid );
-
-    const u8_error_t result = data_uuid_reinit( &((*this_).uuid), uuid );
-
-    return result;
-}
-
 static inline bool data_head_is_valid ( const data_head_t *this_ )
 {
     return ( DATA_ROW_ID_VOID != (*this_).id );
@@ -183,7 +153,6 @@ static inline void data_head_trace ( const data_head_t *this_ )
     U8_TRACE_INFO_INT( "- id:", (*this_).id );
     U8_TRACE_INFO_STR( "- key:", utf8stringbuf_get_string((*this_).key) );
     U8_TRACE_INFO_STR( "- value:", utf8stringbuf_get_string((*this_).value) );
-    U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
 

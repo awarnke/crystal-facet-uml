@@ -26,7 +26,7 @@ extern const char DATA_DATABASE_SQLITE3_MAGIC[16];
  *  \brief constants of data_database_t
  */
 enum data_database_max_enum {
-    DATA_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
+    DATA_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum size of filepath */
     DATA_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 3 Windows and max 3 readers and 2 writers */
                                        /*!< and 1 controller = 16 -> 20 is sufficient */
 };
@@ -38,7 +38,7 @@ struct data_database_struct {
     sqlite3 *db;
     data_change_notifier_t notifier;  /*!< sends notifications at every change in the database */
 
-    GMutex lock_on_write; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
+    GMutex lock_on_write;  /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
     bool locked_on_write;  /*!< marker flag to ensure that lock_on_write is not used recursively */
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];

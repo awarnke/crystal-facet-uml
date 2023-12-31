@@ -30,6 +30,10 @@ enum data_head_max_enum {
 
 /*!
  *  \brief all data attributes needed for the head value
+ *
+ *  A data_head_struct has no uuid because these values are not intended to be
+ *  stored to a version control system; there is no need for unique identification
+ *  of objects created on different branches and merged later.
  */
 struct data_head_struct {
     data_row_id_t id;
@@ -37,7 +41,6 @@ struct data_head_struct {
     char private_key_buffer[DATA_HEAD_MAX_KEY_SIZE];
     utf8stringbuf_t value;
     char private_value_buffer[DATA_HEAD_MAX_VALUE_SIZE];
-    data_uuid_t uuid;  /*!< universal unique identifier, needed to merge vcs-branches */
 };
 
 typedef struct data_head_struct data_head_t;
@@ -46,31 +49,29 @@ typedef struct data_head_struct data_head_t;
  *  \brief initializes the data_head_t struct with id DATA_ROW_ID_VOID and a fresh uuid
  *
  *  \param this_ pointer to own object attributes
- *  \param head_key key/name of the head. head_key must not be NULL.
- *  \param head_value value/type of the head. head_value must not be NULL.
+ *  \param head_key key/name of the head value. head_key must not be NULL.
+ *  \param head_value value of the head value. head_value must not be NULL.
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_head_init_new ( data_head_t *this_,
                                               const char* head_key,
                                               const char* head_value
-                                             );
+                                            );
 
 /*!
  *  \brief initializes the data_head_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param head_id id of the head
- *  \param head_key key/name of the head. head_key must not be NULL.
- *  \param head_value value/type of the head. head_value must not be NULL.
- *  \param uuid a universal unique identifier according to rfc4122
+ *  \param head_key key/name of the head value. head_key must not be NULL.
+ *  \param head_value value of the head value. head_value must not be NULL.
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
  *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_head_init ( data_head_t *this_,
                                           data_row_id_t head_id,
                                           const char* head_key,
-                                          const char* head_value,
-                                          const char* uuid
+                                          const char* head_value
                                         );
 
 /*!
@@ -111,14 +112,6 @@ static inline data_row_id_t data_head_get_row_id ( const data_head_t *this_ );
  *  \param id new id of this object
  */
 static inline void data_head_set_row_id ( data_head_t *this_, data_row_id_t id );
-
-/*!
- *  \brief gets the data_id derived from the id attribute
- *
- *  \param this_ pointer to own object attributes
- *  \return data_id denoting this object
- */
-static inline data_id_t data_head_get_data_id ( const data_head_t *this_ );
 
 /*!
  *  \brief gets the attribute key
@@ -163,27 +156,10 @@ static inline bool data_head_has_value ( const data_head_t *this_ );
 static inline u8_error_t data_head_set_value ( data_head_t *this_, const char *value );
 
 /*!
- *  \brief gets the universal unique identifier of this data_head_t
- *
- *  \param this_ pointer to own object attributes
- *  \return uuid of this object
- */
-static inline const char *data_head_get_uuid_const ( const data_head_t *this_ );
-
-/*!
- *  \brief sets the attribute uuid
- *
- *  \param this_ pointer to own object attributes
- *  \param uuid new uuid of this object
- *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if new string too long
- */
-static inline u8_error_t data_head_set_uuid ( data_head_t *this_, const char *uuid );
-
-/*!
  *  \brief checks if attribute id is not DATA_ROW_ID_VOID
  *
  *  \param this_ pointer to own object attributes
- *  \return true if the id of the head is not DATA_ROW_ID_VOID
+ *  \return true if the id of the head value is not DATA_ROW_ID_VOID
  */
 static inline bool data_head_is_valid ( const data_head_t *this_ );
 
