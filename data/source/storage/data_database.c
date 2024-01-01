@@ -13,6 +13,18 @@ const char DATA_DATABASE_SQLITE3_MAGIC[16]
 /*!
  *  \brief string constant to create an sql database table
  *
+ *  This table contains head values
+ */
+static const char *DATA_DATABASE_CREATE_HEAD_TABLE =
+    "CREATE TABLE IF NOT EXISTS head ( "
+        "id INTEGER NOT NULL PRIMARY KEY ASC, "
+        "key TEXT NOT NULL UNIQUE, "
+        "value TEXT"
+    ");";
+
+/*!
+ *  \brief string constant to create an sql database table
+ *
  *  This table contains instances of classes, states, activities, interfaces (which are classifiers)
  *  and also packages.
  *  It does not contain relationships (even if they are classifiers) like generalizations, associations.
@@ -32,35 +44,13 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIER_TABLE =
     ");";
 
 /*!
- *  \brief string constant to create an sql database index
- */
-/*
-static const char *DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX =
-    "CREATE INDEX IF NOT EXISTS classifier_ordering ON classifiers ( "
-        "y_order ASC, "
-        "x_order ASC "
-    ");";
-*/
-
-#if 0
-/*!
- *  \brief string constant to update an sql database table
- *
- *  This command extends classifiers by list_order field.
- *  \see http://sqlite.org/lang_altertable.html
- */
-static const char *DATA_DATABASE_ALTER_CLASSIFIER_TABLE_1 =
-    "ALTER TABLE classifiers "
-    "ADD COLUMN list_order INTEGER;";
-#endif
-
-/*!
  *  \brief string constant to update an sql database table
  *
  *  The DEFAULT clause is needed to convert the existing records to the new format
  *  and in case a new database is modified by an old program version.
  *
  *  This command extends classifiers by a uuid field.
+ *  \see http://sqlite.org/lang_altertable.html
  */
 static const char *DATA_DATABASE_ALTER_CLASSIFIER_TABLE_UUID =
     "ALTER TABLE classifiers "
@@ -104,43 +94,6 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIP_TABLE =
         "FOREIGN KEY(from_feature_id) REFERENCES features(id), "
         "FOREIGN KEY(to_feature_id) REFERENCES features(id) "
     ");";
-
-/*!
- *  \brief string constant to create an sql database index
- */
-/*
-static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
-    "CREATE INDEX IF NOT EXISTS relationship_ordering ON relationships ( "
-        "list_order ASC "
-    ");";
-*/
-
-#if 0
-/*!
- *  \brief string constant to update an sql database table
- *
- *  The DEFAULT clause is needed to convert the existing records to the new format
- *  and in case a new database is modified by an old program version.
- *
- *  This command extends relationships by from_feature_id field.
- *  \see http://sqlite.org/lang_altertable.html
- */
-static const char *DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_1 =
-    "ALTER TABLE relationships "
-    "ADD COLUMN from_feature_id INTEGER DEFAULT NULL;";
-
-/*!
- *  \brief string constant to update an sql database table
- *
- *  The DEFAULT clause is needed to convert the existing records to the new format
- *  and in case a new database is modified by an old program version.
- *
- *  This command extends relationships by to_feature_id field.
- */
-static const char *DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_2 =
-    "ALTER TABLE relationships "
-    "ADD COLUMN to_feature_id INTEGER DEFAULT NULL;";
-#endif
 
 /*!
  *  \brief string constant to update an sql database table
@@ -195,16 +148,6 @@ static const char *DATA_DATABASE_CREATE_FEATURE_TABLE =
     ");";
 
 /*!
- *  \brief string constant to create an sql database index
- */
-/*
-static const char *DATA_DATABASE_CREATE_FEATUREORDERING_INDEX =
-    "CREATE INDEX IF NOT EXISTS feature_ordering ON features ( "
-        "list_order ASC "
-    ");";
-*/
-
-/*!
  *  \brief string constant to update an sql database table
  *
  *  The DEFAULT clause is needed to convert the existing records to the new format
@@ -243,16 +186,6 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
     ");";
 
 /*!
- *  \brief string constant to create an sql database index
- */
-/*
-static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
-    "CREATE INDEX IF NOT EXISTS diagram_ordering ON diagrams ( "
-        "list_order ASC "
-    ");";
-*/
-
-/*!
  *  \brief string constant to update an sql database table
  *
  *  The DEFAULT clause is needed to convert the existing records to the new format
@@ -285,16 +218,6 @@ static const char *DATA_DATABASE_ALTER_DIAGRAM_TABLE_UUID =
 static const char *DATA_DATABASE_UPDATE_DIAGRAM_UUID =
     "UPDATE diagrams SET uuid=(SELECT " DATA_DATABASE_CREATE_UUID " WHERE diagrams.id!=-1) WHERE uuid=\'\';";
 
-#if 0
-/*!
- *  \brief string constant to update an sql database table
- *
- *  The root diagram is marked by parent_id = NULL, not by -1 anymore.
- */
-static const char *DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT =
-    "UPDATE diagrams SET parent_id=NULL WHERE parent_id=-1;";
-#endif
-
 /*!
  *  \brief string constant to update an sql database table
  *
@@ -320,22 +243,8 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENT_TABLE =
         "uuid TEXT NOT NULL DEFAULT \'\', "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(diagram_id) REFERENCES diagrams(id), "
         "FOREIGN KEY(classifier_id) REFERENCES classifiers(id), "
-        "FOREIGN KEY(focused_feature_id) REFERENCES feature(id) "
+        "FOREIGN KEY(focused_feature_id) REFERENCES features(id) "
     ");";
-
-#if 0
-/*!
- *  \brief string constant to update an sql database table
- *
- *  The DEFAULT clause is needed to convert the existing records to the new format.
- *
- *  This command extends diagramelements by to_feature_id field.
- *  \see http://sqlite.org/lang_altertable.html
- */
-static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_1 =
-    "ALTER TABLE diagramelements "
-    "ADD COLUMN focused_feature_id INTEGER DEFAULT NULL;";
-#endif
 
 /*!
  *  \brief string constant to update an sql database table
@@ -379,6 +288,7 @@ u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_HEAD_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATURE_TABLE, false );
@@ -389,41 +299,10 @@ u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
     return result;
 }
 
-u8_error_t data_database_private_initialize_indexes( data_database_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-
-    /*
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX, false );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX, false );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATUREORDERING_INDEX, false );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX, false );
-    */
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
 u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-
-#if 0
-    /* update table relationships from version 1.0.0 to later versions */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_1, true );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_2, true );
-
-    /* update table diagramelements from version 1.0.0 to later versions */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_1, true );
-
-    /* update table diagrams from version 1.0.0 to later versions */
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT, true );
-
-    /* update table classifiers from version 1.4.0 or earlier to 1.5.0 or later versions */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_CLASSIFIER_TABLE_1, true );
-#endif
 
     /* update table classifiers from version 1.32.1 or earlier to later versions with diagram.display_flags */
     data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, true );
@@ -522,10 +401,6 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
         {
             u8_error_t init_err;
             init_err = data_database_private_initialize_tables( this_ );
-            if ( init_err == U8_ERROR_NONE )
-            {
-                init_err = data_database_private_initialize_indexes( this_ );
-            }
             if ( init_err == U8_ERROR_NONE )
             {
                 init_err = data_database_private_upgrade_tables( this_ );

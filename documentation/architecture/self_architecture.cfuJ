@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.55.0"
+    "generator_version": "1.55.1"
   }
   ,
   "views":
@@ -4445,6 +4445,124 @@
             "classifier_name": "data_database _reader",
             "node": "2b77c382-5a04-4472-8698-5d89b844fd20",
             "uuid": "dac28340-7dd3-4efe-bbf7-9ecbf1d41c7d"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 115,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "Database File Recovery",
+        "description": [
+                "crystal-facet-uml stores the data model in a json based file. While working on the model, it is kept in a temporary database.\n",
+                "These two locations can run out of sync. This diagram lists the causes and the mitigations."
+        ],
+        "list_order": 32767,
+        "display_flags": 0,
+        "parent_name": "Runtime View",
+        "parent": "12c299c9-5ca3-472a-ace6-8be7e6655402",
+        "uuid": "b7081cb1-fa8c-4c63-8509-95cc7d0b258f",
+        "diagramelements":
+        [
+          {
+            "id": 830,
+            "display_flags": 0,
+            "classifier_name": "DATA FILE EXISTS",
+            "node": "92b311f2-a941-4130-80b5-2d999f0174cd",
+            "uuid": "e73b6749-d429-409c-bfa0-5a46163bb0f5"
+          },
+          {
+            "id": 831,
+            "display_flags": 0,
+            "classifier_name": "TEMP DB FILE EXISTS",
+            "node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+            "uuid": "79357f30-842e-41f4-9057-193988400bf5"
+          },
+          {
+            "id": 832,
+            "display_flags": 0,
+            "classifier_name": "work on model",
+            "node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
+            "uuid": "7f926f9d-7c7f-472e-9bb9-b70d7e748848"
+          },
+          {
+            "id": 833,
+            "display_flags": 0,
+            "classifier_name": "open data file",
+            "node": "150d8d95-85eb-4934-a681-93525de34562",
+            "uuid": "36172eed-7bce-4c4b-ad97-4228f4e98ca9"
+          },
+          {
+            "id": 834,
+            "display_flags": 0,
+            "classifier_name": "parse data file",
+            "node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
+            "uuid": "8d0f5f19-d427-4cc5-afca-e2d0143cd592"
+          },
+          {
+            "id": 835,
+            "display_flags": 0,
+            "classifier_name": "do work",
+            "node": "e1017eea-e174-47e4-8d48-0a02a904991d",
+            "uuid": "f52468d6-c550-4f77-8f39-01dfc1ab465d"
+          },
+          {
+            "id": 836,
+            "display_flags": 0,
+            "classifier_name": "write data file",
+            "node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
+            "uuid": "b002b901-e42a-4c49-bdcc-9588d5710745"
+          },
+          {
+            "id": 837,
+            "display_flags": 0,
+            "classifier_name": "git merge performed",
+            "node": "5c58d9b8-b4af-4c4b-8a0c-935e7c3f467f",
+            "uuid": "8e6aa3e7-61ec-4335-816a-7397afa48242"
+          },
+          {
+            "id": 838,
+            "display_flags": 0,
+            "classifier_name": "more actual?",
+            "node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
+            "uuid": "f20dbad2-e495-4716-9e9a-191ea5ee5e39"
+          },
+          {
+            "id": 839,
+            "display_flags": 0,
+            "classifier_name": "unexpected termination",
+            "node": "e7459312-e57b-4eea-8542-3e66661fa0a1",
+            "uuid": "442ea2cc-89ee-4767-a510-81c82ff6fc10"
+          },
+          {
+            "id": 840,
+            "display_flags": 0,
+            "classifier_name": "interrupt work",
+            "node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
+            "uuid": "77d69085-d71f-4c02-9f8f-0466264c7221"
+          },
+          {
+            "id": 841,
+            "display_flags": 0,
+            "classifier_name": "delete temp db file",
+            "node": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
+            "uuid": "c6a3318a-11f9-446f-972a-ab1a9d838e60"
+          },
+          {
+            "id": 843,
+            "display_flags": 0,
+            "classifier_name": "pause work",
+            "node": "482cbb84-526f-4a67-9672-7ed8dceeca5b",
+            "uuid": "28db62bd-b28a-4484-b4b4-ec7d337dce2c"
+          },
+          {
+            "id": 845,
+            "display_flags": 0,
+            "classifier_name": "checksum changed?",
+            "node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
+            "uuid": "97b21b6b-e3bd-430f-b8d8-242f264115db"
           }
         ]
       }
@@ -17169,6 +17287,270 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 502,
+        "main_type": 150,
+        "type": "InterruptibleActivityRegion",
+        "name": "DATA FILE EXISTS",
+        "description": [
+                ""
+        ],
+        "x_order": -1255847425,
+        "y_order": -1096868346,
+        "list_order": -1096868346,
+        "uuid": "92b311f2-a941-4130-80b5-2d999f0174cd",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 503,
+        "main_type": 150,
+        "type": "InterruptibleActivityRegion",
+        "name": "TEMP DB FILE EXISTS",
+        "description": [
+                ""
+        ],
+        "x_order": -729516211,
+        "y_order": -1096868346,
+        "list_order": -1096868346,
+        "uuid": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 504,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "work on model",
+        "description": [
+                ""
+        ],
+        "x_order": -1362910767,
+        "y_order": -1666925334,
+        "list_order": -1666925334,
+        "uuid": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 505,
+        "main_type": 151,
+        "type": "InitialNode",
+        "name": "open data file",
+        "description": [
+                ""
+        ],
+        "x_order": -1381270029,
+        "y_order": -1154323452,
+        "list_order": -1301527152,
+        "uuid": "150d8d95-85eb-4934-a681-93525de34562",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 506,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "parse data file",
+        "description": [
+                ""
+        ],
+        "x_order": -1091257349,
+        "y_order": -1307517898,
+        "list_order": -1154323452,
+        "uuid": "548bcddf-c562-4cf7-be97-9d99e64a3637",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 507,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "do work",
+        "description": [
+                ""
+        ],
+        "x_order": -844877425,
+        "y_order": -812452706,
+        "list_order": -988493427,
+        "uuid": "e1017eea-e174-47e4-8d48-0a02a904991d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 508,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "write data file",
+        "description": [
+                ""
+        ],
+        "x_order": -610098476,
+        "y_order": -812452706,
+        "list_order": -988493427,
+        "uuid": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
+        "features":
+        [
+          {
+            "id": 125,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "warn-on-overwite()",
+            "description": [
+                "If the data file to be written changed while having the focus, the user shall be warned on overwriting."
+            ],
+            "list_order": 802343181,
+            "uuid": "5dce57e1-3f7b-427c-8140-cfbaac559b01"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 509,
+        "main_type": 167,
+        "type": "AcceptEventAction",
+        "name": "git merge performed",
+        "description": [
+                ""
+        ],
+        "x_order": -610098476,
+        "y_order": -356018117,
+        "list_order": -812452706,
+        "uuid": "5c58d9b8-b4af-4c4b-8a0c-935e7c3f467f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 510,
+        "main_type": 157,
+        "type": "DecisionNode",
+        "name": "more actual?",
+        "description": [
+                "If the .tmp-cfu file has the right checksum of the data file stored, then the .tmp-cfu file is more actual.\n",
+                "Otherwise the .cfuJ file is modified and shall not be overwritten."
+        ],
+        "x_order": -1091257349,
+        "y_order": -812452706,
+        "list_order": -988493427,
+        "uuid": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 511,
+        "main_type": 167,
+        "type": "AcceptEventAction",
+        "name": "unexpected termination",
+        "description": [
+                ""
+        ],
+        "x_order": -773287769,
+        "y_order": -356018117,
+        "list_order": -906492622,
+        "uuid": "e7459312-e57b-4eea-8542-3e66661fa0a1",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 512,
+        "main_type": 152,
+        "type": "ActivityFinalNode",
+        "name": "interrupt work",
+        "description": [
+                ""
+        ],
+        "x_order": -1381270029,
+        "y_order": -356018117,
+        "list_order": -503685151,
+        "uuid": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 513,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "delete temp db file",
+        "description": [
+                ""
+        ],
+        "x_order": -1091257349,
+        "y_order": -356018117,
+        "list_order": -105420737,
+        "uuid": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 515,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "pause work",
+        "description": [
+                ""
+        ],
+        "x_order": -610098476,
+        "y_order": -1307517898,
+        "list_order": -912651236,
+        "uuid": "482cbb84-526f-4a67-9672-7ed8dceeca5b",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 517,
+        "main_type": 157,
+        "type": "DecisionNode",
+        "name": "checksum changed?",
+        "description": [
+                "If the checksum of the data file changed during focus lost, the data file shall be reloaded."
+        ],
+        "x_order": -773287769,
+        "y_order": -1154323452,
+        "list_order": -1154323452,
+        "uuid": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -29350,6 +29732,448 @@
         "from_node": "803ae0f5-3bac-44e3-9905-30d2093d206e",
         "to_node": "a565509e-37cc-470d-99df-594886c14348",
         "uuid": "9f221a29-fd7f-4ade-8b3e-fde58deaf1ed"
+      }
+    },
+    {
+      "relationship": {
+        "id": 850,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1096868346,
+        "from_classifier_name": "DATA FILE EXISTS",
+        "to_classifier_name": "TEMP DB FILE EXISTS",
+        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
+        "to_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "uuid": "f5255631-a8ff-4003-b638-e0d333ea1164"
+      }
+    },
+    {
+      "relationship": {
+        "id": 854,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1154323452,
+        "from_classifier_name": "DATA FILE EXISTS",
+        "to_classifier_name": "parse data file",
+        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
+        "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
+        "uuid": "30b18055-0ad6-4fa1-ace9-db67730e3ca7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 862,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -988493427,
+        "from_classifier_name": "DATA FILE EXISTS",
+        "to_classifier_name": "more actual?",
+        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
+        "to_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
+        "uuid": "94e36c33-a7ae-4abd-ada2-9031fd3377f8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 869,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -105420737,
+        "from_classifier_name": "DATA FILE EXISTS",
+        "to_classifier_name": "delete temp db file",
+        "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
+        "to_node": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
+        "uuid": "ab6b5a69-d53d-4cb1-804d-67473c274c12"
+      }
+    },
+    {
+      "relationship": {
+        "id": 856,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -988493427,
+        "from_classifier_name": "TEMP DB FILE EXISTS",
+        "to_classifier_name": "do work",
+        "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
+        "uuid": "b8f458fb-18c4-434f-88e7-3c9013c80962"
+      }
+    },
+    {
+      "relationship": {
+        "id": 858,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -988493427,
+        "from_classifier_name": "TEMP DB FILE EXISTS",
+        "to_classifier_name": "write data file",
+        "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "to_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
+        "uuid": "5c021b53-6325-4a07-8c69-f5c77e518ec2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 861,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -812452706,
+        "from_classifier_name": "TEMP DB FILE EXISTS",
+        "to_classifier_name": "git merge performed",
+        "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "to_node": "5c58d9b8-b4af-4c4b-8a0c-935e7c3f467f",
+        "uuid": "f96dc961-45a3-41f1-9679-9b0e6da2f770"
+      }
+    },
+    {
+      "relationship": {
+        "id": 866,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -906492622,
+        "from_classifier_name": "TEMP DB FILE EXISTS",
+        "to_classifier_name": "unexpected termination",
+        "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "to_node": "e7459312-e57b-4eea-8542-3e66661fa0a1",
+        "uuid": "0155b228-1f1c-4cb1-b777-4c579c2d4693"
+      }
+    },
+    {
+      "relationship": {
+        "id": 876,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -912651236,
+        "from_classifier_name": "TEMP DB FILE EXISTS",
+        "to_classifier_name": "pause work",
+        "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "to_node": "482cbb84-526f-4a67-9672-7ed8dceeca5b",
+        "uuid": "487cba3e-96a3-438e-bc7b-742f872ec520"
+      }
+    },
+    {
+      "relationship": {
+        "id": 885,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1154323452,
+        "from_classifier_name": "TEMP DB FILE EXISTS",
+        "to_classifier_name": "checksum changed?",
+        "from_node": "b641bc7d-b868-40b2-8fc1-c56edfc59776",
+        "to_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
+        "uuid": "928531f3-3ad1-4f81-9af4-8d9e1d43877a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 851,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "work on model",
+        "to_classifier_name": "DATA FILE EXISTS",
+        "from_node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
+        "to_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
+        "uuid": "e3ce5cd6-f649-4c45-bf25-d3bee5564015"
+      }
+    },
+    {
+      "relationship": {
+        "id": 852,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1301527152,
+        "from_classifier_name": "work on model",
+        "to_classifier_name": "open data file",
+        "from_node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
+        "to_node": "150d8d95-85eb-4934-a681-93525de34562",
+        "uuid": "252b4206-aa75-4d0d-8c9e-cc198bc51eaa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 867,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -503685151,
+        "from_classifier_name": "work on model",
+        "to_classifier_name": "interrupt work",
+        "from_node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
+        "to_node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
+        "uuid": "25e5feca-3e00-4b68-9e64-445f9195b75b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 863,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "open data file",
+        "to_classifier_name": "more actual?",
+        "from_node": "150d8d95-85eb-4934-a681-93525de34562",
+        "to_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
+        "uuid": "4cf20427-8fbf-4282-80e1-814115c240ae"
+      }
+    },
+    {
+      "relationship": {
+        "id": 857,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "parse data file",
+        "to_classifier_name": "do work",
+        "from_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
+        "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
+        "uuid": "71fd312b-b490-4938-9bff-806bebba5ebf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 889,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "save or quit or focus lost",
+        "description": [
+                ""
+        ],
+        "list_order": 851968,
+        "from_classifier_name": "do work",
+        "to_classifier_name": "write data file",
+        "from_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
+        "to_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
+        "uuid": "c42d9b60-d702-4c03-8743-35de410aa77e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 860,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "[return after save]",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "write data file",
+        "to_classifier_name": "do work",
+        "from_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
+        "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
+        "uuid": "e74d0e7b-88f6-4dba-8cf3-00cabca94d5f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 872,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "[quit]",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "write data file",
+        "to_classifier_name": "delete temp db file",
+        "from_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
+        "to_node": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
+        "uuid": "ddf3e6b0-5f55-465a-9ec4-2c1cd35d3b49"
+      }
+    },
+    {
+      "relationship": {
+        "id": 882,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "[focus lost]",
+        "description": [
+                ""
+        ],
+        "list_order": 655360,
+        "from_classifier_name": "write data file",
+        "to_classifier_name": "pause work",
+        "from_node": "b614db1d-53d8-4cc7-8fb4-674e75561d5b",
+        "to_node": "482cbb84-526f-4a67-9672-7ed8dceeca5b",
+        "uuid": "cfd4ce69-e089-4cf8-b83d-8dcfa9863a53"
+      }
+    },
+    {
+      "relationship": {
+        "id": 864,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "[.tmp-cfu]",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "more actual?",
+        "to_classifier_name": "do work",
+        "from_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
+        "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
+        "uuid": "1e3c20ff-06a2-4bb2-9291-8df419dacbbc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 865,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "[.cfuJ]",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "more actual?",
+        "to_classifier_name": "parse data file",
+        "from_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
+        "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
+        "uuid": "163e0c83-7615-4af8-8e6b-9db7e8e790c3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 868,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "unexpected termination",
+        "to_classifier_name": "interrupt work",
+        "from_node": "e7459312-e57b-4eea-8542-3e66661fa0a1",
+        "to_node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
+        "uuid": "2097ee2c-7cbe-49c6-8e3b-fe0802350e20"
+      }
+    },
+    {
+      "relationship": {
+        "id": 871,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "delete temp db file",
+        "to_classifier_name": "interrupt work",
+        "from_node": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
+        "to_node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
+        "uuid": "9c930c5f-3c9a-4328-b8b0-4a333543e0fe"
+      }
+    },
+    {
+      "relationship": {
+        "id": 888,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "focus gained",
+        "description": [
+                ""
+        ],
+        "list_order": 819200,
+        "from_classifier_name": "pause work",
+        "to_classifier_name": "checksum changed?",
+        "from_node": "482cbb84-526f-4a67-9672-7ed8dceeca5b",
+        "to_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
+        "uuid": "8fbc2ddb-1119-4b57-a62f-7d0c97248848"
+      }
+    },
+    {
+      "relationship": {
+        "id": 886,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "[yes]",
+        "description": [
+                ""
+        ],
+        "list_order": 753664,
+        "from_classifier_name": "checksum changed?",
+        "to_classifier_name": "parse data file",
+        "from_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
+        "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
+        "uuid": "26d105e7-c15c-4d59-879c-dc861ad4ff1a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 887,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "[no]",
+        "description": [
+                ""
+        ],
+        "list_order": 786432,
+        "from_classifier_name": "checksum changed?",
+        "to_classifier_name": "do work",
+        "from_node": "6872bd1e-0f29-4619-b7e6-45584d3db2d8",
+        "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
+        "uuid": "830e18b7-8d18-482f-ae12-1808349776bf"
       }
     }
   ]

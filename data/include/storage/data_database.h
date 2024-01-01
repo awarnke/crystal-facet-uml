@@ -176,13 +176,6 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
 u8_error_t data_database_private_initialize_tables( data_database_t *this_ );
 
 /*!
- *  \brief initializes the indexes in the database if not yet existant
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_AT_DB in case of an error; U8_ERROR_READ_ONLY_DB if read only
- */
-u8_error_t data_database_private_initialize_indexes( data_database_t *this_ );
-
-/*!
  *  \brief upgrades old tables from older versions to current database scheme
  *
  *  \param this_ pointer to own object attributes

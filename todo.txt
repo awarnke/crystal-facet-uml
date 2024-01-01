@@ -69,7 +69,8 @@ ideas for future versions:
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
       or a buffered view onto the database
   @main
-  @ts_log/trace/test_fw
+  [ ] rename main() so that also the test code can call the main function from its own main()
+  @test_fw
 
 ideas for a version 2
   - drop gtk3 support (use gtk4 only)
