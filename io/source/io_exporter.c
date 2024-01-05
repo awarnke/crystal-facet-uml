@@ -151,16 +151,17 @@ u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
     const int path_suffix = utf8string_find_last_str( path, "." );
     const int path_start_filename_unix = utf8string_find_last_str( path, "/" );
     const int path_start_filename_win = utf8string_find_last_str( path, "\\" );
-    const int path_start_filename = ( path_start_filename_unix < path_start_filename_win )
-                                    ? path_start_filename_win
-                                    : path_start_filename_unix;
+    const int path_start_filename = u8_i32_max2( path_start_filename_unix, path_start_filename_win );
     const int start = (( path_start_filename == -1 ) ? 0 : (path_start_filename+1) );
     const int length = (( path_suffix < start ) ? (path_len-start) : (path_suffix-start) );
+    const utf8stringview_t base_name = UTF8STRINGVIEW( &(path[start]), length );
 
-    utf8stringbuf_clear( out_base_filename );
-    utf8error_t u8err = utf8stringbuf_copy_region_from_str( out_base_filename, path, start, length );
+    err = utf8stringbuf_copy_view( out_base_filename, base_name );
+    if ( utf8stringbuf_get_length( out_base_filename ) == 0 )
+    {
+        err = U8_ERROR_INPUT_EMPTY;
+    }
 
-    err = (( u8err==UTF8ERROR_SUCCESS )&&(utf8stringbuf_get_length( out_base_filename )>0)) ? 0 : -1;
     U8_TRACE_END_ERR(err);
     return err;
 }

@@ -51,6 +51,7 @@ unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t this
     return truncatedLength;
 }
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, const utf8stringbuf_t that, int start, int length ) {
     utf8error_t result;
     if (( start < 0 ) || ( length < 0 )) {
@@ -83,7 +84,9 @@ utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, const utf
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const char *that, int start, int length ) {
     utf8error_t result;
     if (( start < 0 ) || ( length < 0 )) {
@@ -120,6 +123,7 @@ utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const cha
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix ) {
     utf8error_t result;

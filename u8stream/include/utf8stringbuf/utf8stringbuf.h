@@ -27,9 +27,6 @@
  *  \code
  *     char* cStr = utf8stringbuf_get_string( myStrBuf );
  *  \endcode
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "utf8stringbuf/utf8codepoint.h"
@@ -470,7 +467,7 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
  */
 static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, utf8stringview_t original );
 
-/* sub returns 1 if all characters have been copied, 0 if truncated, 0 if that was NULL, 0 if illegal range */
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Copies a substring
  *
@@ -489,7 +486,9 @@ static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, utf8st
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal range.
  */
 extern utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, const utf8stringbuf_t that, int start, int length );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Copies a substring
  *
@@ -509,6 +508,7 @@ extern utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, co
  *         UTF8ERROR_NULL_PARAM if that was NULL.
  */
 extern utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const char *that, int start, int length );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 /*!
  * \brief Replaces all occurrences of pattern by replacement.
@@ -578,6 +578,7 @@ static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8string
  */
 extern utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *const ((*patterns_and_replacements)[][2]) );
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Replaces a region within a string buffer
  *
@@ -594,7 +595,9 @@ extern utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_replace_region_by_str( utf8stringbuf_t this_, int start, int length, const char *replacement );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Replaces a region within a string buffer
  *
@@ -610,6 +613,7 @@ static inline utf8error_t utf8stringbuf_replace_region_by_str( utf8stringbuf_t t
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_replace_region_by_buf( utf8stringbuf_t this_, int start, int length, const utf8stringbuf_t replacement );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 /*!
  * \brief Deletes a region within a string buffer

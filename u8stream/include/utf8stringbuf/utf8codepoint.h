@@ -9,9 +9,6 @@
  *
  *  You typically do not create a code point object yourself.
  *  It is simply the return value of \link utf8stringbuf_get_char_at(utf8stringbuf_t,unsigned int) utf8stringbuf_get_char_at \endlink
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include <stdint.h>

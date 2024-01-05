@@ -272,6 +272,31 @@ u8_error_t data_database_transaction_begin ( data_database_t *this_ );
  */
 u8_error_t data_database_transaction_commit ( data_database_t *this_ );
 
+#if 0
+/*!
+ *  \brief reads a head value from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param key the key of the head value to be read from the database
+ *  \param[out] out_head the head value read from the database (in case of success)
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_database_read_head_value ( data_database_t *this_, const char *key, data_head_t *out_head );
+
+/*!
+ *  \brief creates or updates a head value and returns its id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param head data of the new head value record to be created.
+ *              The id should be DATA_ROW_ID_VOID to create a new head value
+ *              or a valid id to update an existing head value.
+ *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if duplicate id or duplicate key, otherwise an other error code.
+ */
+u8_error_t data_database_write_head_value ( data_database_t *this_, const data_head_t *head, data_row_id_t* out_new_id );
+#endif
+
 /*!
  *  \brief checks if the database file is open and executes an sql statement
  *

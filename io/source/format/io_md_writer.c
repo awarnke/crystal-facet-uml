@@ -87,7 +87,7 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
                 || ( peeknext == '|' ))  /* table */
 
             {
-                utf8stringview_t str_view = utf8stringview_init( &(text[text_start_byte]), text_current_byte-text_start_byte );
+                const utf8stringview_t str_view = UTF8STRINGVIEW( &(text[text_start_byte]), text_current_byte-text_start_byte );
                 write_err |= io_xml_writer_write_xml_enc_view( (*this_).sink, str_view );
                 write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_linebreak );
                 text_start_byte = text_current_byte+1;
@@ -114,7 +114,7 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
                     if ( d_err == U8_ERROR_NONE )
                     {
                         /* write previously parsed characters */
-                        utf8stringview_t str_view = utf8stringview_init( &(text[text_start_byte]), text_current_byte-text_start_byte );
+                        const utf8stringview_t str_view = UTF8STRINGVIEW( &(text[text_start_byte]), text_current_byte-text_start_byte );
                         write_err |= io_xml_writer_write_xml_enc_view( (*this_).sink, str_view );
                         char probe_id_str_buf[DATA_ID_MAX_UTF8STRING_SIZE] = "";
                         utf8stringbuf_t probe_id_str = UTF8STRINGBUF( probe_id_str_buf );

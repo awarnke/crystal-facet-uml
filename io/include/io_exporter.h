@@ -93,7 +93,7 @@ u8_error_t io_exporter_export_files( io_exporter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param path path name to a file from which to extract the base file name
  *  \param out_base_filename name of the file - without path and without filename-suffix
- *  \return U8_ERROR_NONE in case of success, e.g if filename is empty or too long
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_INPUT_EMPTY if filename is empty or U8_ERROR_STRING_BUFFER_EXCEEDED if too long
  */
 u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
                                              const char* path,

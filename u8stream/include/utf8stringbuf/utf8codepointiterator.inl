@@ -39,10 +39,10 @@ static inline void utf8codepointiterator_private_step_to_next ( utf8codepointite
         if ( utf8codepoint_is_valid( (*this_).next ) )
         {
             const unsigned int next_len = utf8codepoint_get_length( (*this_).next );
-            (*this_).remaining = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ),
-                                                             next_len,
-                                                             (remaining_len - next_len )
-                                                           );
+            (*this_).remaining
+                = UTF8STRINGVIEW( utf8stringview_get_start( (*this_).remaining ) + next_len,
+                                  (remaining_len - next_len )
+                                );
         }
         else
         {

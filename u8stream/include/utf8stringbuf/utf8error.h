@@ -6,9 +6,6 @@
 /*!
  *  \file utf8error.h
  *  \brief utf8error is an enumeration of error constants.
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "u8/u8_error_cat.h"

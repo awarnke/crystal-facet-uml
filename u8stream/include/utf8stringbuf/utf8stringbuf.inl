@@ -453,15 +453,19 @@ static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t this_, const
     return utf8stringbuf_append_str( this_, numberStr );
 }
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static inline utf8error_t utf8stringbuf_replace_region_by_str( utf8stringbuf_t this_, int start, int length, const char *replacement ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, length, replacement );
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static inline utf8error_t utf8stringbuf_replace_region_by_buf( utf8stringbuf_t this_, int start, int length, const utf8stringbuf_t replacement ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, length, replacement.buf );
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 static inline utf8error_t utf8stringbuf_delete( utf8stringbuf_t this_, int start, int length ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );

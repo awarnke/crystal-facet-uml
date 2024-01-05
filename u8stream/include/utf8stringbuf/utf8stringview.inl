@@ -7,23 +7,131 @@
  *  \author Copyright 2021-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
+#include "u8/u8_i32.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-static inline utf8stringview_t utf8stringview_init( const char* start, size_t length )
+static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const char* start, size_t length )
 {
-    return (utf8stringview_t){.start=start,.length=length};
+    utf8error_t result = UTF8ERROR_SUCCESS;
+    /* clean type would have been:  char ( *start_arr )[] = (char(*)[]) start; */
+
+    /* check start */
+    char start_copy[4] = {'\0','\0','\0','\0'};
+    const size_t start_len = ( length >= 4 ) ? 4 : length;
+    memcpy( &start_copy, start, start_len );
+
+    if ( ( 0xc0 & (start_copy[0]) ) == 0x80 )
+    {
+        if ( ( 0xc0 & (start_copy[1]) ) == 0x80 )
+        {
+            if ( ( 0xc0 & (start_copy[2]) ) == 0x80 )
+            {
+                start += 3;
+                length -= 3;  /* length was greater than 2 - otherwise start_copy[2] would have been 0x0 */
+                result = UTF8ERROR_OUT_OF_RANGE;
+            }
+            else
+            {
+                start += 2;
+                length -= 2;  /* length was greater than 1 - otherwise start_copy[1] would have been 0x0 */
+                result = UTF8ERROR_OUT_OF_RANGE;
+            }
+        }
+        else
+        {
+            start += 1;
+            length -= 1;  /* length was greater than 0 - otherwise start_copy[0] would have been 0x0 */
+            result = UTF8ERROR_OUT_OF_RANGE;
+        }
+    }
+    else
+    {
+        /* valid start */
+    }
+
+    /* check end */
+    char end_copy[4] = {'\0','\0','\0','\0'};
+    const size_t end_len = ( length >= 4 ) ? 4 : length;
+    memcpy( &(end_copy[4-end_len]), &(start[length-end_len]), end_len );
+
+    if ( ( 0x80 & (end_copy[3]) ) == 0x00 )
+    {
+        /* valid single-byte end */
+    }
+    else
+    {
+        if ( ( 0xe0 & (end_copy[2]) ) == 0xc0 )
+        {
+            /* valid 2 byte end */
+        }
+        else if ( ( 0x80 & (end_copy[2]) ) == 0x00 )
+        {
+            /* 1 byte char at end_copy[2] */
+            length -= 1;  /* length was greater than 0 - otherwise end_copy[3] would have been 0x0 */
+            result = UTF8ERROR_OUT_OF_RANGE;
+        }
+        else
+        {
+            if ( ( 0xf0 & (end_copy[1]) ) == 0xe0 )
+            {
+                /* valid 3 byte end */
+            }
+            else if ( ( 0xe0 & (end_copy[1]) ) == 0xc0 )
+            {
+                /* 2 byte char at end_copy[1] */
+                length -= 1;  /* length was greater than 0 - otherwise end_copy[3] would have been 0x0 */
+                result = UTF8ERROR_OUT_OF_RANGE;
+            }
+            else if ( ( 0x80 & (end_copy[1]) ) == 0x00 )
+            {
+                /* 1 byte char at end_copy[1] */
+                length -= 2;  /* length was greater than 1 - otherwise end_copy[2] would have been 0x0 */
+                result = UTF8ERROR_OUT_OF_RANGE;
+            }
+            else
+            {
+                if ( ( 0xf8 & (end_copy[0]) ) == 0xf0 )
+                {
+                    /* valid 4 byte end */
+                }
+                else
+                {
+                    /* assume 1 byte char at end_copy[0] */
+                    length -= 3;  /* length was greater than 2 - otherwise end_copy[1] would have been 0x0 */
+                    result = UTF8ERROR_OUT_OF_RANGE;
+                }
+            }
+        }
+    }
+
+    *this_ = (utf8stringview_t){.start=start,.length=length};
+    return result;
 }
 
-static inline utf8stringview_t utf8stringview_init_str( const char* cstring )
+static inline void utf8stringview_init_str( utf8stringview_t *this_, const char* cstring )
 {
-    return (utf8stringview_t){.start=cstring,.length=(cstring==NULL)?0:strlen(cstring)};
+    *this_ = (utf8stringview_t){.start=cstring,.length=(cstring==NULL)?0:strlen(cstring)};
 }
 
-static inline utf8stringview_t utf8stringview_init_region( const char* string, size_t start_idx, size_t length )
+static inline utf8error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length )
 {
-    return (utf8stringview_t){.start=(string+start_idx),.length=(string==NULL)?0:length};
+    utf8error_t result = UTF8ERROR_SUCCESS;
+    const size_t max_len = ( length == 0 ) ? 0 : ( strlen( cstring ) - start_idx );
+    result |= utf8stringview_init( this_, cstring+start_idx, u8_i32_min2( length, max_len ) );
+    if ( length > max_len )
+    {
+        /* stringview cannot exceed the cstring */
+        result |= UTF8ERROR_OUT_OF_RANGE;
+    }
+    return result;
+}
+
+static inline void utf8stringview_destroy( utf8stringview_t *this_ )
+{
+    *this_ = (utf8stringview_t){.start=NULL,.length=0};
 }
 
 static inline const char* utf8stringview_get_start( const utf8stringview_t this_ ) {
@@ -44,7 +152,7 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t thi
             {
                 skip --;
                 if ( skip == 0 ) {
-                    result ++;
+                    result ++;  /* This is the last byte of a multi byte code point */
                 }
             }
             else
@@ -52,7 +160,7 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t thi
                 const unsigned char firstByte = (const unsigned char) (this_.start[pos]);
                 if (( 0x80 & firstByte ) == 0x00 )
                 {
-                    result ++;
+                    result ++;  /* This is a 1 byte code point */
                 }
                 else if (( 0xc0 & firstByte ) == 0x80 )
                 {
@@ -60,15 +168,15 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t thi
                 }
                 else if (( 0xe0 & firstByte ) == 0xc0 )
                 {
-                    skip = 1;  /* This is a 2 byte code point */
+                    skip = 1;  /* This is the start of a 2 byte code point */
                 }
                 else if (( 0xf0 & firstByte ) == 0xe0 )
                 {
-                    skip = 2;  /* This is a 3 byte code point */
+                    skip = 2;  /* This is the start of a 3 byte code point */
                 }
                 else if (( 0xf8 & firstByte ) == 0xf0 )
                 {
-                    skip = 3;  /* This is a 4 byte code point */
+                    skip = 3;  /* This is the start of a 4 byte code point */
                 }
                 else
                 {

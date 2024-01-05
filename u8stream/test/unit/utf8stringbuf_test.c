@@ -25,11 +25,13 @@ static test_case_result_t testFindLast( test_fixture_t *fix );
 static test_case_result_t testCopyBuf( test_fixture_t *fix );
 static test_case_result_t testCopyStr( test_fixture_t *fix );
 static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testCopyRegion( test_fixture_t *fix );
 static test_case_result_t testReplaceRegion( test_fixture_t *fix );
 static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *fix );
 static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *fix );
 static test_case_result_t testReplaceRegionBuf( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 static test_case_result_t testReplaceAll( test_fixture_t *fix );
 static test_case_result_t testReplaceAllBadCases( test_fixture_t *fix );
 static test_case_result_t testReplaceAllStr( test_fixture_t *fix );
@@ -67,11 +69,13 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testCopyBuf", &testCopyBuf );
     test_suite_add_test_case( &result, "testCopyStr", &testCopyStr );
     test_suite_add_test_case( &result, "testCopyWithCutUtf8", &testCopyWithCutUtf8 );
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
     test_suite_add_test_case( &result, "testCopyRegion", &testCopyRegion );
     test_suite_add_test_case( &result, "testReplaceRegion", &testReplaceRegion );
     test_suite_add_test_case( &result, "testReplaceRegionExceededRanges", &testReplaceRegionExceededRanges );
     test_suite_add_test_case( &result, "testReplaceRegionWithCutUtf8", &testReplaceRegionWithCutUtf8 );
     test_suite_add_test_case( &result, "testReplaceRegionBuf", &testReplaceRegionBuf );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
     test_suite_add_test_case( &result, "testReplaceAll", &testReplaceAll );
     test_suite_add_test_case( &result, "testReplaceAllBadCases", &testReplaceAllBadCases );
     test_suite_add_test_case( &result, "testReplaceAllStr", &testReplaceAllStr );
@@ -755,6 +759,7 @@ static test_case_result_t testFindLast( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testCopyRegion( test_fixture_t *fix )
 {
     utf8error_t error;
@@ -874,7 +879,9 @@ static test_case_result_t testCopyRegion( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testReplaceRegion( test_fixture_t *fix )
 {
     utf8error_t error;
@@ -928,7 +935,9 @@ static test_case_result_t testReplaceRegion( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 127, dynTestArr1[14] );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *fix )
 {
     utf8error_t error;
@@ -1002,7 +1011,9 @@ static test_case_result_t testReplaceRegionExceededRanges( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 127, dynTestArr1[14] );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *fix )
 {
     utf8error_t error;
@@ -1038,7 +1049,9 @@ static test_case_result_t testReplaceRegionWithCutUtf8( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 127, dynTestArr1[14] );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testReplaceRegionBuf( test_fixture_t *fix )
 {
     /* utf8stringbuf_replace_region_by_buf is just a wrapper around utf8stringbuf_replace_region_by_str */
@@ -1057,6 +1070,7 @@ static test_case_result_t testReplaceRegionBuf( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 static test_case_result_t testReplaceAll ( test_fixture_t *fix )
 {
@@ -1785,5 +1799,3 @@ static test_case_result_t testGetEnd( test_fixture_t *fix )
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-

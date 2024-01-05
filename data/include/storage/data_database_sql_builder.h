@@ -28,8 +28,8 @@
 struct data_database_sql_builder_struct {
     utf8stringbuf_t temp_stringbuf;
     utf8stringbuf_t sql_stringbuf;
-    char private_temp_buffer[8192];
-    char private_sql_buffer[8192];
+    char private_temp_buffer[8192+2048];  /* sufficient size to encode DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH */
+    char private_sql_buffer[8192+4096];  /* sufficient size to encode a data record including DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH */
 };
 
 typedef struct data_database_sql_builder_struct data_database_sql_builder_t;

@@ -49,14 +49,14 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
         else
         {
             const size_t separator_len = utf8string_get_length( (*this_).separator );
-            (*this_).next = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ),
-                                                        0,
-                                                        next_sep
-                                                      );
-            (*this_).remaining = utf8stringview_init_region( utf8stringview_get_start( (*this_).remaining ),
-                                                             (next_sep + separator_len ),
-                                                             (remaining_len - next_sep - separator_len )
-                                                           );
+            (*this_).next
+                = UTF8STRINGVIEW( utf8stringview_get_start( (*this_).remaining ),
+                                  next_sep
+                                );
+            (*this_).remaining
+                = UTF8STRINGVIEW( utf8stringview_get_start( (*this_).remaining ) + next_sep + separator_len,
+                                  remaining_len - next_sep - separator_len
+                                );
         }
     }
 }
