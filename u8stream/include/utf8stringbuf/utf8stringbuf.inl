@@ -457,10 +457,12 @@ static inline utf8error_t utf8stringbuf_replace_region_by_buf( utf8stringbuf_t t
 }
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static inline utf8error_t utf8stringbuf_delete( utf8stringbuf_t this_, int start, int length ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, length, NULL );
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 static inline utf8error_t utf8stringbuf_delete_from_end( utf8stringbuf_t this_, int length ) {
     int this_Length = utf8stringbuf_get_length( this_ );
@@ -472,15 +474,19 @@ static inline utf8error_t utf8stringbuf_delete_to_end( utf8stringbuf_t this_, in
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, this_Length-start, NULL );
 }
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int start, const char *insert ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, 0, insert );
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, 0, insert.buf );
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );

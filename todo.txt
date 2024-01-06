@@ -69,11 +69,8 @@ ideas for future versions:
   [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
       or a buffered view onto the database
   [] prevent cutting utf8 code points in half for:
-      static inline utf8error_t utf8stringbuf_delete( utf8stringbuf_t this_, int start, int length );
       static inline utf8error_t utf8stringbuf_delete_from_end( utf8stringbuf_t this_, int length );
       static inline utf8error_t utf8stringbuf_delete_to_end( utf8stringbuf_t this_, int start );
-      static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int start, const char *insert );
-      static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert );
 
   @main
   [ ] rename main() so that also the test code can call the main function from its own main()

@@ -15,12 +15,14 @@ const char DATA_DATABASE_SQLITE3_MAGIC[16]
  *
  *  This table contains head values
  */
+#if 0
 static const char *DATA_DATABASE_CREATE_HEAD_TABLE =
     "CREATE TABLE IF NOT EXISTS head ( "
         "id INTEGER NOT NULL PRIMARY KEY ASC, "
         "key TEXT NOT NULL UNIQUE, "
         "value TEXT"
     ");";
+#endif
 
 /*!
  *  \brief string constant to create an sql database table
@@ -288,9 +290,9 @@ u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
-    /*
+#if 0
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_HEAD_TABLE, false );
-    */
+#endif
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATURE_TABLE, false );

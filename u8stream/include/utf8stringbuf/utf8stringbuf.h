@@ -615,6 +615,7 @@ static inline utf8error_t utf8stringbuf_replace_region_by_str( utf8stringbuf_t t
 static inline utf8error_t utf8stringbuf_replace_region_by_buf( utf8stringbuf_t this_, int start, int length, const utf8stringbuf_t replacement );
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Deletes a region within a string buffer
  *
@@ -626,6 +627,7 @@ static inline utf8error_t utf8stringbuf_replace_region_by_buf( utf8stringbuf_t t
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
  */
 static inline utf8error_t utf8stringbuf_delete( utf8stringbuf_t this_, int start, int length );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 /*!
  * \brief Deletes a region at the end of a string buffer
@@ -649,6 +651,7 @@ static inline utf8error_t utf8stringbuf_delete_from_end( utf8stringbuf_t this_, 
  */
 static inline utf8error_t utf8stringbuf_delete_to_end( utf8stringbuf_t this_, int start );
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Inserts a string to a string buffer
  *
@@ -663,7 +666,9 @@ static inline utf8error_t utf8stringbuf_delete_to_end( utf8stringbuf_t this_, in
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int start, const char *insert );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Inserts a string buffer to a string buffer
  *
@@ -678,6 +683,7 @@ static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int s
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 /*!
  * \brief Splits a string buffer into an ignored first part and the unfilled terminating part

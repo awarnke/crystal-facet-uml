@@ -15,7 +15,9 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t testClear( test_fixture_t *fix );
 static test_case_result_t testAppendStr( test_fixture_t *fix );
 static test_case_result_t testFindFirst( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testInsertAndDelete( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 test_suite_t utf8stringbuf_performance_get_list(void)
 {
@@ -24,7 +26,9 @@ test_suite_t utf8stringbuf_performance_get_list(void)
     test_suite_add_test_case( &result, "testClear", &testClear );
     test_suite_add_test_case( &result, "testAppendStr", &testAppendStr );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
     test_suite_add_test_case( &result, "testInsertAndDelete", &testInsertAndDelete );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
     return result;
 }
 
@@ -211,6 +215,7 @@ static test_case_result_t testFindFirst( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 const char EXAMPLE_DATA[] =
     "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
     "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
@@ -316,6 +321,7 @@ static test_case_result_t testInsertAndDelete( test_fixture_t *fix )
     TEST_EXPECT( ( utf8sbDiff ) <= ( posixDiff * TEST_MAX_DURATION_FACTOR ) );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 
 /*
