@@ -1,12 +1,5 @@
 /* File: utf8stringbuf.c; Copyright and License: see below */
 
-/*!
- *  \file utf8stringbuf.c
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */
-
 #include <inttypes.h>
 #include "utf8stringbuf/utf8stringbuf.h"
 

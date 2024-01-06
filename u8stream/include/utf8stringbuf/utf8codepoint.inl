@@ -1,15 +1,5 @@
 /* File: utf8codepoint.inl; Copyright and License: see below */
 
-/*!
- *  \file utf8codepoint.inl
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */
-
-/*#ifndef UTF8CODEPOINT_INL_*/
-/*#define UTF8CODEPOINT_INL_*/
-
 #include <stdint.h>
 #include <inttypes.h>
 #include <string.h>
@@ -136,7 +126,7 @@ static inline unsigned int utf8codepoint_get_length( const utf8codepoint_t this_
 static inline utf8codepointseq_t utf8codepoint_get_utf8( const utf8codepoint_t this_ ) {
     utf8codepointseq_t result;
     const uint32_t code_point = this_.code_point;
-    
+
     if ( code_point <= 0x7ff )
     {
         if ( code_point <= 0x7f )
@@ -292,8 +282,6 @@ static inline utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const 
 #ifdef __cplusplus
 }
 #endif
-
-/*#endif*/ /*UTF8CODEPOINT_INL_*/
 
 
 /*

@@ -1,7 +1,7 @@
 #
 # spec file for package crystal-facet-uml
 #
-# Copyright (c) 2019-2023 SUSE LLC
+# Copyright (c) 2019-2024 SUSE LLC
 # Copyright (c) 2017-2024 Andreas Warnke cfu@andreaswarnke.de
 #
 # All modifications and additions to the file contributed by third parties

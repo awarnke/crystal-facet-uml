@@ -1,15 +1,5 @@
 /* File: utf8string.inl; Copyright and License: see below */
 
-/*!
- *  \file utf8string.inl
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */
-
-/*#ifndef UTF8STRING_INL_*/
-/*#define UTF8STRING_INL_*/
-
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8_test_cond.h"
@@ -319,8 +309,6 @@ static inline utf8error_t utf8string_parse_float( const char *this_, unsigned in
 #ifdef __cplusplus
 }
 #endif
-
-/*#endif*/ /*UTF8STRING_INL_*/
 
 
 /*
