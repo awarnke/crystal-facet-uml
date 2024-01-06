@@ -52,7 +52,7 @@ const gui_simple_message_content_names_stat_t *GUI_SIMPLE_MESSAGE_CONTENT_EXPORT
 
 
 /*
-Copyright 2020-2023 Andreas Warnke
+Copyright 2020-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -35,7 +35,7 @@ static inline int32_t gui_sketch_int_compare_max_i32 ( int32_t this_, int32_t th
 
 
 /*
-Copyright 2021-2023 Andreas Warnke
+Copyright 2021-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

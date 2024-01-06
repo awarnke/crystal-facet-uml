@@ -21,7 +21,7 @@ ls -l ${HOST_ROOT}/usr/local/share/glib-2.0/schemas/gschemas.compiled
 ls -l ${HOST_ROOT}/usr/local/bin/libgcc_s_seh-1.dll
 ls -l ${HOST_ROOT}/usr/local/bin/libwinpthread-1.dll
 
-# Copyright 2022-2023 Andreas Warnke
+# Copyright 2022-2024 Andreas Warnke
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

@@ -7,7 +7,7 @@ echo "consider running rustup update"
 echo "view source documentation using cargo doc && chromium-browser target/doc/qualification_test/index.html"
 
 
-# Copyright 2022-2023 Andreas Warnke
+# Copyright 2022-2024 Andreas Warnke
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

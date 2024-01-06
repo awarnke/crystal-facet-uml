@@ -17,6 +17,6 @@
  *  \subsection cfu-license License
  *  License of crystal-facet-uml is Apache-2.0.
  *
- *  \author Copyright 2016-2023 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ *  \author Copyright 2016-2024 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */
 

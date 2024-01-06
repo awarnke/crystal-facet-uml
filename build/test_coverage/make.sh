@@ -68,7 +68,7 @@ zip -r crystal-facet-uml_${VERSIONSTR}_alltests_coverage.zip crystal-facet-uml_$
 echo "output written to crystal-facet-uml_${VERSIONSTR}_alltests_coverage"
 
 
-# Copyright 2021-2023 Andreas Warnke
+# Copyright 2021-2024 Andreas Warnke
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

@@ -97,7 +97,7 @@ static inline data_full_id_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui
 
 
 /*
-Copyright 2016-2023 Andreas Warnke
+Copyright 2016-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

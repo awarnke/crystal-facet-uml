@@ -86,7 +86,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
 
 
 /*
-Copyright 2019-2023 Andreas Warnke
+Copyright 2019-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

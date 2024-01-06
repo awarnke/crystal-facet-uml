@@ -245,7 +245,7 @@ pub(super) fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [DrawDir
 }
 
 /*
-Copyright 2023-2023 Andreas Warnke
+Copyright 2023-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
