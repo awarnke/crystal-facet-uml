@@ -105,7 +105,7 @@ u8_error_t json_schema_writer_private_declare_uuid( json_schema_writer_t *this_,
 
 
 /*
-Copyright 2023-2023 Andreas Warnke
+Copyright 2023-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

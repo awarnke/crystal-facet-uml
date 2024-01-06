@@ -154,7 +154,7 @@ if(CFU_ADD_GCOV_TARGET)
 endif(CFU_ADD_GCOV_TARGET)
 
 
-# Copyright 2018-2023 Andreas Warnke
+# Copyright 2018-2024 Andreas Warnke
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -167,4 +167,3 @@ endif(CFU_ADD_GCOV_TARGET)
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-

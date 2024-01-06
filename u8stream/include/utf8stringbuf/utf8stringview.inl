@@ -1,12 +1,5 @@
 /* File: utf8stringview.inl; Copyright and License: see below */
 
-/*!
- *  \file utf8stringview.inl
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2021-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */
-
 #include "u8/u8_i32.h"
 
 #ifdef __cplusplus
@@ -263,7 +256,7 @@ static inline int utf8stringview_find_first_str( const utf8stringview_t this_, c
 
 
 /*
- * Copyright 2021-2023 Andreas Warnke
+ * Copyright 2021-2024 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

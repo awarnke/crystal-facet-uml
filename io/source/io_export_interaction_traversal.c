@@ -478,7 +478,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_node_features( io_exp
 
 
 /*
-Copyright 2020-2023 Andreas Warnke
+Copyright 2020-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

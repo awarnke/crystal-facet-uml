@@ -1,15 +1,5 @@
 /* File: utf8stringbuf.inl; Copyright and License: see below */
 
-/*!
- *  \file utf8stringbuf.inl
- *
- *  \note License: Use this code according to the license: Apache 2.0.
- *  \author Copyright 2012-2023 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */
-
-/*#ifndef UTF8STRINGBUF_INL_*/
-/*#define UTF8STRINGBUF_INL_*/
-
 #include "utf8stringbuf/utf8codepoint.h"
 #include <string.h>
 #include <stdio.h>
@@ -528,11 +518,9 @@ static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, utf8
 }
 #endif
 
-/*#endif*/ /*UTF8STRINGBUF_INL_*/
-
 
 /*
- * Copyright 2012-2023 Andreas Warnke
+ * Copyright 2012-2024 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

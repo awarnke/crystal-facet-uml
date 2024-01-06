@@ -145,7 +145,7 @@ static test_case_result_t open_invalid_file( test_fixture_t *fix )
 
 
 /*
- * Copyright 2018-2023 Andreas Warnke
+ * Copyright 2018-2024 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

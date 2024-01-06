@@ -69,7 +69,7 @@ static inline int universal_memory_arena_get_block ( universal_memory_arena_t *t
 
 
 /*
-Copyright 2021-2023 Andreas Warnke
+Copyright 2021-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

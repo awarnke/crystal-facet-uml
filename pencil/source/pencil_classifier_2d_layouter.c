@@ -1080,7 +1080,7 @@ void pencil_classifier_2d_layouter_private_propose_move_embrace_order ( pencil_c
 
 
 /*
-Copyright 2017-2023 Andreas Warnke
+Copyright 2017-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

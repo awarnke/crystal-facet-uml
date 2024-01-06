@@ -386,7 +386,7 @@ void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
 
 
 /*
-Copyright 2016-2023 Andreas Warnke
+Copyright 2016-2024 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

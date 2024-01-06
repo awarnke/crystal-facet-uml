@@ -531,7 +531,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
 
 /*
-Copyright 2023-2023 Andreas Warnke
+Copyright 2023-2024 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

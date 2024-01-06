@@ -1027,7 +1027,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
 
 /*
-Copyright 2023-2023 Andreas Warnke
+Copyright 2023-2024 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

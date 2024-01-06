@@ -489,7 +489,7 @@ u8_error_t data_database_writer_private_transaction_issue_command ( data_databas
 
 
 /*
-Copyright 2016-2023 Andreas Warnke
+Copyright 2016-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

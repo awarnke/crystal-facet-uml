@@ -128,7 +128,7 @@ extern const utf8codepoint_t UTF8CODEPOINT_INVAL_CHAR;
 
 
 /*
- * Copyright 2012-2023 Andreas Warnke
+ * Copyright 2012-2024 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

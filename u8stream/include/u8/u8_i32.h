@@ -54,7 +54,7 @@ static inline int_fast32_t u8_i32_min3 ( const int_fast32_t a, const int_fast32_
 
 
 /*
-Copyright 2023-2023 Andreas Warnke
+Copyright 2023-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
