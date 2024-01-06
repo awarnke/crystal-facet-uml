@@ -197,6 +197,13 @@ static test_case_result_t testInitFunctionsOnWrongRange( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( my_view ) );
     utf8stringview_destroy( &my_view );
 
+    /* sub test case: start on 3-byte cut-char, end ok  */
+    err = utf8stringview_init( &my_view, my_long_txt+10, 3 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_PTR( my_long_txt+13, utf8stringview_get_start( my_view ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( my_view ) );
+    utf8stringview_destroy( &my_view );
+
     /* sub test case: start ok, ends on 1-byte char and a 2-byte cut-char */
     err = utf8stringview_init( &my_view, my_long_txt+5, 6 );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, err );
