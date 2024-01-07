@@ -40,10 +40,11 @@ static test_case_result_t testStandardUseCase( test_fixture_t *fix )
     bool has_next;
     utf8codepoint_t next;
     static const char my_string[] = "a" "\0" "\xC3\xA4" "\xE2\x82\xAC" "\xF0\x9D\x84\x9E";
+    const utf8stringview_t my_string_view = UTF8STRINGVIEW( my_string, sizeof(my_string)-1 );
 
     /* init */
     utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, sizeof(my_string)-1 ) );
+    utf8codepointiterator_init( &it, &my_string_view );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );
@@ -102,10 +103,11 @@ static test_case_result_t testEmptyUseCase( test_fixture_t *fix )
     bool has_next;
     utf8codepoint_t next;
     static const char *const my_string = "\xF0\x9D\x84\x9E";
+    const utf8stringview_t my_string_view = UTF8STRINGVIEW( my_string, 0 );
 
     /* init */
     utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, 0 ) );
+    utf8codepointiterator_init( &it, &my_string_view );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );
@@ -123,11 +125,12 @@ static test_case_result_t testIllegalUseCase( test_fixture_t *fix )
 {
     bool has_next;
     utf8codepoint_t next;
-    static const char *const my_string = "\xF0\x9D\x84\x9E";
+    static const char *const illegal_string = "\xF0\x9D\x84\x9E";
+    const utf8stringview_t illegal_string_view = UTF8STRINGVIEW( illegal_string, 1 );
 
     /* init */
     utf8codepointiterator_t it;
-    utf8codepointiterator_init( &it, UTF8STRINGVIEW( my_string, 1 ) );
+    utf8codepointiterator_init( &it, &illegal_string_view );
 
     has_next = utf8codepointiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( false, has_next );

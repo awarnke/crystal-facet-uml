@@ -42,7 +42,7 @@ typedef struct utf8stringviewtokenizer_struct utf8stringviewtokenizer_t;
  *  \param mode defines how tokens are separated
  */
 static inline void utf8stringviewtokenizer_init ( utf8stringviewtokenizer_t *this_,
-                                                  utf8stringview_t input_text,
+                                                  const utf8stringview_t *input_text,
                                                   utf8stringviewtokenmode_t mode );
 
 /*!

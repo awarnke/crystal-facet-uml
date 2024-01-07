@@ -112,7 +112,7 @@ static inline const data_classifier_t *data_profile_part_get_stereotype_const ( 
  *  \return NULL if id not existant; pointer to data_classifier_t otherwise.
  */
 static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_const ( const data_profile_part_t *this_,
-                                                                                        utf8stringview_t stereotype_name
+                                                                                        const utf8stringview_t *stereotype_name
                                                                                       );
 
 /*!

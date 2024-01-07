@@ -111,8 +111,9 @@ static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const c
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
 
-static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t that )
+static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t *that )
 {
+    assert( that != NULL );
     int result;
     const size_t len = utf8stringview_get_length( that );
     if ( len == utf8stringbuf_get_length(this_) )
@@ -325,8 +326,9 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
     return complete;
 }
 
-static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, utf8stringview_t original )
+static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const utf8stringview_t *original )
 {
+    assert( original != NULL );
     utf8error_t result = UTF8ERROR_SUCCESS;
 
     const size_t origLen = utf8stringview_get_length( original );
@@ -493,8 +495,9 @@ static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ ) {
     return utf8stringbuf_init( this_.size-this_Length, &(this_.buf[this_Length]) );
 }
 
-static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, utf8stringview_t appendix )
+static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, const utf8stringview_t *appendix )
 {
+    assert( appendix != NULL );
     utf8error_t result = UTF8ERROR_SUCCESS;
     const size_t start = strlen( this_.buf );
 

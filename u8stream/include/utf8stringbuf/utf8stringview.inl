@@ -8,6 +8,7 @@ extern "C" {
 
 static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const char* start, size_t length )
 {
+    assert( start != NULL );
     utf8error_t result = UTF8ERROR_SUCCESS;
     /* clean type would have been:  char ( *start_arr )[] = (char(*)[]) start; */
 
@@ -106,18 +107,29 @@ static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const ch
 
 static inline void utf8stringview_init_str( utf8stringview_t *this_, const char* cstring )
 {
+    assert( cstring != NULL );
     *this_ = (utf8stringview_t){.start=cstring,.length=(cstring==NULL)?0:strlen(cstring)};
 }
 
 static inline utf8error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length )
 {
+    assert( cstring != NULL );
     utf8error_t result = UTF8ERROR_SUCCESS;
-    const size_t max_len = ( length == 0 ) ? 0 : ( strlen( cstring ) - start_idx );
-    result |= utf8stringview_init( this_, cstring+start_idx, u8_i32_min2( length, max_len ) );
-    if ( length > max_len )
+    const size_t cstring_len = strlen( cstring );
+    if ( start_idx > cstring_len )
     {
-        /* stringview cannot exceed the cstring */
+        *this_ = (utf8stringview_t){.start=cstring+start_idx,.length=0};
         result |= UTF8ERROR_OUT_OF_RANGE;
+    }
+    else
+    {
+        const size_t max_len = cstring_len - start_idx;
+        result |= utf8stringview_init( this_, cstring+start_idx, u8_i32_min2( length, max_len ) );
+        if ( length > max_len )
+        {
+            /* notify that stringview cannot exceed the cstring */
+            result |= UTF8ERROR_OUT_OF_RANGE;
+        }
     }
     return result;
 }
@@ -127,19 +139,19 @@ static inline void utf8stringview_destroy( utf8stringview_t *this_ )
     *this_ = (utf8stringview_t){.start=NULL,.length=0};
 }
 
-static inline const char* utf8stringview_get_start( const utf8stringview_t this_ ) {
-    return this_.start;
+static inline const char* utf8stringview_get_start( const utf8stringview_t *this_ ) {
+    return (*this_).start;
 }
 
-static inline size_t utf8stringview_get_length( const utf8stringview_t this_ ) {
-    return this_.length;
+static inline size_t utf8stringview_get_length( const utf8stringview_t *this_ ) {
+    return (*this_).length;
 }
 
-static inline size_t utf8stringview_count_codepoints( const utf8stringview_t this_ ) {
+static inline size_t utf8stringview_count_codepoints( const utf8stringview_t *this_ ) {
     size_t result = 0;
     unsigned int skip = 0;
-    if ( this_.start != NULL ) {
-        for ( size_t pos = 0; pos < this_.length; pos ++ )
+    if ( (*this_).start != NULL ) {
+        for ( size_t pos = 0; pos < (*this_).length; pos ++ )
         {
             if ( skip > 0 )
             {
@@ -150,7 +162,7 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t thi
             }
             else
             {
-                const unsigned char firstByte = (const unsigned char) (this_.start[pos]);
+                const unsigned char firstByte = (const unsigned char) ((*this_).start[pos]);
                 if (( 0x80 & firstByte ) == 0x00 )
                 {
                     result ++;  /* This is a 1 byte code point */
@@ -181,13 +193,13 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t thi
     return result;
 }
 
-static inline int utf8stringview_equals_str( const utf8stringview_t this_, const char *that )
+static inline int utf8stringview_equals_str( const utf8stringview_t *this_, const char *that )
 {
     int result;
     if ( that != NULL )
     {
         size_t len = strlen( that );
-        if ( len == this_.length )
+        if ( len == (*this_).length )
         {
             if ( ( len == 0 )/*&&( this_.length == 0 )*/)
             {
@@ -195,7 +207,7 @@ static inline int utf8stringview_equals_str( const utf8stringview_t this_, const
             }
             else
             {
-                result = ( 0 == memcmp ( this_.start, that, len ) ) ? 1 : 0;
+                result = ( 0 == memcmp ( (*this_).start, that, len ) ) ? 1 : 0;
             }
         }
         else
@@ -210,18 +222,18 @@ static inline int utf8stringview_equals_str( const utf8stringview_t this_, const
     return result;
 }
 
-static inline int utf8stringview_equals_view( const utf8stringview_t this_, const utf8stringview_t that )
+static inline int utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that )
 {
     int result;
-    if ( that.length == this_.length )
+    if ( (*that).length == (*this_).length )
     {
-        if ( ( that.length == 0 )/*&&( this_.length == 0 )*/)
+        if ( ( (*that).length == 0 )/*&&( this_.length == 0 )*/)
         {
             result = 1;
         }
         else
         {
-            result = ( 0 == memcmp ( this_.start, that.start, that.length ) ) ? 1 : 0;
+            result = ( 0 == memcmp ( (*this_).start, (*that).start, (*that).length ) ) ? 1 : 0;
         }
     }
     else
@@ -231,18 +243,18 @@ static inline int utf8stringview_equals_view( const utf8stringview_t this_, cons
     return result;
 }
 
-static inline int utf8stringview_find_first_str( const utf8stringview_t this_, const char *pattern ) {
+static inline int utf8stringview_find_first_str( const utf8stringview_t *this_, const char *pattern ) {
     int result = -1;
-    if (( pattern != NULL )&&( this_.start != NULL )) {
+    if (( pattern != NULL )&&( (*this_).start != NULL )) {
         const size_t pattern_len = strlen( pattern );
         if ( pattern_len != 0 )
         {
-            const char *const end = this_.start + this_.length;
-            for ( const char* pos = this_.start; ( pos + pattern_len <= end )&&( result == -1 ); pos ++ )
+            const char *const end = (*this_).start + (*this_).length;
+            for ( const char* pos = (*this_).start; ( pos + pattern_len <= end )&&( result == -1 ); pos ++ )
             {
                 if ( 0 == memcmp( pos, pattern, pattern_len ) )
                 {
-                    result = ( pos - this_.start );
+                    result = ( pos - (*this_).start );
                 }
             }
         }

@@ -57,8 +57,9 @@ static inline bool draw_stereotype_image_exists ( const draw_stereotype_image_t 
     assert( profile != NULL );
     bool result = false;
 
+    const utf8stringview_t stereotype_view = UTF8STRINGVIEW_STR(stereotype);
     const data_classifier_t *const optional_stereotype
-        = data_profile_part_get_stereotype_by_name_const( profile, UTF8STRINGVIEW_STR(stereotype) );
+        = data_profile_part_get_stereotype_by_name_const( profile, &stereotype_view );
     if ( optional_stereotype != NULL )
     {
         U8_TRACE_INFO_STR( "stereotype", stereotype );

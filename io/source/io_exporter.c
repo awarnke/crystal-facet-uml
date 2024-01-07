@@ -156,7 +156,7 @@ u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
     const int length = (( path_suffix < start ) ? (path_len-start) : (path_suffix-start) );
     const utf8stringview_t base_name = UTF8STRINGVIEW( &(path[start]), length );
 
-    err = utf8stringbuf_copy_view( out_base_filename, base_name );
+    err = utf8stringbuf_copy_view( out_base_filename, &base_name );
     if ( utf8stringbuf_get_length( out_base_filename ) == 0 )
     {
         err = U8_ERROR_INPUT_EMPTY;

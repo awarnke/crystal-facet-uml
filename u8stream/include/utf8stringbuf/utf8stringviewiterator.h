@@ -41,7 +41,7 @@ typedef struct utf8stringviewiterator_struct utf8stringviewiterator_t;
  *  \param element_list character-separated list of stringviews
  *  \param separator character-sequence that separates the stringviews to retrieve; length must not be 0
  */
-static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, utf8stringview_t element_list, utf8string_t separator );
+static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, const utf8stringview_t *element_list, utf8string_t separator );
 
 /*!
  *  \brief destroys the utf8stringviewiterator_t struct

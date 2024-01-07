@@ -17,7 +17,7 @@ static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf
     return ( write_err );
 }
 
-static inline u8_error_t io_xml_writer_write_plain_view ( io_xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_plain_view ( io_xml_writer_t *this_, const utf8stringview_t *string_view )
 {
     u8_error_t write_err;
 
@@ -41,7 +41,7 @@ static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, u
     return write_err;
 }
 
-static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *this_, const utf8stringview_t *string_view )
 {
     u8_error_t write_err;
 
@@ -65,7 +65,7 @@ static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this
     return write_err;
 }
 
-static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t *this_, const utf8stringview_t *string_view )
 {
     u8_error_t write_err;
 
@@ -77,7 +77,7 @@ static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t 
     return write_err;
 }
 
-static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view )
+static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_writer_t *this_, const utf8stringview_t *string_view )
 {
     bool result = false;
 
@@ -96,7 +96,7 @@ static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_write
     return result;
 }
 
-static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view )
+static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_writer_t *this_, const utf8stringview_t *string_view )
 {
     u8_error_t result = U8_ERROR_NOT_FOUND;
     bool is_start = true;

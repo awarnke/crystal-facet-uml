@@ -152,7 +152,7 @@ u8_error_t xmi_atom_writer_report_illegal_container( xmi_atom_writer_t *this_,
  */
 u8_error_t xmi_atom_writer_report_illegal_stereotype( xmi_atom_writer_t *this_,
                                                       data_id_t element_id,
-                                                      utf8stringview_t stereotype
+                                                      const utf8stringview_t *stereotype
                                                     );
 
 /*!

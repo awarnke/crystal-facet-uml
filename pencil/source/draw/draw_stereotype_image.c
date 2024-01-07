@@ -28,8 +28,9 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
     u8_error_t result = U8_ERROR_NONE;
     u8_error_info_init_void( out_err_info );
 
+    const utf8stringview_t stereotype_view = UTF8STRINGVIEW_STR(stereotype);
     const data_classifier_t *const optional_stereotype
-        = data_profile_part_get_stereotype_by_name_const( profile, UTF8STRINGVIEW_STR(stereotype) );
+        = data_profile_part_get_stereotype_by_name_const( profile, &stereotype_view );
     if ( optional_stereotype != NULL )
     {
         U8_TRACE_INFO_STR( "stereotype", stereotype );
@@ -139,19 +140,20 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
     char xml_attr_value_buf[64]; /* max 4 floating point numbers and rgba(%,%,%,%) string around */
     utf8stringbuf_t xml_attr_value = UTF8STRINGBUF(xml_attr_value_buf);
 
+    const utf8stringview_t drawing_directives_view = UTF8STRINGVIEW_STR( drawing_directives );
     utf8stringviewtokenizer_t tok_iterator;
-    utf8stringviewtokenizer_init( &tok_iterator, UTF8STRINGVIEW_STR( drawing_directives ), UTF8STRINGVIEWTOKENMODE_TEXT );
+    utf8stringviewtokenizer_init( &tok_iterator, &drawing_directives_view, UTF8STRINGVIEWTOKENMODE_TEXT );
     while( utf8stringviewtokenizer_has_next( &tok_iterator ) && ( result == U8_ERROR_NONE ) )
     {
         const utf8stringview_t tok = utf8stringviewtokenizer_next( &tok_iterator );
-        assert( utf8stringview_get_length( tok ) > 0 );  /* otherwise this would not be a token */
+        assert( utf8stringview_get_length( &tok ) > 0 );  /* otherwise this would not be a token */
         /* U8_TRACE_INFO_VIEW( "token:", tok ); */
 
         switch ( parser_state )
         {
             case DRAW_STEREOTYPE_IMAGE_XML_OUTSIDE_PATH:
             {
-                if ( utf8stringview_equals_str( tok, "<" ) )
+                if ( utf8stringview_equals_str( &tok, "<" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_TAG_STARTED;
                 }
@@ -160,7 +162,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_TAG_STARTED:
             {
-                if ( utf8stringview_equals_str( tok, "path" ) )
+                if ( utf8stringview_equals_str( &tok, "path" ) )
                 {
                     /* for each new path, reset the colors to defaults */
                     stroke_color = *default_color;
@@ -179,31 +181,31 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG:
             {
-                if ( utf8stringview_equals_str( tok, "d" ) )
+                if ( utf8stringview_equals_str( &tok, "d" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_D_ATTR;
                 }
-                else if ( utf8stringview_equals_str( tok, "stroke" ) )
+                else if ( utf8stringview_equals_str( &tok, "stroke" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR;
                 }
-                else if ( utf8stringview_equals_str( tok, "fill" ) )
+                else if ( utf8stringview_equals_str( &tok, "fill" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR;
                 }
-                else if ( utf8stringview_equals_str( tok, "\'" ) )
+                else if ( utf8stringview_equals_str( &tok, "\'" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE;
                 }
-                else if ( utf8stringview_equals_str( tok, "\"" ) )
+                else if ( utf8stringview_equals_str( &tok, "\"" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE;
                 }
-                else if ( utf8stringview_equals_str( tok, "/" ) )
+                else if ( utf8stringview_equals_str( &tok, "/" ) )
                 {
                     /* ignore */
                 }
-                else if ( utf8stringview_equals_str( tok, ">" ) )
+                else if ( utf8stringview_equals_str( &tok, ">" ) )
                 {
                     if ( draw )
                     {
@@ -238,7 +240,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_D_ATTR:
             {
-                if ( utf8stringview_equals_str( tok, "=" ) )
+                if ( utf8stringview_equals_str( &tok, "=" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_D_DEF;
                 }
@@ -261,7 +263,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_D_DEF:
             {
-                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* process draw commands in sub statemachine */
                     utf8stringviewtokenizer_set_mode( &tok_iterator, UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY );
@@ -316,7 +318,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_STROKE_ATTR:
             {
-                if ( utf8stringview_equals_str( tok, "=" ) )
+                if ( utf8stringview_equals_str( &tok, "=" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF;
                 }
@@ -339,7 +341,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_STROKE_DEF:
             {
-                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE;
@@ -362,7 +364,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_STROKE_VALUE:
             {
-                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* parse the color */
                     if ( utf8stringbuf_equals_str( xml_attr_value, "none" ) )
@@ -387,14 +389,14 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 }
                 else
                 {
-                    utf8stringbuf_append_view( xml_attr_value, tok );
+                    utf8stringbuf_append_view( xml_attr_value, &tok );
                 }
             }
             break;
 
             case DRAW_STEREOTYPE_IMAGE_XML_FILL_ATTR:
             {
-                if ( utf8stringview_equals_str( tok, "=" ) )
+                if ( utf8stringview_equals_str( &tok, "=" ) )
                 {
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF;
                 }
@@ -417,7 +419,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_FILL_DEF:
             {
-                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE;
@@ -440,7 +442,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_FILL_VALUE:
             {
-                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* parse the color */
                     if ( utf8stringbuf_equals_str( xml_attr_value, "none" ) )
@@ -465,14 +467,14 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
                 }
                 else
                 {
-                    utf8stringbuf_append_view( xml_attr_value, tok );
+                    utf8stringbuf_append_view( xml_attr_value, &tok );
                 }
             }
             break;
 
             case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_SGLQ_VALUE:
             {
-                if ( utf8stringview_equals_str( tok, "\'" ) )
+                if ( utf8stringview_equals_str( &tok, "\'" ) )
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;
@@ -488,7 +490,7 @@ u8_error_t draw_stereotype_image_private_parse_svg_xml ( const draw_stereotype_i
 
             case DRAW_STEREOTYPE_IMAGE_XML_INSIDE_DBLQ_VALUE:
             {
-                if ( utf8stringview_equals_str( tok, "\"" ) )
+                if ( utf8stringview_equals_str( &tok, "\"" ) )
                 {
                     /* end of the value of another, ignored tag */
                     parser_state = DRAW_STEREOTYPE_IMAGE_XML_INSIDE_PATH_TAG;

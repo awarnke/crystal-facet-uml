@@ -221,10 +221,10 @@ static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const c
  *
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  * \param this_ A string buffer object
- * \param that A string view object
+ * \param that pointer to a string view object
  * \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t that );
+static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t *that );
 
 /*!
  * \brief Checks if two strings are equal.
@@ -461,11 +461,11 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
  *
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  * \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
- * \param original The source string view. The buffers of this_ and original must not overlap!
+ * \param original pointer to the source string view. The buffers of this_ and original must not overlap!
  * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *         UTF8ERROR_TRUNCATED in case of truncation
  */
-static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, utf8stringview_t original );
+static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const utf8stringview_t *original );
 
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
@@ -793,12 +793,12 @@ extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar
  * truncation does not split an utf8 code-point in half.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
  * \param this_ The destination string buffer
- * \param appendix The source stringview.
+ * \param appendix pointer to the source stringview.
  * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *         UTF8ERROR_TRUNCATED in case of truncation or
  *         UTF8ERROR_NULL_PARAM if appendix was NULL.
  */
-static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, utf8stringview_t appendix );
+static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, const utf8stringview_t *appendix );
 
 #ifdef __cplusplus
 }

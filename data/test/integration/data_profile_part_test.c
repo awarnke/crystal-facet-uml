@@ -194,9 +194,9 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
             TEST_EXPECT_EQUAL_INT( 1, count );
 
-            utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "Any-Blue-Item" );
+            const utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "Any-Blue-Item" );
             const data_classifier_t *const classifier
-                = data_profile_part_get_stereotype_by_name_const( &profile, stereotype_name );
+                = data_profile_part_get_stereotype_by_name_const( &profile, &stereotype_name );
             TEST_EXPECT_EQUAL_INT( stereotype_id, data_classifier_get_row_id( classifier ) );
 
             data_profile_part_destroy( &profile );
@@ -267,9 +267,9 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
             const uint32_t count = data_profile_part_get_stereotype_count( &profile );
             TEST_EXPECT_EQUAL_INT( DATA_PROFILE_PART_MAX_STEREOTYPES, count );
 
-            utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "Kind-0" );
+            const utf8stringview_t stereotype_name = UTF8STRINGVIEW_STR( "Kind-0" );
             const data_classifier_t *const classifier
-                = data_profile_part_get_stereotype_by_name_const( &profile, stereotype_name );
+                = data_profile_part_get_stereotype_by_name_const( &profile, &stereotype_name );
             TEST_EXPECT_EQUAL_STRING( "Kind-0", data_classifier_get_stereotype_const( classifier ) );
 
             data_profile_part_destroy( &profile );

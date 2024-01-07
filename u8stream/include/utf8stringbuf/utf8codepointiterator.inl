@@ -4,9 +4,9 @@
 extern "C" {
 #endif
 
-static inline void utf8codepointiterator_init ( utf8codepointiterator_t *this_, utf8stringview_t stringview )
+static inline void utf8codepointiterator_init ( utf8codepointiterator_t *this_, const utf8stringview_t *stringview )
 {
-    (*this_).remaining = stringview;
+    (*this_).remaining = *stringview;
     utf8codepointiterator_private_step_to_next( this_ );
 }
 
@@ -28,19 +28,19 @@ static inline utf8codepoint_t utf8codepointiterator_next ( utf8codepointiterator
 
 static inline void utf8codepointiterator_private_step_to_next ( utf8codepointiterator_t *this_ )
 {
-    const size_t remaining_len = utf8stringview_get_length( (*this_).remaining );
+    const size_t remaining_len = utf8stringview_get_length( &((*this_).remaining) );
     if ( remaining_len == 0 )
     {
         (*this_).next = UTF8CODEPOINT_INVAL_CHAR;
     }
     else
     {
-        (*this_).next = utf8codepoint_init( utf8stringview_get_start( (*this_).remaining ), remaining_len );
+        (*this_).next = utf8codepoint_init( utf8stringview_get_start( &((*this_).remaining) ), remaining_len );
         if ( utf8codepoint_is_valid( (*this_).next ) )
         {
             const unsigned int next_len = utf8codepoint_get_length( (*this_).next );
             (*this_).remaining
-                = UTF8STRINGVIEW( utf8stringview_get_start( (*this_).remaining ) + next_len,
+                = UTF8STRINGVIEW( utf8stringview_get_start( &((*this_).remaining) ) + next_len,
                                   (remaining_len - next_len )
                                 );
         }

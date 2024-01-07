@@ -14,7 +14,7 @@ static inline u8_error_t data_profile_part_private_load_stereotype ( data_profil
     const utf8stringview_t stereotype_name_view = UTF8STRINGVIEW_STR( stereotype_name );
 
     const bool already_loaded
-        = ( NULL != data_profile_part_get_stereotype_by_name_const( this_, stereotype_name_view ) );
+        = ( NULL != data_profile_part_get_stereotype_by_name_const( this_, &stereotype_name_view ) );
     if ( ! already_loaded )  /* filter duplicates */
     {
         if ( (*this_).stereotype_count < DATA_PROFILE_PART_MAX_STEREOTYPES )
@@ -90,7 +90,8 @@ static inline const data_classifier_t *data_profile_part_get_stereotype_const ( 
     return result;
 }
 
-static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_const ( const data_profile_part_t *this_, utf8stringview_t stereotype_name )
+static inline const data_classifier_t *data_profile_part_get_stereotype_by_name_const ( const data_profile_part_t *this_,
+                                                                                        const utf8stringview_t *stereotype_name )
 {
     assert( (*this_).stereotype_count <= DATA_PROFILE_PART_MAX_STEREOTYPES );
     const data_classifier_t *result = NULL;

@@ -85,15 +85,15 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
            && ( result == U8_ERROR_NONE ) )
     {
         const utf8stringview_t tok = utf8stringviewtokenizer_next( tok_iterator );
-        assert( utf8stringview_get_length( tok ) > 0 );  /* otherwise this would not be a token */
+        assert( utf8stringview_get_length( &tok ) > 0 );  /* otherwise this would not be a token */
         U8_TRACE_INFO_VIEW( "token:", tok );
 
         switch ( parser_state )
         {
             case DRAW_SVG_PATH_DATA_EXPECT_COMMAND:
             {
-                const char current = *utf8stringview_get_start( tok );
-                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                const char current = *utf8stringview_get_start( &tok );
+                if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* no subpath here to draw */
                     /* end of d attribute, back to caller */
@@ -172,8 +172,8 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COMMAND_OR_COORD_SEQ:
             {
-                const char current = *utf8stringview_get_start( tok );
-                if (( utf8stringview_equals_str( tok, "\"" ) )||( utf8stringview_equals_str( tok, "\'" ) ))
+                const char current = *utf8stringview_get_start( &tok );
+                if (( utf8stringview_equals_str( &tok, "\"" ) )||( utf8stringview_equals_str( &tok, "\'" ) ))
                 {
                     /* end of d attribute, back to caller */
                     parser_state = DRAW_SVG_PATH_DATA_EXPECT_EXIT;
@@ -265,7 +265,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -278,7 +278,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     else
                     {
                         /* U8_TRACE_INFO_INT( "line", utf8stringviewtokenizer_get_line( tok_iterator ) ); */
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     const double value_x_abs = is_absolute ? value : ( command_start_x + value );
@@ -365,7 +365,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_END_X:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -375,7 +375,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -387,7 +387,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     command_end_x = is_absolute ? value : ( command_start_x + value );
@@ -418,7 +418,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_END_Y:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -428,7 +428,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -440,7 +440,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     command_end_y = is_absolute ? value : ( command_start_y + value );
@@ -619,7 +619,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_CTRL1_X:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -629,7 +629,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -641,7 +641,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     coord_ctrl1_x = is_absolute ? value : ( command_start_x + value );
@@ -653,7 +653,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_CTRL1_Y:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -663,7 +663,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -675,7 +675,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     coord_ctrl1_y = is_absolute ? value : ( command_start_y + value );
@@ -687,7 +687,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_CTRL2_X:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -697,7 +697,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -709,7 +709,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     coord_ctrl2_x = is_absolute ? value : ( command_start_x + value );
@@ -721,7 +721,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_CTRL2_Y:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -731,7 +731,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -743,7 +743,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     coord_ctrl2_y = is_absolute ? value : ( command_start_y + value );
@@ -755,7 +755,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_QCTRL_X:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -765,7 +765,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -777,7 +777,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     coord_ctrl1_x = is_absolute ? value : ( command_start_x + value );
@@ -789,7 +789,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_COORD_QCTRL_Y:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -799,7 +799,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -811,7 +811,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     const bool is_absolute = ( last_command <= 'Z' );
                     coord_ctrl1_y = is_absolute ? value : ( command_start_y + value );
@@ -823,7 +823,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_ARC_RX:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -833,7 +833,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -845,7 +845,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     /* store value to appropriate variable */
                     arc_r_x = value;
@@ -857,7 +857,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_ARC_RY:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -867,7 +867,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -879,7 +879,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     /* store value to appropriate variable */
                     arc_r_y = value;
@@ -891,7 +891,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_ARC_PHI:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -901,7 +901,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -913,7 +913,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     /* store value to appropriate variable */
                     arc_phi = value * ( M_PI / 180.0 );
@@ -925,7 +925,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_ARC_LARGE:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -935,7 +935,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -947,7 +947,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     /* store value to appropriate variable */
                     arc_large_arc = ( value > 0.0001 );
@@ -959,7 +959,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
 
             case DRAW_SVG_PATH_DATA_EXPECT_ARC_SWEEP:
             {
-                if ( utf8stringview_equals_str( tok, "," ) )
+                if ( utf8stringview_equals_str( &tok, "," ) )
                 {
                     /* skip */
                 }
@@ -969,7 +969,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
-                        = utf8string_parse_float( utf8stringview_get_start( tok ), &byte_length, &value );
+                        = utf8string_parse_float( utf8stringview_get_start( &tok ), &byte_length, &value );
                     if ( float_err != U8_ERROR_NONE )
                     {
                         /* float_err could be a UTF8ERROR_NOT_FOUND or a UTF8ERROR_OUT_OF_RANGE */
@@ -981,7 +981,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                     }
                     else
                     {
-                        assert( byte_length == utf8stringview_get_length( tok ) );
+                        assert( byte_length == utf8stringview_get_length( &tok ) );
                     }
                     /* store value to appropriate variable */
                     arc_sweep_positive = ( value > 0.0001 );

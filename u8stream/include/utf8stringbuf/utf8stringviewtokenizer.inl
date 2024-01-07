@@ -5,10 +5,11 @@ extern "C" {
 #endif
 
 static inline void utf8stringviewtokenizer_init ( utf8stringviewtokenizer_t *this_,
-                                                  utf8stringview_t input_text,
+                                                  const utf8stringview_t *input_text,
                                                   utf8stringviewtokenmode_t mode )
 {
-    (*this_).remaining_input_text = input_text;
+    assert( input_text != NULL );
+    (*this_).remaining_input_text = *input_text;
     (*this_).mode = mode;
     (*this_).last_token_line = 0;
     (*this_).current_line = 1;
@@ -21,7 +22,7 @@ static inline void utf8stringviewtokenizer_destroy ( utf8stringviewtokenizer_t *
 
 static inline bool utf8stringviewtokenizer_has_next ( const utf8stringviewtokenizer_t *this_ )
 {
-    return ( utf8stringview_get_length( (*this_).remaining_input_text ) != 0 );
+    return ( utf8stringview_get_length( &((*this_).remaining_input_text) ) != 0 );
 }
 
 static inline utf8stringviewtokenmode_t utf8stringviewtokenizer_get_mode ( utf8stringviewtokenizer_t *this_ )
@@ -38,8 +39,8 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
 {
     utf8stringview_t result;
     (*this_).last_token_line = (*this_).current_line;
-    const char *const tok_start = utf8stringview_get_start( (*this_).remaining_input_text );
-    const size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
+    const char *const tok_start = utf8stringview_get_start( &((*this_).remaining_input_text) );
+    const size_t len = utf8stringview_get_length( &((*this_).remaining_input_text) );
     if ( len > 0 )
     {
         size_t tok_len = 0;
@@ -129,8 +130,8 @@ enum utf8stringviewtokenizer_private_number_passed_enum {
 
 static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringviewtokenizer_t *this_ )
 {
-    const char *start = utf8stringview_get_start( (*this_).remaining_input_text );
-    const size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
+    const char *start = utf8stringview_get_start( &((*this_).remaining_input_text) );
+    const size_t len = utf8stringview_get_length( &((*this_).remaining_input_text) );
     enum utf8stringviewtokenizer_private_number_passed_enum state = UTF8STRINGVIEWTOKENIZER_INIT;
     const bool float_mode = (( (*this_).mode == UTF8STRINGVIEWTOKENMODE_FLOAT )||( (*this_).mode == UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY ));
     const enum utf8stringviewtokenizer_private_number_passed_enum end_state
@@ -349,8 +350,8 @@ static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringv
 
 static inline void utf8stringviewtokenizer_private_skip_space ( utf8stringviewtokenizer_t *this_ )
 {
-    const char *start = utf8stringview_get_start( (*this_).remaining_input_text );
-    size_t len = utf8stringview_get_length( (*this_).remaining_input_text );
+    const char *start = utf8stringview_get_start( &((*this_).remaining_input_text) );
+    size_t len = utf8stringview_get_length( &((*this_).remaining_input_text) );
     while ( ( len > 0 ) && ( utf8stringviewtokenizer_private_is_space( this_, *start ) ) )
     {
         if ( *start == '\n' )

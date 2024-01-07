@@ -480,6 +480,7 @@ u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
                                                                                        XMI_SPEC_SYSML
                                                                                      );
             assert( profile_type != NULL );
+            const utf8stringview_t profile_type_view = UTF8STRINGVIEW_STR(profile_type);
             const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
                                                                                     host_type,
                                                                                     classifier_type,
@@ -494,7 +495,7 @@ u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 
             export_err |=  xmi_element_writer_private_start_stereotype( this_,
                                                                         XMI_XML_NS_SYSML,
-                                                                        UTF8STRINGVIEW_STR(profile_type),
+                                                                        &profile_type_view,
                                                                         base_type,
                                                                         classifier_id
                                                                       );
@@ -534,23 +535,24 @@ u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
             export_err |= io_xml_writer_write_plain ( &((*this_).xml_writer), IO_XML_WRITER_COMMENT_END );
             */
 
-            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_SYSML, UTF8STRINGVIEW_STR(profile_type) );
+            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_SYSML, &profile_type_view );
         }
 
         /* write user-defined stereotypes */
         {
+            const utf8stringview_t classifier_stereo_view = UTF8STRINGVIEW_STR(classifier_stereo);
             utf8stringviewiterator_t stereo_iterator;
             utf8stringviewiterator_init( &stereo_iterator,
-                                         UTF8STRINGVIEW_STR(classifier_stereo),
+                                         &classifier_stereo_view,
                                          ","
                                        );
             while( utf8stringviewiterator_has_next( &stereo_iterator ) )
             {
                 const utf8stringview_t stereotype_view = utf8stringviewiterator_next( &stereo_iterator );
-                size_t stereotype_len = utf8stringview_get_length( stereotype_view );
+                size_t stereotype_len = utf8stringview_get_length( &stereotype_view );
                 if ( stereotype_len != 0 )
                 {
-                    bool is_name = io_xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), stereotype_view );
+                    bool is_name = io_xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), &stereotype_view );
                     if ( is_name )
                     {
                         const char* base_type = xmi_type_converter_get_xmi_type_of_classifier ( &((*this_).xmi_types),
@@ -567,17 +569,17 @@ u8_error_t xmi_element_writer_assemble_classifier( xmi_element_writer_t *this_,
 
                         export_err |=  xmi_element_writer_private_start_stereotype( this_,
                                                                                     XMI_XML_NS_LOCALPROF,
-                                                                                    stereotype_view,
+                                                                                    &stereotype_view,
                                                                                     base_type,
                                                                                     classifier_id
                                                                                 );
-                        export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_LOCALPROF, stereotype_view );
+                        export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_LOCALPROF, &stereotype_view );
                     }
                     else
                     {
                         export_err |= xmi_atom_writer_report_illegal_stereotype( &((*this_).atom_writer),
                                                                                  classifier_id,
-                                                                                 stereotype_view
+                                                                                 &stereotype_view
                                                                                );
                         /* update export statistics */
                         data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_WARNING );
@@ -1136,6 +1138,7 @@ u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                                                                          XMI_SPEC_STANDARD
                                                                                        );
             assert( profile_type != NULL );
+            const utf8stringview_t profile_type_view = UTF8STRINGVIEW_STR(profile_type);
             const char* base_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
                                                                                       host_type,
                                                                                       relation_type,
@@ -1143,27 +1146,28 @@ u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
                                                                                     );
             export_err |=  xmi_element_writer_private_start_stereotype( this_,
                                                                         XMI_XML_NS_STDPROF,
-                                                                        UTF8STRINGVIEW_STR(profile_type),
+                                                                        &profile_type_view,
                                                                         base_type,
                                                                         relation_id
                                                                       );
-            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_STDPROF, UTF8STRINGVIEW_STR(profile_type) );
+            export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_STDPROF, &profile_type_view );
         }
 
         /* write user-defined stereotypes */
         {
+            const utf8stringview_t relation_stereo_view = UTF8STRINGVIEW_STR(relation_stereo);
             utf8stringviewiterator_t stereo_iterator;
             utf8stringviewiterator_init( &stereo_iterator,
-                                         UTF8STRINGVIEW_STR(relation_stereo),
+                                         &relation_stereo_view,
                                          ","
                                        );
             while( utf8stringviewiterator_has_next( &stereo_iterator ) )
             {
                 const utf8stringview_t stereotype_view = utf8stringviewiterator_next( &stereo_iterator );
-                size_t stereotype_len = utf8stringview_get_length( stereotype_view );
+                size_t stereotype_len = utf8stringview_get_length( &stereotype_view );
                 if ( stereotype_len != 0 )
                 {
-                    bool is_name = io_xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), stereotype_view );
+                    bool is_name = io_xml_writer_contains_xml_tag_name_characters( &((*this_).xml_writer), &stereotype_view );
                     if ( is_name )
                     {
                         const char* base_type = xmi_type_converter_get_xmi_type_of_relationship ( &((*this_).xmi_types),
@@ -1174,17 +1178,17 @@ u8_error_t xmi_element_writer_start_relationship( xmi_element_writer_t *this_,
 
                         export_err |=  xmi_element_writer_private_start_stereotype( this_,
                                                                                     XMI_XML_NS_LOCALPROF,
-                                                                                    stereotype_view,
+                                                                                    &stereotype_view,
                                                                                     base_type,
                                                                                     relation_id
                                                                                   );
-                        export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_LOCALPROF, stereotype_view );
+                        export_err |=  xmi_element_writer_private_end_stereotype( this_, XMI_XML_NS_LOCALPROF, &stereotype_view );
                     }
                     else
                     {
                         export_err |= xmi_atom_writer_report_illegal_stereotype( &((*this_).atom_writer),
                                                                                  relation_id,
-                                                                                 stereotype_view
+                                                                                 &stereotype_view
                                                                                );
                         /* update export statistics */
                         data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_WARNING );
@@ -1773,11 +1777,12 @@ u8_error_t xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *thi
 
 u8_error_t xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
                                                         const char* profile_ns,
-                                                        const utf8stringview_t profile_type,
+                                                        const utf8stringview_t *profile_type,
                                                         const char* base_type,
                                                         data_id_t element_id )
 {
     U8_TRACE_BEGIN();
+    assert( profile_type != NULL );
     assert( base_type != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
 
@@ -1808,9 +1813,10 @@ u8_error_t xmi_element_writer_private_start_stereotype( xmi_element_writer_t *th
 
 u8_error_t xmi_element_writer_private_end_stereotype( xmi_element_writer_t *this_,
                                                       const char* profile_ns,
-                                                      const utf8stringview_t profile_type )
+                                                      const utf8stringview_t *profile_type )
 {
     U8_TRACE_BEGIN();
+    assert( profile_type != NULL );
     u8_error_t export_err = U8_ERROR_NONE;
 
     io_xml_writer_decrease_indent ( &((*this_).xml_writer) );

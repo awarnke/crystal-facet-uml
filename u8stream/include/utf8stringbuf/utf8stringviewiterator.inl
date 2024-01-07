@@ -4,9 +4,10 @@
 extern "C" {
 #endif
 
-static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, utf8stringview_t element_list, utf8string_t separator )
+static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, const utf8stringview_t *element_list, utf8string_t separator )
 {
-    (*this_).remaining = element_list;
+    assert( element_list != NULL );
+    (*this_).remaining = *element_list;
     (*this_).separator = separator;
     (*this_).next_is_end = false;
     (*this_).has_next = true;
@@ -31,7 +32,7 @@ static inline utf8stringview_t utf8stringviewiterator_next ( utf8stringviewitera
 
 static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewiterator_t *this_ )
 {
-    const size_t remaining_len = utf8stringview_get_length( (*this_).remaining );
+    const size_t remaining_len = utf8stringview_get_length( &((*this_).remaining) );
     if ( (*this_).next_is_end )
     {
         (*this_).has_next = false;
@@ -39,7 +40,7 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
     }
     else
     {
-        const int next_sep = utf8stringview_find_first_str( (*this_).remaining, (*this_).separator );
+        const int next_sep = utf8stringview_find_first_str( &((*this_).remaining), (*this_).separator );
         if ( next_sep == -1 )
         {
             (*this_).next_is_end = true;
@@ -50,11 +51,11 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
         {
             const size_t separator_len = utf8string_get_length( (*this_).separator );
             (*this_).next
-                = UTF8STRINGVIEW( utf8stringview_get_start( (*this_).remaining ),
+                = UTF8STRINGVIEW( utf8stringview_get_start( &((*this_).remaining) ),
                                   next_sep
                                 );
             (*this_).remaining
-                = UTF8STRINGVIEW( utf8stringview_get_start( (*this_).remaining ) + next_sep + separator_len,
+                = UTF8STRINGVIEW( utf8stringview_get_start( &((*this_).remaining )) + next_sep + separator_len,
                                   remaining_len - next_sep - separator_len
                                 );
         }

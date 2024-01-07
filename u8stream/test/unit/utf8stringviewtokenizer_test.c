@@ -56,39 +56,39 @@ static test_case_result_t testIntEmpty( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_NULL, UTF8STRINGVIEWTOKENMODE_INT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_NULL, UTF8STRINGVIEWTOKENMODE_INT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
 
     /* init */
     static const char *const my_list_2 = "";
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list_2 ), UTF8STRINGVIEWTOKENMODE_INT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list_2 ), UTF8STRINGVIEWTOKENMODE_INT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
 
     /* init */
     static const char *const my_list_3 = " \r\n\t";
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list_3 ), UTF8STRINGVIEWTOKENMODE_INT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list_3 ), UTF8STRINGVIEWTOKENMODE_INT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
@@ -104,7 +104,7 @@ static test_case_result_t testIntSpaceSeparators( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
 
     line = utf8stringviewtokenizer_get_line( &tok );
     TEST_EXPECT_EQUAL_INT( 0, line );
@@ -116,9 +116,9 @@ static test_case_result_t testIntSpaceSeparators( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, line );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "ab" ) );
+    TEST_EXPECT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( &next ) );
+    TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "ab" ) );
 
     line = utf8stringviewtokenizer_get_line( &tok );
     TEST_EXPECT_EQUAL_INT( 2, line );
@@ -127,17 +127,17 @@ static test_case_result_t testIntSpaceSeparators( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( (my_list+4), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "12" ) );
+    TEST_EXPECT_EQUAL_PTR( (my_list+4), utf8stringview_get_start( &next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "12" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "ab12" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "ab12" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "^" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "^" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "$" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "$" ) );
 
     line = utf8stringviewtokenizer_get_line( &tok );
     TEST_EXPECT_EQUAL_INT( 2, line );
@@ -149,7 +149,7 @@ static test_case_result_t testIntSpaceSeparators( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 2, line );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     line = utf8stringviewtokenizer_get_line( &tok );
     TEST_EXPECT_EQUAL_INT( 3, line );
@@ -167,66 +167,66 @@ static test_case_result_t testIntMixedCodepoints( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( true, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( next ) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "!" ) );
+    TEST_EXPECT_EQUAL_PTR( (my_list+1), utf8stringview_get_start( &next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "!" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "\"" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "\"" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "/" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "/" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "09" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "09" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, ":" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, ":" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "@" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "@" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "AZ" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "AZ" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "[" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "[" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "`" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "`" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "_az" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "_az" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "{" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "{" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "~" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "~" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "\xc2\xa0\xc2\xa1" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "\xc2\xa0\xc2\xa1" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
@@ -241,35 +241,35 @@ static test_case_result_t testIntIntegers( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_INT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "int" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "int" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+32" ) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+32" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "23" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "23" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "," ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "," ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-32" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-32" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "e23" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "e23" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "Infinity" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "Infinity" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
@@ -286,39 +286,39 @@ static test_case_result_t testFloatEmpty( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_NULL, UTF8STRINGVIEWTOKENMODE_FLOAT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_NULL, UTF8STRINGVIEWTOKENMODE_FLOAT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
 
     /* init */
     static const char *const my_list_2 = "";
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list_2 ), UTF8STRINGVIEWTOKENMODE_FLOAT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list_2 ), UTF8STRINGVIEWTOKENMODE_FLOAT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
 
     /* init */
     static const char *const my_list_3 = " \r\n\t";
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list_3 ), UTF8STRINGVIEWTOKENMODE_FLOAT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list_3 ), UTF8STRINGVIEWTOKENMODE_FLOAT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( next ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &next ) );
 
     /* finish */
     utf8stringviewtokenizer_destroy( &tok );
@@ -333,44 +333,44 @@ static test_case_result_t testFloatValidFloats( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "int" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "int" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+3" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+3" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "EUR" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "EUR" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+32.23e+1" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+32.23e+1" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "," ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "," ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 9, utf8stringview_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-Infinity" ) );
+    TEST_EXPECT_EQUAL_INT( 9, utf8stringview_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-Infinity" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "NaN" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "NaN" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "5.e05" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "5.e05" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "INFINITY" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "INFINITY" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "5e-20" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "5e-20" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "5." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "5." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "sec" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "sec" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
@@ -388,59 +388,59 @@ static test_case_result_t testFloatInvalidFloats( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "nan" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "nan" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( next ) );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_get_length( &next ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "3" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "e" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "e" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+4" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+4" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+3." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+3." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "e" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "e" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3.3" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "3.3" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3e3" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "3e3" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3E3" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "3E3" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "i" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "i" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
@@ -458,40 +458,40 @@ static test_case_result_t testFloatOnly( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_FLOAT_ONLY );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "a" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "a" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "1.2" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "1.2" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "b" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "b" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3e4" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "3e4" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "3" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "3" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "f" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "f" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "f" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "f" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-Infinity" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-Infinity" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "y" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "y" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
@@ -509,28 +509,28 @@ static test_case_result_t testTextMixedNumbers( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_TEXT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_TEXT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "_int" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "_int" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "32" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "32" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "23ij" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "23ij" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "Infinity12_3" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "Infinity12_3" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
@@ -548,47 +548,47 @@ static test_case_result_t testSwitchModes( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_TEXT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_STR( my_list ), UTF8STRINGVIEWTOKENMODE_TEXT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "12" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "12" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "34e" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "34e" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "56" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "56" ) );
 
     utf8stringviewtokenizer_set_mode( &tok, UTF8STRINGVIEWTOKENMODE_INT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+12" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+12" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "." ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "." ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "34" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "34" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "e" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "e" ) );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "-56" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "-56" ) );
 
     utf8stringviewtokenizer_set_mode( &tok, UTF8STRINGVIEWTOKENMODE_FLOAT );
 
     next = utf8stringviewtokenizer_next( &tok );
-    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( next, "+12.34e-56" ) );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringview_equals_str( &next, "+12.34e-56" ) );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );

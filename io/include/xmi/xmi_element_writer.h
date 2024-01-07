@@ -423,7 +423,7 @@ u8_error_t xmi_element_writer_private_fake_memberend ( xmi_element_writer_t *thi
  */
 u8_error_t xmi_element_writer_private_start_stereotype( xmi_element_writer_t *this_,
                                                         const char* profile_ns,
-                                                        const utf8stringview_t profile_type,
+                                                        const utf8stringview_t *profile_type,
                                                         const char* base_type,
                                                         data_id_t element_id
                                                       );
@@ -440,7 +440,7 @@ u8_error_t xmi_element_writer_private_start_stereotype( xmi_element_writer_t *th
  */
 u8_error_t xmi_element_writer_private_end_stereotype( xmi_element_writer_t *this_,
                                                       const char* profile_ns,
-                                                      const utf8stringview_t profile_type
+                                                      const utf8stringview_t *profile_type
                                                     );
 
 #endif  /* XMI_ELEMENT_WRITER_H */

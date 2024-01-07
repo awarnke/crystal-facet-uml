@@ -267,7 +267,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_
             utf8stringview_init( &shortened_text, new_diagram_stereotype, DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -315,7 +315,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_databa
             utf8stringview_init( &shortened_text, new_diagram_name, DATA_DIAGRAM_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -363,7 +363,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
             utf8stringview_init( &shortened_text, new_diagram_description, DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -678,7 +678,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( da
             utf8stringview_init( &shortened_text, new_classifier_stereotype, DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -726,7 +726,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_dat
             utf8stringview_init( &shortened_text, new_classifier_name, DATA_CLASSIFIER_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -774,7 +774,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
             utf8stringview_init( &shortened_text, new_classifier_description, DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -1315,7 +1315,7 @@ u8_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_databas
             utf8stringview_init( &shortened_text, new_feature_key, DATA_FEATURE_MAX_KEY_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -1363,7 +1363,7 @@ u8_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_datab
             utf8stringview_init( &shortened_text, new_feature_value, DATA_FEATURE_MAX_VALUE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -1411,7 +1411,7 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
             utf8stringview_init( &shortened_text, new_feature_description, DATA_FEATURE_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -1713,7 +1713,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( 
             utf8stringview_init( &shortened_text, new_relationship_stereotype, DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -1763,7 +1763,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_d
             utf8stringview_init( &shortened_text, new_relationship_name, DATA_RELATIONSHIP_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
@@ -1811,7 +1811,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
             utf8stringview_init( &shortened_text, new_relationship_description, DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, shortened_text );
+        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
         utf8stringview_destroy( &shortened_text );
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }

@@ -86,7 +86,7 @@ static inline u8_error_t json_writer_write_plain ( json_writer_t *this_, utf8str
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t json_writer_write_plain_view ( json_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t json_writer_write_plain_view ( json_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief prints an id
@@ -124,7 +124,7 @@ static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, ut
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t json_writer_write_string_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t json_writer_write_string_view_enc ( json_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief writes a string to a file, encoded as list of json-strings, one string per line
@@ -142,7 +142,7 @@ static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t json_writer_write_stringlist_view_enc ( json_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t json_writer_write_stringlist_view_enc ( json_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief writes a member name and a value integer

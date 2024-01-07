@@ -89,7 +89,7 @@ static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_xml_writer_write_plain_view ( io_xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_plain_view ( io_xml_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief prints an id
@@ -127,7 +127,7 @@ static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, u
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief writes a string to a file, xml encoded and double-minus gets space-separated
@@ -145,7 +145,7 @@ static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this
  *  \param string_view stringview to write, not 0-terminated
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief checks if the stringview contains valid characters to form an xml-tag-name.
@@ -158,7 +158,7 @@ static inline u8_error_t io_xml_writer_write_xml_comment_view ( io_xml_writer_t 
  *  \param string_view string_view to check
  *  \return true if string_view contains characters of which a valid xml-tag-name can be constructed
  */
-static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view );
+static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief writes a valid xml-tag-name.
@@ -172,7 +172,7 @@ static inline bool io_xml_writer_contains_xml_tag_name_characters ( io_xml_write
  *  \param string_view string_view to 1) filter and 2) write
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_NOT_FOUND if none in string_view
  */
-static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_writer_t *this_, utf8stringview_t string_view );
+static inline u8_error_t io_xml_writer_write_xml_tag_name_characters ( io_xml_writer_t *this_, const utf8stringview_t *string_view );
 
 /*!
  *  \brief resets the indentation level to 0

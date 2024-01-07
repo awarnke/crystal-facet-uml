@@ -87,7 +87,7 @@ typedef struct utf8stringview_struct utf8stringview_t;
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  *  \param this_ pointer to own object attributes
- *  \param start pointer to a byte array.
+ *  \param start pointer to a byte array, must not be NULL.
  *  \param length length of the byte array. In case start is NULL, length must be 0.
  *  \return UTF8ERROR_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
  */
@@ -98,7 +98,7 @@ static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const ch
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- *  \param cstring a 0-terminated string containing a valid utf8 sequence.
+ *  \param cstring a 0-terminated string containing a valid utf8 sequence, must not be NULL.
  */
 static inline void utf8stringview_init_str( utf8stringview_t *this_, const char* cstring );
 
@@ -112,7 +112,7 @@ static inline void utf8stringview_init_str( utf8stringview_t *this_, const char*
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- *  \param cstring a 0-terminated string containing a valid utf8 sequence.
+ *  \param cstring a 0-terminated string containing a valid utf8 sequence, must not be NULL.
  *  \param start_idx the start index from where the stringview shall start.
  *  \param length length of the stringview.
  *  \return UTF8ERROR_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
@@ -134,7 +134,7 @@ static inline void utf8stringview_destroy( utf8stringview_t *this_ );
  *  \param this_ The string view object
  *  \return Pointer to the start of the character array. Undefined if the length is 0.
  */
-static inline const char* utf8stringview_get_start( const utf8stringview_t this_ );
+static inline const char* utf8stringview_get_start( const utf8stringview_t *this_ );
 
 /*!
  *  \brief Gets the length of the character array
@@ -142,7 +142,7 @@ static inline const char* utf8stringview_get_start( const utf8stringview_t this_
  *  \param this_ The string view object
  *  \return Length of the character array.
  */
-static inline size_t utf8stringview_get_length( const utf8stringview_t this_ );
+static inline size_t utf8stringview_get_length( const utf8stringview_t *this_ );
 
 /*!
  *  \brief Conts the code points in the character array
@@ -150,7 +150,7 @@ static inline size_t utf8stringview_get_length( const utf8stringview_t this_ );
  *  \param this_ The string view object
  *  \return Number of (complete, possibly invalid) code points in the character array.
  */
-static inline size_t utf8stringview_count_codepoints( const utf8stringview_t this_ );
+static inline size_t utf8stringview_count_codepoints( const utf8stringview_t *this_ );
 
 /*!
  *  \brief Checks if two strings are equal.
@@ -160,7 +160,7 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t thi
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8stringview_equals_str( const utf8stringview_t this_, const char *that );
+static inline int utf8stringview_equals_str( const utf8stringview_t *this_, const char *that );
 
 /*!
  *  \brief Checks if two strings are equal.
@@ -170,7 +170,7 @@ static inline int utf8stringview_equals_str( const utf8stringview_t this_, const
  *  \param that Another string view object.
  *  \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8stringview_equals_view( const utf8stringview_t this_, const utf8stringview_t that );
+static inline int utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that );
 
 /*!
  *  \brief Searches a pattern within a stringview
@@ -180,7 +180,7 @@ static inline int utf8stringview_equals_view( const utf8stringview_t this_, cons
  *  \return Index of the first occurrence within the stringview.
  *          -1 if there is no match.
  */
-static inline int utf8stringview_find_first_str( const utf8stringview_t this_, const char *pattern );
+static inline int utf8stringview_find_first_str( const utf8stringview_t *this_, const char *pattern );
 
 #ifdef __cplusplus
 }

@@ -1625,37 +1625,39 @@ static test_case_result_t testAppendView( test_fixture_t *fix )
     utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
 
     /* check utf8stringbuf_append_wstr */
-    utf8stringview_t view1 = UTF8STRINGVIEW_STR( "lo" );
-    utf8stringbuf_copy_view( dynTestBuf1, UTF8STRINGVIEW_STR( "Hel" ) );
-    error = utf8stringbuf_append_view( dynTestBuf1, view1 );
+    const utf8stringview_t view0 = UTF8STRINGVIEW_STR( "Hel" );
+    const utf8stringview_t view1 = UTF8STRINGVIEW_STR( "lo" );
+    utf8stringbuf_copy_view( dynTestBuf1, &view0 );
+    error = utf8stringbuf_append_view( dynTestBuf1, &view1 );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_view with multibyte */
-    utf8stringview_t view2 = UTF8STRINGVIEW_STR( "e\xE2\x82\xAC" );
+    const utf8stringview_t view2 = UTF8STRINGVIEW_STR( "e\xE2\x82\xAC" );
     utf8stringbuf_copy_str( dynTestBuf1, "H" );
-    error = utf8stringbuf_append_view( dynTestBuf1, view2 );
+    error = utf8stringbuf_append_view( dynTestBuf1, &view2 );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "He\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_view with truncation */
     utf8stringbuf_copy_str( dynTestBuf1, "He" );
-    error = utf8stringbuf_append_view( dynTestBuf1, view2 );
+    error = utf8stringbuf_append_view( dynTestBuf1, &view2 );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "Hee" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     utf8stringbuf_copy_str( dynTestBuf1, "Hello" );
-    error = utf8stringbuf_append_view( dynTestBuf1, view2 );
+    error = utf8stringbuf_append_view( dynTestBuf1, &view2 );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_view with NULL */
+    const utf8stringview_t no_view = UTF8STRINGVIEW_NULL;
     utf8stringbuf_copy_str( dynTestBuf1, "He" );
-    error = utf8stringbuf_append_view( dynTestBuf1, UTF8STRINGVIEW_NULL );
+    error = utf8stringbuf_append_view( dynTestBuf1, &no_view );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "He" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
