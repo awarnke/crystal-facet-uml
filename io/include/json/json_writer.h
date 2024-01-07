@@ -77,7 +77,7 @@ void json_writer_destroy( json_writer_t *this_ );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t json_writer_write_plain ( json_writer_t *this_, utf8string_t text );
+static inline u8_error_t json_writer_write_plain ( json_writer_t *this_, utf8string_t *text );
 
 /*!
  *  \brief writes stringview to a file, unencoded
@@ -115,7 +115,7 @@ u8_error_t json_writer_write_int ( json_writer_t *this_, int64_t number );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text );
+static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, utf8string_t *text );
 
 /*!
  *  \brief writes a stringview to a file, json-string encoded
@@ -133,7 +133,7 @@ static inline u8_error_t json_writer_write_string_view_enc ( json_writer_t *this
  *  \param text string to write, encoded for json comments
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text );
+static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t *text );
 
 /*!
  *  \brief writes a stringview to a file, encoded as list of json-strings, one string per line
@@ -156,7 +156,7 @@ static inline u8_error_t json_writer_write_stringlist_view_enc ( json_writer_t *
  */
 static inline u8_error_t json_writer_write_member_int ( json_writer_t *this_,
                                                         unsigned int indent,
-                                                        utf8string_t enc_name,
+                                                        utf8string_t *enc_name,
                                                         int64_t number_value,
                                                         bool next_follows
                                                       );
@@ -173,8 +173,8 @@ static inline u8_error_t json_writer_write_member_int ( json_writer_t *this_,
  */
 static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
                                                            unsigned int indent,
-                                                           utf8string_t enc_name,
-                                                           utf8string_t unenc_value,
+                                                           utf8string_t *enc_name,
+                                                           utf8string_t *unenc_value,
                                                            bool next_follows
                                                          );
 
@@ -191,8 +191,8 @@ static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
  */
 static inline u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
                                                                  unsigned int indent,
-                                                                 utf8string_t enc_name,
-                                                                 utf8string_t unenc_value,
+                                                                 utf8string_t *enc_name,
+                                                                 utf8string_t *unenc_value,
                                                                  bool next_follows
                                                                );
 

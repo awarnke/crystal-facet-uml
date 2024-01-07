@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, const utf8stringview_t *element_list, utf8string_t separator )
+static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, const utf8stringview_t *element_list, utf8string_t *separator )
 {
     assert( element_list != NULL );
     (*this_).remaining = *element_list;

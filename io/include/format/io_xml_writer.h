@@ -80,7 +80,7 @@ void io_xml_writer_destroy( io_xml_writer_t *this_ );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf8string_t text );
+static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf8string_t *text );
 
 /*!
  *  \brief writes stringview to a file, unencoded
@@ -118,7 +118,7 @@ u8_error_t io_xml_writer_write_int ( io_xml_writer_t *this_, int64_t number );
  *  \param text string to write
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, utf8string_t text );
+static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, utf8string_t *text );
 
 /*!
  *  \brief writes a stringview to a file, xml encoded
@@ -136,7 +136,7 @@ static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *thi
  *  \param text string to write, encoded for xml comments
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this_, utf8string_t text );
+static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this_, utf8string_t *text );
 
 /*!
  *  \brief writes a stringview to a file, xml encoded and double-minus gets space-separated

@@ -8,7 +8,7 @@
 
 #define data_uuid_unused(variable) ((void)(variable))
 
-static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string )
+static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t *uuid_string )
 {
     assert( NULL != uuid_string );
     utf8error_t strerr;
@@ -32,7 +32,7 @@ static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_
     return result;
 }
 
-static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string )
+static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t *uuid_string )
 {
     return data_uuid_init( this_, uuid_string );
 }
@@ -105,7 +105,7 @@ static inline void data_uuid_destroy ( data_uuid_t *this_ )
 {
 }
 
-static inline utf8string_t data_uuid_get_string ( const data_uuid_t *this_ )
+static inline utf8string_t * data_uuid_get_string ( const data_uuid_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).uuid_string );
 }

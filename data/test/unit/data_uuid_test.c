@@ -33,7 +33,7 @@ static test_case_result_t test_format( test_fixture_t *test_env )
     data_uuid_t testee;
     data_uuid_init_new( &testee );
 
-    utf8string_t uuid_1 = data_uuid_get_string( &testee );
+    utf8string_t *uuid_1 = data_uuid_get_string( &testee );
     /*printf("%s\n",uuid_1);*/
 
     TEST_EXPECT_EQUAL_INT( 36, utf8string_get_length(uuid_1) );
@@ -56,12 +56,12 @@ static test_case_result_t test_unique( test_fixture_t *test_env )
     data_uuid_t testee_2;
     data_uuid_init_new( &testee_2 );
 
-    utf8string_t uuid_1 = data_uuid_get_string( &testee_1 );
+    utf8string_t *uuid_1 = data_uuid_get_string( &testee_1 );
     /*printf("%s\n",uuid_1);*/
 
     TEST_EXPECT_EQUAL_INT( 1, utf8string_equals_str(uuid_1,uuid_1) );
 
-    utf8string_t uuid_2 = data_uuid_get_string( &testee_2 );
+    utf8string_t *uuid_2 = data_uuid_get_string( &testee_2 );
     /*printf("%s\n",uuid_2);*/
 
     TEST_EXPECT_EQUAL_INT( 0, utf8string_equals_str(uuid_1,uuid_2) );

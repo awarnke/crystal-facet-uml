@@ -28,7 +28,7 @@ struct utf8stringviewiterator_struct {
     bool next_is_end;  /*!< true if next stringview-element is the last one; needed to distinguish empty next elements from the end */
     utf8stringview_t next;  /*!< the next stringview-element */
     utf8stringview_t remaining;  /*!< remaining part of the element_list which is not yet processed */
-    utf8string_t separator;  /*!< character-sequence that separates the stringviews */
+    utf8string_t *separator;  /*!< character-sequence that separates the stringviews */
 };
 
 typedef struct utf8stringviewiterator_struct utf8stringviewiterator_t;
@@ -41,7 +41,7 @@ typedef struct utf8stringviewiterator_struct utf8stringviewiterator_t;
  *  \param element_list character-separated list of stringviews
  *  \param separator character-sequence that separates the stringviews to retrieve; length must not be 0
  */
-static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, const utf8stringview_t *element_list, utf8string_t separator );
+static inline void utf8stringviewiterator_init ( utf8stringviewiterator_t *this_, const utf8stringview_t *element_list, utf8string_t *separator );
 
 /*!
  *  \brief destroys the utf8stringviewiterator_t struct

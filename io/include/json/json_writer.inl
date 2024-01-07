@@ -5,7 +5,7 @@
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8codepointiterator.h"
 
-static inline u8_error_t json_writer_write_plain ( json_writer_t *this_, utf8string_t text )
+static inline u8_error_t json_writer_write_plain ( json_writer_t *this_, utf8string_t *text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -27,7 +27,7 @@ static inline u8_error_t json_writer_write_plain_view ( json_writer_t *this_, co
     return ( write_err );
 }
 
-static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, utf8string_t text )
+static inline u8_error_t json_writer_write_string_enc ( json_writer_t *this_, utf8string_t *text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -53,7 +53,7 @@ static inline u8_error_t json_writer_write_string_view_enc ( json_writer_t *this
     return write_err;
 }
 
-static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t text )
+static inline u8_error_t json_writer_write_stringlist_enc ( json_writer_t *this_, utf8string_t *text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -81,7 +81,7 @@ static inline u8_error_t json_writer_write_stringlist_view_enc ( json_writer_t *
 
 static inline u8_error_t json_writer_write_member_int ( json_writer_t *this_,
                                                         unsigned int indent,
-                                                        utf8string_t enc_name,
+                                                        utf8string_t *enc_name,
                                                         int64_t number_value,
                                                         bool next_follows )
 {
@@ -107,8 +107,8 @@ static inline u8_error_t json_writer_write_member_int ( json_writer_t *this_,
 
 static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
                                                            unsigned int indent,
-                                                           utf8string_t enc_name,
-                                                           utf8string_t unenc_value,
+                                                           utf8string_t *enc_name,
+                                                           utf8string_t *unenc_value,
                                                            bool next_follows )
 {
     assert( 7 == JSON_WRITER_MAX_INDENT );
@@ -134,8 +134,8 @@ static inline u8_error_t json_writer_write_member_string ( json_writer_t *this_,
 
 static inline u8_error_t json_writer_write_member_string_array ( json_writer_t *this_,
                                                                  unsigned int indent,
-                                                                 utf8string_t enc_name,
-                                                                 utf8string_t unenc_value,
+                                                                 utf8string_t *enc_name,
+                                                                 utf8string_t *unenc_value,
                                                                  bool next_follows )
 {
     assert( 7 == JSON_WRITER_MAX_INDENT );

@@ -5,7 +5,7 @@
 #include "utf8stringbuf/utf8codepoint.h"
 #include "utf8stringbuf/utf8codepointiterator.h"
 
-static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t io_xml_writer_write_plain ( io_xml_writer_t *this_, utf8string_t *text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -29,7 +29,7 @@ static inline u8_error_t io_xml_writer_write_plain_view ( io_xml_writer_t *this_
     return ( write_err );
 }
 
-static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t io_xml_writer_write_xml_enc ( io_xml_writer_t *this_, utf8string_t *text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;
@@ -53,7 +53,7 @@ static inline u8_error_t io_xml_writer_write_xml_enc_view ( io_xml_writer_t *thi
     return write_err;
 }
 
-static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this_, utf8string_t text )
+static inline u8_error_t io_xml_writer_write_xml_comment ( io_xml_writer_t *this_, utf8string_t *text )
 {
     assert ( UTF8STRING_NULL != text );
     u8_error_t write_err;

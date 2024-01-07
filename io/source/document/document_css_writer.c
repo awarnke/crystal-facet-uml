@@ -305,7 +305,7 @@ u8_error_t document_css_writer_write_stylesheet( document_css_writer_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t export_err = U8_ERROR_NONE;
 
-    utf8string_t text = CSS_ALL;
+    utf8string_t *text = CSS_ALL;
     const size_t text_len = utf8string_get_length(text);
     export_err |= universal_output_stream_write( (*this_).output, text, text_len);
 

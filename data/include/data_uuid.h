@@ -42,7 +42,7 @@ typedef struct data_uuid_struct data_uuid_t;
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
  *          U8_ERROR_VALUE_OUT_OF_RANGE if string invalid, U8_ERROR_NONE otherwise.
  */
-static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_string );
+static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t *uuid_string );
 
 /*!
  *  \brief re-initializes the data_uuid_t struct
@@ -52,7 +52,7 @@ static inline u8_error_t data_uuid_init ( data_uuid_t *this_, utf8string_t uuid_
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
  *          U8_ERROR_VALUE_OUT_OF_RANGE if string invalid, U8_ERROR_NONE otherwise.
  */
-static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t uuid_string );
+static inline u8_error_t data_uuid_reinit ( data_uuid_t *this_, utf8string_t *uuid_string );
 
 /*!
  *  \brief generates a uuid version 4
@@ -90,7 +90,7 @@ static inline void data_uuid_destroy ( data_uuid_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline utf8string_t data_uuid_get_string ( const data_uuid_t *this_ );
+static inline utf8string_t * data_uuid_get_string ( const data_uuid_t *this_ );
 
 /*!
  *  \brief prints the data_uuid_t struct to the trace output

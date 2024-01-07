@@ -29,11 +29,13 @@ extern "C" {
 
 /*!
  *  \typedef utf8string_t
- *  \brief The string object: A const char pointer.
+ *  \brief The string object: This should be an array of const char, but is a const char.
  *
- *  utf8string_t objects point to immutable strings, use a utf8stringbuf_t to modify the string object.
+ *  utf8string_t is a const char to avoid typecasts whenever exchanging strings with POSIX, ANSI-C or other libraries.
+ *
+ *  utf8string_t objects referst to immutable strings, use a utf8stringbuf_t to modify the string object.
  */
-typedef const char* utf8string_t;
+typedef const char utf8string_t;
 
 /* Note: If optimization level is zero, inline might not work. */
 /*       You possibly have to append the following string      */
