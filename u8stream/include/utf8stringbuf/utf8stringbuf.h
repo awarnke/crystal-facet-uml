@@ -629,6 +629,7 @@ static inline utf8error_t utf8stringbuf_replace_region_by_buf( utf8stringbuf_t t
 static inline utf8error_t utf8stringbuf_delete( utf8stringbuf_t this_, int start, int length );
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Deletes a region at the end of a string buffer
  *
@@ -639,7 +640,9 @@ static inline utf8error_t utf8stringbuf_delete( utf8stringbuf_t this_, int start
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
  */
 static inline utf8error_t utf8stringbuf_delete_from_end( utf8stringbuf_t this_, int length );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!
  * \brief Truncates a string buffer
  *
@@ -650,6 +653,7 @@ static inline utf8error_t utf8stringbuf_delete_from_end( utf8stringbuf_t this_, 
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
  */
 static inline utf8error_t utf8stringbuf_delete_to_end( utf8stringbuf_t this_, int start );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 /*!

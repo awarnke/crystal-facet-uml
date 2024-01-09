@@ -40,9 +40,9 @@ static test_case_result_t testReplaceAllBuf( test_fixture_t *fix );
 static test_case_result_t testInsertBuf( test_fixture_t *fix );
 static test_case_result_t testInsertStr( test_fixture_t *fix );
 static test_case_result_t testDelete( test_fixture_t *fix );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 static test_case_result_t testDeleteToEnd( test_fixture_t *fix );
 static test_case_result_t testDeleteFromEnd( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 static test_case_result_t testAppendStr( test_fixture_t *fix );
 static test_case_result_t testAppendBuf( test_fixture_t *fix );
 static test_case_result_t testAppendInt( test_fixture_t *fix );
@@ -86,9 +86,9 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testInsertBuf", &testInsertBuf );
     test_suite_add_test_case( &result, "testInsertStr", &testInsertStr );
     test_suite_add_test_case( &result, "testDelete", &testDelete );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
     test_suite_add_test_case( &result, "testDeleteToEnd", &testDeleteToEnd );
     test_suite_add_test_case( &result, "testDeleteFromEnd", &testDeleteFromEnd );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
     test_suite_add_test_case( &result, "testAppendStr", &testAppendStr );
     test_suite_add_test_case( &result, "testAppendBuf", &testAppendBuf );
     test_suite_add_test_case( &result, "testAppendInt", &testAppendInt );
@@ -1119,7 +1119,8 @@ static test_case_result_t testReplaceAll ( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* shrink because performance hungry function */
-    utf8stringbuf_delete_to_end( (*fix).mega_byte_buf, 20000 );
+    (*fix).mega_byte_arr[20000] = '\0';
+    /* utf8stringbuf_delete_to_end( (*fix).mega_byte_buf, 20000 ); */
 
     /* shrink at each replacement */
     error = utf8stringbuf_replace_all( (*fix).mega_byte_buf, &SHRINK_DUPLICATES_EXCEPT_Z );
@@ -1337,6 +1338,7 @@ static test_case_result_t testDelete( test_fixture_t *fix )
 }
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testDeleteFromEnd( test_fixture_t *fix )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
@@ -1353,7 +1355,9 @@ static test_case_result_t testDeleteFromEnd( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testDeleteToEnd( test_fixture_t *fix )
 {
     /* utf8stringbuf_delete is just a wrapper around utf8stringbuf_replace_region_by_str */
@@ -1370,6 +1374,7 @@ static test_case_result_t testDeleteToEnd( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 static test_case_result_t testAppendStr( test_fixture_t *fix )
 {

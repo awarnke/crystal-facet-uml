@@ -37,21 +37,50 @@ static inline bool io_data_file_is_open( io_data_file_t *this_ )
     return data_database_is_open( &((*this_).database) );
 }
 
-static inline utf8error_t io_data_file_private_replace_file_extension ( const io_data_file_t *this_,
-                                                                        utf8stringbuf_t file_path,
-                                                                        const char* extension
-                                                                      )
+static inline void io_data_file_private_split_path( const io_data_file_t *this_,
+                                                    utf8string_t *path,
+                                                    utf8stringview_t *out_parent,
+                                                    utf8stringview_t *out_basename,
+                                                    utf8stringview_t *out_extension )
 {
-    assert( extension != NULL );
-    utf8error_t result = UTF8ERROR_SUCCESS;
-    const int dot_pos = utf8stringbuf_find_last_str( file_path, "." );
-    if ( dot_pos != -1 )
+    assert( path != NULL );
+    assert( out_parent != NULL );
+    assert( out_basename != NULL );
+    assert( out_extension != NULL );
+    const int last_winpath_sep = utf8string_find_last_str( path, "\\" );
+    const int last_path_sep = utf8string_find_last_str( path, "/" );
+    const int last_sep = u8_i32_max2( last_winpath_sep, last_path_sep );
+    const int sep_length = utf8string_get_length( "/" );
+    const int last_dot = utf8string_find_last_str( path, "." );
+    const int dot_length = utf8string_get_length( "." );
+    const int len = utf8string_get_length( path );
+    int start_basename;
+    utf8error_t err = UTF8ERROR_SUCCESS;
+    if ( last_sep == -1 )
     {
-        /* The current name has an extension; remove it: */
-        result = utf8stringbuf_delete_to_end( file_path, dot_pos );
+        *out_parent = UTF8STRINGVIEW_NULL;
+        start_basename = 0;
     }
-    result |= utf8stringbuf_append_str( file_path, extension );
-    return result;
+    else
+    {
+        err|= utf8stringview_init_region( out_parent, path, 0, last_sep + sep_length );
+        start_basename = last_sep + sep_length;
+    }
+    if (( start_basename != last_dot )&&( len != ( last_dot + dot_length ) ))
+    {
+        err|= utf8stringview_init_region( out_basename, path, start_basename, ( last_dot - start_basename ) );
+        err|= utf8stringview_init_region( out_extension, path, last_dot+dot_length, ( len - last_dot - dot_length ) );
+    }
+    else
+    {
+        err|= utf8stringview_init_region( out_basename, path, start_basename, ( len - start_basename ) );
+        *out_extension = UTF8STRINGVIEW_NULL;
+    }
+    if ( err != UTF8ERROR_SUCCESS )
+    {
+        U8_LOG_ERROR("Unexpected internal error in formula for io_data_file_private_split_path()");
+        assert( false );
+    }
 }
 
 

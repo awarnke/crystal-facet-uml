@@ -181,16 +181,22 @@ static inline bool io_data_file_is_open ( io_data_file_t *this_ );
 u8_error_t io_data_file_private_guess_db_type ( const io_data_file_t *this_, const char *filename, bool *out_json );
 
 /*!
- *  \brief replaces the file extension
+ *  \brief splits a file path into parent directory, basename and extension
  *
  *  \param this_ pointer to own object attributes
- *  \param file_path a file path or name where to replace the extension. If it has not extension, a new extension is appended.
- *  \param extension a file extension including the dot.
- *  \return UTF8ERROR_SUCCESS in case of success, other values indicate an error at string handling
+ *  \param path an absolute or relative file path
+ *  \param[out] out_parent parent directory including the final path separator.
+ *  \param[out] out_basename basename of the file.
+ *              If the extension is empty, basename includes the final dot. (e.g. . or .. or end_on_dot. )
+ *              The basename cannot be empty - a leading dot does not start the extention.
+ *  \param[out] out_parent the file extension excluding the leading dot.
  */
-static inline utf8error_t io_data_file_private_replace_file_extension ( const io_data_file_t *this_,
-                                                                        utf8stringbuf_t file_path,
-                                                                        const char* extension );
+static inline void io_data_file_private_split_path( const io_data_file_t *this_,
+                                                    utf8string_t *path,
+                                                    utf8stringview_t *out_parent,
+                                                    utf8stringview_t *out_basename,
+                                                    utf8stringview_t *out_extension
+                                                  );
 
 /*!
  *  \brief imports the data from src_file to the currently open database.
