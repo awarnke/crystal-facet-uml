@@ -21,10 +21,12 @@
  */
 
 #include "utf8stringbuf/utf8codepoint.h"
+#include "utf8stringbuf/utf8string.h"
 #include "utf8stringbuf/utf8error.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <stddef.h>
 
 #ifdef __cplusplus
@@ -116,7 +118,7 @@ static inline void utf8stringview_init_str( utf8stringview_t *this_, const char*
  *  \param start_idx the start index from where the stringview shall start.
  *  \param length length of the stringview.
  *  \return UTF8ERROR_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
- *          UTF8ERROR_OUT_OF_RANGE if end position exceeds a terminating zero, resulting utf8stringview_t is shortened then.
+ *          UTF8ERROR_OUT_OF_RANGE if start or end position exceeds a terminating zero, resulting utf8stringview_t is shortened then.
  */
 static inline utf8error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length );
 
@@ -158,9 +160,9 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t *th
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
- *  \return 1 if the strings are equal, 0 if not.
+ *  \return true if the strings are equal.
  */
-static inline int utf8stringview_equals_str( const utf8stringview_t *this_, const char *that );
+static inline bool utf8stringview_equals_str( const utf8stringview_t *this_, const char *that );
 
 /*!
  *  \brief Checks if two strings are equal.
@@ -168,70 +170,88 @@ static inline int utf8stringview_equals_str( const utf8stringview_t *this_, cons
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
  *  \param that Another string view object.
- *  \return 1 if the strings are equal, 0 if not.
+ *  \return true if the strings are equal.
  */
-static inline int utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that );
+static inline bool utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that );
 
 #ifdef TODO
 /*!
- * \brief Checks if the string view starts with the specified characters.
+ *  \brief Checks if the string starts with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- * \param that A 0-terminated c string. In case of NULL, this function returns 0.
- * \return 1 if the string starts with the characters in that, 0 if not.
+ *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ *  \return true if the string starts with the characters in that.
  */
-static inline int utf8stringview_starts_with_str( utf8stringview_t *this_, utf8string_t *that );
+static inline bool utf8stringview_starts_with_str( utf8stringview_t *this_, utf8string_t *that );
 
 /*!
- * \brief Checks if the string view starts with the specified characters.
+ *  \brief Checks if the string view starts with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- * \param that A utf8stringview_t. In case of NULL, this function returns 0.
- * \return 1 if the string starts with the characters in that, 0 if not.
+ *  \param that A utf8stringview_t. In case of NULL, this function returns 0.
+ *  \return true if the string starts with the characters in that.
  */
-static inline int utf8stringview_starts_with_view( utf8stringview_t *this_, utf8stringview_t *that );
+static inline bool utf8stringview_starts_with_view( utf8stringview_t *this_, utf8stringview_t *that );
 
 /*!
- * \brief Checks if the string buffer ends with the specified characters.
+ *  \brief Checks if the string ends with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- * \param that A 0-terminated c string. In case of NULL, this function returns 0.
- * \return 1 if the string ends with the characters in that, 0 if not.
+ *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ *  \return true if the string ends with the characters in that.
  */
-static inline int utf8stringview_ends_with_str( utf8stringview_t *this_, utf8string_t *that );
+static inline bool utf8stringview_ends_with_str( utf8stringview_t *this_, utf8string_t *that );
 
 /*!
- * \brief Checks if the string buffer ends with the specified characters.
+ *  \brief Checks if the string view ends with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- * \param that A utf8stringview_t. In case of NULL, this function returns 0.
- * \return 1 if the string ends with the characters in that, 0 if not.
+ *  \param that A utf8stringview_t. In case of NULL, this function returns 0.
+ *  \return true if the string ends with the characters in that.
  */
-static inline int utf8stringview_ends_with_view( utf8stringview_t *this_, utf8stringview_t *that );
+static inline bool utf8stringview_ends_with_view( utf8stringview_t *this_, utf8stringview_t *that );
 
 /*!
- * \brief Searches a pattern within a string
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \brief Checks if the string contains the specified characters.
+ *
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- * \param pattern The 0-terminated string to search
- * \return Index of the first occurrence within the string.
- *         -1 if there is no match.
+ *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ *  \return true if the string ends with the characters in that.
  */
-static inline int utf8stringview_split_at_first_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+static inline bool utf8stringview_contains_str( utf8stringview_t *this_, utf8string_t *that );
 
 /*!
- * \brief Searches a pattern within a string
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \brief Checks if the string view contains the specified characters.
+ *
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- * \param pattern The utf8stringview_t to search
- * \return Index of the first occurrence within the string.
- *         -1 if there is no match.
+ *  \param that A utf8stringview_t. In case of NULL, this function returns 0.
+ *  \return true if the string ends with the characters in that.
  */
-static inline int utf8stringview_split_at_first_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+static inline bool utf8stringview_contains_view( utf8stringview_t *this_, utf8stringview_t *that );
+
+/*!
+ *  \brief Searches a pattern within a string
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ pointer to own object attributes
+ *  \param pattern The 0-terminated string to search
+ *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
+ */
+static inline utf8error_t utf8stringview_split_at_first_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+
+/*!
+ *  \brief Searches a pattern within a string
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ pointer to own object attributes
+ *  \param pattern The utf8stringview_t to search
+ *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
+ */
+static inline utf8error_t utf8stringview_split_at_first_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
 
 #endif
 
@@ -252,20 +272,18 @@ static inline int utf8stringview_find_first_str( const utf8stringview_t *this_, 
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
  *  \param this_ pointer to own object attributes
  *  \param pattern The 0-terminated string to search
- *  \return Index of the first occurrence within the string.
- *          -1 if there is no match.
+ *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
  */
-static inline int utf8stringview_split_at_last_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+static inline utf8error_t utf8stringview_split_at_last_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
 
 /*!
  *  \brief Searches a pattern within a string starting at the end
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
  *  \param this_ pointer to own object attributes
  *  \param pattern The utf8stringview_t to search
- *  \return Index of the first occurrence within the string.
- *          -1 if there is no match.
+ *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
  */
-static inline int utf8stringview_split_at_last_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+static inline utf8error_t utf8stringview_split_at_last_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
 
 see io/io_data_file.inl: io_data_file_private_split_path
 
@@ -281,7 +299,7 @@ see io/io_data_file.inl: io_data_file_private_split_path
  *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
  *          UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
  */
-static inline utf8error_t utf8stringview_parse_int( utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );
+utf8error_t utf8stringview_parse_int( utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );
 
 /*!
  *  \brief Parses a floating point number from a string view in decimal mantissa, optional fraction and optional exponent format
@@ -295,7 +313,7 @@ static inline utf8error_t utf8stringview_parse_int( utf8stringview_t *this_, int
  *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
  *          UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
  */
-static inline utf8error_t utf8stringview_parse_float( utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
+utf8error_t utf8stringview_parse_float( utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
 
 #endif
 

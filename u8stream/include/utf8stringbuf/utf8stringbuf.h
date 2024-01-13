@@ -148,239 +148,239 @@ typedef struct utf8stringbuf_struct utf8stringbuf_t;
 #define UTF8STRINGBUF_INIT(charArr) {.size=sizeof(charArr),.buf=charArr}
 
 /*!
- * \brief Creates a utf8stringbuf_t struct from a 0-terminated string
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param that Pointer to a 0-terminated string or NULL.
- *             The length of that string plus 1 is taken as buffer size.
- *             that must not point to a const character array.
- * \return A utf8stringbuf_t struct. Even if that was NULL.
+ *  \brief Creates a utf8stringbuf_t struct from a 0-terminated string
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param that Pointer to a 0-terminated string or NULL.
+ *              The length of that string plus 1 is taken as buffer size.
+ *              that must not point to a const character array.
+ *  \return A utf8stringbuf_t struct. Even if that was NULL.
  */
 static inline utf8stringbuf_t utf8stringbuf( char *that );
 
 /*!
- * \brief utf8stringbuf_init returns a stringbuf struct, buf is not modified
+ *  \brief utf8stringbuf_init returns a stringbuf struct, buf is not modified
  *
- * Use \link utf8stringbuf_clear(utf8stringbuf_t) utf8stringbuf_clear \endlink to empty the string buffer.
- * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param size size of the buf array. size shall be greater or equal 1.
- * \param buf pointer to a non-const byte array. buf must not be NULL.
- * \return A valid utf8stringbuf_t struct. Even if buf or size were NULL.
+ *  Use \link utf8stringbuf_clear(utf8stringbuf_t) utf8stringbuf_clear \endlink to empty the string buffer.
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param size size of the buf array. size shall be greater or equal 1.
+ *  \param buf pointer to a non-const byte array. buf must not be NULL.
+ *  \return A valid utf8stringbuf_t struct. Even if buf or size were NULL.
  */
 static inline utf8stringbuf_t utf8stringbuf_init( size_t size, char *buf );
 
 /*!
- * \brief utf8stringbuf_clear clears the contents of the string buffer.
+ *  \brief utf8stringbuf_clear clears the contents of the string buffer.
  *
- * The complete buffer is erased by zeroes.
- * \n
- * This function may be called on an uninitialized buffer that possibly is not null-terminated.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:size
- * \param this_ The string buffer object to be cleared.
+ *  The complete buffer is erased by zeroes.
+ *  \n
+ *  This function may be called on an uninitialized buffer that possibly is not null-terminated.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:size
+ *  \param this_ The string buffer object to be cleared.
  */
 static inline void utf8stringbuf_clear( utf8stringbuf_t this_ );
 
 /*!
- * \brief Gets the pointer to the character array
- * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The string buffer object
- * \return Pointer to the character array, never NULL
+ *  \brief Gets the pointer to the character array
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ The string buffer object
+ *  \return Pointer to the character array, never NULL
  */
 static inline char* utf8stringbuf_get_string( const utf8stringbuf_t this_ );
 
 /*!
- * \brief Gets the size of the character array (not the length of the current c string which is always shorter)
- * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The string buffer object
- * \return Size of the character array. This is always positive, never 0.
+ *  \brief Gets the size of the character array (not the length of the current c string which is always shorter)
+ *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
+ *  \param this_ The string buffer object
+ *  \return Size of the character array. This is always positive, never 0.
  */
 static inline size_t utf8stringbuf_get_size( const utf8stringbuf_t this_ );
 
 /*!
- * \brief Gets the length of the string.
+ *  \brief Gets the length of the string.
  *
- * The 0 termination byte is not counted.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \return Length of the string in bytes (not in utf-8 code-points)
+ *  The 0 termination byte is not counted.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \return Length of the string in bytes (not in utf-8 code-points)
  */
 static inline unsigned int utf8stringbuf_get_length( const utf8stringbuf_t this_ );
 
 /*!
- * \brief Checks if two strings are equal.
+ *  \brief Checks if two strings are equal.
  *
- * Only the strings are compared, not the possibly trailing bytes after the string.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param that A 0-terminated c string. In case of NULL, this function returns 0.
- * \return 1 if the strings are equal, 0 if not.
+ *  Only the strings are compared, not the possibly trailing bytes after the string.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ *  \return 1 if the strings are equal, 0 if not.
  */
 static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const char *that );
 
 /*!
- * \brief Checks if two strings are equal.
+ *  \brief Checks if two strings are equal.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param that pointer to a string view object
- * \return 1 if the strings are equal, 0 if not.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param that pointer to a string view object
+ *  \return 1 if the strings are equal, 0 if not.
  */
 static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const utf8stringview_t *that );
 
 /*!
- * \brief Checks if two strings are equal.
+ *  \brief Checks if two strings are equal.
  *
- * Only the strings are compared, not the trailing bytes after the string.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param that Another string buffer object
- * \return 1 if the strings are equal, 0 if not.
+ *  Only the strings are compared, not the trailing bytes after the string.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param that Another string buffer object
+ *  \return 1 if the strings are equal, 0 if not.
  */
 static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
 
 /*!
- * \brief Checks if the region equals the given string.
+ *  \brief Checks if the region equals the given string.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param start the start position of the region to compare.
- * \param that A 0-terminated c string. In case of NULL, this function returns 0.
- * \return 1 if the region equals the given string, 0 if not.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param start the start position of the region to compare.
+ *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ *  \return 1 if the region equals the given string, 0 if not.
  */
 static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, int start, const char *that );
 
 /*!
- * \brief Checks if the region equals the given string.
+ *  \brief Checks if the region equals the given string.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param start the start position of the region to compare.
- * \param that Another string buffer object
- * \return 1 if the region equals the given string, 0 if not.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param start the start position of the region to compare.
+ *  \param that Another string buffer object
+ *  \return 1 if the region equals the given string, 0 if not.
  */
 static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, int start, const utf8stringbuf_t that );
 
 /*!
- * \brief Checks if the string buffer starts with the specified characters.
+ *  \brief Checks if the string buffer starts with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param that A 0-terminated c string. In case of NULL, this function returns 0.
- * \return 1 if the string buffer starts with the characters in that, 0 if not.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ *  \return 1 if the string buffer starts with the characters in that, 0 if not.
  */
 static inline int utf8stringbuf_starts_with_str( const utf8stringbuf_t this_, const char *that );
 
 /*!
- * \brief Checks if the string buffer starts with the specified characters.
+ *  \brief Checks if the string buffer starts with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param that Another string buffer object.
- * \return 1 if the string buffer starts with the characters in that, 0 if not.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param that Another string buffer object.
+ *  \return 1 if the string buffer starts with the characters in that, 0 if not.
  */
 static inline int utf8stringbuf_starts_with_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
 
 /*!
- * \brief Checks if the string buffer ends with the specified characters.
+ *  \brief Checks if the string buffer ends with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param that A 0-terminated c string. In case of NULL, this function returns 0.
- * \return 1 if the string buffer ends with the characters in that, 0 if not.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ *  \return 1 if the string buffer ends with the characters in that, 0 if not.
  */
 static inline int utf8stringbuf_ends_with_str( const utf8stringbuf_t this_, const char *that );
 
 /*!
- * \brief Checks if the string buffer ends with the specified characters.
+ *  \brief Checks if the string buffer ends with the specified characters.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ A string buffer object
- * \param that Another string buffer object.
- * \return 1 if the string buffer ends with the characters in that, 0 if not.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ A string buffer object
+ *  \param that Another string buffer object.
+ *  \return 1 if the string buffer ends with the characters in that, 0 if not.
  */
 static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
 
 /*!
- * \brief Searches a pattern within a string
+ *  \brief Searches a pattern within a string
  *
- * Example:
- * \code
- *     utf8stringbuf_find_first_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ));
- * \endcode
- * will return index 2.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The string buffer within which to search
- * \param pattern The string buffer containing the byte-sequence to search
- * \return Index of the first occurrence within the string buffer.
- *         -1 if there is no match.
+ *  Example:
+ *  \code
+ *      utf8stringbuf_find_first_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ));
+ *  \endcode
+ *  will return index 2.
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The string buffer containing the byte-sequence to search
+ *  \return Index of the first occurrence within the string buffer.
+ *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern );
 
 /*!
- * \brief Searches a pattern within a string
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The string buffer within which to search
- * \param pattern The 0-terminated string to search
- * \return Index of the first occurrence within the string buffer.
- *         -1 if there is no match.
+ *  \brief Searches a pattern within a string
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The 0-terminated string to search
+ *  \return Index of the first occurrence within the string buffer.
+ *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_first_str( const utf8stringbuf_t this_, const char *pattern );
 
 /*!
- * \brief Searches a pattern within a string starting at the end
+ *  \brief Searches a pattern within a string starting at the end
  *
- * Example:
- * \code
- *     utf8stringbuf_find_last_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ));
- * \endcode
- * will return index 11.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The string buffer within which to search
- * \param pattern The string buffer containing the byte-sequence to search
- * \return Index of the first occurrence within the string buffer.
- *         -1 if there is no match.
+ *  Example:
+ *  \code
+ *      utf8stringbuf_find_last_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ));
+ *  \endcode
+ *  will return index 11.
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The string buffer containing the byte-sequence to search
+ *  \return Index of the first occurrence within the string buffer.
+ *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_last_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern );
 
 /*!
- * \brief Searches a pattern within a string starting at the end
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The string buffer within which to search
- * \param pattern The 0-terminated string to search
- * \return Index of the first occurrence within the string buffer.
- *         -1 if there is no match.
+ *  \brief Searches a pattern within a string starting at the end
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The 0-terminated string to search
+ *  \return Index of the first occurrence within the string buffer.
+ *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_last_str( const utf8stringbuf_t this_, const char *pattern );
 
 /*!
- * \brief Searches a pattern within a string
+ *  \brief Searches a pattern within a string
  *
- * Example:
- * \code
- *     utf8stringbuf_find_next_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ), 3);
- * \endcode
- * will return index 11.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The string buffer within which to search
- * \param pattern The string buffer containing the byte-sequence to search
- * \param start_index Index where to start the search.
- * \return Index of the next occurrence within the string buffer equal or greater than start_index.
- *         -1 if there is no match.
+ *  Example:
+ *  \code
+ *      utf8stringbuf_find_next_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ), 3);
+ *  \endcode
+ *  will return index 11.
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The string buffer containing the byte-sequence to search
+ *  \param start_index Index where to start the search.
+ *  \return Index of the next occurrence within the string buffer equal or greater than start_index.
+ *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_next_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, int start_index );
 
 /*!
- * \brief Searches a pattern within a string
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The string buffer within which to search
- * \param pattern The 0-terminated string to search
- * \param start_index Index where to start the search.
- * \return Index of the next occurrence within the string buffer equal or greater than start_index.
- *         -1 if there is no match.
+ *  \brief Searches a pattern within a string
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The 0-terminated string to search
+ *  \param start_index Index where to start the search.
+ *  \return Index of the next occurrence within the string buffer equal or greater than start_index.
+ *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, const char *pattern, int start_index );
 
 /*!
- * \brief Gets the code point at a given byte index.
+ *  \brief Gets the code point at a given byte index.
  *
  *  Example usage:
  *  \n
@@ -423,47 +423,47 @@ static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, cons
 static inline utf8codepoint_t utf8stringbuf_get_char_at( const utf8stringbuf_t this_, unsigned int byte_index );
 
 /*!
- * \brief Copies a string
+ *  \brief Copies a string
  *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
- * \param original The source string buffer. The buffers of this_ and original must not overlap!
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation.
+ *  If the source string does not fit into the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ The destination string buffer.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
+ *  \param original The source string buffer. The buffers of this_ and original must not overlap!
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t this_, const utf8stringbuf_t original );
 
 /*!
- * \brief Copies a string
+ *  \brief Copies a string
  *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
+ *  If the source string does not fit into the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
- * \param original The 0-terminated source string. The buffers of this_ and original must not overlap!
- *                 NULL will cause the destination to be the empty string.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation or UTF8ERROR_NULL_PARAM if that was NULL.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
+ *  \param original The 0-terminated source string. The buffers of this_ and original must not overlap!
+ *                  NULL will cause the destination to be the empty string.
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation or UTF8ERROR_NULL_PARAM if that was NULL.
  */
 static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const char *original );
 
 /*!
- * \brief Copies a stringview
+ *  \brief Copies a stringview
  *
- * If the source stringview does not fit into the destination buffer,
- * the copied stringview gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
+ *  If the source stringview does not fit into the destination buffer,
+ *  the copied stringview gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
  *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
- * \param original pointer to the source string view. The buffers of this_ and original must not overlap!
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
+ *  \param original pointer to the source string view. The buffers of this_ and original must not overlap!
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation
  */
 static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const utf8stringview_t *original );
 
@@ -511,70 +511,70 @@ extern utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, co
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 /*!
- * \brief Replaces all occurrences of pattern by replacement.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
- * \param this_ The string buffer within which to search
- * \param pattern The 0-terminated string to search. Empty or NULL patterns are not replaced.
- * \param replacement The 0-terminated string to replace the pattern with.
- * \return UTF8ERROR_SUCCESS in case of success,
- *         UTF8ERROR_TRUNCATED if the string buffer was truncated or
- *         UTF8ERROR_NULL_PARAM if pattern is NULL.
+ *  \brief Replaces all occurrences of pattern by replacement.
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The 0-terminated string to search. Empty or NULL patterns are not replaced.
+ *  \param replacement The 0-terminated string to replace the pattern with.
+ *  \return UTF8ERROR_SUCCESS in case of success,
+ *          UTF8ERROR_TRUNCATED if the string buffer was truncated or
+ *          UTF8ERROR_NULL_PARAM if pattern is NULL.
  */
 static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8stringbuf_t this_, const char *pattern, const char *replacement );
 
 /*!
- * \brief Replaces all occurrences of pattern by replacement.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
- * \param this_ The string buffer within which to search
- * \param pattern The string to search. Empty patterns are not replaced.
- * \param replacement The string to replace the pattern with.
- * \return UTF8ERROR_SUCCESS in case of success,
- *         UTF8ERROR_TRUNCATED if the string buffer was truncated.
+ *  \brief Replaces all occurrences of pattern by replacement.
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
+ *  \param this_ The string buffer within which to search
+ *  \param pattern The string to search. Empty patterns are not replaced.
+ *  \param replacement The string to replace the pattern with.
+ *  \return UTF8ERROR_SUCCESS in case of success,
+ *          UTF8ERROR_TRUNCATED if the string buffer was truncated.
  */
 static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, const utf8stringbuf_t replacement );
 
 /*!
- * \brief Replaces all occurrences of patterns by the corresponding replacement strings
+ *  \brief Replaces all occurrences of patterns by the corresponding replacement strings
  *
- * This function is intended to escape character sequences.
- * \n
- * Examples:
- * \code
- *     const char *const SQL_ENCODE[][2] = {
- *         { "\0", "\\0" },  //  within strings, null cannot be represented.
- *         { "\x09", "\\t" },
- *         { "\x0a", "\\n" },
- *         { "\x0d", "\\r" },
- *         { "\x0e", "\\b" },
- *         { "\x1a", "\\z" },
- *         { "\"", "\\\"" },
- *         { "'", "\\'" },
- *         { "\\", "\\\\" },
- *         { "%", "\\%" },  //  % replacement only needed in searches by LIKE operator
- *         { "_", "\\_" },  //  _ replacement only needed in searches by LIKE operator
- *         { NULL, NULL }
- *     };
- *     utf8stringbuf_replace_all( mySqlBuf, &SQL_ENCODE );
- *     const char *const XML_ENCODE[][2] = {
- *         { "<", "&lt;" },
- *         { ">", "&gt;" },
- *         { "&", "&amp;" },
- *         { "\"", "&quot;" },  //  " replacement only needed in attribute values
- *         { "'", "&apos;" },  //  ' replacement only needed in attribute values
- *         { NULL, NULL }
- *     };
- *     utf8stringbuf_replace_all( myXmlBuf, &XML_ENCODE );
- * \endcode
- * \see https://dev.mysql.com/doc/refman/5.6/en/string-literals.html
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:sumOfPatternlen, r:maxOfReplacelen
- * \param this_ The string buffer within which to search
- * \param patterns_and_replacements The string array containing the byte-sequences to search and to replace,
- *                                  terminated by a NULL-pair. Empty patterns are not replaced.
- *                                  The string buffer this_ is processed from start to end;
- *                                  if multiple patterns match, the first pattern is replaced.
- * \return UTF8ERROR_SUCCESS in case of success,
- *         UTF8ERROR_TRUNCATED if the string buffer was truncated or
- *         UTF8ERROR_NULL_PARAM if patterns_and_replacements is NULL.
+ *  This function is intended to escape character sequences.
+ *  \n
+ *  Examples:
+ *  \code
+ *      const char *const SQL_ENCODE[][2] = {
+ *          { "\0", "\\0" },  //  within strings, null cannot be represented.
+ *          { "\x09", "\\t" },
+ *          { "\x0a", "\\n" },
+ *          { "\x0d", "\\r" },
+ *          { "\x0e", "\\b" },
+ *          { "\x1a", "\\z" },
+ *          { "\"", "\\\"" },
+ *          { "'", "\\'" },
+ *          { "\\", "\\\\" },
+ *          { "%", "\\%" },  //  % replacement only needed in searches by LIKE operator
+ *          { "_", "\\_" },  //  _ replacement only needed in searches by LIKE operator
+ *          { NULL, NULL }
+ *      };
+ *      utf8stringbuf_replace_all( mySqlBuf, &SQL_ENCODE );
+ *      const char *const XML_ENCODE[][2] = {
+ *          { "<", "&lt;" },
+ *          { ">", "&gt;" },
+ *          { "&", "&amp;" },
+ *          { "\"", "&quot;" },  //  " replacement only needed in attribute values
+ *          { "'", "&apos;" },  //  ' replacement only needed in attribute values
+ *          { NULL, NULL }
+ *      };
+ *      utf8stringbuf_replace_all( myXmlBuf, &XML_ENCODE );
+ *  \endcode
+ *  \see https://dev.mysql.com/doc/refman/5.6/en/string-literals.html
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:sumOfPatternlen, r:maxOfReplacelen
+ *  \param this_ The string buffer within which to search
+ *  \param patterns_and_replacements The string array containing the byte-sequences to search and to replace,
+ *                                   terminated by a NULL-pair. Empty patterns are not replaced.
+ *                                   The string buffer this_ is processed from start to end;
+ *                                   if multiple patterns match, the first pattern is replaced.
+ *  \return UTF8ERROR_SUCCESS in case of success,
+ *          UTF8ERROR_TRUNCATED if the string buffer was truncated or
+ *          UTF8ERROR_NULL_PARAM if patterns_and_replacements is NULL.
  */
 extern utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *const ((*patterns_and_replacements)[][2]) );
 
@@ -690,117 +690,116 @@ static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int s
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 /*!
- * \brief Splits a string buffer into an ignored first part and the unfilled terminating part
+ *  \brief Splits a string buffer into an ignored first part and the unfilled terminating part
  *
- * This function may be useful when building an string using the append functions:
- * Future append calls are faster because the utf8stringbuf is smaller.
- * Also you may modify the last appended part by the replace functions without touching the first part.
- * Do not call \link utf8stringbuf_join(utf8stringbuf_t) utf8stringbuf_join \endlink after this operation.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \return an utf8stringbuf containing only the end
+ *  This function may be useful when building an string using the append functions:
+ *  Future append calls are faster because the utf8stringbuf is smaller.
+ *  Also you may modify the last appended part by the replace functions without touching the first part.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ The string buffer
+ *  \return an utf8stringbuf containing only the end
  */
 static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ );
 
 /*!
- * \brief Appends a string to a string buffer
+ *  \brief Appends a string to a string buffer
  *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- * \param this_ The destination string buffer
- * \param appendix The 0-terminated source string.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation or
- *         UTF8ERROR_NULL_PARAM if appendix was NULL.
+ *  If the source string does not fit into the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
+ *  \param this_ The destination string buffer
+ *  \param appendix The 0-terminated source string.
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation or
+ *          UTF8ERROR_NULL_PARAM if appendix was NULL.
  */
 static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const char *appendix );
 
 /*!
- * \brief Appends a string buffer to a string buffer
+ *  \brief Appends a string buffer to a string buffer
  *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- * \param this_ The destination string buffer
- * \param appendix The source string buffer
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation.
+ *  If the source string does not fit into the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
+ *  \param this_ The destination string buffer
+ *  \param appendix The source string buffer
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const utf8stringbuf_t appendix );
 
 /*!
- * \brief Appends a signed integer to a string buffer in decimal format
+ *  \brief Appends a signed integer to a string buffer in decimal format
  *
- * If the integer not fit to the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer
- * \param appendix The integer to be appended
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation.
+ *  If the integer not fit to the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ The destination string buffer
+ *  \param appendix The integer to be appended
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_append_int( utf8stringbuf_t this_, const int64_t appendix );
 
 /*!
- * \brief Appends an unsigned integer to a string buffer in hexadecimal format
+ *  \brief Appends an unsigned integer to a string buffer in hexadecimal format
  *
- * If the integer not fit to the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer
- * \param appendix The integer to be appended
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation.
+ *  If the integer not fit to the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ The destination string buffer
+ *  \param appendix The integer to be appended
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation.
  */
 static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t this_, const uint64_t appendix );
 
 /*!
- * \brief Appends an unicode character to a string buffer
+ *  \brief Appends an unicode character to a string buffer
  *
- * If the character does not fit to the destination buffer,
- * the destinatoin buffer is not modified.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer
- * \param appendix The unicode codepoint to be appended
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED if the character could not be appended.
- *         UTF8ERROR_NOT_A_CODEPOINT if appendix is greater than 0x7fffffff
+ *  If the character does not fit to the destination buffer,
+ *  the destinatoin buffer is not modified.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ The destination string buffer
+ *  \param appendix The unicode codepoint to be appended
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED if the character could not be appended.
+ *          UTF8ERROR_NOT_A_CODEPOINT if appendix is greater than 0x7fffffff
  */
 extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix );
 
 /*!
- * \brief Appends a string of wchar_t to a string buffer
+ *  \brief Appends a string of wchar_t to a string buffer
  *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- * \param this_ The destination string buffer
- * \param appendix The 0-terminated source string.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation or
- *         UTF8ERROR_NULL_PARAM if appendix was NULL or
- *         UTF8ERROR_NOT_A_CODEPOINT if one or more characters of appendix are greater than 0x7fffffff
+ *  If the source string does not fit into the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
+ *  \param this_ The destination string buffer
+ *  \param appendix The 0-terminated source string.
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation or
+ *          UTF8ERROR_NULL_PARAM if appendix was NULL or
+ *          UTF8ERROR_NOT_A_CODEPOINT if one or more characters of appendix are greater than 0x7fffffff
  */
 extern utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *appendix );
 
 /*!
- * \brief Appends a stringview to a string buffer
+ *  \brief Appends a stringview to a string buffer
  *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
- * \param this_ The destination string buffer
- * \param appendix pointer to the source stringview.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation or
- *         UTF8ERROR_NULL_PARAM if appendix was NULL.
+ *  If the source string does not fit into the destination buffer,
+ *  the copied string gets truncated. This function ensures, that
+ *  truncation does not split an utf8 code-point in half.
+ *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n+a), n:strlen, a:appendlen
+ *  \param this_ The destination string buffer
+ *  \param appendix pointer to the source stringview.
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED in case of truncation or
+ *          UTF8ERROR_NULL_PARAM if appendix was NULL.
  */
 static inline utf8error_t utf8stringbuf_append_view( utf8stringbuf_t this_, const utf8stringview_t *appendix );
 

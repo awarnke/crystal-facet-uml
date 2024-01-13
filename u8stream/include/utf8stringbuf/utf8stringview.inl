@@ -193,9 +193,9 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t *th
     return result;
 }
 
-static inline int utf8stringview_equals_str( const utf8stringview_t *this_, const char *that )
+static inline bool utf8stringview_equals_str( const utf8stringview_t *this_, const char *that )
 {
-    int result;
+    bool result;
     if ( that != NULL )
     {
         size_t len = strlen( that );
@@ -203,42 +203,42 @@ static inline int utf8stringview_equals_str( const utf8stringview_t *this_, cons
         {
             if ( ( len == 0 )/*&&( this_.length == 0 )*/)
             {
-                result = 1;
+                result = true;
             }
             else
             {
-                result = ( 0 == memcmp ( (*this_).start, that, len ) ) ? 1 : 0;
+                result = ( 0 == memcmp ( (*this_).start, that, len ) );
             }
         }
         else
         {
-            result = 0;
+            result = false;
         }
     }
     else
     {
-        result = 0;
+        result = false;
     }
     return result;
 }
 
-static inline int utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that )
+static inline bool utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that )
 {
-    int result;
+    bool result;
     if ( (*that).length == (*this_).length )
     {
         if ( ( (*that).length == 0 )/*&&( this_.length == 0 )*/)
         {
-            result = 1;
+            result = true;
         }
         else
         {
-            result = ( 0 == memcmp ( (*this_).start, (*that).start, (*that).length ) ) ? 1 : 0;
+            result = ( 0 == memcmp ( (*this_).start, (*that).start, (*that).length ) );
         }
     }
     else
     {
-        result = 0;
+        result = false;
     }
     return result;
 }
