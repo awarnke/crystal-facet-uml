@@ -100,7 +100,7 @@ u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_
     if ( (*this_).mem_buf_size == 0 )
     {
         U8_LOG_ERROR( "buffer size is 0; buffer is not terminated by zero." );
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_CONFIG_OUT_OF_RANGE;
     }
     else if ( (*this_).mem_buf_size == (*this_).mem_buf_filled )
     {

@@ -112,7 +112,7 @@ u8_error_t xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_, data_id_t el
         case DATA_TABLE_VOID:
         {
             U8_LOG_WARNING( "invalid data_id_t at xmi_atom_writer_encode_xmi_id." ); /* "1" is reserved for profiles */
-            export_err |= U8_ERROR_LOGIC_PARAMS;
+            export_err |= U8_ERROR_PARAM_MISSING;
         }
         break;
 

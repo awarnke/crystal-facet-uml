@@ -51,7 +51,7 @@ u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *t
     if ( (*this_).output != NULL )
     {
         U8_LOG_ERROR("cannot open a file that is already open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
         err |= universal_file_output_stream_close( this_ );
     }
     (*this_).output = fopen( path, "w" );
@@ -92,7 +92,7 @@ u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *
     else
     {
         U8_LOG_ERROR("cannot write to a file that is not open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
     }
 
     /*U8_TRACE_END_ERR(err);*/
@@ -117,7 +117,7 @@ u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *t
     else
     {
         U8_LOG_ERROR("cannot flush a file that is not open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
     }
 
     U8_TRACE_END_ERR(err);
@@ -142,7 +142,7 @@ u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *t
     else
     {
         U8_LOG_ERROR("cannot close a file that is not open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
     }
 
     U8_TRACE_END_ERR(err);

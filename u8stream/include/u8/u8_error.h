@@ -28,7 +28,7 @@
 enum u8_error_enum {
     U8_ERROR_NONE          = U8_ERROR_CAT_NONE,
 
-    U8_ERROR_LOGIC_ANOMALY = U8_ERROR_CAT_LOGIC_ANOMALY,
+    /* section U8_ERROR_CAT_LOGIC_ANOMALY */
     U8_ERROR_DUPLICATE              = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_DATA + 0x01,
                                       /*!< internal error: an entity exists twice */
     U8_ERROR_DUPLICATE_ID           = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_DATA + 0x03,
@@ -47,33 +47,41 @@ enum u8_error_enum {
     U8_ERROR_FILE_ALREADY_REMOVED   = U8_ERROR_CAT_LOGIC_ANOMALY + U8_ERROR_ORIG_FILE + 0x01,
                                       /*!< internal error: a file was already removed */
 
-    U8_ERROR_LOGIC_STATE   = U8_ERROR_CAT_LOGIC_STATE,
+    /* section U8_ERROR_CAT_LOGIC_STATE */
+    U8_ERROR_CONFIG_OUT_OF_RANGE    = U8_ERROR_CAT_LOGIC_STATE + U8_ERROR_ORIG_DATA + 0x01,
+                                      /*!< a configuration/settings-value is out of range */
+    U8_ERROR_WRONG_STATE            = U8_ERROR_CAT_LOGIC_STATE + U8_ERROR_ORIG_DATA + 0x02,
+                                      /*!< a dynamically changing state is out of range */
     U8_ERROR_NOT_YET_IMPLEMENTED    = U8_ERROR_CAT_LOGIC_STATE   + U8_ERROR_ORIG_MISS + 0x10,
                                       /*!< internal error: function not yet implemented */
 
-    U8_ERROR_LOGIC_PARAMS  = U8_ERROR_CAT_LOGIC_PARAMS,
+    /* section U8_ERROR_CAT_LOGIC_PARAMS */
+    U8_ERROR_PARAM_MISSING          = U8_ERROR_CAT_LOGIC_PARAMS + U8_ERROR_ORIG_MISS + 0x01,
+                                      /*!< the provided parameter is null or empty */
+    U8_ERROR_PARAM_OUT_OF_RANGE     = U8_ERROR_CAT_LOGIC_PARAMS + U8_ERROR_ORIG_DATA + 0x01,
+                                      /*!< the provided parameters are out of range */
 
-    U8_ERROR_LOGIC_CORRUPT = U8_ERROR_CAT_LOGIC_CORRUPT,
-    U8_ERROR_DB_STRUCTURE           = U8_ERROR_CAT_LOGIC_CORRUPT + U8_ERROR_ORIG_DATA + 0x01,
-                                      /*!< the structure of the database is corrupted */
+    /* section U8_ERROR_CAT_LOGIC_CORRUPT */
     U8_ERROR_AT_MUTEX               = U8_ERROR_CAT_LOGIC_CORRUPT + U8_ERROR_ORIG_SYNC + 0x01,
                                       /*!< unexpected internal error at mutex */
+    U8_ERROR_DB_STRUCTURE           = U8_ERROR_CAT_LOGIC_CORRUPT + U8_ERROR_ORIG_DATA + 0x01,
+                                      /*!< the structure of the database is corrupted */
     U8_ERROR_AT_DB                  = U8_ERROR_CAT_LOGIC_CORRUPT + U8_ERROR_ORIG_DATA + 0x02,
                                       /*!< unexpected internal error at database */
 
-    U8_ERROR_OP_ENV_START  = U8_ERROR_CAT_OP_ENV_START,
+    /* section U8_ERROR_CAT_OP_ENV_START */
 
-    U8_ERROR_OP_ENV_RUN    = U8_ERROR_CAT_OP_ENV_RUN,
+    /* section U8_ERROR_CAT_OP_ENV_RUN */
     U8_ERROR_LIB_NO_MEMORY           = U8_ERROR_CAT_OP_ENV_RUN + U8_ERROR_ORIG_MEMO + 0x01,
                                       /*!< a library call failed due to insufficient memory */
     U8_ERROR_LIB_FILE_WRITE          = U8_ERROR_CAT_OP_ENV_RUN + U8_ERROR_ORIG_FILE + 0x01,
                                       /*!< a library call failed due to file write error */
 
-    U8_ERROR_OP_TIMEOUT    = U8_ERROR_CAT_OP_TIMEOUT,
+    /* section U8_ERROR_CAT_OP_TIMEOUT */
 
-    U8_ERROR_OP_SYS_ACCESS = U8_ERROR_CAT_OP_SYS_ACCESS,
+    /* section U8_ERROR_CAT_OP_SYS_ACCESS */
 
-    U8_ERROR_USE_MODE      = U8_ERROR_CAT_USE_MODE,
+    /* section U8_ERROR_CAT_USE_MODE */
     U8_ERROR_NO_DB                  = U8_ERROR_CAT_USE_MODE      + U8_ERROR_ORIG_SYNC + 0x01,
                                       /*!< database not open/loaded */
     U8_ERROR_OBJECT_STILL_REFERENCED = U8_ERROR_CAT_USE_MODE     + U8_ERROR_ORIG_DATA + 0x01,
@@ -87,31 +95,34 @@ enum u8_error_enum {
     U8_ERROR_FOCUS_EMPTY            = U8_ERROR_CAT_USE_MODE      + U8_ERROR_ORIG_MISS + 0x01,
                                       /*!< no focused diagram or focused object */
 
-    U8_ERROR_USE_INPUT     = U8_ERROR_CAT_USE_INPUT,
+    /* section U8_ERROR_CAT_USE_INPUT */
     U8_ERROR_STRING_BUFFER_EXCEEDED = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_MEMO + 0x01,
                                       /*!< a string does not fit to the string storage buffer */
     U8_ERROR_ARRAY_BUFFER_EXCEEDED  = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_MEMO + 0x02,
                                       /*!< a set of objects does not fit to the array storage buffer */
-    U8_ERROR_INVALID_REQUEST        = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x01,
-                                      /*!< function call not allowed or parameters wrong */
     U8_ERROR_INPUT_EMPTY            = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_MISS + 0x01,
                                       /*!< input parameter is empty or void */
-    U8_ERROR_LEXICAL_STRUCTURE      = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x02,
+    U8_ERROR_INVALID_REQUEST        = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x01,
+                                      /*!< function call not allowed or parameters wrong */
+    U8_ERROR_VALUE_OUT_OF_RANGE     = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x02,
+                                      /*!< unexpected internal db error: enum/integer out of range */
+    U8_ERROR_INVALID_ENCODING       = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x04,
+                                      /*!< the encoding of the input-string contains illegal bytes */
+                                      /*!< (contains invalid tokens) */
+    U8_ERROR_LEXICAL_STRUCTURE      = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x08,
                                       /*!< the lexical structure of the input-string is corrupted */
                                       /*!< (contains invalid tokens) */
-    U8_ERROR_PARSER_STRUCTURE       = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x04,
+    U8_ERROR_PARSER_STRUCTURE       = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x10,
                                       /*!< the parser structure of the input-string is corrupted */
                                       /*!< (wrong order of tokens) */
     U8_ERROR_AT_FILE_READ           = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_FILE + 0x01,
                                       /*!< unexpected error at reading a file/stream */
-    U8_ERROR_VALUE_OUT_OF_RANGE     = U8_ERROR_CAT_USE_INPUT     + U8_ERROR_ORIG_DATA + 0x08,
-                                      /*!< unexpected internal db error: enum/integer out of range */
 
-    U8_ERROR_USE_OUTPUT    = U8_ERROR_CAT_USE_OUTPUT,
+    /* section U8_ERROR_CAT_USE_OUTPUT */
     U8_ERROR_AT_FILE_WRITE          = U8_ERROR_CAT_USE_OUTPUT    + U8_ERROR_ORIG_FILE + 0x01,
                                       /*!< unexpected error at writing a file/stream */
 
-    U8_ERROR_USE_ACCESS    = U8_ERROR_CAT_USE_ACCESS,
+    /* section U8_ERROR_CAT_USE_ACCESS */
     U8_ERROR_READ_ONLY_DB           = U8_ERROR_CAT_USE_ACCESS    + U8_ERROR_ORIG_DATA + 0x01,
                                       /*!< data cannot be changed, database is read only */
 

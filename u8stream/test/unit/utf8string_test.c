@@ -10,6 +10,7 @@
 #include "test_case_result.h"
 #include <string.h>
 #include <assert.h>
+#include <limits.h>
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );

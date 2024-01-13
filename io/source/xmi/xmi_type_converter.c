@@ -295,7 +295,7 @@ u8_error_t xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_conv
         {
             /* tagges values belong to the profile section, not to the parent classifier */
             result = NULL;
-            result_err = U8_ERROR_LOGIC_PARAMS;
+            result_err = U8_ERROR_PARAM_OUT_OF_RANGE;
         }
         break;
 

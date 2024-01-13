@@ -46,7 +46,7 @@ u8_error_t universal_file_output_stream_destroy ( universal_file_output_stream_t
  *
  *  \param this_ pointer to own object attributes
  *  \param path file path identifying the file to open for writing
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file is already open, U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *this_, const char *path );
 
@@ -58,7 +58,7 @@ u8_error_t universal_file_output_stream_open ( universal_file_output_stream_t *t
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
  *  \param length length of the buffer to write
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file is not open, U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *this_, const void *start, size_t length );
 
@@ -68,7 +68,7 @@ u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *
  *  Do not flush a file if open was not successful (otherwise an error message is logged).
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file is not open, U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t universal_file_output_stream_flush ( universal_file_output_stream_t *this_ );
 
@@ -78,7 +78,7 @@ u8_error_t universal_file_output_stream_flush ( universal_file_output_stream_t *
  *  Do not close a file if open was not successful (otherwise an error message is logged).
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file not open, U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t universal_file_output_stream_close ( universal_file_output_stream_t *this_ );
 

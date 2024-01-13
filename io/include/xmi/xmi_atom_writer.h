@@ -66,7 +66,7 @@ u8_error_t xmi_atom_writer_write_xmi_comment( xmi_atom_writer_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param element_id id which to encode for xmi
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_PARAM_MISSING if element_id is not valid
  */
 u8_error_t xmi_atom_writer_encode_xmi_id( xmi_atom_writer_t *this_,
                                           data_id_t element_id

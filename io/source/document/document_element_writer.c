@@ -482,7 +482,7 @@ u8_error_t document_element_writer_write_header( document_element_writer_t *this
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -521,7 +521,7 @@ u8_error_t document_element_writer_start_main( document_element_writer_t *this_,
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -776,7 +776,7 @@ u8_error_t document_element_writer_start_classifier( document_element_writer_t *
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -962,7 +962,7 @@ u8_error_t document_element_writer_assemble_classifier( document_element_writer_
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1008,7 +1008,7 @@ u8_error_t document_element_writer_end_classifier( document_element_writer_t *th
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1182,7 +1182,7 @@ u8_error_t document_element_writer_assemble_feature( document_element_writer_t *
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1423,7 +1423,7 @@ u8_error_t document_element_writer_assemble_relationship( document_element_write
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1507,7 +1507,7 @@ u8_error_t document_element_writer_start_diagram( document_element_writer_t *thi
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1652,7 +1652,7 @@ u8_error_t document_element_writer_assemble_diagram( document_element_writer_t *
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1693,7 +1693,7 @@ u8_error_t document_element_writer_end_diagram( document_element_writer_t *this_
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1777,7 +1777,7 @@ u8_error_t document_element_writer_end_main( document_element_writer_t *this_ )
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }
@@ -1818,7 +1818,7 @@ u8_error_t document_element_writer_write_footer( document_element_writer_t *this
         default:
         {
             U8_LOG_ERROR("error: unknown_format.");
-            export_err = U8_ERROR_LOGIC_STATE;
+            export_err = U8_ERROR_CONFIG_OUT_OF_RANGE;
         }
         break;
     }

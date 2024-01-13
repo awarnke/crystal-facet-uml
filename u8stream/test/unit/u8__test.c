@@ -42,20 +42,20 @@ static test_case_result_t test_error( test_fixture_t *fix )
 {
     bool contains;
 
-    contains = u8_error_contains( U8_ERROR_LOGIC_ANOMALY | U8_ERROR_ARRAY_BUFFER_EXCEEDED, U8_ERROR_LOGIC_ANOMALY );
+    contains = u8_error_contains( U8_ERROR_DUPLICATE | U8_ERROR_ARRAY_BUFFER_EXCEEDED, U8_ERROR_DUPLICATE );
     TEST_EXPECT_EQUAL_INT( true, contains );
     contains = u8_error_contains( U8_ERROR_END_OF_STREAM, U8_ERROR_END_OF_STREAM );
     TEST_EXPECT_EQUAL_INT( true, contains );
-    contains = u8_error_contains( U8_ERROR_ARRAY_BUFFER_EXCEEDED, U8_ERROR_LOGIC_ANOMALY );
+    contains = u8_error_contains( U8_ERROR_ARRAY_BUFFER_EXCEEDED, U8_ERROR_DUPLICATE );
     TEST_EXPECT_EQUAL_INT( false, contains );
 
     bool more;
 
-    more = u8_error_more_than( U8_ERROR_LOGIC_ANOMALY, U8_ERROR_LOGIC_ANOMALY );
+    more = u8_error_more_than( U8_ERROR_DUPLICATE, U8_ERROR_DUPLICATE );
     TEST_EXPECT_EQUAL_INT( false, more );
-    more = u8_error_more_than( U8_ERROR_LOGIC_ANOMALY | U8_ERROR_ARRAY_BUFFER_EXCEEDED, U8_ERROR_LOGIC_ANOMALY );
+    more = u8_error_more_than( U8_ERROR_DUPLICATE | U8_ERROR_ARRAY_BUFFER_EXCEEDED, U8_ERROR_DUPLICATE );
     TEST_EXPECT_EQUAL_INT( true, more );
-    more = u8_error_more_than( U8_ERROR_LOGIC_ANOMALY, U8_ERROR_ARRAY_BUFFER_EXCEEDED );
+    more = u8_error_more_than( U8_ERROR_DUPLICATE, U8_ERROR_ARRAY_BUFFER_EXCEEDED );
     TEST_EXPECT_EQUAL_INT( true, more );
 
     return TEST_CASE_RESULT_OK;

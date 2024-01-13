@@ -51,7 +51,7 @@ u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *thi
     if ( (*this_).input != NULL )
     {
         U8_LOG_ERROR("cannot open a file that is already open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
         err |= universal_file_input_stream_close( this_ );
     }
     (*this_).input = fopen( path, "r" );
@@ -91,7 +91,7 @@ u8_error_t universal_file_input_stream_read ( universal_file_input_stream_t *thi
     else
     {
         U8_LOG_ERROR("cannot read from a file that is not open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
     }
 
     /*U8_TRACE_END_ERR(err);*/
@@ -115,7 +115,7 @@ u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *th
     else
     {
         U8_LOG_ERROR("cannot reset/seek a file that is not open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
     }
 
     U8_TRACE_END_ERR(err);
@@ -141,7 +141,7 @@ u8_error_t universal_file_input_stream_close( universal_file_input_stream_t *thi
     else
     {
         U8_LOG_ERROR("cannot close a file that is not open.");
-        err = U8_ERROR_LOGIC_STATE;
+        err = U8_ERROR_WRONG_STATE;
     }
 
     U8_TRACE_END_ERR(err);

@@ -45,7 +45,7 @@ u8_error_t universal_file_input_stream_destroy( universal_file_input_stream_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param path file path identifying the file to open for reading
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file is already open, U8_ERROR_AT_FILE_READ otherwise
  */
 u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *this_, const char *path );
 
@@ -58,7 +58,7 @@ u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *thi
  *  \param out_buffer buffer to write read bytes
  *  \param max_size length of the buffer to write
  *  \param out_length number of bytes read
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file not open, U8_ERROR_AT_FILE_READ otherwise
  */
 u8_error_t universal_file_input_stream_read ( universal_file_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
 
@@ -68,7 +68,7 @@ u8_error_t universal_file_input_stream_read ( universal_file_input_stream_t *thi
  *  Do not reset a file if open was not successful (otherwise an error message is logged).
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file not open, U8_ERROR_AT_FILE_READ otherwise
  */
 u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *this_ );
 
@@ -78,7 +78,7 @@ u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *th
  *  Do not close a file if open was not successful (otherwise an error message is logged).
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_READ otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file not open, U8_ERROR_AT_FILE_READ otherwise
  */
 u8_error_t universal_file_input_stream_close( universal_file_input_stream_t *this_ );
 

@@ -160,7 +160,7 @@ static inline utf8codepoint_t utf8string_get_char_at( utf8string_t *this_, unsig
  *         UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
  *         UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
  */
-static inline utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_length, int64_t *out_number );
+utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_length, int64_t *out_number );
 
 /*!
  * \brief Parses a floating point number from a string in decimal mantissa, optional fraction and optional exponent format
@@ -174,7 +174,7 @@ static inline utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned in
  *         UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
  *         UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
  */
-static inline utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_length, double *out_number );
+utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_length, double *out_number );
 
 #ifdef __cplusplus
 }

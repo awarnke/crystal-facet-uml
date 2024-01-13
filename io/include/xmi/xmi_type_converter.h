@@ -102,7 +102,7 @@ static inline bool xmi_type_converter_can_nest_classifier ( xmi_type_converter_t
  *  \param parent_type data_classifier_type_t of the parent of which the owning-type shall be determined
  *  \param feature_type data_feature_type_t of the child of which the owning-type shall be determined
  *  \param out_xmi_name representation of the owning-link type, even in case of a type mismatch a string is provided
- *  \return U8_ERROR_NONE in case of success, -1 in case of type mismatch between parent and owned-child
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_PARAM_OUT_OF_RANGE in case of type mismatch between parent and owned-child
  */
 u8_error_t xmi_type_converter_get_xmi_owning_property_of_feature ( xmi_type_converter_t *this_,
                                                                    data_classifier_type_t parent_type,
