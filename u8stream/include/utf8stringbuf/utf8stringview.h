@@ -174,7 +174,6 @@ static inline bool utf8stringview_equals_str( const utf8stringview_t *this_, con
  */
 static inline bool utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that );
 
-#ifdef TODO
 /*!
  *  \brief Checks if the string starts with the specified characters.
  *
@@ -183,7 +182,7 @@ static inline bool utf8stringview_equals_view( const utf8stringview_t *this_, co
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return true if the string starts with the characters in that.
  */
-static inline bool utf8stringview_starts_with_str( utf8stringview_t *this_, utf8string_t *that );
+static inline bool utf8stringview_starts_with_str( const utf8stringview_t *this_, utf8string_t *that );
 
 /*!
  *  \brief Checks if the string view starts with the specified characters.
@@ -193,7 +192,7 @@ static inline bool utf8stringview_starts_with_str( utf8stringview_t *this_, utf8
  *  \param that A utf8stringview_t. In case of NULL, this function returns 0.
  *  \return true if the string starts with the characters in that.
  */
-static inline bool utf8stringview_starts_with_view( utf8stringview_t *this_, utf8stringview_t *that );
+static inline bool utf8stringview_starts_with_view( const utf8stringview_t *this_, const utf8stringview_t *that );
 
 /*!
  *  \brief Checks if the string ends with the specified characters.
@@ -203,7 +202,7 @@ static inline bool utf8stringview_starts_with_view( utf8stringview_t *this_, utf
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return true if the string ends with the characters in that.
  */
-static inline bool utf8stringview_ends_with_str( utf8stringview_t *this_, utf8string_t *that );
+static inline bool utf8stringview_ends_with_str( const utf8stringview_t *this_, utf8string_t *that );
 
 /*!
  *  \brief Checks if the string view ends with the specified characters.
@@ -213,7 +212,7 @@ static inline bool utf8stringview_ends_with_str( utf8stringview_t *this_, utf8st
  *  \param that A utf8stringview_t. In case of NULL, this function returns 0.
  *  \return true if the string ends with the characters in that.
  */
-static inline bool utf8stringview_ends_with_view( utf8stringview_t *this_, utf8stringview_t *that );
+static inline bool utf8stringview_ends_with_view( const utf8stringview_t *this_, const utf8stringview_t *that );
 
 /*!
  *  \brief Checks if the string contains the specified characters.
@@ -223,7 +222,7 @@ static inline bool utf8stringview_ends_with_view( utf8stringview_t *this_, utf8s
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return true if the string ends with the characters in that.
  */
-static inline bool utf8stringview_contains_str( utf8stringview_t *this_, utf8string_t *that );
+static inline bool utf8stringview_contains_str( const utf8stringview_t *this_, utf8string_t *that );
 
 /*!
  *  \brief Checks if the string view contains the specified characters.
@@ -233,59 +232,69 @@ static inline bool utf8stringview_contains_str( utf8stringview_t *this_, utf8str
  *  \param that A utf8stringview_t. In case of NULL, this function returns 0.
  *  \return true if the string ends with the characters in that.
  */
-static inline bool utf8stringview_contains_view( utf8stringview_t *this_, utf8stringview_t *that );
+static inline bool utf8stringview_contains_view( const utf8stringview_t *this_, const utf8stringview_t *that );
 
 /*!
  *  \brief Searches a pattern within a string
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
  *  \param this_ pointer to own object attributes
  *  \param pattern The 0-terminated string to search
+ *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
+ *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
  *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
  */
-static inline utf8error_t utf8stringview_split_at_first_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringview_t *this_,
+                                                             utf8string_t *pattern,
+                                                             utf8stringview_t *out_before,
+                                                             utf8stringview_t *out_after
+                                                           );
 
 /*!
  *  \brief Searches a pattern within a string
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
  *  \param this_ pointer to own object attributes
  *  \param pattern The utf8stringview_t to search
+ *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
+ *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
  *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
  */
-static inline utf8error_t utf8stringview_split_at_first_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
-
-#endif
+static inline utf8error_t utf8stringview_split_at_first_view( const utf8stringview_t *this_,
+                                                              const utf8stringview_t *pattern,
+                                                              utf8stringview_t *out_before,
+                                                              utf8stringview_t *out_after
+                                                            );
 
 /*!
- *  \brief Searches a pattern within a stringview
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \brief Searches a pattern within a string starting at the end
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
  *  \param this_ pointer to own object attributes
  *  \param pattern The 0-terminated string to search
- *  \return Index of the first occurrence within the stringview.
- *          -1 if there is no match.
+ *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
+ *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
+ *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
  */
-static inline int utf8stringview_find_first_str( const utf8stringview_t *this_, const char *pattern );
+static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview_t *this_,
+                                                            utf8string_t *pattern,
+                                                            utf8stringview_t *out_before,
+                                                            utf8stringview_t *out_after
+                                                          );
+
+/*!
+ *  \brief Searches a pattern within a string starting at the end
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ pointer to own object attributes
+ *  \param pattern The utf8stringview_t to search
+ *  \param[out] out_before The string region before the occurence of pattern. NULL if value not needed.
+ *  \param[out] out_after The string region after the occurence of pattern. NULL if value not needed.
+ *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
+ */
+static inline utf8error_t utf8stringview_split_at_last_view( const utf8stringview_t *this_,
+                                                             const utf8stringview_t *pattern,
+                                                             utf8stringview_t *out_before,
+                                                             utf8stringview_t *out_after
+                                                           );
 
 #ifdef TODO
-
-/*!
- *  \brief Searches a pattern within a string starting at the end
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ pointer to own object attributes
- *  \param pattern The 0-terminated string to search
- *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
- */
-static inline utf8error_t utf8stringview_split_at_last_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
-
-/*!
- *  \brief Searches a pattern within a string starting at the end
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ pointer to own object attributes
- *  \param pattern The utf8stringview_t to search
- *  \return UTF8ERROR_NOT_FOUND if there is no match, UTF8ERROR_SUCCESS otherwise
- */
-static inline utf8error_t utf8stringview_split_at_last_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
-
-see io/io_data_file.inl: io_data_file_private_split_path
 
 /*!
  *  \brief Parses a signed integer from a string view in decimal format
@@ -299,7 +308,7 @@ see io/io_data_file.inl: io_data_file_private_split_path
  *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
  *          UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
  */
-utf8error_t utf8stringview_parse_int( utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );
+utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );
 
 /*!
  *  \brief Parses a floating point number from a string view in decimal mantissa, optional fraction and optional exponent format
@@ -313,7 +322,7 @@ utf8error_t utf8stringview_parse_int( utf8stringview_t *this_, int64_t *out_numb
  *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
  *          UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
  */
-utf8error_t utf8stringview_parse_float( utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
+utf8error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
 
 #endif
 

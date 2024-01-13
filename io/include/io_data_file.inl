@@ -47,6 +47,15 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     assert( out_parent != NULL );
     assert( out_basename != NULL );
     assert( out_extension != NULL );
+
+#if 0
+        utf8stringview_t before = UTF8STRINGVIEW_EMPTY;
+        utf8stringview_t after = UTF8STRINGVIEW_EMPTY;
+        const utf8error_t has_next
+            = utf8stringview_split_at_first_str( &((*this_).remaining), (*this_).separator, &before, &after );
+        if ( has_next != UTF8ERROR_SUCCESS )
+#endif
+
     const int last_winpath_sep = utf8string_find_last_str( path, "\\" );
     const int last_path_sep = utf8string_find_last_str( path, "/" );
     const int last_sep = u8_i32_max2( last_winpath_sep, last_path_sep );

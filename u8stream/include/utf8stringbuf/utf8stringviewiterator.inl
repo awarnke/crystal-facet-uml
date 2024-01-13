@@ -32,7 +32,6 @@ static inline utf8stringview_t utf8stringviewiterator_next ( utf8stringviewitera
 
 static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewiterator_t *this_ )
 {
-    const size_t remaining_len = utf8stringview_get_length( &((*this_).remaining) );
     if ( (*this_).next_is_end )
     {
         (*this_).has_next = false;
@@ -40,8 +39,11 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
     }
     else
     {
-        const int next_sep = utf8stringview_find_first_str( &((*this_).remaining), (*this_).separator );
-        if ( next_sep == -1 )
+        utf8stringview_t before = UTF8STRINGVIEW_EMPTY;
+        utf8stringview_t after = UTF8STRINGVIEW_EMPTY;
+        const utf8error_t has_next
+            = utf8stringview_split_at_first_str( &((*this_).remaining), (*this_).separator, &before, &after );
+        if ( has_next != UTF8ERROR_SUCCESS )
         {
             (*this_).next_is_end = true;
             (*this_).next = (*this_).remaining;
@@ -49,15 +51,8 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
         }
         else
         {
-            const size_t separator_len = utf8string_get_length( (*this_).separator );
-            (*this_).next
-                = UTF8STRINGVIEW( utf8stringview_get_start( &((*this_).remaining) ),
-                                  next_sep
-                                );
-            (*this_).remaining
-                = UTF8STRINGVIEW( utf8stringview_get_start( &((*this_).remaining )) + next_sep + separator_len,
-                                  remaining_len - next_sep - separator_len
-                                );
+            (*this_).next = before;
+            (*this_).remaining = after;
         }
     }
 }
