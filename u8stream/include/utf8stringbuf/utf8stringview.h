@@ -51,13 +51,13 @@ extern "C" {
 #define UTF8STRINGVIEW_STR(string_param) (utf8stringview_t){.start=string_param,.length=(string_param==NULL)?0:strlen(string_param)}
 
 /*!
- *  \def UTF8STRINGVIEW_NULL
+ *  \def UTF8STRINGVIEW_EMPTY
  *  \brief Macro to facilitate static initialisation of an utf8stringview_t
  *
  *  \n
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
  */
-#define UTF8STRINGVIEW_NULL (utf8stringview_t){.start=NULL,.length=0}
+#define UTF8STRINGVIEW_EMPTY (utf8stringview_t){.start=NULL,.length=0}
 
 /*!
  *  \brief A string view is a pair of start pointer and length in bytes.
@@ -108,7 +108,7 @@ static inline void utf8stringview_init_str( utf8stringview_t *this_, const char*
  *  This function avoids cutting utf8 character sequences in half,
  *  the stringview may therefore be smaller than requested.
  *
- *  This function also ensures that length does not exceed a terminating zero.
+ *  This function also ensures that start_idx+length does not exceed a terminating zero.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
@@ -131,7 +131,7 @@ static inline void utf8stringview_destroy( utf8stringview_t *this_ );
 /*!
  *  \brief Gets the pointer to the start of the character array
  *  \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- *  \param this_ The string view object
+ *  \param this_ pointer to own object attributes
  *  \return Pointer to the start of the character array. Undefined if the length is 0.
  */
 static inline const char* utf8stringview_get_start( const utf8stringview_t *this_ );
@@ -145,9 +145,9 @@ static inline const char* utf8stringview_get_start( const utf8stringview_t *this
 static inline size_t utf8stringview_get_length( const utf8stringview_t *this_ );
 
 /*!
- *  \brief Conts the code points in the character array
+ *  \brief Counts the code points in the character array
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(1)
- *  \param this_ The string view object
+ *  \param this_ pointer to own object attributes
  *  \return Number of (complete, possibly invalid) code points in the character array.
  */
 static inline size_t utf8stringview_count_codepoints( const utf8stringview_t *this_ );
@@ -156,7 +156,7 @@ static inline size_t utf8stringview_count_codepoints( const utf8stringview_t *th
  *  \brief Checks if two strings are equal.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string view object
+ *  \param this_ pointer to own object attributes
  *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
  *  \return 1 if the strings are equal, 0 if not.
  */
@@ -166,21 +166,138 @@ static inline int utf8stringview_equals_str( const utf8stringview_t *this_, cons
  *  \brief Checks if two strings are equal.
  *
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string view object
+ *  \param this_ pointer to own object attributes
  *  \param that Another string view object.
  *  \return 1 if the strings are equal, 0 if not.
  */
 static inline int utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that );
 
+#ifdef TODO
+/*!
+ * \brief Checks if the string view starts with the specified characters.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ pointer to own object attributes
+ * \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ * \return 1 if the string starts with the characters in that, 0 if not.
+ */
+static inline int utf8stringview_starts_with_str( utf8stringview_t *this_, utf8string_t *that );
+
+/*!
+ * \brief Checks if the string view starts with the specified characters.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ pointer to own object attributes
+ * \param that A utf8stringview_t. In case of NULL, this function returns 0.
+ * \return 1 if the string starts with the characters in that, 0 if not.
+ */
+static inline int utf8stringview_starts_with_view( utf8stringview_t *this_, utf8stringview_t *that );
+
+/*!
+ * \brief Checks if the string buffer ends with the specified characters.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ pointer to own object attributes
+ * \param that A 0-terminated c string. In case of NULL, this function returns 0.
+ * \return 1 if the string ends with the characters in that, 0 if not.
+ */
+static inline int utf8stringview_ends_with_str( utf8stringview_t *this_, utf8string_t *that );
+
+/*!
+ * \brief Checks if the string buffer ends with the specified characters.
+ *
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ pointer to own object attributes
+ * \param that A utf8stringview_t. In case of NULL, this function returns 0.
+ * \return 1 if the string ends with the characters in that, 0 if not.
+ */
+static inline int utf8stringview_ends_with_view( utf8stringview_t *this_, utf8stringview_t *that );
+
+/*!
+ * \brief Searches a pattern within a string
+ * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ pointer to own object attributes
+ * \param pattern The 0-terminated string to search
+ * \return Index of the first occurrence within the string.
+ *         -1 if there is no match.
+ */
+static inline int utf8stringview_split_at_first_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+
+/*!
+ * \brief Searches a pattern within a string
+ * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ pointer to own object attributes
+ * \param pattern The utf8stringview_t to search
+ * \return Index of the first occurrence within the string.
+ *         -1 if there is no match.
+ */
+static inline int utf8stringview_split_at_first_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+
+#endif
+
 /*!
  *  \brief Searches a pattern within a stringview
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ The 0-terminated string within which to search
+ *  \param this_ pointer to own object attributes
  *  \param pattern The 0-terminated string to search
  *  \return Index of the first occurrence within the stringview.
  *          -1 if there is no match.
  */
 static inline int utf8stringview_find_first_str( const utf8stringview_t *this_, const char *pattern );
+
+#ifdef TODO
+
+/*!
+ *  \brief Searches a pattern within a string starting at the end
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ pointer to own object attributes
+ *  \param pattern The 0-terminated string to search
+ *  \return Index of the first occurrence within the string.
+ *          -1 if there is no match.
+ */
+static inline int utf8stringview_split_at_last_str( utf8stringview_t *this_, utf8string_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+
+/*!
+ *  \brief Searches a pattern within a string starting at the end
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
+ *  \param this_ pointer to own object attributes
+ *  \param pattern The utf8stringview_t to search
+ *  \return Index of the first occurrence within the string.
+ *          -1 if there is no match.
+ */
+static inline int utf8stringview_split_at_last_view( utf8stringview_t *this_, utf8stringview_t *pattern, utf8stringview_t *out_before, utf8stringview_t *out_after );
+
+see io/io_data_file.inl: io_data_file_private_split_path
+
+/*!
+ *  \brief Parses a signed integer from a string view in decimal format
+ *
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ pointer to own object attributes
+ *  \param out_number The parsed integer
+ *  \param out_remainder The remaining, unparsed string view behind the number
+ *  \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
+ *          UTF8ERROR_NOT_FOUND in case there is no decimal integer.
+ *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
+ *          UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
+ */
+static inline utf8error_t utf8stringview_parse_int( utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );
+
+/*!
+ *  \brief Parses a floating point number from a string view in decimal mantissa, optional fraction and optional exponent format
+ *
+ *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ *  \param this_ pointer to own object attributes
+ *  \param out_number The parsed floating point number
+ *  \param out_remainder The remaining, unparsed string view behind the number
+ *  \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
+ *          UTF8ERROR_NOT_FOUND in case there is no number.
+ *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
+ *          UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
+ */
+static inline utf8error_t utf8stringview_parse_float( utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
+
+#endif
 
 #ifdef __cplusplus
 }

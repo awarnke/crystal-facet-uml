@@ -56,7 +56,7 @@ static test_case_result_t testIntEmpty( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_NULL, UTF8STRINGVIEWTOKENMODE_INT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_EMPTY, UTF8STRINGVIEWTOKENMODE_INT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );
@@ -286,7 +286,7 @@ static test_case_result_t testFloatEmpty( test_fixture_t *fix )
 
     /* init */
     utf8stringviewtokenizer_t tok;
-    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_NULL, UTF8STRINGVIEWTOKENMODE_FLOAT );
+    utf8stringviewtokenizer_init( &tok, &UTF8STRINGVIEW_EMPTY, UTF8STRINGVIEWTOKENMODE_FLOAT );
 
     has_next = utf8stringviewtokenizer_has_next( &tok );
     TEST_EXPECT_EQUAL_INT( false, has_next );

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.55.1"
+    "generator_version": "1.55.2"
   }
   ,
   "views":
@@ -15680,10 +15680,9 @@
         "id": 428,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "const pointer_t",
         "name": "utf8:string",
         "description": [
-                "The methods of this string take an instance as parameter, which is kind of a pointer to the underlying character array."
+                ""
         ],
         "x_order": -639141166,
         "y_order": -1598692724,
@@ -15718,10 +15717,9 @@
         "id": 430,
         "main_type": 125,
         "type": "Class",
-        "stereotype": "const pointer_t",
         "name": "utf8:stringview",
         "description": [
-                "The methods of this stringview take an instance as parameter, which is kind of a pointer to the underlying character array."
+                ""
         ],
         "x_order": -585992852,
         "y_order": -1632637303,

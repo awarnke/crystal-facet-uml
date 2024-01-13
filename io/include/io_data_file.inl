@@ -58,7 +58,7 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     utf8error_t err = UTF8ERROR_SUCCESS;
     if ( last_sep == -1 )
     {
-        *out_parent = UTF8STRINGVIEW_NULL;
+        *out_parent = UTF8STRINGVIEW_EMPTY;
         start_basename = 0;
     }
     else
@@ -74,7 +74,7 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     else
     {
         err|= utf8stringview_init_region( out_basename, path, start_basename, ( len - start_basename ) );
-        *out_extension = UTF8STRINGVIEW_NULL;
+        *out_extension = UTF8STRINGVIEW_EMPTY;
     }
     if ( err != UTF8ERROR_SUCCESS )
     {

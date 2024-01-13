@@ -84,12 +84,12 @@ static inline utf8stringview_t utf8stringviewtokenizer_next ( utf8stringviewtoke
         else
         {
             result = (*this_).remaining_input_text;
-            (*this_).remaining_input_text = UTF8STRINGVIEW_NULL;
+            (*this_).remaining_input_text = UTF8STRINGVIEW_EMPTY;
         }
     }
     else
     {
-        result = UTF8STRINGVIEW_NULL;
+        result = UTF8STRINGVIEW_EMPTY;
     }
     return result;
 }

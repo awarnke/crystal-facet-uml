@@ -36,7 +36,7 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
     if ( (*this_).next_is_end )
     {
         (*this_).has_next = false;
-        (*this_).next = UTF8STRINGVIEW_NULL;
+        (*this_).next = UTF8STRINGVIEW_EMPTY;
     }
     else
     {
@@ -45,7 +45,7 @@ static inline void utf8stringviewiterator_private_step_to_next ( utf8stringviewi
         {
             (*this_).next_is_end = true;
             (*this_).next = (*this_).remaining;
-            (*this_).remaining = UTF8STRINGVIEW_NULL;
+            (*this_).remaining = UTF8STRINGVIEW_EMPTY;
         }
         else
         {

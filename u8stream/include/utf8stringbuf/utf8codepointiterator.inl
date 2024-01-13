@@ -46,7 +46,7 @@ static inline void utf8codepointiterator_private_step_to_next ( utf8codepointite
         }
         else
         {
-            (*this_).remaining = UTF8STRINGVIEW_NULL;
+            (*this_).remaining = UTF8STRINGVIEW_EMPTY;
         }
     }
 }

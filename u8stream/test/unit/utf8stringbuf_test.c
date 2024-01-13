@@ -1660,7 +1660,7 @@ static test_case_result_t testAppendView( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check utf8stringbuf_append_view with NULL */
-    const utf8stringview_t no_view = UTF8STRINGVIEW_NULL;
+    const utf8stringview_t no_view = UTF8STRINGVIEW_EMPTY;
     utf8stringbuf_copy_str( dynTestBuf1, "He" );
     error = utf8stringbuf_append_view( dynTestBuf1, &no_view );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );

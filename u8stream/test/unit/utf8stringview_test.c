@@ -47,13 +47,13 @@ static test_case_result_t testInitMacros( test_fixture_t *fix )
     static const char *const my_txt = "txt";
 
     /* check anonymous struct usage of UTF8STRINGVIEW_NULL macro */
-    start = utf8stringview_get_start( &UTF8STRINGVIEW_NULL );
+    start = utf8stringview_get_start( &UTF8STRINGVIEW_EMPTY );
     TEST_EXPECT_EQUAL_PTR( NULL, start );
-    len = utf8stringview_get_length( &UTF8STRINGVIEW_NULL );
+    len = utf8stringview_get_length( &UTF8STRINGVIEW_EMPTY );
     TEST_EXPECT_EQUAL_INT( 0, len );
 
     /* check initialization by UTF8STRINGVIEW_NULL macro */
-    my_view = UTF8STRINGVIEW_NULL;
+    my_view = UTF8STRINGVIEW_EMPTY;
     start = utf8stringview_get_start( &my_view );
     TEST_EXPECT_EQUAL_PTR( NULL, start );
     len = utf8stringview_get_length( &my_view );
@@ -256,7 +256,7 @@ static test_case_result_t testFindFirst( test_fixture_t *fix )
     pos = utf8stringview_find_first_str( &srchView, NULL );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-    pos = utf8stringview_find_first_str( &UTF8STRINGVIEW_NULL, "HELLO" );
+    pos = utf8stringview_find_first_str( &UTF8STRINGVIEW_EMPTY, "HELLO" );
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
     pos = utf8stringview_find_first_str( &UTF8STRINGVIEW_STR(""), "" );

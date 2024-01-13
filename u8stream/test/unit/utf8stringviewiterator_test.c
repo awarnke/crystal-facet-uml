@@ -229,7 +229,7 @@ static test_case_result_t testNullListUseCase( test_fixture_t *fix )
 
     /* init */
     utf8stringviewiterator_t it;
-    utf8stringviewiterator_init( &it, &UTF8STRINGVIEW_NULL, "" );  /* unspecified case */
+    utf8stringviewiterator_init( &it, &UTF8STRINGVIEW_EMPTY, "" );  /* unspecified case */
 
     has_next = utf8stringviewiterator_has_next( &it );
     TEST_EXPECT_EQUAL_INT( true, has_next );

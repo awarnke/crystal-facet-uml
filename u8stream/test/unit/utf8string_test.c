@@ -2,7 +2,6 @@
 
 #include "utf8string_test.h"
 #include "utf8stringbuf/utf8string.h"
-#include "utf8stringbuf/utf8stringbuf.h"
 #include "u8_test_cond.h"
 #include "u8/u8_fault_inject.h"
 #include "test_fixture.h"
@@ -90,22 +89,7 @@ static test_case_result_t testEquals( test_fixture_t *fix )
     //  prepare
     int equal;
     char dynTestArr1[] = "Hello";
-    utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
     char dynTestArr2[] = "Hello World";
-
-    //  test utf8string_equals_buf
-    equal = utf8string_equals_buf( dynTestArr1, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_buf( "Hello", dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_buf( dynTestArr2, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_buf( "", utf8stringbuf( "" ) );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_buf( NULL, utf8stringbuf( "" ) );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_buf( NULL, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
 
     //  test utf8string_equals_str
     equal = utf8string_equals_str( NULL, NULL );
@@ -129,31 +113,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *fix )
     //  prepare
     int equal;
     char dynTestArr1[] = "Hello";
-    utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
     char dynTestArr2[] = "Hello Hell Hello Hello";
-    utf8stringbuf_t dynTestBuf2 = utf8stringbuf(dynTestArr2);
-
-    //  test utf8string_equals_region_buf
-    equal = utf8string_equals_region_buf( dynTestArr1, 0, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_buf( dynTestArr1, -1, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_buf( dynTestArr1, 1, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_buf( dynTestArr1, 6, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_buf( dynTestArr1, 0, dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_buf( dynTestArr2, 0, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_buf( dynTestArr2, 6, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_buf( dynTestArr2, 11, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_buf( dynTestArr2, 17, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_buf( NULL, 3, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
 
     //  test utf8string_equals_region_str
     equal = utf8string_equals_region_str( dynTestArr1, 0, dynTestArr1 );
@@ -202,9 +162,7 @@ static test_case_result_t testStartsWith( test_fixture_t *fix )
     //  prepare
     int matches;
     char dynTestArr1[] = "Hello";
-    utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
     char dynTestArr2[] = "Hello World";
-    utf8stringbuf_t dynTestBuf2 = utf8stringbuf(dynTestArr2);
 
     //  test utf8string_starts_with_str
     matches = utf8string_starts_with_str( dynTestArr1, dynTestArr2 );
@@ -224,20 +182,6 @@ static test_case_result_t testStartsWith( test_fixture_t *fix )
     matches = utf8string_starts_with_str( "", "" );
     TEST_EXPECT_EQUAL_INT( 1, matches );
 
-    //  test utf8string_starts_with_buf
-    matches = utf8string_starts_with_buf( dynTestArr1, dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( 0, matches );
-    matches = utf8string_starts_with_buf( dynTestArr2, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-    matches = utf8string_starts_with_buf( dynTestArr1, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-    matches = utf8string_starts_with_buf( dynTestArr1, utf8stringbuf("") );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-    matches = utf8string_starts_with_buf( NULL, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, matches );
-    matches = utf8string_starts_with_buf( "", utf8stringbuf("") );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-
     return TEST_CASE_RESULT_OK;
 }
 
@@ -246,9 +190,7 @@ static test_case_result_t testEndsWith( test_fixture_t *fix )
     //  prepare
     int matches;
     char dynTestArr1[] = "World";
-    utf8stringbuf_t dynTestBuf1 = utf8stringbuf(dynTestArr1);
     char dynTestArr2[] = "Hello World";
-    utf8stringbuf_t dynTestBuf2 = utf8stringbuf(dynTestArr2);
 
     //  test utf8stringbuf_ends_with_str
     matches = utf8string_ends_with_str( dynTestArr1, dynTestArr2 );
@@ -268,20 +210,6 @@ static test_case_result_t testEndsWith( test_fixture_t *fix )
     matches = utf8string_ends_with_str( "", "" );
     TEST_EXPECT_EQUAL_INT( 1, matches );
 
-    //  test utf8stringbuf_ends_with_buf
-    matches = utf8string_ends_with_buf( dynTestArr1, dynTestBuf2 );
-    TEST_EXPECT_EQUAL_INT( 0, matches );
-    matches = utf8string_ends_with_buf( dynTestArr2, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-    matches = utf8string_ends_with_buf( dynTestArr1, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-    matches = utf8string_ends_with_buf( dynTestArr1, utf8stringbuf("") );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-    matches = utf8string_ends_with_buf( NULL, dynTestBuf1 );
-    TEST_EXPECT_EQUAL_INT( 0, matches );
-    matches = utf8string_ends_with_buf( "", utf8stringbuf("") );
-    TEST_EXPECT_EQUAL_INT( 1, matches );
-
     return TEST_CASE_RESULT_OK;
 }
 
@@ -289,7 +217,6 @@ static test_case_result_t testFindFirst( test_fixture_t *fix )
 {
     int pos;
     char srchArr3[] = "N/A";
-    utf8stringbuf_t srchBuf3 = UTF8STRINGBUF(srchArr3);
 
     pos = utf8string_find_first_str( NULL, srchArr3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
@@ -312,25 +239,6 @@ static test_case_result_t testFindFirst( test_fixture_t *fix )
     pos = utf8string_find_first_str( "_n/a_n/a", srchArr3);
     TEST_EXPECT_EQUAL_INT( -1, pos );
 
-
-    pos = utf8string_find_first_buf( NULL, srchBuf3);
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_first_buf( NULL, utf8stringbuf( "" ) );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_first_buf( srchArr3, srchBuf3);
-    TEST_EXPECT_EQUAL_INT( 0, pos );
-
-    pos = utf8string_find_first_buf( "", srchBuf3);
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_first_buf( "_N/A_N/A", srchBuf3);
-    TEST_EXPECT_EQUAL_INT( 1, pos );
-
-    pos = utf8string_find_first_buf( "_n/a_n/a", srchBuf3);
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
     return TEST_CASE_RESULT_OK;
 }
 
@@ -338,29 +246,6 @@ static test_case_result_t testFindNext( test_fixture_t *fix )
 {
     int pos;
     char srchArr1[10] = "aaaa";
-    utf8stringbuf_t srchBuf1 = UTF8STRINGBUF(srchArr1);
-
-    pos = utf8string_find_next_buf( "", srchBuf1, -17 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_next_buf( "", srchBuf1, 17 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_next_buf( "", srchBuf1, 0 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_next_buf( NULL, srchBuf1, 0 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_next_buf( NULL, srchBuf1, 1 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_next_buf( "aaaaaa", srchBuf1, 1 );
-    TEST_EXPECT_EQUAL_INT( 1, pos );
-
-    pos = utf8string_find_next_buf( "abaaaaa", srchBuf1, 1 );
-    TEST_EXPECT_EQUAL_INT( 2, pos );
-
 
     pos = utf8string_find_next_str( NULL, NULL, 1000 );
     TEST_EXPECT_EQUAL_INT( -1, pos );
@@ -381,27 +266,6 @@ static test_case_result_t testFindLast( test_fixture_t *fix )
 {
     int pos;
     char srchArr1[10] = "aaaab";
-    utf8stringbuf_t srchBuf1 = UTF8STRINGBUF(srchArr1);
-    char srchArr3[] = "N/A";
-    utf8stringbuf_t srchBuf3 = UTF8STRINGBUF(srchArr3);
-
-    pos = utf8string_find_last_buf( NULL, srchBuf3 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_last_buf( NULL, utf8stringbuf("") );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_last_buf( srchArr1, utf8stringbuf("aa") );
-    TEST_EXPECT_EQUAL_INT( 2, pos );
-
-    pos = utf8string_find_last_buf( "", srchBuf1 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_last_buf( srchArr3, srchBuf3 );
-    TEST_EXPECT_EQUAL_INT( 0, pos );
-
-    pos = utf8string_find_last_buf( srchArr1, utf8stringbuf("bb") );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
 
     pos = utf8string_find_last_str( srchArr1, NULL );
     TEST_EXPECT_EQUAL_INT( -1, pos );
@@ -414,6 +278,9 @@ static test_case_result_t testFindLast( test_fixture_t *fix )
 
     pos = utf8string_find_last_str( srchArr1, "aaa" );
     TEST_EXPECT_EQUAL_INT( 1, pos );
+
+    pos = utf8string_find_last_str( srchArr1, "bb" );
+    TEST_EXPECT_EQUAL_INT( -1, pos );
 
     return TEST_CASE_RESULT_OK;
 }
