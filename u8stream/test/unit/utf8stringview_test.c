@@ -9,6 +9,7 @@
 #include "test_case_result.h"
 #include <string.h>
 #include <assert.h>
+#include <limits.h>
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
@@ -22,6 +23,8 @@ static test_case_result_t testEndsWith( test_fixture_t *fix );
 static test_case_result_t testContains( test_fixture_t *fix );
 static test_case_result_t testSplitAtFirst( test_fixture_t *fix );
 static test_case_result_t testSplitAtLast( test_fixture_t *fix );
+static test_case_result_t testParseInt( test_fixture_t *fix );
+static test_case_result_t testParseFloat( test_fixture_t *fix );
 
 test_suite_t utf8stringview_test_get_suite(void)
 {
@@ -37,6 +40,8 @@ test_suite_t utf8stringview_test_get_suite(void)
     test_suite_add_test_case( &result, "testContains", &testContains );
     test_suite_add_test_case( &result, "testSplitAtFirst", &testSplitAtFirst );
     test_suite_add_test_case( &result, "testSplitAtLast", &testSplitAtLast );
+    test_suite_add_test_case( &result, "testParseInt", &testParseInt );
+    test_suite_add_test_case( &result, "testParseFloat", &testParseFloat );
     return result;
 }
 
@@ -580,6 +585,72 @@ static test_case_result_t testSplitAtLast( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &before ) );
     TEST_EXPECT_EQUAL_PTR( &(ananas_arr[4]), utf8stringview_get_start( &after ) );  /* unchanged */
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &after ) );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t testParseInt( test_fixture_t *fix )
+{
+    static const char *const regular_arr = "-9223372036854775808";
+    const utf8stringview_t regular_view = UTF8STRINGVIEW_STR( regular_arr );
+    int64_t number;
+    utf8stringview_t remainder = UTF8STRINGVIEW_EMPTY;
+
+    const utf8error_t u8err1 = utf8stringview_parse_int( &regular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err1 );
+    TEST_EXPECT_EQUAL_INT( LLONG_MIN, number );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
+
+    const utf8stringview_t empty_view = UTF8STRINGVIEW( regular_arr, 0 );
+    const utf8error_t u8err2 = utf8stringview_parse_int( &empty_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err2 );
+    TEST_EXPECT_EQUAL_INT( 0, number );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
+
+    static const char *const irregular_arr = "  -1009223372036854775808*  ";
+    const utf8stringview_t irregular_view = UTF8STRINGVIEW_STR( irregular_arr );
+    const utf8error_t u8err3 = utf8stringview_parse_int( &irregular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err3 );
+    TEST_EXPECT( (0==number)||(LLONG_MIN==number) );
+    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );
+
+    const utf8error_t u8err4 = utf8stringview_parse_int( &regular_view, &number, NULL );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err4 );
+    TEST_EXPECT_EQUAL_INT( LLONG_MIN, number );
+    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );  /* unchanged */
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t testParseFloat( test_fixture_t *fix )
+{
+    static const char *const regular_arr = "-2.2250738585072014E-308";
+    const utf8stringview_t regular_view = UTF8STRINGVIEW_STR( regular_arr );
+    double number;
+    utf8stringview_t remainder = UTF8STRINGVIEW_EMPTY;
+
+    const utf8error_t u8err1 = utf8stringview_parse_float( &regular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err1 );
+    TEST_EXPECT_EQUAL_FLOAT( -2.2250738585072014E-308, number );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
+
+    const utf8stringview_t empty_view = UTF8STRINGVIEW( regular_arr, 0 );
+    const utf8error_t u8err2 = utf8stringview_parse_float( &empty_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err2 );
+    TEST_EXPECT_EQUAL_FLOAT( 0.0, number );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &remainder ) );
+
+    static const char *const irregular_arr = "  0000001.7976931348623159e308*  ";
+    const utf8stringview_t irregular_view = UTF8STRINGVIEW_STR( irregular_arr );
+    const utf8error_t u8err3 = utf8stringview_parse_float( &irregular_view, &number, &remainder );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err3 );
+    TEST_EXPECT_EQUAL_FLOAT( INFINITY, number );
+    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );
+
+    const utf8error_t u8err4 = utf8stringview_parse_float( &regular_view, &number, NULL );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err4 );
+    TEST_EXPECT_EQUAL_FLOAT( -2.2250738585072014E-308, number );
+    TEST_EXPECT_EQUAL_INT( 3, utf8stringview_get_length( &remainder ) );  /* unchanged */
 
     return TEST_CASE_RESULT_OK;
 }

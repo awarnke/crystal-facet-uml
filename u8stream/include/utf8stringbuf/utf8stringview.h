@@ -294,15 +294,13 @@ static inline utf8error_t utf8stringview_split_at_last_view( const utf8stringvie
                                                              utf8stringview_t *out_after
                                                            );
 
-#ifdef TODO
-
 /*!
  *  \brief Parses a signed integer from a string view in decimal format
  *
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- *  \param out_number The parsed integer
- *  \param out_remainder The remaining, unparsed string view behind the number
+ *  \param[out] out_number The parsed integer
+ *  \param[out] out_remainder The remaining, unparsed string view behind the number. NULL if value not needed.
  *  \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
  *          UTF8ERROR_NOT_FOUND in case there is no decimal integer.
  *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
@@ -315,16 +313,14 @@ utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *ou
  *
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ pointer to own object attributes
- *  \param out_number The parsed floating point number
- *  \param out_remainder The remaining, unparsed string view behind the number
+ *  \param[out] out_number The parsed floating point number
+ *  \param[out] out_remainder The remaining, unparsed string view behind the number. NULL if value not needed.
  *  \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
  *          UTF8ERROR_NOT_FOUND in case there is no number.
  *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
  *          UTF8ERROR_OUT_OF_RANGE in case there is a number which does not fit into double.
  */
 utf8error_t utf8stringview_parse_float( const utf8stringview_t *this_, double *out_number, utf8stringview_t *out_remainder );
-
-#endif
 
 #ifdef __cplusplus
 }

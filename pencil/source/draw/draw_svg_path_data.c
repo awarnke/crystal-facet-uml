@@ -372,6 +372,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -425,6 +426,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -626,6 +628,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -660,6 +663,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -694,6 +698,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -728,6 +733,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -762,6 +768,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -796,6 +803,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -830,6 +838,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -864,6 +873,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -898,6 +908,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -932,6 +943,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
@@ -966,6 +978,7 @@ u8_error_t draw_svg_path_data_private_parse ( const draw_svg_path_data_t *this_,
                 else
                 {
                     /* read coordinate */
+                    /* utf8string_parse_float is faster than utf8stringview_parse_float; only it may not stop at view end but at terminating 0 after svg-path */
                     double value = 0.0;
                     unsigned int byte_length;
                     const u8_error_t float_err
