@@ -1526,6 +1526,13 @@
             "classifier_name": "data",
             "node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
             "uuid": "3a6ac2f4-dc2c-4d00-8126-9f1611beb311"
+          },
+          {
+            "id": 846,
+            "display_flags": 0,
+            "classifier_name": "data/set",
+            "node": "b4828c47-8e47-4fdc-9b0b-9ed2b431d093",
+            "uuid": "5d7b53e2-1e72-4dee-a065-627d4d568144"
           }
         ]
       }
@@ -17549,6 +17556,24 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 518,
+        "main_type": 124,
+        "type": "Package",
+        "name": "data/set",
+        "description": [
+                "provides specialized containers for structured-data of the data package"
+        ],
+        "x_order": 281023785,
+        "y_order": 1211078883,
+        "list_order": 1126248285,
+        "uuid": "b4828c47-8e47-4fdc-9b0b-9ed2b431d093",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -24049,6 +24074,23 @@
         "from_node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
         "to_node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
         "uuid": "6f20ff18-b545-4f34-b677-42e344096cc0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 890,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1126248285,
+        "from_classifier_name": "data",
+        "to_classifier_name": "data/set",
+        "from_node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
+        "to_node": "b4828c47-8e47-4fdc-9b0b-9ed2b431d093",
+        "uuid": "65e87ee6-a8c3-4711-9193-ef4e3f64734f"
       }
     },
     {
