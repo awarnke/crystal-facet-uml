@@ -75,9 +75,10 @@ u8_error_t universal_memory_output_stream_flush( universal_memory_output_stream_
  *  to ensure that even in this error case, the buffer is null-terminated.
  *
  *  \param this_ pointer to own object attributes
+ *  \param utf8_mode true ensures that no code point is cut in half
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_CONFIG_OUT_OF_RANGE if memory buffer has size 0, U8_ERROR_AT_FILE_WRITE otherwise
  */
-u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ );
+u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_, bool utf8_mode );
 
 /*!
  *  \brief gets the output stream interface of this universal_memory_output_stream_t

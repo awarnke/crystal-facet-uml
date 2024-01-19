@@ -460,31 +460,6 @@ u8_error_t data_database_writer_update_relationship_description ( data_database_
  */
 u8_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, data_row_id_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship );
 
-/* ================================ private ================================ */
-
-/*!
- *  \brief executes a single SQL command
- *
- *  This function does not care about locks. It does not sent notifications.
- *
- *  \param this_ pointer to own object attributes
- *  \param sql_statement statement to be executed.
- *  \param[out] out_new_id if fetch_new_id, the id of the newly created row is returned
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if a key is not unique; U8_ERROR_READ_ONLY_DB if read only
- */
-u8_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, data_row_id_t* out_new_id );
-
-/*!
- *  \brief sends one SQL command to the database within a transaction
- *
- *  This function does not care about locks. It does not sent notifications.
- *
- *  \param this_ pointer to own object attributes
- *  \param sql_statement statement to be executed.
- *  \return U8_ERROR_NONE in case of success, an error id otherwise; U8_ERROR_READ_ONLY_DB if read only
- */
-u8_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement );
-
 #endif  /* DATA_DATABASE_WRITER_H */
 
 

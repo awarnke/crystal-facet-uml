@@ -299,7 +299,7 @@ u8_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf
         universal_escaping_output_stream_flush( &esc_out );
         universal_escaping_output_stream_destroy( &esc_out );
         const u8_error_t out_err
-            = universal_memory_output_stream_write_0term( &mem_out );
+            = universal_memory_output_stream_write_0term( &mem_out, true );
         if ( 0 != out_err )
         {
             result_err = U8_ERROR_STRING_BUFFER_EXCEEDED;

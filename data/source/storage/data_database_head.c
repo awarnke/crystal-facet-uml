@@ -8,7 +8,6 @@
 #include "utf8stringbuf/utf8stringview.h"
 #include <assert.h>
 
-#if 0
 /*!
  *  \brief value separator string constant to insert a diagram or classifier or other table-row
  */
@@ -25,39 +24,42 @@ static const char *DATA_DATABASE_HEAD_STRING_VALUE_START = "\'";
 static const char *DATA_DATABASE_HEAD_STRING_VALUE_END = "\'";
 
 /*!
- *  \brief constant representing the null value
- */
-static const char *DATA_DATABASE_HEAD_NULL_VALUE = "NULL";
-
-/*!
  *  \brief translation table to encode strings for usage in string literals
  *
  *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
  */
-const char *const DATA_DATABASE_HEAD_SQL_ENCODE[][2] = {
+const char *const (DATA_DATABASE_HEAD_SQL_ENCODE[][2]) = {
     { "'", "''" },
     { NULL, NULL }
 };
 
+#if 0
 /*!
- *  \brief predefined search statement to find a head value by key
+ *  \brief prefix search statement to find a head value by key
  */
-static const char DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY[] =
-    "SELECT id,key,value FROM head WHERE key=?;";
+static const char DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_PREFIX[] =
+    "SELECT id,key,value FROM head WHERE key=";
 
 /*!
- *  \brief prefix string constant to insert a diagram
+ *  \brief postfix search statement to find a head value by key
  */
-static const char *DATA_DATABASE_HEAD_INSERT_DIAGRAM_PREFIX =
+static const char DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_POSTFIX[] = ";";
+#endif
+
+/*!
+ *  \brief prefix string constant to insert a head value
+ */
+static const char *DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX =
     "INSERT INTO head (key,value) VALUES (";
 
 /*!
- *  \brief postfix string constant to insert a diagram
+ *  \brief postfix string constant to insert a head value
  */
-static const char *DATA_DATABASE_HEAD_INSERT_DIAGRAM_POSTFIX = ");";
+static const char *DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX = ");";
 
+#if 0
 /*!
- *  \brief prefix string constant to delete a diagram
+ *  \brief prefix string constant to delete a head value
  */
 static const char *DATA_DATABASE_HEAD_DELETE_DIAGRAM_PREFIX =
     "DELETE FROM head WHERE (id=";
@@ -69,8 +71,26 @@ void data_database_head_init ( data_database_head_t *this_, data_database_t *dat
 
     (*this_).database = database;
 
-    (*this_).temp_stringbuf = utf8stringbuf_init( sizeof((*this_).private_temp_buffer), (*this_).private_temp_buffer );
-    (*this_).sql_stringbuf = utf8stringbuf_init( sizeof((*this_).private_sql_buffer), (*this_).private_sql_buffer );
+    /* initialize a memory output stream */
+    universal_memory_output_stream_init( &((*this_).plain_sql),
+                                         &((*this_).private_sql_buffer),
+                                         sizeof((*this_).plain_sql) );
+
+    universal_output_stream_t *const plain_output
+        = universal_memory_output_stream_get_output_stream( &((*this_).plain_sql) );
+
+    utf8stream_writer_init( &((*this_).plain), plain_output );
+
+    /* initialize an sql escaped output stream */
+    universal_escaping_output_stream_init( &((*this_).escaped_sql),
+                                           &DATA_DATABASE_HEAD_SQL_ENCODE,
+                                           plain_output
+                                         );
+
+    universal_output_stream_t *const escaped_output
+        = universal_escaping_output_stream_get_output_stream( &((*this_).escaped_sql) );
+
+    utf8stream_writer_init( &((*this_).escaped), escaped_output );
 
     U8_TRACE_END();
 }
@@ -78,6 +98,14 @@ void data_database_head_init ( data_database_head_t *this_, data_database_t *dat
 void data_database_head_destroy ( data_database_head_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+    /* de-initialize an sql escaped output stream */
+    utf8stream_writer_destroy( &((*this_).escaped) );
+    universal_escaping_output_stream_destroy( &((*this_).escaped_sql) );
+
+    /* de-initialize an output stream */
+    utf8stream_writer_destroy( &((*this_).plain) );
+    universal_memory_output_stream_destroy( &((*this_).plain_sql) );
 
     (*this_).database = NULL;
 
@@ -102,6 +130,37 @@ u8_error_t data_database_head_create_value ( data_database_head_t *this_, const 
     assert( head != NULL );
     u8_error_t result = U8_ERROR_NONE;
 
+    result |= universal_memory_output_stream_reset( &((*this_).plain_sql) );
+
+    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX );
+    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+    utf8string_t *const key = data_head_get_key_const( head );
+    result |= utf8stream_writer_write_str( &((*this_).escaped), key );
+    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
+    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_VALUE_SEPARATOR );
+    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+    utf8string_t *const value = data_head_get_value_const( head );
+    result |= utf8stream_writer_write_str( &((*this_).escaped), value );
+    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
+    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX );
+
+    result |= universal_memory_output_stream_write_0term( &((*this_).plain_sql), true );
+
+    if ( result == U8_ERROR_NONE )
+    {
+        const char *const sql_cmd = &((*this_).private_sql_buffer[0]);
+        data_row_id_t new_id = DATA_ROW_ID_VOID;
+
+        result |= data_database_transaction_begin ( (*this_).database );
+        result |= data_database_in_transaction_create( (*this_).database, sql_cmd, &new_id );
+        result |= data_database_transaction_commit ( (*this_).database );
+
+        U8_LOG_EVENT_INT( "sqlite3_exec: INSERT INTO head ... ->", new_id );  /* do not log confidential information, only id */
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
+    }
 
     U8_TRACE_END_ERR( result );
     return( result );
@@ -121,17 +180,6 @@ u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_r
 {
     U8_TRACE_BEGIN();
     assert( new_head_value != NULL );
-    u8_error_t result = U8_ERROR_NONE;
-
-
-    U8_TRACE_END_ERR( result );
-    return( result );
-}
-
-static inline u8_error_t data_database_head_private_exec_sql( data_database_head_t *this_, const char* sql_command, bool ignore_errors )
-{
-    U8_TRACE_BEGIN();
-    assert( sql_command != NULL );
     u8_error_t result = U8_ERROR_NONE;
 
 

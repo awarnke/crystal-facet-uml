@@ -2,6 +2,7 @@
 
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8stream/universal_output_stream_if.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <string.h>
@@ -91,7 +92,7 @@ u8_error_t universal_memory_output_stream_flush( universal_memory_output_stream_
     return err;
 }
 
-u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_ )
+u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_, bool utf8_mode )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
@@ -102,19 +103,40 @@ u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_
         U8_LOG_ERROR( "buffer size is 0; buffer is not terminated by zero." );
         err = U8_ERROR_CONFIG_OUT_OF_RANGE;
     }
-    else if ( (*this_).mem_buf_size == (*this_).mem_buf_filled )
+    else if ( (*this_).mem_buf_filled < (*this_).mem_buf_size )
     {
-        char *const last_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_size - 1]  );
-        *last_char = '\0';
-        U8_TRACE_INFO( "last byte overwritten by terminating zero" );
-        err = U8_ERROR_AT_FILE_WRITE;
-    }
-    else
-    {
+        /* add a terminating zero */
         char *const term_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
         *term_char = '\0';
         (*this_).mem_buf_filled += sizeof(char);
     }
+    else
+    {
+        if ( utf8_mode )
+        {
+            utf8stringview_t view_on_buf;
+            const utf8error_t cut = utf8stringview_init( &view_on_buf, (*this_).mem_buf_start, (*this_).mem_buf_size-1 );
+            char *const last_char = &(  (*(  (char(*)[])utf8stringview_get_start(&view_on_buf)  ))[utf8stringview_get_length(&view_on_buf)]  );
+            *last_char = '\0';
+            utf8stringview_destroy( &view_on_buf );
+            if ( cut == UTF8ERROR_SUCCESS )
+            {
+                U8_TRACE_INFO( "last byte overwritten by terminating zero" );
+            }
+            else
+            {
+                U8_TRACE_INFO( "multiple last bytes dropped by terminating zero" );
+            }
+        }
+        else
+        {
+            char *const last_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_size - 1]  );
+            *last_char = '\0';
+            U8_TRACE_INFO( "last byte overwritten by terminating zero" );
+        }
+        err = U8_ERROR_AT_FILE_WRITE;
+    }
+
 
     U8_TRACE_END_ERR(err);
     return err;

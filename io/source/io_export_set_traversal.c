@@ -39,7 +39,7 @@ void io_export_set_traversal_destroy ( io_export_set_traversal_t *this_ )
 }
 
 u8_error_t io_export_set_traversal_export_set( io_export_set_traversal_t *this_,
-                                        const data_small_set_t *set_to_be_exported )
+                                               const data_small_set_t *set_to_be_exported )
 {
     U8_TRACE_BEGIN();
     assert( NULL != set_to_be_exported );

@@ -13,7 +13,8 @@
 
 #include "data_head.h"
 #include "storage/data_database.h"
-#include "utf8stringbuf/utf8stringbuf.h"
+#include "u8stream/universal_memory_output_stream.h"
+#include "u8stream/universal_escaping_output_stream.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <glib.h>
@@ -23,10 +24,11 @@
  */
 struct data_database_head_struct {
     data_database_t *database;  /*!< pointer to external database */
-    utf8stringbuf_t temp_stringbuf;
-    utf8stringbuf_t sql_stringbuf;
-    char private_temp_buffer[1024+512];  /* sufficient size to encode DATA_HEAD_MAX_VALUE_LENGTH */
     char private_sql_buffer[1024+1024];  /* sufficient size to encode a data record including DATA_HEAD_MAX_VALUE_LENGTH */
+    universal_memory_output_stream_t plain_sql;  /* an output stream to write to private_sql_buffer as plain utf8 */
+    utf8stream_writer_t plain;  /* an utf8 writer to write to plain_sql */
+    universal_escaping_output_stream_t escaped_sql;  /* an output stream to write to private_sql_buffer sql encoded */
+    utf8stream_writer_t escaped;  /* an utf8 writer to write to escaped_sql */
 };
 
 typedef struct data_database_head_struct data_database_head_t;
@@ -90,16 +92,6 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_r
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_row_id_t head_id, const char* new_head_value, data_head_t *out_old_head );
-
-/*!
- *  \brief checks if the database file is open and executes an sql statement
- *
- *  \param this_ pointer to own object attributes
- *  \param sql_command the sqk statement to execute
- *  \param ignore_errors if true, no errors are printed to syslog
- *  \return U8_ERROR_READ_ONLY_DB if read oly, U8_ERROR_AT_DB if other error, U8_ERROR_NONE if no error
- */
-static inline u8_error_t data_database_head_private_exec_sql( data_database_head_t *this_, const char* sql_command, bool ignore_errors );
 
 #endif  /* DATA_DATABASE_HEAD_H */
 

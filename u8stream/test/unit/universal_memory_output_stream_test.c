@@ -143,7 +143,7 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), test_1 ) );
 
     /* write null term*/
-    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream) );
+    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), true );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_1, sizeof(test_1) ) );
 
@@ -153,10 +153,26 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "789", sizeof((*fix).out_buffer) ) );
 
-    /* write null term*/
-    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream) );
+    /* write null term, overwrite end*/
+    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), false );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "78" "\0", sizeof((*fix).out_buffer) ) );
+
+    /* reset */
+    err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+
+    /* write */
+    const char test_3[] = "123456\xf0\x92\x80\x80";
+    err = universal_memory_output_stream_write ( &((*fix).mem_out_stream), test_3, strlen(test_3) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_3, sizeof((*fix).out_buffer) ) );
+
+    /* write null term, overwrite end so that last code point is not cut*/
+    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), true );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "\x92\x80\x80", sizeof((*fix).out_buffer) ) );
+
     return TEST_CASE_RESULT_OK;
 }
 

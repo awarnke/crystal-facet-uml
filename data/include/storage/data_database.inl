@@ -3,6 +3,8 @@
 #include "u8/u8_log.h"
 #include <assert.h>
 
+/* ================================ Lifecycle ================================ */
+
 static inline u8_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
 {
     assert( db_file_path != NULL );
@@ -39,51 +41,6 @@ static inline u8_error_t data_database_open_in_memory ( data_database_t *this_ )
     return err;
 }
 
-static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
-{
-    return (*this_).db;
-}
-
-static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ )
-{
-    return &((*this_).notifier);
-}
-
-static inline const char *data_database_get_filename_ptr ( data_database_t *this_ )
-{
-    return ( data_database_is_open( this_ ) ? utf8stringbuf_get_string( (*this_).db_file_name ) : NULL );
-}
-
-static inline void data_database_private_clear_db_listener_list( data_database_t *this_ )
-{
-    for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
-    {
-        (*this_).listener_list[index] = NULL;
-    }
-}
-
-static inline u8_error_t data_database_lock_on_write ( data_database_t *this_ )
-{
-    assert( (*this_).locked_on_write == false );
-    u8_error_t result = U8_ERROR_NONE;
-
-    g_mutex_lock ( &((*this_).lock_on_write) );
-    (*this_).locked_on_write = true;
-
-    return result;
-}
-
-static inline u8_error_t data_database_unlock_on_write ( data_database_t *this_ )
-{
-    assert( (*this_).locked_on_write == true );
-    u8_error_t result = U8_ERROR_NONE;
-
-    (*this_).locked_on_write = false;
-    g_mutex_unlock ( &((*this_).lock_on_write) );
-
-    return result;
-}
-
 static inline bool data_database_is_open( data_database_t *this_ )
 {
     bool result;
@@ -92,6 +49,13 @@ static inline bool data_database_is_open( data_database_t *this_ )
     result = (*this_).db_state != DATA_DATABASE_STATE_CLOSED;
     locking_error |= data_database_unlock_on_write( this_ );
     return result;
+}
+
+/* ================================ Actions on DB ================================ */
+
+static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
+{
+    return (*this_).db;
 }
 
 static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors )
@@ -128,6 +92,52 @@ static inline u8_error_t data_database_private_exec_sql( data_database_t *this_,
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
+    return result;
+}
+
+/* ================================ Information ================================ */
+
+static inline const char *data_database_get_filename_ptr ( data_database_t *this_ )
+{
+    return ( data_database_is_open( this_ ) ? utf8stringbuf_get_string( (*this_).db_file_name ) : NULL );
+}
+
+/* ================================ Change Listener ================================ */
+
+static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ )
+{
+    return &((*this_).notifier);
+}
+
+static inline void data_database_private_clear_db_listener_list( data_database_t *this_ )
+{
+    for( int index = 0; index < DATA_DATABASE_MAX_LISTENERS; index ++ )
+    {
+        (*this_).listener_list[index] = NULL;
+    }
+}
+
+/* ================================ Lifecycle Lock ================================ */
+
+static inline u8_error_t data_database_lock_on_write ( data_database_t *this_ )
+{
+    assert( (*this_).locked_on_write == false );
+    u8_error_t result = U8_ERROR_NONE;
+
+    g_mutex_lock ( &((*this_).lock_on_write) );
+    (*this_).locked_on_write = true;
+
+    return result;
+}
+
+static inline u8_error_t data_database_unlock_on_write ( data_database_t *this_ )
+{
+    assert( (*this_).locked_on_write == true );
+    u8_error_t result = U8_ERROR_NONE;
+
+    (*this_).locked_on_write = false;
+    g_mutex_unlock ( &((*this_).lock_on_write) );
+
     return result;
 }
 

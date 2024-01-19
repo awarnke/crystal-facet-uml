@@ -19,9 +19,9 @@ static inline void io_exporter_light_destroy ( io_exporter_light_t *this_ )
 }
 
 static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_t *this_,
-                                                       const data_small_set_t *set_to_be_exported,
-                                                       data_stat_t *io_export_stat,
-                                                       utf8stringbuf_t out_buf )
+                                                              const data_small_set_t *set_to_be_exported,
+                                                              data_stat_t *io_export_stat,
+                                                              utf8stringbuf_t out_buf )
 {
     assert( NULL != set_to_be_exported );
     assert( NULL != io_export_stat );
@@ -70,7 +70,7 @@ static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_
     json_element_writer_destroy( &json_writer );
 
     /* de-initialize an output stream */
-    exp_err |= universal_memory_output_stream_write_0term( &memout );
+    exp_err |= universal_memory_output_stream_write_0term( &memout, true );
     universal_memory_output_stream_destroy( &memout );
 
     data_stat_destroy( &count_just_once );

@@ -51,6 +51,8 @@ struct data_database_struct {
 
 typedef struct data_database_struct data_database_t;
 
+/* ================================ Lifecycle ================================ */
+
 /*!
  *  \brief initializes the data_database_t struct
  *
@@ -103,6 +105,25 @@ static inline u8_error_t data_database_open_read_only ( data_database_t *this_, 
 static inline u8_error_t data_database_open_in_memory ( data_database_t *this_ );
 
 /*!
+ *  \brief opens a database file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param db_file_path a relative or absolute file path
+ *  \param sqlite3_flags sqlite3 flags as required for sqlite3_open_v2()
+ *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
+ *          U8_ERROR_NONE in case of success
+ */
+u8_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags );
+
+/*!
+ *  \brief checks if the database file is open
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the database file is open
+ */
+static inline bool data_database_is_open( data_database_t *this_ );
+
+/*!
  *  \brief closes the current database file
  *
  *  \param this_ pointer to own object attributes
@@ -118,15 +139,21 @@ u8_error_t data_database_close ( data_database_t *this_ );
 void data_database_destroy ( data_database_t *this_ );
 
 /*!
- *  \brief opens a database file
+ *  \brief initializes the tables in the database if not yet existant
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_AT_DB if the current database is not a database or is encrypted; U8_ERROR_READ_ONLY_DB if read only
+ */
+u8_error_t data_database_private_initialize_tables( data_database_t *this_ );
+
+/*!
+ *  \brief upgrades old tables from older versions to current database scheme
  *
  *  \param this_ pointer to own object attributes
- *  \param db_file_path a relative or absolute file path
- *  \param sqlite3_flags sqlite3 flags as required for sqlite3_open_v2()
- *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
- *          U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_AT_DB if the current database is not a database or is encrypted; U8_ERROR_READ_ONLY_DB if read only
  */
-u8_error_t data_database_private_open ( data_database_t *this_, const char* db_file_path, int sqlite3_flags );
+u8_error_t data_database_private_upgrade_tables( data_database_t *this_ );
+
+/* ================================ Actions on DB ================================ */
 
 /*!
  *  \brief returns a pointer to the sqlite database
@@ -145,6 +172,68 @@ static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
 u8_error_t data_database_flush_caches ( data_database_t *this_ );
 
 /*!
+ *  \brief executes a "BEGIN TRANSACTION" command.
+ *
+ *  This function may be called recursively.
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, an error id otherwise, e.g. U8_ERROR_NO_DB in case the database is not open
+ */
+u8_error_t data_database_transaction_begin ( data_database_t *this_ );
+
+/*!
+ *  \brief executes a "COMMIT TRANSACTION" command
+ *
+ *  This function may be called recursively.
+ *  The commit is only executed when this function is called once for each preceding data_database_transaction_begin call.
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, an error id otherwise
+ */
+u8_error_t data_database_transaction_commit ( data_database_t *this_ );
+
+/*!
+ *  \brief executes a single SQL command within a transaction
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sql_statement statement to be executed.
+ *  \param[out] out_new_id if fetch_new_id, the id of the newly created row is returned. NULL if id not of interest.
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if a key is not unique; U8_ERROR_READ_ONLY_DB if read only
+ */
+u8_error_t data_database_in_transaction_create ( data_database_t *this_, const char* sql_statement, data_row_id_t* out_new_id );
+
+/*!
+ *  \brief sends one SQL command to the database within a transaction
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sql_statement statement to be executed.
+ *  \return U8_ERROR_NONE in case of success, an error id otherwise; U8_ERROR_READ_ONLY_DB if read only
+ */
+u8_error_t data_database_in_transaction_execute ( data_database_t *this_, const char* sql_statement );
+
+/*!
+ *  \brief checks if the database file is open and executes an sql statement
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sql_command the sqk statement to execute
+ *  \param ignore_errors if true, no errors are printed to syslog
+ *  \return U8_ERROR_READ_ONLY_DB if read oly, U8_ERROR_AT_DB if other error, U8_ERROR_NONE if no error
+ */
+static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors );
+
+/* ================================ Information ================================ */
+
+/*!
  *  \brief prints statistics of the current database file to the trace output
  *
  *  \param this_ pointer to own object attributes
@@ -160,6 +249,8 @@ u8_error_t data_database_trace_stats ( data_database_t *this_ );
  */
 static inline const char *data_database_get_filename_ptr ( data_database_t *this_ );
 
+/* ================================ Change Listener ================================ */
+
 /*!
  *  \brief returns a pointer to the data_change_notifier_t to be used to send notifications
  *
@@ -167,21 +258,6 @@ static inline const char *data_database_get_filename_ptr ( data_database_t *this
  *  \return pointer to the data_change_notifier_t
  */
 static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ );
-
-/*!
- *  \brief initializes the tables in the database if not yet existant
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_AT_DB if the current database is not a database or is encrypted; U8_ERROR_READ_ONLY_DB if read only
- */
-u8_error_t data_database_private_initialize_tables( data_database_t *this_ );
-
-/*!
- *  \brief upgrades old tables from older versions to current database scheme
- *
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_AT_DB if the current database is not a database or is encrypted; U8_ERROR_READ_ONLY_DB if read only
- */
-u8_error_t data_database_private_upgrade_tables( data_database_t *this_ );
 
 /*!
  *  \brief adds a db-file changed listener to the database
@@ -219,6 +295,8 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
  */
 u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
 
+/* ================================ Lifecycle Lock ================================ */
+
 /*!
  *  \brief gets a lock to protect data in data_database_t from concurrent change access.
  *
@@ -238,49 +316,6 @@ static inline u8_error_t data_database_lock_on_write ( data_database_t *this_ );
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline u8_error_t data_database_unlock_on_write ( data_database_t *this_ );
-
-/*!
- *  \brief checks if the database file is open
- *
- *  \param this_ pointer to own object attributes
- *  \return true if the database file is open
- */
-static inline bool data_database_is_open( data_database_t *this_ );
-
-/*!
- *  \brief executes a "BEGIN TRANSACTION" command.
- *
- *  This function may be called recursively.
- *
- *  This function does not care about locks. It does not sent notifications.
- *
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, an error id otherwise, e.g. U8_ERROR_NO_DB in case the database is not open
- */
-u8_error_t data_database_transaction_begin ( data_database_t *this_ );
-
-/*!
- *  \brief executes a "COMMIT TRANSACTION" command
- *
- *  This function may be called recursively.
- *  The commit is only executed when this function is called once for each preceding data_database_transaction_begin call.
- *
- *  This function does not care about locks. It does not sent notifications.
- *
- *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, an error id otherwise
- */
-u8_error_t data_database_transaction_commit ( data_database_t *this_ );
-
-/*!
- *  \brief checks if the database file is open and executes an sql statement
- *
- *  \param this_ pointer to own object attributes
- *  \param sql_command the sqk statement to execute
- *  \param ignore_errors if true, no errors are printed to syslog
- *  \return U8_ERROR_READ_ONLY_DB if read oly, U8_ERROR_AT_DB if other error, U8_ERROR_NONE if no error
- */
-static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors );
 
 #include "storage/data_database.inl"
 

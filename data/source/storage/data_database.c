@@ -15,14 +15,12 @@ const char DATA_DATABASE_SQLITE3_MAGIC[16]
  *
  *  This table contains head values
  */
-#if 0
 static const char *DATA_DATABASE_CREATE_HEAD_TABLE =
     "CREATE TABLE IF NOT EXISTS head ( "
         "id INTEGER NOT NULL PRIMARY KEY ASC, "
         "key TEXT NOT NULL UNIQUE, "
-        "value TEXT"
+        "value TEXT NOT NULL"
     ");";
-#endif
 
 /*!
  *  \brief string constant to create an sql database table
@@ -285,58 +283,7 @@ static const char *DATA_DATABASE_BEGIN_TRANSACTION =
 static const char *DATA_DATABASE_COMMIT_TRANSACTION =
     "COMMIT TRANSACTION;";
 
-u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-
-#if 0
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_HEAD_TABLE, false );
-#endif
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE, false );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATURE_TABLE, false );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAM_TABLE, false );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMELEMENT_TABLE, false );
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
-u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-
-    /* update table classifiers from version 1.32.1 or earlier to later versions with diagram.display_flags */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, true );
-
-    /* update all 5 tables from version 1.32.1 (no uuid) to later versions with uuid field */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_CLASSIFIER_TABLE_UUID, true );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_CLASSIFIER_UUID, true );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_UUID, true );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_RELATIONSHIP_UUID, true );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_FEATURE_TABLE_UUID, true );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_FEATURE_UUID, true );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_UUID, true );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_UUID, true );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID, true );
-    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID, true );
-
-    /* update table diagrams and relationships from version 1.46.0 or earlier to later versions with stereotype */
-    /* do not care for "already existed" errors: */
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_STEREOTYPE, true );
-    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_STEREOTYPE, true );
-
-    if ( u8_error_contains( result, U8_ERROR_READ_ONLY_DB ) )
-    {
-        U8_LOG_EVENT( "sqlite3 database is read only." );
-        result = u8_error_more_than( result, U8_ERROR_READ_ONLY_DB ) ? U8_ERROR_AT_DB : U8_ERROR_NONE;
-    }
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
+/* ================================ Lifecycle ================================ */
 
 void data_database_init ( data_database_t *this_ )
 {
@@ -556,6 +503,59 @@ void data_database_destroy ( data_database_t *this_ )
     U8_TRACE_END();
 }
 
+u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_HEAD_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_FEATURE_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAM_TABLE, false );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_DIAGRAMELEMENT_TABLE, false );
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_private_upgrade_tables( data_database_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    /* update table classifiers from version 1.32.1 or earlier to later versions with diagram.display_flags */
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_1, true );
+
+    /* update all 5 tables from version 1.32.1 (no uuid) to later versions with uuid field */
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_CLASSIFIER_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_CLASSIFIER_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_RELATIONSHIP_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_FEATURE_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_FEATURE_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAM_UUID, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAMELEMENT_TABLE_UUID, true );
+    result |= data_database_private_exec_sql( this_, DATA_DATABASE_UPDATE_DIAGRAMELEMENT_UUID, true );
+
+    /* update table diagrams and relationships from version 1.46.0 or earlier to later versions with stereotype */
+    /* do not care for "already existed" errors: */
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_RELATIONSHIP_TABLE_STEREOTYPE, true );
+    data_database_private_exec_sql( this_, DATA_DATABASE_ALTER_DIAGRAM_TABLE_STEREOTYPE, true );
+
+    if ( u8_error_contains( result, U8_ERROR_READ_ONLY_DB ) )
+    {
+        U8_LOG_EVENT( "sqlite3 database is read only." );
+        result = u8_error_more_than( result, U8_ERROR_READ_ONLY_DB ) ? U8_ERROR_AT_DB : U8_ERROR_NONE;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+/* ================================ Actions on DB ================================ */
+
 u8_error_t data_database_flush_caches ( data_database_t *this_ )
 {
     U8_TRACE_BEGIN();
@@ -616,6 +616,194 @@ u8_error_t data_database_trace_stats ( data_database_t *this_ )
     U8_TRACE_END_ERR( result );
     return result;
 }
+
+u8_error_t data_database_transaction_begin ( data_database_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    /* nesting of transactions should not be greater than 2. You may increase this limit if needed. */
+    assert( (*this_).transaction_recursion < 2 );
+    u8_error_t result = U8_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( this_ );
+
+    if ( data_database_is_open( this_ ) )
+    {
+        if ( (*this_).transaction_recursion == 0 )
+        {
+            U8_LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_BEGIN_TRANSACTION );
+            sqlite_err = sqlite3_exec( db, DATA_DATABASE_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+            if ( SQLITE_OK != sqlite_err )
+            {
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_BEGIN_TRANSACTION );
+                U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+                result |= U8_ERROR_AT_DB;
+            }
+            if ( error_msg != NULL )
+            {
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+                sqlite3_free( error_msg );
+                error_msg = NULL;
+            }
+        }
+        (*this_).transaction_recursion ++;
+    }
+    else
+    {
+        U8_LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_BEGIN_TRANSACTION );
+        result = U8_ERROR_NO_DB;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_transaction_commit ( data_database_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    /* there should be at least 1 pending transaction */
+    assert( (*this_).transaction_recursion > 0 );
+    u8_error_t result = U8_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( this_ );
+
+    if ( data_database_is_open( this_ ) )
+    {
+        if ( (*this_).transaction_recursion == 1 )
+        {
+            U8_LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
+            sqlite_err = sqlite3_exec( db, DATA_DATABASE_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+            if ( SQLITE_OK != sqlite_err )
+            {
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_COMMIT_TRANSACTION );
+                U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+                result |= U8_ERROR_AT_DB;
+            }
+            if ( error_msg != NULL )
+            {
+                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+                sqlite3_free( error_msg );
+                error_msg = NULL;
+            }
+        }
+        (*this_).transaction_recursion --;
+    }
+    else
+    {
+        U8_LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_COMMIT_TRANSACTION );
+        result = U8_ERROR_NO_DB;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_in_transaction_create ( data_database_t *this_, const char* sql_statement, data_row_id_t* out_new_id )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != sql_statement );
+    u8_error_t result = U8_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *const db = (*this_).db;
+
+    if ( data_database_is_open( this_ ) )
+    {
+        U8_LOG_EVENT( "sqlite3_exec: sql_statement (see trace)" );
+        U8_TRACE_INFO_STR( "sqlite3_exec:", sql_statement );
+        sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
+        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
+        {
+            /* This case happens if id is not unique and/or if a classifier name is not unique*/
+            U8_LOG_ERROR( "sqlite3_exec() failed due to UNIQUE constraint: sql_statement (see trace)" );
+            U8_TRACE_INFO_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            result |= U8_ERROR_DUPLICATE;
+        }
+        else if ( SQLITE_OK != sqlite_err )
+        {
+            U8_LOG_ERROR( "sqlite3_exec() failed: sql_statement (see trace)" );
+            U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            U8_TRACE_INFO_STR( "sqlite3_exec:", sql_statement );
+            result |= (sqlite_err == SQLITE_READONLY) ? U8_ERROR_READ_ONLY_DB : U8_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        if ( NULL != out_new_id )
+        {
+            if ( SQLITE_OK == sqlite_err )
+            {
+                data_row_id_t new_id;
+                new_id = sqlite3_last_insert_rowid(db);
+                U8_LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
+                *out_new_id = new_id;
+            }
+        }
+    }
+    else
+    {
+        U8_LOG_WARNING( "database not open. cannot execute sql_statement (see trace)" );
+        U8_TRACE_INFO_STR( "database not open. cannot execute", sql_statement );
+        result = U8_ERROR_NO_DB;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t data_database_in_transaction_execute ( data_database_t *this_, const char* sql_statement )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != sql_statement );
+    u8_error_t result = U8_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = (*this_).db;
+
+    if ( data_database_is_open( this_ ) )
+    {
+        U8_LOG_EVENT( "sqlite3_exec: sql_statement (see trace)" );
+        U8_TRACE_INFO_STR( "sqlite3_exec:", sql_statement );
+        sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
+        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
+        {
+            U8_LOG_ERROR( "sqlite3_exec() failed due to UNIQUE constraint: sql_statement (see trace)" );
+            U8_TRACE_INFO_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            result |= U8_ERROR_DUPLICATE_NAME;
+        }
+        else if ( SQLITE_OK != sqlite_err )
+        {
+            U8_LOG_ERROR( "sqlite3_exec() failed: sql_statement (see trace)" );
+            U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            U8_TRACE_INFO_STR( "sqlite3_exec() failed:", sql_statement );
+            result |= (sqlite_err == SQLITE_READONLY) ? U8_ERROR_READ_ONLY_DB : U8_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+    }
+    else
+    {
+        U8_LOG_WARNING( "database not open. cannot execute sql_statement (see trace)" );
+        U8_TRACE_INFO_STR( "database not open. cannot execute", sql_statement );
+        result = U8_ERROR_NO_DB;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+/* ================================ Information ================================ */
+
+/* ================================ Change Listener ================================ */
 
 u8_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener )
 {
@@ -716,87 +904,7 @@ u8_error_t data_database_private_notify_db_listeners( data_database_t *this_, da
     return result;
 }
 
-u8_error_t data_database_transaction_begin ( data_database_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    /* nesting of transactions should not be greater than 2. You may increase this limit if needed. */
-    assert( (*this_).transaction_recursion < 2 );
-    u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    char *error_msg = NULL;
-    sqlite3 *db = data_database_get_database_ptr( this_ );
-
-    if ( data_database_is_open( this_ ) )
-    {
-        if ( (*this_).transaction_recursion == 0 )
-        {
-            U8_LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_BEGIN_TRANSACTION );
-            sqlite_err = sqlite3_exec( db, DATA_DATABASE_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
-            if ( SQLITE_OK != sqlite_err )
-            {
-                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_BEGIN_TRANSACTION );
-                U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if ( error_msg != NULL )
-            {
-                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-                sqlite3_free( error_msg );
-                error_msg = NULL;
-            }
-        }
-        (*this_).transaction_recursion ++;
-    }
-    else
-    {
-        U8_LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_BEGIN_TRANSACTION );
-        result = U8_ERROR_NO_DB;
-    }
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
-u8_error_t data_database_transaction_commit ( data_database_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    /* there should be at least 1 pending transaction */
-    assert( (*this_).transaction_recursion > 0 );
-    u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    char *error_msg = NULL;
-    sqlite3 *db = data_database_get_database_ptr( this_ );
-
-    if ( data_database_is_open( this_ ) )
-    {
-        if ( (*this_).transaction_recursion == 1 )
-        {
-            U8_LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_COMMIT_TRANSACTION );
-            sqlite_err = sqlite3_exec( db, DATA_DATABASE_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
-            if ( SQLITE_OK != sqlite_err )
-            {
-                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_COMMIT_TRANSACTION );
-                U8_LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if ( error_msg != NULL )
-            {
-                U8_LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-                sqlite3_free( error_msg );
-                error_msg = NULL;
-            }
-        }
-        (*this_).transaction_recursion --;
-    }
-    else
-    {
-        U8_LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_COMMIT_TRANSACTION );
-        result = U8_ERROR_NO_DB;
-    }
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
+/* ================================ Lifecycle Lock ================================ */
 
 
 /*
