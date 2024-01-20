@@ -508,6 +508,9 @@ u8_error_t data_database_private_initialize_tables( data_database_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
+    /* since the database is locked during data_database_private_initialize_tables */
+    /* we cannot call data_database_transaction_begin or data_database_in_transaction_execute here */
+
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_HEAD_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_CLASSIFIER_TABLE, false );
     result |= data_database_private_exec_sql( this_, DATA_DATABASE_CREATE_RELATIONSHIP_TABLE, false );

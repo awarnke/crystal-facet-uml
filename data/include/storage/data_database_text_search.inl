@@ -36,57 +36,6 @@ static inline u8_error_t data_database_text_search_get_objects_by_text_fragment 
 
 /* ================================ private ================================ */
 
-static inline u8_error_t data_database_text_search_private_prepare_statement ( data_database_text_search_t *this_,
-                                                                               const char *string_statement,
-                                                                               unsigned int string_size,
-                                                                               sqlite3_stmt **out_statement_ptr )
-{
-    assert( NULL != string_statement );
-    assert( NULL != out_statement_ptr );
-    u8_error_t result = U8_ERROR_NONE;
-    const char *first_unused_statement_char;
-    int sqlite_err;
-    sqlite3 *db;
-
-    db = data_database_get_database_ptr ( (*this_).database );
-
-    U8_TRACE_INFO_STR( "sqlite3_prepare_v2():", string_statement );
-    sqlite_err = sqlite3_prepare_v2( db,
-                                     string_statement,
-                                     string_size,
-                                     out_statement_ptr,
-                                     &first_unused_statement_char
-                                   );
-    if (( SQLITE_OK != sqlite_err )
-        || ( first_unused_statement_char != &(string_statement[string_size-1]) ))
-    {
-        U8_LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
-        U8_LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-        U8_LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
-        result |= U8_ERROR_AT_DB;
-    }
-
-    return result;
-}
-
-static inline u8_error_t data_database_text_search_private_finalize_statement ( data_database_text_search_t *this_, sqlite3_stmt *statement_ptr )
-{
-    assert( NULL != statement_ptr );
-    u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-
-    U8_TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql(statement_ptr) );
-    sqlite_err = sqlite3_finalize( statement_ptr );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        U8_LOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql(statement_ptr) );
-        U8_LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-        result |= U8_ERROR_AT_DB;
-    }
-
-    return result;
-}
-
 #if 0
 static inline u8_error_t data_database_text_search_private_bind_two_texts_to_statement ( data_database_text_search_t *this_,
                                                                                          sqlite3_stmt *statement_ptr,

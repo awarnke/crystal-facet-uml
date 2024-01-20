@@ -1209,83 +1209,83 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
     u8_error_t result = U8_ERROR_NONE;
 
     {
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
-                                                                              &((*this_).statement_classifier_by_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
+                                                   &((*this_).statement_classifier_by_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_UUID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_UUID ),
-                                                                              &((*this_).statement_classifier_by_uuid)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_UUID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_UUID ),
+                                                   &((*this_).statement_classifier_by_uuid)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME ),
-                                                                              &((*this_).statement_classifier_by_name)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME ),
+                                                   &((*this_).statement_classifier_by_name)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
-                                                                              &((*this_).statement_classifiers_by_diagram_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
+                                                   &((*this_).statement_classifiers_by_diagram_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
-                                                                              &((*this_).statement_feature_by_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
+                                                   &((*this_).statement_feature_by_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_FEATURE_BY_UUID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_UUID ),
-                                                                              &((*this_).statement_feature_by_uuid)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_FEATURE_BY_UUID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_UUID ),
+                                                   &((*this_).statement_feature_by_uuid)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID ),
-                                                                              &((*this_).statement_features_by_classifier_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID ),
+                                                   &((*this_).statement_features_by_classifier_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID ),
-                                                                              &((*this_).statement_features_by_diagram_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID ),
+                                                   &((*this_).statement_features_by_diagram_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
-                                                                              &((*this_).statement_relationship_by_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
+                                                   &((*this_).statement_relationship_by_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_UUID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_UUID ),
-                                                                              &((*this_).statement_relationship_by_uuid)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_UUID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_UUID ),
+                                                   &((*this_).statement_relationship_by_uuid)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID ),
-                                                                              &((*this_).statement_relationships_by_classifier_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID ),
+                                                   &((*this_).statement_relationships_by_classifier_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID ),
-                                                                              &((*this_).statement_relationships_by_feature_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID ),
+                                                   &((*this_).statement_relationships_by_feature_id)
+                                                 );
 
-        result |= data_database_classifier_reader_private_prepare_statement ( this_,
-                                                                              DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
-                                                                              sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID ),
-                                                                              &((*this_).statement_relationships_by_diagram_id)
-                                                                            );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
+                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID ),
+                                                   &((*this_).statement_relationships_by_diagram_id)
+                                                 );
 
         if ( result != U8_ERROR_NONE )
         {
@@ -1303,43 +1303,43 @@ u8_error_t data_database_classifier_reader_private_close ( data_database_classif
     u8_error_t result = U8_ERROR_NONE;
 
     {
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_classifier_by_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifier_by_id );
         (*this_).statement_classifier_by_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_classifier_by_name );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifier_by_name );
         (*this_).statement_classifier_by_name = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_classifier_by_uuid );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifier_by_uuid );
         (*this_).statement_classifier_by_uuid = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_classifiers_by_diagram_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifiers_by_diagram_id );
         (*this_).statement_classifiers_by_diagram_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_feature_by_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_feature_by_id );
         (*this_).statement_feature_by_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_feature_by_uuid );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_feature_by_uuid );
         (*this_).statement_feature_by_uuid = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_features_by_classifier_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_features_by_classifier_id );
         (*this_).statement_features_by_classifier_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_features_by_diagram_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_features_by_diagram_id );
         (*this_).statement_features_by_diagram_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_relationship_by_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationship_by_id );
         (*this_).statement_relationship_by_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_relationship_by_uuid );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationship_by_uuid );
         (*this_).statement_relationship_by_uuid = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_relationships_by_classifier_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationships_by_classifier_id );
         (*this_).statement_relationships_by_classifier_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_relationships_by_feature_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationships_by_feature_id );
         (*this_).statement_relationships_by_feature_id = NULL;
 
-        result |= data_database_classifier_reader_private_finalize_statement( this_, (*this_).statement_relationships_by_diagram_id );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationships_by_diagram_id );
         (*this_).statement_relationships_by_diagram_id = NULL;
     }
 

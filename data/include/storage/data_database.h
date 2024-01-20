@@ -220,7 +220,7 @@ u8_error_t data_database_in_transaction_create ( data_database_t *this_, const c
 u8_error_t data_database_in_transaction_execute ( data_database_t *this_, const char* sql_statement );
 
 /*!
- *  \brief checks if the database file is open and executes an sql statement
+ *  \brief executes an sql statement, does not check if the database file is open
  *
  *  This function does not care about locks. It does not sent notifications.
  *
@@ -229,7 +229,31 @@ u8_error_t data_database_in_transaction_execute ( data_database_t *this_, const 
  *  \param ignore_errors if true, no errors are printed to syslog
  *  \return U8_ERROR_READ_ONLY_DB if read oly, U8_ERROR_AT_DB if other error, U8_ERROR_NONE if no error
  */
-static inline u8_error_t data_database_private_exec_sql( data_database_t *this_, const char* sql_command, bool ignore_errors );
+static inline u8_error_t data_database_private_exec_sql ( data_database_t *this_, const char* sql_command, bool ignore_errors );
+
+/*!
+ *  \brief creates a prepared statement.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param string_statement statement as string to be prepared
+ *  \param string_size size of string_statement in bytes, including the terminating zero
+ *  \param out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ */
+static inline u8_error_t data_database_prepare_statement ( data_database_t *this_,
+                                                           const char *string_statement,
+                                                           unsigned int string_size,
+                                                           sqlite3_stmt **out_statement_ptr
+                                                         );
+
+/*!
+ *  \brief finalizes a prepared statement.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param statement_ptr pointer to a statement object
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ */
+static inline u8_error_t data_database_finalize_statement ( data_database_t *this_, sqlite3_stmt *statement_ptr );
 
 /* ================================ Information ================================ */
 

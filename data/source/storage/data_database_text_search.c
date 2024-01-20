@@ -729,26 +729,26 @@ u8_error_t data_database_text_search_private_open( data_database_text_search_t *
 
     if ( ! (*this_).is_open )
     {
-        result |= data_database_text_search_private_prepare_statement( this_,
-                                                                       data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT,
-                                                                       sizeof( data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).statement_diagram_ids_by_textfragment)
-                                                                     );
-        result |= data_database_text_search_private_prepare_statement( this_,
-                                                                       data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT,
-                                                                       sizeof( data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).statement_classifier_ids_by_textfragment)
-                                                                     );
-        result |= data_database_text_search_private_prepare_statement( this_,
-                                                                       data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT,
-                                                                       sizeof( data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).statement_feature_ids_by_textfragment)
-                                                                     );
-        result |= data_database_text_search_private_prepare_statement( this_,
-                                                                       data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT,
-                                                                       sizeof( data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT ),
-                                                                       &((*this_).statement_relationship_ids_by_textfragment)
-                                                                     );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT,
+                                                   sizeof( data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT ),
+                                                   &((*this_).statement_diagram_ids_by_textfragment)
+                                                 );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT,
+                                                   sizeof( data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT ),
+                                                   &((*this_).statement_classifier_ids_by_textfragment)
+                                                 );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT,
+                                                   sizeof( data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT ),
+                                                   &((*this_).statement_feature_ids_by_textfragment)
+                                                 );
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT,
+                                                   sizeof( data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT ),
+                                                   &((*this_).statement_relationship_ids_by_textfragment)
+                                                 );
 
         (*this_).is_open = true;
     }
@@ -769,10 +769,10 @@ u8_error_t data_database_text_search_private_close( data_database_text_search_t 
 
     if ( (*this_).is_open )
     {
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_relationship_ids_by_textfragment );
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_feature_ids_by_textfragment );
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_classifier_ids_by_textfragment );
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).statement_diagram_ids_by_textfragment );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationship_ids_by_textfragment );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_feature_ids_by_textfragment );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifier_ids_by_textfragment );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_diagram_ids_by_textfragment );
 
         (*this_).is_open = false;
     }

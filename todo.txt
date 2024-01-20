@@ -21,6 +21,7 @@ ideas for future versions:
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
+  [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

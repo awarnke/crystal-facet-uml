@@ -11,17 +11,17 @@
 /*!
  *  \brief value separator string constant to insert a diagram or classifier or other table-row
  */
-static const char *DATA_DATABASE_HEAD_INSERT_VALUE_SEPARATOR = ",";
+static const char *const DATA_DATABASE_HEAD_INSERT_VALUE_SEPARATOR = ",";
 
 /*!
  *  \brief string start marker string constant to insert/update a diagram
  */
-static const char *DATA_DATABASE_HEAD_STRING_VALUE_START = "\'";
+static const char *const DATA_DATABASE_HEAD_STRING_VALUE_START = "\'";
 
 /*!
  *  \brief string end marker string constant to insert/update a diagram
  */
-static const char *DATA_DATABASE_HEAD_STRING_VALUE_END = "\'";
+static const char *const DATA_DATABASE_HEAD_STRING_VALUE_END = "\'";
 
 /*!
  *  \brief translation table to encode strings for usage in string literals
@@ -33,36 +33,39 @@ const char *const (DATA_DATABASE_HEAD_SQL_ENCODE[][2]) = {
     { NULL, NULL }
 };
 
-#if 0
 /*!
  *  \brief prefix search statement to find a head value by key
  */
-static const char DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_PREFIX[] =
+static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_PREFIX =
     "SELECT id,key,value FROM head WHERE key=";
 
 /*!
  *  \brief postfix search statement to find a head value by key
  */
-static const char DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_POSTFIX[] = ";";
-#endif
+static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_POSTFIX = ";";
 
 /*!
  *  \brief prefix string constant to insert a head value
  */
-static const char *DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX =
+static const char *const DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX =
     "INSERT INTO head (key,value) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a head value
  */
-static const char *DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX = ");";
+static const char *const DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX = ");";
 
 #if 0
 /*!
  *  \brief prefix string constant to delete a head value
  */
-static const char *DATA_DATABASE_HEAD_DELETE_DIAGRAM_PREFIX =
+static const char *const ATA_DATABASE_HEAD_DELETE_DIAGRAM_PREFIX =
     "DELETE FROM head WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a head value
+ */
+static const char *const DATA_DATABASE_HEAD_DELETE_DIAGRAM_POSTFIX = ";";
 #endif
 
 void data_database_head_init ( data_database_head_t *this_, data_database_t *database )
@@ -118,7 +121,61 @@ u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, c
     assert( key != NULL );
     assert( out_head != NULL );
     u8_error_t result = U8_ERROR_NONE;
+    sqlite3_stmt *prepared_statement;
 
+    /* create an sql command */
+    {
+        result |= universal_memory_output_stream_reset( &((*this_).plain_sql) );
+
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_PREFIX );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+        result |= utf8stream_writer_write_str( &((*this_).escaped), key );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_POSTFIX );
+
+        result |= universal_memory_output_stream_write_0term( &((*this_).plain_sql), true );
+    }
+
+    if ( result == U8_ERROR_NONE )
+    {
+        const char *const sql_cmd = &((*this_).private_sql_buffer[0]);
+        int sqlite_err;
+
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   sql_cmd,
+                                                   utf8string_get_length( sql_cmd ) + sizeof( char ),
+                                                   &prepared_statement
+                                                 );
+
+        U8_TRACE_INFO( "sqlite3_step()" );
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_ROW != sqlite_err )
+        {
+            /* Do not log this incident, the caller may not expect to find a row. */
+            U8_TRACE_INFO_STR( "sqlite3_step did not find a row for key", key );
+            result |= U8_ERROR_NOT_FOUND;
+        }
+
+        if ( SQLITE_ROW == sqlite_err )
+        {
+            result |= data_head_init( out_head,
+                                      sqlite3_column_int64( prepared_statement, 0 ),
+                                      (const char*) sqlite3_column_text( prepared_statement, 1 ),
+                                      (const char*) sqlite3_column_text( prepared_statement, 2 )
+                                    );
+
+            data_head_trace( out_head );
+        }
+
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_DONE != sqlite_err )
+        {
+            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+            result |= U8_ERROR_DB_STRUCTURE;
+        }
+
+        result |= data_database_finalize_statement( (*this_).database, prepared_statement );
+    }
 
     U8_TRACE_END_ERR( result );
     return( result );
@@ -130,21 +187,24 @@ u8_error_t data_database_head_create_value ( data_database_head_t *this_, const 
     assert( head != NULL );
     u8_error_t result = U8_ERROR_NONE;
 
-    result |= universal_memory_output_stream_reset( &((*this_).plain_sql) );
+    /* create an sql command */
+    {
+        result |= universal_memory_output_stream_reset( &((*this_).plain_sql) );
 
-    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX );
-    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
-    utf8string_t *const key = data_head_get_key_const( head );
-    result |= utf8stream_writer_write_str( &((*this_).escaped), key );
-    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
-    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_VALUE_SEPARATOR );
-    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
-    utf8string_t *const value = data_head_get_value_const( head );
-    result |= utf8stream_writer_write_str( &((*this_).escaped), value );
-    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
-    result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+        utf8string_t *const key = data_head_get_key_const( head );
+        result |= utf8stream_writer_write_str( &((*this_).escaped), key );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_VALUE_SEPARATOR );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+        utf8string_t *const value = data_head_get_value_const( head );
+        result |= utf8stream_writer_write_str( &((*this_).escaped), value );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
+        result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX );
 
-    result |= universal_memory_output_stream_write_0term( &((*this_).plain_sql), true );
+        result |= universal_memory_output_stream_write_0term( &((*this_).plain_sql), true );
+    }
 
     if ( result == U8_ERROR_NONE )
     {
