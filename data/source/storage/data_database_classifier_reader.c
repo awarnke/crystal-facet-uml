@@ -174,7 +174,7 @@ u8_error_t data_database_classifier_reader_get_classifier_by_id( data_database_c
         {
             /* this situation may happen if a classifier is deleted that is shown in the attributes editor */
             U8_TRACE_INFO_INT( "sqlite3_step did not find a row for id", id );
-            result |= U8_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;  /* non-existing ids are worse than U8_ERROR_NOT_FOUND */
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -192,13 +192,13 @@ u8_error_t data_database_classifier_reader_get_classifier_by_id( data_database_c
                                           );
 
             data_classifier_trace( out_classifier );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -245,13 +245,13 @@ u8_error_t data_database_classifier_reader_get_classifier_by_name( data_database
                                           );
 
             data_classifier_trace( out_classifier );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -299,13 +299,13 @@ u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_databas
                                           );
 
             data_classifier_trace( out_classifier );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -514,7 +514,7 @@ u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_cla
         if ( SQLITE_ROW != sqlite_err )
         {
             U8_TRACE_INFO_INT( "sqlite3_step did not find a row for id", id );
-            result |= U8_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;  /* non-existing ids are worse than U8_ERROR_NOT_FOUND */
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -531,13 +531,13 @@ u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_cla
                                        );
 
             data_feature_trace( out_feature );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -584,13 +584,13 @@ u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_c
                                        );
 
             data_feature_trace( out_feature );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -868,7 +868,7 @@ u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_databas
         if ( SQLITE_ROW != sqlite_err )
         {
             U8_TRACE_INFO_INT( "sqlite3_step did not find a row for id", id );
-            result |= U8_ERROR_DB_STRUCTURE;
+            result |= U8_ERROR_DB_STRUCTURE;  /* non-existing ids are worse than U8_ERROR_NOT_FOUND */
         }
 
         if ( SQLITE_ROW == sqlite_err )
@@ -896,13 +896,13 @@ u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_databas
             }
 
             data_relationship_trace( out_relationship );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -960,13 +960,13 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
             }
 
             data_relationship_trace( out_relationship );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 

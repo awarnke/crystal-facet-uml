@@ -77,7 +77,7 @@ void data_database_head_init ( data_database_head_t *this_, data_database_t *dat
     /* initialize a memory output stream */
     universal_memory_output_stream_init( &((*this_).plain_sql),
                                          &((*this_).private_sql_buffer),
-                                         sizeof((*this_).plain_sql) );
+                                         sizeof((*this_).private_sql_buffer) );
 
     universal_output_stream_t *const plain_output
         = universal_memory_output_stream_get_output_stream( &((*this_).plain_sql) );
@@ -165,13 +165,13 @@ u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, c
                                     );
 
             data_head_trace( out_head );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
 
         result |= data_database_finalize_statement( (*this_).database, prepared_statement );

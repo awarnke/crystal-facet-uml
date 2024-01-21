@@ -202,13 +202,13 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagra
             }
 
             data_diagram_trace( out_diagram );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -260,13 +260,13 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
             }
 
             data_diagram_trace( out_diagram );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -622,13 +622,13 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database
             }
 
             data_diagramelement_trace( out_diagramelement );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
@@ -677,13 +677,13 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
             }
 
             data_diagramelement_trace( out_diagramelement );
-        }
 
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
-            result |= U8_ERROR_DB_STRUCTURE;
+            sqlite_err = sqlite3_step( prepared_statement );
+            if ( SQLITE_DONE != sqlite_err )
+            {
+                U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
+                result |= U8_ERROR_DB_STRUCTURE;
+            }
         }
     }
 
