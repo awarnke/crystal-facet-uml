@@ -10,13 +10,19 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
-static test_case_result_t test_crud_head( test_fixture_t *fix );
+static test_case_result_t test_create_head( test_fixture_t *fix );
+static test_case_result_t test_read_head( test_fixture_t *fix );
+static test_case_result_t test_update_head( test_fixture_t *fix );
+static test_case_result_t test_delete_head( test_fixture_t *fix );
 
 test_suite_t data_database_head_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result, "data_database_head_test", &set_up, &tear_down );
-    test_suite_add_test_case( &result, "test_crud_head", &test_crud_head );
+    test_suite_add_test_case( &result, "test_create_head", &test_create_head );
+    test_suite_add_test_case( &result, "test_read_head", &test_read_head );
+    test_suite_add_test_case( &result, "test_update_head", &test_update_head );
+    test_suite_add_test_case( &result, "test_delete_head", &test_delete_head );
     return result;
 }
 
@@ -44,7 +50,7 @@ static void tear_down( test_fixture_t *fix )
 static const char *const TEST_KEY = "ID42";
 static const char *const TEST_VAL = "VALUE 7890 2345 7890 2345 7890 2345 7890 2345 7890";
 
-static test_case_result_t test_crud_head( test_fixture_t *fix )
+static test_case_result_t test_create_head( test_fixture_t *fix )
 {
     assert( fix != NULL );
     u8_error_t data_err;
@@ -53,21 +59,146 @@ static test_case_result_t test_crud_head( test_fixture_t *fix )
     data_database_head_t test_me;
     data_database_head_init( &test_me, &((*fix).database) );
 
-    data_err = data_database_head_read_value_by_key( &test_me, TEST_KEY, &value );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
-
+    /* create/insert success */
     data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     data_row_id_t new_id = DATA_ROW_ID_VOID;
     data_err = data_database_head_create_value( &test_me, &value, &new_id );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
+    /* read success */
     data_err = data_database_head_read_value_by_key( &test_me, TEST_KEY, &value );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
     TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
     TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
+
+    /* create/insert error */
+    data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    new_id = DATA_ROW_ID_VOID;
+    data_err = data_database_head_create_value( &test_me, &value, &new_id );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_DUPLICATE, data_err );
+
+    data_database_head_destroy( &test_me );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_read_head( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    u8_error_t data_err;
+    data_head_t value;
+
+    data_database_head_t test_me;
+    data_database_head_init( &test_me, &((*fix).database) );
+
+    /* read error */
+    data_err = data_database_head_read_value_by_key( &test_me, TEST_KEY, &value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
+
+    /* create/insert success */
+    data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
+    data_err = data_database_head_create_value( &test_me, &value, &new_id );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+
+    /* read by key success */
+    data_err = data_database_head_read_value_by_key( &test_me, TEST_KEY, &value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
+    TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
+
+    /* read by id success */
+    data_err = data_database_head_read_value_by_id( &test_me, new_id, &value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
+    TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
+
+    data_database_head_destroy( &test_me );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_update_head( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    u8_error_t data_err;
+    data_head_t value;
+
+    data_database_head_t test_me;
+    data_database_head_init( &test_me, &((*fix).database) );
+
+    /* create/insert success */
+    data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
+    data_err = data_database_head_create_value( &test_me, &value, &new_id );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+
+    /* update success, no result */
+    data_err = data_database_head_update_value( &test_me, new_id, "OTHER", NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+
+    /* update success, with result */
+    data_err = data_database_head_update_value( &test_me, new_id, "THIRD", &value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
+    TEST_EXPECT_EQUAL_STRING( "OTHER", data_head_get_value_const( &value ) );
+    TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
+
+    /* read success */
+    data_err = data_database_head_read_value_by_id( &test_me, new_id, &value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
+    TEST_EXPECT_EQUAL_STRING( "THIRD", data_head_get_value_const( &value ) );
+    TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
+
+    data_database_head_destroy( &test_me );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_delete_head( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    u8_error_t data_err;
+    data_head_t value;
+
+    data_database_head_t test_me;
+    data_database_head_init( &test_me, &((*fix).database) );
+
+    /* create/insert success */
+    data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_row_id_t new_id = DATA_ROW_ID_VOID;
+    data_err = data_database_head_create_value( &test_me, &value, &new_id );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+
+    /* delete success */
+    data_err = data_database_head_delete_value( &test_me, new_id, &value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    TEST_EXPECT_EQUAL_INT( new_id, data_head_get_row_id( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_KEY, data_head_get_key_const( &value ) );
+    TEST_EXPECT_EQUAL_STRING( TEST_VAL, data_head_get_value_const( &value ) );
+    TEST_EXPECT_EQUAL_INT( true, data_head_has_value( &value ) );
+
+    /* delete error */
+    data_err = data_database_head_delete_value( &test_me, new_id, NULL );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+
+    /* delete error */
+    data_err = data_database_head_delete_value( &test_me, new_id, &value );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
 
     data_database_head_destroy( &test_me );
 

@@ -52,6 +52,17 @@ void data_database_head_destroy ( data_database_head_t *this_ );
  *  \brief reads a head value from the database
  *
  *  \param this_ pointer to own object attributes
+ *  \param obj_id the row id of the head value to be read from the database
+ *  \param[out] out_head the head value read from the database (in case of success)
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, data_row_id_t obj_id, data_head_t *out_head );
+
+/*!
+ *  \brief reads a head value from the database
+ *
+ *  \param this_ pointer to own object attributes
  *  \param key the key of the head value to be read from the database
  *  \param[out] out_head the head value read from the database (in case of success)
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
@@ -78,7 +89,7 @@ u8_error_t data_database_head_create_value ( data_database_head_t *this_, const 
  *  \param obj_id id of the head record to be deleted.
  *  \param[out] out_old_head storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if duplicate id or duplicate key, otherwise an other error code.
+ *  \return U8_ERROR_NONE in case of success, error id otherwise.
  */
 u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_row_id_t obj_id, data_head_t *out_old_head );
 
