@@ -3,7 +3,7 @@
 #include "data_head_key.h"
 
 /* const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT = "DATA_FILE_FORMAT"; */
-const char *const DATA_HEAD_KEY_DATA_FILE_PATH = "DATA_FILE_PATH";
+const char *const DATA_HEAD_KEY_DATA_FILE_NAME = "DATA_FILE_NAME";
 const char *const DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_CHECKSUM = "DATA_FILE_LAST_SYNC_CHECKSUM";
 
 

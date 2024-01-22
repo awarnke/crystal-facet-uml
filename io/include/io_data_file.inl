@@ -68,6 +68,7 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     }
     if (( last_dot > start_basename )&&( len != ( last_dot + dot_length ) ))
     {
+        /* There is a dot within the base name, neither the first nor the last character */
         err|= utf8stringview_init_region( out_basename, path, start_basename, ( last_dot - start_basename ) );
         err|= utf8stringview_init_region( out_extension, path, last_dot+dot_length, ( len - last_dot - dot_length ) );
     }

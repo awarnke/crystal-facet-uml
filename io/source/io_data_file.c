@@ -6,6 +6,8 @@
 #include "io_importer.h"
 #include "io_import_mode.h"
 #include "data_head.h"
+#include "data_head_key.h"
+#include "storage/data_database_head.h"
 #include "u8dir/u8dir_file.h"
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_null_output_stream.h"
@@ -178,6 +180,28 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( (*this_).db_file_name ) );
         }
+    }
+
+    /* Reading the DATA_HEAD_KEY_DATA_FILE_NAME from the just opened (*this_).db_file_name */
+    /* If found, update (*this_).data_file_name; otherwise if there is a json-writeback file, store the name */
+    if ( err == U8_ERROR_NONE )
+    {
+        data_database_head_t head_table;
+        data_database_head_init( &head_table, &((*this_).database) );
+        data_head_t head;
+        u8_error_t key_err = data_database_head_read_value_by_key( &head_table, DATA_HEAD_KEY_DATA_FILE_NAME, &head );
+        if ( key_err == U8_ERROR_NONE )
+        {
+            U8_TRACE_INFO_STR( "DATA_FILE_NAME:", data_head_get_value_const( &head ) );
+            /* set the data_file_name to the read head value */
+            err |= utf8stringbuf_copy_str( (*this_).data_file_name, data_head_get_value_const( &head ) );
+        }
+        else if ( (*this_).auto_writeback_to_json )
+        {
+            data_head_init_new( &head, DATA_HEAD_KEY_DATA_FILE_NAME, utf8stringbuf_get_string( (*this_).data_file_name ) );
+            err |= data_database_head_create_value( &head_table, &head, NULL );
+        }
+        data_database_head_destroy( &head_table );
     }
 
     U8_TRACE_END_ERR( err );

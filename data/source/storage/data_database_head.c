@@ -96,7 +96,6 @@ u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, da
     U8_TRACE_BEGIN();
     assert( out_head != NULL );
     u8_error_t result = U8_ERROR_NONE;
-    sqlite3_stmt *prepared_statement;
 
     /* create an sql command */
     {
@@ -112,6 +111,7 @@ u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, da
     if ( result == U8_ERROR_NONE )
     {
         const char *const sql_cmd = &((*this_).private_sql_buffer[0]);
+        sqlite3_stmt *prepared_statement;
         int sqlite_err;
 
         result |= data_database_prepare_statement( (*this_).database,
@@ -171,7 +171,6 @@ u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, c
     assert( key != NULL );
     assert( out_head != NULL );
     u8_error_t result = U8_ERROR_NONE;
-    sqlite3_stmt *prepared_statement;
 
     /* create an sql command */
     {
@@ -189,6 +188,7 @@ u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, c
     if ( result == U8_ERROR_NONE )
     {
         const char *const sql_cmd = &((*this_).private_sql_buffer[0]);
+        sqlite3_stmt *prepared_statement;
         int sqlite_err;
 
         result |= data_database_prepare_statement( (*this_).database,
@@ -310,7 +310,7 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_r
         result |= data_database_head_read_value_by_id ( this_, obj_id, out_old_head );
     }
 
-    /* create an sql command */
+    /* create an sql command AFTER(!) reading the old value, same stringbuffer is used. */
     {
         result |= universal_memory_output_stream_reset( &((*this_).plain_sql) );
 
@@ -363,7 +363,7 @@ u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_r
         result |= data_database_head_read_value_by_id ( this_, head_id, out_old_head );
     }
 
-    /* create an sql command */
+    /* create an sql command AFTER(!) reading the old value, same stringbuffer is used. */
     {
         result |= universal_memory_output_stream_reset( &((*this_).plain_sql) );
 

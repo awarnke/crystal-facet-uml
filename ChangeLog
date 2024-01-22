@@ -1,7 +1,8 @@
 crystal-facet-uml (1.55.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * ...
+  * when loading a .tmp-cfu file from a terminated session, the right json file
+    is restored, not the guessed .cfuJ file name.
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 06 Jan 2024 10:00:00 +0100
 

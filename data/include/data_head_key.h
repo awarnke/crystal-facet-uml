@@ -10,7 +10,7 @@
  */
 
 /* extern const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT; */
-extern const char *const DATA_HEAD_KEY_DATA_FILE_PATH;  /* TODO: Shall this be a relative or an absolute path or just a filename? */
+extern const char *const DATA_HEAD_KEY_DATA_FILE_NAME;
 extern const char *const DATA_HEAD_KEY_DATA_FILE_LAST_SYNC_CHECKSUM;
 
 #endif  /* DATA_HEAD_KEY_H */

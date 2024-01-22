@@ -24,7 +24,7 @@
  */
 struct data_database_head_struct {
     data_database_t *database;  /*!< pointer to external database */
-    char private_sql_buffer[1024+1024];  /* sufficient size to encode a data record including DATA_HEAD_MAX_VALUE_LENGTH */
+    char private_sql_buffer[2048];  /* sufficient size to encode a data record including DATA_HEAD_MAX_VALUE_LENGTH */
     universal_memory_output_stream_t plain_sql;  /* an output stream to write to private_sql_buffer as plain utf8 */
     utf8stream_writer_t plain;  /* an utf8 writer to write to plain_sql */
     universal_escaping_output_stream_t escaped_sql;  /* an output stream to write to private_sql_buffer sql encoded */
@@ -57,7 +57,10 @@ void data_database_head_destroy ( data_database_head_t *this_ );
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, data_row_id_t obj_id, data_head_t *out_head );
+u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_,
+                                                 data_row_id_t obj_id,
+                                                 data_head_t *out_head
+                                               );
 
 /*!
  *  \brief reads a head value from the database
@@ -68,7 +71,10 @@ u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, da
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, const char *key, data_head_t *out_head );
+u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_,
+                                                  const char *key,
+                                                  data_head_t *out_head
+                                                );
 
 /*!
  *  \brief creates a head value and returns its id
@@ -80,7 +86,10 @@ u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, c
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if duplicate id or duplicate key, otherwise an other error code.
  */
-u8_error_t data_database_head_create_value ( data_database_head_t *this_, const data_head_t *head, data_row_id_t* out_new_id );
+u8_error_t data_database_head_create_value ( data_database_head_t *this_,
+                                             const data_head_t *head,
+                                             data_row_id_t* out_new_id
+                                           );
 
 /*!
  *  \brief deletes a head value and returns its old data
@@ -91,7 +100,10 @@ u8_error_t data_database_head_create_value ( data_database_head_t *this_, const 
  *
  *  \return U8_ERROR_NONE in case of success, error id otherwise.
  */
-u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_row_id_t obj_id, data_head_t *out_old_head );
+u8_error_t data_database_head_delete_value ( data_database_head_t *this_,
+                                             data_row_id_t obj_id,
+                                             data_head_t *out_old_head
+                                           );
 
 /*!
  *  \brief updates the head attribute: value
@@ -102,7 +114,11 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_r
  *  \param[out] out_old_head storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_row_id_t head_id, const char* new_head_value, data_head_t *out_old_head );
+u8_error_t data_database_head_update_value ( data_database_head_t *this_,
+                                             data_row_id_t head_id,
+                                             const char* new_head_value,
+                                             data_head_t *out_old_head
+                                           );
 
 #endif  /* DATA_DATABASE_HEAD_H */
 
