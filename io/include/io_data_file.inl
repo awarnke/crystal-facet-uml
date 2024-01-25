@@ -4,17 +4,17 @@
 #include <assert.h>
 
 static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
-                                                       const char* db_file_path,
+                                                       const char* requested_file_path,
                                                        u8_error_info_t *out_err_info )
 {
-    return io_data_file_open( this_, db_file_path, false, out_err_info );
+    return io_data_file_open( this_, requested_file_path, false, out_err_info );
 }
 
 static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
-                                                       const char* db_file_path,
+                                                       const char* requested_file_path,
                                                        u8_error_info_t *out_err_info )
 {
-    return io_data_file_open( this_, db_file_path, true, out_err_info );
+    return io_data_file_open( this_, requested_file_path, true, out_err_info );
 }
 
 static inline data_database_t *io_data_file_get_database_ptr ( io_data_file_t *this_ )
@@ -38,49 +38,96 @@ static inline bool io_data_file_is_open( io_data_file_t *this_ )
 }
 
 static inline void io_data_file_private_split_path( const io_data_file_t *this_,
-                                                    utf8string_t *path,
+                                                    const utf8stringview_t *path,
                                                     utf8stringview_t *out_parent,
-                                                    utf8stringview_t *out_basename,
-                                                    utf8stringview_t *out_extension )
+                                                    utf8stringview_t *out_filename )
 {
     assert( path != NULL );
     assert( out_parent != NULL );
+    assert( out_filename != NULL );
+    utf8stringview_t before_winpath_sep;
+    utf8stringview_t after_winpath_sep;
+    const utf8error_t err_w = utf8stringview_split_at_last_str( path, "\\", &before_winpath_sep, &after_winpath_sep );
+    if (  err_w == UTF8ERROR_SUCCESS )
+    {
+        /* add the separator to before_winpath_sep */
+        before_winpath_sep = UTF8STRINGVIEW( utf8stringview_get_start( &before_winpath_sep ),
+                                             utf8stringview_get_length( &before_winpath_sep ) + sizeof(char)
+                                           );
+    }
+    utf8stringview_t before_unixpath_sep;
+    utf8stringview_t after_unixpath_sep;
+    const utf8error_t err_u = utf8stringview_split_at_last_str( path, "/", &before_unixpath_sep, &after_unixpath_sep );
+    if ( err_u == UTF8ERROR_SUCCESS )
+    {
+        /* add the separator to before_unixpath_sep */
+        before_unixpath_sep = UTF8STRINGVIEW( utf8stringview_get_start( &before_unixpath_sep ),
+                                             utf8stringview_get_length( &before_unixpath_sep ) + sizeof(char)
+                                           );
+    }
+    if ( err_w == UTF8ERROR_SUCCESS )
+    {
+        if ( err_u == UTF8ERROR_SUCCESS )
+        {
+            /* There is a win and a unix separator, take the shorter filename */
+            if ( utf8stringview_get_length( &after_winpath_sep ) < utf8stringview_get_length( &after_unixpath_sep ) )
+            {
+                *out_parent = before_winpath_sep;
+                *out_filename = after_winpath_sep;
+            }
+            else
+            {
+                *out_parent = before_unixpath_sep;
+                *out_filename = after_unixpath_sep;
+            }
+        }
+        else
+        {
+            /* There is a win separator */
+            *out_parent = before_winpath_sep;
+            *out_filename = after_winpath_sep;
+        }
+    }
+    else
+    {
+        if ( err_u == UTF8ERROR_SUCCESS )
+        {
+            /* There is a unix separator */
+            *out_parent = before_unixpath_sep;
+            *out_filename = after_unixpath_sep;
+        }
+        else
+        {
+            /* There is neither a win nor a unix separator */
+            *out_parent = UTF8STRINGVIEW_EMPTY;
+            *out_filename = *path;
+        }
+    }
+}
+
+static inline void io_data_file_private_split_extension( const io_data_file_t *this_,
+                                                         const utf8stringview_t *filename,
+                                                         utf8stringview_t *out_basename,
+                                                         utf8stringview_t *out_extension )
+{
+    assert( filename != NULL );
     assert( out_basename != NULL );
     assert( out_extension != NULL );
-    const int last_winpath_sep = utf8string_find_last_str( path, "\\" );
-    const int last_unixpath_sep = utf8string_find_last_str( path, "/" );
-    const int last_sep = u8_i32_max2( last_winpath_sep, last_unixpath_sep );
-    const int sep_length = utf8string_get_length( "/" );
-    const int last_dot = utf8string_find_last_str( path, "." );
-    const int dot_length = utf8string_get_length( "." );
-    const int len = utf8string_get_length( path );
-    int start_basename;
-    utf8error_t err = UTF8ERROR_SUCCESS;
-    if ( last_sep == -1 )
+    utf8stringview_t before_dot;
+    utf8stringview_t after_dot;
+    const utf8error_t err = utf8stringview_split_at_last_str( filename, ".", &before_dot, &after_dot );
+    if ( ( err != UTF8ERROR_SUCCESS )
+        || ( utf8stringview_get_length( &before_dot ) == 0 )
+        || ( utf8stringview_get_length( &after_dot ) == 0 ) )
     {
-        *out_parent = UTF8STRINGVIEW_EMPTY;
-        start_basename = 0;
-    }
-    else
-    {
-        err|= utf8stringview_init_region( out_parent, path, 0, last_sep + sep_length );
-        start_basename = last_sep + sep_length;
-    }
-    if (( last_dot > start_basename )&&( len != ( last_dot + dot_length ) ))
-    {
-        /* There is a dot within the base name, neither the first nor the last character */
-        err|= utf8stringview_init_region( out_basename, path, start_basename, ( last_dot - start_basename ) );
-        err|= utf8stringview_init_region( out_extension, path, last_dot+dot_length, ( len - last_dot - dot_length ) );
-    }
-    else
-    {
-        err|= utf8stringview_init_region( out_basename, path, start_basename, ( len - start_basename ) );
+        /* either no dot found or the filename begins with dot or the filename ends on dot */
+        *out_basename = *filename;
         *out_extension = UTF8STRINGVIEW_EMPTY;
     }
-    if ( err != UTF8ERROR_SUCCESS )
+    else
     {
-        U8_LOG_ERROR("Unexpected internal error in formula for io_data_file_private_split_path()");
-        assert( false );
+        *out_basename = before_dot;
+        *out_extension = after_dot;
     }
 }
 

@@ -60,14 +60,14 @@ void io_data_file_destroy ( io_data_file_t *this_ );
  *  Note that this function opens a database either writeable or in read-only mode if the file is read-only.
  *
  *  \param this_ pointer to own object attributes
- *  \param db_file_path a relative or absolute file path
+ *  \param requested_file_path a relative or absolute file path
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
 static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
-                                                       const char* db_file_path,
+                                                       const char* requested_file_path,
                                                        u8_error_info_t *out_err_info
                                                      );
 
@@ -79,14 +79,14 @@ static inline u8_error_t io_data_file_open_writeable ( io_data_file_t *this_,
  *  Note that this function opens even a possibly writeable file in read-only mode.
  *
  *  \param this_ pointer to own object attributes
- *  \param db_file_path a relative or absolute file path
+ *  \param requested_file_path a relative or absolute file path
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
  *          U8_ERROR_LEXiCAL_STRUCTURE or U8_ERROR_PARSER_STRUCTURE if file is no valid json format,
  *          U8_ERROR_NONE in case of success
  */
 static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
-                                                       const char* db_file_path,
+                                                       const char* requested_file_path,
                                                        u8_error_info_t *out_err_info
                                                      );
 
@@ -98,7 +98,7 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
  *  Note that this function opens a database either writeable or in read-only mode (if requested or the file is read-only)
  *
  *  \param this_ pointer to own object attributes
- *  \param db_file_path a relative or absolute file path
+ *  \param requested_file_path a relative or absolute file path
  *  \param read_only if true, the data file is not modified. Otherwise it depends on the write permissions of the file.
  *  \param out_err_info pointer to an error_info_t data struct that may provide an error description when returning
  *  \return U8_ERROR_NO_DB or U8_ERROR_AT_DB if file cannot be opened,
@@ -106,7 +106,7 @@ static inline u8_error_t io_data_file_open_read_only ( io_data_file_t *this_,
  *          U8_ERROR_NONE in case of success
  */
 u8_error_t io_data_file_open ( io_data_file_t *this_,
-                               const char* db_file_path,
+                               const char* requested_file_path,
                                bool read_only,
                                u8_error_info_t *out_err_info
                              );
@@ -181,22 +181,35 @@ static inline bool io_data_file_is_open ( io_data_file_t *this_ );
 u8_error_t io_data_file_private_guess_db_type ( const io_data_file_t *this_, const char *filename, bool *out_json );
 
 /*!
- *  \brief splits a file path into parent directory, basename and extension
+ *  \brief splits a file path into parent directory and filename
  *
  *  \param this_ pointer to own object attributes
  *  \param path an absolute or relative file path
  *  \param[out] out_parent parent directory including the final path separator.
- *  \param[out] out_basename basename of the file.
- *              If the extension is empty, basename includes the final dot. (e.g. . or .. or end_on_dot. )
- *              The basename cannot be empty - a leading dot does not start the extention.
- *  \param[out] out_parent the file extension excluding the leading dot.
+ *  \param[out] out_filename filename without parent-path of the file.
  */
 static inline void io_data_file_private_split_path( const io_data_file_t *this_,
-                                                    utf8string_t *path,
+                                                    const utf8stringview_t *path,
                                                     utf8stringview_t *out_parent,
-                                                    utf8stringview_t *out_basename,
-                                                    utf8stringview_t *out_extension
+                                                    utf8stringview_t *out_filename
                                                   );
+
+/*!
+ *  \brief splits a filename into basename and extension
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param filename a filename
+ *  \param[out] out_basename basename of the file.
+ *              If the extension is empty, basename includes the final dot. (e.g. . or .. or end_on_dot. )
+ *              A leading dot does not start the extention.
+ *              The basename cannot be empty.
+ *  \param[out] out_extension the file extension excluding the leading dot.
+ */
+static inline void io_data_file_private_split_extension( const io_data_file_t *this_,
+                                                         const utf8stringview_t *filename,
+                                                         utf8stringview_t *out_basename,
+                                                         utf8stringview_t *out_extension
+                                                       );
 
 /*!
  *  \brief imports the data from src_file to the currently open database.

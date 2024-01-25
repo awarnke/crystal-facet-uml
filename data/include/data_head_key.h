@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines the used keys of head values
+ *  \brief Defines the keys of head values
  */
 
 /* extern const char *const DATA_HEAD_KEY_DATA_FILE_FORMAT; */
