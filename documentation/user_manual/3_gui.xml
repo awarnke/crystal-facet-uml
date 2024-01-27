@@ -44,11 +44,11 @@
                     </listitem>
                     <listitem>
                         <para>
-                            If the file name ends with extension <command>.cfu1</command>, the binary sqlite3-based
-                            database format is stored.
+                            Enter a filename; the extension may be <command>.cfuJ</command>.
+                            A json-based file structure is used to store your data in a git-friendly format.
+                            Only if the file name ends with extension <command>.cfu1</command>,
+                            the binary sqlite3-based database format is stored.
                             This is compatible to older versions of crystal-facet-uml (&lt;1.35.0).
-                            Otherwise (e.g. <command>.cfuJ</command>) a json-based format is used to store your data in
-                            a git-friendly format.
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -78,8 +78,8 @@
                         <para>
                             If you find a <command>.tmp-cfu</command> file,
                             this indicates that the last session was possibly terminated abnormally.
-                            You may open this file to continue from the latest state
-                            or the <command>.cfuJ</command> to continue from the last save action.
+                            You should open this file to continue from the latest state.
+                            Alternatively, select the <command>.cfuJ</command> to continue from the last save action.
                             Do not open <command>*-journal</command> files.
                         </para>
                     </listitem>

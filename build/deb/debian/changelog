@@ -1,3 +1,14 @@
+crystal-facet-uml (1.55.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * when loading a .tmp-cfu file from a terminated session, the right json file
+    is restored, not the guessed .cfuJ file name.
+  * moved example_diagrams/ to documentation/examples
+  * gtk_widget_show/hide replaced by gtk4 function gtk_widget_set_visible
+  * gtk_image_set_from_pixbuf replaced by gtk_image_set_from_paintable of gtk4
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 27 Jan 2024 17:00:00 +0100
+
 crystal-facet-uml (1.55.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

@@ -39,7 +39,7 @@ crystal-facet-uml.1.gz: ${SOURCE}/manpage.xml ${SOURCE}/1_non_tech_intro_para.xm
 
 .PHONY: info
 info:
-	@printf "== call \\e[33;1m make install \\e[0m to update the files in folder ../../user_doc ==\n"
+	@printf "== call \\e[33;1m make install \\e[0m to update the files in folder ../../installation ==\n"
 
 .PHONY: clean
 clean:
@@ -66,4 +66,3 @@ install: crystal-facet-uml_documentation.pdf crystal-facet-uml.1.gz
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
