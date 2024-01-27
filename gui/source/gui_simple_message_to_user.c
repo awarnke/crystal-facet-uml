@@ -10,6 +10,10 @@
 #include <stdbool.h>
 #include <assert.h>
 
+#if ( GTK_MAJOR_VERSION < 4 )
+#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
+#endif
+
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
 {
     U8_TRACE_BEGIN();
@@ -22,6 +26,14 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
     (*this_).icon_image = icon_image;
     (*this_).res = res;
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    (*this_).icon_info = gdk_texture_new_for_pixbuf( gui_resources_get_message_info( (*this_).res ) );
+    (*this_).icon_warning = gdk_texture_new_for_pixbuf( gui_resources_get_message_warn( (*this_).res ) );
+    (*this_).icon_error = gdk_texture_new_for_pixbuf( gui_resources_get_message_error( (*this_).res ) );
+    (*this_).icon_about = gdk_texture_new_for_pixbuf( gui_resources_get_crystal_facet_uml( (*this_).res ) );
+    //        (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( texture ) ) );
+#endif
+
     (*this_).private_temp_str = utf8stringbuf_init( sizeof((*this_).private_temp_buf), (*this_).private_temp_buf );
     utf8stringbuf_clear( (*this_).private_temp_str );
 
@@ -31,6 +43,13 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
 void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+    g_object_unref( (*this_).icon_info );
+    g_object_unref( (*this_).icon_warning );
+    g_object_unref( (*this_).icon_error );
+    g_object_unref( (*this_).icon_about );
+#endif
 
     (*this_).text_label = NULL;
     (*this_).icon_image = NULL;
@@ -56,16 +75,16 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
         case GUI_SIMPLE_MESSAGE_CONTENT_ABOUT:
         {
             utf8stringbuf_append_str( (*this_).private_temp_str,
-                                        "This is " META_INFO_PROGRAM_NAME_STR " version "
+                                      "This is " META_INFO_PROGRAM_NAME_STR " version "
                                     );
             utf8stringbuf_append_str( (*this_).private_temp_str,
-                                        META_VERSION_STR
+                                      META_VERSION_STR
                                     );
             utf8stringbuf_append_str( (*this_).private_temp_str,
-                                        "\n"
-                                        "License: " META_INFO_LICENSE_STR " / "
-                                        "Copyright: " META_INFO_COPYRIGHT_STR "\n"
-                                        "Thanks to all who have contributed to improving and deploying this tool."
+                                      "\n"
+                                      "License: " META_INFO_LICENSE_STR " / "
+                                      "Copyright: " META_INFO_COPYRIGHT_STR "\n"
+                                      "Thanks to all who have contributed to improving and deploying this tool."
                                     );
         }
         break;
@@ -187,8 +206,8 @@ void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *thi
     U8_LOG_EVENT( utf8stringbuf_get_string( (*this_).private_temp_str ) );
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -227,8 +246,8 @@ void gui_simple_message_to_user_show_message_with_quantity ( gui_simple_message_
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -262,8 +281,8 @@ void gui_simple_message_to_user_show_message_with_line ( gui_simple_message_to_u
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -345,8 +364,8 @@ void gui_simple_message_to_user_show_message_with_name ( gui_simple_message_to_u
     U8_TRACE_INFO_STR( "error at", name );
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -373,8 +392,8 @@ void gui_simple_message_to_user_show_message_with_names ( gui_simple_message_to_
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -408,8 +427,8 @@ void gui_simple_message_to_user_show_message_with_error ( gui_simple_message_to_
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -488,8 +507,8 @@ void gui_simple_message_to_user_show_message_with_stat ( gui_simple_message_to_u
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -532,8 +551,8 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ));
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -617,8 +636,8 @@ void gui_simple_message_to_user_show_error_info ( gui_simple_message_to_user_t *
     gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).private_temp_str ) );
 
     /* show: */
-    gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), TRUE );
 
     U8_TRACE_END();
 }
@@ -628,8 +647,8 @@ void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ )
     U8_TRACE_BEGIN();
 
     (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE;
-    gtk_widget_hide( GTK_WIDGET ( (*this_).text_label ) );
-    gtk_widget_hide( GTK_WIDGET ( (*this_).icon_image ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).text_label ), FALSE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).icon_image ), FALSE );
 
     U8_TRACE_END();
 }

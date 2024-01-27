@@ -15,6 +15,10 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
+#if ( GTK_MAJOR_VERSION < 4 )
+#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
+#endif
+
 void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkLabel *id_label,
                                   GtkEntry *name_entry,
@@ -1440,13 +1444,13 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
         case DATA_TABLE_VOID:
         {
             /* prevent that a user accitentially enters text to a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( name_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( name_widget ), FALSE );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( name_widget ), TRUE );
 
             const char *const text
                 = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
@@ -1461,7 +1465,7 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( name_widget ), TRUE );
 
             const char *const text
                 = data_feature_get_key_const( &((*this_).private_feature_cache) );
@@ -1476,7 +1480,7 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( name_widget ), TRUE );
 
             const char *const text
                 = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
@@ -1491,13 +1495,13 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_widget_hide ( GTK_WIDGET ( name_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( name_widget ), FALSE );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( name_widget ), TRUE );
 
             const char *const text
                 = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
@@ -1537,7 +1541,7 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
         case DATA_TABLE_VOID:
         {
             /* prevent that a user accitentially enters text to a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( stereotype_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( stereotype_widget ), FALSE );
             /*gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );*/
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
@@ -1545,7 +1549,7 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
         case DATA_TABLE_CLASSIFIER:
         {
-            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( stereotype_widget ), TRUE );
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char *const text
@@ -1561,7 +1565,7 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( stereotype_widget ), TRUE );
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char *const text
@@ -1577,7 +1581,7 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( stereotype_widget ), TRUE );
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char *const text
@@ -1593,14 +1597,14 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( stereotype_widget ), FALSE );
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( stereotype_widget ), TRUE );
             gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char *const text
@@ -1634,16 +1638,16 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
     {
         case DATA_TABLE_VOID:
         {
-            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
             /* prevent that a user accidentally enters a type for a non-existing object */
 
             /* hide icon grid: */
-            gtk_widget_hide( (*this_).type_diag_grid );
-            gtk_widget_hide( (*this_).type_clas_grid );
-            gtk_widget_hide( (*this_).type_feat_grid );
-            gtk_widget_hide( (*this_).type_rel_grid );
+            gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_clas_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_feat_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_rel_grid, FALSE );
         }
         break;
 
@@ -1657,13 +1661,13 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
-            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show classifier icon grid: */
-            gtk_widget_hide( (*this_).type_diag_grid );
-            gtk_widget_show( (*this_).type_clas_grid );
-            gtk_widget_hide( (*this_).type_feat_grid );
-            gtk_widget_hide( (*this_).type_rel_grid );
+            gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_clas_grid, TRUE );
+            gtk_widget_set_visible( (*this_).type_feat_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_rel_grid, FALSE );
         }
         break;
 
@@ -1679,13 +1683,13 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                     /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
                 }
-                gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+                gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
                 /* hide  icon grid: */
-                gtk_widget_hide( (*this_).type_diag_grid );
-                gtk_widget_hide( (*this_).type_clas_grid );
-                gtk_widget_hide( (*this_).type_feat_grid );
-                gtk_widget_hide( (*this_).type_rel_grid );
+                gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
+                gtk_widget_set_visible( (*this_).type_clas_grid, FALSE );
+                gtk_widget_set_visible( (*this_).type_feat_grid, FALSE );
+                gtk_widget_set_visible( (*this_).type_rel_grid, FALSE );
             }
             else
             {
@@ -1696,13 +1700,13 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                     /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
                 }
-                gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+                gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
                 /* show feature icon grid: */
-                gtk_widget_hide( (*this_).type_diag_grid );
-                gtk_widget_hide( (*this_).type_clas_grid );
-                gtk_widget_show( (*this_).type_feat_grid );
-                gtk_widget_hide( (*this_).type_rel_grid );
+                gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
+                gtk_widget_set_visible( (*this_).type_clas_grid, FALSE );
+                gtk_widget_set_visible( (*this_).type_feat_grid, TRUE );
+                gtk_widget_set_visible( (*this_).type_rel_grid, FALSE );
             }
         }
         break;
@@ -1715,29 +1719,29 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( relationship_type_list ) );
             if ( index != -1 ) {
                 /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+                gtk_combo_box_set_active( GTK_COMBO_BOX( type_widget ), index );
             }
-            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show relationship icon grid: */
-            gtk_widget_hide( (*this_).type_diag_grid );
-            gtk_widget_hide( (*this_).type_clas_grid );
-            gtk_widget_hide( (*this_).type_feat_grid );
-            gtk_widget_show( (*this_).type_rel_grid );
+            gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_clas_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_feat_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_rel_grid, TRUE );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
 
             /* hide icon grid: */
-            gtk_widget_hide( (*this_).type_diag_grid );
-            gtk_widget_hide( (*this_).type_clas_grid );
-            gtk_widget_hide( (*this_).type_feat_grid );
-            gtk_widget_hide( (*this_).type_rel_grid );
+            gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_clas_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_feat_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_rel_grid, FALSE );
         }
         break;
 
@@ -1751,13 +1755,13 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
-            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show diagram icon grid: */
-            gtk_widget_show( (*this_).type_diag_grid );
-            gtk_widget_hide( (*this_).type_clas_grid );
-            gtk_widget_hide( (*this_).type_feat_grid );
-            gtk_widget_hide( (*this_).type_rel_grid );
+            gtk_widget_set_visible( (*this_).type_diag_grid, TRUE );
+            gtk_widget_set_visible( (*this_).type_clas_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_feat_grid, FALSE );
+            gtk_widget_set_visible( (*this_).type_rel_grid, FALSE );
         }
         break;
 
@@ -1785,13 +1789,13 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
         case DATA_TABLE_VOID:
         {
             /* prevent that a user accitentially enters text to a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( description_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( description_widget ), FALSE );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( description_widget ), TRUE );
 
             const char* text;
             text = data_classifier_get_description_const( &((*this_).private_classifier_cache) );
@@ -1801,7 +1805,7 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( description_widget ), TRUE );
 
             const char* text;
             text = data_feature_get_description_const( &((*this_).private_feature_cache) );
@@ -1811,7 +1815,7 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( description_widget ), TRUE );
 
             const char* text;
             text = data_relationship_get_description_const( &((*this_).private_relationship_cache) );
@@ -1821,13 +1825,13 @@ void gui_attributes_editor_private_description_update_view ( gui_attributes_edit
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_widget_hide ( GTK_WIDGET ( description_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( description_widget ), FALSE );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
+            gtk_widget_set_visible( GTK_WIDGET ( description_widget ), TRUE );
 
             const char* text;
             text = data_diagram_get_description_const( &((*this_).private_diagram_cache) );

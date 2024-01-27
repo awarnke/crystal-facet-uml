@@ -8,6 +8,10 @@
 #include "u8/u8_log.h"
 #include <assert.h>
 
+#if ( GTK_MAJOR_VERSION < 4 )
+#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
+#endif
+
 void gui_search_request_init ( gui_search_request_t *this_,
                                GtkWidget *search_label,
                                GtkWidget *search_entry,
@@ -48,9 +52,9 @@ void gui_search_request_show ( gui_search_request_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    gtk_widget_show( GTK_WIDGET ( (*this_).search_label ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).search_entry ) );
-    gtk_widget_show( GTK_WIDGET ( (*this_).search_button ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).search_label ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).search_entry ), TRUE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).search_button ), TRUE );
 
     U8_TRACE_END();
 }
@@ -59,9 +63,9 @@ void gui_search_request_hide ( gui_search_request_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    gtk_widget_hide( GTK_WIDGET ( (*this_).search_label ) );
-    gtk_widget_hide( GTK_WIDGET ( (*this_).search_entry ) );
-    gtk_widget_hide( GTK_WIDGET ( (*this_).search_button ) );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).search_label ), FALSE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).search_entry ), FALSE );
+    gtk_widget_set_visible( GTK_WIDGET ( (*this_).search_button ), FALSE );
 
     U8_TRACE_END();
 }

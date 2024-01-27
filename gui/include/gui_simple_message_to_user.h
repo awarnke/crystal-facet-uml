@@ -34,6 +34,13 @@ struct gui_simple_message_to_user_struct {
     gui_resources_t *res;  /*!< pointer to external gui_resources_t */
     utf8stringbuf_t private_temp_str;
     char private_temp_buf[GUI_SIMPLE_MESSAGE_TO_USER_MAX_CONTENT_SIZE];
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GdkTexture* icon_info;
+    GdkTexture* icon_warning;
+    GdkTexture* icon_error;
+    GdkTexture* icon_about;
+#endif
 };
 
 typedef struct gui_simple_message_to_user_struct gui_simple_message_to_user_t;
@@ -46,7 +53,11 @@ typedef struct gui_simple_message_to_user_struct gui_simple_message_to_user_t;
  *  \param icon_image pointer to GTK icon widget
  *  \param res pointer to a resource provider
  */
-void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res );
+void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_,
+                                       GtkWidget *text_label,
+                                       GtkWidget *icon_image,
+                                       gui_resources_t *res
+                                     );
 
 /*!
  *  \brief destroys the gui_simple_message_to_user_t struct
