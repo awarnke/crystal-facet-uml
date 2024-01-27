@@ -62,8 +62,8 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     {
         /* add the separator to before_unixpath_sep */
         before_unixpath_sep = UTF8STRINGVIEW( utf8stringview_get_start( &before_unixpath_sep ),
-                                             utf8stringview_get_length( &before_unixpath_sep ) + sizeof(char)
-                                           );
+                                              utf8stringview_get_length( &before_unixpath_sep ) + sizeof(char)
+                                            );
     }
     if ( err_w == UTF8ERROR_SUCCESS )
     {

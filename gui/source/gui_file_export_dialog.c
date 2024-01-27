@@ -10,6 +10,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#if ( GTK_MAJOR_VERSION < 4 )
+#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
+#endif
+
 void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
                                    data_database_t *database,
                                    data_database_reader_t *db_reader,
@@ -139,7 +143,7 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     U8_TRACE_BEGIN();
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_widget_show( GTK_WIDGET( (*this_).export_file_chooser ) );
+    gtk_widget_set_visible( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_chooser) );
@@ -161,7 +165,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
         case GTK_RESPONSE_CANCEL:
         {
             U8_LOG_EVENT( "GTK_RESPONSE_CANCEL" );
-            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            gtk_widget_set_visible( GTK_WIDGET ( dialog ), FALSE );
         }
         break;
 
@@ -184,7 +188,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
 #else
             folder_path = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
 #endif
-            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            gtk_widget_set_visible( GTK_WIDGET ( dialog ), FALSE );
             if ( folder_path != NULL )
             {
                 U8_TRACE_INFO_STR( "chosen folder:", folder_path );

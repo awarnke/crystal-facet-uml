@@ -7,6 +7,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#if ( GTK_MAJOR_VERSION < 4 )
+#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
+#endif
+
 void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                                    ctrl_controller_t *controller,
                                    io_data_file_t *database,
@@ -71,7 +75,7 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
     }
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_widget_show( GTK_WIDGET( (*this_).use_db_file_chooser ) );
+    gtk_widget_set_visible( GTK_WIDGET( (*this_).use_db_file_chooser ), TRUE );
 
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );  /* idea taken from gtk demo */
 
@@ -94,7 +98,7 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
         case GTK_RESPONSE_ACCEPT:
         {
             U8_LOG_EVENT( "GTK_RESPONSE_ACCEPT" );
-            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            gtk_widget_set_visible( GTK_WIDGET ( dialog ), FALSE );
 
             gchar *filename = NULL;
 #if ( GTK_MAJOR_VERSION >= 4 )
@@ -130,7 +134,7 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
         case GTK_RESPONSE_CANCEL:
         {
             U8_LOG_EVENT( "GTK_RESPONSE_CANCEL" );
-            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            gtk_widget_set_visible( GTK_WIDGET ( dialog ), FALSE );
         }
         break;
 

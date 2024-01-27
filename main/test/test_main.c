@@ -6,9 +6,9 @@
 #include "unit/data_uuid_test.h"
 #include "unit/data_rules_test.h"
 #include "unit/data_database_listener_test.h"
+#include "unit/data_database_head_test.h"
 #include "integration/data_profile_part_test.h"
 #include "integration/data_database_reader_test.h"
-#include "integration/data_database_head_test.h"
 /* ctrl */
 #include "integration/ctrl_diagram_controller_test.h"
 #include "integration/ctrl_multi_step_changer_test.h"
@@ -144,6 +144,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, data_uuid_test_get_suite() );
         test_runner_run_suite( &runner, data_change_notifier_test_get_suite() );
         test_runner_run_suite( &runner, data_database_listener_test_get_suite() );
+        test_runner_run_suite( &runner, data_database_head_test_get_suite() );
         /* ctrl */
         /* pencil */
         test_runner_run_suite( &runner, geometry_rectangle_test_get_suite() );
@@ -192,7 +193,6 @@ int main (int argc, char *argv[]) {
         /* data */
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
         test_runner_run_suite( &runner, data_profile_part_test_get_suite() );
-        test_runner_run_suite( &runner, data_database_head_test_get_suite() );
         /* ctrl */
         test_runner_run_suite( &runner, ctrl_multi_step_changer_test_get_suite() );
         test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_suite() );

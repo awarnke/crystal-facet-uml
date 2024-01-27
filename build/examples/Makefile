@@ -2,8 +2,8 @@
 all: all_export_test mouse_droid/mouse_droid.pdf mouse_droid/mouse_droid.html quality/quality.pdf quality/quality.html self_architecture/self_architecture.pdf self_architecture/self_architecture.html pencil_tests/pencil_tests.html info
 
 ARCDIR=../../documentation/architecture
-SRCDIR=../../example_diagrams
-INSTALLDIR=../../example_diagrams
+SRCDIR=../../documentation/examples
+INSTALLDIR=../../documentation/examples
 
 mouse_droid/mouse_droid.html: $(SRCDIR)/mouse_droid.cfuJ
 	mkdir -p mouse_droid
@@ -96,7 +96,7 @@ export_test/export_test_19_deployment.xmi: $(SRCDIR)/export_test_19_deployment.c
 
 .PHONY: info
 info:
-	@printf "== call \\e[33;1m make install \\e[0m to update the files in folder ../../example_diagrams ==\n"
+	@printf "== call \\e[33;1m make install \\e[0m to update the files in folder ../../documentation/examples ==\n"
 
 .PHONY: install
 install: all_export_test
@@ -120,4 +120,3 @@ clean:
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-

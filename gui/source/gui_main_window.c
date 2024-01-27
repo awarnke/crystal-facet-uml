@@ -19,6 +19,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#if ( GTK_MAJOR_VERSION < 4 )
+#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
+#endif
+
 void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,
                            io_data_file_t *data_file,
@@ -365,7 +369,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     U8_TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    gtk_widget_show((*this_).window);
+    gtk_widget_set_visible( (*this_).window, TRUE );
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).window), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).window) );
