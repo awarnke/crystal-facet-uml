@@ -23,7 +23,7 @@
 struct gui_type_resource_struct {
     data_type_t type;  /*!<  element type for which this type resource applies */
     const char * name;  /*!<  display name */
-    GdkPixbuf * icon;  /*!<  icon to be displayed */
+    GdkTexture * icon;  /*!<  icon to be displayed */
 };
 
 typedef struct gui_type_resource_struct gui_type_resource_t;
@@ -39,7 +39,7 @@ typedef struct gui_type_resource_struct gui_type_resource_t;
 static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
                                                     data_diagram_type_t type,
                                                     const char * name,
-                                                    GdkPixbuf * icon
+                                                    GdkTexture * icon
                                                   );
 
 /*!
@@ -53,7 +53,7 @@ static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this_,
                                                        data_classifier_type_t type,
                                                        const char * name,
-                                                       GdkPixbuf * icon
+                                                       GdkTexture * icon
                                                      );
 
 /*!
@@ -67,7 +67,7 @@ static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this
 static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
                                                     data_feature_type_t type,
                                                     const char * name,
-                                                    GdkPixbuf * icon
+                                                    GdkTexture * icon
                                                   );
 
 /*!
@@ -81,7 +81,7 @@ static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_relationship ( gui_type_resource_t *this_,
                                                          data_relationship_type_t type,
                                                          const char * name,
-                                                         GdkPixbuf * icon
+                                                         GdkTexture * icon
                                                        );
 
 /*!
@@ -110,12 +110,12 @@ static inline const char * gui_type_resource_get_name ( const gui_type_resource_
 /*!
  *  \brief gets the icon
  *
- *  GdkPixbuf cannot be const because most gtk functions require mutable GdkPixbuf as parameter.
+ *  GdkTexture cannot be const because most gtk functions require mutable GdkTexture as parameter.
  *
  *  \param this_ pointer to own object attributes
  *  \return icon of this gui_type_resource_t
  */
-static inline GdkPixbuf * gui_type_resource_get_icon ( const gui_type_resource_t *this_ );
+static inline GdkTexture * gui_type_resource_get_icon ( const gui_type_resource_t *this_ );
 
 #include "gui_type_resource.inl"
 

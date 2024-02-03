@@ -3,7 +3,7 @@
 static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
                                                     data_diagram_type_t type,
                                                     const char * name,
-                                                    GdkPixbuf * icon )
+                                                    GdkTexture * icon )
 {
     data_type_init_diagram( &((*this_).type), type );
     (*this_).name = name;
@@ -13,7 +13,7 @@ static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this_,
                                                        data_classifier_type_t type,
                                                        const char * name,
-                                                       GdkPixbuf * icon )
+                                                       GdkTexture * icon )
 {
     data_type_init_classifier( &((*this_).type), type );
     (*this_).name = name;
@@ -23,7 +23,7 @@ static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this
 static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
                                                     data_feature_type_t type,
                                                     const char * name,
-                                                    GdkPixbuf * icon )
+                                                    GdkTexture * icon )
 {
     data_type_init_feature( &((*this_).type), type );
     (*this_).name = name;
@@ -33,7 +33,7 @@ static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
 static inline void gui_type_resource_init_relationship ( gui_type_resource_t *this_,
                                                          data_relationship_type_t type,
                                                          const char * name,
-                                                         GdkPixbuf * icon )
+                                                         GdkTexture * icon )
 {
     data_type_init_relationship( &((*this_).type), type );
     (*this_).name = name;
@@ -54,7 +54,7 @@ static inline const char * gui_type_resource_get_name ( const gui_type_resource_
     return ( (*this_).name );
 }
 
-static inline GdkPixbuf * gui_type_resource_get_icon ( const gui_type_resource_t *this_ )
+static inline GdkTexture * gui_type_resource_get_icon ( const gui_type_resource_t *this_ )
 {
     return ( (*this_).icon );
 }

@@ -21,41 +21,29 @@ static inline void gui_simple_message_to_user_private_set_icon_image ( gui_simpl
 
         case GUI_SIMPLE_MESSAGE_TYPE_INFO:
         {
-#if ( GTK_MAJOR_VERSION >= 4 )
-            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), GDK_PAINTABLE( (*this_).icon_info ) );
-#else
-            gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_info( (*this_).res) );
-#endif
+            GdkPaintable *info = GDK_PAINTABLE( gui_resources_get_message_info( (*this_).res) );
+            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), info );
         }
         break;
 
         case GUI_SIMPLE_MESSAGE_TYPE_WARNING:
         {
-#if ( GTK_MAJOR_VERSION >= 4 )
-            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), GDK_PAINTABLE( (*this_).icon_warning ) );
-#else
-            gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_warn( (*this_).res) );
-#endif
+            GdkPaintable *warning = GDK_PAINTABLE( gui_resources_get_message_warn( (*this_).res) );
+            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), warning );
         }
         break;
 
         case GUI_SIMPLE_MESSAGE_TYPE_ERROR:
         {
-#if ( GTK_MAJOR_VERSION >= 4 )
-            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), GDK_PAINTABLE( (*this_).icon_error ) );
-#else
-            gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_error( (*this_).res) );
-#endif
+            GdkPaintable *error = GDK_PAINTABLE( gui_resources_get_message_error( (*this_).res) );
+            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), error );
         }
         break;
 
         case GUI_SIMPLE_MESSAGE_TYPE_ABOUT:
         {
-#if ( GTK_MAJOR_VERSION >= 4 )
-            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), GDK_PAINTABLE( (*this_).icon_about ) );
-#else
-            gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_crystal_facet_uml( (*this_).res) );
-#endif
+            GdkPaintable *about = GDK_PAINTABLE( gui_resources_get_crystal_facet_uml( (*this_).res) );
+            gtk_image_set_from_paintable( GTK_IMAGE( (*this_).icon_image ), about );
         }
         break;
 

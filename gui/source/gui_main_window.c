@@ -430,20 +430,20 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 {
     U8_TRACE_BEGIN();
 
-    (*this_).file_new_db_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_db( res ));
+    (*this_).file_new_db_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_new_db( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_db_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).file_new_db = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_new_db), (*this_).file_new_db_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_db), "New DB" );
 
-    (*this_).file_use_db_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_use_db( res ));
+    (*this_).file_use_db_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_use_db( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_use_db_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).file_use_db = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_use_db), (*this_).file_use_db_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_use_db), "Open DB" );
 
     (*this_).file_save_button = gtk_button_new();
-    (*this_).file_save_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_save( res ));
+    (*this_).file_save_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_save( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_save_icon), 32 /*=w*/ , 32 /*=h*/ );
     gtk_button_set_image( GTK_BUTTON((*this_).file_save_button), (*this_).file_save_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_save_button), "Save (Ctrl-S)" );
@@ -469,20 +469,20 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 #endif
 
 #if 0
-    (*this_).file_save_as_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_save_as( res ));
+    (*this_).file_save_as_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_save_as( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_save_as_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).file_save_as = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_save_as), (*this_).file_save_as_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_save_as), "Save as" );
 #endif
 
-    (*this_).file_export_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_export( res ));
+    (*this_).file_export_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_export( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_export_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).file_export = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_export), (*this_).file_export_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_export), "Export" );
 
-    (*this_).tool_sect_1_icon = gtk_image_new_from_pixbuf ( gui_resources_get_tool_sect( res ) );
+    (*this_).tool_sect_1_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_1_icon), 12 /*=w*/ , 32 /*=h*/ );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_1_icon), 32 );
@@ -490,7 +490,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 #endif
     gtk_widget_set_halign( (*this_).tool_sect_1_icon, GTK_ALIGN_START );
 
-     (*this_).tool_sect_2_icon = gtk_image_new_from_pixbuf ( gui_resources_get_tool_sect( res ) );
+     (*this_).tool_sect_2_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_2_icon), 12 /*=w*/ , 32 /*=h*/ );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_2_icon), 32 );
@@ -498,19 +498,19 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 #endif
     gtk_widget_set_halign( (*this_).tool_sect_2_icon, GTK_ALIGN_START );
 
-    (*this_).view_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_view_new_window( res ));
+    (*this_).view_new_window_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_new_window( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).view_new_window_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).view_new_window = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).view_new_window), (*this_).view_new_window_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_new_window), "New Window" );
 
-    (*this_).view_navigate_icon = gtk_image_new_from_pixbuf( gui_resources_get_view_navigate( res ));
+    (*this_).view_navigate_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_navigate( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).view_navigate_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).view_edit_icon = gtk_image_new_from_pixbuf( gui_resources_get_view_edit( res ));
+    (*this_).view_edit_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_edit( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).view_edit_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).view_create_icon = gtk_image_new_from_pixbuf( gui_resources_get_view_create( res ));
+    (*this_).view_create_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_create( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).view_create_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).view_search_icon = gtk_image_new_from_pixbuf( gui_resources_get_view_search( res ));
+    (*this_).view_search_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_search( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).view_search_icon), 32 /*=w*/ , 32 /*=h*/ );
 #if ( GTK_MAJOR_VERSION >= 4 )
     (*this_).view_navigate = gtk_toggle_button_new();
@@ -550,7 +550,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_create), "Create" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_search), "Search" );
 
-    (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
+    (*this_).edit_undo_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_undo( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_undo_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
@@ -577,7 +577,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 
 #endif
 
-    (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
+    (*this_).edit_redo_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_redo( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_redo_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
@@ -603,7 +603,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                               );
 #endif
 
-    (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
+    (*this_).edit_cut_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_cut( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_cut_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_cut = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_cut), (*this_).edit_cut_icon );
@@ -613,7 +613,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
+    (*this_).edit_copy_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_copy( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_copy_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_copy = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_copy), (*this_).edit_copy_icon );
@@ -623,7 +623,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
+    (*this_).edit_paste_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_paste( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_paste_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_paste = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_paste), (*this_).edit_paste_icon );
@@ -633,7 +633,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
+    (*this_).edit_delete_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_delete( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_delete_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_delete = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_delete), (*this_).edit_delete_icon );
@@ -643,25 +643,25 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_instantiate_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_instantiate( res ));
+    (*this_).edit_instantiate_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_instantiate( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_instantiate_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_instantiate = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_instantiate), (*this_).edit_instantiate_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_instantiate), "Instantiate" );
 
-    (*this_).edit_highlight_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_highlight( res ));
+    (*this_).edit_highlight_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_highlight( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_highlight_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_highlight = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_highlight), (*this_).edit_highlight_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_highlight), "Highlight" );
 
-    (*this_).edit_reset_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_reset( res ));
+    (*this_).edit_reset_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_reset( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_reset_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_reset = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_reset), (*this_).edit_reset_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_reset), "Reset Selection" );
 
-    (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
+    (*this_).tool_about_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_crystal_facet_uml( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_about_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).tool_about = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).tool_about), (*this_).tool_about_icon );
@@ -726,7 +726,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 {
     U8_TRACE_BEGIN();
 
-    (*this_).attr_section_icon = gtk_image_new_from_pixbuf ( gui_resources_get_edit_attributes_sect( res ) );
+    (*this_).attr_section_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_edit_attributes_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
 #if ( GTK_MAJOR_VERSION >= 4 )
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).attr_section_icon), 48 );
@@ -755,7 +755,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 #endif
 
     (*this_).id_search_btn = gtk_button_new();
-    (*this_).id_search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_search_search( res ));
+    (*this_).id_search_btn_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_search_search( res ) ) );
     gtk_button_set_image( GTK_BUTTON((*this_).id_search_btn), (*this_).id_search_btn_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).id_search_btn), "Find Occurrences" );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).id_search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );
@@ -832,11 +832,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         {
             const gui_type_resource_t *const type_data = &((*diag_data)[diag_idx]);
             const data_diagram_type_t diag_type = data_type_get_diagram_type( gui_type_resource_get_type( type_data ) );
-            GdkPixbuf *const diag_icon = gui_type_resource_get_icon( type_data );
+            GdkTexture *const diag_icon = gui_type_resource_get_icon( type_data );
             const char *const diag_name = gui_type_resource_get_name( type_data );
 
             gui_attribute_type_of_diagram_init( &((*this_).type_diag_data[diag_idx]), diag_type, &((*this_).attributes_editor) );
-            (*this_).type_diag_img[ diag_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( diag_icon ) );
+            (*this_).type_diag_img[ diag_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( diag_icon ) ) );
             gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
             (*this_).type_diag_btn[ diag_idx ] = GTK_BUTTON( gtk_button_new() );
             gtk_button_set_image( (*this_).type_diag_btn[ diag_idx ], GTK_WIDGET( (*this_).type_diag_img[ diag_idx ] ) );
@@ -854,17 +854,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         {
             const gui_type_resource_t *const type_data = &((*clas_data)[clas_idx]);
             const data_classifier_type_t clas_type = data_type_get_classifier_type( gui_type_resource_get_type( type_data ) );
-            GdkPixbuf *const clas_icon = gui_type_resource_get_icon( type_data );
+            GdkTexture *const clas_icon = gui_type_resource_get_icon( type_data );
             const char *const clas_name = gui_type_resource_get_name( type_data );
 
             gui_attribute_type_of_classifier_init( &((*this_).type_clas_data[clas_idx]), clas_type, &((*this_).attributes_editor) );
-#if ( GTK_MAJOR_VERSION >= 4 )
-            GdkTexture* texture = gdk_texture_new_for_pixbuf( clas_icon );
-            (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( texture ) ) );
-            g_object_unref( texture );  /* no further need of texture here */
-#else
-            (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( clas_icon ) );
-#endif
+            (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( clas_icon ) ) );
             gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_clas_img[ clas_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
             (*this_).type_clas_btn[ clas_idx ] = GTK_BUTTON( gtk_button_new() );
             gtk_button_set_image( (*this_).type_clas_btn[ clas_idx ], GTK_WIDGET( (*this_).type_clas_img[ clas_idx ] ) );
@@ -882,11 +876,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         {
             const gui_type_resource_t *const type_data = &((*feat_data)[feat_idx]);
             const data_feature_type_t feat_type = data_type_get_feature_type( gui_type_resource_get_type( type_data ) );
-            GdkPixbuf *const feat_icon = gui_type_resource_get_icon( type_data );
+            GdkTexture *const feat_icon = gui_type_resource_get_icon( type_data );
             const char *const feat_name = gui_type_resource_get_name( type_data );
 
             gui_attribute_type_of_feature_init( &((*this_).type_feat_data[feat_idx]), feat_type, &((*this_).attributes_editor) );
-            (*this_).type_feat_img[ feat_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( feat_icon ) );
+            (*this_).type_feat_img[ feat_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( feat_icon ) ) );
             gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_feat_img[ feat_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
             (*this_).type_feat_btn[ feat_idx ] = GTK_BUTTON( gtk_button_new() );
             gtk_button_set_image( (*this_).type_feat_btn[ feat_idx ], GTK_WIDGET( (*this_).type_feat_img[ feat_idx ] ) );
@@ -904,11 +898,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         {
             const gui_type_resource_t *const type_data = &((*rel_data)[rel_idx]);
             const data_relationship_type_t rel_type = data_type_get_relationship_type( gui_type_resource_get_type( type_data ) );
-            GdkPixbuf *const rel_icon = gui_type_resource_get_icon( type_data );
+            GdkTexture *const rel_icon = gui_type_resource_get_icon( type_data );
             const char *const rel_name = gui_type_resource_get_name( type_data );
 
             gui_attribute_type_of_relationship_init( &((*this_).type_rel_data[rel_idx]), rel_type, &((*this_).attributes_editor) );
-            (*this_).type_rel_img[ rel_idx ] = GTK_IMAGE( gtk_image_new_from_pixbuf( rel_icon ) );
+            (*this_).type_rel_img[ rel_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( rel_icon ) ) );
             gtk_widget_set_size_request( GTK_WIDGET( (*this_).type_rel_img[ rel_idx ] ), 32 /*=w*/ , 24 /*=h*/ );
             (*this_).type_rel_btn[ rel_idx ] = GTK_BUTTON( gtk_button_new() );
             gtk_button_set_image( (*this_).type_rel_btn[ rel_idx ], GTK_WIDGET( (*this_).type_rel_img[ rel_idx ] ) );
@@ -968,7 +962,7 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
     gtk_misc_set_alignment(GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
 #endif
 
-    (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
+    (*this_).message_icon_image = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_crystal_facet_uml( res ) ) );
 #if ( GTK_MAJOR_VERSION >= 4 )
     /* TODO check if GtkPicture is better suited than GtkImage because of setting the size */
     // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
@@ -1013,7 +1007,7 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
         (*this_).search_entry = gtk_entry_new();
 
         (*this_).search_button = gtk_button_new();
-        (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_search_search( res ));
+        (*this_).search_btn_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_search_search( res ) ) );
         gtk_button_set_image( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
         gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
         gtk_widget_set_size_request( GTK_WIDGET((*this_).search_btn_icon), 32 /*=w*/ , 32 /*=h*/ );

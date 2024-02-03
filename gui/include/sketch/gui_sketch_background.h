@@ -123,7 +123,7 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_t *this_,
-                                                          GdkPixbuf *icon_1,
+                                                          GdkTexture *icon_1,
                                                           const char *text_1,
                                                           const char *text_2,
                                                           int x,

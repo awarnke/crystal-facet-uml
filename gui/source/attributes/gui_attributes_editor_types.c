@@ -20,7 +20,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     (*this_).no_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
 
     {
-        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
+        const GdkTexture *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
 
         GtkTreeIter iter;
         gtk_list_store_append( (*this_).no_types, &iter);
@@ -40,7 +40,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const gui_type_resource_t *res = &((*types)[idx]);
         int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
-        const GdkPixbuf *icon = gui_type_resource_get_icon( res );
+        const GdkTexture *icon = gui_type_resource_get_icon( res );
 
         GtkTreeIter iter_d;
         gtk_list_store_append( (*this_).diagram_types, &iter_d);
@@ -57,7 +57,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const gui_type_resource_t *res = &((*types)[idx]);
         int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
-        const GdkPixbuf *icon = gui_type_resource_get_icon( res );
+        const GdkTexture *icon = gui_type_resource_get_icon( res );
 
         GtkTreeIter iter_c;
         gtk_list_store_append( (*this_).classifier_types, &iter_c);
@@ -75,7 +75,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const gui_type_resource_t *res = &((*types)[idx]);
         int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
-        const GdkPixbuf *icon = gui_type_resource_get_icon( res );
+        const GdkTexture *icon = gui_type_resource_get_icon( res );
 
         if ( type == DATA_FEATURE_TYPE_LIFELINE )
         {
@@ -101,7 +101,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const gui_type_resource_t *res = &((*types)[idx]);
         int type = data_type_get_type_as_int( gui_type_resource_get_type( res ) );
         const char *name = gui_type_resource_get_name( res );
-        const GdkPixbuf *icon = gui_type_resource_get_icon( res );
+        const GdkTexture *icon = gui_type_resource_get_icon( res );
 
         GtkTreeIter iter_r;
         gtk_list_store_append( (*this_).relationship_types, &iter_r);

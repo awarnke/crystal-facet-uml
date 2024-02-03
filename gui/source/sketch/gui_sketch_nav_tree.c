@@ -3,6 +3,7 @@
 #include "sketch/gui_sketch_nav_tree.h"
 #include "geometry/geometry_rectangle.h"
 #include "gui_sketch_int_compare.h"
+#include "gtk_helper/gtk_helper_icon.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <gdk/gdk.h>
@@ -367,9 +368,9 @@ void gui_sketch_nav_tree_private_layout_node ( gui_sketch_nav_tree_t *this_,
     /* determine icon dimensions */
     {
         const pos_nav_tree_node_type_t node_type = pos_nav_tree_node_get_type( node );
-        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, false, (*this_).resources );
-        const double icon_width = gdk_pixbuf_get_width( icon );
-        const double icon_height = gdk_pixbuf_get_height( icon );
+        GdkTexture *icon = pos_nav_tree_node_type_get_icon( node_type, false, (*this_).resources );
+        const double icon_width = gdk_texture_get_width( icon );
+        const double icon_height = gdk_texture_get_height( icon );
 
         const shape_int_rectangle_t new_icon_box = (shape_int_rectangle_t) {
             .left=left+indent+OBJ_GAP,
@@ -669,20 +670,16 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
             = (( node_type == POS_NAV_TREE_NODE_TYPE_NEW_ROOT )&&( btn_act == GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM ))
             || (( node_type == POS_NAV_TREE_NODE_TYPE_NEW_SIBLING )&&( btn_act == GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM ))
             || (( node_type == POS_NAV_TREE_NODE_TYPE_NEW_CHILD )&&( btn_act == GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM ));
-        const GdkPixbuf *icon = pos_nav_tree_node_type_get_icon( node_type, highlight, (*this_).resources );
+        GdkTexture *icon = pos_nav_tree_node_type_get_icon( node_type, highlight, (*this_).resources );
 
         /* where to draw to */
         const shape_int_rectangle_t *const icon_box
             = pos_nav_tree_node_get_icon_box_const( node );
         const int x = shape_int_rectangle_get_left(icon_box);
         const int y = shape_int_rectangle_get_top(icon_box);
-        const double icon_width = gdk_pixbuf_get_width ( icon );
-        const double icon_height = gdk_pixbuf_get_height ( icon );
 
         /* do draw */
-        gdk_cairo_set_source_pixbuf( cr, icon, x, y );
-        cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
-        cairo_fill (cr);
+        gtk_helper_icon_draw_texture( icon, x, y, cr );
     }
 
     U8_TRACE_END();
@@ -704,4 +701,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-

@@ -33,10 +33,10 @@ typedef enum pos_nav_tree_node_type_enum pos_nav_tree_node_type_t;
  *  \return icon representing the pos_nav_tree_node_type_t,
  *          gui_resources_get_type_undef in case of POS_NAV_TREE_NODE_TYPE_VOID
  */
-static inline const GdkPixbuf * pos_nav_tree_node_type_get_icon ( pos_nav_tree_node_type_t this_,
-                                                                  bool highlight,
-                                                                  gui_resources_t *resources
-                                                                );
+static inline GdkTexture * pos_nav_tree_node_type_get_icon ( pos_nav_tree_node_type_t this_,
+                                                             bool highlight,
+                                                             gui_resources_t *resources
+                                                           );
 
 #include "pos_nav_tree_node_type.inl"
 

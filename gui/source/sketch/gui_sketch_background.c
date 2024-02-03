@@ -1,6 +1,7 @@
 /* File: gui_sketch_background.c; Copyright and License: see below */
 
 #include "sketch/gui_sketch_background.h"
+#include "gtk_helper/gtk_helper_icon.h"
 #include "meta/meta_info.h"
 #include "u8/u8_trace.h"
 #include <stdint.h>
@@ -69,12 +70,10 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     /* if there is enough space, draw a nice picture bar on the left side */
     if ( width > 192 )
     {
-        GdkPixbuf *bg_img = gui_resources_get_background_column( (*this_).resources );
-        double icon_width = gdk_pixbuf_get_width ( bg_img );
-        double icon_height = gdk_pixbuf_get_height ( bg_img );
-        gdk_cairo_set_source_pixbuf( cr, bg_img, left, top );
-        cairo_rectangle ( cr, left, top, icon_width, height );
-        cairo_fill (cr);
+        GdkTexture *bg_img = gui_resources_get_background_column( (*this_).resources );
+        double icon_width = gdk_texture_get_width ( bg_img );
+        double icon_height = gdk_texture_get_height ( bg_img );
+        gtk_helper_icon_draw_texture( bg_img, left, top, cr );
 
         text_area_start = left+icon_width;
 
@@ -298,7 +297,7 @@ void gui_sketch_background_private_draw_quick_introduction( gui_sketch_backgroun
 }
 
 void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_t *this_,
-                                                          GdkPixbuf *icon_1,
+                                                          GdkTexture *icon_1,
                                                           const char *text_1,
                                                           const char *text_2,
                                                           int x,
@@ -311,11 +310,8 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
     assert( NULL != text_1 );
     assert( NULL != text_2 );
 
-    const double icon_width = gdk_pixbuf_get_width ( icon_1 );
-    const double icon_height = gdk_pixbuf_get_height ( icon_1 );
-    gdk_cairo_set_source_pixbuf( cr, icon_1, x, y );
-    cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
-    cairo_fill (cr);
+    const double icon_width = gdk_texture_get_width ( icon_1 );
+    gtk_helper_icon_draw_texture( icon_1, x, y, cr );
 
     cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
     cairo_set_font_size ( cr, 12.0 );

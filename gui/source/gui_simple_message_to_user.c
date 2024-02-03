@@ -26,14 +26,6 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
     (*this_).icon_image = icon_image;
     (*this_).res = res;
 
-#if ( GTK_MAJOR_VERSION >= 4 )
-    (*this_).icon_info = gdk_texture_new_for_pixbuf( gui_resources_get_message_info( (*this_).res ) );
-    (*this_).icon_warning = gdk_texture_new_for_pixbuf( gui_resources_get_message_warn( (*this_).res ) );
-    (*this_).icon_error = gdk_texture_new_for_pixbuf( gui_resources_get_message_error( (*this_).res ) );
-    (*this_).icon_about = gdk_texture_new_for_pixbuf( gui_resources_get_crystal_facet_uml( (*this_).res ) );
-    //        (*this_).type_clas_img[ clas_idx ] = GTK_IMAGE( gtk_image_new_from_paintable( GDK_PAINTABLE( texture ) ) );
-#endif
-
     (*this_).private_temp_str = utf8stringbuf_init( sizeof((*this_).private_temp_buf), (*this_).private_temp_buf );
     utf8stringbuf_clear( (*this_).private_temp_str );
 
@@ -43,13 +35,6 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
 void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ )
 {
     U8_TRACE_BEGIN();
-
-#if ( GTK_MAJOR_VERSION >= 4 )
-    g_object_unref( (*this_).icon_info );
-    g_object_unref( (*this_).icon_warning );
-    g_object_unref( (*this_).icon_error );
-    g_object_unref( (*this_).icon_about );
-#endif
 
     (*this_).text_label = NULL;
     (*this_).icon_image = NULL;

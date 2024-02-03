@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.54.1"
+    "generator_version": "1.55.2"
   }
   ,
   "views":
@@ -365,7 +365,9 @@
         "type": "SysMLBlockDefinitionDiagram",
         "name": "L1 Functional View",
         "description": [
-                ""
+                "This view shows the functionalities of the MoD5G.\n",
+                "\n",
+                "It also shows which function produces output that is needed by another function as input."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -927,7 +929,7 @@
           {
             "id": 72,
             "display_flags": 0,
-            "classifier_name": "High Performance SoC",
+            "classifier_name": "Main Performance Controller",
             "node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
             "uuid": "4d149b7a-05bc-484a-80ac-454a3302d702"
           },
@@ -979,7 +981,7 @@
             "id": 75,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "High Performance SoC",
+            "classifier_name": "Main Performance Controller",
             "node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
             "uuid": "1c526fa7-7272-4961-9024-142836bb97d9"
           },
@@ -1102,7 +1104,7 @@
           {
             "id": 259,
             "display_flags": 0,
-            "classifier_name": "High Performance SoC",
+            "classifier_name": "Main Performance Controller",
             "node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
             "uuid": "a84edb08-a8f9-4738-a250-1ec6988b2a4a"
           },
@@ -2825,7 +2827,9 @@
         "type": "UMLProfileDiagram",
         "name": "Stereotypes on \"What to build\"",
         "description": [
-                ""
+                "Stereotypes allow a classification of elements into project-specific categories.\n",
+                "\n",
+                "This diagram defines stereotypes and their images with focus on the problem space. "
         ],
         "list_order": -1073725440,
         "display_flags": 0,
@@ -2910,7 +2914,9 @@
         "type": "UMLProfileDiagram",
         "name": "Stereotypes on \"How to achieve the goal\"",
         "description": [
-                "Stereotypes allow a classification of elements into project-specific categories."
+                "Stereotypes allow a classification of elements into project-specific categories.\n",
+                "\n",
+                "This diagram defines stereotypes and their images with focus on the solution space. "
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -3021,7 +3027,7 @@
         "name": "Introduction",
         "description": [
                 "The mouse droid is a repair droid.\n",
-                "When programmed,\n",
+                "When a mission is programmed,\n",
                 "it autonomously drives to the destination location,\n",
                 "selects spare parts and tools\n",
                 "and exchanges damaged parts.\n",
@@ -3071,8 +3077,8 @@
         "stereotype": "environment",
         "name": "Operating Temperatures",
         "description": [
-                "The droid shall be fully functional in the range 240K..360K,\n",
-                "it shall survive temperatures from 200K to 400K."
+                "The droid shall be functional in the range 240K..360K,\n",
+                "it shall survive temperatures from 150K to 400K."
         ],
         "x_order": 1592766313,
         "y_order": 1069105883,
@@ -3111,8 +3117,8 @@
         "description": [
                 "The commander instructs the MoD5G on the mission to perform."
         ],
-        "x_order": 1578856553,
-        "y_order": 34386514,
+        "x_order": 676128467,
+        "y_order": -1472838877,
         "list_order": -474887197,
         "uuid": "88196b2b-d4af-4d58-92fc-5ca03329cfd5",
         "features":
@@ -3128,17 +3134,17 @@
         "stereotype": "goal",
         "name": "Perform a 1-day mission",
         "description": [
-                "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for up to one terrestrial day.\n",
+                "The mouse droid is able to perform a mission that takes several hours. The energy resources of the MoD5G last for one terrestrial day.\n",
                 "\n",
                 "- The commander programs a mission\n",
                 "- The mouse droid drives to the first location\n",
                 "- The mouse droid uses tools to remove a defective part\n",
-                "- The mouse droid installes a spare part\n",
-                "- Above steps are repeated for other goals\n",
+                "- The mouse droid installs a spare part\n",
+                "- Above steps are repeated for further mission objectives\n",
                 "- The mouse droid returns to its base location (see D0013#name)"
         ],
-        "x_order": 147603683,
-        "y_order": 24715831,
+        "x_order": -953711403,
+        "y_order": -938742699,
         "list_order": 24715831,
         "uuid": "101916e8-de57-400a-bfa9-d97e8128a011",
         "features":
@@ -3175,7 +3181,7 @@
                 "- The mouse droid reaches the target location"
         ],
         "x_order": -953711403,
-        "y_order": 34386514,
+        "y_order": -723528472,
         "list_order": 34386514,
         "uuid": "4c64e1ab-aafe-427d-b88a-bc0136eb991f",
         "features":
@@ -3184,12 +3190,23 @@
             "id": 32,
             "main_type": 0,
             "type": "Property",
-            "key": "pre: defined mission",
+            "key": "pre: mission is defined",
             "description": [
                 ""
             ],
             "list_order": 32768,
             "uuid": "0dc127b4-0c09-43d3-bcd7-9e04c2b909aa"
+          },
+          {
+            "id": 43,
+            "main_type": 0,
+            "type": "Property",
+            "key": "post: MoD5G is at target location",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "1c6f3f8d-662d-460e-aa69-9c4ee4ea69ab"
           }
         ]
       }
@@ -3213,11 +3230,22 @@
                 "(see D0014#name)"
         ],
         "x_order": 676128467,
-        "y_order": 146225752,
+        "y_order": -723528472,
         "list_order": 34386514,
         "uuid": "0c4fd822-44dc-4b8b-9e7a-93f466750934",
         "features":
         [
+          {
+            "id": 44,
+            "main_type": 0,
+            "type": "Property",
+            "key": "pre: MoD5G is at target location",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "5f228eda-a45e-48d4-b0b0-fa27e833a003"
+          }
         ]
       }
     },
@@ -4328,7 +4356,7 @@
         "id": 56,
         "main_type": 90,
         "type": "Block",
-        "name": "High Performance SoC",
+        "name": "Main Performance Controller",
         "description": [
                 "This block provides an execution environment for algorithms that is optimized for high performance."
         ],
@@ -6827,8 +6855,8 @@
         "description": [
                 "see D0013#name."
         ],
-        "x_order": 147603683,
-        "y_order": 372821632,
+        "x_order": 676128467,
+        "y_order": -938742699,
         "list_order": 30149766,
         "uuid": "e4c2a555-0632-4446-9c41-576e182f7e08",
         "features":
@@ -8706,7 +8734,7 @@
         ],
         "list_order": -1137259057,
         "from_classifier_name": "Main Logic Board",
-        "to_classifier_name": "High Performance SoC",
+        "to_classifier_name": "Main Performance Controller",
         "from_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "f30056ce-e840-4edc-90e9-fccff7b1393b"
@@ -8758,7 +8786,7 @@
         "list_order": 98304,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "Mic-Connector",
-        "to_classifier_name": "High Performance SoC",
+        "to_classifier_name": "Main Performance Controller",
         "from_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "c93e280a-3f4f-44a3-bb5d-13280c1fc1a6"
@@ -8776,7 +8804,7 @@
         "list_order": 163840,
         "from_classifier_name": "Main Logic Board",
         "from_feature_key": "Camera",
-        "to_classifier_name": "High Performance SoC",
+        "to_classifier_name": "Main Performance Controller",
         "from_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "fdc3afb0-5d05-4c53-8af3-a8de940d55b4"
@@ -9191,7 +9219,7 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "RAM",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "97dfab83-5bc0-48af-93f8-8a21f85de728",
@@ -9208,7 +9236,7 @@
                 ""
         ],
         "list_order": 65536,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "ROM",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "d3419f7a-7f72-43ca-aab9-f12aed182f01",
@@ -9225,7 +9253,7 @@
                 ""
         ],
         "list_order": 131072,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "Main Logic Board",
         "to_feature_key": "Base Board Connector",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
@@ -9243,7 +9271,7 @@
                 ""
         ],
         "list_order": -1171309153,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "Real Time Video Processing Chip",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "be71df16-ded3-4d3a-a7be-a04e142d0dde",
@@ -9260,7 +9288,7 @@
                 ""
         ],
         "list_order": -1162691807,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "General Purpose Partition 1",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "6115133b-ceb2-45cc-aa90-5f22d3616233",
@@ -9277,7 +9305,7 @@
                 ""
         ],
         "list_order": -1146586199,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "General Purpose Partition 2",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "d1b81e07-4b72-4b15-bc3e-609ce2df9ab5",
@@ -9294,7 +9322,7 @@
                 ""
         ],
         "list_order": 38238308,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "Explore Environment",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "11e6714d-b1f3-4854-bef1-fabde9d83ca3",
@@ -9311,7 +9339,7 @@
                 ""
         ],
         "list_order": 38271076,
-        "from_classifier_name": "High Performance SoC",
+        "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "Plan tasks",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "60329407-a371-4fca-802c-4073299aa0a2",
@@ -9329,7 +9357,7 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "Motivator",
-        "to_classifier_name": "High Performance SoC",
+        "to_classifier_name": "Main Performance Controller",
         "from_node": "3d66e55c-081f-43bb-89cd-159e19a83a75",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "uuid": "88cc0d6e-6904-4ceb-92be-6beda4c2354a"

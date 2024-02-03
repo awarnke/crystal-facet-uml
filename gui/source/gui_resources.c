@@ -140,139 +140,156 @@
                                      STRUCTNAME.width, STRUCTNAME.height, STRUCTNAME.width * STRUCTNAME.bytes_per_pixel, \
                                      NULL, NULL
 
+GdkTexture *gui_resources_new_texture_from_pixbuf_data( const guchar* data,
+                                                        GdkColorspace colorspace,
+                                                        gboolean has_alpha,
+                                                        int bits_per_sample,
+                                                        int width,
+                                                        int height,
+                                                        int rowstride,
+                                                        GdkPixbufDestroyNotify destroy_fn,
+                                                        gpointer destroy_fn_data
+                                                      )
+{
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data( data, colorspace, has_alpha, bits_per_sample, width, height, rowstride, destroy_fn, destroy_fn_data );
+    GdkTexture *result = gdk_texture_new_for_pixbuf( pixbuf );
+    g_object_unref( pixbuf );
+    return result;
+}
+
 void gui_resources_init ( gui_resources_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    (*this_).crystal_facet_uml = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( crystal_facet_uml ) );
+    (*this_).crystal_facet_uml = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( crystal_facet_uml ) );
 
-    (*this_).edit_attributes_sect = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_attributes_sect ) );
+    (*this_).edit_attributes_sect = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_attributes_sect ) );
 
-    (*this_).file_save = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_save ) );
-    (*this_).edit_copy = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_copy ) );
-    (*this_).edit_cut = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_cut ) );
-    (*this_).edit_delete = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_delete ) );
-    (*this_).edit_paste = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_paste ) );
-    (*this_).edit_instantiate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_instantiate ) );
-    (*this_).edit_highlight = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_highlight ) );
-    (*this_).edit_redo = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_redo ) );
-    (*this_).edit_undo = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_undo ) );
-    (*this_).edit_reset = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( edit_reset ) );
+    (*this_).file_save = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_save ) );
+    (*this_).edit_copy = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_copy ) );
+    (*this_).edit_cut = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_cut ) );
+    (*this_).edit_delete = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_delete ) );
+    (*this_).edit_paste = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_paste ) );
+    (*this_).edit_instantiate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_instantiate ) );
+    (*this_).edit_highlight = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_highlight ) );
+    (*this_).edit_redo = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_redo ) );
+    (*this_).edit_undo = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_undo ) );
+    (*this_).edit_reset = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_reset ) );
 
-    (*this_).file_export = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_export ) );
-    (*this_).file_new_db = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_new_db ) );
-    (*this_).view_new_window = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( view_new_window ) );
-    (*this_).file_use_db = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( file_use_db ) );
+    (*this_).file_export = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_export ) );
+    (*this_).file_new_db = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_new_db ) );
+    (*this_).view_new_window = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_new_window ) );
+    (*this_).file_use_db = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_use_db ) );
 
-    (*this_).message_error = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( message_error ) );
-    (*this_).message_info = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( message_info ) );
-    (*this_).message_warn = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( message_warn ) );
+    (*this_).message_error = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_error ) );
+    (*this_).message_info = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_info ) );
+    (*this_).message_warn = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_warn ) );
 
-    (*this_).message_user_doc = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( message_user_doc ) );
+    (*this_).message_user_doc = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_user_doc ) );
 
-    (*this_).view_search = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( view_search ) );
-    (*this_).view_navigate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( view_navigate ) );
-    (*this_).view_create = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( view_create ) );
-    (*this_).view_edit = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( view_edit ) );
-    (*this_).tool_sect = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( tool_sect ) );
+    (*this_).view_search = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_search ) );
+    (*this_).view_navigate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_navigate ) );
+    (*this_).view_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_create ) );
+    (*this_).view_edit = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_edit ) );
+    (*this_).tool_sect = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( tool_sect ) );
 
-    (*this_).navigate_breadcrumb_folder = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_breadcrumb_folder ) );
-    (*this_).navigate_closed_folder = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_closed_folder ) );
-    (*this_).navigate_create_child = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_child ) );
-    (*this_).navigate_create_child_0 = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_child_0 ) );
-    (*this_).navigate_create_sibling = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_sibling ) );
-    (*this_).navigate_create_sibling_0 = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_create_sibling_0 ) );
-    (*this_).navigate_open_folder = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( navigate_open_folder ) );
+    (*this_).navigate_breadcrumb_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_breadcrumb_folder ) );
+    (*this_).navigate_closed_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_closed_folder ) );
+    (*this_).navigate_create_child = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_child ) );
+    (*this_).navigate_create_child_0 = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_child_0 ) );
+    (*this_).navigate_create_sibling = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_sibling ) );
+    (*this_).navigate_create_sibling_0 = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_create_sibling_0 ) );
+    (*this_).navigate_open_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_open_folder ) );
 
-    (*this_).search_search = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( search_search ) );
+    (*this_).search_search = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( search_search ) );
 
-    (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
+    (*this_).background_column = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( background_column ) );
 
-    (*this_).type_undef = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_undef ) );
+    (*this_).type_undef = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_undef ) );
 
-    (*this_).type_diag_activity = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_activity ) );
-    (*this_).type_diag_block = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_block ) );
-    (*this_).type_diag_box = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_box ) );
-    (*this_).type_diag_class = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_class ) );
-    (*this_).type_diag_communication = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_communication ) );
-    (*this_).type_diag_component = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_component ) );
-    (*this_).type_diag_composite = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_composite ) );
-    (*this_).type_diag_deployment = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_deployment ) );
-    (*this_).type_diag_internal = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_internal ) );
-    (*this_).type_diag_list = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_list ) );
-    (*this_).type_diag_overview = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_overview ) );
-    (*this_).type_diag_package = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_package ) );
-    (*this_).type_diag_parametric = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_parametric ) );
-    (*this_).type_diag_profile = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_profile ) );
-    (*this_).type_diag_requirement = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_requirement ) );
-    (*this_).type_diag_sequence = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_sequence ) );
-    (*this_).type_diag_state = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_state ) );
-    (*this_).type_diag_timing = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_timing ) );
-    (*this_).type_diag_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_usecase ) );
+    (*this_).type_diag_activity = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_activity ) );
+    (*this_).type_diag_block = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_block ) );
+    (*this_).type_diag_box = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_box ) );
+    (*this_).type_diag_class = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_class ) );
+    (*this_).type_diag_communication = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_communication ) );
+    (*this_).type_diag_component = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_component ) );
+    (*this_).type_diag_composite = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_composite ) );
+    (*this_).type_diag_deployment = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_deployment ) );
+    (*this_).type_diag_internal = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_internal ) );
+    (*this_).type_diag_list = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_list ) );
+    (*this_).type_diag_overview = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_overview ) );
+    (*this_).type_diag_package = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_package ) );
+    (*this_).type_diag_parametric = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_parametric ) );
+    (*this_).type_diag_profile = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_profile ) );
+    (*this_).type_diag_requirement = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_requirement ) );
+    (*this_).type_diag_sequence = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_sequence ) );
+    (*this_).type_diag_state = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_state ) );
+    (*this_).type_diag_timing = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_timing ) );
+    (*this_).type_diag_usecase = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_diag_usecase ) );
 
-    (*this_).type_clas_accept = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_accept ) );
-    (*this_).type_clas_activity = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_activity ) );
-    (*this_).type_clas_actor = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_actor ) );
-    (*this_).type_clas_artifact = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_artifact ) );
-    (*this_).type_clas_block = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_block ) );
-    (*this_).type_clas_class = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_class ) );
-    (*this_).type_clas_comment = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_comment ) );
-    (*this_).type_clas_component = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_component ) );
-    (*this_).type_clas_constraint = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_constraint ) );
-    (*this_).type_clas_decision = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_decision ) );
-    (*this_).type_clas_deephistory = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_deephistory ) );
-    (*this_).type_clas_diagram = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_diagram ) );
-    (*this_).type_clas_final = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_final ) );
-    (*this_).type_clas_fork = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_fork ) );
-    (*this_).type_clas_history = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_history ) );
-    (*this_).type_clas_image = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_image ) );
-    (*this_).type_clas_initial = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_initial ) );
-    (*this_).type_clas_interface = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_interface ) );
-    (*this_).type_clas_join = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_join ) );
-    (*this_).type_clas_node = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_node ) );
-    (*this_).type_clas_object = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_object ) );
-    (*this_).type_clas_package = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_package ) );
-    (*this_).type_clas_part = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_part ) );
-    (*this_).type_clas_region = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_region ) );
-    (*this_).type_clas_requirement = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_requirement ) );
-    (*this_).type_clas_send = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_send ) );
-    (*this_).type_clas_state = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_state ) );
-    (*this_).type_clas_stereotype = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_stereotype ) );
-    (*this_).type_clas_subsystem = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_subsystem ) );
-    (*this_).type_clas_time = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_time ) );
-    (*this_).type_clas_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_usecase ) );
+    (*this_).type_clas_accept = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_accept ) );
+    (*this_).type_clas_activity = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_activity ) );
+    (*this_).type_clas_actor = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_actor ) );
+    (*this_).type_clas_artifact = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_artifact ) );
+    (*this_).type_clas_block = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_block ) );
+    (*this_).type_clas_class = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_class ) );
+    (*this_).type_clas_comment = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_comment ) );
+    (*this_).type_clas_component = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_component ) );
+    (*this_).type_clas_constraint = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_constraint ) );
+    (*this_).type_clas_decision = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_decision ) );
+    (*this_).type_clas_deephistory = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_deephistory ) );
+    (*this_).type_clas_diagram = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_diagram ) );
+    (*this_).type_clas_final = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_final ) );
+    (*this_).type_clas_fork = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_fork ) );
+    (*this_).type_clas_history = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_history ) );
+    (*this_).type_clas_image = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_image ) );
+    (*this_).type_clas_initial = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_initial ) );
+    (*this_).type_clas_interface = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_interface ) );
+    (*this_).type_clas_join = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_join ) );
+    (*this_).type_clas_node = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_node ) );
+    (*this_).type_clas_object = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_object ) );
+    (*this_).type_clas_package = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_package ) );
+    (*this_).type_clas_part = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_part ) );
+    (*this_).type_clas_region = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_region ) );
+    (*this_).type_clas_requirement = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_requirement ) );
+    (*this_).type_clas_send = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_send ) );
+    (*this_).type_clas_state = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_state ) );
+    (*this_).type_clas_stereotype = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_stereotype ) );
+    (*this_).type_clas_subsystem = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_subsystem ) );
+    (*this_).type_clas_time = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_time ) );
+    (*this_).type_clas_usecase = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_clas_usecase ) );
 
-    (*this_).type_feat_entry = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_entry ) );
-    (*this_).type_feat_exit = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_exit ) );
-    (*this_).type_feat_life = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_life ) );
-    (*this_).type_feat_operation = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_operation ) );
-    (*this_).type_feat_port = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_port ) );
-    (*this_).type_feat_property = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_property ) );
-    (*this_).type_feat_provide = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_provide ) );
-    (*this_).type_feat_require = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_require ) );
-    (*this_).type_feat_rx = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_rx ) );
-    (*this_).type_feat_tag = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_tag ) );
-    (*this_).type_feat_tx = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_tx ) );
+    (*this_).type_feat_entry = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_entry ) );
+    (*this_).type_feat_exit = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_exit ) );
+    (*this_).type_feat_life = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_life ) );
+    (*this_).type_feat_operation = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_operation ) );
+    (*this_).type_feat_port = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_port ) );
+    (*this_).type_feat_property = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_property ) );
+    (*this_).type_feat_provide = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_provide ) );
+    (*this_).type_feat_require = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_require ) );
+    (*this_).type_feat_rx = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_rx ) );
+    (*this_).type_feat_tag = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_tag ) );
+    (*this_).type_feat_tx = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_feat_tx ) );
 
-    (*this_).type_rel_aggregate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_aggregate ) );
-    (*this_).type_rel_associate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_associate ) );
-    (*this_).type_rel_async = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_async ) );
-    (*this_).type_rel_communication_path = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_communication_path ) );
-    (*this_).type_rel_compose = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_compose ) );
-    (*this_).type_rel_contain = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_contain ) );
-    (*this_).type_rel_control_flow = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_control_flow ) );
-    (*this_).type_rel_depend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_depend ) );
-    (*this_).type_rel_deploy = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_deploy ) );
-    (*this_).type_rel_extend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_extend ) );
-    (*this_).type_rel_generalize = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_generalize ) );
-    (*this_).type_rel_include = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_include ) );
-    (*this_).type_rel_manifest = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_manifest ) );
-    (*this_).type_rel_object_flow = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_object_flow ) );
-    (*this_).type_rel_realize = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_realize ) );
-    (*this_).type_rel_refine = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_refine ) );
-    (*this_).type_rel_return = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_return ) );
-    (*this_).type_rel_sync = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_sync ) );
-    (*this_).type_rel_trace = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_trace ) );
+    (*this_).type_rel_aggregate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_aggregate ) );
+    (*this_).type_rel_associate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_associate ) );
+    (*this_).type_rel_async = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_async ) );
+    (*this_).type_rel_communication_path = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_communication_path ) );
+    (*this_).type_rel_compose = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_compose ) );
+    (*this_).type_rel_contain = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_contain ) );
+    (*this_).type_rel_control_flow = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_control_flow ) );
+    (*this_).type_rel_depend = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_depend ) );
+    (*this_).type_rel_deploy = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_deploy ) );
+    (*this_).type_rel_extend = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_extend ) );
+    (*this_).type_rel_generalize = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_generalize ) );
+    (*this_).type_rel_include = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_include ) );
+    (*this_).type_rel_manifest = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_manifest ) );
+    (*this_).type_rel_object_flow = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_object_flow ) );
+    (*this_).type_rel_realize = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_realize ) );
+    (*this_).type_rel_refine = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_refine ) );
+    (*this_).type_rel_return = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_return ) );
+    (*this_).type_rel_sync = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_sync ) );
+    (*this_).type_rel_trace = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_rel_trace ) );
 
     U8_TRACE_END();
 }

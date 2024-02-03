@@ -4,6 +4,7 @@
 #include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "gui_sketch_int_compare.h"
+#include "gtk_helper/gtk_helper_icon.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <gdk/gdk.h>
@@ -99,9 +100,9 @@ void gui_sketch_result_list_private_layout_element ( gui_sketch_result_list_t *t
         const int result_type = data_search_result_get_match_type( result );
         gui_type_resource_t *const type_data
             = gui_resource_selector_get_type ( &((*this_).selector), result_table, result_type );
-        const GdkPixbuf *const icon = gui_type_resource_get_icon( type_data );
-        const double icon_width = gdk_pixbuf_get_width( icon );
-        const double icon_height = gdk_pixbuf_get_height( icon );
+        GdkTexture *const icon = gui_type_resource_get_icon( type_data );
+        const double icon_width = gdk_texture_get_width( icon );
+        const double icon_height = gdk_texture_get_height( icon );
 
         const shape_int_rectangle_t new_icon_box = (shape_int_rectangle_t) {
             .left=left+OBJ_GAP,
@@ -181,9 +182,8 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
         {
             const int_fast32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
             const int_fast32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-            const GdkPixbuf *undef_icon = gui_resources_get_type_undef( (*this_).resources );
-            double icon_width = gdk_pixbuf_get_width ( undef_icon );
-            double icon_height = gdk_pixbuf_get_height ( undef_icon );
+            GdkTexture *undef_icon = gui_resources_get_type_undef( (*this_).resources );
+            double icon_width = gdk_texture_get_width ( undef_icon );
 
             /* draw text first, use the above set color and font */
             const GdkRGBA std_color = gui_sketch_style_get_standard_color( &((*this_).sketch_style) );
@@ -196,9 +196,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
             /* draw the icon */
             const int x = left+OBJ_GAP;
             const int y = top+OBJ_GAP;
-            gdk_cairo_set_source_pixbuf( cr, undef_icon, x, y );
-            cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
-            cairo_fill (cr);
+            gtk_helper_icon_draw_texture( undef_icon, x, y, cr );
         }
         else
         {
@@ -279,20 +277,18 @@ void gui_sketch_result_list_private_draw_element( gui_sketch_result_list_t *this
         const int result_type = data_search_result_get_match_type( result );
         gui_type_resource_t *const type_data
             = gui_resource_selector_get_type ( &((*this_).selector), result_table, result_type );
-        const GdkPixbuf *const icon = gui_type_resource_get_icon( type_data );
+        GdkTexture *const icon = gui_type_resource_get_icon( type_data );
 
         /* where to draw to */
         const shape_int_rectangle_t *const icon_box
             = pos_search_result_get_icon_box_const( element );
         const int x = shape_int_rectangle_get_left(icon_box);
         const int y = shape_int_rectangle_get_top(icon_box);
-        double icon_width = gdk_pixbuf_get_width ( icon );
-        double icon_height = gdk_pixbuf_get_height ( icon );
+        /* double icon_width = gdk_texture_get_width ( icon ); */
+        /* double icon_height = gdk_texture_get_width ( icon ); */
 
         /* do draw */
-        gdk_cairo_set_source_pixbuf( cr, icon, x, y );
-        cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
-        cairo_fill (cr);
+        gtk_helper_icon_draw_texture( icon, x, y, cr );
     }
 
     U8_TRACE_END();
@@ -314,4 +310,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-

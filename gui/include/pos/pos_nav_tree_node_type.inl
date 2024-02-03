@@ -2,12 +2,12 @@
 
 #include <assert.h>
 
-static inline const GdkPixbuf * pos_nav_tree_node_type_get_icon( pos_nav_tree_node_type_t this_,
-                                                                 bool highlight,
-                                                                 gui_resources_t *resources )
+static inline GdkTexture * pos_nav_tree_node_type_get_icon( pos_nav_tree_node_type_t this_,
+                                                            bool highlight,
+                                                            gui_resources_t *resources )
 {
     assert( resources != NULL );
-    const GdkPixbuf * result;
+    GdkTexture * result;
     switch( this_ )
     {
         case POS_NAV_TREE_NODE_TYPE_ANCESTOR:
