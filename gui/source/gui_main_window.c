@@ -2,6 +2,7 @@
 
 #include "gui_main_window.h"
 #include "gui_clipboard.h"
+#include "gui_type_resource.h"
 #include "u8/u8_trace.h"
 #include "data_diagram_type.h"
 #include "data_classifier_type.h"
@@ -809,6 +810,42 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
                                     GTK_POLICY_AUTOMATIC
                                   );
 
+    GListStore *model = g_list_store_new( gui_type_resource_get_type() );
+    GuiTypeResource *type_res = GUI_TYPE_RESOURCE( g_object_new( gui_type_resource_get_type(), NULL ) );
+    gui_type_resource_init_diagram( type_res,
+                                    DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM,
+                                    "Hello World",
+                                    gui_resources_get_search_search( res )
+                                  );
+    g_list_store_append( model, type_res );
+    g_list_store_append( model, type_res );
+    g_list_store_append( model, type_res );
+    GtkExpression *expression = NULL;
+    GtkDropDown *type_dropdown = GTK_DROP_DOWN( gtk_drop_down_new ( G_LIST_MODEL( model ), expression ) );
+    GtkBuilderScope *scope = gtk_builder_cscope_new();
+    static const char bytes[] =
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    "<interface>\n"
+    "    <template class=\"GtkListItem\">\n"
+    "      <property name=\"child\">\n"
+    "        <object class=\"GtkLabel\">\n"
+    "          <property name=\"xalign\">0</property>\n"
+    /*
+    "          <binding name=\"label\">\n"
+    "            <lookup name=\"name\" type=\"SettingsKey\">\n"
+    "              <lookup name=\"item\">GtkListItem</lookup>\n"
+    "            </lookup>\n"
+    "          </binding>\n"
+    */
+    "            <property name=\"label\">Hello</property>\n"
+    "        </object>\n"
+    "      </property>\n"
+    "    </template>\n"
+    "</interface>";
+    GBytes *byteptr = g_bytes_new( &bytes, sizeof(bytes) );
+    GtkListItemFactory *factory = gtk_builder_list_item_factory_new_from_bytes( scope, byteptr );
+    gtk_drop_down_set_factory( type_dropdown, factory );
+
     (*this_).type_combo_box = gtk_combo_box_new();
     GtkCellRenderer *column1;
     column1 = gtk_cell_renderer_pixbuf_new();
@@ -831,7 +868,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         for( int_fast32_t diag_idx = 0; diag_idx < GUI_RESOURCE_SELECTOR_DIAGRAMS; diag_idx ++ )
         {
             const gui_type_resource_t *const type_data = &((*diag_data)[diag_idx]);
-            const data_diagram_type_t diag_type = data_type_get_diagram_type( gui_type_resource_get_type( type_data ) );
+            const data_diagram_type_t diag_type = data_type_get_diagram_type( gui_type_resource_get_type_id( type_data ) );
             GdkTexture *const diag_icon = gui_type_resource_get_icon( type_data );
             const char *const diag_name = gui_type_resource_get_name( type_data );
 
@@ -853,7 +890,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         for( int_fast32_t clas_idx = 0; clas_idx < GUI_RESOURCE_SELECTOR_CLASSIFIERS; clas_idx ++ )
         {
             const gui_type_resource_t *const type_data = &((*clas_data)[clas_idx]);
-            const data_classifier_type_t clas_type = data_type_get_classifier_type( gui_type_resource_get_type( type_data ) );
+            const data_classifier_type_t clas_type = data_type_get_classifier_type( gui_type_resource_get_type_id( type_data ) );
             GdkTexture *const clas_icon = gui_type_resource_get_icon( type_data );
             const char *const clas_name = gui_type_resource_get_name( type_data );
 
@@ -875,7 +912,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         for( int_fast32_t feat_idx = 0; feat_idx < GUI_RESOURCE_SELECTOR_INV_FEATURES; feat_idx ++ )  /* ignore the lifeline */
         {
             const gui_type_resource_t *const type_data = &((*feat_data)[feat_idx]);
-            const data_feature_type_t feat_type = data_type_get_feature_type( gui_type_resource_get_type( type_data ) );
+            const data_feature_type_t feat_type = data_type_get_feature_type( gui_type_resource_get_type_id( type_data ) );
             GdkTexture *const feat_icon = gui_type_resource_get_icon( type_data );
             const char *const feat_name = gui_type_resource_get_name( type_data );
 
@@ -897,7 +934,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         for( int_fast32_t rel_idx = 0; rel_idx < GUI_RESOURCE_SELECTOR_RELATIONS; rel_idx ++ )
         {
             const gui_type_resource_t *const type_data = &((*rel_data)[rel_idx]);
-            const data_relationship_type_t rel_type = data_type_get_relationship_type( gui_type_resource_get_type( type_data ) );
+            const data_relationship_type_t rel_type = data_type_get_relationship_type( gui_type_resource_get_type_id( type_data ) );
             GdkTexture *const rel_icon = gui_type_resource_get_icon( type_data );
             const char *const rel_name = gui_type_resource_get_name( type_data );
 
@@ -922,6 +959,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(type_dropdown) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_clas_grid ) );

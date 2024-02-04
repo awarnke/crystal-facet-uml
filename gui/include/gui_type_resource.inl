@@ -5,7 +5,7 @@ static inline void gui_type_resource_init_diagram ( gui_type_resource_t *this_,
                                                     const char * name,
                                                     GdkTexture * icon )
 {
-    data_type_init_diagram( &((*this_).type), type );
+    data_type_init_diagram( &((*this_).type_id), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -15,7 +15,7 @@ static inline void gui_type_resource_init_classifier ( gui_type_resource_t *this
                                                        const char * name,
                                                        GdkTexture * icon )
 {
-    data_type_init_classifier( &((*this_).type), type );
+    data_type_init_classifier( &((*this_).type_id), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -25,7 +25,7 @@ static inline void gui_type_resource_init_feature ( gui_type_resource_t *this_,
                                                     const char * name,
                                                     GdkTexture * icon )
 {
-    data_type_init_feature( &((*this_).type), type );
+    data_type_init_feature( &((*this_).type_id), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -35,7 +35,7 @@ static inline void gui_type_resource_init_relationship ( gui_type_resource_t *th
                                                          const char * name,
                                                          GdkTexture * icon )
 {
-    data_type_init_relationship( &((*this_).type), type );
+    data_type_init_relationship( &((*this_).type_id), type );
     (*this_).name = name;
     (*this_).icon = icon;
 }
@@ -44,9 +44,9 @@ static inline void gui_type_resource_destroy ( gui_type_resource_t *this_ )
 {
 }
 
-static inline const data_type_t * gui_type_resource_get_type ( const gui_type_resource_t *this_ )
+static inline const data_type_t * gui_type_resource_get_type_id ( const gui_type_resource_t *this_ )
 {
-    return ( &((*this_).type) );
+    return ( &((*this_).type_id) );
 }
 
 static inline const char * gui_type_resource_get_name ( const gui_type_resource_t *this_ )

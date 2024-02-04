@@ -9,7 +9,7 @@ static inline gui_type_resource_t * gui_resource_selector_get_diagram_type ( gui
     for ( unsigned int idx = 0; idx < (*this_).diagram_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).diagram_types_start+idx]);
-        if ( data_type_get_diagram_type( gui_type_resource_get_type( current ) ) == diag_type )
+        if ( data_type_get_diagram_type( gui_type_resource_get_type_id( current ) ) == diag_type )
         {
             result = current;
         }
@@ -24,7 +24,7 @@ static inline gui_type_resource_t * gui_resource_selector_get_classifier_type ( 
     for ( unsigned int idx = 0; idx < (*this_).classifier_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).classifier_types_start+idx]);
-        if ( data_type_get_classifier_type( gui_type_resource_get_type( current ) ) == clas_type )
+        if ( data_type_get_classifier_type( gui_type_resource_get_type_id( current ) ) == clas_type )
         {
             result = current;
         }
@@ -39,7 +39,7 @@ static inline gui_type_resource_t * gui_resource_selector_get_feature_type ( gui
     for ( unsigned int idx = 0; idx < (*this_).feature_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).feature_types_start+idx]);
-        if ( data_type_get_feature_type( gui_type_resource_get_type( current ) ) == feat_type )
+        if ( data_type_get_feature_type( gui_type_resource_get_type_id( current ) ) == feat_type )
         {
             result = current;
         }
@@ -54,7 +54,7 @@ static inline gui_type_resource_t * gui_resource_selector_get_relationship_type 
     for ( unsigned int idx = 0; idx < (*this_).relationship_types_length; idx ++ )
     {
         gui_type_resource_t * const current = &((*this_).type_name_icon_list[(*this_).relationship_types_start+idx]);
-        if ( data_type_get_relationship_type( gui_type_resource_get_type( current ) ) == rel_type )
+        if ( data_type_get_relationship_type( gui_type_resource_get_type_id( current ) ) == rel_type )
         {
             result = current;
         }
@@ -105,7 +105,7 @@ static inline void gui_resource_selector_get_invariant_feature_types ( const gui
     /* ensure that the DATA_FEATURE_TYPE_LIFELINE is excluded - this should follow 1 list entry after the result list: */
     const gui_type_resource_t *const first_after_result
         = &(((*this_).type_name_icon_list[ (*this_).feature_types_start + (*this_).feature_types_length - 1 ]));
-    assert( data_type_get_feature_type( gui_type_resource_get_type( first_after_result ) ) == DATA_FEATURE_TYPE_LIFELINE );
+    assert( data_type_get_feature_type( gui_type_resource_get_type_id( first_after_result ) ) == DATA_FEATURE_TYPE_LIFELINE );
 #endif
     const gui_type_resource_t *start_element_ptr = &((*this_).type_name_icon_list[(*this_).feature_types_start]);
     *out_types = (const gui_type_resource_t((*)[])) start_element_ptr;

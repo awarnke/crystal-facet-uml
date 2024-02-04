@@ -6,6 +6,8 @@
 /* public file for the doxygen documentation: */
 /*! \file
  *  \brief Data objects needed to display an element type: name and icon
+ *
+ *  This data object is a gobject to be able to store it in a GListModel like GListStore.
  */
 
 #include "data_table.h"
@@ -15,18 +17,38 @@
 #include "data_diagram_type.h"
 #include "data_type.h"
 #include <gdk/gdk.h>
+#include <glib-object.h>
 #include <stdint.h>
+
+G_BEGIN_DECLS
+
+/*
+ * Type declaration.
+ */
+#define GUI_TYPE_TYPE_RESOURCE gui_type_resource_get_type()
+G_DECLARE_FINAL_TYPE (GuiTypeResource, gui_type_resource, GUI, TYPE_RESOURCE, GObject)
+
+/*
+ * Method definitions.
+ */
+GuiTypeResource *gui_type_resource_new (void);
+
+G_END_DECLS
 
 /*!
  *  \brief attributes of the type resource
+ *
+ *  The notation of the struct name is required by glib
  */
-struct gui_type_resource_struct {
-    data_type_t type;  /*!<  element type for which this type resource applies */
+struct _GuiTypeResource {
+    GObject parent_instance;  /*!<  glib parent object */
+    data_type_t type_id;  /*!<  element type for which this type resource applies */
     const char * name;  /*!<  display name */
     GdkTexture * icon;  /*!<  icon to be displayed */
 };
 
-typedef struct gui_type_resource_struct gui_type_resource_t;
+typedef struct _GuiTypeResource gui_type_resource_t;
+//typedef struct gui_type_resource_struct GuiTypeResource;  /* same type in GLib notation */
 
 /*!
  *  \brief initializes the gui_type_resource_t struct
@@ -97,7 +119,7 @@ static inline void gui_type_resource_destroy ( gui_type_resource_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return type of this gui_type_resource_t
  */
-static inline const data_type_t * gui_type_resource_get_type ( const gui_type_resource_t *this_ );
+static inline const data_type_t * gui_type_resource_get_type_id ( const gui_type_resource_t *this_ );
 
 /*!
  *  \brief gets the name
