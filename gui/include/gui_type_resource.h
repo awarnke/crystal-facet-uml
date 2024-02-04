@@ -28,13 +28,6 @@ G_BEGIN_DECLS
 #define GUI_TYPE_TYPE_RESOURCE gui_type_resource_get_type()
 G_DECLARE_FINAL_TYPE (GuiTypeResource, gui_type_resource, GUI, TYPE_RESOURCE, GObject)
 
-/*
- * Method definitions.
- */
-GuiTypeResource *gui_type_resource_new (void);
-
-G_END_DECLS
-
 /*!
  *  \brief attributes of the type resource
  *
@@ -47,8 +40,14 @@ struct _GuiTypeResource {
     GdkTexture * icon;  /*!<  icon to be displayed */
 };
 
+/*
+ * Method definitions.
+ */
+GuiTypeResource *gui_type_resource_new (void);
+
+G_END_DECLS
+
 typedef struct _GuiTypeResource gui_type_resource_t;
-//typedef struct gui_type_resource_struct GuiTypeResource;  /* same type in GLib notation */
 
 /*!
  *  \brief initializes the gui_type_resource_t struct
@@ -117,7 +116,7 @@ static inline void gui_type_resource_destroy ( gui_type_resource_t *this_ );
  *  \brief gets the type
  *
  *  \param this_ pointer to own object attributes
- *  \return type of this gui_type_resource_t
+ *  \return type_id of this gui_type_resource_t
  */
 static inline const data_type_t * gui_type_resource_get_type_id ( const gui_type_resource_t *this_ );
 

@@ -824,25 +824,37 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     GtkDropDown *type_dropdown = GTK_DROP_DOWN( gtk_drop_down_new ( G_LIST_MODEL( model ), expression ) );
     GtkBuilderScope *scope = gtk_builder_cscope_new();
     static const char bytes[] =
-    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-    "<interface>\n"
-    "    <template class=\"GtkListItem\">\n"
-    "      <property name=\"child\">\n"
-    "        <object class=\"GtkLabel\">\n"
-    "          <property name=\"xalign\">0</property>\n"
     /*
-    "          <binding name=\"label\">\n"
-    "            <lookup name=\"name\" type=\"SettingsKey\">\n"
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    */
+    "<interface>\n"
+    "<template class=\"GtkListItem\">\n"
+    "  <property name=\"child\">\n"
+    "    <object class=\"GtkPaned\">\n"
+    "      <property name=\"start-child\">\n"
+    "        <object class=\"GtkImage\">\n"
+    "          <binding name=\"paintable\">\n"
+    "            <lookup name=\"icon\" type=\"GuiTypeResource\">\n"
     "              <lookup name=\"item\">GtkListItem</lookup>\n"
     "            </lookup>\n"
     "          </binding>\n"
-    */
-    "            <property name=\"label\">Hello</property>\n"
     "        </object>\n"
     "      </property>\n"
-    "    </template>\n"
-    "</interface>";
-    GBytes *byteptr = g_bytes_new( &bytes, sizeof(bytes) );
+    "      <property name=\"end-child\">\n"
+    "        <object class=\"GtkLabel\">\n"
+    "          <property name=\"xalign\">0</property>\n"
+    "          <binding name=\"label\">\n"
+    "            <lookup name=\"name\" type=\"GuiTypeResource\">\n"
+    "              <lookup name=\"item\">GtkListItem</lookup>\n"
+    "            </lookup>\n"
+    "          </binding>\n"
+    "        </object>\n"
+    "      </property>\n"
+    "    </object>\n"
+    "  </property>\n"
+    "</template>\n"
+    "</interface>\n";
+    GBytes *byteptr = g_bytes_new( &bytes, sizeof(bytes)-sizeof(char) );
     GtkListItemFactory *factory = gtk_builder_list_item_factory_new_from_bytes( scope, byteptr );
     gtk_drop_down_set_factory( type_dropdown, factory );
 
