@@ -1,9 +1,9 @@
-/* File: gui_resource_selector.inl; Copyright and License: see below */
+/* File: gui_type_resource_list.inl; Copyright and License: see below */
 
 #include <assert.h>
 
-static inline gui_type_resource_t * gui_resource_selector_get_diagram_type ( gui_resource_selector_t *this_,
-                                                                             data_diagram_type_t diag_type )
+static inline gui_type_resource_t * gui_type_resource_list_get_diagram_type ( gui_type_resource_list_t *this_,
+                                                                              data_diagram_type_t diag_type )
 {
     gui_type_resource_t *result = &((*this_).type_undef);
     for ( unsigned int idx = 0; idx < (*this_).diagram_types_length; idx ++ )
@@ -17,8 +17,8 @@ static inline gui_type_resource_t * gui_resource_selector_get_diagram_type ( gui
     return result;
 }
 
-static inline gui_type_resource_t * gui_resource_selector_get_classifier_type ( gui_resource_selector_t *this_,
-                                                                                data_classifier_type_t clas_type )
+static inline gui_type_resource_t * gui_type_resource_list_get_classifier_type ( gui_type_resource_list_t *this_,
+                                                                                 data_classifier_type_t clas_type )
 {
     gui_type_resource_t *result = &((*this_).type_undef);
     for ( unsigned int idx = 0; idx < (*this_).classifier_types_length; idx ++ )
@@ -32,8 +32,8 @@ static inline gui_type_resource_t * gui_resource_selector_get_classifier_type ( 
     return result;
 }
 
-static inline gui_type_resource_t * gui_resource_selector_get_feature_type ( gui_resource_selector_t *this_,
-                                                                             data_feature_type_t feat_type )
+static inline gui_type_resource_t * gui_type_resource_list_get_feature_type ( gui_type_resource_list_t *this_,
+                                                                              data_feature_type_t feat_type )
 {
     gui_type_resource_t *result = &((*this_).type_undef);
     for ( unsigned int idx = 0; idx < (*this_).feature_types_length; idx ++ )
@@ -47,8 +47,8 @@ static inline gui_type_resource_t * gui_resource_selector_get_feature_type ( gui
     return result;
 }
 
-static inline gui_type_resource_t * gui_resource_selector_get_relationship_type ( gui_resource_selector_t *this_,
-                                                                                  data_relationship_type_t rel_type )
+static inline gui_type_resource_t * gui_type_resource_list_get_relationship_type ( gui_type_resource_list_t *this_,
+                                                                                   data_relationship_type_t rel_type )
 {
     gui_type_resource_t *result = &((*this_).type_undef);
     for ( unsigned int idx = 0; idx < (*this_).relationship_types_length; idx ++ )
@@ -62,9 +62,9 @@ static inline gui_type_resource_t * gui_resource_selector_get_relationship_type 
     return result;
 }
 
-static inline void gui_resource_selector_get_all_diagram_types ( const gui_resource_selector_t *this_,
-                                                                 const gui_type_resource_t (**out_types)[],
-                                                                 unsigned int *out_length )
+static inline void gui_type_resource_list_get_all_diagram_types ( const gui_type_resource_list_t *this_,
+                                                                  const gui_type_resource_t (**out_types)[],
+                                                                  unsigned int *out_length )
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
@@ -73,9 +73,9 @@ static inline void gui_resource_selector_get_all_diagram_types ( const gui_resou
     *out_length = (*this_).diagram_types_length;
 }
 
-static inline void gui_resource_selector_get_all_classifier_types ( const gui_resource_selector_t *this_,
-                                                                    const gui_type_resource_t (**out_types)[],
-                                                                    unsigned int *out_length )
+static inline void gui_type_resource_list_get_all_classifier_types ( const gui_type_resource_list_t *this_,
+                                                                     const gui_type_resource_t (**out_types)[],
+                                                                     unsigned int *out_length )
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
@@ -84,9 +84,9 @@ static inline void gui_resource_selector_get_all_classifier_types ( const gui_re
     *out_length = (*this_).classifier_types_length;
 }
 
-static inline void gui_resource_selector_get_all_feature_types ( const gui_resource_selector_t *this_,
-                                                                 const gui_type_resource_t (**out_types)[],
-                                                                 unsigned int *out_length )
+static inline void gui_type_resource_list_get_all_feature_types ( const gui_type_resource_list_t *this_,
+                                                                  const gui_type_resource_t (**out_types)[],
+                                                                  unsigned int *out_length )
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
@@ -95,9 +95,9 @@ static inline void gui_resource_selector_get_all_feature_types ( const gui_resou
     *out_length = (*this_).feature_types_length;
 }
 
-static inline void gui_resource_selector_get_invariant_feature_types ( const gui_resource_selector_t *this_,
-                                                                       const gui_type_resource_t (**out_types)[],
-                                                                       unsigned int *out_length )
+static inline void gui_type_resource_list_get_invariant_feature_types ( const gui_type_resource_list_t *this_,
+                                                                        const gui_type_resource_t (**out_types)[],
+                                                                        unsigned int *out_length )
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
@@ -112,9 +112,9 @@ static inline void gui_resource_selector_get_invariant_feature_types ( const gui
     *out_length = (*this_).feature_types_length - 1;
 }
 
-static inline void gui_resource_selector_get_all_relationship_types ( const gui_resource_selector_t *this_,
-                                                                      const gui_type_resource_t (**out_types)[],
-                                                                      unsigned int *out_length )
+static inline void gui_type_resource_list_get_all_relationship_types ( const gui_type_resource_list_t *this_,
+                                                                       const gui_type_resource_t (**out_types)[],
+                                                                       unsigned int *out_length )
 {
     assert( out_types != NULL );
     assert( out_length != NULL );

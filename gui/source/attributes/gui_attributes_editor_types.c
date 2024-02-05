@@ -13,7 +13,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     assert( NULL != resources );
 
     (*this_).resources = resources;
-    gui_resource_selector_init ( &((*this_).selector), resources );
+    gui_type_resource_list_init ( &((*this_).selector), resources );
 
     /* init undef */
 
@@ -34,7 +34,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
 
     (*this_).diagram_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
 
-    gui_resource_selector_get_all_diagram_types ( &((*this_).selector), &types, &types_len );
+    gui_type_resource_list_get_all_diagram_types ( &((*this_).selector), &types, &types_len );
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
@@ -51,7 +51,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
 
     (*this_).classifier_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
 
-    gui_resource_selector_get_all_classifier_types ( &((*this_).selector), &types, &types_len );
+    gui_type_resource_list_get_all_classifier_types ( &((*this_).selector), &types, &types_len );
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
@@ -69,7 +69,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     (*this_).feature_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
     (*this_).feature_lifeline_type = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
 
-    gui_resource_selector_get_all_feature_types ( &((*this_).selector), &types, &types_len );
+    gui_type_resource_list_get_all_feature_types ( &((*this_).selector), &types, &types_len );
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
@@ -95,7 +95,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
 
     (*this_).relationship_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
 
-    gui_resource_selector_get_all_relationship_types ( &((*this_).selector), &types, &types_len );
+    gui_type_resource_list_get_all_relationship_types ( &((*this_).selector), &types, &types_len );
     for ( unsigned int idx = 0; idx < types_len; idx ++ )
     {
         const gui_type_resource_t *res = &((*types)[idx]);
@@ -115,7 +115,7 @@ void gui_attributes_editor_types_destroy ( gui_attributes_editor_types_t *this_ 
 {
     U8_TRACE_BEGIN();
 
-    gui_resource_selector_destroy ( &((*this_).selector) );
+    gui_type_resource_list_destroy ( &((*this_).selector) );
 
     g_object_unref((*this_).no_types);
     (*this_).no_types = NULL;

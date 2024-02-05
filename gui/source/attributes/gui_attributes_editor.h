@@ -55,7 +55,11 @@ struct gui_attributes_editor_struct {
     GtkLabel *id_label;  /*!< pointer to external id label widget */
     GtkEntry *name_entry;  /*!< pointer to external text entry widget */
     GtkEntry *stereotype_entry;  /*!< pointer to external text entry widget */
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkDropDown *type_dropdown;  /*!< pointer to external drop down widget */
+#else
     GtkComboBox *type_combo_box;  /*!< pointer to external combo box widget */
+#endif
     GtkWidget *type_diag_grid;  /*!< pointer to external type icon grid widget of diagram types */
     GtkWidget *type_clas_grid;  /*!< pointer to external type icon grid widget of classifier types */
     GtkWidget *type_feat_grid;  /*!< pointer to external type icon grid widget of feature types */
@@ -73,6 +77,7 @@ typedef struct gui_attributes_editor_struct gui_attributes_editor_t;
  *  \param id_label pointer to id-label widget
  *  \param name_entry pointer to text entry widget
  *  \param stereotype_entry pointer to external text entry widget
+ *  \param type_dropdown pointer to external drop down widget
  *  \param type_combo_box pointer to external combo box widget
  *  \param type_diag_grid pointer to external type-icon grid widget of diagram types
  *  \param type_clas_grid pointer to external type-icon grid widget of classifier types
@@ -90,7 +95,11 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkLabel *id_label,
                                   GtkEntry *name_entry,
                                   GtkEntry *stereotype_entry,
+#if ( GTK_MAJOR_VERSION >= 4 )
+                                  GtkDropDown *type_dropdown,
+#else
                                   GtkComboBox *type_combo_box,
+#endif
                                   GtkWidget *type_diag_grid,
                                   GtkWidget *type_clas_grid,
                                   GtkWidget *type_feat_grid,

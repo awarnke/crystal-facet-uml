@@ -13,7 +13,7 @@
 #include "sketch/gui_sketch_area.h"
 #include "gui_toolbox.h"
 #include "gui_resources.h"
-#include "gui_resource_selector.h"
+#include "gui_type_resource_list.h"
 #include "attributes/gui_attributes_editor.h"
 #include "gui_file_use_db_dialog.h"
 #include "gui_file_export_dialog.h"
@@ -126,23 +126,27 @@ struct gui_main_window_struct {
     GtkWidget *description_text_view;
     GtkWidget *description_scroll_win;
     GtkWidget *type_label;
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkDropDown *type_dropdown;
+#else
     GtkWidget *type_combo_box;
+#endif
     GtkGrid   *type_diag_grid;
-    GtkImage  *( type_diag_img[ GUI_RESOURCE_SELECTOR_DIAGRAMS ] );
-    GtkButton *( type_diag_btn[ GUI_RESOURCE_SELECTOR_DIAGRAMS ] );
-    gui_attribute_type_of_diagram_t type_diag_data[ GUI_RESOURCE_SELECTOR_DIAGRAMS ];
+    GtkImage  *( type_diag_img[ GUI_TYPE_RESOURCE_LIST_DIAGRAMS ] );
+    GtkButton *( type_diag_btn[ GUI_TYPE_RESOURCE_LIST_DIAGRAMS ] );
+    gui_attribute_type_of_diagram_t type_diag_data[ GUI_TYPE_RESOURCE_LIST_DIAGRAMS ];
     GtkGrid   *type_clas_grid;
-    GtkImage  *( type_clas_img[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ] );
-    GtkButton *( type_clas_btn[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ] );
-    gui_attribute_type_of_classifier_t type_clas_data[ GUI_RESOURCE_SELECTOR_CLASSIFIERS ];
+    GtkImage  *( type_clas_img[ GUI_TYPE_RESOURCE_LIST_CLASSIFIERS ] );
+    GtkButton *( type_clas_btn[ GUI_TYPE_RESOURCE_LIST_CLASSIFIERS ] );
+    gui_attribute_type_of_classifier_t type_clas_data[ GUI_TYPE_RESOURCE_LIST_CLASSIFIERS ];
     GtkGrid   *type_feat_grid;
-    GtkImage  *( type_feat_img[ GUI_RESOURCE_SELECTOR_INV_FEATURES ] );
-    GtkButton *( type_feat_btn[ GUI_RESOURCE_SELECTOR_INV_FEATURES ] );
-    gui_attribute_type_of_feature_t type_feat_data[ GUI_RESOURCE_SELECTOR_INV_FEATURES ];
+    GtkImage  *( type_feat_img[ GUI_TYPE_RESOURCE_LIST_INV_FEATURES ] );
+    GtkButton *( type_feat_btn[ GUI_TYPE_RESOURCE_LIST_INV_FEATURES ] );
+    gui_attribute_type_of_feature_t type_feat_data[ GUI_TYPE_RESOURCE_LIST_INV_FEATURES ];
     GtkGrid   *type_rel_grid;
-    GtkImage  *( type_rel_img[ GUI_RESOURCE_SELECTOR_RELATIONS ] );
-    GtkButton *( type_rel_btn[ GUI_RESOURCE_SELECTOR_RELATIONS ] );
-    gui_attribute_type_of_relationship_t type_rel_data[ GUI_RESOURCE_SELECTOR_RELATIONS ];
+    GtkImage  *( type_rel_img[ GUI_TYPE_RESOURCE_LIST_RELATIONS ] );
+    GtkButton *( type_rel_btn[ GUI_TYPE_RESOURCE_LIST_RELATIONS ] );
+    gui_attribute_type_of_relationship_t type_rel_data[ GUI_TYPE_RESOURCE_LIST_RELATIONS ];
     GtkWidget *stereotype_label;
     GtkWidget *stereotype_entry;
 

@@ -23,7 +23,11 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkLabel *id_label,
                                   GtkEntry *name_entry,
                                   GtkEntry *stereotype_entry,
+#if ( GTK_MAJOR_VERSION >= 4 )
+                                  GtkDropDown *type_dropdown,
+#else
                                   GtkComboBox *type_combo_box,
+#endif
                                   GtkWidget *type_diag_grid,
                                   GtkWidget *type_clas_grid,
                                   GtkWidget *type_feat_grid,
@@ -40,7 +44,11 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     assert( NULL != id_label );
     assert( NULL != name_entry );
     assert( NULL != stereotype_entry );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    assert( NULL != type_dropdown );
+#else
     assert( NULL != type_combo_box );
+#endif
     assert( NULL != type_diag_grid );
     assert( NULL != type_clas_grid );
     assert( NULL != type_feat_grid );
@@ -56,7 +64,11 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     (*this_).id_label = id_label;
     (*this_).name_entry = name_entry;
     (*this_).stereotype_entry = stereotype_entry;
+#if ( GTK_MAJOR_VERSION >= 4 )
+    (*this_).type_dropdown = type_dropdown;
+#else
     (*this_).type_combo_box = type_combo_box;
+#endif
     (*this_).type_diag_grid = type_diag_grid;
     (*this_).type_clas_grid = type_clas_grid;
     (*this_).type_feat_grid = type_feat_grid;
@@ -106,7 +118,11 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     (*this_).id_label = NULL;
     (*this_).name_entry = NULL;
     (*this_).stereotype_entry = NULL;
+#if ( GTK_MAJOR_VERSION >= 4 )
+    (*this_).type_dropdown = NULL;
+#else
     (*this_).type_combo_box = NULL;
+#endif
     (*this_).type_diag_grid = NULL;
     (*this_).type_clas_grid = NULL;
     (*this_).type_feat_grid = NULL;
@@ -262,6 +278,20 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
     /* type: */
     if ( U8_TRACE_ACTIVE )
     {
+#if ( GTK_MAJOR_VERSION >= 4 )
+        int obj_type;
+        GObject *selected = gtk_drop_down_get_selected_item ( (*this_).type_dropdown );
+        if ( selected == NULL )
+        {
+            obj_type = -1;
+        }
+        else
+        {
+            const data_type_t *obj_full_type = gui_type_resource_get_type_id( ((GuiTypeResource*)selected) );
+            obj_type = data_type_get_type_as_int( obj_full_type );
+        }
+        U8_TRACE_INFO_INT( "- visible type id:", obj_type );
+#else
         GtkComboBox *type_widget;
         int obj_type;
         int index;
@@ -269,6 +299,7 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
         index = gtk_combo_box_get_active ( type_widget );
         obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
         U8_TRACE_INFO_INT( "- visible type id:", obj_type );
+#endif
     }
 
     /* description: */
@@ -390,6 +421,24 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
     gui_attributes_editor_t *this_;
     this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
+
+#if ( GTK_MAJOR_VERSION >= 4 )
+    assert ( GTK_DROP_DOWN( widget ) == (*this_).type_dropdown );
+
+    /* get type id from widget */
+    int obj_type;
+    GObject *selected = gtk_drop_down_get_selected_item ( (*this_).type_dropdown );
+    if ( selected == NULL )
+    {
+        obj_type = -1;
+    }
+    else
+    {
+        const data_type_t *obj_full_type = gui_type_resource_get_type_id( ((GuiTypeResource*)selected) );
+        obj_type = data_type_get_type_as_int( obj_full_type );
+    }
+    U8_TRACE_INFO_INT( "selected type_id:", obj_type );
+#else
     assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
 
     /* get type id from widget */
@@ -398,8 +447,9 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
     int index;
     type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
     index = gtk_combo_box_get_active ( type_widget );
-    U8_TRACE_INFO_INT( "selected:", index );
+    U8_TRACE_INFO_INT( "selected index:", index );
     obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
+#endif
 
     /* commit possibly changed texts before causing update events */
     gui_attributes_editor_commit_changes( this_ );
@@ -1631,17 +1681,24 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *this_ )
 {
     U8_TRACE_BEGIN();
+#if ( GTK_MAJOR_VERSION >= 4 )
+    GtkDropDown *type_widget = (*this_).type_dropdown;
+#else
     GtkComboBox *type_widget;
     type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
+#endif
 
     switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
     {
         case DATA_TABLE_VOID:
         {
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
             /* prevent that a user accidentally enters a type for a non-existing object */
+#endif
 
             /* hide icon grid: */
             gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
@@ -1653,6 +1710,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
 
         case DATA_TABLE_CLASSIFIER:
         {
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
             const data_classifier_type_t class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
             const GtkListStore * const classifier_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( classifier_type_list ), 0, class_type );
@@ -1661,6 +1720,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
+#endif
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show classifier icon grid: */
@@ -1676,6 +1736,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             const data_feature_type_t feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
             if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
             {
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
                 const GtkListStore * const lifeline_type_list = gui_attributes_editor_types_get_feature_lifeline( &((*this_).type_lists) );
                 const int index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( lifeline_type_list ), 0, feature_type );
                 gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( lifeline_type_list ) );
@@ -1683,6 +1745,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                     /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
                 }
+#endif
                 gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
                 /* hide  icon grid: */
@@ -1693,6 +1756,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             }
             else
             {
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
                 const GtkListStore * const feature_type_list = gui_attributes_editor_types_get_features( &((*this_).type_lists) );
                 const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( feature_type_list ), 0, feature_type );
                 gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( feature_type_list ) );
@@ -1700,6 +1765,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                     /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
                 }
+#endif
                 gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
                 /* show feature icon grid: */
@@ -1713,6 +1779,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
 
         case DATA_TABLE_RELATIONSHIP:
         {
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
             const data_relationship_type_t relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
             const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_relationships( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
@@ -1721,6 +1789,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active( GTK_COMBO_BOX( type_widget ), index );
             }
+#endif
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show relationship icon grid: */
@@ -1734,8 +1803,11 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
+#endif
 
             /* hide icon grid: */
             gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
@@ -1747,6 +1819,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
 
         case DATA_TABLE_DIAGRAM:
         {
+#if ( GTK_MAJOR_VERSION >= 4 )
+#else
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
             const GtkListStore * const diagram_type_list = gui_attributes_editor_types_get_diagrams( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( diagram_type_list ), 0, diag_type );
@@ -1755,6 +1829,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
+#endif
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show diagram icon grid: */

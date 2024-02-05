@@ -12,7 +12,7 @@
 #include "sketch/gui_sketch_style.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
-#include "gui_resource_selector.h"
+#include "gui_type_resource_list.h"
 #include "shape/shape_int_rectangle.h"
 #include "pos/pos_search_result.h"
 #include "storage/data_database.h"
@@ -58,7 +58,7 @@ struct gui_sketch_result_list_struct {
     gui_sketch_style_t sketch_style;
     gui_sketch_marker_t sketch_marker;
     gui_resources_t *resources;  /*!< pointer to external resources */
-    gui_resource_selector_t selector;  /*!< own instance of a resource selector */
+    gui_type_resource_list_t selector;  /*!< own instance of a resource selector */
 };
 
 typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;

@@ -1,12 +1,12 @@
-/* File: gui_resource_selector.c; Copyright and License: see below */
+/* File: gui_type_resource_list.c; Copyright and License: see below */
 
-#include "gui_resource_selector.h"
+#include "gui_type_resource_list.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <gtk/gtk.h>
 #include <assert.h>
 
-void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_t *resources )
+void gui_type_resource_list_init ( gui_type_resource_list_t *this_, gui_resources_t *resources )
 {
     U8_TRACE_BEGIN();
     assert( resources != NULL );
@@ -82,7 +82,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_diagram( current, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, "Timing Diagram (UML)", icon_diag_timing );
     }
     (*this_).diagram_types_length = idx - (*this_).diagram_types_start;
-    assert( GUI_RESOURCE_SELECTOR_DIAGRAMS == (*this_).diagram_types_length );
+    assert( GUI_TYPE_RESOURCE_LIST_DIAGRAMS == (*this_).diagram_types_length );
 
     (*this_).classifier_types_start = idx;
     {
@@ -184,44 +184,44 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         gui_type_resource_init_classifier( current, DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY, "Deep History", icon_clas_deephistory );
     }
     (*this_).classifier_types_length = idx - (*this_).classifier_types_start;
-    assert( GUI_RESOURCE_SELECTOR_CLASSIFIERS == (*this_).classifier_types_length );
+    assert( GUI_TYPE_RESOURCE_LIST_CLASSIFIERS == (*this_).classifier_types_length );
 
     (*this_).feature_types_start = idx;
     {
         /* order: from close to far */
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_property = gui_resources_get_type_feat_property( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_PROPERTY, "Property", icon_feat_property );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_operation = gui_resources_get_type_feat_operation( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_OPERATION, "Operation", icon_feat_operation );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_provide = gui_resources_get_type_feat_provide( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_PROVIDED_INTERFACE, "Provided Interface", icon_feat_provide );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_require = gui_resources_get_type_feat_require( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_REQUIRED_INTERFACE, "Required Interface", icon_feat_require );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_port = gui_resources_get_type_feat_port( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_PORT, "Port", icon_feat_port );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_rx = gui_resources_get_type_feat_rx( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_IN_PORT_PIN, "Input Pin/FlowPort(SysML)", icon_feat_rx );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_tx = gui_resources_get_type_feat_tx( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_OUT_PORT_PIN, "Output Pin/FlowPort(SysML)", icon_feat_tx );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_entry = gui_resources_get_type_feat_entry( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_ENTRY, "State Entry", icon_feat_entry );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_exit = gui_resources_get_type_feat_exit( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_EXIT, "State Exit", icon_feat_exit );
@@ -229,100 +229,100 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
         GdkTexture *icon_feat_tag = gui_resources_get_type_feat_tag( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_TAGGED_VALUE, "Tagged Value", icon_feat_tag );
 
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_feat_life = gui_resources_get_type_feat_life( (*this_).resources );
         gui_type_resource_init_feature( current, DATA_FEATURE_TYPE_LIFELINE, "Lifeline", icon_feat_life );
     }
     (*this_).feature_types_length = idx - (*this_).feature_types_start;
-    assert( GUI_RESOURCE_SELECTOR_FEATURES == (*this_).feature_types_length );
+    assert( GUI_TYPE_RESOURCE_LIST_FEATURES == (*this_).feature_types_length );
 
     (*this_).relationship_types_start = idx;
     {
         /* order: structural from abstract to concrete, behavioral from abstract to concrete */
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_depend = gui_resources_get_type_rel_depend( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, "Dependency", icon_rel_depend );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_contain = gui_resources_get_type_rel_contain( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, "Containment", icon_rel_contain );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_deploy = gui_resources_get_type_rel_deploy( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, "Deploy", icon_rel_deploy );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_manifest = gui_resources_get_type_rel_manifest( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, "Manifest", icon_rel_manifest );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_communication_path = gui_resources_get_type_rel_communication_path( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, "Communication Path", icon_rel_communication_path );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_associate = gui_resources_get_type_rel_associate( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, "Association", icon_rel_associate );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_aggregate = gui_resources_get_type_rel_aggregate( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, "Aggregation", icon_rel_aggregate );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_compose = gui_resources_get_type_rel_compose( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, "Composition", icon_rel_compose );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_generalize = gui_resources_get_type_rel_generalize( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, "Generalization", icon_rel_generalize );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_realize = gui_resources_get_type_rel_realize( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, "Realization", icon_rel_realize );
         /* requirements relationships: */
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_trace = gui_resources_get_type_rel_trace( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_TRACE, "Trace (requirement)", icon_rel_trace );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_refine = gui_resources_get_type_rel_refine( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_REFINE, "Refine (requirement)", icon_rel_refine );
         /* behavioral relationships: */
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_extend = gui_resources_get_type_rel_extend( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_EXTEND, "Extend (use case)", icon_rel_extend );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_include = gui_resources_get_type_rel_include( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, "Include (use case)", icon_rel_include );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_control_flow = gui_resources_get_type_rel_control_flow( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, "Control Flow/Transition", icon_rel_control_flow );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_object_flow = gui_resources_get_type_rel_object_flow( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, "Object Flow", icon_rel_object_flow );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_async = gui_resources_get_type_rel_async( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, "Async. Call", icon_rel_async );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_sync = gui_resources_get_type_rel_sync( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL, "Sync. Call", icon_rel_sync );
-        assert( idx < GUI_RESOURCE_SELECTOR_MAX_TYPES );
+        assert( idx < GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
         current = &((*this_).type_name_icon_list[idx]); idx++;
         GdkTexture *icon_rel_return = gui_resources_get_type_rel_return( (*this_).resources );
         gui_type_resource_init_relationship( current, DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL, "Return Call", icon_rel_return );
     }
     (*this_).relationship_types_length = idx - (*this_).relationship_types_start;
-    assert( GUI_RESOURCE_SELECTOR_RELATIONS == (*this_).relationship_types_length );
+    assert( GUI_TYPE_RESOURCE_LIST_RELATIONS == (*this_).relationship_types_length );
 
-    assert( idx == GUI_RESOURCE_SELECTOR_MAX_TYPES );
+    assert( idx == GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
     assert( (*this_).diagram_types_length + (*this_).classifier_types_length + (*this_).feature_types_length + (*this_).relationship_types_length
-            == GUI_RESOURCE_SELECTOR_MAX_TYPES );
+            == GUI_TYPE_RESOURCE_LIST_MAX_TYPES );
 
     GdkTexture *icon_undef = gui_resources_get_type_undef( (*this_).resources );
     gui_type_resource_init_classifier( &((*this_).type_undef), DATA_CLASSIFIER_TYPE_VOID, "", icon_undef );
@@ -330,7 +330,7 @@ void gui_resource_selector_init ( gui_resource_selector_t *this_, gui_resources_
     U8_TRACE_END();
 }
 
-void gui_resource_selector_destroy ( gui_resource_selector_t *this_ )
+void gui_type_resource_list_destroy ( gui_type_resource_list_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -339,7 +339,7 @@ void gui_resource_selector_destroy ( gui_resource_selector_t *this_ )
     U8_TRACE_END();
 }
 
-gui_type_resource_t * gui_resource_selector_get_type ( gui_resource_selector_t *this_, data_table_t table, int type )
+gui_type_resource_t * gui_type_resource_list_get_type ( gui_type_resource_list_t *this_, data_table_t table, int type )
 {
     U8_TRACE_BEGIN();
 
@@ -349,45 +349,45 @@ gui_type_resource_t * gui_resource_selector_get_type ( gui_resource_selector_t *
         case DATA_TABLE_VOID:
         {
             result = &((*this_).type_undef);
-            U8_LOG_ANOMALY("unexpected data_table_t in gui_resource_selector_get_icon");
+            U8_LOG_ANOMALY("unexpected data_table_t in gui_type_resource_list_get_icon");
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            result = gui_resource_selector_get_classifier_type( this_, (data_classifier_type_t) type );
+            result = gui_type_resource_list_get_classifier_type( this_, (data_classifier_type_t) type );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            result = gui_resource_selector_get_feature_type( this_, (data_feature_type_t) type );
+            result = gui_type_resource_list_get_feature_type( this_, (data_feature_type_t) type );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            result = gui_resource_selector_get_relationship_type( this_, (data_relationship_type_t) type );
+            result = gui_type_resource_list_get_relationship_type( this_, (data_relationship_type_t) type );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             result = &((*this_).type_undef);
-            U8_LOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
+            U8_LOG_WARNING("unexpected data_table_t in gui_type_resource_list_get_icon");
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            result = gui_resource_selector_get_diagram_type( this_, (data_diagram_type_t) type );
+            result = gui_type_resource_list_get_diagram_type( this_, (data_diagram_type_t) type );
         }
         break;
 
         default:
         {
             result = &((*this_).type_undef);
-            U8_LOG_WARNING("unexpected data_table_t in gui_resource_selector_get_icon");
+            U8_LOG_WARNING("unexpected data_table_t in gui_type_resource_list_get_icon");
         }
         break;
     }

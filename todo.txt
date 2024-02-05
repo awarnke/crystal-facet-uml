@@ -17,12 +17,12 @@ ideas for future versions:
   [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus
-      Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus
+      Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus (example in gui_main_window.c)
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
-  [ ] Replace the GTK4.10/4.12 deprecated classes: GdkPixbuf --> GdkTexture; gtk_combo_box --> gtk_dropdown, gtk_file_chooser_dialog
+  [ ] Replace the GTK4.10/4.12 deprecated classes: gtk_combo_box --> gtk_dropdown, gtk_file_chooser_dialog
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

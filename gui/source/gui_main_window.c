@@ -142,7 +142,11 @@ void gui_main_window_init( gui_main_window_t *this_,
                                 GTK_LABEL( (*this_).id_label ),
                                 GTK_ENTRY( (*this_).name_entry ),
                                 GTK_ENTRY( (*this_).stereotype_entry ),
+#if ( GTK_MAJOR_VERSION >= 4 )
+                                (*this_).type_dropdown,
+#else
                                 GTK_COMBO_BOX( (*this_).type_combo_box ),
+#endif
                                 GTK_WIDGET( (*this_).type_diag_grid ),
                                 GTK_WIDGET( (*this_).type_clas_grid ),
                                 GTK_WIDGET( (*this_).type_feat_grid ),
@@ -317,8 +321,12 @@ void gui_main_window_init( gui_main_window_t *this_,
                     );
 #endif
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "activate", G_CALLBACK(gui_attributes_editor_stereotype_enter_callback), &((*this_).attributes_editor) );
+#if ( GTK_MAJOR_VERSION >= 4 )
+    g_signal_connect( G_OBJECT((*this_).type_dropdown), "activate", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
+#else
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
-    for( int_fast32_t diag_idx = 0; diag_idx < GUI_RESOURCE_SELECTOR_DIAGRAMS; diag_idx ++ )
+#endif
+    for( int_fast32_t diag_idx = 0; diag_idx < GUI_TYPE_RESOURCE_LIST_DIAGRAMS; diag_idx ++ )
     {
         g_signal_connect( G_OBJECT((*this_).type_diag_btn[ diag_idx ]),
                           "clicked",
@@ -326,7 +334,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                           &((*this_).type_diag_data[diag_idx])
                         );
     }
-    for( int_fast32_t clas_idx = 0; clas_idx < GUI_RESOURCE_SELECTOR_CLASSIFIERS; clas_idx ++ )
+    for( int_fast32_t clas_idx = 0; clas_idx < GUI_TYPE_RESOURCE_LIST_CLASSIFIERS; clas_idx ++ )
     {
         g_signal_connect( G_OBJECT((*this_).type_clas_btn[ clas_idx ]),
                           "clicked",
@@ -334,7 +342,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                           &((*this_).type_clas_data[clas_idx])
                         );
     }
-    for( int_fast32_t feat_idx = 0; feat_idx < GUI_RESOURCE_SELECTOR_INV_FEATURES; feat_idx ++ )
+    for( int_fast32_t feat_idx = 0; feat_idx < GUI_TYPE_RESOURCE_LIST_INV_FEATURES; feat_idx ++ )
     {
         g_signal_connect( G_OBJECT((*this_).type_feat_btn[ feat_idx ]),
                           "clicked",
@@ -342,7 +350,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                           &((*this_).type_feat_data[feat_idx])
                         );
     }
-    for( int_fast32_t rel_idx = 0; rel_idx < GUI_RESOURCE_SELECTOR_RELATIONS; rel_idx ++ )
+    for( int_fast32_t rel_idx = 0; rel_idx < GUI_TYPE_RESOURCE_LIST_RELATIONS; rel_idx ++ )
     {
         g_signal_connect( G_OBJECT((*this_).type_rel_btn[ rel_idx ]),
                           "clicked",
@@ -810,6 +818,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
                                     GTK_POLICY_AUTOMATIC
                                   );
 
+#if ( GTK_MAJOR_VERSION >= 4 )
     GListStore *model = g_list_store_new( gui_type_resource_get_type() );
     GuiTypeResource *type_res = GUI_TYPE_RESOURCE( g_object_new( gui_type_resource_get_type(), NULL ) );
     gui_type_resource_init_diagram( type_res,
@@ -818,15 +827,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
                                     gui_resources_get_search_search( res )
                                   );
     g_list_store_append( model, type_res );
-    g_list_store_append( model, type_res );
-    g_list_store_append( model, type_res );
+
     GtkExpression *expression = NULL;
-    GtkDropDown *type_dropdown = GTK_DROP_DOWN( gtk_drop_down_new ( G_LIST_MODEL( model ), expression ) );
+    (*this_).type_dropdown = GTK_DROP_DOWN( gtk_drop_down_new ( G_LIST_MODEL( model ), expression ) );
     GtkBuilderScope *scope = gtk_builder_cscope_new();
     static const char bytes[] =
-    /*
-    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-    */
     "<interface>\n"
     "<template class=\"GtkListItem\">\n"
     "  <property name=\"child\">\n"
@@ -856,8 +861,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     "</interface>\n";
     GBytes *byteptr = g_bytes_new( &bytes, sizeof(bytes)-sizeof(char) );
     GtkListItemFactory *factory = gtk_builder_list_item_factory_new_from_bytes( scope, byteptr );
-    gtk_drop_down_set_factory( type_dropdown, factory );
-
+    gtk_drop_down_set_factory( (*this_).type_dropdown, factory );
+    g_object_unref( scope );
+    g_object_unref( factory );
+    g_bytes_unref( byteptr );
+#else
     (*this_).type_combo_box = gtk_combo_box_new();
     GtkCellRenderer *column1;
     column1 = gtk_cell_renderer_pixbuf_new();
@@ -867,17 +875,18 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     column2 = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
+#endif
 
-    static gui_resource_selector_t res_select;
-    gui_resource_selector_init( &res_select, res );
+    static gui_type_resource_list_t res_select;
+    gui_type_resource_list_init( &res_select, res );
     {
         (*this_).type_diag_grid = GTK_GRID( gtk_grid_new() );
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_diag_grid ), GTK_ALIGN_END );
         const gui_type_resource_t (*diag_data)[];
         unsigned int diag_data_length;
-        gui_resource_selector_get_all_diagram_types( &res_select, &diag_data, &diag_data_length );
-        assert( diag_data_length == GUI_RESOURCE_SELECTOR_DIAGRAMS );
-        for( int_fast32_t diag_idx = 0; diag_idx < GUI_RESOURCE_SELECTOR_DIAGRAMS; diag_idx ++ )
+        gui_type_resource_list_get_all_diagram_types( &res_select, &diag_data, &diag_data_length );
+        assert( diag_data_length == GUI_TYPE_RESOURCE_LIST_DIAGRAMS );
+        for( int_fast32_t diag_idx = 0; diag_idx < GUI_TYPE_RESOURCE_LIST_DIAGRAMS; diag_idx ++ )
         {
             const gui_type_resource_t *const type_data = &((*diag_data)[diag_idx]);
             const data_diagram_type_t diag_type = data_type_get_diagram_type( gui_type_resource_get_type_id( type_data ) );
@@ -897,9 +906,9 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_clas_grid ), GTK_ALIGN_END );
         const gui_type_resource_t (*clas_data)[];
         unsigned int clas_data_length;
-        gui_resource_selector_get_all_classifier_types( &res_select, &clas_data, &clas_data_length );
-        assert( clas_data_length == GUI_RESOURCE_SELECTOR_CLASSIFIERS );
-        for( int_fast32_t clas_idx = 0; clas_idx < GUI_RESOURCE_SELECTOR_CLASSIFIERS; clas_idx ++ )
+        gui_type_resource_list_get_all_classifier_types( &res_select, &clas_data, &clas_data_length );
+        assert( clas_data_length == GUI_TYPE_RESOURCE_LIST_CLASSIFIERS );
+        for( int_fast32_t clas_idx = 0; clas_idx < GUI_TYPE_RESOURCE_LIST_CLASSIFIERS; clas_idx ++ )
         {
             const gui_type_resource_t *const type_data = &((*clas_data)[clas_idx]);
             const data_classifier_type_t clas_type = data_type_get_classifier_type( gui_type_resource_get_type_id( type_data ) );
@@ -919,9 +928,9 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_feat_grid ), GTK_ALIGN_END );
         const gui_type_resource_t (*feat_data)[];
         unsigned int feat_data_length;
-        gui_resource_selector_get_invariant_feature_types( &res_select, &feat_data, &feat_data_length );
-        assert( feat_data_length == GUI_RESOURCE_SELECTOR_INV_FEATURES );
-        for( int_fast32_t feat_idx = 0; feat_idx < GUI_RESOURCE_SELECTOR_INV_FEATURES; feat_idx ++ )  /* ignore the lifeline */
+        gui_type_resource_list_get_invariant_feature_types( &res_select, &feat_data, &feat_data_length );
+        assert( feat_data_length == GUI_TYPE_RESOURCE_LIST_INV_FEATURES );
+        for( int_fast32_t feat_idx = 0; feat_idx < GUI_TYPE_RESOURCE_LIST_INV_FEATURES; feat_idx ++ )  /* ignore the lifeline */
         {
             const gui_type_resource_t *const type_data = &((*feat_data)[feat_idx]);
             const data_feature_type_t feat_type = data_type_get_feature_type( gui_type_resource_get_type_id( type_data ) );
@@ -941,9 +950,9 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_widget_set_halign( GTK_WIDGET( (*this_).type_rel_grid ), GTK_ALIGN_END );
         const gui_type_resource_t (*rel_data)[];
         unsigned int rel_data_length;
-        gui_resource_selector_get_all_relationship_types( &res_select, &rel_data, &rel_data_length );
-        assert( rel_data_length == GUI_RESOURCE_SELECTOR_RELATIONS );
-        for( int_fast32_t rel_idx = 0; rel_idx < GUI_RESOURCE_SELECTOR_RELATIONS; rel_idx ++ )
+        gui_type_resource_list_get_all_relationship_types( &res_select, &rel_data, &rel_data_length );
+        assert( rel_data_length == GUI_TYPE_RESOURCE_LIST_RELATIONS );
+        for( int_fast32_t rel_idx = 0; rel_idx < GUI_TYPE_RESOURCE_LIST_RELATIONS; rel_idx ++ )
         {
             const gui_type_resource_t *const type_data = &((*rel_data)[rel_idx]);
             const data_relationship_type_t rel_type = data_type_get_relationship_type( gui_type_resource_get_type_id( type_data ) );
@@ -959,7 +968,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
             gtk_grid_attach( (*this_).type_rel_grid, GTK_WIDGET( (*this_).type_rel_btn[ rel_idx ] ), rel_idx%7, rel_idx/7, 1, 1 );
         }
     }
-    gui_resource_selector_destroy( &res_select );
+    gui_type_resource_list_destroy( &res_select );
 
     /* insert widgets to box container */
     {
@@ -971,12 +980,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET(type_dropdown) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_clas_grid ) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_feat_grid ) );
-        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_rel_grid ) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_dropdown) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_diag_grid) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_clas_grid) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_feat_grid) );
+        gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_rel_grid) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #else
@@ -987,10 +995,10 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_diag_grid ) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_clas_grid ) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_feat_grid ) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET( (*this_).type_rel_grid ) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_diag_grid) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_clas_grid) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_feat_grid) );
+        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_rel_grid) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
 #endif
