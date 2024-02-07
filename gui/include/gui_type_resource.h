@@ -106,11 +106,32 @@ static inline void gui_type_resource_init_relationship ( gui_type_resource_t *th
                                                        );
 
 /*!
+ *  \brief initializes the gui_type_resource_t struct with a copy
+ *
+ *  parent_instance is not modified.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to object attributes to copy
+ */
+static inline void gui_type_resource_replace ( gui_type_resource_t *this_, const gui_type_resource_t *original );
+
+/*!
  *  \brief destroys the gui_type_resource_t struct
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void gui_type_resource_destroy ( gui_type_resource_t *this_ );
+
+/*!
+ *  \brief checks if two gui_type_resource_t are equal
+ *
+ *  This function can be used as type GEqualFunc
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to other object attributes
+ *  \return TRUE if equal
+ */
+gboolean gui_type_resource_equal( const gui_type_resource_t *this_, const gui_type_resource_t *that );
 
 /*!
  *  \brief gets the type

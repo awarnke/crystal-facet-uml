@@ -40,6 +40,13 @@ static inline void gui_type_resource_init_relationship ( gui_type_resource_t *th
     (*this_).icon = icon;
 }
 
+static inline void gui_type_resource_replace ( gui_type_resource_t *this_, const gui_type_resource_t *original )
+{
+    (*this_).type_id = (*original).type_id;
+    (*this_).name = (*original).name;
+    (*this_).icon = (*original).icon;
+}
+
 static inline void gui_type_resource_destroy ( gui_type_resource_t *this_ )
 {
 }

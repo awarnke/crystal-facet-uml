@@ -51,6 +51,13 @@ struct gui_type_resource_list_struct {
     unsigned int classifier_types_length;
     unsigned int relationship_types_start;
     unsigned int relationship_types_length;
+
+    GListStore *no_types;  /* a list representing only n/a */
+    GListStore *diagram_types;
+    GListStore *classifier_types;
+    GListStore *relationship_types;
+    GListStore *feature_types;  /* a list representing features except lifelines */
+    GListStore *feature_lifeline_type;
 };
 
 typedef struct gui_type_resource_list_struct gui_type_resource_list_t;
@@ -188,6 +195,54 @@ static inline void gui_type_resource_list_get_all_relationship_types ( const gui
                                                                        const gui_type_resource_t (**out_types)[],
                                                                        unsigned int *out_length
                                                                      );
+
+/*!
+ *  \brief fetches the undef type names
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to a GListStore that holds the names of undef types
+ */
+static inline GListStore* gui_type_resource_list_get_undef ( const gui_type_resource_list_t *this_ );
+
+/*!
+ *  \brief fetches the diagram type names
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to a GListStore that holds the names of diagram types
+ */
+static inline GListStore* gui_type_resource_list_get_diagrams ( const gui_type_resource_list_t *this_ );
+
+/*!
+ *  \brief fetches the classifier type names
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to a GListStore that holds the names of classifier types
+ */
+static inline GListStore* gui_type_resource_list_get_classifiers ( const gui_type_resource_list_t *this_ );
+
+/*!
+ *  \brief fetches the relationship type names
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to a GListStore that holds the names of relationship types
+ */
+static inline GListStore* gui_type_resource_list_get_relationships ( const gui_type_resource_list_t *this_ );
+
+/*!
+ *  \brief fetches the feature type names, except lifeline
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to a GListStore that holds the names of feature types (except lifeline)
+ */
+static inline GListStore* gui_type_resource_list_get_features ( const gui_type_resource_list_t *this_ );
+
+/*!
+ *  \brief fetches the feature_lifeline type name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to a GListStore that holds the name of feature_lifeline type
+ */
+static inline GListStore* gui_type_resource_list_get_feature_lifeline ( const gui_type_resource_list_t *this_ );
 
 #include "gui_type_resource_list.inl"
 

@@ -72,6 +72,14 @@ static inline data_relationship_type_t data_type_get_relationship_type ( const d
         : DATA_RELATIONSHIP_TYPE_VOID );
 }
 
+static inline bool data_type_equals ( const data_type_t *this_, const data_type_t *that )
+{
+    return ( ( (*this_).context != DATA_TABLE_VOID )
+        && ( (*this_).context == (*that).context )
+        && ( (*this_).specific_type != -1 )
+        && ( (*this_).specific_type == (*that).specific_type ) );
+}
+
 
 /*
 Copyright 2023-2024 Andreas Warnke

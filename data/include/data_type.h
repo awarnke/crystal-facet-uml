@@ -13,6 +13,7 @@
 #include "data_feature_type.h"
 #include "data_classifier_type.h"
 #include "data_diagram_type.h"
+#include <stdbool.h>
 
 /*!
  *  \brief attributes of the data type
@@ -117,6 +118,18 @@ static inline data_feature_type_t data_type_get_feature_type ( const data_type_t
  *  \return relationship type of this data_type_t, void if this_ is not a relationship
  */
 static inline data_relationship_type_t data_type_get_relationship_type ( const data_type_t *this_ );
+
+/*!
+ *  \brief checks if two data_type_t are equal
+ *
+ *  Two data types are equal if data_table_t is not DATA_TABLE_VOID and equal
+ *  and specific_type is not DATA_&lt;anytype&gt;_TYPE_VOID and equal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to other object attributes
+ *  \return true if both data_type_t are equal
+ */
+static inline bool data_type_equals ( const data_type_t *this_, const data_type_t *that );
 
 #include "data_type.inl"
 

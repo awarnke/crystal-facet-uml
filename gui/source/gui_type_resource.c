@@ -129,6 +129,14 @@ gui_type_resource_init (GuiTypeResource *self)
     (*self).icon = NULL;
 }
 
+gboolean gui_type_resource_equal( const gui_type_resource_t *this_, const gui_type_resource_t *that )
+{
+    U8_TRACE_BEGIN();
+    const gboolean result = ( data_type_equals( &((*this_).type_id), &((*that).type_id) ) );
+    U8_TRACE_END();
+    return result;
+}
+
 
 /*
 Copyright 2024-2024 Andreas Warnke

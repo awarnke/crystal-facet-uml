@@ -123,6 +123,35 @@ static inline void gui_type_resource_list_get_all_relationship_types ( const gui
     *out_length = (*this_).relationship_types_length;
 }
 
+static inline GListStore* gui_type_resource_list_get_undef ( const gui_type_resource_list_t *this_ )
+{
+    return (*this_).no_types;
+}
+
+static inline GListStore* gui_type_resource_list_get_diagrams ( const gui_type_resource_list_t *this_ )
+{
+    return (*this_).diagram_types;
+}
+
+static inline GListStore* gui_type_resource_list_get_classifiers ( const gui_type_resource_list_t *this_ )
+{
+    return (*this_).classifier_types;
+}
+
+static inline GListStore* gui_type_resource_list_get_relationships ( const gui_type_resource_list_t *this_ )
+{
+    return (*this_).relationship_types;
+}
+
+static inline GListStore* gui_type_resource_list_get_features ( const gui_type_resource_list_t *this_ )
+{
+    return (*this_).feature_types;
+}
+
+static inline GListStore* gui_type_resource_list_get_feature_lifeline ( const gui_type_resource_list_t *this_ )
+{
+    return (*this_).feature_lifeline_type;
+}
 
 /*
 Copyright 2020-2024 Andreas Warnke

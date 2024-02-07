@@ -327,12 +327,77 @@ void gui_type_resource_list_init ( gui_type_resource_list_t *this_, gui_resource
     GdkTexture *icon_undef = gui_resources_get_type_undef( (*this_).resources );
     gui_type_resource_init_classifier( &((*this_).type_undef), DATA_CLASSIFIER_TYPE_VOID, "", icon_undef );
 
+    (*this_).no_types = g_list_store_new( gui_type_resource_get_type() );
+    (*this_).diagram_types = g_list_store_new( gui_type_resource_get_type() );
+    (*this_).classifier_types = g_list_store_new( gui_type_resource_get_type() );
+    (*this_).relationship_types = g_list_store_new( gui_type_resource_get_type() );
+    (*this_).feature_types = g_list_store_new( gui_type_resource_get_type() );
+    (*this_).feature_lifeline_type = g_list_store_new( gui_type_resource_get_type() );
+    for ( unsigned int t_index = 0; t_index < GUI_TYPE_RESOURCE_LIST_MAX_TYPES; t_index ++ )
+    {
+        GuiTypeResource *type_res = GUI_TYPE_RESOURCE( g_object_new( gui_type_resource_get_type(), NULL ) );
+        gui_type_resource_replace( type_res, &((*this_).type_name_icon_list[t_index]) );
+        switch ( data_type_get_context( gui_type_resource_get_type_id( type_res ) ) )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            {
+                g_list_store_append( (*this_).classifier_types, type_res );
+            }
+            break;
+
+            case DATA_TABLE_FEATURE:
+            {
+                if ( data_type_get_type_as_int( gui_type_resource_get_type_id( type_res ) ) == DATA_FEATURE_TYPE_LIFELINE )
+                {
+                    g_list_store_append( (*this_).feature_lifeline_type, type_res );
+                }
+                else
+                {
+                    g_list_store_append( (*this_).feature_types, type_res );
+                }
+            }
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+                g_list_store_append( (*this_).relationship_types, type_res );
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            {
+                g_list_store_append( (*this_).diagram_types, type_res );
+            }
+            break;
+
+            default:
+            {
+                U8_LOG_WARNING("unexpected data_table_t in gui_type_resource_list_t.type_name_icon_list");
+            }
+            break;
+        }
+        g_object_unref( type_res );
+    }
+    {
+        GuiTypeResource *no_type_res = GUI_TYPE_RESOURCE( g_object_new( gui_type_resource_get_type(), NULL ) );
+        gui_type_resource_replace( no_type_res, &((*this_).type_undef) );
+        g_list_store_append( (*this_).no_types, no_type_res );
+        g_object_unref( no_type_res );
+    }
+
     U8_TRACE_END();
 }
 
 void gui_type_resource_list_destroy ( gui_type_resource_list_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+    g_object_unref( (*this_).no_types );
+    g_object_unref( (*this_).diagram_types );
+    g_object_unref( (*this_).classifier_types );
+    g_object_unref( (*this_).relationship_types );
+    g_object_unref( (*this_).feature_types );
+    g_object_unref( (*this_).feature_lifeline_type );
 
     gui_type_resource_destroy( &((*this_).type_undef) );
 

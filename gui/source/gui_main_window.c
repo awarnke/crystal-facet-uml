@@ -819,16 +819,8 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
                                   );
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    GListStore *model = g_list_store_new( gui_type_resource_get_type() );
-    GuiTypeResource *type_res = GUI_TYPE_RESOURCE( g_object_new( gui_type_resource_get_type(), NULL ) );
-    gui_type_resource_init_diagram( type_res,
-                                    DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM,
-                                    "Hello World",
-                                    gui_resources_get_search_search( res )
-                                  );
-    g_list_store_append( model, type_res );
-
-    GtkExpression *expression = NULL;
+    GListStore *model = NULL;
+    GtkExpression *expression = NULL;  /* not needed: there is no search entry that could find list elements */
     (*this_).type_dropdown = GTK_DROP_DOWN( gtk_drop_down_new ( G_LIST_MODEL( model ), expression ) );
     GtkBuilderScope *scope = gtk_builder_cscope_new();
     static const char bytes[] =

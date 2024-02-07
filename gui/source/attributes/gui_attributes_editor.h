@@ -50,14 +50,15 @@ struct gui_attributes_editor_struct {
     data_id_t latest_created_id;  /*!< id of the latest created object, allows to check if the selected object is new */
     data_id_t second_latest_id;  /*!< id of the second latest created object, needed if a classifier and a containment relation are created together. */
 
-    gui_attributes_editor_types_t type_lists;  /*!< own instance of type lists */
 
     GtkLabel *id_label;  /*!< pointer to external id label widget */
     GtkEntry *name_entry;  /*!< pointer to external text entry widget */
     GtkEntry *stereotype_entry;  /*!< pointer to external text entry widget */
 #if ( GTK_MAJOR_VERSION >= 4 )
+    gui_type_resource_list_t type_lists;  /*!< own instance of type lists */
     GtkDropDown *type_dropdown;  /*!< pointer to external drop down widget */
 #else
+    gui_attributes_editor_types_t type_lists;  /*!< own instance of type lists */
     GtkComboBox *type_combo_box;  /*!< pointer to external combo box widget */
 #endif
     GtkWidget *type_diag_grid;  /*!< pointer to external type icon grid widget of diagram types */

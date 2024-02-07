@@ -89,7 +89,11 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     data_relationship_init_empty( &((*this_).private_relationship_cache) );
     data_id_init_void( &((*this_).selected_object_id) );
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gui_type_resource_list_init( &((*this_).type_lists), resources );
+#else
     gui_attributes_editor_types_init( &((*this_).type_lists), resources );
+#endif
 
     /* update widgets */
     gui_attributes_editor_update_widgets( this_ );
@@ -109,7 +113,11 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     data_id_destroy( &((*this_).second_latest_id) );
     data_id_destroy( &((*this_).latest_created_id) );
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    gui_type_resource_list_destroy( &((*this_).type_lists) );
+#else
     gui_attributes_editor_types_destroy( &((*this_).type_lists) );
+#endif
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -1694,6 +1702,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         {
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
 #if ( GTK_MAJOR_VERSION >= 4 )
+            GListStore *const undef_type_list = gui_type_resource_list_get_undef( &((*this_).type_lists) );
+            gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( undef_type_list ) );
 #else
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
@@ -1711,6 +1721,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         case DATA_TABLE_CLASSIFIER:
         {
 #if ( GTK_MAJOR_VERSION >= 4 )
+            GListStore *const classifier_type_list = gui_type_resource_list_get_classifiers( &((*this_).type_lists) );
+            gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( classifier_type_list ) );
 #else
             const data_classifier_type_t class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
             const GtkListStore * const classifier_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
@@ -1737,6 +1749,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
             {
 #if ( GTK_MAJOR_VERSION >= 4 )
+                GListStore *const lifeline_type_list = gui_type_resource_list_get_feature_lifeline( &((*this_).type_lists) );
+                gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( lifeline_type_list ) );
 #else
                 const GtkListStore * const lifeline_type_list = gui_attributes_editor_types_get_feature_lifeline( &((*this_).type_lists) );
                 const int index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( lifeline_type_list ), 0, feature_type );
@@ -1757,6 +1771,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             else
             {
 #if ( GTK_MAJOR_VERSION >= 4 )
+                GListStore *const feature_type_list = gui_type_resource_list_get_features( &((*this_).type_lists) );
+                gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( feature_type_list ) );
 #else
                 const GtkListStore * const feature_type_list = gui_attributes_editor_types_get_features( &((*this_).type_lists) );
                 const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( feature_type_list ), 0, feature_type );
@@ -1779,9 +1795,25 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
 
         case DATA_TABLE_RELATIONSHIP:
         {
+            const data_relationship_type_t relationship_type
+                = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
 #if ( GTK_MAJOR_VERSION >= 4 )
+            GListStore *const relationship_type_list = gui_type_resource_list_get_relationships( &((*this_).type_lists) );
+            gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( relationship_type_list ) );
+            guint position;
+            GuiTypeResource *selected = GUI_TYPE_RESOURCE( g_object_new( gui_type_resource_get_type(), NULL ) );
+            gui_type_resource_init_relationship( selected, relationship_type, "", NULL ); /* type, name, icon */
+            const gboolean found = g_list_store_find_with_equal_func( relationship_type_list,
+                                                                      selected,
+                                                                      (GEqualFunc)&gui_type_resource_equal,
+                                                                      &position
+                                                                    );
+            if ( found )
+            {
+                gtk_drop_down_set_selected( (*this_).type_dropdown, position );
+            }
+            g_object_unref( selected );
 #else
-            const data_relationship_type_t relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
             const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_relationships( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( relationship_type_list ) );
@@ -1804,6 +1836,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         {
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
 #if ( GTK_MAJOR_VERSION >= 4 )
+            GListStore *const undef_type_list = gui_type_resource_list_get_undef( &((*this_).type_lists) );
+            gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( undef_type_list ) );
 #else
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
@@ -1820,6 +1854,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         case DATA_TABLE_DIAGRAM:
         {
 #if ( GTK_MAJOR_VERSION >= 4 )
+            GListStore *const diagram_type_list = gui_type_resource_list_get_diagrams( &((*this_).type_lists) );
+            gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( diagram_type_list ) );
 #else
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
             const GtkListStore * const diagram_type_list = gui_attributes_editor_types_get_diagrams( &((*this_).type_lists) );
