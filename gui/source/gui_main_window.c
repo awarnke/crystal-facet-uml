@@ -322,7 +322,7 @@ void gui_main_window_init( gui_main_window_t *this_,
 #endif
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "activate", G_CALLBACK(gui_attributes_editor_stereotype_enter_callback), &((*this_).attributes_editor) );
 #if ( GTK_MAJOR_VERSION >= 4 )
-    g_signal_connect( G_OBJECT((*this_).type_dropdown), "activate", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
+    g_signal_connect_after( G_OBJECT((*this_).type_dropdown), "notify::selected", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor));
 #else
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
 #endif
@@ -819,7 +819,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
                                   );
 
 #if ( GTK_MAJOR_VERSION >= 4 )
-    GListStore *model = NULL;
+    GListStore *model = NULL;  /* the model is set later */
     GtkExpression *expression = NULL;  /* not needed: there is no search entry that could find list elements */
     (*this_).type_dropdown = GTK_DROP_DOWN( gtk_drop_down_new ( G_LIST_MODEL( model ), expression ) );
     GtkBuilderScope *scope = gtk_builder_cscope_new();
@@ -847,6 +847,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     "          </binding>\n"
     "        </object>\n"
     "      </property>\n"
+    "      <property name=\"position\">48</property>\n"
     "    </object>\n"
     "  </property>\n"
     "</template>\n"
