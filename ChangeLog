@@ -1,11 +1,10 @@
 crystal-facet-uml (1.55.3) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * GdkPixbuf replaced by GdkTexture (some inefficiency not yet solved)
-  * GtkComboBox is replaced by GtkDropDown
-    (WARNING: The initialization changes the type and back)
+  * GdkPixbuf replaced by GdkTexture
+  * GtkComboBox replaced by GtkDropDown
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 27 Jan 2024 17:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 10 Feb 2024 09:00:00 +0100
 
 crystal-facet-uml (1.55.2) UNRELEASED; urgency=medium
 

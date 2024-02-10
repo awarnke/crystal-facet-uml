@@ -181,14 +181,15 @@
       <varlistentry>
         <term><errortext>EVT : ...</errortext></term>
         <listitem>
-          <para>An event occurred.
+          <para>An event occurred (DEBUG mode only).
           </para>
         </listitem>
       </varlistentry>
       <varlistentry>
           <term><errortext>ANOM: ...</errortext></term>
           <listitem>
-              <para>Something unexpected happened that was handled.
+              <para>Something unexpected happened that was handled
+                (DEBUG mode only).
               </para>
           </listitem>
       </varlistentry>
