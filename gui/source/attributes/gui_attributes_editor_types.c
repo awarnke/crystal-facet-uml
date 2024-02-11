@@ -7,6 +7,10 @@
 #include "data_id.h"
 #include <gtk/gtk.h>
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    /* no gui_attributes_editor_types_t needed */
+#else
+
 void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gui_resources_t *resources )
 {
     U8_TRACE_BEGIN();
@@ -139,6 +143,8 @@ void gui_attributes_editor_types_destroy ( gui_attributes_editor_types_t *this_ 
 
     U8_TRACE_END();
 }
+
+#endif
 
 
 /*

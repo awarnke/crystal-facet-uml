@@ -16,6 +16,10 @@
 #include "data_relationship.h"
 #include <gtk/gtk.h>
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    /* no gui_attributes_editor_types_t needed */
+#else
+
 /*!
  *  \brief attributes of the gui_attributes_editor_types_t
  */
@@ -97,6 +101,8 @@ static inline const GtkListStore* gui_attributes_editor_types_get_features ( con
 static inline const GtkListStore* gui_attributes_editor_types_get_feature_lifeline ( const gui_attributes_editor_types_t *this_ );
 
 #include "gui_attributes_editor_types.inl"
+
+#endif
 
 #endif  /* GUI_ATTRIBUTES_EDITOR_TYPES_H */
 

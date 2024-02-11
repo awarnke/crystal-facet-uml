@@ -5222,8 +5222,8 @@
     {
       "diagram": {
         "id": 16,
-        "diagram_type": 34,
-        "type": "UMLClassDiagram",
+        "diagram_type": 10,
+        "type": "UMLUseCaseDiagram",
         "stereotype": "reason_decision",
         "name": "Architectural Decisions",
         "description": [

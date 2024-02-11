@@ -11,6 +11,10 @@
 
 #include <gtk/gtk.h>
 
+#if ( GTK_MAJOR_VERSION >= 4 )
+    /* no gtk_helper_tree_model_* needed */
+#else
+
 /*!
  *  \brief gets the index in the model of the given id
  *
@@ -32,6 +36,8 @@ static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, in
 static inline int gtk_helper_tree_model_get_id ( GtkTreeModel *tree_model, int id_col, int index );
 
 #include "gtk_helper/gtk_helper_tree_model.inl"
+
+#endif
 
 #endif  /* GTK_HELPER_TREE_MODEL_H */
 

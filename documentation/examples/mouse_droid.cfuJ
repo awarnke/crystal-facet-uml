@@ -7122,7 +7122,8 @@
         "type": "Block",
         "name": "Strategy planning (L1)",
         "description": [
-                ""
+                "This system element aggregates functions that have high demands on computation power but less demands on realtime-reactions.\n",
+                "These even may be turned off from time to time."
         ],
         "x_order": 1835627669,
         "y_order": -1886953723,
@@ -7140,7 +7141,7 @@
         "type": "Block",
         "name": "Tactic execution (L1)",
         "description": [
-                ""
+                "This system element aggregates functions that have high demands on realtime observations and reations; also high demands on availability."
         ],
         "x_order": 2001393748,
         "y_order": -1886953723,
