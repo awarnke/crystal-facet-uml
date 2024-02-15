@@ -24,13 +24,13 @@ struct gui_file_export_dialog_struct {
 
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 
+#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
+#else
+    GtkFileDialog *export_file_dialog;  /*!< pointer to instance of a file dialog for export */
+#endif
 
-    //GtkWidget *format_asciidoc;  /*!< pointer to checkbox for export-format asciidoc */
     GtkWidget *format_docbook;  /*!< pointer to checkbox for export-format docbook */
-    //GtkWidget *format_doxygen;  /*!< pointer to checkbox for export-format doxygen */
-    //GtkWidget *format_latex;  /*!< pointer to checkbox for export-format latex */
-    //GtkWidget *format_rtf;  /*!< pointer to checkbox for export-format rtf */
     GtkWidget *format_pdf;  /*!< pointer to checkbox for export-format pdf */
     GtkWidget *format_png;  /*!< pointer to checkbox for export-format png */
     GtkWidget *format_ps;  /*!< pointer to checkbox for export-format ps */

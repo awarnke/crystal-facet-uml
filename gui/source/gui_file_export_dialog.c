@@ -29,6 +29,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     (*this_).database = database;
     (*this_).message_to_user = message_to_user;
 
+#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
                                                                  parent_window,
                                                                  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
@@ -40,16 +41,17 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
                                                                );
 
     GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG((*this_).export_file_chooser));
+#else
+    (*this_).export_file_dialog = gtk_file_dialog_new();
+    gtk_file_dialog_set_accept_label( (*this_).export_file_dialog, "Export Files" );
+    gtk_file_dialog_set_modal( (*this_).export_file_dialog, false );
+    gtk_file_dialog_set_title( (*this_).export_file_dialog, "Select Export Folder" );
 
-    /*
-    (*this_).format_asciidoc = gtk_check_button_new_with_label ("asciidoc");
-    */
+    GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG((*this_).export_file_dialog));
+#endif
+
+
     (*this_).format_docbook = gtk_check_button_new_with_label ("docbook");
-    /*
-    (*this_).format_doxygen = gtk_check_button_new_with_label ("doxygen");
-    (*this_).format_latex = gtk_check_button_new_with_label ("latex");
-    (*this_).format_rtf = gtk_check_button_new_with_label ("rtf");
-    */
     (*this_).format_xhtml = gtk_check_button_new_with_label ("html");
     (*this_).format_xmi2 = gtk_check_button_new_with_label ("xmi");
     (*this_).format_json= gtk_check_button_new_with_label ("json");
@@ -82,12 +84,6 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xhtml, 4, 1, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_json, 5, 1, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xmi2, 6, 1, 2, 1 );
-    /*
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_asciidoc, 4, 1, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_doxygen, 5, 1, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_latex, 6, 1, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_rtf, 7, 1, 1, 1 );
-    */
 
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_pdf, 2, 0, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_png, 3, 0, 1, 1 );
@@ -122,9 +118,13 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    /* no need to g_object_unref ( (*this_).format_asciidoc ); here */
+    /* no need to g_object_unref ( (*this_).format_xhtml ); here */
 #if ( GTK_MAJOR_VERSION >= 4 )
+#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     gtk_window_destroy( GTK_WINDOW((*this_).export_file_chooser) );
+#else
+    gtk_window_destroy( GTK_WINDOW((*this_).export_file_dialog) );
+#endif
 #else
     gtk_widget_destroy( (*this_).export_file_chooser );
 #endif

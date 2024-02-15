@@ -1,7 +1,7 @@
 crystal-facet-uml (1.55.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * todo
+  * GtkFileChooserDialog replaced by GtkFileDialog
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 10 Feb 2024 09:00:00 +0100
 

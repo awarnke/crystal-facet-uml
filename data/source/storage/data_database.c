@@ -288,8 +288,8 @@ static const char *DATA_DATABASE_COMMIT_TRANSACTION =
 void data_database_init ( data_database_t *this_ )
 {
     U8_TRACE_BEGIN();
-
-    U8_LOG_EVENT_STR( "sqlite3_libversion:", sqlite3_libversion() );
+    U8_LOG_EVENT_INT( "compiled against sqlite3:    ", SQLITE_VERSION_NUMBER );
+    U8_LOG_EVENT_STR( "linked to sqlite3_libversion:", sqlite3_libversion() );
 
     (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
     utf8stringbuf_clear( (*this_).db_file_name );

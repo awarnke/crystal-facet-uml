@@ -14,7 +14,9 @@ ideas for future versions:
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] scrolling through search list missing if result list is too long (hint already added to user manual)
 ! [ ] When undoing/redoing things, switch to a diagram where you see the changes
+      --> idea: use gui_toolbox_set_selected_tool_and_focus
 ! [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
+      --> idea: use gui_toolbox_set_selected_tool_and_focus
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus
       Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus (example in gui_main_window.c)
