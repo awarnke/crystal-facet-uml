@@ -35,8 +35,9 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     U8_TRACE_BEGIN();
     U8_TRACE_TIMESTAMP();
     U8_TRACE_INFO_INT( "sizeof(gui_window_manager_t):", sizeof(gui_window_manager_t) );
-    U8_LOG_EVENT_INT( "compiled against gtk:    ", GTK_MAJOR_VERSION * 100 + GTK_MINOR_VERSION );
-    U8_LOG_EVENT_INT( "linked against gtk:    ", gtk_get_major_version() * 100 + gtk_get_minor_version() );  /* gtk_get_micro_version */
+    /* expect that no gtk_get_micro_version needed for analysis: */
+    U8_LOG_EVENT_INT( "compiled against gtk:    ", GTK_MAJOR_VERSION * 1000 + GTK_MINOR_VERSION );
+    U8_LOG_EVENT_INT( "linked against gtk:    ", gtk_get_major_version() * 1000 + gtk_get_minor_version() );
     U8_TRACE_INFO( "initializing gui thread..." );
 
 #if ( GTK_MAJOR_VERSION >= 4 )
