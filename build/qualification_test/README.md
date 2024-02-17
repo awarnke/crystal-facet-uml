@@ -24,7 +24,7 @@ qemu:
 
 Create an empty disk
 
-> qemu-img debian-testing_20GB 20G
+> qemu-img create debian-testing_20GB.img 20G
 
 To install an OS from an .iso image, you may adapt and use the following script:
 
@@ -32,9 +32,13 @@ To install an OS from an .iso image, you may adapt and use the following script:
 > CD=debian-testing-amd64-netinst.iso
 > DISK=debian-testing_20GB.img
 > NDEV=e1000
-> qemu-system-x86_64 -drive file=${DISK},format=raw,index=0,media=disk -cdrom ${CD} \
-> -m 2047M -boot order=dc \
-> -netdev user,id=mynet0,net=192.168.178.0/24,dhcpstart=192.168.178.9,hostfwd=tcp::8080-:80 \
+> echo "find Gateway at 192.168.76.2, DNS at 192.168.76.3"
+> qemu-system-x86_64 \
+> -drive file=${DISK},format=raw,index=0,media=disk \
+> -cdrom ${CD} \
+> -m 2047M \
+> -boot order=dc \
+> -netdev user,id=mynet0,net=192.168.76.0/24,dhcpstart=192.168.76.9 \
 > -device ${NDEV},netdev=mynet0
 
 After installing, remove the -cdrom * and -boot * parameters

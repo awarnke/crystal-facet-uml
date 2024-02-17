@@ -100,13 +100,21 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     io_exporter_init( &((*this_).file_exporter), db_reader );
 
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
     g_signal_connect( G_OBJECT((*this_).export_file_chooser),
                       "response",
                       G_CALLBACK(gui_file_export_dialog_response_callback),
                       this_
                     );
+#else
+    /* no signal at new FileDialog - this works with Async, see gtk_file_dialog_save */
+#endif
 #if ( GTK_MAJOR_VERSION >= 4 )
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
     gtk_window_set_hide_on_close( GTK_WINDOW((*this_).export_file_chooser), true);
+#else
+    gtk_window_set_hide_on_close( GTK_WINDOW((*this_).export_file_dialog), true);
+#endif
 #else
     g_signal_connect( G_OBJECT((*this_).export_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
 #endif
@@ -143,11 +151,19 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     U8_TRACE_BEGIN();
 
 #if ( GTK_MAJOR_VERSION >= 4 )
+#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     gtk_widget_set_visible( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_chooser) );
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
+#else
+    gtk_widget_set_visible( GTK_WIDGET( (*this_).export_file_dialog ), TRUE );
+    gtk_widget_set_sensitive( GTK_WIDGET((*this_).export_file_dialog), TRUE );  /* idea taken from gtk demo */
+
+    GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_dialog) );
+    gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
+#endif
 #else
     gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
 #endif
