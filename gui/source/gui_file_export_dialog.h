@@ -78,7 +78,15 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ );
 void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ );
 
 /*!
- *  \brief callback function of the GtkDialog
+ *  \brief callback function of the 4.10 GtkFileDialog
+ */
+void gui_file_export_dialog_async_ready_callback( GObject* source_object,
+                                                  GAsyncResult* res,
+                                                  gpointer user_data
+                                                );
+
+/*!
+ *  \brief callback function of the old GtkDialog
  */
 void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
 

@@ -171,6 +171,46 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     U8_TRACE_END();
 }
 
+void gui_file_export_dialog_async_ready_callback( GObject* source_object,
+                                                  GAsyncResult* res,
+                                                  gpointer user_data )
+{
+    U8_TRACE_BEGIN();
+    gui_file_use_db_dialog_t *this_ = user_data;
+
+#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
+    assert( false );
+#else
+    GError* error = NULL;
+    GFile *result = gtk_file_dialog_save_finish( GTK_FILE_DIALOG(source_object), res, &error );
+    if ( error != NULL )
+    {
+        U8_LOG_ERROR_STR( "unexpected response from file dialog:", error->message );
+        g_error_free( error );
+    }
+    if ( result != NULL )
+    {
+        gchar *folder_path = g_file_get_path ( folder_path );
+        if ( folder_path != NULL )
+        {
+            /* react immediately */
+            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                               GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT,
+                                                               folder_path
+                                                             );
+
+
+
+            g_free (folder_path);
+        }
+        g_object_unref( result );
+    }
+#endif
+
+    U8_TRACE_END();
+}
+
 void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
 {
     U8_TRACE_BEGIN();
