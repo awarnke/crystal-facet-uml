@@ -176,11 +176,12 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
                                                   gpointer user_data )
 {
     U8_TRACE_BEGIN();
-    gui_file_use_db_dialog_t *this_ = user_data;
 
 #if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     assert( false );
 #else
+    gui_file_export_dialog_t *this_ = user_data;
+
     GError* error = NULL;
     GFile *result = gtk_file_dialog_save_finish( GTK_FILE_DIALOG(source_object), res, &error );
     if ( error != NULL )

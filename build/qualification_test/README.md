@@ -32,7 +32,7 @@ To install an OS from an .iso image, you may adapt and use the following script:
 > CD=debian-testing-amd64-netinst.iso
 > DISK=debian-testing_20GB.img
 > NDEV=e1000
-> echo "ensure that the subnet 192.168.76.x is distinct from your local network."
+> echo "ensure that the configured subnet 192.168.76.x is distinct from your local network."
 > qemu-system-x86_64 \
 > -drive file=${DISK},format=raw,index=0,media=disk \
 > -cdrom ${CD} \
@@ -43,10 +43,13 @@ To install an OS from an .iso image, you may adapt and use the following script:
 
 After installing, remove the -cdrom * and -boot * parameters
 
+To forward X via ssh, the client needs the -X parameter passed to the ssh command,
+the server needs X11Forwarding yes specified in /etc/ssh/sshd_config .
+
 wine:
 
-> see  [../win/README.md](win)
+> see  [win/README.md](../win/README.md)
 
 automated tests:
 
-> see  [./run_q_test.sh](run_q_test)
+> see  [run_q_test.sh](./run_q_test.sh)

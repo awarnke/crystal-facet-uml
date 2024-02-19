@@ -42,7 +42,7 @@ cd ../..
 
 echo "running gcov/lcov on unittest"
 lcov --capture --directory ./crystal-facet-uml_${VERSIONSTR}/cmake_build/CMakeFiles/gcov_crystal-facet-uml.dir --output-file lcov_unit.info
-lcov --remove lcov_unit.info '*/test_fw/*' '*/test/*' --output-file lcov_unit_filtered.info
+lcov --remove lcov_unit.info '*/test_fw/*' '*/test/*' '/usr/*' --output-file lcov_unit_filtered.info
 genhtml --prefix `pwd`/crystal-facet-uml_${VERSIONSTR} lcov_unit_filtered.info --title crystal-facet-uml_v${VERSIONSTR}_unittest --output-directory crystal-facet-uml_${VERSIONSTR}_unittest_coverage
 
 echo "initializing lcov for all tests"
@@ -55,7 +55,7 @@ cd ../..
 
 echo "running gcov/lcov on alltests"
 lcov --capture --directory ./crystal-facet-uml_${VERSIONSTR}/cmake_build/CMakeFiles/gcov_crystal-facet-uml.dir --output-file lcov_all.info
-lcov --remove lcov_all.info '*/test_fw/*' '*/test/*' --output-file lcov_all_filtered.info
+lcov --remove lcov_all.info '*/test_fw/*' '*/test/*' '/usr/*' --output-file lcov_all_filtered.info
 genhtml --prefix `pwd`/crystal-facet-uml_${VERSIONSTR} lcov_all_filtered.info --title crystal-facet-uml_v${VERSIONSTR}_alltests --output-directory crystal-facet-uml_${VERSIONSTR}_alltests_coverage
 
 echo "clean up test"
@@ -81,4 +81,3 @@ echo "output written to crystal-facet-uml_${VERSIONSTR}_alltests_coverage"
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
