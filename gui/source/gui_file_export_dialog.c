@@ -41,15 +41,6 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
                                                                );
 
     GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG((*this_).export_file_chooser));
-#else
-    (*this_).export_file_dialog = gtk_file_dialog_new();
-    gtk_file_dialog_set_accept_label( (*this_).export_file_dialog, "Export Files" );
-    gtk_file_dialog_set_modal( (*this_).export_file_dialog, false );
-    gtk_file_dialog_set_title( (*this_).export_file_dialog, "Select Export Folder" );
-
-    GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG((*this_).export_file_dialog));
-#endif
-
 
     (*this_).format_docbook = gtk_check_button_new_with_label ("docbook");
     (*this_).format_xhtml = gtk_check_button_new_with_label ("html");
@@ -97,10 +88,16 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_container_add( GTK_CONTAINER(content_area), GTK_WIDGET( (*this_).options_layout ) );
 #endif
     /* no need to g_object_unref( content_area ); here */
+#else
+    (*this_).export_file_dialog = gtk_file_dialog_new();
+    gtk_file_dialog_set_accept_label( (*this_).export_file_dialog, "Export Files" );
+    gtk_file_dialog_set_modal( (*this_).export_file_dialog, false );
+    gtk_file_dialog_set_title( (*this_).export_file_dialog, "Select Export Folder" );
+#endif
 
     io_exporter_init( &((*this_).file_exporter), db_reader );
 
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
+#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     g_signal_connect( G_OBJECT((*this_).export_file_chooser),
                       "response",
                       G_CALLBACK(gui_file_export_dialog_response_callback),
@@ -110,10 +107,10 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     /* no signal at new FileDialog - this works with Async, see gtk_file_dialog_save */
 #endif
 #if ( GTK_MAJOR_VERSION >= 4 )
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
+#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     gtk_window_set_hide_on_close( GTK_WINDOW((*this_).export_file_chooser), true);
 #else
-    gtk_window_set_hide_on_close( GTK_WINDOW((*this_).export_file_dialog), true);
+    /* TODO */
 #endif
 #else
     g_signal_connect( G_OBJECT((*this_).export_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
@@ -131,7 +128,7 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
 #if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     gtk_window_destroy( GTK_WINDOW((*this_).export_file_chooser) );
 #else
-    gtk_window_destroy( GTK_WINDOW((*this_).export_file_dialog) );
+    g_object_unref( (*this_).export_file_dialog );
 #endif
 #else
     gtk_widget_destroy( (*this_).export_file_chooser );
@@ -158,11 +155,7 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_chooser) );
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
 #else
-    gtk_widget_set_visible( GTK_WIDGET( (*this_).export_file_dialog ), TRUE );
-    gtk_widget_set_sensitive( GTK_WIDGET((*this_).export_file_dialog), TRUE );  /* idea taken from gtk demo */
-
-    GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_dialog) );
-    gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
+    /* TODO */
 #endif
 #else
     gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
@@ -176,7 +169,7 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
                                                   gpointer user_data )
 {
     U8_TRACE_BEGIN();
-    gui_file_use_db_dialog_t *this_ = user_data;
+    gui_file_export_dialog_t *this_ = user_data;
 
 #if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     assert( false );
@@ -190,7 +183,7 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
     }
     if ( result != NULL )
     {
-        gchar *folder_path = g_file_get_path ( folder_path );
+        gchar *folder_path = g_file_get_path ( result );
         if ( folder_path != NULL )
         {
             /* react immediately */
