@@ -75,6 +75,12 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     gtk_box_append( GTK_BOX(content_area), GTK_WIDGET( (*this_).options_layout ) );
     /* no need to g_object_unref( content_area ); here */
+#else
+    (*this_).export_file_dialog = gtk_file_dialog_new();
+    gtk_file_dialog_set_accept_label( (*this_).export_file_dialog, "Export Files" );
+    gtk_file_dialog_set_modal( (*this_).export_file_dialog, false );
+    gtk_file_dialog_set_title( (*this_).export_file_dialog, "Select Export Folder" );
+#endif
 
     io_exporter_init( &((*this_).file_exporter), db_reader );
 
@@ -138,11 +144,11 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
                                                   gpointer user_data )
 {
     U8_TRACE_BEGIN();
-    gui_file_export_dialog_t *this_ = user_data;
 
 #if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     assert( false );
 #else
+    gui_file_export_dialog_t *this_ = user_data;
     GError* error = NULL;
     GFile *result = gtk_file_dialog_save_finish( GTK_FILE_DIALOG(source_object), res, &error );
     if ( error != NULL )
