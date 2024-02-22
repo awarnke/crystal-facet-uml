@@ -5,7 +5,6 @@
 #include "gui_attribute_type_of_diagram.h"
 #include "gui_attribute_type_of_feature.h"
 #include "gui_attribute_type_of_relationship.h"
-#include "gtk_helper/gtk_helper_tree_model.h"
 #include "draw/draw_stereotype_image.h"
 #include "u8/u8_trace.h"
 #include "ctrl_simple_changer.h"
@@ -15,19 +14,11 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-#if ( GTK_MAJOR_VERSION < 4 )
-#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
-#endif
-
 void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkLabel *id_label,
                                   GtkEntry *name_entry,
                                   GtkEntry *stereotype_entry,
-#if ( GTK_MAJOR_VERSION >= 4 )
                                   GtkDropDown *type_dropdown,
-#else
-                                  GtkComboBox *type_combo_box,
-#endif
                                   GtkWidget *type_diag_grid,
                                   GtkWidget *type_clas_grid,
                                   GtkWidget *type_feat_grid,
@@ -44,11 +35,7 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     assert( NULL != id_label );
     assert( NULL != name_entry );
     assert( NULL != stereotype_entry );
-#if ( GTK_MAJOR_VERSION >= 4 )
     assert( NULL != type_dropdown );
-#else
-    assert( NULL != type_combo_box );
-#endif
     assert( NULL != type_diag_grid );
     assert( NULL != type_clas_grid );
     assert( NULL != type_feat_grid );
@@ -64,11 +51,7 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     (*this_).id_label = id_label;
     (*this_).name_entry = name_entry;
     (*this_).stereotype_entry = stereotype_entry;
-#if ( GTK_MAJOR_VERSION >= 4 )
     (*this_).type_dropdown = type_dropdown;
-#else
-    (*this_).type_combo_box = type_combo_box;
-#endif
     (*this_).type_diag_grid = type_diag_grid;
     (*this_).type_clas_grid = type_clas_grid;
     (*this_).type_feat_grid = type_feat_grid;
@@ -89,13 +72,9 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     data_relationship_init_empty( &((*this_).private_relationship_cache) );
     data_id_init_void( &((*this_).selected_object_id) );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     gui_type_resource_list_init( &((*this_).type_lists), resources );
     (*this_).temp_search_me = GUI_TYPE_RESOURCE( g_object_new( gui_type_resource_get_type(), NULL ) );
     (*this_).previous_selected_object_id = DATA_ID_VOID;
-#else
-    gui_attributes_editor_types_init( &((*this_).type_lists), resources );
-#endif
 
     /* update widgets */
     gui_attributes_editor_update_widgets( this_ );
@@ -115,12 +94,8 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     data_id_destroy( &((*this_).second_latest_id) );
     data_id_destroy( &((*this_).latest_created_id) );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     g_object_unref( (*this_).temp_search_me );
     gui_type_resource_list_destroy( &((*this_).type_lists) );
-#else
-    gui_attributes_editor_types_destroy( &((*this_).type_lists) );
-#endif
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -129,11 +104,7 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     (*this_).id_label = NULL;
     (*this_).name_entry = NULL;
     (*this_).stereotype_entry = NULL;
-#if ( GTK_MAJOR_VERSION >= 4 )
     (*this_).type_dropdown = NULL;
-#else
-    (*this_).type_combo_box = NULL;
-#endif
     (*this_).type_diag_grid = NULL;
     (*this_).type_clas_grid = NULL;
     (*this_).type_feat_grid = NULL;
@@ -263,12 +234,8 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
     {
         const char* text;
         GtkEntry *const name_widget = GTK_ENTRY( (*this_).name_entry );
-#if ( GTK_MAJOR_VERSION >= 4 )
         GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
         text = gtk_entry_buffer_get_text( name_buf );
-#else
-        text = gtk_entry_get_text( name_widget );
-#endif
         U8_TRACE_INFO_STR( "- visible name:", text );
     }
 
@@ -277,19 +244,14 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
     {
         const char* text;
         GtkEntry *const stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
-#if ( GTK_MAJOR_VERSION >= 4 )
         GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
         text = gtk_entry_buffer_get_text( stereotype_buf );
-#else
-        text = gtk_entry_get_text( stereotype_widget );
-#endif
         U8_TRACE_INFO_STR( "- visible stereotype:", text );
     }
 
     /* type: */
     if ( U8_TRACE_ACTIVE )
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         int obj_type;
         GObject *selected = gtk_drop_down_get_selected_item ( (*this_).type_dropdown );
         if ( selected == NULL )
@@ -302,15 +264,6 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
             obj_type = data_type_get_type_as_int( obj_full_type );
         }
         U8_TRACE_INFO_INT( "- visible type id:", obj_type );
-#else
-        GtkComboBox *type_widget;
-        int obj_type;
-        int index;
-        type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
-        index = gtk_combo_box_get_active ( type_widget );
-        obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
-        U8_TRACE_INFO_INT( "- visible type id:", obj_type );
-#endif
     }
 
     /* description: */
@@ -336,7 +289,6 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
 
 /* ================================ USER INPUT CALLBACKS ================================ */
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_name_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data )
 {
     U8_TRACE_BEGIN();
@@ -350,22 +302,6 @@ void gui_attributes_editor_name_focus_left_callback( GtkEventControllerFocus* se
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
 }
-#else
-gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
-{
-    U8_TRACE_BEGIN();
-    assert( user_data != NULL );
-    gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
-
-    //gui_attributes_editor_private_name_commit_changes( this_ );
-    gui_attributes_editor_commit_changes( this_ );
-
-    U8_TRACE_TIMESTAMP();
-    U8_TRACE_END();
-    return false;  /* all callbacks shall receive this signal */
-}
-#endif
 
 void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user_data )
 {
@@ -381,7 +317,6 @@ void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_stereotype_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data )
 {
     U8_TRACE_BEGIN();
@@ -395,22 +330,6 @@ void gui_attributes_editor_stereotype_focus_left_callback( GtkEventControllerFoc
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
 }
-#else
-gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
-{
-    U8_TRACE_BEGIN();
-    assert( user_data != NULL );
-    gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert( GTK_ENTRY(widget) == GTK_ENTRY( (*this_).stereotype_entry ) );
-
-    //gui_attributes_editor_private_stereotype_commit_changes( this_ );
-    gui_attributes_editor_commit_changes( this_ );
-
-    U8_TRACE_TIMESTAMP();
-    U8_TRACE_END();
-    return false;  /* all callbacks shall receive this signal */
-}
-#endif
 
 void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointer user_data )
 {
@@ -426,7 +345,6 @@ void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointe
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_type_changed_callback ( GObject* self, GParamSpec* pspec, gpointer user_data )
 {
     U8_TRACE_BEGIN();
@@ -458,34 +376,6 @@ void gui_attributes_editor_type_changed_callback ( GObject* self, GParamSpec* ps
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
 }
-#else
-void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer user_data )
-{
-    U8_TRACE_BEGIN();
-    gui_attributes_editor_t *this_;
-    this_ = (gui_attributes_editor_t*) user_data;
-    assert ( NULL != this_ );
-
-    assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
-
-    /* get type id from widget */
-    GtkComboBox *type_widget;
-    int obj_type;
-    int index;
-    type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
-    index = gtk_combo_box_get_active ( type_widget );
-    U8_TRACE_INFO_INT( "selected index:", index );
-    obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
-
-    /* commit possibly changed texts before causing update events */
-    gui_attributes_editor_commit_changes( this_ );
-
-    gui_attributes_editor_private_type_commit_changes( this_, obj_type );
-
-    U8_TRACE_TIMESTAMP();
-    U8_TRACE_END();
-}
-#endif
 
 void gui_attributes_editor_type_of_diagram_btn_callback( GtkWidget* button, gpointer data )
 {
@@ -563,7 +453,6 @@ void gui_attributes_editor_type_of_relationship_btn_callback( GtkWidget* button,
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data )
 {
     U8_TRACE_BEGIN();
@@ -577,22 +466,6 @@ void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFo
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
 }
-#else
-gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
-{
-    U8_TRACE_BEGIN();
-    assert( user_data != NULL );
-    gui_attributes_editor_t *const this_ = (gui_attributes_editor_t*) user_data;
-    assert( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
-
-    gui_attributes_editor_commit_changes( this_ );
-    //gui_attributes_editor_private_description_commit_changes( this_ );
-
-    U8_TRACE_TIMESTAMP();
-    U8_TRACE_END();
-    return false;  /* all callbacks shall receive this signal */
-}
-#endif
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
@@ -877,12 +750,8 @@ void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t
 
     const char* text;
     GtkEntry *const name_widget = GTK_ENTRY( (*this_).name_entry );
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
     text = gtk_entry_buffer_get_text( name_buf );
-#else
-    text = gtk_entry_get_text( name_widget );
-#endif
 
     U8_TRACE_INFO_STR( "text:", text );
 
@@ -1076,12 +945,8 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
 
     const char* text;
     GtkEntry *const stereotype_widget = GTK_ENTRY( (*this_).stereotype_entry );
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
     text = gtk_entry_buffer_get_text( stereotype_buf );
-#else
-    text = gtk_entry_get_text( stereotype_widget );
-#endif
 
     U8_TRACE_INFO_STR( "text:", text );
 
@@ -1531,12 +1396,8 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
             const char *const text
                 = data_classifier_get_name_const( &((*this_).private_classifier_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
             gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
-#endif
         }
         break;
 
@@ -1546,12 +1407,8 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
             const char *const text
                 = data_feature_get_key_const( &((*this_).private_feature_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
             gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
-#endif
         }
         break;
 
@@ -1561,12 +1418,8 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
             const char *const text
                 = data_relationship_get_name_const( &((*this_).private_relationship_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
             gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
-#endif
         }
         break;
 
@@ -1582,24 +1435,16 @@ void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *t
 
             const char *const text
                 = data_diagram_get_name_const( &((*this_).private_diagram_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
             gtk_entry_buffer_set_text( name_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
-#endif
         }
         break;
 
         default:
         {
             U8_LOG_ERROR( "invalid data in data_id_t." );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( name_widget );
             gtk_entry_buffer_set_text( name_buf, "", 0 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( name_widget ), "" );
-#endif
         }
         break;
     }
@@ -1631,12 +1476,8 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
             const char *const text
                 = data_classifier_get_stereotype_const( &((*this_).private_classifier_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
             gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
-#endif
         }
         break;
 
@@ -1647,12 +1488,8 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
             const char *const text
                 = data_feature_get_value_const( &((*this_).private_feature_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
             gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
-#endif
         }
         break;
 
@@ -1663,12 +1500,8 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
             const char *const text
                 = data_relationship_get_stereotype_const( &((*this_).private_relationship_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
             gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
-#endif
         }
         break;
 
@@ -1686,12 +1519,8 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 
             const char *const text
                 = data_diagram_get_stereotype_const( &((*this_).private_diagram_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const stereotype_buf = gtk_entry_get_buffer( stereotype_widget );
             gtk_entry_buffer_set_text( stereotype_buf, text, -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
-#endif
         }
         break;
 
@@ -1708,26 +1537,15 @@ void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_edito
 void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *this_ )
 {
     U8_TRACE_BEGIN();
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkDropDown *type_widget = (*this_).type_dropdown;
-#else
-    GtkComboBox *type_widget;
-    type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
-#endif
 
     switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
     {
         case DATA_TABLE_VOID:
         {
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GListStore *const undef_type_list = gui_type_resource_list_get_undef( &((*this_).type_lists) );
             gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( undef_type_list ) );
-#else
-            const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
-            /* prevent that a user accidentally enters a type for a non-existing object */
-#endif
 
             /* hide icon grid: */
             gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
@@ -1740,7 +1558,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         case DATA_TABLE_CLASSIFIER:
         {
             const data_classifier_type_t class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GListStore *const classifier_type_list = gui_type_resource_list_get_classifiers( &((*this_).type_lists) );
             gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( classifier_type_list ) );
             guint selected_pos;
@@ -1754,15 +1571,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             {
                 gtk_drop_down_set_selected( (*this_).type_dropdown, selected_pos );
             }
-#else
-            const GtkListStore * const classifier_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
-            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( classifier_type_list ), 0, class_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( classifier_type_list ) );
-            if ( index != -1 ) {
-                /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
-            }
-#endif
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show classifier icon grid: */
@@ -1778,7 +1586,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             const data_feature_type_t feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
             if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
             {
-#if ( GTK_MAJOR_VERSION >= 4 )
                 GListStore *const lifeline_type_list = gui_type_resource_list_get_feature_lifeline( &((*this_).type_lists) );
                 gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( lifeline_type_list ) );
                 guint selected_pos;
@@ -1792,15 +1599,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 {
                     gtk_drop_down_set_selected( (*this_).type_dropdown, selected_pos );
                 }
-#else
-                const GtkListStore * const lifeline_type_list = gui_attributes_editor_types_get_feature_lifeline( &((*this_).type_lists) );
-                const int index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( lifeline_type_list ), 0, feature_type );
-                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( lifeline_type_list ) );
-                if ( index2 != -1 ) {
-                    /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
-                    gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
-                }
-#endif
                 gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
                 /* hide  icon grid: */
@@ -1811,7 +1609,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             }
             else
             {
-#if ( GTK_MAJOR_VERSION >= 4 )
                 GListStore *const feature_type_list = gui_type_resource_list_get_features( &((*this_).type_lists) );
                 gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( feature_type_list ) );
                 guint selected_pos;
@@ -1825,15 +1622,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 {
                     gtk_drop_down_set_selected( (*this_).type_dropdown, selected_pos );
                 }
-#else
-                const GtkListStore * const feature_type_list = gui_attributes_editor_types_get_features( &((*this_).type_lists) );
-                const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( feature_type_list ), 0, feature_type );
-                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( feature_type_list ) );
-                if ( index != -1 ) {
-                    /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
-                    gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
-                }
-#endif
                 gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
                 /* show feature icon grid: */
@@ -1849,7 +1637,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         {
             const data_relationship_type_t relationship_type
                 = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GListStore *const relationship_type_list = gui_type_resource_list_get_relationships( &((*this_).type_lists) );
             gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( relationship_type_list ) );
             guint selected_pos;
@@ -1863,15 +1650,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             {
                 gtk_drop_down_set_selected( (*this_).type_dropdown, selected_pos );
             }
-#else
-            const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_relationships( &((*this_).type_lists) );
-            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( relationship_type_list ) );
-            if ( index != -1 ) {
-                /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
-                gtk_combo_box_set_active( GTK_COMBO_BOX( type_widget ), index );
-            }
-#endif
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show relationship icon grid: */
@@ -1885,13 +1663,8 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), FALSE );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GListStore *const undef_type_list = gui_type_resource_list_get_undef( &((*this_).type_lists) );
             gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( undef_type_list ) );
-#else
-            const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
-#endif
 
             /* hide icon grid: */
             gtk_widget_set_visible( (*this_).type_diag_grid, FALSE );
@@ -1904,7 +1677,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         case DATA_TABLE_DIAGRAM:
         {
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
-#if ( GTK_MAJOR_VERSION >= 4 )
             GListStore *const diagram_type_list = gui_type_resource_list_get_diagrams( &((*this_).type_lists) );
             gtk_drop_down_set_model( (*this_).type_dropdown, G_LIST_MODEL( diagram_type_list ) );
             guint selected_pos;
@@ -1918,15 +1690,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             {
                 gtk_drop_down_set_selected( (*this_).type_dropdown, selected_pos );
             }
-#else
-            const GtkListStore * const diagram_type_list = gui_attributes_editor_types_get_diagrams( &((*this_).type_lists) );
-            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( diagram_type_list ), 0, diag_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( diagram_type_list ) );
-            if ( index != -1 ) {
-                /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
-            }
-#endif
             gtk_widget_set_visible( GTK_WIDGET ( type_widget ), TRUE );
 
             /* show diagram icon grid: */

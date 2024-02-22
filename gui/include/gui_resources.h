@@ -49,7 +49,8 @@ struct gui_resources_struct {
     GdkTexture *navigate_create_sibling_0;
     GdkTexture *navigate_open_folder;
     GdkTexture *search_search;
-    GdkTexture *background_column;
+
+    GdkPixbuf *background_column;
 
     GdkTexture *type_undef;
 
@@ -386,11 +387,11 @@ static inline GdkTexture *gui_resources_get_navigate_create_sibling_0 ( gui_reso
 static inline GdkTexture *gui_resources_get_search_search ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the background_column
+ *  \brief gets the background_column as GdkPixbuf
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_background_column ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_undef

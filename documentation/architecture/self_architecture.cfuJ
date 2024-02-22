@@ -1346,7 +1346,7 @@
           {
             "id": 267,
             "display_flags": 0,
-            "classifier_name": "gtk3/gtk4",
+            "classifier_name": "gtk4",
             "node": "3c504335-5769-43f7-8af2-782e18d9bb13",
             "uuid": "d6c8f276-900b-45cb-a32b-03926e0681c3"
           },
@@ -3980,7 +3980,7 @@
           {
             "id": 5,
             "display_flags": 0,
-            "classifier_name": "gtk3/gtk4",
+            "classifier_name": "gtk4",
             "node": "3c504335-5769-43f7-8af2-782e18d9bb13",
             "uuid": "0bec4e17-e2a1-417c-bc37-f3fce62428f1"
           },
@@ -7201,7 +7201,7 @@
         "id": 5,
         "main_type": 124,
         "type": "Package",
-        "name": "gtk3/gtk4",
+        "name": "gtk4",
         "description": [
                 "Toolkit which provides\n",
                 "- Windows and Widgets\n",
@@ -18537,7 +18537,7 @@
                 ""
         ],
         "list_order": 0,
-        "from_classifier_name": "gtk3/gtk4",
+        "from_classifier_name": "gtk4",
         "to_classifier_name": "gdk",
         "from_node": "3c504335-5769-43f7-8af2-782e18d9bb13",
         "to_node": "8a41cc50-8094-4b98-92cf-945929c10ad8",
@@ -18554,7 +18554,7 @@
                 ""
         ],
         "list_order": 1411660229,
-        "from_classifier_name": "gtk3/gtk4",
+        "from_classifier_name": "gtk4",
         "to_classifier_name": "atk",
         "from_node": "3c504335-5769-43f7-8af2-782e18d9bb13",
         "to_node": "de315ac3-c751-45e2-803e-a5e22911eb03",
@@ -18571,7 +18571,7 @@
                 ""
         ],
         "list_order": 1411725765,
-        "from_classifier_name": "gtk3/gtk4",
+        "from_classifier_name": "gtk4",
         "to_classifier_name": "gio",
         "from_node": "3c504335-5769-43f7-8af2-782e18d9bb13",
         "to_node": "2670489e-a3a1-4491-9cc6-ef5c46926245",
@@ -23060,7 +23060,7 @@
         ],
         "list_order": 1411561925,
         "from_classifier_name": "technical strategy",
-        "to_classifier_name": "gtk3/gtk4",
+        "to_classifier_name": "gtk4",
         "from_node": "f7f1c101-5148-4385-8c01-2619170347db",
         "to_node": "3c504335-5769-43f7-8af2-782e18d9bb13",
         "uuid": "5ac6414f-d2dc-4da4-bac3-26cbb1d7465b"

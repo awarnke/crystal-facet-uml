@@ -165,7 +165,7 @@ static inline GdkTexture *gui_resources_get_search_search ( gui_resources_t *thi
     return (*this_).search_search;
 }
 
-static inline GdkTexture *gui_resources_get_background_column ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ )
 {
     return (*this_).background_column;
 }

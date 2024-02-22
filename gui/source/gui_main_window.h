@@ -108,11 +108,7 @@ struct gui_main_window_struct {
     GtkWidget *tool_about_icon;
     GtkButton *tool_about;
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkShortcutController *keyboard_shortcut_ctrl;
-#else
-    GtkAccelGroup *keyboard_shortcut_group;
-#endif
 
     GtkWidget *attr_edit_column;
     GtkWidget *attr_section_icon;
@@ -126,11 +122,7 @@ struct gui_main_window_struct {
     GtkWidget *description_text_view;
     GtkWidget *description_scroll_win;
     GtkWidget *type_label;
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkDropDown *type_dropdown;
-#else
-    GtkWidget *type_combo_box;
-#endif
     GtkGrid   *type_diag_grid;
     GtkImage  *( type_diag_img[ GUI_TYPE_RESOURCE_LIST_DIAGRAMS ] );
     GtkButton *( type_diag_btn[ GUI_TYPE_RESOURCE_LIST_DIAGRAMS ] );
@@ -238,11 +230,7 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data );
  *
  *  \return true if the window shall not be deleted.
  */
-#if ( GTK_MAJOR_VERSION >= 4 )
 gboolean gui_main_window_delete_event_callback( GtkWindow *widget, gpointer data );
-#else
-gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data );
-#endif
 
 /*!
  *  \brief callback that informs that the new_db button was pressed
@@ -259,13 +247,10 @@ void gui_main_window_open_db_btn_callback( GtkWidget* button, gpointer data );
  */
 void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 /*!
  *  \brief callback that informs that the save shortcut was activated
  */
 gboolean gui_main_window_save_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data );
-#else
-#endif
 
 /*!
  *  \brief callback that informs that the export button was pressed

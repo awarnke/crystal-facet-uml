@@ -203,7 +203,7 @@ void gui_resources_init ( gui_resources_t *this_ )
 
     (*this_).search_search = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( search_search ) );
 
-    (*this_).background_column = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( background_column ) );
+    (*this_).background_column = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( background_column ) );
 
     (*this_).type_undef = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( type_undef ) );
 
@@ -343,7 +343,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
 
     g_object_unref ((*this_).search_search);
 
-    g_object_unref ((*this_).background_column);
+    g_object_unref ((*this_).background_column);  /* Type: GdkPixbuf */
 
     g_object_unref ((*this_).type_undef);
 

@@ -62,11 +62,7 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
 
     if ( serialize_error == 0 )
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         gdk_clipboard_set_text( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
-#else
-        gtk_clipboard_set_text( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
-#endif
     }
     else
     {
@@ -77,8 +73,6 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
     U8_TRACE_END_ERR( serialize_error );
     return serialize_error;
 }
-
-#if ( GTK_MAJOR_VERSION >= 4 )
 
 void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
 {
@@ -135,51 +129,6 @@ void gui_clipboard_clipboard_text_received_callback( GObject *source_object,
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
 }
-
-#else
-
-void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
-{
-    U8_TRACE_BEGIN();
-
-    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
-
-    (*this_).destination_diagram_id = destination_diagram_id;
-    U8_TRACE_INFO_INT ( "(*this_).destination_diagram_id:", destination_diagram_id );
-
-    /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
-    gtk_clipboard_request_text( (*this_).the_clipboard,
-                                (GtkClipboardTextReceivedFunc) gui_clipboard_clipboard_text_received_callback,
-                                this_
-                              );
-
-    U8_TRACE_END();
-}
-
-void gui_clipboard_clipboard_text_received_callback( GdkClipboard *clipboard, const gchar *clipboard_text, gpointer data )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != clipboard );
-    assert( NULL != data );
-    gui_clipboard_t *this_ = data;
-
-    if ( clipboard_text != NULL )
-    {
-        gui_clipboard_private_copy_clipboard_to_db( this_, clipboard_text );
-    }
-    else
-    {
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
-                                               );
-    }
-
-    U8_TRACE_TIMESTAMP();
-    U8_TRACE_END();
-}
-
-#endif
 
 void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const char *json_text )
 {

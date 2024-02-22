@@ -70,10 +70,12 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     /* if there is enough space, draw a nice picture bar on the left side */
     if ( width > 192 )
     {
-        GdkTexture *bg_img = gui_resources_get_background_column( (*this_).resources );
-        double icon_width = gdk_texture_get_width ( bg_img );
-        double icon_height = gdk_texture_get_height ( bg_img );
-        gtk_helper_icon_draw_texture( bg_img, left, top, cr );
+        GdkPixbuf *bg_img = gui_resources_get_background_column( (*this_).resources );
+        double icon_width = gdk_pixbuf_get_width ( bg_img );
+        double icon_height = gdk_pixbuf_get_height ( bg_img );
+        gdk_cairo_set_source_pixbuf( cr, bg_img, left, top );
+        cairo_rectangle ( cr, left, top, icon_width, icon_height );
+        cairo_fill (cr);
 
         text_area_start = left+icon_width;
 

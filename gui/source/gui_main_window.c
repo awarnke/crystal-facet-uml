@@ -20,10 +20,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#if ( GTK_MAJOR_VERSION < 4 )
-#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
-#endif
-
 void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,
                            io_data_file_t *data_file,
@@ -34,11 +30,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                            observer_t *window_open_observer )
 {
     U8_TRACE_BEGIN();
-#if ( GTK_MAJOR_VERSION >= 4 )
     assert( gtk_app != NULL );
-#else
-    assert( gtk_app == NULL );
-#endif
 
     /* init own attributes */
     (*this_).window_close_observer = window_close_observer;
@@ -50,20 +42,12 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     /* init window */
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         (*this_).window = gtk_application_window_new( gtk_app );
-#else
-        (*this_).window = gtk_window_new( GTK_WINDOW_TOPLEVEL );
-#endif
         const char *window_title;
         window_title = io_data_file_get_filename_const( data_file );
         gtk_window_set_title(GTK_WINDOW( (*this_).window ), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
         gtk_widget_set_size_request( (*this_).window, 800, 400 );
         gtk_window_set_default_size( GTK_WINDOW( (*this_).window ), 16*70, 9*70 );
-#if ( GTK_MAJOR_VERSION >= 4 )
-#else
-        gtk_window_set_icon( GTK_WINDOW( (*this_).window ), gui_resources_get_crystal_facet_uml( res ) );
-#endif
     }
 
     /* init the message widgets */
@@ -72,13 +56,8 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     /* init the keyboard shortcuts */
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         (*this_).keyboard_shortcut_ctrl = GTK_SHORTCUT_CONTROLLER(gtk_shortcut_controller_new());
         gtk_widget_add_controller( (*this_).window, GTK_EVENT_CONTROLLER((*this_).keyboard_shortcut_ctrl) );
-#else
-        (*this_).keyboard_shortcut_group = gtk_accel_group_new();
-        gtk_window_add_accel_group(GTK_WINDOW( (*this_).window ), (*this_).keyboard_shortcut_group);
-#endif
     }
 
     /* init tools */
@@ -87,13 +66,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     /* determine the current/main clipboard */
     GdkClipboard *current_clipboard = NULL;
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         current_clipboard = gtk_widget_get_clipboard( GTK_WIDGET((*this_).window) );  /* idea taken from gtk demo */
-#else
-        GdkScreen *const current_screen = gtk_window_get_screen( GTK_WINDOW( (*this_).window ) );
-        GdkDisplay *const current_display = gdk_screen_get_display( current_screen );
-        current_clipboard = gtk_clipboard_get_for_display( current_display, GDK_NONE ); /* GDK_SELECTION_PRIMARY does not work */
-#endif
     }
 
     gui_marked_set_init( &((*this_).marker_data), G_OBJECT((*this_).window) );
@@ -142,11 +115,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                                 GTK_LABEL( (*this_).id_label ),
                                 GTK_ENTRY( (*this_).name_entry ),
                                 GTK_ENTRY( (*this_).stereotype_entry ),
-#if ( GTK_MAJOR_VERSION >= 4 )
                                 (*this_).type_dropdown,
-#else
-                                GTK_COMBO_BOX( (*this_).type_combo_box ),
-#endif
                                 GTK_WIDGET( (*this_).type_diag_grid ),
                                 GTK_WIDGET( (*this_).type_clas_grid ),
                                 GTK_WIDGET( (*this_).type_feat_grid ),
@@ -177,17 +146,12 @@ void gui_main_window_init( gui_main_window_t *this_,
     U8_TRACE_INFO("GTK+ Widgets are created.");
 
     (*this_).two_panes = gtk_paned_new( GTK_ORIENTATION_HORIZONTAL );
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_paned_set_start_child( GTK_PANED((*this_).two_panes), (*this_).sketch_stack_column );
     gtk_paned_set_resize_start_child( GTK_PANED((*this_).two_panes), true );
     gtk_paned_set_shrink_start_child( GTK_PANED((*this_).two_panes), false );
     gtk_paned_set_end_child( GTK_PANED((*this_).two_panes), (*this_).attr_edit_column );
     gtk_paned_set_resize_end_child( GTK_PANED((*this_).two_panes), false );
     gtk_paned_set_shrink_end_child( GTK_PANED((*this_).two_panes), true );
-#else
-    gtk_paned_pack1( GTK_PANED((*this_).two_panes), (*this_).sketch_stack_column, true, false );
-    gtk_paned_pack2( GTK_PANED((*this_).two_panes), (*this_).attr_edit_column, false, true );
-#endif
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).sketch_stack_column ), true );
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).sketch_stack_column ), true );
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).attr_edit_column ), true );
@@ -195,15 +159,9 @@ void gui_main_window_init( gui_main_window_t *this_,
     gtk_paned_set_position( GTK_PANED((*this_).two_panes), 11*70 );
 
     (*this_).main_stack_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 0 );
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_box_append( GTK_BOX((*this_).main_stack_column), GTK_WIDGET((*this_).tool_row) );
     gtk_box_append( GTK_BOX((*this_).main_stack_column), GTK_WIDGET((*this_).two_panes) );
     gtk_box_append( GTK_BOX((*this_).main_stack_column), GTK_WIDGET((*this_).message_row) );
-#else
-    gtk_container_add( GTK_CONTAINER((*this_).main_stack_column), GTK_WIDGET((*this_).tool_row) );
-    gtk_container_add( GTK_CONTAINER((*this_).main_stack_column), GTK_WIDGET((*this_).two_panes) );
-    gtk_container_add( GTK_CONTAINER((*this_).main_stack_column), GTK_WIDGET((*this_).message_row) );
-#endif
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).tool_row ), false );
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).tool_row ), true );
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).two_panes ), true );
@@ -211,22 +169,14 @@ void gui_main_window_init( gui_main_window_t *this_,
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).message_row ), false );
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).message_row ), true );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_set_child( GTK_WINDOW((*this_).window), (*this_).main_stack_column );
     gtk_window_set_resizable( GTK_WINDOW((*this_).window), true );
-#else
-    gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).main_stack_column);
-#endif
 
     U8_TRACE_INFO("GTK+ Widgets are added to containers.");
 
     /* inject dependencies by signals */
     /* parameter info: g_signal_connect( instance-that-emits-the-signal, signal-name, callback-handler, data-to-be-passed-to-callback-handler) */
-#if ( GTK_MAJOR_VERSION >= 4 )
     g_signal_connect( G_OBJECT((*this_).window), "close-request", G_CALLBACK(gui_main_window_delete_event_callback), this_ );
-#else
-    g_signal_connect( G_OBJECT((*this_).window), "delete-event", G_CALLBACK(gui_main_window_delete_event_callback), this_ );
-#endif
     g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).window), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_main_window_data_changed_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
@@ -275,7 +225,6 @@ void gui_main_window_init( gui_main_window_t *this_,
                       G_CALLBACK(gui_attributes_editor_name_enter_callback),
                       &((*this_).attributes_editor)
                     );
-#if ( GTK_MAJOR_VERSION >= 4 )
     {
         GtkEventControllerFocus *evt_focus_n = GTK_EVENT_CONTROLLER_FOCUS(gtk_event_controller_focus_new());
         g_signal_connect( evt_focus_n,
@@ -303,29 +252,8 @@ void gui_main_window_init( gui_main_window_t *this_,
                         );
         gtk_widget_add_controller( (*this_).description_text_view, GTK_EVENT_CONTROLLER(evt_focus_d) );
     }
-#else
-    g_signal_connect( G_OBJECT((*this_).name_entry),
-                      "focus-out-event",
-                      G_CALLBACK(gui_attributes_editor_name_focus_lost_callback),
-                      &((*this_).attributes_editor)
-                    );
-    g_signal_connect( G_OBJECT((*this_).stereotype_entry),
-                      "focus-out-event",
-                      G_CALLBACK(gui_attributes_editor_stereotype_focus_lost_callback),
-                      &((*this_).attributes_editor)
-                    );
-    g_signal_connect( G_OBJECT((*this_).description_text_view),
-                      "focus-out-event",
-                      G_CALLBACK(gui_attributes_editor_description_focus_lost_callback),
-                      &((*this_).attributes_editor)
-                    );
-#endif
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "activate", G_CALLBACK(gui_attributes_editor_stereotype_enter_callback), &((*this_).attributes_editor) );
-#if ( GTK_MAJOR_VERSION >= 4 )
     g_signal_connect_after( G_OBJECT((*this_).type_dropdown), "notify::selected", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor));
-#else
-    g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
-#endif
     for( int_fast32_t diag_idx = 0; diag_idx < GUI_TYPE_RESOURCE_LIST_DIAGRAMS; diag_idx ++ )
     {
         g_signal_connect( G_OBJECT((*this_).type_diag_btn[ diag_idx ]),
@@ -377,15 +305,12 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     U8_TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_set_visible( (*this_).window, TRUE );
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).window), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).window) );
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
-#else
-    gtk_widget_show_all((*this_).window);
-#endif
+
     gui_attributes_editor_update_widgets( &((*this_).attributes_editor) );  /* hide some widgets again */
 #ifdef NDEBUG
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
@@ -427,13 +352,10 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 static inline void gtk_button_set_image( GtkButton *btn, GtkWidget *icon )
 {
     gtk_button_set_child( btn, icon );
 }
-#else
-#endif
 
 void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resources_t *res )
 {
@@ -456,7 +378,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_save_icon), 32 /*=w*/ , 32 /*=h*/ );
     gtk_button_set_image( GTK_BUTTON((*this_).file_save_button), (*this_).file_save_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_save_button), "Save (Ctrl-S)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkShortcutTrigger *commit_trig = gtk_shortcut_trigger_parse_string( "<Control>S" );
     GtkShortcutAction *commit_act = gtk_callback_action_new( &gui_main_window_save_shortcut_callback,
                                                              this_,
@@ -467,23 +388,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                                                            NULL /* = format_string */
                                                          );
     gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_s );
-#else
-    gtk_widget_add_accelerator( GTK_WIDGET((*this_).file_save_button),
-                                "clicked",
-                                (*this_).keyboard_shortcut_group,
-                                GDK_KEY_s,
-                                GDK_CONTROL_MASK,
-                                GTK_ACCEL_VISIBLE
-                              );
-#endif
-
-#if 0
-    (*this_).file_save_as_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_save_as( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_save_as_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).file_save_as = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).file_save_as), (*this_).file_save_as_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_save_as), "Save as" );
-#endif
 
     (*this_).file_export_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_export( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_export_icon), 32 /*=w*/ , 32 /*=h*/ );
@@ -493,18 +397,12 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 
     (*this_).tool_sect_1_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_1_icon), 12 /*=w*/ , 32 /*=h*/ );
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_1_icon), 32 );
-#else
-#endif
     gtk_widget_set_halign( (*this_).tool_sect_1_icon, GTK_ALIGN_START );
 
      (*this_).tool_sect_2_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_2_icon), 12 /*=w*/ , 32 /*=h*/ );
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).tool_sect_2_icon), 32 );
-#else
-#endif
     gtk_widget_set_halign( (*this_).tool_sect_2_icon, GTK_ALIGN_START );
 
     (*this_).view_new_window_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_new_window( res ) ) );
@@ -521,7 +419,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_widget_set_size_request( GTK_WIDGET((*this_).view_create_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).view_search_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_view_search( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).view_search_icon), 32 /*=w*/ , 32 /*=h*/ );
-#if ( GTK_MAJOR_VERSION >= 4 )
+
     (*this_).view_navigate = gtk_toggle_button_new();
     gtk_button_set_child( GTK_BUTTON((*this_).view_navigate), (*this_).view_navigate_icon );
 
@@ -536,24 +434,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     (*this_).view_search = gtk_toggle_button_new();
     gtk_button_set_child( GTK_BUTTON((*this_).view_search), (*this_).view_search_icon );
     gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON((*this_).view_search), GTK_TOGGLE_BUTTON((*this_).view_create) );
-#else
-    GSList *group;
 
-    (*this_).view_navigate = GTK_WIDGET(gtk_radio_tool_button_new( NULL ));
-    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).view_navigate), (*this_).view_navigate_icon);
-    group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).view_navigate));
-
-    (*this_).view_edit = GTK_WIDGET(gtk_radio_tool_button_new( group ));
-    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).view_edit), (*this_).view_edit_icon);
-    group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).view_edit));
-
-    (*this_).view_create = GTK_WIDGET(gtk_radio_tool_button_new( group ));
-    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).view_create), (*this_).view_create_icon);
-    group = gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON ((*this_).view_create));
-
-    (*this_).view_search = GTK_WIDGET(gtk_radio_tool_button_new( group ));
-    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).view_search), (*this_).view_search_icon);
-#endif
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_navigate), "Navigate" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_edit), "Edit" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_create), "Create" );
@@ -564,7 +445,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkShortcutTrigger *undo_trig = gtk_shortcut_trigger_parse_string( "<Control>Z" );
     GtkShortcutAction *undo_act = gtk_callback_action_new( &gui_toolbox_undo_shortcut_callback,
                                                            &((*this_).tools_data),
@@ -575,23 +455,12 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                                                            NULL /* = format_string */
                                                          );
     gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_z );
-#else
-    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_undo),
-                                "clicked",
-                                (*this_).keyboard_shortcut_group,
-                                GDK_KEY_z,
-                                GDK_CONTROL_MASK,
-                                GTK_ACCEL_VISIBLE
-                              );
-
-#endif
 
     (*this_).edit_redo_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_redo( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_redo_icon), 32 /*=w*/ , 32 /*=h*/ );
     (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkShortcutTrigger *redo_trig = gtk_shortcut_trigger_parse_string( "<Control>Y" );
     GtkShortcutAction *redo_act = gtk_callback_action_new( &gui_toolbox_redo_shortcut_callback,
                                                            &((*this_).tools_data),
@@ -602,15 +471,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                                                            NULL /* = format_string */
                                                          );
     gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_y );
-#else
-    gtk_widget_add_accelerator( GTK_WIDGET((*this_).edit_redo),
-                                "clicked",
-                                (*this_).keyboard_shortcut_group,
-                                GDK_KEY_y,
-                                GDK_CONTROL_MASK,
-                                GTK_ACCEL_VISIBLE
-                              );
-#endif
 
     (*this_).edit_cut_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_cut( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_cut_icon), 32 /*=w*/ , 32 /*=h*/ );
@@ -679,11 +539,9 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     /* insert widgets to box container */
     {
         (*this_).tool_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 4 );
-#if ( GTK_MAJOR_VERSION >= 4 )
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_new_db) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_use_db) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_save_button) );
-        /* gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_save_as) ); */
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_export) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_1_icon) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).view_new_window) );
@@ -702,30 +560,6 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_highlight) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_reset) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_about) );
-#else
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_new_db) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_use_db) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_save_button) );
-        /* gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_save_as) ); */
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).file_export) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_1_icon) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).view_new_window) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).view_search) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).view_navigate) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).view_edit) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).view_create) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_2_icon) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_cut) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_copy) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_paste) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_delete) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_instantiate) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_highlight) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).edit_reset) );
-        gtk_container_add( GTK_CONTAINER((*this_).tool_row), GTK_WIDGET((*this_).tool_about) );
-#endif
     }
 
     U8_TRACE_END();
@@ -737,10 +571,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
 
     (*this_).attr_section_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_edit_attributes_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_image_set_pixel_size( GTK_IMAGE((*this_).attr_section_icon), 48 );
-#else
-#endif
     gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
 
     (*this_).id_label = gtk_label_new( "" );
@@ -749,19 +580,11 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     (*this_).description_label = gtk_label_new( "Description:" );
     (*this_).stereotype_label = gtk_label_new( "Stereotype:" );
     (*this_).type_label = gtk_label_new( "Type:" );
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
     gtk_label_set_xalign( GTK_LABEL( (*this_).id_label ), 1.0 ); /* align right */
     gtk_label_set_xalign( GTK_LABEL( (*this_).name_label ), 0.0 );
     gtk_label_set_xalign( GTK_LABEL( (*this_).description_label ), 0.0 );
     gtk_label_set_xalign( GTK_LABEL( (*this_).stereotype_label ), 0.0 );
     gtk_label_set_xalign( GTK_LABEL( (*this_).type_label ), 0.0 );
-#else
-    gtk_misc_set_alignment( GTK_MISC( (*this_).id_label ), 1.0, 0.0 );
-    gtk_misc_set_alignment( GTK_MISC( (*this_).name_label ), 0.0, 0.0 );
-    gtk_misc_set_alignment( GTK_MISC( (*this_).description_label ), 0.0, 0.0 );
-    gtk_misc_set_alignment( GTK_MISC( (*this_).stereotype_label ), 0.0, 0.0 );
-    gtk_misc_set_alignment( GTK_MISC( (*this_).type_label ), 0.0, 0.0 );
-#endif
 
     (*this_).id_search_btn = gtk_button_new();
     (*this_).id_search_btn_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_search_search( res ) ) );
@@ -772,15 +595,10 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     /* insert widgets to box container */
     {
         (*this_).id_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 8 );
-#if ( GTK_MAJOR_VERSION >= 4 )
         gtk_box_append( GTK_BOX((*this_).id_row), GTK_WIDGET((*this_).attr_section_icon) );
         gtk_box_append( GTK_BOX((*this_).id_row), GTK_WIDGET((*this_).id_label) );
         gtk_box_append( GTK_BOX((*this_).id_row), GTK_WIDGET((*this_).id_search_btn) );
-#else
-        gtk_container_add( GTK_CONTAINER((*this_).id_row), GTK_WIDGET((*this_).attr_section_icon) );
-        gtk_container_add( GTK_CONTAINER((*this_).id_row), GTK_WIDGET((*this_).id_label) );
-        gtk_container_add( GTK_CONTAINER((*this_).id_row), GTK_WIDGET((*this_).id_search_btn) );
-#endif
+
         gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
         gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).attr_section_icon ), false );
         gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
@@ -801,24 +619,17 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_text_view ), false );
     //gtk_widget_set_size_request( GTK_WIDGET((*this_).description_text_view), 128 /*=w*/ , 48 /*=h*/ );
     /* need own scroll window container */
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_text_view_set_bottom_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
     gtk_text_view_set_left_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
     gtk_text_view_set_right_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
     gtk_text_view_set_top_margin( GTK_TEXT_VIEW( (*this_).description_text_view ), 12 );
     (*this_).description_scroll_win = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child( GTK_SCROLLED_WINDOW((*this_).description_scroll_win), (*this_).description_text_view );
-#else
-    gtk_container_set_border_width( GTK_CONTAINER( (*this_).description_text_view ), 12 );
-    (*this_).description_scroll_win = gtk_scrolled_window_new( NULL, NULL );
-    gtk_container_add( GTK_CONTAINER( (*this_).description_scroll_win ), (*this_).description_text_view );
-#endif
     gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ),
                                     GTK_POLICY_AUTOMATIC,
                                     GTK_POLICY_AUTOMATIC
                                   );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     GListStore *model = NULL;  /* the model is set later */
     GtkExpression *expression = NULL;  /* not needed: there is no search entry that could find list elements */
     (*this_).type_dropdown = GTK_DROP_DOWN( gtk_drop_down_new ( G_LIST_MODEL( model ), expression ) );
@@ -858,17 +669,6 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     g_object_unref( scope );
     g_object_unref( factory );
     g_bytes_unref( byteptr );
-#else
-    (*this_).type_combo_box = gtk_combo_box_new();
-    GtkCellRenderer *column1;
-    column1 = gtk_cell_renderer_pixbuf_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, /*expand:*/ FALSE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, "pixbuf", 2, NULL);
-    GtkCellRenderer *column2;
-    column2 = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
-#endif
 
     static gui_type_resource_list_t res_select;
     gui_type_resource_list_init( &res_select, res );
@@ -966,7 +766,6 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     /* insert widgets to box container */
     {
         (*this_).attr_edit_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 4 );
-#if ( GTK_MAJOR_VERSION >= 4 )
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).id_row) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).name_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).name_entry) );
@@ -980,21 +779,7 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).type_rel_grid) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
         gtk_box_append( GTK_BOX((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
-#else
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).id_row) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).name_label) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).name_entry) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_label) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).stereotype_entry) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_label) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_combo_box) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_diag_grid) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_clas_grid) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_feat_grid) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).type_rel_grid) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_label) );
-        gtk_container_add( GTK_CONTAINER((*this_).attr_edit_column), GTK_WIDGET((*this_).description_scroll_win) );
-#endif
+
         gtk_widget_set_vexpand( GTK_WIDGET( (*this_).description_scroll_win ), true );
         gtk_widget_set_hexpand( GTK_WIDGET( (*this_).description_scroll_win ), true );
     }
@@ -1007,31 +792,20 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
     U8_TRACE_BEGIN();
 
     (*this_).message_text_label = gtk_label_new( "" );
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION >= 4 ))
     gtk_label_set_xalign(GTK_LABEL( (*this_).message_text_label ), 0.0 );
-#else
-    gtk_misc_set_alignment(GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
-#endif
 
     (*this_).message_icon_image = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_crystal_facet_uml( res ) ) );
-#if ( GTK_MAJOR_VERSION >= 4 )
     /* TODO check if GtkPicture is better suited than GtkImage because of setting the size */
     // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
     // gtk_image_set_pixel_size( GTK_IMAGE((*this_).message_icon_image), 32 );
-#else
-#endif
     gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
 
     /* insert widgets to box container */
     {
         (*this_).message_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 20 );
-#if ( GTK_MAJOR_VERSION >= 4 )
         gtk_box_append( GTK_BOX((*this_).message_row), GTK_WIDGET((*this_).message_icon_image) );
         gtk_box_append( GTK_BOX((*this_).message_row), GTK_WIDGET((*this_).message_text_label) );
-#else
-        gtk_container_add( GTK_CONTAINER((*this_).message_row), GTK_WIDGET((*this_).message_icon_image) );
-        gtk_container_add( GTK_CONTAINER((*this_).message_row), GTK_WIDGET((*this_).message_text_label) );
-#endif
+
         gtk_widget_set_vexpand( GTK_WIDGET( (*this_).message_icon_image ), false );
         gtk_widget_set_hexpand( GTK_WIDGET( (*this_).message_icon_image ), false );
         gtk_widget_set_vexpand( GTK_WIDGET( (*this_).message_text_label ), false );
@@ -1048,12 +822,8 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
     /* init search widgets */
     {
         (*this_).search_label = gtk_label_new ( "Search:" );
-#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
         gtk_label_set_xalign( GTK_LABEL( (*this_).search_label ), 1.0 ); /* align right */
         gtk_label_set_yalign( GTK_LABEL( (*this_).search_label ), 0.5 ); /* align middle-height */
-#else
-        gtk_misc_set_alignment( GTK_MISC( (*this_).search_label ), 1.0, 0.5 );
-#endif
 
         (*this_).search_entry = gtk_entry_new();
 
@@ -1067,15 +837,10 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
     /* insert widgets to box container */
     {
         (*this_).search_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 4 );
-#if ( GTK_MAJOR_VERSION >= 4 )
         gtk_box_append( GTK_BOX((*this_).search_row), GTK_WIDGET((*this_).search_label) );
         gtk_box_append( GTK_BOX((*this_).search_row), GTK_WIDGET((*this_).search_entry) );
         gtk_box_append( GTK_BOX((*this_).search_row), GTK_WIDGET((*this_).search_button) );
-#else
-        gtk_container_add( GTK_CONTAINER((*this_).search_row), GTK_WIDGET((*this_).search_label) );
-        gtk_container_add( GTK_CONTAINER((*this_).search_row), GTK_WIDGET((*this_).search_entry) );
-        gtk_container_add( GTK_CONTAINER((*this_).search_row), GTK_WIDGET((*this_).search_button) );
-#endif
+
         gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_label ), false );
         gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_label ), false );
         gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), false );
@@ -1087,11 +852,6 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
     /* init sketch area */
     {
         (*this_).sketcharea = gtk_drawing_area_new();
-#if ( GTK_MAJOR_VERSION >= 4 )
-#else
-        gtk_widget_set_events( (*this_).sketcharea, GDK_LEAVE_NOTIFY_MASK
-            | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
-#endif
         gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
         gtk_widget_set_size_request( GTK_WIDGET( (*this_).sketcharea ), 600, 360);  /* set a minimum initial size */
         /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
@@ -1100,13 +860,9 @@ void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *thi
     /* insert widgets to box container */
     {
         (*this_).sketch_stack_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 0 );
-#if ( GTK_MAJOR_VERSION >= 4 )
         gtk_box_append( GTK_BOX((*this_).sketch_stack_column), GTK_WIDGET((*this_).search_row) );
         gtk_box_append( GTK_BOX((*this_).sketch_stack_column), GTK_WIDGET((*this_).sketcharea) );
-#else
-        gtk_container_add( GTK_CONTAINER((*this_).sketch_stack_column), GTK_WIDGET((*this_).search_row) );
-        gtk_container_add( GTK_CONTAINER((*this_).sketch_stack_column), GTK_WIDGET((*this_).sketcharea) );
-#endif
+
         gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_row ), false );
         gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).search_row ), true );
         gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
@@ -1129,11 +885,7 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data )
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 gboolean gui_main_window_delete_event_callback( GtkWindow *widget, gpointer data )
-#else
-gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data )
-#endif
 {
     U8_TRACE_BEGIN();
     gui_main_window_t *this_ = data;
@@ -1228,14 +980,11 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 gboolean gui_main_window_save_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data )
 {
     gui_main_window_save_btn_callback( (GtkButton*)widget, user_data );
     return TRUE;
 }
-#else
-#endif
 
 void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
 {

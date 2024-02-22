@@ -13,7 +13,6 @@
 
 static gui_window_manager_t window_manager;
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 static void gui_main_activate_callback( GtkApplication* app, gpointer user_data )
 {
     U8_TRACE_BEGIN();
@@ -25,7 +24,6 @@ static void gui_main_activate_callback( GtkApplication* app, gpointer user_data 
 
     U8_TRACE_END();
 }
-#endif
 
 #if (( GTK_MAJOR_VERSION == 4 ) && ( GTK_MINOR_VERSION <= 6 ))
 #define G_APPLICATION_DEFAULT_FLAGS (G_APPLICATION_FLAGS_NONE)
@@ -40,7 +38,6 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     U8_LOG_EVENT_INT( "linked against gtk:    ", gtk_get_major_version() * 1000 + gtk_get_minor_version() );
     U8_TRACE_INFO( "initializing gui thread..." );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     /* init */
     GtkApplication *const gtk_app
         = gtk_application_new( META_INFO_APPLICATION_ID_STR, G_APPLICATION_DEFAULT_FLAGS );
@@ -60,17 +57,6 @@ void gui_main ( io_data_file_t *data_file, int argc, char **argv ) {
     /* destroy */
     gui_window_manager_destroy( &window_manager );
     g_object_unref( gtk_app );
-#else
-    /* init */
-    gui_window_manager_init( &window_manager, data_file, NULL );
-    gui_window_manager_open_main_window( &window_manager );
-
-    /* run */
-    gtk_main();
-
-    /* destroy */
-    gui_window_manager_destroy( &window_manager );
-#endif
 
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();

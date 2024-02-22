@@ -13,16 +13,6 @@
 #include "u8/u8_error.h"
 #include <gtk/gtk.h>
 
-#if ( GTK_MAJOR_VERSION < 4 )
-
-typedef GdkPixbuf GdkTexture
-typedef GdkPixbuf GdkPaintable
-#define GDK_PAINTABLE(TEXTURE) GDK_PIXBUF(TEXTURE)
-#define gtk_image_new_from_paintable(PAINTABLE) gtk_image_new_from_pixbuf(PAINTABLE)
-#define gdk_texture_get_width(TEXTURE) gdk_pixbuf_get_width(TEXTURE)
-
-#endif
-
 /*!
  *  \brief draws the icon
  *

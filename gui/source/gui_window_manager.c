@@ -13,11 +13,7 @@ void gui_window_manager_init( gui_window_manager_t *this_,
 {
     U8_TRACE_BEGIN();
     assert( data_file != NULL );
-#if ( GTK_MAJOR_VERSION >= 4 )
     assert( gtk_app != NULL );
-#else
-    assert( gtk_app == NULL );
-#endif
 
     gui_resources_init( &((*this_).gui_resources) );
     data_database_reader_init( &((*this_).db_reader), io_data_file_get_database_ptr( data_file ) );
@@ -133,11 +129,7 @@ void gui_window_manager_close_main_window_callback( gui_window_manager_t *this_,
     }
     if ( count_active == 0 )
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         /* application states are managed by gtk */
-#else
-        gtk_main_quit();
-#endif
     }
 
     U8_TRACE_END();

@@ -8,10 +8,6 @@
 #include "u8/u8_log.h"
 #include <assert.h>
 
-#if ( GTK_MAJOR_VERSION < 4 )
-#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
-#endif
-
 void gui_search_request_init ( gui_search_request_t *this_,
                                GtkWidget *search_label,
                                GtkWidget *search_entry,
@@ -126,12 +122,8 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
     /* note: button may bei either the text entry widget or the search button widget */
 
     const char* text;
-#if ( GTK_MAJOR_VERSION >= 4 )
     GtkEntryBuffer *const search_buf = gtk_entry_get_buffer( GTK_ENTRY( (*this_).search_entry ) );
     text = gtk_entry_buffer_get_text( search_buf );
-#else
-    text = gtk_entry_get_text( GTK_ENTRY( (*this_).search_entry ) );
-#endif
 
     if ( text != NULL )
     {
@@ -167,12 +159,8 @@ void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_da
         const utf8error_t id_err = data_id_to_utf8stringbuf( model_id, focused_id_str );
         if ( id_err == UTF8ERROR_SUCCESS )
         {
-#if ( GTK_MAJOR_VERSION >= 4 )
             GtkEntryBuffer *const name_buf = gtk_entry_get_buffer( GTK_ENTRY( (*this_).search_entry ) );
             gtk_entry_buffer_set_text( name_buf, utf8stringbuf_get_string( focused_id_str ), -1 /* = n_chars */ );
-#else
-            gtk_entry_set_text( GTK_ENTRY ( (*this_).search_entry ), utf8stringbuf_get_string( focused_id_str ) );
-#endif
             gui_search_runner_run ( (*this_).search_runner, utf8stringbuf_get_string( focused_id_str ) );
         }
     }
@@ -194,12 +182,8 @@ void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_me
 
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_OPENED )
     {
-#if ( GTK_MAJOR_VERSION >= 4 )
         GtkEntryBuffer *const search_buf = gtk_entry_get_buffer( GTK_ENTRY( (*this_).search_entry ) );
         gtk_entry_buffer_set_text ( search_buf, "", 0 /* = n_chars */ );
-#else
-        gtk_entry_set_text ( GTK_ENTRY( (*this_).search_entry ), "" );
-#endif
     }
 
     U8_TRACE_END();

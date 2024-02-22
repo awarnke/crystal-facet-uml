@@ -8,7 +8,6 @@ static inline u8_error_t gtk_helper_icon_draw_texture( GdkTexture *icon, double 
     assert( icon != NULL );
     assert( cr != NULL );
     u8_error_t result = U8_ERROR_NONE;
-#if ( GTK_MAJOR_VERSION >= 4 )
 
     const int icon_width = gdk_texture_get_width( icon );
     const int icon_height = gdk_texture_get_height( icon );
@@ -19,13 +18,7 @@ static inline u8_error_t gtk_helper_icon_draw_texture( GdkTexture *icon, double 
     cairo_rectangle( cr, left, top, icon_width, icon_height );
     cairo_fill( cr );
     g_object_unref( test );
-#else
-    double icon_width = gdk_pixbuf_get_width ( icon );
-    double icon_height = gdk_pixbuf_get_height ( icon );
-    gdk_cairo_set_source_pixbuf( cr, bg_img, left, top );
-    cairo_rectangle ( cr, left, top, icon_width, icon_height );
-    cairo_fill (cr);
-#endif
+
     return result;
 }
 

@@ -1,7 +1,16 @@
 crystal-facet-uml (1.55.4) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
+  * gtk3 support dropped, more than 100 #if preprocessor-statements removed
   * GtkFileChooserDialog replaced by GtkFileDialog
+
+
+to update for the background image:
+    double icon_width = gdk_pixbuf_get_width ( icon );
+    double icon_height = gdk_pixbuf_get_height ( icon );
+    gdk_cairo_set_source_pixbuf( cr, bg_img, left, top );
+    cairo_rectangle ( cr, left, top, icon_width, icon_height );
+    cairo_fill (cr);
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 10 Feb 2024 09:00:00 +0100
 

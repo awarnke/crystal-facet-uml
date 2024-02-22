@@ -154,26 +154,20 @@ void gui_toolbox_reset_btn_callback( GtkWidget* button, gpointer data );
  */
 void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 /*!
  *  \brief callback that informs that the undo shortcut was activated
  */
 gboolean gui_toolbox_undo_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data );
-#else
-#endif
 
 /*!
  *  \brief callback that informs that the tool button was pressed
  */
 void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data );
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 /*!
  *  \brief callback that informs that the redo shortcut was activated
  */
 gboolean gui_toolbox_redo_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data );
-#else
-#endif
 
 /*!
  *  \brief notifies the listeners

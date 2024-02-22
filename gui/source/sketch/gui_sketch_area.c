@@ -54,7 +54,6 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
 
     /* connect draw/update and mouse move and key signals to the controllers of this widget */
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_drawing_area_set_draw_func( GTK_DRAWING_AREA((*this_).drawing_area),
                                     (GtkDrawingAreaDrawFunc) gui_sketch_area_draw_callback,
                                     this_,
@@ -84,16 +83,6 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     g_signal_connect( evt_button, "pressed", G_CALLBACK(gui_sketch_area_button_press_callback), this_ );
     g_signal_connect( evt_button, "released", G_CALLBACK(gui_sketch_area_button_release_callback), this_ );
     gtk_widget_add_controller( (*this_).drawing_area, GTK_EVENT_CONTROLLER(evt_button) );
-
-#else
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "draw", G_CALLBACK (gui_sketch_area_draw_old_callback), this_ );
-
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_old_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_old_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_old_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_old_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).drawing_area), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_old_callback), this_ );
-#endif
 
     /* fetch initial data from the database */
     gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
@@ -185,7 +174,6 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int width, int height, gpointer data )
 {
     U8_TRACE_BEGIN();
@@ -199,25 +187,6 @@ void gui_sketch_area_draw_callback( GtkDrawingArea *widget, cairo_t *cr, int wid
 
     U8_TRACE_END();
 }
-#else
-gboolean gui_sketch_area_draw_old_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
-{
-    U8_TRACE_BEGIN();
-    U8_TRACE_TIMESTAMP();
-    assert( NULL != cr );
-    gui_sketch_area_t *this_ = data;
-    assert( NULL != this_ );
-    assert( widget == (*this_).drawing_area );
-
-    const guint width = gtk_widget_get_allocated_width (widget);
-    const guint height = gtk_widget_get_allocated_height (widget);
-
-    gui_sketch_area_draw( this_, width, height, cr );
-
-    U8_TRACE_END();
-    return FALSE;
-}
-#endif
 
 void gui_sketch_area_draw( gui_sketch_area_t *this_, int width, int height, cairo_t *cr )
 {
@@ -605,7 +574,6 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_leave_notify_callback( GtkEventControllerMotion* self, gpointer user_data )
 {
     U8_TRACE_BEGIN();
@@ -619,28 +587,7 @@ void gui_sketch_area_leave_notify_callback( GtkEventControllerMotion* self, gpoi
 
     U8_TRACE_END();
 }
-#else
-gboolean gui_sketch_area_leave_notify_old_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
-{
-    U8_TRACE_BEGIN();
-    U8_TRACE_TIMESTAMP();
-    assert( NULL != evt );
-    gui_sketch_area_t *this_ = data;
-    assert( NULL != this_ );
 
-    if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL ))
-    {
-        gui_marked_set_clear_highlighted( (*this_).marker );
-        /* mark dirty rect */
-        gtk_widget_queue_draw( (*this_).drawing_area );
-    }
-
-    U8_TRACE_END();
-    return TRUE;
-}
-#endif
-
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_motion_notify_callback( GtkEventControllerMotion* self,
                                              gdouble in_x,
                                              gdouble in_y,
@@ -654,30 +601,6 @@ void gui_sketch_area_motion_notify_callback( GtkEventControllerMotion* self,
 
     U8_TRACE_END();
 }
-#else
-gboolean gui_sketch_area_mouse_motion_old_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != evt );
-    gui_sketch_area_t *this_ = data;
-    assert( NULL != this_ );
-    assert( widget == (*this_).drawing_area );
-
-    const int32_t x = (int32_t) (*evt).x;
-    const int32_t y = (int32_t) (*evt).y;
-
-    const GdkModifierType state = (GdkModifierType) (*evt).state;
-    if ( (state & GDK_BUTTON1_MASK) != 0 )
-    {
-        U8_TRACE_INFO( "GDK_BUTTON1_MASK" );
-    }
-
-    gui_sketch_area_motion_notify( this_, x, y );
-
-    U8_TRACE_END();
-    return TRUE;
-}
-#endif
 
 void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
 {
@@ -867,7 +790,6 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_button_press_callback( GtkGestureClick* self,
                                             gint n_press,
                                             gdouble x,
@@ -883,25 +805,6 @@ void gui_sketch_area_button_press_callback( GtkGestureClick* self,
 
     U8_TRACE_END();
 }
-#else
-gboolean gui_sketch_area_button_press_old_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
-{
-    U8_TRACE_BEGIN();
-    U8_TRACE_TIMESTAMP();
-    assert( NULL != evt );
-    gui_sketch_area_t *this_ = data;
-    assert( NULL != this_ );
-    assert( widget == (*this_).drawing_area );
-
-    if ( (*evt).button == 1 )
-    {
-        gui_sketch_area_button_press( this_, (int)((*evt).x), (int)((*evt).y) );
-    }
-
-    U8_TRACE_END();
-    return TRUE;
-}
-#endif
 
 void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 {
@@ -1237,7 +1140,6 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_sketch_area_button_release_callback( GtkGestureClick* self,
                                               gint n_press,
                                               gdouble x,
@@ -1253,25 +1155,6 @@ void gui_sketch_area_button_release_callback( GtkGestureClick* self,
 
     U8_TRACE_END();
 }
-#else
-gboolean gui_sketch_area_button_release_old_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
-{
-    U8_TRACE_BEGIN();
-    U8_TRACE_TIMESTAMP();
-    assert( NULL != evt );
-    gui_sketch_area_t *this_ = data;
-    assert( NULL != this_ );
-    assert( widget == (*this_).drawing_area );
-
-    if ( (*evt).button == 1 )
-    {
-        gui_sketch_area_button_release( this_, (int)((*evt).x), (int)((*evt).y) );
-    }
-
-    U8_TRACE_END();
-    return TRUE;
-}
-#endif
 
 void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
 {
@@ -1803,7 +1686,6 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
     U8_TRACE_END();
 }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
 gboolean gui_sketch_area_key_press_callback( GtkEventControllerKey* self,
                                              guint keyval,
                                              guint keycode,
@@ -1820,22 +1702,6 @@ gboolean gui_sketch_area_key_press_callback( GtkEventControllerKey* self,
     U8_TRACE_END();
     return result_event_handled;
 }
-#else
-gboolean gui_sketch_area_key_press_old_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data )
-{
-    U8_TRACE_BEGIN();
-    U8_TRACE_TIMESTAMP();
-    assert( NULL != evt );
-    gui_sketch_area_t *this_ = data;
-    assert( NULL != this_ );
-    assert( widget == (*this_).drawing_area );
-
-    const gboolean result_event_handled = gui_sketch_area_key_press( this_, (*evt).state == GDK_CONTROL_MASK, (*evt).keyval );
-
-    U8_TRACE_END();
-    return result_event_handled;
-}
-#endif
 
 bool gui_sketch_area_key_press( gui_sketch_area_t *this_, bool ctrl_state, guint keyval )
 {
@@ -1969,4 +1835,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-

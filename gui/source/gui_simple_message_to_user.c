@@ -10,10 +10,6 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#if ( GTK_MAJOR_VERSION < 4 )
-#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
-#endif
-
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
 {
     U8_TRACE_BEGIN();

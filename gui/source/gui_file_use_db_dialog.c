@@ -7,10 +7,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#if ( GTK_MAJOR_VERSION < 4 )
-#define gtk_widget_set_visible(w,v) ((v)?gtk_widget_show(w):gtk_widget_hide(w))
-#endif
-
 void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                                    ctrl_controller_t *controller,
                                    io_data_file_t *database,
@@ -37,11 +33,8 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
                       G_CALLBACK(gui_file_use_db_dialog_response_callback),
                       this_
                     );
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_set_hide_on_close( GTK_WINDOW((*this_).use_db_file_chooser), true);
-#else
-    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
-#endif
+
     U8_TRACE_END();
 }
 
@@ -49,11 +42,7 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_window_destroy( GTK_WINDOW((*this_).use_db_file_chooser) );
-#else
-    gtk_widget_destroy( (*this_).use_db_file_chooser );
-#endif
     /* no need to g_object_unref ( (*this_).use_db_file_chooser ); here */
 
     gui_file_db_manager_destroy( &((*this_).file_manager) );
@@ -74,16 +63,12 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
         gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfuJ" );
     }
 
-#if ( GTK_MAJOR_VERSION >= 4 )
     gtk_widget_set_visible( GTK_WIDGET( (*this_).use_db_file_chooser ), TRUE );
 
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );  /* idea taken from gtk demo */
 
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).use_db_file_chooser) );
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
-#else
-    gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
-#endif
 
     U8_TRACE_END();
 }
@@ -101,15 +86,11 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
             gtk_widget_set_visible( GTK_WIDGET ( dialog ), FALSE );
 
             gchar *filename = NULL;
-#if ( GTK_MAJOR_VERSION >= 4 )
             GFile *selected_file = gtk_file_chooser_get_file( GTK_FILE_CHOOSER(dialog) );
             if ( selected_file != NULL )
             {
                 filename = g_file_get_path( selected_file );
             }
-#else
-            filename = gtk_file_chooser_get_filename( GTK_FILE_CHOOSER(dialog) );
-#endif
             if ( filename != NULL )
             {
                 U8_TRACE_INFO_STR( "File chosen:", filename );
@@ -122,12 +103,10 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
             {
                 U8_LOG_WARNING( "Use DB dialog returned no file name" );
             }
-#if ( GTK_MAJOR_VERSION >= 4 )
             if ( selected_file != NULL )
             {
                 g_object_unref( selected_file );
             }
-#endif
         }
         break;
 

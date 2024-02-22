@@ -10,7 +10,6 @@
 
 #include "gui_simple_message_to_user.h"
 #include "gui_resources.h"
-#include "gui_attributes_editor_types.h"
 #include "gui_type_resource.h"
 #include "gui_type_resource_list.h"
 #include "storage/data_database_reader.h"
@@ -56,15 +55,10 @@ struct gui_attributes_editor_struct {
     GtkLabel *id_label;  /*!< pointer to external id label widget */
     GtkEntry *name_entry;  /*!< pointer to external text entry widget */
     GtkEntry *stereotype_entry;  /*!< pointer to external text entry widget */
-#if ( GTK_MAJOR_VERSION >= 4 )
     gui_type_resource_list_t type_lists;  /*!< own instance of type lists */
     GtkDropDown *type_dropdown;  /*!< pointer to external drop down widget */
     GuiTypeResource *temp_search_me;  /*!< own instance of a pointer to an object stating a search request */
     data_id_t previous_selected_object_id;  /*!< id of the object which was previously edited */
-#else
-    gui_attributes_editor_types_t type_lists;  /*!< own instance of type lists */
-    GtkComboBox *type_combo_box;  /*!< pointer to external combo box widget */
-#endif
     GtkWidget *type_diag_grid;  /*!< pointer to external type icon grid widget of diagram types */
     GtkWidget *type_clas_grid;  /*!< pointer to external type icon grid widget of classifier types */
     GtkWidget *type_feat_grid;  /*!< pointer to external type icon grid widget of feature types */
@@ -100,11 +94,7 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
                                   GtkLabel *id_label,
                                   GtkEntry *name_entry,
                                   GtkEntry *stereotype_entry,
-#if ( GTK_MAJOR_VERSION >= 4 )
                                   GtkDropDown *type_dropdown,
-#else
-                                  GtkComboBox *type_combo_box,
-#endif
                                   GtkWidget *type_diag_grid,
                                   GtkWidget *type_clas_grid,
                                   GtkWidget *type_feat_grid,
@@ -151,11 +141,7 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ );
 /*!
  *  \brief callback that informs that the focus of a widget is lost
  */
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_name_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data );
-#else
-gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
-#endif
 
 /*!
  *  \brief callback that informs that enter was pressed
@@ -165,11 +151,7 @@ void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user
 /*!
  *  \brief callback that informs that the focus of a widget is lost
  */
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_stereotype_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data );
-#else
-gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
-#endif
 
 /*!
  *  \brief callback that informs that enter was pressed
@@ -179,11 +161,7 @@ void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointe
 /*!
  *  \brief callback that informs that the type in the combo box changed
  */
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_type_changed_callback ( GObject* self, GParamSpec* pspec, gpointer user_data );
-#else
-void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer user_data );
-#endif
 
 /*!
  *  \brief callback that informs that a type button was pressed
@@ -208,11 +186,7 @@ void gui_attributes_editor_type_of_relationship_btn_callback( GtkWidget* button,
 /*!
  *  \brief callback that informs that the focus of a widget is lost
  */
-#if ( GTK_MAJOR_VERSION >= 4 )
 void gui_attributes_editor_description_focus_left_callback( GtkEventControllerFocus* self, gpointer user_data );
-#else
-gboolean gui_attributes_editor_description_focus_lost_callback( GtkWidget *widget, GdkEvent *event, gpointer user_data );
-#endif
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
