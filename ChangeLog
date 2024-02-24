@@ -1,4 +1,4 @@
-crystal-facet-uml (1.55.4) UNRELEASED; urgency=medium
+crystal-facet-uml (1.56.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * gtk3 support dropped, more than 100 #if preprocessor-statements removed

@@ -1,5 +1,5 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 PROJECT(crystal-facet-uml LANGUAGES C)
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 # pkgconfig is a helper program to find include directories and libraries:
 FIND_PACKAGE(PkgConfig REQUIRED)
@@ -51,7 +51,7 @@ MESSAGE("GTK:    ${GTK_CFLAGS_OTHER}")
 #string(REPLACE "-msse;" "" GTK_CFLAGS_OTHER "${GTK_CFLAGS_OTHER}")
 #string(REPLACE "-msse2;" "" GTK_CFLAGS_OTHER "${GTK_CFLAGS_OTHER}")
 #string(REPLACE "-mms-bitfields;" "" GTK_CFLAGS_OTHER "${GTK_CFLAGS_OTHER}")
-MESSAGE("GTK:    ${GTK_CFLAGS_OTHER}")
+#MESSAGE("GTK:    ${GTK_CFLAGS_OTHER}")
 
 PKG_SEARCH_MODULE(PANGOCAIRO REQUIRED pangocairo)
 INCLUDE_DIRECTORIES(${PANGOCAIRO_INCLUDE_DIRS})
@@ -103,7 +103,7 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Common Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings ${GTK_CFLAGS_OTHER}" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wall -Wno-overlength-strings" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
 # ==== ==== ==== ==== ==== ==== ==== ==== EXE Target Settings ==== ==== ==== ==== ==== ==== ==== ====

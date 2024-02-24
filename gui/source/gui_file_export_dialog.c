@@ -23,9 +23,10 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     assert( NULL != message_to_user );
 
     (*this_).database = database;
+    (*this_).parent_window = parent_window;
     (*this_).message_to_user = message_to_user;
 
-#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
                                                                  parent_window,
                                                                  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
@@ -84,19 +85,15 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     io_exporter_init( &((*this_).file_exporter), db_reader );
 
-#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
     g_signal_connect( G_OBJECT((*this_).export_file_chooser),
                       "response",
                       G_CALLBACK(gui_file_export_dialog_response_callback),
                       this_
                     );
-#else
-    /* no signal at new FileDialog - this works with Async, see gtk_file_dialog_save */
-#endif
-#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
     gtk_window_set_hide_on_close( GTK_WINDOW((*this_).export_file_chooser), true);
 #else
-    /* TODO */
+    /* no signal at new FileDialog - this works with Async, see gtk_file_dialog_save */
 #endif
 
     U8_TRACE_END();
@@ -107,16 +104,17 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
     U8_TRACE_BEGIN();
 
     /* no need to g_object_unref ( (*this_).format_xhtml ); here */
-#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
     gtk_window_destroy( GTK_WINDOW((*this_).export_file_chooser) );
+    /* no need to g_object_unref ( (*this_).export_file_chooser ); here */
 #else
     g_object_unref( (*this_).export_file_dialog );
 #endif
-    /* no need to g_object_unref ( (*this_).export_file_chooser ); here */
 
     io_exporter_destroy( &((*this_).file_exporter) );
 
     (*this_).message_to_user = NULL;
+    (*this_).parent_window = NULL;
     (*this_).database = NULL;
 
     U8_TRACE_END();
@@ -126,7 +124,7 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
     gtk_widget_set_visible( GTK_WIDGET( (*this_).export_file_chooser ), TRUE );
     gtk_widget_set_sensitive( GTK_WIDGET((*this_).export_file_chooser), TRUE );  /* idea taken from gtk demo */
 
@@ -134,50 +132,18 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
 #else
     /* TODO */
+    gtk_file_dialog_save( (*this_).export_file_dialog,
+                          (*this_).parent_window,
+                          NULL,
+                          &gui_file_export_dialog_async_ready_callback,
+                          this_
+                        );
 #endif
 
     U8_TRACE_END();
 }
 
-void gui_file_export_dialog_async_ready_callback( GObject* source_object,
-                                                  GAsyncResult* res,
-                                                  gpointer user_data )
-{
-    U8_TRACE_BEGIN();
-
-#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
-    assert( false );
-#else
-    gui_file_export_dialog_t *this_ = user_data;
-    GError* error = NULL;
-    GFile *result = gtk_file_dialog_save_finish( GTK_FILE_DIALOG(source_object), res, &error );
-    if ( error != NULL )
-    {
-        U8_LOG_ERROR_STR( "unexpected response from file dialog:", error->message );
-        g_error_free( error );
-    }
-    if ( result != NULL )
-    {
-        gchar *folder_path = g_file_get_path ( result );
-        if ( folder_path != NULL )
-        {
-            /* react immediately */
-            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
-                                                               GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                               GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT,
-                                                               folder_path
-                                                             );
-
-
-
-            g_free (folder_path);
-        }
-        g_object_unref( result );
-    }
-#endif
-
-    U8_TRACE_END();
-}
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
 
 void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
 {
@@ -299,6 +265,47 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
 
     U8_TRACE_END();
 }
+
+#else  /* GTK >= 4.10 */
+
+void gui_file_export_dialog_async_ready_callback( GObject* source_object,
+                                                  GAsyncResult* res,
+                                                  gpointer user_data )
+{
+    U8_TRACE_BEGIN();
+
+    gui_file_export_dialog_t *this_ = user_data;
+    GError* error = NULL;
+    GFile *result = gtk_file_dialog_save_finish( GTK_FILE_DIALOG(source_object), res, &error );
+    if ( error != NULL )
+    {
+        /* User pressed cancel */
+        U8_TRACE_INFO_STR( "unexpected response from file dialog:", error->message );
+        g_error_free( error );
+    }
+    if ( result != NULL )
+    {
+        gchar *folder_path = g_file_get_path ( result );
+        if ( folder_path != NULL )
+        {
+            /* react immediately */
+            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                               GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT,
+                                                               folder_path
+                                                             );
+
+
+
+            g_free (folder_path);
+        }
+        g_object_unref( result );
+    }
+
+    U8_TRACE_END();
+}
+
+#endif  /* GTK ? 4.10 */
 
 
 /*

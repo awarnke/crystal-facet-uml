@@ -22,9 +22,10 @@ struct gui_file_export_dialog_struct {
 
     io_exporter_t file_exporter;  /*!<  own instance of io_exporter_t */
 
+    GtkWindow *parent_window;  /*!< pointer to parent window, needed for modal dialogs */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 
-#if ( ( GTK_MAJOR_VERSION <= 3 ) || (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 )) )
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
     GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
 #else
     GtkFileDialog *export_file_dialog;  /*!< pointer to instance of a file dialog for export */
@@ -77,6 +78,15 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ );
  */
 void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ );
 
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
+
+/*!
+ *  \brief callback function of the old GtkDialog
+ */
+void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
+
+#else  /* GTK >= 4.10 */
+
 /*!
  *  \brief callback function of the 4.10 GtkFileDialog
  */
@@ -85,10 +95,7 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
                                                   gpointer user_data
                                                 );
 
-/*!
- *  \brief callback function of the old GtkDialog
- */
-void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
+#endif  /* GTK ? 4.10 */
 
 #endif  /* GUI_FILE_EXPORT_DIALOG_H */
 
