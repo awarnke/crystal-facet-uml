@@ -132,12 +132,12 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
 #else
     /* TODO */
-    gtk_file_dialog_save( (*this_).export_file_dialog,
-                          (*this_).parent_window,
-                          NULL,
-                          &gui_file_export_dialog_async_ready_callback,
-                          this_
-                        );
+    gtk_file_dialog_select_folder( (*this_).export_file_dialog,
+                                   (*this_).parent_window,
+                                   NULL,
+                                   &gui_file_export_dialog_async_ready_callback,
+                                   this_
+                                 );
 #endif
 
     U8_TRACE_END();
@@ -162,10 +162,10 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
         case GTK_RESPONSE_ACCEPT:
         {
             U8_LOG_EVENT( "GTK_RESPONSE_ACCEPT" );
-            int export_err;
+            u8_error_t export_err = U8_ERROR_NONE;
             data_stat_t export_stat;
             data_stat_init ( &export_stat );
-            io_file_format_t selected_format;
+            io_file_format_t selected_format = IO_FILE_FORMAT_NONE;
 
             gchar *folder_path = NULL;
             GFile *selected_file = NULL;
@@ -179,7 +179,6 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             {
                 U8_TRACE_INFO_STR( "chosen folder:", folder_path );
 
-                selected_format = IO_FILE_FORMAT_NONE;
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
@@ -202,23 +201,23 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
                     events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
                 }
 
-                /* determine the database file path */
+                /* determine the database file path for a document title and export: */
                 const char *db_path = data_database_get_filename_ptr( (*this_).database );
-
                 if ( data_database_is_open((*this_).database) )
                 {
                     export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, db_path, &export_stat );
                 }
                 else
                 {
-                    export_err = -1;
+                    export_err = U8_ERROR_NO_DB;
                 }
 
+                /* finished, notify user */
                 char temp_format_buf[64];
                 utf8stringbuf_t temp_fileformat = UTF8STRINGBUF( temp_format_buf );
                 io_file_format_to_string( selected_format, temp_fileformat );
 
-                if ( 0 == export_err )
+                if ( U8_ERROR_NONE == export_err )
                 {
                     gui_simple_message_to_user_show_message_with_names_and_stat( (*this_).message_to_user,
                                                                                  GUI_SIMPLE_MESSAGE_TYPE_INFO,
@@ -236,6 +235,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
                                                                        folder_path
                                                                      );
                 }
+
                 g_free (folder_path);
             }
             else
@@ -276,7 +276,7 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
 
     gui_file_export_dialog_t *this_ = user_data;
     GError* error = NULL;
-    GFile *result = gtk_file_dialog_save_finish( GTK_FILE_DIALOG(source_object), res, &error );
+    GFile *result = gtk_file_dialog_select_folder_finish( GTK_FILE_DIALOG(source_object), res, &error );
     if ( error != NULL )
     {
         /* User pressed cancel */
@@ -288,15 +288,73 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
         gchar *folder_path = g_file_get_path ( result );
         if ( folder_path != NULL )
         {
-            /* react immediately */
+            u8_error_t export_err = U8_ERROR_NONE;
+            data_stat_t export_stat;
+            data_stat_init ( &export_stat );
+            io_file_format_t selected_format = IO_FILE_FORMAT_NONE;
+
+            selected_format = IO_FILE_FORMAT_HTML | IO_FILE_FORMAT_XMI2 | IO_FILE_FORMAT_JSON;
+
+            /* react immediately, handle events */
+            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                               GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                               GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT,
+                                                               folder_path
+                                                             );
+            bool events_handled = true;
+            for ( uint_fast8_t max_loop = 40; events_handled && ( max_loop > 0 ); max_loop-- )
+            {
+                events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
+            }
+
+            /* determine the database file path for a document title and export: */
+            const char *db_path = data_database_get_filename_ptr( (*this_).database );
+            if ( data_database_is_open((*this_).database) )
+            {
+                export_err = io_exporter_export_files( &((*this_).file_exporter),
+                                                       selected_format,
+                                                       folder_path,
+                                                       db_path,
+                                                       &export_stat
+                                                     );
+            }
+            else
+            {
+                export_err = U8_ERROR_NO_DB;
+            }
+
             gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
                                                                GUI_SIMPLE_MESSAGE_TYPE_INFO,
                                                                GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT,
                                                                folder_path
                                                              );
 
+            /* finished, notify user */
+            char temp_format_buf[64];
+            utf8stringbuf_t temp_fileformat = UTF8STRINGBUF( temp_format_buf );
+            io_file_format_to_string( selected_format, temp_fileformat );
 
+            if ( U8_ERROR_NONE == export_err )
+            {
+                gui_simple_message_to_user_show_message_with_names_and_stat( (*this_).message_to_user,
+                                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                             GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                             utf8stringbuf_get_string( temp_fileformat ),
+                                                                             &export_stat
+                                                                           );
 
+            }
+            else
+            {
+                gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                                   GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                   GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
+                                                                   folder_path
+                                                                 );
+            }
+
+            data_stat_trace( &export_stat );
+            data_stat_destroy ( &export_stat );
             g_free (folder_path);
         }
         g_object_unref( result );

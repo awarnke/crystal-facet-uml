@@ -33,6 +33,7 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
     gtk_file_dialog_set_accept_label( (*this_).use_db_file_dialog, "Use DB-File" );
     gtk_file_dialog_set_modal( (*this_).use_db_file_dialog, false );
     gtk_file_dialog_set_title( (*this_).use_db_file_dialog, "Select DB to use" );
+    gtk_file_dialog_set_initial_name( (*this_).use_db_file_dialog, "NewModel.cfuJ" );
 #endif
 
     gui_file_db_manager_init( &((*this_).file_manager), controller, database, message_to_user );
@@ -199,6 +200,13 @@ void gui_file_use_db_dialog_async_ready_callback_on_open( GObject* source_object
             U8_LOG_EVENT( "User selected a database file to open." );
             U8_TRACE_INFO_STR( "File to open:", folder_path );
 
+            /* react immediately, handle events */
+            bool events_handled = true;
+            for ( uint_fast8_t max_loop = 40; events_handled && ( max_loop > 0 ); max_loop-- )
+            {
+                events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
+            }
+
             gui_file_db_manager_use_db( &((*this_).file_manager), folder_path );
 
             g_free (folder_path);
@@ -231,6 +239,13 @@ void gui_file_use_db_dialog_async_ready_callback_on_save( GObject* source_object
         {
             U8_LOG_EVENT( "User selected a new database file." );
             U8_TRACE_INFO_STR( "File to create:", folder_path );
+
+            /* react immediately, handle events */
+            bool events_handled = true;
+            for ( uint_fast8_t max_loop = 40; events_handled && ( max_loop > 0 ); max_loop-- )
+            {
+                events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
+            }
 
             gui_file_db_manager_use_db( &((*this_).file_manager), folder_path );
 
