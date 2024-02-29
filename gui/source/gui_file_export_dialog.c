@@ -26,19 +26,6 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     (*this_).parent_window = parent_window;
     (*this_).message_to_user = message_to_user;
 
-#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
-    (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
-                                                                 parent_window,
-                                                                 GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                                                 "Cancel",
-                                                                 GTK_RESPONSE_CANCEL,
-                                                                 "Export Files",
-                                                                 GTK_RESPONSE_ACCEPT,
-                                                                 NULL
-                                                               );
-
-    GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG((*this_).export_file_chooser));
-
     (*this_).format_docbook = gtk_check_button_new_with_label ("docbook");
     (*this_).format_xhtml = gtk_check_button_new_with_label ("html");
     (*this_).format_xmi2 = gtk_check_button_new_with_label ("xmi");
@@ -56,6 +43,10 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     (*this_).document_label = gtk_label_new ( "Documents:" );
     gtk_label_set_xalign (GTK_LABEL( (*this_).document_label ), 0.0 );
     gtk_label_set_xalign (GTK_LABEL( (*this_).diagram_set_label ), 0.0 );
+    (*this_).export_button = GTK_BUTTON( gtk_button_new() );
+    gtk_button_set_label( (*this_).export_button, "Export to folder..." );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).export_button ), false );
+    gtk_widget_set_hexpand ( GTK_WIDGET( (*this_).export_button ), false );
 
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).options_layout), false );
@@ -74,8 +65,27 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_svg, 5, 0, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_txt, 6, 0, 1, 1 );
 
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), GTK_WIDGET( (*this_).export_button ), 8, 0, 1, 2 );
+
+    gtk_widget_set_visible( (*this_).options_layout, FALSE );
+
+#if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
+    (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
+                                                                 parent_window,
+                                                                 GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                                                 "Cancel",
+                                                                 GTK_RESPONSE_CANCEL,
+                                                                 "Export Files",
+                                                                 GTK_RESPONSE_ACCEPT,
+                                                                 NULL
+                                                               );
+
+#if 0
+    GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG((*this_).export_file_chooser));
+
     gtk_box_append( GTK_BOX(content_area), GTK_WIDGET( (*this_).options_layout ) );
     /* no need to g_object_unref( content_area ); here */
+#endif
 #else
     (*this_).export_file_dialog = gtk_file_dialog_new();
     gtk_file_dialog_set_accept_label( (*this_).export_file_dialog, "Export Files" );
@@ -95,6 +105,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 #else
     /* no signal at new FileDialog - this works with Async, see gtk_file_dialog_save */
 #endif
+    g_signal_connect( G_OBJECT((*this_).export_button), "clicked", G_CALLBACK(gui_file_export_dialog_export_btn_callback), this_ );
 
     U8_TRACE_END();
 }
@@ -117,6 +128,24 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
     (*this_).parent_window = NULL;
     (*this_).database = NULL;
 
+    U8_TRACE_END();
+}
+
+GtkWidget *gui_file_export_dialog_get_options( gui_file_export_dialog_t *this_ )
+{
+    return GTK_WIDGET( (*this_).options_layout );
+}
+
+void gui_file_export_dialog_export_btn_callback( GtkWidget* button, gpointer data )
+{
+    U8_TRACE_BEGIN();
+    gui_file_export_dialog_t *this_ = data;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    gui_file_export_dialog_show ( this_ );
+
+    U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
 }
 
@@ -149,6 +178,8 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
 {
     U8_TRACE_BEGIN();
     gui_file_export_dialog_t *this_ = user_data;
+
+    gtk_widget_set_visible( (*this_).options_layout, FALSE );
 
     switch ( response_id )
     {
@@ -275,6 +306,9 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
     U8_TRACE_BEGIN();
 
     gui_file_export_dialog_t *this_ = user_data;
+
+    gtk_widget_set_visible( (*this_).options_layout, FALSE );
+
     GError* error = NULL;
     GFile *result = gtk_file_dialog_select_folder_finish( GTK_FILE_DIALOG(source_object), res, &error );
     if ( error != NULL )

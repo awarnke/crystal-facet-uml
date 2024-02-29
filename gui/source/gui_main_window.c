@@ -160,6 +160,8 @@ void gui_main_window_init( gui_main_window_t *this_,
 
     (*this_).main_stack_column = gtk_box_new( GTK_ORIENTATION_VERTICAL, /*spacing:*/ 0 );
     gtk_box_append( GTK_BOX((*this_).main_stack_column), GTK_WIDGET((*this_).tool_row) );
+    (*this_).options_layout = gui_file_export_dialog_get_options( &((*this_).file_export_dialog) );
+    gtk_box_append( GTK_BOX((*this_).main_stack_column), (*this_).options_layout );
     gtk_box_append( GTK_BOX((*this_).main_stack_column), GTK_WIDGET((*this_).two_panes) );
     gtk_box_append( GTK_BOX((*this_).main_stack_column), GTK_WIDGET((*this_).message_row) );
     gtk_widget_set_vexpand( GTK_WIDGET( (*this_).tool_row ), false );
@@ -993,7 +995,7 @@ void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
-    gui_file_export_dialog_show ( &((*this_).file_export_dialog) );
+    gtk_widget_set_visible( (*this_).options_layout, ! gtk_widget_get_visible( (*this_).options_layout ) );
 
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();

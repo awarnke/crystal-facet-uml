@@ -43,6 +43,7 @@ struct gui_file_export_dialog_struct {
 
     GtkWidget *diagram_set_label;  /*!< the label for filetype-sets */
     GtkWidget *document_label;  /*!< the label for document-types */
+    GtkButton *export_button;  /*!< the export button that triggers the directory chooser */
     GtkWidget *options_layout;  /*!< the grid layout container for the export options */
 };
 
@@ -70,6 +71,20 @@ void gui_file_export_dialog_init( gui_file_export_dialog_t *this_,
  *  \param this_ pointer to own object attributes
  */
 void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ );
+
+/*!
+ *  \brief returns the file options container showing the type selection.
+ *
+ *  This container can be displayed in the main window.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+GtkWidget *gui_file_export_dialog_get_options( gui_file_export_dialog_t *this_ );
+
+/*!
+ *  \brief callback that informs that the export-to-folder button was pressed
+ */
+void gui_file_export_dialog_export_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
  *  \brief shows the file export dialog

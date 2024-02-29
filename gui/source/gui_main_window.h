@@ -65,10 +65,6 @@ struct gui_main_window_struct {
     GtkButton *file_use_db;
     GtkWidget *file_save_icon;
     GtkWidget *file_save_button;
-    /*
-    GtkWidget *file_save_as_icon;
-    GtkButton *file_save_as;
-    */
     GtkWidget *file_export_icon;
     GtkButton *file_export;
 
@@ -141,6 +137,8 @@ struct gui_main_window_struct {
     gui_attribute_type_of_relationship_t type_rel_data[ GUI_TYPE_RESOURCE_LIST_RELATIONS ];
     GtkWidget *stereotype_label;
     GtkWidget *stereotype_entry;
+
+    GtkWidget *options_layout;  /*!< the grid layout container for the export options, created by file_export_dialog */
 
     GtkWidget *search_row;
     GtkWidget *search_label;
