@@ -1,14 +1,23 @@
 /* File: gui_sketch_texture.inl; Copyright and License: see below */
 
 #include "u8/u8_log.h"
+#include "u8/u8_trace.h"
 #include <assert.h>
 
 static inline void gui_sketch_texture_init( gui_sketch_texture_t *this_ )
 {
+    (*this_).surface
+        = cairo_image_surface_create_for_data( &((*this_).buf[0]),
+                                               CAIRO_FORMAT_ARGB32,
+                                               GUI_SKETCH_TEXTURE_MAX_WIDTH,
+                                               GUI_SKETCH_TEXTURE_MAX_HEIGHT,
+                                               GUI_SKETCH_TEXTURE_MAX_WIDTH * GUI_SKETCH_TEXTURE_BYTES_PER_PIXEL /* = stride */
+                                             );
 }
 
 static inline void gui_sketch_texture_destroy( gui_sketch_texture_t *this_ )
 {
+    cairo_surface_destroy( (*this_).surface );
 }
 
 static inline u8_error_t gui_sketch_texture_draw( gui_sketch_texture_t *this_,
@@ -17,20 +26,32 @@ static inline u8_error_t gui_sketch_texture_draw( gui_sketch_texture_t *this_,
                                                   double top,
                                                   cairo_t *cr )
 {
+    U8_TRACE_BEGIN();
     assert( icon != NULL );
     assert( cr != NULL );
     u8_error_t result = U8_ERROR_NONE;
 
     const int icon_width = gdk_texture_get_width( icon );
     const int icon_height = gdk_texture_get_height( icon );
+    if (( icon_width <= GUI_SKETCH_TEXTURE_MAX_WIDTH )&&( icon_height <= GUI_SKETCH_TEXTURE_MAX_HEIGHT ))
+    {
+        cairo_surface_flush( (*this_).surface );
+        gdk_texture_download( icon,
+                              &((*this_).buf[0]),
+                              GUI_SKETCH_TEXTURE_MAX_WIDTH * GUI_SKETCH_TEXTURE_BYTES_PER_PIXEL /* = stride */
+                            );
+        cairo_surface_mark_dirty( (*this_).surface );
 
-    /* TODO this is a workaround, there should be a way with less copying... */
-    GdkPixbuf* test = gdk_pixbuf_get_from_texture( icon );
-    gdk_cairo_set_source_pixbuf( cr, test, left, top );
-    cairo_rectangle( cr, left, top, icon_width, icon_height );
-    cairo_fill( cr );
-    g_object_unref( test );
+        cairo_set_source_surface( cr, (*this_).surface, left, top );
+        cairo_rectangle( cr, left, top, icon_width, icon_height );
+        cairo_fill( cr );
+    }
+    else
+    {
+        result = U8_ERROR_EDGE_CASE_PARAM;
+    }
 
+    U8_TRACE_END_ERR( result );
     return result;
 }
 

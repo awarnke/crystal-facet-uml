@@ -14,10 +14,21 @@
 #include <gtk/gtk.h>
 
 /*!
+ *  \brief constants of gui_sketch_texture_t
+ */
+enum gui_sketch_texture_enum {
+    GUI_SKETCH_TEXTURE_MAX_WIDTH = 80,  /*!< maximum width of an icon to be drawn */
+    GUI_SKETCH_TEXTURE_MAX_HEIGHT = 80,  /*!< maximum height of an icon to be drawn */
+    GUI_SKETCH_TEXTURE_BYTES_PER_PIXEL = 4,  /*!< number of bits per pixel */
+};
+
+/*!
  *  \brief attributes of the gui_sketch_texture_t
  */
 struct gui_sketch_texture_struct {
-    char temp_buf[4*80*80];  /*!< temporary buffer to download a texture into a pixmap */
+    cairo_surface_t *surface;  /*!< cairo drawing surface wrapping a data buffer */
+    unsigned char buf[ GUI_SKETCH_TEXTURE_MAX_WIDTH * GUI_SKETCH_TEXTURE_MAX_HEIGHT * GUI_SKETCH_TEXTURE_BYTES_PER_PIXEL ];
+                       /*!< buffer to download a texture into a cairo drawing surface */
 };
 
 typedef struct gui_sketch_texture_struct gui_sketch_texture_t;
