@@ -1,19 +1,23 @@
 /* File: gui_sketch_background.c; Copyright and License: see below */
 
 #include "sketch/gui_sketch_background.h"
-#include "gtk_helper/gtk_helper_icon.h"
 #include "meta/meta_info.h"
 #include "u8/u8_trace.h"
 #include <stdint.h>
 #include <gtk/gtk.h>
 #include <assert.h>
 
-void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t *resources )
+void gui_sketch_background_init( gui_sketch_background_t *this_,
+                                 gui_resources_t *resources,
+                                 gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();
+    assert( resources != NULL );
+    assert( texture_downloader != NULL );
 
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     (*this_).resources = resources;
+    (*this_).texture_downloader = texture_downloader;
 
     U8_TRACE_END();
 }
@@ -24,6 +28,7 @@ void gui_sketch_background_destroy( gui_sketch_background_t *this_ )
 
     shape_int_rectangle_destroy( &((*this_).bounds) );
     (*this_).resources = NULL;
+    (*this_).texture_downloader = NULL;
 
     U8_TRACE_END();
 }
@@ -313,7 +318,7 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
     assert( NULL != text_2 );
 
     const double icon_width = gdk_texture_get_width ( icon_1 );
-    gtk_helper_icon_draw_texture( icon_1, x, y, cr );
+    gui_sketch_texture_draw( (*this_).texture_downloader, icon_1, x, y, cr );
 
     cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
     cairo_set_font_size ( cr, 12.0 );

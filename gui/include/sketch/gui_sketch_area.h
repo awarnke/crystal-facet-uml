@@ -16,6 +16,7 @@
 #include "sketch/gui_sketch_overlay.h"
 #include "sketch/gui_sketch_background.h"
 #include "sketch/gui_sketch_request.h"
+#include "sketch/gui_sketch_texture.h"
 #include "gui_toolbox.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
@@ -65,6 +66,7 @@ struct gui_sketch_area_struct {
     /* helper objects */
     gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
     gui_sketch_object_creator_t object_creator;  /*!< own instance of an object creator */
+    gui_sketch_texture_t texture_downloader;  /*!< own instance of an gui_sketch_texture_t */
 
     /* sub widgets, things that can draw provided input-data */
     gui_sketch_overlay_t overlay;  /*!< own instance of sketch overlay */

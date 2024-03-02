@@ -995,7 +995,8 @@ void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
-    gtk_widget_set_visible( (*this_).options_layout, ! gtk_widget_get_visible( (*this_).options_layout ) );
+    const bool was_visible = gtk_widget_get_visible( (*this_).options_layout );
+    gtk_widget_set_visible( (*this_).options_layout, ! was_visible );
 
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();

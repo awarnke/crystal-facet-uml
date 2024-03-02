@@ -3,7 +3,6 @@
 #include "sketch/gui_sketch_nav_tree.h"
 #include "geometry/geometry_rectangle.h"
 #include "gui_sketch_int_compare.h"
-#include "gtk_helper/gtk_helper_icon.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <gdk/gdk.h>
@@ -13,10 +12,13 @@ static const int OBJ_GAP = 3;
 static const int GAP_HEIGHT = 2;
 static const int GUI_SKETCH_NAV_TREE_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pango automatically determines the string length */
 
-void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
+void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_,
+                               gui_resources_t *resources,
+                               gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();
     assert( resources != NULL );
+    assert( texture_downloader != NULL );
 
     (*this_).ancestors_count = 0;
     (*this_).siblings_count = 0;
@@ -32,6 +34,7 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     gui_sketch_style_init( &((*this_).sketch_style) );
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
+    (*this_).texture_downloader = texture_downloader;
 
     U8_TRACE_END();
 }
@@ -41,6 +44,7 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
     U8_TRACE_BEGIN();
 
     (*this_).resources = NULL;
+    (*this_).texture_downloader = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
     gui_sketch_style_destroy( &((*this_).sketch_style) );
 
@@ -679,7 +683,7 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
         const int y = shape_int_rectangle_get_top(icon_box);
 
         /* do draw */
-        gtk_helper_icon_draw_texture( icon, x, y, cr );
+        gui_sketch_texture_draw( (*this_).texture_downloader, icon, x, y, cr );
     }
 
     U8_TRACE_END();

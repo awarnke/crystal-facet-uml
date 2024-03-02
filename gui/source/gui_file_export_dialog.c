@@ -82,7 +82,6 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
 #if 0
     GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG((*this_).export_file_chooser));
-
     gtk_box_append( GTK_BOX(content_area), GTK_WIDGET( (*this_).options_layout ) );
     /* no need to g_object_unref( content_area ); here */
 #endif
@@ -105,7 +104,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 #else
     /* no signal at new FileDialog - this works with Async, see gtk_file_dialog_save */
 #endif
-    g_signal_connect( G_OBJECT((*this_).export_button), "clicked", G_CALLBACK(gui_file_export_dialog_export_btn_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).export_button), "clicked", G_CALLBACK( gui_file_export_dialog_export_btn_callback ), this_ );
 
     U8_TRACE_END();
 }
@@ -160,7 +159,6 @@ void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ )
     GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).export_file_chooser) );
     gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
 #else
-    /* TODO */
     gtk_file_dialog_select_folder( (*this_).export_file_dialog,
                                    (*this_).parent_window,
                                    NULL,
@@ -327,7 +325,15 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
             data_stat_init ( &export_stat );
             io_file_format_t selected_format = IO_FILE_FORMAT_NONE;
 
-            selected_format = IO_FILE_FORMAT_HTML | IO_FILE_FORMAT_XMI2 | IO_FILE_FORMAT_JSON;
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_pdf) )) { selected_format |= IO_FILE_FORMAT_PDF; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_png) )) { selected_format |= IO_FILE_FORMAT_PNG; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_ps) )) { selected_format |= IO_FILE_FORMAT_PS; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_HTML; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
 
             /* react immediately, handle events */
             gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
@@ -356,12 +362,6 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
             {
                 export_err = U8_ERROR_NO_DB;
             }
-
-            gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
-                                                               GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                               GUI_SIMPLE_MESSAGE_CONTENT_EXPORTING_WAIT,
-                                                               folder_path
-                                                             );
 
             /* finished, notify user */
             char temp_format_buf[64];

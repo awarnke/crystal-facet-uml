@@ -1,9 +1,21 @@
-/* File: gtk_helper_icon.inl; Copyright and License: see below */
+/* File: gui_sketch_texture.inl; Copyright and License: see below */
 
 #include "u8/u8_log.h"
 #include <assert.h>
 
-static inline u8_error_t gtk_helper_icon_draw_texture( GdkTexture *icon, double left, double top, cairo_t *cr )
+static inline void gui_sketch_texture_init( gui_sketch_texture_t *this_ )
+{
+}
+
+static inline void gui_sketch_texture_destroy( gui_sketch_texture_t *this_ )
+{
+}
+
+static inline u8_error_t gui_sketch_texture_draw( gui_sketch_texture_t *this_,
+                                                  GdkTexture *icon,
+                                                  double left,
+                                                  double top,
+                                                  cairo_t *cr )
 {
     assert( icon != NULL );
     assert( cr != NULL );

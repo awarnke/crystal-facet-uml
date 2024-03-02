@@ -4,7 +4,6 @@
 #include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "gui_sketch_int_compare.h"
-#include "gtk_helper/gtk_helper_icon.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <gdk/gdk.h>
@@ -13,10 +12,13 @@ static const int GUI_SKETCH_RESULT_LIST_PANGO_AUTO_DETECT_LENGTH = -1;  /*!< pan
 static const int GUI_SKETCH_RESULT_LIST_PANGO_UNLIMITED_WIDTH = -1;
 static const int OBJ_GAP = 4;
 
-void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources_t *resources )
+void gui_sketch_result_list_init( gui_sketch_result_list_t *this_,
+                                  gui_resources_t *resources,
+                                  gui_sketch_texture_t *texture_downloader )
 {
     U8_TRACE_BEGIN();
     assert( resources != NULL );
+    assert( texture_downloader != NULL );
 
     DATA_SEARCH_RESULT_LIST_INIT( &((*this_).result_list), (*this_).result_list_buf );
 
@@ -29,6 +31,7 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources
     gui_sketch_marker_init( &((*this_).sketch_marker), true );
     (*this_).resources = resources;
     gui_type_resource_list_init( &((*this_).selector), resources );
+    (*this_).texture_downloader = texture_downloader;
 
     U8_TRACE_END();
 }
@@ -37,6 +40,7 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
 {
     U8_TRACE_BEGIN();
 
+    (*this_).texture_downloader = NULL;
     gui_type_resource_list_destroy( &((*this_).selector) );
     (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
@@ -196,7 +200,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, const gui_ma
             /* draw the icon */
             const int x = left+OBJ_GAP;
             const int y = top+OBJ_GAP;
-            gtk_helper_icon_draw_texture( undef_icon, x, y, cr );
+            gui_sketch_texture_draw( (*this_).texture_downloader, undef_icon, x, y, cr );
         }
         else
         {
@@ -288,7 +292,7 @@ void gui_sketch_result_list_private_draw_element( gui_sketch_result_list_t *this
         /* double icon_height = gdk_texture_get_width ( icon ); */
 
         /* do draw */
-        gtk_helper_icon_draw_texture( icon, x, y, cr );
+        gui_sketch_texture_draw( (*this_).texture_downloader, icon, x, y, cr );
     }
 
     U8_TRACE_END();

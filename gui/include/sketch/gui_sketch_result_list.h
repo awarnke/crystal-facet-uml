@@ -10,6 +10,7 @@
 
 #include "sketch/gui_sketch_marker.h"
 #include "sketch/gui_sketch_style.h"
+#include "sketch/gui_sketch_texture.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_type_resource_list.h"
@@ -59,6 +60,7 @@ struct gui_sketch_result_list_struct {
     gui_sketch_marker_t sketch_marker;
     gui_resources_t *resources;  /*!< pointer to external resources */
     gui_type_resource_list_t selector;  /*!< own instance of a resource selector */
+    gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
 
 typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
@@ -68,8 +70,12 @@ typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param resources pointer to a graphics resource provider
+ *  \param texture_downloader pointer to a gui_sketch_texture_t that can draw a texture onto a cairo drawing context
  */
-void gui_sketch_result_list_init ( gui_sketch_result_list_t *this_, gui_resources_t *resources );
+void gui_sketch_result_list_init ( gui_sketch_result_list_t *this_,
+                                   gui_resources_t *resources,
+                                   gui_sketch_texture_t *texture_downloader
+                                 );
 
 /*!
  *  \brief destroys the gui_sketch_result_list_t struct

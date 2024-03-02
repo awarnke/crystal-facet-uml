@@ -10,6 +10,7 @@
  */
 
 #include "gui_resources.h"
+#include "sketch/gui_sketch_texture.h"
 #include "shape/shape_int_rectangle.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -20,6 +21,7 @@
 struct gui_sketch_background_struct {
     shape_int_rectangle_t bounds;  /*!< bounding box of the background */
     gui_resources_t *resources;  /*!< pointer to external resources */
+    gui_sketch_texture_t *texture_downloader;  /*!< pointer to external gui_sketch_texture_t */
 };
 
 typedef struct gui_sketch_background_struct gui_sketch_background_t;
@@ -29,8 +31,12 @@ typedef struct gui_sketch_background_struct gui_sketch_background_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param resources pointer to a resource provider
+ *  \param texture_downloader pointer to a gui_sketch_texture_t that can draw a texture onto a cairo drawing context
  */
-void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t *resources );
+void gui_sketch_background_init( gui_sketch_background_t *this_,
+                                 gui_resources_t *resources,
+                                 gui_sketch_texture_t *texture_downloader
+                               );
 
 /*!
  *  \brief destroys the sketch background

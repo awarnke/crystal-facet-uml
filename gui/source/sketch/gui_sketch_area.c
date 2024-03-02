@@ -46,11 +46,12 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     /* init instances of own objects */
     (*this_).card_num = 0;
     (*this_).marker = marker;
-    gui_sketch_nav_tree_init( &((*this_).nav_tree), resources );
-    gui_sketch_result_list_init( &((*this_).result_list), resources );
+    gui_sketch_texture_init( &((*this_).texture_downloader) );
+    gui_sketch_nav_tree_init( &((*this_).nav_tree), resources, &((*this_).texture_downloader) );
+    gui_sketch_result_list_init( &((*this_).result_list), resources, &((*this_).texture_downloader) );
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
     gui_sketch_overlay_init( &((*this_).overlay) );
-    gui_sketch_background_init( &((*this_).background), resources );
+    gui_sketch_background_init( &((*this_).background), resources, &((*this_).texture_downloader) );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
 
     /* connect draw/update and mouse move and key signals to the controllers of this widget */
@@ -110,6 +111,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     gui_sketch_overlay_destroy( &((*this_).overlay) );
     gui_sketch_background_destroy( &((*this_).background) );
     gui_sketch_drag_state_destroy ( &((*this_).drag_state) );
+    gui_sketch_texture_destroy( &((*this_).texture_downloader) );
 
     /* destroy instance of requested tool-mode and diagram-ids */
     gui_sketch_request_destroy( &((*this_).request) );

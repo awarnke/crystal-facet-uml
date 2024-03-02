@@ -35,6 +35,7 @@ static const int HEIGHT = 400;
 
 struct test_fixture_struct {
     gui_resources_t res;
+    gui_sketch_texture_t texture_downloader;
     shape_int_rectangle_t bounds;
     data_diagram_t self;
     data_diagram_t parent;
@@ -62,6 +63,7 @@ static test_fixture_t * set_up()
     }
 
     gui_resources_init( &((*fix).res) );
+    gui_sketch_texture_init( &((*fix).texture_downloader) );
     shape_int_rectangle_init( &((*fix).bounds), LEFT, TOP, WIDTH, HEIGHT );
     data_diagram_init_empty( &((*fix).parent) );
     data_diagram_set_row_id( &((*fix).parent), 1000 );
@@ -85,6 +87,7 @@ static void tear_down( test_fixture_t *fix )
     data_diagram_destroy( &((*fix).child) );
     data_diagram_destroy( &((*fix).other_child) );
     shape_int_rectangle_destroy( &((*fix).bounds) );
+    gui_sketch_texture_destroy( &((*fix).texture_downloader) );
     gui_resources_destroy( &((*fix).res) );
 
     /* destroy cairo and pango objects */
@@ -115,7 +118,7 @@ static test_case_result_t test_get_object_at_pos_on_no_diagram( test_fixture_t *
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res), &((*fix).texture_downloader) );
         gui_sketch_nav_tree_set_bounds( &testee, ((*fix).bounds) );
         gui_sketch_nav_tree_do_layout( &testee, (*fix).cr );
     }
@@ -165,7 +168,7 @@ static test_case_result_t test_get_object_at_pos_on_single_diagram( test_fixture
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res), &((*fix).texture_downloader) );
         gui_sketch_nav_tree_set_bounds( &testee, (*fix).bounds );
         {
             testee.ancestors_count = 1;
@@ -240,7 +243,7 @@ static test_case_result_t test_get_object_at_pos_on_1parent_1child_diagram( test
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res), &((*fix).texture_downloader) );
         gui_sketch_nav_tree_set_bounds( &testee, (*fix).bounds );
         {
             testee.ancestors_count = 2;
@@ -357,7 +360,7 @@ static test_case_result_t test_get_object_at_pos_on_2parent_2siblings_diagram( t
     /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
     static gui_sketch_nav_tree_t testee;
     {
-        gui_sketch_nav_tree_init( &testee, &((*fix).res) );
+        gui_sketch_nav_tree_init( &testee, &((*fix).res), &((*fix).texture_downloader) );
         gui_sketch_nav_tree_set_bounds( &testee, ((*fix).bounds) );
         {
             testee.ancestors_count = 3;
