@@ -110,14 +110,15 @@ u8_error_t io_export_model_traversal_walk_model_nodes ( io_export_model_traversa
 }
 
 u8_error_t io_export_model_traversal_private_walk_node ( io_export_model_traversal_t *this_,
-                                                  data_id_t host_id,
-                                                  data_id_t containment_relationship_id,
-                                                  data_id_t classifier_id,
-                                                  unsigned int recursion_depth )
+                                                         data_id_t host_id,
+                                                         data_id_t containment_relationship_id,
+                                                         data_id_t classifier_id,
+                                                         unsigned int recursion_depth )
 {
     U8_TRACE_BEGIN();
     assert( recursion_depth <= IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH );
     assert( data_id_is_valid( &classifier_id ) );
+    data_id_trace( &classifier_id );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* initially define flags and attributes */
@@ -317,9 +318,9 @@ u8_error_t io_export_model_traversal_private_begin_node ( io_export_model_traver
 }
 
 u8_error_t io_export_model_traversal_private_get_containments ( io_export_model_traversal_t *this_,
-                                                         const data_node_set_t *node_data,
-                                                         data_small_set_t *io_contained_classifiers,
-                                                         data_small_set_t *io_containment_relations )
+                                                                const data_node_set_t *node_data,
+                                                                data_small_set_t *io_contained_classifiers,
+                                                                data_small_set_t *io_containment_relations )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
@@ -330,6 +331,7 @@ u8_error_t io_export_model_traversal_private_get_containments ( io_export_model_
     const data_classifier_t *const classifier
         = data_node_set_get_classifier_const ( node_data );
     const data_id_t classifier_id = data_classifier_get_data_id( classifier );
+    data_id_trace( &classifier_id );
 
     /* search containments in relationships */
     const uint32_t count = data_node_set_get_relationship_count ( node_data );
@@ -346,9 +348,23 @@ u8_error_t io_export_model_traversal_private_get_containments ( io_export_model_
                 const data_id_t from_feature_id = data_relationship_get_from_feature_data_id( relation );
                 const data_id_t to_feature_id = data_relationship_get_to_feature_data_id( relation );
                 const data_id_t to_classifier_id = data_relationship_get_to_classifier_data_id( relation );
-                if ( ( ! data_id_is_valid( &from_feature_id ) )
-                    && ( ! data_id_is_valid( &to_feature_id ) )
-                    && ( ! data_id_equals( &to_classifier_id, &classifier_id ) ) )
+                if ( data_id_is_valid( &from_feature_id ) )
+                {
+                    U8_TRACE_INFO("Anomaly: A feature of this classifier contains something");
+                }
+                else if ( data_id_is_valid( &to_feature_id ) )
+                {
+                    U8_TRACE_INFO("Anomaly: This classifier contains a feature");
+                }
+                else if ( data_id_equals( &to_classifier_id, &classifier_id ) )
+                {
+                    U8_TRACE_INFO("Anomaly: This classifier contains itself");
+                }
+                else if ( data_small_set_contains( io_contained_classifiers, to_classifier_id ) )
+                {
+                    U8_TRACE_INFO("Anomaly: This classifier contains a child twice");
+                }
+                else
                 {
                     data_small_set_add_obj ( io_contained_classifiers, to_classifier_id );
                     data_small_set_add_obj ( io_containment_relations, relationship_id );
@@ -366,20 +382,22 @@ u8_error_t io_export_model_traversal_private_get_containments ( io_export_model_
 }
 
 u8_error_t io_export_model_traversal_private_walk_containments ( io_export_model_traversal_t *this_,
-                                                          data_id_t host_id,
-                                                          const data_small_set_t *contained_classifiers,
-                                                          const data_small_set_t *containment_relations,
-                                                          unsigned int recursion_depth )
+                                                                 data_id_t host_id,
+                                                                 const data_small_set_t *contained_classifiers,
+                                                                 const data_small_set_t *containment_relations,
+                                                                 unsigned int recursion_depth )
 {
     U8_TRACE_BEGIN();
     assert( contained_classifiers != NULL );
     assert( containment_relations != NULL );
+    data_id_trace( &host_id );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* do recursion */
     if ( recursion_depth < IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH )
     {
         const uint32_t children = data_small_set_get_count ( contained_classifiers );
+        U8_TRACE_INFO_INT( "Children: ", children );
         assert( children == data_small_set_get_count ( containment_relations ) );
         for ( uint32_t index = 0; index < children; index ++ )
         {
@@ -394,8 +412,8 @@ u8_error_t io_export_model_traversal_private_walk_containments ( io_export_model
 }
 
 u8_error_t io_export_model_traversal_private_end_node ( io_export_model_traversal_t *this_,
-                                                 data_classifier_type_t host_type,
-                                                 const data_node_set_t *node_data )
+                                                        data_classifier_type_t host_type,
+                                                        const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );

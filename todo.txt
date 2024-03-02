@@ -3,33 +3,6 @@
      =====     KEEP IT SIMPLE & STUPID     =====
      =====                                 =====
 
-     exporting the self_achitecture:
-| | | | | | | | | | | | | | | | | | | ' xmi_element_writer_start_feature [end]
-| | | | | | | | | | | | | | | | | | | + xmi_element_writer_assemble_feature [begin]
-| | | | | | | | | | | | | | | | | | | ' xmi_element_writer_assemble_feature [end]
-| | | | | | | | | | | | | | | | | | | + xmi_element_writer_end_feature [begin]
-| | | | | | | | | | | | | | | | | | | | + xmi_type_converter_get_xmi_owning_property_of_feature [begin]
-| | | | | | | | | | | | | | | | | | | | ' xmi_type_converter_get_xmi_owning_property_of_feature [end]
-| | | | | | | | | | | | | | | | | | | | + io_xml_writer_private_update_encoding_tables [begin]
-| | | | | | | | | | | | | | | | | | | | ' io_xml_writer_private_update_encoding_tables [end]
-| | | | | | | | | | | | | | | | | | | | + universal_escaping_output_stream_change_rules [begin]
-| | | | | | | | | | | | | | | | | | | | ' universal_escaping_output_stream_change_rules [end]
-| | | | | | | | | | | | | | | | | | | | + universal_escaping_output_stream_change_rules [begin]
-| | | | | | | | | | | | | | | | | | | | ' universal_escaping_output_stream_change_rules [end]
-| | | | | | | | | | | | | | | | | | | | + universal_escaping_output_stream_change_rules [begin]
-| | | | | | | | | | | | | | | | | | | | ' universal_escaping_output_stream_change_rules [end]
-| | | | | | | | | | | | | | | | | | | | + universal_escaping_output_stream_change_rules [begin]
-| | | | | | | | | | | | | | | | | | | | ' universal_escaping_output_stream_change_rules [end]
-| | | | | | | | | | | | | | | | | | | ' xmi_element_writer_end_feature [end]
-| | | | | | | | | | | | | | | | | | ' io_export_model_traversal_private_iterate_node_features [end]
-| | | | | | | | | | | | | | | | | | + io_export_model_traversal_private_get_containments [begin]
-| | | | | | | | | | | | | | | | | | ' io_export_model_traversal_private_get_containments [end]
-| | | | | | | | | | | | | | | | | | + data_node_set_destroy [begin]
-| | | | | | | | | | | | | | | | | | ' data_node_set_destroy [end]
-| | | | | | | | | | | | | | | | | | + io_export_model_traversal_private_walk_containments [begin]
-crystal-facet-uml: /home/andi/Code/crystal-facet-uml/io/source/io_export_model_traversal.c:383: io_export_model_traversal_private_walk_containments: Assertion `children == data_small_set_get_count ( containment_relations )' failed.
-Aborted
-
 ideas for future versions:
   @gui
   [ ] After deselecting all elements, paste does not work. One has to select an element first.

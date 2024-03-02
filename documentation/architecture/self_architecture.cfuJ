@@ -25724,23 +25724,6 @@
     },
     {
       "relationship": {
-        "id": 422,
-        "main_type": 300,
-        "type": "Association",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": -1937690613,
-        "from_classifier_name": "io_export_xxx_traversal",
-        "to_classifier_name": "io_export_diagram_traversal",
-        "from_node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
-        "to_node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
-        "uuid": "b92b2d53-c67d-4d10-8407-bc044543003a"
-      }
-    },
-    {
-      "relationship": {
         "id": 642,
         "main_type": 300,
         "type": "Association",
