@@ -27,8 +27,10 @@ enum gui_sketch_texture_enum {
  */
 struct gui_sketch_texture_struct {
     cairo_surface_t *surface;  /*!< cairo drawing surface wrapping a data buffer */
+    unsigned int memory_fence_1;  /* a memory fence to detect if gdk or cairo have been used in an unforseen way */
     unsigned char buf[ GUI_SKETCH_TEXTURE_MAX_WIDTH * GUI_SKETCH_TEXTURE_MAX_HEIGHT * GUI_SKETCH_TEXTURE_BYTES_PER_PIXEL ];
                        /*!< buffer to download a texture into a cairo drawing surface */
+    unsigned int memory_fence_2;  /* a memory fence to detect if gdk or cairo have been used in an unforseen way */
 };
 
 typedef struct gui_sketch_texture_struct gui_sketch_texture_t;

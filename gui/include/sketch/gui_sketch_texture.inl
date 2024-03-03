@@ -6,6 +6,8 @@
 
 static inline void gui_sketch_texture_init( gui_sketch_texture_t *this_ )
 {
+    (*this_).memory_fence_1 = 12345;
+    (*this_).memory_fence_2 = 54321;
     (*this_).surface
         = cairo_image_surface_create_for_data( &((*this_).buf[0]),
                                                CAIRO_FORMAT_ARGB32,
@@ -41,6 +43,9 @@ static inline u8_error_t gui_sketch_texture_draw( gui_sketch_texture_t *this_,
                               GUI_SKETCH_TEXTURE_MAX_WIDTH * GUI_SKETCH_TEXTURE_BYTES_PER_PIXEL /* = stride */
                             );
         cairo_surface_mark_dirty( (*this_).surface );
+        /* check that boundaries of (*this_).buf have not been overwritten: */
+        assert( (*this_).memory_fence_1 == 12345 );
+        assert( (*this_).memory_fence_2 == 54321 );
 
         cairo_set_source_surface( cr, (*this_).surface, left, top );
         cairo_rectangle( cr, left, top, icon_width, icon_height );
