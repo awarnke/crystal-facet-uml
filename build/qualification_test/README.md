@@ -49,8 +49,8 @@ the server needs X11Forwarding yes specified in /etc/ssh/sshd_config .
 
 wine:
 
->       see  [win/README.md](../win/README.md)
+> see  [win/README.md](../win/README.md)
 
 automated tests:
 
->       see  [run_q_test.sh](./run_q_test.sh)
+> see  [run_q_test.sh](./run_q_test.sh)
