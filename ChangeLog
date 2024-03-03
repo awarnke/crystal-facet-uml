@@ -6,7 +6,7 @@ crystal-facet-uml (1.56.0) UNRELEASED; urgency=medium
   * deprecated function gdk_pixbuf_get_from_texture replaced
   * XMI export traces if a classifier contains a child twice (in DEBUG mode)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 10 Feb 2024 09:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Mar 2024 09:00:00 +0100
 
 crystal-facet-uml (1.55.3) UNRELEASED; urgency=medium
 

@@ -37,7 +37,7 @@ struct gui_file_export_dialog_struct {
     GtkWidget *format_ps;  /*!< pointer to checkbox for export-format ps */
     GtkWidget *format_svg;  /*!< pointer to checkbox for export-format svg */
     GtkWidget *format_txt;  /*!< pointer to checkbox for export-format txt */
-    GtkWidget *format_xhtml;  /*!< pointer to checkbox for export-format xhtml */
+    GtkWidget *format_html;  /*!< pointer to checkbox for export-format html */
     GtkWidget *format_xmi2;  /*!< pointer to checkbox for export-format xmi version 2.x */
     GtkWidget *format_json;  /*!< pointer to checkbox for export-format json */
 

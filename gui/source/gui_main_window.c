@@ -964,7 +964,12 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
         utf8stream_writer_init( &out_report, out_base );
         uint32_t found_errors;
         uint32_t fixed_errors;
-        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, &out_report );
+        ctrl_controller_repair_database( (*this_).controller,
+                                         false /* no repair, just test */,
+                                         &found_errors,
+                                         &fixed_errors,
+                                         &out_report
+                                       );
         if (( found_errors != 0 ) || ( fixed_errors != 0 ))
         {
             gui_simple_message_to_user_show_message_with_quantity( &((*this_).message_to_user),

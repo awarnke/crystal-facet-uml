@@ -167,7 +167,7 @@ static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
  *  \brief flushes caches of the current database
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_DB in case of an error
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_DB in case of an error, U8_ERROR_NO_DB if no database open
  */
 u8_error_t data_database_flush_caches ( data_database_t *this_ );
 

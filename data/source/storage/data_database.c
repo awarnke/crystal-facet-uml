@@ -594,6 +594,10 @@ u8_error_t data_database_flush_caches ( data_database_t *this_ )
                               );
         }
     }
+    else
+    {
+        result = U8_ERROR_NO_DB;
+    }
 
     U8_TRACE_END_ERR( result );
     return result;

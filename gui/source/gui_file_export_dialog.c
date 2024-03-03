@@ -27,7 +27,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     (*this_).message_to_user = message_to_user;
 
     (*this_).format_docbook = gtk_check_button_new_with_label ("docbook");
-    (*this_).format_xhtml = gtk_check_button_new_with_label ("html");
+    (*this_).format_html = gtk_check_button_new_with_label ("html");
     (*this_).format_xmi2 = gtk_check_button_new_with_label ("xmi");
     (*this_).format_json= gtk_check_button_new_with_label ("json");
 
@@ -36,6 +36,8 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     (*this_).format_ps = gtk_check_button_new_with_label ("ps");
     (*this_).format_svg = gtk_check_button_new_with_label ("svg");
     (*this_).format_txt = gtk_check_button_new_with_label ("txt");
+
+    gtk_check_button_set_active( GTK_CHECK_BUTTON((*this_).format_html), TRUE );
 
     (*this_).options_layout = gtk_grid_new();
 
@@ -55,7 +57,7 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).document_label, 0, 1, 2, 1 );
 
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_docbook, 2, 1, 2, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xhtml, 4, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_html, 4, 1, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_json, 5, 1, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xmi2, 6, 1, 2, 1 );
 
@@ -113,7 +115,7 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    /* no need to g_object_unref ( (*this_).format_xhtml ); here */
+    /* no need to g_object_unref ( (*this_).format_html ); here */
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
     gtk_window_destroy( GTK_WINDOW((*this_).export_file_chooser) );
     /* no need to g_object_unref ( (*this_).export_file_chooser ); here */
@@ -214,7 +216,7 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
-                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_HTML; }
+                if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_html) )) { selected_format |= IO_FILE_FORMAT_HTML; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
                 if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
 
@@ -331,7 +333,7 @@ void gui_file_export_dialog_async_ready_callback( GObject* source_object,
             if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_svg) )) { selected_format |= IO_FILE_FORMAT_SVG; }
             if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_txt) )) { selected_format |= IO_FILE_FORMAT_TXT; }
             if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
-            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_HTML; }
+            if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_html) )) { selected_format |= IO_FILE_FORMAT_HTML; }
             if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_xmi2) )) { selected_format |= IO_FILE_FORMAT_XMI2; }
             if ( gtk_check_button_get_active( GTK_CHECK_BUTTON((*this_).format_json) )) { selected_format |= IO_FILE_FORMAT_JSON; }
 
