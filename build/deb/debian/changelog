@@ -1,3 +1,13 @@
+crystal-facet-uml (1.56.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * gtk3 support dropped, more than 100 #if preprocessor-statements removed
+  * GtkFileChooserDialog replaced by GtkFileDialog (without filetype selection)
+  * deprecated function gdk_pixbuf_get_from_texture replaced
+  * XMI export traces if a classifier contains a child twice (in DEBUG mode)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Mar 2024 10:00:00 +0100
+
 crystal-facet-uml (1.55.3-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
