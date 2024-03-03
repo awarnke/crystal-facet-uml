@@ -295,7 +295,9 @@ void data_database_init ( data_database_t *this_ )
     utf8stringbuf_clear( (*this_).db_file_name );
 
     g_mutex_init ( &((*this_).lock_on_write) );
+    g_mutex_lock ( &((*this_).lock_on_write) );  /* (*this_).locked_on_write may only be changed when having the lock */
     (*this_).locked_on_write = false;
+    g_mutex_unlock ( &((*this_).lock_on_write) );  /* this call manages a memory barrier that allows for cache coherence */
 
     u8_error_t result = data_database_lock_on_write( this_ );
     {
