@@ -4929,6 +4929,13 @@
             "classifier_name": "Bitmask",
             "node": "31c90a45-9457-4af8-8a06-36e47ddf7dca",
             "uuid": "9ba5c223-6dcd-4eb6-8d71-39780f3056d7"
+          },
+          {
+            "id": 854,
+            "display_flags": 0,
+            "classifier_name": "u8_error",
+            "node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+            "uuid": "daee4dd5-e229-400c-8e4a-4786225f2ea0"
           }
         ]
       }
@@ -5024,10 +5031,10 @@
         "description": [
                 ""
         ],
-        "list_order": 98304,
+        "list_order": -1,
         "display_flags": 0,
-        "parent_name": "Error Propagation",
-        "parent": "1585cfe2-15e5-4a7e-ab71-ca5b20be6b82",
+        "parent_name": "Top Level Error-Categories",
+        "parent": "6c235287-4773-4aae-b751-0473f24aa06e",
         "uuid": "ea10a5eb-804f-443d-a1dd-83dbf78f82c2",
         "diagramelements":
         [
@@ -5078,6 +5085,74 @@
     },
     {
       "diagram": {
+        "id": 93,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "User Errors",
+        "description": [
+                ""
+        ],
+        "list_order": 1073758207,
+        "display_flags": 0,
+        "parent_name": "Top Level Error-Categories",
+        "parent": "6c235287-4773-4aae-b751-0473f24aa06e",
+        "uuid": "b2d92d72-8d62-4b99-879b-7be2fed6ef19",
+        "diagramelements":
+        [
+          {
+            "id": 600,
+            "display_flags": 0,
+            "classifier_name": "INPUT /SOURCE",
+            "node": "9b33b7c7-ac6e-4a01-ba82-37bf5b5b784d",
+            "uuid": "6451c425-4303-44e2-add0-d92ae25d5fce"
+          },
+          {
+            "id": 601,
+            "display_flags": 0,
+            "classifier_name": "OUTPUT /SINK",
+            "node": "a95204ba-4b4b-4b28-ba74-852b729f9e8f",
+            "uuid": "66f57246-ce9a-4043-97cf-3766c5176498"
+          },
+          {
+            "id": 602,
+            "display_flags": 0,
+            "classifier_name": "USER_ACCESS (r/w/x)",
+            "node": "7fd900b4-ea83-4c0d-8102-1309a0792f3d",
+            "uuid": "1a922739-8dc7-4fbe-8d09-9ce7d370db44"
+          },
+          {
+            "id": 603,
+            "display_flags": 0,
+            "classifier_name": "WRONG_MODE",
+            "node": "4c5e6b46-450d-4334-8d84-5c30cb494166",
+            "uuid": "0ddd63dc-0871-4d10-ad44-ab36c7e00aeb"
+          },
+          {
+            "id": 604,
+            "display_flags": 0,
+            "classifier_name": "USR_ERROR",
+            "node": "193f640a-e11f-40e7-bd55-511b181a17bc",
+            "uuid": "248147a0-9e1b-488f-8630-89954c7c3e62"
+          },
+          {
+            "id": 605,
+            "display_flags": 0,
+            "classifier_name": "Error-Categories by Reaction",
+            "node": "e55e3038-a934-46cb-b52d-2fc7548a4327",
+            "uuid": "9d95a8d0-6378-48e3-8199-08850d00a8d8"
+          },
+          {
+            "id": 606,
+            "display_flags": 0,
+            "classifier_name": "Error-Categories by Cause",
+            "node": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
+            "uuid": "eda04f06-045d-4820-932a-8c6a97b1bc4a"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 95,
         "diagram_type": 34,
         "type": "UMLClassDiagram",
@@ -5085,10 +5160,10 @@
         "description": [
                 ""
         ],
-        "list_order": 536969215,
+        "list_order": 1073758207,
         "display_flags": 0,
-        "parent_name": "Error Propagation",
-        "parent": "1585cfe2-15e5-4a7e-ab71-ca5b20be6b82",
+        "parent_name": "Top Level Error-Categories",
+        "parent": "6c235287-4773-4aae-b751-0473f24aa06e",
         "uuid": "cc1b1042-9fb5-44f8-9ee3-e4114a88d291",
         "diagramelements":
         [
@@ -5147,74 +5222,6 @@
             "classifier_name": "ENV_START",
             "node": "d00bd0f8-1c45-491d-a769-79106058a326",
             "uuid": "c1423385-37c7-4174-9c4e-61a24e38777f"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 93,
-        "diagram_type": 34,
-        "type": "UMLClassDiagram",
-        "name": "User Errors",
-        "description": [
-                ""
-        ],
-        "list_order": 1073807359,
-        "display_flags": 0,
-        "parent_name": "Error Propagation",
-        "parent": "1585cfe2-15e5-4a7e-ab71-ca5b20be6b82",
-        "uuid": "b2d92d72-8d62-4b99-879b-7be2fed6ef19",
-        "diagramelements":
-        [
-          {
-            "id": 600,
-            "display_flags": 0,
-            "classifier_name": "INPUT /SOURCE",
-            "node": "9b33b7c7-ac6e-4a01-ba82-37bf5b5b784d",
-            "uuid": "6451c425-4303-44e2-add0-d92ae25d5fce"
-          },
-          {
-            "id": 601,
-            "display_flags": 0,
-            "classifier_name": "OUTPUT /SINK",
-            "node": "a95204ba-4b4b-4b28-ba74-852b729f9e8f",
-            "uuid": "66f57246-ce9a-4043-97cf-3766c5176498"
-          },
-          {
-            "id": 602,
-            "display_flags": 0,
-            "classifier_name": "USER_ACCESS (r/w/x)",
-            "node": "7fd900b4-ea83-4c0d-8102-1309a0792f3d",
-            "uuid": "1a922739-8dc7-4fbe-8d09-9ce7d370db44"
-          },
-          {
-            "id": 603,
-            "display_flags": 0,
-            "classifier_name": "WRONG_MODE",
-            "node": "4c5e6b46-450d-4334-8d84-5c30cb494166",
-            "uuid": "0ddd63dc-0871-4d10-ad44-ab36c7e00aeb"
-          },
-          {
-            "id": 604,
-            "display_flags": 0,
-            "classifier_name": "USR_ERROR",
-            "node": "193f640a-e11f-40e7-bd55-511b181a17bc",
-            "uuid": "248147a0-9e1b-488f-8630-89954c7c3e62"
-          },
-          {
-            "id": 605,
-            "display_flags": 0,
-            "classifier_name": "Error-Categories by Reaction",
-            "node": "e55e3038-a934-46cb-b52d-2fc7548a4327",
-            "uuid": "9d95a8d0-6378-48e3-8199-08850d00a8d8"
-          },
-          {
-            "id": 606,
-            "display_flags": 0,
-            "classifier_name": "Error-Categories by Cause",
-            "node": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
-            "uuid": "eda04f06-045d-4820-932a-8c6a97b1bc4a"
           }
         ]
       }
@@ -12381,8 +12388,8 @@
                 "where it can be handled.\n",
                 "This is done using error codes."
         ],
-        "x_order": 1364762288,
-        "y_order": -2020503049,
+        "x_order": 1259516078,
+        "y_order": -1910474192,
         "list_order": -1457316783,
         "uuid": "09398b86-3d10-4bd1-be8b-b21d9f012f3a",
         "features":
@@ -12395,6 +12402,7 @@
         "id": 250,
         "main_type": 99,
         "type": "Requirement",
+        "stereotype": "req",
         "name": "Bitmask",
         "description": [
                 "The error bitmask shall be designed in a way\n",
@@ -12404,7 +12412,7 @@
                 "using a bitwise or.\n",
                 "Error codes are not netative because this makes evaluation of the bitmask difficult to understand."
         ],
-        "x_order": 1364762288,
+        "x_order": -1326332541,
         "y_order": -1910474192,
         "list_order": -1910474192,
         "uuid": "31c90a45-9457-4af8-8a06-36e47ddf7dca",
@@ -27482,6 +27490,23 @@
     },
     {
       "relationship": {
+        "id": 902,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1224820060,
+        "from_classifier_name": "USR_ERROR",
+        "to_classifier_name": "CONTINUE",
+        "from_node": "193f640a-e11f-40e7-bd55-511b181a17bc",
+        "to_node": "0e8d7c2b-9d00-467a-9fa9-c5c51c4c1484",
+        "uuid": "a6109e29-878a-4b5e-829d-873beff491de"
+      }
+    },
+    {
+      "relationship": {
         "id": 574,
         "main_type": 210,
         "type": "Generalization",
@@ -27937,6 +27962,23 @@
         "from_node": "2d41eaac-8741-4760-a125-e1bd2d8019d1",
         "to_node": "dfcb73da-8cda-499e-b269-c63c02706a8d",
         "uuid": "ee3c5397-9fd0-4701-b156-c827d1aad3ca"
+      }
+    },
+    {
+      "relationship": {
+        "id": 901,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "u8_error",
+        "to_classifier_name": "Bitmask",
+        "from_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "to_node": "31c90a45-9457-4af8-8a06-36e47ddf7dca",
+        "uuid": "9660328c-f15a-47dc-8b5d-2f566494b444"
       }
     },
     {

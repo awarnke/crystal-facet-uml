@@ -77,7 +77,6 @@ typedef struct gui_attributes_editor_struct gui_attributes_editor_t;
  *  \param name_entry pointer to text entry widget
  *  \param stereotype_entry pointer to external text entry widget
  *  \param type_dropdown pointer to external drop down widget
- *  \param type_combo_box pointer to external combo box widget
  *  \param type_diag_grid pointer to external type-icon grid widget of diagram types
  *  \param type_clas_grid pointer to external type-icon grid widget of classifier types
  *  \param type_feat_grid pointer to external type-icon grid widget of feature types
