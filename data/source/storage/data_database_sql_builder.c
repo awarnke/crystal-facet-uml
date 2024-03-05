@@ -42,8 +42,25 @@ void data_database_sql_builder_init ( data_database_sql_builder_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    (*this_).temp_stringbuf = utf8stringbuf_init( sizeof((*this_).private_temp_buffer), (*this_).private_temp_buffer );
-    (*this_).sql_stringbuf = utf8stringbuf_init( sizeof((*this_).private_sql_buffer), (*this_).private_sql_buffer );
+    /* initialize a memory output stream */
+    universal_memory_output_stream_init( &((*this_).plain_out),
+                                         &((*this_).private_sql_buffer),
+                                         sizeof((*this_).private_sql_buffer)
+                                       );
+    universal_output_stream_t *const plain_output
+        = universal_memory_output_stream_get_output_stream( &((*this_).plain_out) );
+
+    utf8stream_writer_init( &((*this_).plain), plain_output );
+
+    /* initialize an sql escaped output stream */
+    universal_escaping_output_stream_init( &((*this_).escaped_out),
+                                           &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE,
+                                           plain_output
+                                         );
+    universal_output_stream_t *const escaped_output
+        = universal_escaping_output_stream_get_output_stream( &((*this_).escaped_out) );
+
+    utf8stream_writer_init( &((*this_).escaped), escaped_output );
 
     U8_TRACE_END();
 }
@@ -51,6 +68,15 @@ void data_database_sql_builder_init ( data_database_sql_builder_t *this_ )
 void data_database_sql_builder_destroy ( data_database_sql_builder_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+    /* de-initialize an sql escaped output stream */
+    utf8stream_writer_destroy( &((*this_).escaped) );
+    universal_escaping_output_stream_destroy( &((*this_).escaped_out) );
+
+    /* de-initialize an output stream */
+    utf8stream_writer_destroy( &((*this_).plain) );
+    universal_memory_output_stream_destroy( &((*this_).plain_out) );
+
     U8_TRACE_END();
 }
 
@@ -133,85 +159,69 @@ u8_error_t data_database_sql_builder_build_create_diagram_command ( data_databas
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagram );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
+
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
     if ( DATA_ROW_ID_VOID == data_diagram_get_row_id( diagram )  )
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX );
     }
     else
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX );
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagram_get_row_id( diagram ) );
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_row_id( diagram ) );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
     if ( DATA_ROW_ID_VOID == data_diagram_get_parent_row_id( diagram ) )
     {
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagram_get_parent_row_id( diagram ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_parent_row_id( diagram ) );
     }
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagram_get_diagram_type( diagram ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_diagram_type( diagram ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* stereotype */
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagram_get_stereotype_const( diagram ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_stereotype_const( diagram ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* name */
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagram_get_name_const( diagram ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_name_const( diagram ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* description */
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_description_const( diagram ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_list_order( diagram ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagram_get_display_flags( diagram ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_uuid_const( diagram ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagram_get_description_const( diagram ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagram_get_list_order( diagram ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagram_get_display_flags( diagram ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagram_get_uuid_const( diagram ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -222,18 +232,20 @@ u8_error_t data_database_sql_builder_build_create_diagram_command ( data_databas
 u8_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, data_row_id_t diagram_id )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_PREFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -245,13 +257,15 @@ u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_diagram_stereotype );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_STEREOTYPE );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_STEREOTYPE );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -263,25 +277,25 @@ u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_diagram_stereotype, DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -293,13 +307,15 @@ u8_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_databa
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_diagram_name );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_NAME );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_NAME );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -311,25 +327,25 @@ u8_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_databa
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_diagram_name, DATA_DIAGRAM_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -341,13 +357,15 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_diagram_description );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_DESCRIPTION );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_DESCRIPTION );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -359,25 +377,25 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_diagram_description, DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -388,21 +406,25 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
 u8_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, data_diagram_type_t new_diagram_type )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_TYPE );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_diagram_type );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_TYPE );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_diagram_type );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -413,21 +435,25 @@ u8_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_databa
 u8_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, int32_t new_diagram_list_order )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_LIST_ORDER );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_diagram_list_order );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_LIST_ORDER );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_diagram_list_order );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -438,28 +464,32 @@ u8_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_
 u8_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagram_id, data_row_id_t new_diagram_parent_id )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_PARENT_ID );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_PARENT_ID );
     if ( DATA_ROW_ID_VOID == new_diagram_parent_id )
     {
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_diagram_parent_id );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), new_diagram_parent_id );
     }
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -551,78 +581,60 @@ u8_error_t data_database_sql_builder_build_create_classifier_command ( data_data
 {
     U8_TRACE_BEGIN();
     assert( NULL != classifier );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
     if ( data_classifier_get_row_id( classifier ) == DATA_ROW_ID_VOID )
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX );
     }
     else
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX );
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_classifier_get_row_id( classifier ) );
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_row_id( classifier ) );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_classifier_get_main_type( classifier ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_main_type( classifier ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_stereotype_const( classifier ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_name_const( classifier ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_description_const( classifier ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_x_order( classifier ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_y_order( classifier ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_classifier_get_list_order( classifier ) );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_uuid_const( classifier ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_classifier_get_stereotype_const( classifier ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_classifier_get_name_const( classifier ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_classifier_get_description_const( classifier ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_classifier_get_x_order( classifier ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_classifier_get_y_order( classifier ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_classifier_get_list_order( classifier ) );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_classifier_get_uuid_const( classifier ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -633,18 +645,20 @@ u8_error_t data_database_sql_builder_build_create_classifier_command ( data_data
 u8_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, data_row_id_t classifier_id )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -656,13 +670,15 @@ u8_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( da
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_classifier_stereotype );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_STEREOTYPE );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_STEREOTYPE );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -674,25 +690,25 @@ u8_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( da
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_classifier_stereotype, DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -704,13 +720,15 @@ u8_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_dat
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_classifier_name );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_NAME );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_NAME );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -722,25 +740,25 @@ u8_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_dat
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_classifier_name, DATA_CLASSIFIER_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -752,13 +770,15 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_classifier_description );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_DESCRIPTION );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_DESCRIPTION );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -770,25 +790,25 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_classifier_description, DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -799,22 +819,26 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
 u8_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, data_classifier_type_t new_classifier_main_type )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_MAIN_TYPE );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_main_type );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_MAIN_TYPE );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_classifier_main_type );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -825,22 +849,26 @@ u8_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( dat
 u8_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_x_order )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_X_ORDER );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_x_order );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_X_ORDER );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_classifier_x_order );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -851,22 +879,26 @@ u8_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_
 u8_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_y_order )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_y_order );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_classifier_y_order );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -877,22 +909,26 @@ u8_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_
 u8_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t classifier_id, int32_t new_classifier_list_order )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_LIST_ORDER );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_list_order );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_LIST_ORDER );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_classifier_list_order );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -959,51 +995,48 @@ u8_error_t data_database_sql_builder_build_create_diagramelement_command ( data_
 {
     U8_TRACE_BEGIN();
     assert( NULL != diagramelement );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
     if ( DATA_ROW_ID_VOID == data_diagramelement_get_row_id( diagramelement ) )
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX );
     }
     else
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX );
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagramelement_get_row_id( diagramelement ) );
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_row_id( diagramelement ) );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagramelement_get_diagram_row_id( diagramelement ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagramelement_get_classifier_row_id( diagramelement ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagramelement_get_display_flags( diagramelement ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_diagram_row_id( diagramelement ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_classifier_row_id( diagramelement ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_display_flags( diagramelement ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     if ( DATA_ROW_ID_VOID == data_diagramelement_get_focused_feature_row_id( diagramelement ) )
     {
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_diagramelement_get_focused_feature_row_id( diagramelement ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_diagramelement_get_focused_feature_row_id( diagramelement ) );
     }
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagramelement_get_uuid_const( diagramelement ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_diagramelement_get_uuid_const( diagramelement ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1014,18 +1047,20 @@ u8_error_t data_database_sql_builder_build_create_diagramelement_command ( data_
 u8_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagramelement_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_PREFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagramelement_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1036,22 +1071,26 @@ u8_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_
 u8_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id, data_diagramelement_flag_t new_display_flags )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_DISPLAY_FLAGS );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_display_flags );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_DISPLAY_FLAGS );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_display_flags );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagramelement_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagramelement_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1062,29 +1101,33 @@ u8_error_t data_database_sql_builder_build_update_diagramelement_display_flags_c
 u8_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, data_row_id_t diagramelement_id, data_row_id_t new_focused_feature_id )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_FOCUSED_FEATURE_ID );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_FOCUSED_FEATURE_ID );
 
     if ( DATA_ROW_ID_VOID == new_focused_feature_id )
     {
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_focused_feature_id );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), new_focused_feature_id );
     }
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagramelement_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), diagramelement_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1166,74 +1209,58 @@ u8_error_t data_database_sql_builder_build_create_feature_command ( data_databas
 {
     U8_TRACE_BEGIN();
     assert( NULL != feature );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
+
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
     if ( data_feature_get_row_id( feature ) == DATA_ROW_ID_VOID )
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_PREFIX );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_PREFIX );
     }
     else
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_WITH_ID_PREFIX );
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_feature_get_row_id( feature ) );
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_WITH_ID_PREFIX );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_row_id( feature ) );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_feature_get_main_type( feature ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_feature_get_classifier_row_id( feature ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_main_type( feature ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_classifier_row_id( feature ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_key_const( feature ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_value_const( feature ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_description_const( feature ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_feature_get_list_order( feature ) );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_uuid_const( feature ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_feature_get_key_const( feature ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_feature_get_value_const( feature ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_feature_get_description_const( feature ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_feature_get_list_order( feature ) );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_feature_get_uuid_const( feature ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1244,18 +1271,20 @@ u8_error_t data_database_sql_builder_build_create_feature_command ( data_databas
 u8_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, data_row_id_t feature_id )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_PREFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1266,22 +1295,26 @@ u8_error_t data_database_sql_builder_build_delete_feature_command ( data_databas
 u8_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, data_feature_type_t new_feature_type )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_MAIN_TYPE );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_feature_type );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_MAIN_TYPE );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_feature_type );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1293,13 +1326,15 @@ u8_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_databas
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_feature_key );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_KEY );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_KEY );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -1311,25 +1346,25 @@ u8_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_databas
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_feature_key, DATA_FEATURE_MAX_KEY_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1341,13 +1376,15 @@ u8_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_datab
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_feature_value );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_VALUE );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_VALUE );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -1359,25 +1396,25 @@ u8_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_datab
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_feature_value, DATA_FEATURE_MAX_VALUE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1389,13 +1426,15 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_feature_description );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_DESCRIPTION );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_DESCRIPTION );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -1407,25 +1446,25 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_feature_description, DATA_FEATURE_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1436,22 +1475,26 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
 u8_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t feature_id, int32_t new_feature_list_order )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_LIST_ORDER );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_feature_list_order );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_LIST_ORDER );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_feature_list_order );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1537,98 +1580,82 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
 {
     U8_TRACE_BEGIN();
     assert( NULL != relationship );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
+
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
     if ( data_relationship_get_row_id( relationship ) == DATA_ROW_ID_VOID )
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX );
     }
     else
     {
-        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX );
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_row_id( relationship ) );
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_row_id( relationship ) );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_main_type( relationship ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_from_classifier_row_id( relationship ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_to_classifier_row_id( relationship ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_main_type( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_from_classifier_row_id( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_to_classifier_row_id( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* stereotype */
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_relationship_get_stereotype_const( relationship ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_stereotype_const( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* name */
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_relationship_get_name_const( relationship ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_name_const( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* description*/
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
-    {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_relationship_get_description_const( relationship ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_description_const( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_list_order( relationship ) );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_list_order( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     if ( DATA_ROW_ID_VOID == data_relationship_get_from_feature_row_id( relationship ) )
     {
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_from_feature_row_id( relationship ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_from_feature_row_id( relationship ) );
     }
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     if ( DATA_ROW_ID_VOID == data_relationship_get_to_feature_row_id( relationship ) )
     {
-        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+        out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
     }
     else
     {
-        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, data_relationship_get_to_feature_row_id( relationship ) );
+        out_err |= utf8stream_writer_write_int( &((*this_).plain), data_relationship_get_to_feature_row_id( relationship ) );
     }
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_uuid_const( relationship ) );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, data_relationship_get_uuid_const( relationship ) );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
-    }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
-
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1639,18 +1666,20 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
 u8_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, data_row_id_t relationship_id )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_PREFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1661,22 +1690,26 @@ u8_error_t data_database_sql_builder_build_delete_relationship_command ( data_da
 u8_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_MAIN_TYPE );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_relationship_type );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_MAIN_TYPE );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_relationship_type );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1691,13 +1724,15 @@ u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( 
 
     U8_TRACE_BEGIN();
     assert( NULL != new_relationship_stereotype );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_STEREOTYPE );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_STEREOTYPE );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -1709,25 +1744,25 @@ u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( 
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_relationship_stereotype, DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1741,13 +1776,15 @@ u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_d
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_relationship_name );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_NAME );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_NAME );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -1759,25 +1796,25 @@ u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_d
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_relationship_name, DATA_RELATIONSHIP_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1789,13 +1826,15 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_relationship_description );
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_DESCRIPTION );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_DESCRIPTION );
+
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         /* copy the string but not more than the maximum allowed bytes: */
@@ -1807,25 +1846,25 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
         }
         else
         {
-            strerr |= UTF8ERROR_TRUNCATED;
+            out_err |= UTF8ERROR_TRUNCATED;
             utf8stringview_init( &shortened_text, new_relationship_description, DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stringbuf_copy_view( (*this_).temp_stringbuf, &shortened_text );
+        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
         utf8stringview_destroy( &shortened_text );
-        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, &DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
-    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -1836,22 +1875,26 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
 u8_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, data_row_id_t relationship_id, int32_t new_relationship_list_order )
 {
     U8_TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    u8_error_t out_err = U8_ERROR_NONE;
     u8_error_t result = U8_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_LIST_ORDER );
+    out_err |= universal_memory_output_stream_reset( &((*this_).plain_out) );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_relationship_list_order );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_LIST_ORDER );
 
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), new_relationship_list_order );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
 
-    if ( strerr != UTF8ERROR_SUCCESS )
+    out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
+    out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+
+    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+
+    if ( out_err != U8_ERROR_NONE )
     {
-        U8_LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        U8_LOG_ERROR_HEX( "utf8stream_writer_write_...() failed:", out_err );
         result |= U8_ERROR_STRING_BUFFER_EXCEEDED;
     }
 

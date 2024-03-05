@@ -47,6 +47,18 @@ static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this
     return err;
 }
 
+static inline u8_error_t utf8stream_writer_write_view ( utf8stream_writer_t *this_, const utf8stringview_t *utf8_view )
+{
+    assert( (*this_).output_stream != NULL );
+    assert( utf8_view != NULL );
+
+    const char *start = utf8stringview_get_start( utf8_view );
+    const size_t length = utf8stringview_get_length( utf8_view );
+    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, start, length );
+
+    return err;
+}
+
 static inline u8_error_t utf8stream_writer_flush ( utf8stream_writer_t *this_ )
 {
     assert( (*this_).output_stream != NULL );

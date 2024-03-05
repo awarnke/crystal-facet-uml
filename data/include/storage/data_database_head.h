@@ -15,6 +15,7 @@
 #include "storage/data_database.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8stream/universal_escaping_output_stream.h"
+#include "utf8stream/utf8stream_writer.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <glib.h>
@@ -24,11 +25,12 @@
  */
 struct data_database_head_struct {
     data_database_t *database;  /*!< pointer to external database */
+
     char private_sql_buffer[2048];  /* sufficient size to encode a data record including DATA_HEAD_MAX_VALUE_LENGTH */
-    universal_memory_output_stream_t plain_sql;  /* an output stream to write to private_sql_buffer as plain utf8 */
-    utf8stream_writer_t plain;  /* an utf8 writer to write to plain_sql */
-    universal_escaping_output_stream_t escaped_sql;  /* an output stream to write to private_sql_buffer sql encoded */
-    utf8stream_writer_t escaped;  /* an utf8 writer to write to escaped_sql */
+    universal_memory_output_stream_t plain_out;  /* an output stream to write to private_sql_buffer as plain utf8 */
+    utf8stream_writer_t plain;  /* an utf8 writer to write to plain_out */
+    universal_escaping_output_stream_t escaped_out;  /* an output stream to write to private_sql_buffer sql encoded */
+    utf8stream_writer_t escaped;  /* an utf8 writer to write to escaped_out */
 };
 
 typedef struct data_database_head_struct data_database_head_t;

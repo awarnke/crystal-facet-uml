@@ -18,7 +18,9 @@
 #include "data_feature.h"
 #include "data_relationship.h"
 #include "data_row_id.h"
-#include "utf8stringbuf/utf8stringbuf.h"
+#include "u8stream/universal_memory_output_stream.h"
+#include "u8stream/universal_escaping_output_stream.h"
+#include "utf8stream/utf8stream_writer.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -26,10 +28,11 @@
  *  \brief all data attributes needed for the sql-builder functions
  */
 struct data_database_sql_builder_struct {
-    utf8stringbuf_t temp_stringbuf;
-    utf8stringbuf_t sql_stringbuf;
-    char private_temp_buffer[8192+2048];  /* sufficient size to encode DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH */
     char private_sql_buffer[8192+4096];  /* sufficient size to encode a data record including DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH */
+    universal_memory_output_stream_t plain_out;  /* an output stream to write to private_sql_buffer as plain utf8 */
+    utf8stream_writer_t plain;  /* an utf8 writer to write to plain_out */
+    universal_escaping_output_stream_t escaped_out;  /* an output stream to write to private_sql_buffer sql encoded */
+    utf8stream_writer_t escaped;  /* an utf8 writer to write to escaped_out */
 };
 
 typedef struct data_database_sql_builder_struct data_database_sql_builder_t;

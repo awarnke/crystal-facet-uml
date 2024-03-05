@@ -10,6 +10,7 @@
  */
 
 #include "u8stream/universal_output_stream.h"
+#include "utf8stringbuf/utf8stringview.h"
 #include <stdio.h>
 
 /*!
@@ -43,7 +44,7 @@ static inline void utf8stream_writer_destroy ( utf8stream_writer_t *this_ );
  *  This may cut an utf8 code point in half.
  *
  *  \param this_ pointer to own object attributes
- *  \param utf8_string 0-terminated string to write
+ *  \param utf8_string 0-terminated string to write (expected types are char* and char[N]*)
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
 static inline u8_error_t utf8stream_writer_write_str ( utf8stream_writer_t *this_, const void *utf8_string );
@@ -65,6 +66,18 @@ static inline u8_error_t utf8stream_writer_write_int ( utf8stream_writer_t *this
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
 static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this_, const int64_t number );
+
+/*!
+ *  \brief writes an utf8 view to a stream
+ *
+ *  Note that the underlying universal_output_stream_t may cut the stream when e.g. the sink location is full.
+ *  This may cut an utf8 code point in half.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param utf8_view a view onto a sequence of utf8 codepoints to write
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
+ */
+static inline u8_error_t utf8stream_writer_write_view ( utf8stream_writer_t *this_, const utf8stringview_t *utf8_view );
 
 /*!
  *  \brief flushes buffers

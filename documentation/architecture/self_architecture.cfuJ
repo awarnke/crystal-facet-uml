@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.56.0"
+    "generator_version": "1.56.1"
   }
   ,
   "views":
@@ -5409,7 +5409,7 @@
         "type": "UMLClassDiagram",
         "name": "Details on simple data structure",
         "description": [
-                "This diagram shows the data structure of the \"Simple data structure\" alternative."
+                "This diagram shows the data structure of the 'Simple data structure' alternative."
         ],
         "list_order": 0,
         "display_flags": 0,

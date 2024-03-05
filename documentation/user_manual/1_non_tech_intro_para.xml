@@ -55,7 +55,7 @@ Diagrams can be exported as
 <itemizedlist>
     <listitem><para>images: pdf, ps, svg, png,</para>
     </listitem>
-    <listitem><para>text: utf-8, DocBook, xhtml,</para>
+    <listitem><para>text: utf-8, DocBook, html,</para>
     </listitem>
     <listitem><para>machine-readable model: json, xmi(TM).</para>
     </listitem>

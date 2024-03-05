@@ -149,7 +149,7 @@
         <listitem>
           <para>
               Exports all diagrams of a database_file in export_format to the export_directory.
-              Valid formats are: docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.
+              Valid formats are: docbook, html, json, pdf, png, ps, svg, txt, xmi.
               Please be aware that the export overwrites possibly existing files in the export_directory without notice.
           </para>
         </listitem>

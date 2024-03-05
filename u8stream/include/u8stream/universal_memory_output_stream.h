@@ -76,7 +76,9 @@ u8_error_t universal_memory_output_stream_flush( universal_memory_output_stream_
  *
  *  \param this_ pointer to own object attributes
  *  \param utf8_mode true ensures that no code point is cut in half
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_CONFIG_OUT_OF_RANGE if memory buffer has size 0, U8_ERROR_AT_FILE_WRITE otherwise
+ *  \return U8_ERROR_NONE in case of success,
+ *          U8_ERROR_CONFIG_OUT_OF_RANGE if memory buffer has size 0,
+ *          U8_ERROR_AT_FILE_WRITE otherwise
  */
 u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_, bool utf8_mode );
 
@@ -85,7 +87,7 @@ u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_
  *
  *  \param this_ pointer to own object attributes
  *  \return the abstract base class of this_
-  */
+ */
 universal_output_stream_t* universal_memory_output_stream_get_output_stream( universal_memory_output_stream_t *this_ );
 
 #endif  /* UNIVERSAL_MEMORY_OUTPUT_STREAM_H */

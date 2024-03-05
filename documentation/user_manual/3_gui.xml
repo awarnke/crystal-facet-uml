@@ -116,8 +116,7 @@
                     <listitem>
                         <para>
                             Exports all diagrams to the selected folder.
-                            To select the export folder, navigate to the parent folder and select the target folder.
-                            Supported formats are docbook, json, pdf, png, ps, svg, txt, xhtml, xmi.
+                            Supported export formats are docbook, html, json, pdf, png, ps, svg, txt, xmi.
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -592,7 +591,7 @@
                 </listitem>
                 <listitem>
                     <para>description of the focused object.</para>
-                    <para>For xhtml and DocBook export, use
+                    <para>For html and DocBook export, use
                         a double linebreak to create a new paragraph,
                         start lines with *, + or - to format a list,
                         use D0001#id and D0001#name to create a link to
