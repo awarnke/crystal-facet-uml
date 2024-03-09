@@ -29,11 +29,11 @@ extern "C" {
 
 /*!
  *  \typedef utf8string_t
- *  \brief The string object: This is a const char (array of const char would have been more accurate).
+ *  \brief The string object is of type const char (array of const char would have been more accurate).
  *
  *  utf8string_t is a const char to avoid typecasts whenever exchanging strings with POSIX, ANSI-C or other libraries.
  *
- *  utf8string_t objects referst to immutable strings, use a utf8stringbuf_t to modify the string object.
+ *  utf8string_t objects are immutable strings, use a utf8stringbuf_t to modify the string object.
  */
 typedef const char utf8string_t;
 

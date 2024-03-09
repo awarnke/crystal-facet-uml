@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.56.0"
+    "generator_version": "1.56.1"
   }
   ,
   "views":
@@ -2916,7 +2916,7 @@
         "description": [
                 "Stereotypes allow a classification of elements into project-specific categories.\n",
                 "\n",
-                "This diagram defines stereotypes and their images with focus on the solution space. "
+                "This diagram defines stereotypes and their images with focus on the solution space."
         ],
         "list_order": 32768,
         "display_flags": 0,

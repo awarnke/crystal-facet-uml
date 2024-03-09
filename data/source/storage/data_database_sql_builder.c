@@ -41,6 +41,9 @@ const char *const DATA_DATABASE_SQL_BUILDER_SQL_ENCODE[][2] = {
 void data_database_sql_builder_init ( data_database_sql_builder_t *this_ )
 {
     U8_TRACE_BEGIN();
+    /* data_diagram_t is the biggest data structure that may contain lots of quote symbols; */
+    /* an additional SQL statement around is also added, e.g. DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX */
+    assert( sizeof((*this_).private_sql_buffer) > 2*sizeof(data_diagram_t)+1024 );
 
     /* initialize a memory output stream */
     universal_memory_output_stream_init( &((*this_).plain_out),

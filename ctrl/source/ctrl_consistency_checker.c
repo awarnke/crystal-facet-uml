@@ -252,7 +252,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                                                                             CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER,
                                                                             &((*this_).temp_diagram_buffer),
                                                                             &out_diagram_count
-                );
+                                                                          );
                 if (( U8_ERROR_NONE == data_err )&&( out_diagram_count > 0 ))
                 {
                     root_diag_id = data_diagram_get_row_id( &((*this_).temp_diagram_buffer[0]) );
@@ -278,7 +278,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                                                                                diagram_row_id,
                                                                                root_diag_id,
                                                                                NULL /*out_old_diagram*/
-                    );
+                                                                             );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Diagram " );

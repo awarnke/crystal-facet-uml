@@ -28,11 +28,12 @@
  *  \brief all data attributes needed for the sql-builder functions
  */
 struct data_database_sql_builder_struct {
-    char private_sql_buffer[8192+4096];  /* sufficient size to encode a data record including DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH */
-    universal_memory_output_stream_t plain_out;  /* an output stream to write to private_sql_buffer as plain utf8 */
-    utf8stream_writer_t plain;  /* an utf8 writer to write to plain_out */
-    universal_escaping_output_stream_t escaped_out;  /* an output stream to write to private_sql_buffer sql encoded */
-    utf8stream_writer_t escaped;  /* an utf8 writer to write to escaped_out */
+    char private_sql_buffer[8192+8192+4096];  /*!< sufficient size to encode an CREATE/UPDATE SQL statement for a data record */
+                                              /*!< SQL encoded and including DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH */
+    universal_memory_output_stream_t plain_out;  /*!< an output stream to write to private_sql_buffer as plain utf8 */
+    utf8stream_writer_t plain;  /*!< an utf8 writer to write to plain_out */
+    universal_escaping_output_stream_t escaped_out;  /*!< an output stream to write to private_sql_buffer sql encoded */
+    utf8stream_writer_t escaped;  /*!< an utf8 writer to write to escaped_out */
 };
 
 typedef struct data_database_sql_builder_struct data_database_sql_builder_t;

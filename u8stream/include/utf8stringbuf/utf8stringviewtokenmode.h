@@ -35,7 +35,7 @@ extern "C" {
  *
  *  Float mode differs in
  *  - floating point numbers are recognized as tokens, e.g. 0.0, +1.e-5, -03.23E+14, NaN, -Infinity
- *    for use in the stdlib function double strtod(...) if locale "C" is set
+ *    for use in the stdlib function strtod(...) if locale "C" is set
  */
 enum utf8stringviewtokenmode_enum {
     UTF8STRINGVIEWTOKENMODE_TEXT = 0,    /*!< alphanumerical and special-char tokens are recognized */
