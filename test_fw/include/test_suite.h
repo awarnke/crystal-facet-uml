@@ -11,6 +11,7 @@
  */
 
 #include "test_case_result.h"
+#include "test_case.h"
 #include "test_fixture.h"
 #include <stdbool.h>
 
@@ -29,12 +30,10 @@ struct test_suite_struct {
     test_fixture_t * (*setup) (void);  /*!< pointer to setup function of test fixture */
     void (*teardown) (test_fixture_t *test_env);  /*!< pointer to teardown function of test fixture */
     unsigned int test_case_count;  /*!< number of test cases */
-    const char *(test_case_name[TEST_SUITE_MAX_TEST_CASES]);  /*!< array of test case names */
-    test_case_result_t (*(test_case[TEST_SUITE_MAX_TEST_CASES])) (test_fixture_t *test_env);  /*!< array of pointers to test case functions */
+    test_case_t test_case[TEST_SUITE_MAX_TEST_CASES];  /*!< array of test case definitions */
 };
 
 typedef struct test_suite_struct test_suite_t;
-
 
 /*!
  *  \brief initializes the test_suite_t
@@ -102,7 +101,6 @@ static inline const char* test_suite_get_name( test_suite_t *this_ );
  *  \return name of test case
  */
 static inline const char* test_suite_get_test_case_name( test_suite_t *this_, unsigned int index );
-
 
 #include "test_suite.inl"
 

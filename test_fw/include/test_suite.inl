@@ -30,8 +30,8 @@ static inline void test_suite_add_test_case( test_suite_t *this_,
 {
     TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count < TEST_SUITE_MAX_TEST_CASES );
     TEST_ENVIRONMENT_ASSERT( NULL != test_case );
-    (*this_).test_case_name[(*this_).test_case_count] = name;
-    (*this_).test_case[(*this_).test_case_count] = test_case;
+    const int index = (*this_).test_case_count;
+    test_case_init( &((*this_).test_case[index]), name, (test_category_t)0x0, test_case );
     (*this_).test_case_count ++;
 }
 
@@ -46,7 +46,7 @@ static inline test_case_result_t test_suite_run_test_case( test_suite_t *this_, 
     TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
     TEST_ENVIRONMENT_ASSERT( index < (*this_).test_case_count );
     test_fixture_t *const test_env = (*((*this_).setup))();
-    const test_case_result_t result = (*((*this_).test_case[index]))( test_env );
+    const test_case_result_t result = test_case_execute( &((*this_).test_case[index]), test_env );
     (*((*this_).teardown))( test_env );
     return result;
 }
@@ -60,7 +60,7 @@ static inline const char* test_suite_get_test_case_name( test_suite_t *this_, un
 {
     TEST_ENVIRONMENT_ASSERT( (*this_).test_case_count <= TEST_SUITE_MAX_TEST_CASES );
     TEST_ENVIRONMENT_ASSERT( index < (*this_).test_case_count );
-    return (*this_).test_case_name[index];
+    return test_case_get_name( &((*this_).test_case[index]) );
 }
 
 
