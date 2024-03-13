@@ -12,6 +12,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "test_category.h"
 #include "test_result.h"
 #include "test_suite.h"
 
@@ -19,6 +20,8 @@
  *  \brief attributes of a test runner
  */
 struct test_runner_struct {
+    test_category_t mask;  /*!< ignore the 0-bits of the mask in a test cases test_category */
+    test_category_t pattern;  /*!< select the test cases where test_category matches pattern */
     test_result_t result;  /*!< test result statistics */
 };
 
@@ -37,6 +40,15 @@ static inline void test_runner_init( test_runner_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void test_runner_destroy( test_runner_t *this_ );
+
+/*!
+ *  \brief sets mask and pattern of the test_runner_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param mask ignore the 0-bits of the mask in a test cases test_category
+ *  \param pattern select the test cases where test_category matches pattern
+ */
+static inline void test_runner_set_filter( test_runner_t *this_, test_category_t mask, test_category_t pattern );
 
 /*!
  *  \brief test runner - runs a test suite

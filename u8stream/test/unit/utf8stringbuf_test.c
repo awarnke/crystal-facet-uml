@@ -57,7 +57,12 @@ static test_case_result_t testGetEnd( test_fixture_t *fix );
 test_suite_t utf8stringbuf_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8StringBufTest", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8StringBufTest",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testInit", &testInit );
     test_suite_add_test_case( &result, "testClear", &testClear );
     test_suite_add_test_case( &result, "testLength", &testLength );

@@ -51,14 +51,14 @@ static inline void test_case_destroy( test_case_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const char * test_case_get_name( test_case_t *this_ );
+static inline const char * test_case_get_name( const test_case_t *this_ );
 
 /*!
  *  \brief returns the category of the test case
  *
  *  \param this_ pointer to own object attributes
  */
-static inline test_category_t test_case_get_catgegory( test_case_t *this_ );
+static inline test_category_t test_case_get_catgegory( const test_case_t *this_ );
 
 /*!
  *  \brief returns the number of failed test cases

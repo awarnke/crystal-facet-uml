@@ -17,7 +17,12 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
 test_suite_t data_rules_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "data_rules_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "data_rules_test",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_data_rules_filter_scenarios", &test_data_rules_filter_scenarios );
     test_suite_add_test_case( &result, "test_data_rules_filter_box_and_list", &test_data_rules_filter_box_and_list );
     test_suite_add_test_case( &result, "test_data_rules_filter_standard", &test_data_rules_filter_standard );

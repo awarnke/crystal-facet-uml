@@ -27,6 +27,7 @@ enum test_suite_max_enum {
  */
 struct test_suite_struct {
     const char *name;
+    test_category_t default_category;  /*!< default category of test cases */
     test_fixture_t * (*setup) (void);  /*!< pointer to setup function of test fixture */
     void (*teardown) (test_fixture_t *test_env);  /*!< pointer to teardown function of test fixture */
     unsigned int test_case_count;  /*!< number of test cases */
@@ -39,12 +40,14 @@ typedef struct test_suite_struct test_suite_t;
  *  \brief initializes the test_suite_t
  *
  *  \param name name of test suite
+ *  \param default_category default category of test cases
  *  \param setup function pointer to setup function
  *  \param teardown function pointer to teardown function
  *  \param this_ pointer to own object attributes
  */
 static inline void test_suite_init( test_suite_t *this_,
                                     const char *name,
+                                    test_category_t default_category,
                                     test_fixture_t * (*setup) (void),
                                     void (*teardown) ( test_fixture_t *test_env )
                                   );
@@ -57,7 +60,7 @@ static inline void test_suite_init( test_suite_t *this_,
 static inline void test_suite_destroy( test_suite_t *this_ );
 
 /*!
- *  \brief adds a test case to the test_suite_t
+ *  \brief adds a test case to the test_suite_t using the default_category
  *
  *  \param this_ pointer to own object attributes
  *  \param name name of test case
@@ -67,6 +70,20 @@ static inline void test_suite_add_test_case( test_suite_t *this_,
                                              const char *name,
                                              test_case_result_t (*test_case) ( test_fixture_t *test_env )
                                            );
+
+/*!
+ *  \brief adds a test case to the test_suite_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param name name of test case
+ *  \param category category of test case; the default_category of this test_suite_t is ignored.
+ *  \param test_case function pointer to test_case function
+ */
+static inline void test_suite_add_special_test_case( test_suite_t *this_,
+                                                     const char *name,
+                                                     test_category_t category,
+                                                     test_case_result_t (*test_case) ( test_fixture_t *test_env )
+                                                   );
 
 /*!
  *  \brief adds a test case to the test_suite_t
@@ -94,13 +111,13 @@ static inline test_case_result_t test_suite_run_test_case( test_suite_t *this_, 
 static inline const char* test_suite_get_name( test_suite_t *this_ );
 
 /*!
- *  \brief gets the name of a test case in the test_suite_t
+ *  \brief gets the test_case_t in the test_suite_t
  *
  *  \param this_ pointer to own object attributes
  *  \param index index of the test case, value between 0 and (test_case_count-1)
- *  \return name of test case
+ *  \return a const pointer to the test_case_t
  */
-static inline const char* test_suite_get_test_case_name( test_suite_t *this_, unsigned int index );
+static inline const test_case_t* test_suite_get_test_case( test_suite_t *this_, unsigned int index );
 
 #include "test_suite.inl"
 

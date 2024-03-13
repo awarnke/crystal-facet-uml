@@ -21,7 +21,12 @@ static test_case_result_t test_i32( test_fixture_t *fix );
 test_suite_t u8__test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "u8__test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "u8__test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_error", &test_error );
     test_suite_add_test_case( &result, "test_error_info", &test_error_info );
     test_suite_add_test_case( &result, "test_f64", &test_f64 );

@@ -19,7 +19,12 @@ static test_case_result_t no_hidden_relationships( test_fixture_t *fix );
 test_suite_t consistency_drop_invisibles_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "consistency_drop_invisibles_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "consistency_drop_invisibles_test",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "no_hidden_relationships", &no_hidden_relationships );
     return result;
 }

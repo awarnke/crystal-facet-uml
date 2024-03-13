@@ -18,12 +18,12 @@ static inline void test_case_destroy( test_case_t *this_ )
 {
 }
 
-static inline const char * test_case_get_name( test_case_t *this_ )
+static inline const char * test_case_get_name( const test_case_t *this_ )
 {
     return (*this_).name;
 }
 
-static inline test_category_t test_case_get_catgegory( test_case_t *this_ )
+static inline test_category_t test_case_get_catgegory( const test_case_t *this_ )
 {
     return (*this_).category;
 }

@@ -29,7 +29,12 @@ static test_case_result_t testParseFloat( test_fixture_t *fix );
 test_suite_t utf8stringview_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8StringViewTest", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8StringViewTest",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testInitMacros", &testInitMacros );
     test_suite_add_test_case( &result, "testInitFunctionsOnRightRange", &testInitFunctionsOnRightRange );
     test_suite_add_test_case( &result, "testInitFunctionsOnWrongRange", &testInitFunctionsOnWrongRange );

@@ -14,15 +14,18 @@
  *  \brief bitmask defining the categories of a test suite
  */
 enum test_category_enum {
-    TEST_CATEGORY_UNIT = 0x01000000,  /*!< the test goal is to verify the inner working of a single software unit */
-    TEST_CATEGORY_INTEGRATION = 0x02000000,  /*!< the test goal is to verify the inter-working of several integrated software units */
-    TEST_CATEGORY_QUALIFICATION = 0x04000000,  /*!< the test goal is to verify the external view on an integrated software */
+    TEST_CATEGORY_UNIT = 0x01000000,  /*!< The test goal is to verify the inner working of a single software unit */
+    TEST_CATEGORY_INTEGRATION = 0x02000000,  /*!< The test goal is to verify the inter-working of several integrated software units */
+    TEST_CATEGORY_QUALIFICATION = 0x04000000,  /*!< The test goal is to verify the external interfaces of an integrated software */
 
-    TEST_CATEGORY_CONTINUOUS = 0x00010000,  /*!< the intended test cycle is always, at each build */
-    TEST_CATEGORY_RELEASE = 0x00020000,  /*!< the intended test cycle is once per release/deployment */
-    TEST_CATEGORY_SPORADIC = 0x00040000,  /*!< the intended test cycle is none, tests shall only be executed when manually triggered */
+    TEST_CATEGORY_CONTINUOUS = 0x00010000,  /*!< The intended test cycle is 'always', at each build */
+    TEST_CATEGORY_RELEASE = 0x00020000,  /*!< The intended test cycle is 'once per release' */
+    TEST_CATEGORY_QUEST = 0x00040000,  /*!< The intended test cycle is 'none', tests shall only be executed when manually triggered */
 
-    TEST_CATEGORY_COVERAGE = 0x00000100,  /*!< the test is sutable for line and branch coverage tests */
+    TEST_CATEGORY_COVERAGE = 0x00000100,  /*!< The test is suitable for line and branch coverage tests. */
+                                          /*!< Note that a test case that runs through so many lines of code */
+                                          /*!< that the final result check can not detect all possible errors */
+                                          /*!< is not suitable for measuring line or branch coverage. */
 };
 
 typedef enum test_category_enum test_category_t;

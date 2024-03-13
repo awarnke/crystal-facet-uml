@@ -35,7 +35,12 @@ static test_case_result_t testParseFloatWithInjectedFault( test_fixture_t *fix )
 test_suite_t utf8string_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8StringTest", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8StringTest",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testSize", &testSize );
     test_suite_add_test_case( &result, "testLength", &testLength );
     test_suite_add_test_case( &result, "testEquals", &testEquals );
@@ -50,6 +55,7 @@ test_suite_t utf8string_test_get_suite(void)
     test_suite_add_test_case( &result, "testParseInt", &testParseInt );
     test_suite_add_test_case( &result, "testParseFloat", &testParseFloat );
 #ifndef NDEBUG
+    /* Fault injection works not in NDEBUG mode*/
     test_suite_add_test_case( &result, "testParseIntWithInjectedFault", &testParseIntWithInjectedFault );
     test_suite_add_test_case( &result, "testParseFloatWithInjectedFault", &testParseFloatWithInjectedFault );
 #endif

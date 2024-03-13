@@ -25,7 +25,12 @@ static data_row_id_t create_root_diag( ctrl_controller_t *controller );  /* help
 test_suite_t io_md_writer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_md_writer_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "io_md_writer_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_md_plain_mixed", &test_md_plain_mixed );
     test_suite_add_test_case( &result, "test_valid_links", &test_valid_links );
     test_suite_add_test_case( &result, "test_invalid_links", &test_invalid_links );

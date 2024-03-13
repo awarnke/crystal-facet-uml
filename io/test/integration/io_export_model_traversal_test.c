@@ -41,7 +41,12 @@ static void create_mini_model( ctrl_controller_t *controller,
 test_suite_t io_export_model_traversal_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_export_model_traversal_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "io_export_model_traversal_test_get_suite",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_RELEASE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "iterate_types_on_mini_model", &iterate_types_on_mini_model );
     return result;
 }

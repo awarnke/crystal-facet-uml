@@ -18,7 +18,12 @@ static test_case_result_t test_delete_head( test_fixture_t *fix );
 test_suite_t data_database_head_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "data_database_head_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "data_database_head_test",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_create_head", &test_create_head );
     test_suite_add_test_case( &result, "test_read_head", &test_read_head );
     test_suite_add_test_case( &result, "test_update_head", &test_update_head );

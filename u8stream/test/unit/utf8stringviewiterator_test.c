@@ -21,7 +21,12 @@ static test_case_result_t testEmptySeparatorUseCase( test_fixture_t *fix );
 test_suite_t utf8stringviewiterator_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8StringViewIteratorTest", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8StringViewIteratorTest",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testStandardUseCase", &testStandardUseCase );
     test_suite_add_test_case( &result, "testNoSeparatorUseCase", &testNoSeparatorUseCase );
     test_suite_add_test_case( &result, "testEmptyElementsUseCase", &testEmptyElementsUseCase );

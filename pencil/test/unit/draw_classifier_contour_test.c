@@ -16,8 +16,12 @@ static test_case_result_t test_calc_inner_area_too_small( test_fixture_t *fix );
 test_suite_t draw_classifier_contour_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "draw_classifier_contour_test_get_suite", &set_up, &tear_down );
-
+    test_suite_init( &result,
+                     "draw_classifier_contour_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_calc_inner_area_and_back", &test_calc_inner_area_and_back );
     test_suite_add_test_case( &result, "test_calc_inner_area_too_small", &test_calc_inner_area_too_small );
     return result;

@@ -22,7 +22,12 @@ unsigned int eq_calls;  /* count equal callbacks */
 test_suite_t universal_array_list_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "universal_array_list_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "universal_array_list_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_insert_and_retrieve", &test_insert_and_retrieve );
     test_suite_add_test_case( &result, "test_max_size", &test_max_size );
     test_suite_add_test_case( &result, "test_element_lifecycle", &test_element_lifecycle );

@@ -16,8 +16,9 @@
  *  \brief attributes of a test result
  */
 struct test_result_struct {
-    unsigned int total;  /*!< total number of executed test cases */
+    unsigned int passed;  /*!< passed number of executed test cases */
     unsigned int failed;  /*!< failed number of executed test cases */
+    unsigned int skipped;  /*!< number of skipped test cases */
 };
 
 typedef struct test_result_struct test_result_t;
@@ -45,11 +46,18 @@ static inline void test_result_destroy( test_result_t *this_ );
 static inline void test_result_add_test_case_result( test_result_t *this_, test_case_result_t result );
 
 /*!
- *  \brief returns the number of total test cases
+ *  \brief add a skipped test case
  *
  *  \param this_ pointer to own object attributes
  */
-static inline unsigned int test_result_get_total( test_result_t *this_ );
+static inline void test_result_add_skipped( test_result_t *this_ );
+
+/*!
+ *  \brief returns the number of passed test cases
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline unsigned int test_result_get_passed( test_result_t *this_ );
 
 /*!
  *  \brief returns the number of failed test cases
@@ -57,6 +65,13 @@ static inline unsigned int test_result_get_total( test_result_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline unsigned int test_result_get_failed( test_result_t *this_ );
+
+/*!
+ *  \brief returns the number of skipped test cases
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline unsigned int test_result_get_skipped( test_result_t *this_ );
 
 #include "test_result.inl"
 

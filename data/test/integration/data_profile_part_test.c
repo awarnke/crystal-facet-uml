@@ -21,7 +21,12 @@ static test_case_result_t too_much_input( test_fixture_t *fix );
 test_suite_t data_profile_part_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "data_profile_part_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "data_profile_part_test",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "no_results", &no_results );
     test_suite_add_test_case( &result, "search_and_filter", &search_and_filter );
     test_suite_add_test_case( &result, "too_much_input", &too_much_input );

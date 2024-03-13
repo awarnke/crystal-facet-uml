@@ -26,7 +26,12 @@ static test_case_result_t testSwitchModes( test_fixture_t *fix );
 test_suite_t utf8stringviewtokenizer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8stringviewtokenizer_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8stringviewtokenizer_test",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testIntEmpty", &testIntEmpty );
     test_suite_add_test_case( &result, "testIntSpaceSeparators", &testIntSpaceSeparators );
     test_suite_add_test_case( &result, "testIntMixedCodepoints", &testIntMixedCodepoints );

@@ -20,7 +20,12 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
 test_suite_t consistency_lifeline_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "consistency_lifeline_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "consistency_lifeline_test",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "lifeline_to_diagramelement_consistency", &lifeline_to_diagramelement_consistency );
     test_suite_add_test_case( &result, "diagram_to_lifeline_consistency", &diagram_to_lifeline_consistency );
     test_suite_add_test_case( &result, "diagramelement_to_lifeline_consistency", &diagramelement_to_lifeline_consistency );

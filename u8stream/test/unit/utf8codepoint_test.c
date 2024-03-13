@@ -21,7 +21,12 @@ static test_case_result_t testUnicode( test_fixture_t *fix );
 test_suite_t utf8codepoint_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8CodePointTest", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8CodePointTest",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testInit1", &testInit1 );
     test_suite_add_test_case( &result, "testInit2", &testInit2 );
     test_suite_add_test_case( &result, "testIntToUtf8ToInt", &testIntToUtf8ToInt );

@@ -21,7 +21,12 @@ static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix );
 test_suite_t data_database_reader_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "data_database_reader_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "data_database_reader_test",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_search_diagrams", &test_search_diagrams );
     test_suite_add_test_case( &result, "test_search_diagramelements", &test_search_diagramelements );
     test_suite_add_test_case( &result, "test_search_classifiers", &test_search_classifiers );

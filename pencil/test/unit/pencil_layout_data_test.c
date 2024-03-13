@@ -20,7 +20,12 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
 test_suite_t pencil_layout_data_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "pencil_layout_data_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "pencil_layout_data_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_empty_model", &test_empty_model );
     test_suite_add_test_case( &result, "test_normal_model", &test_normal_model );
     test_suite_add_test_case( &result, "test_too_big_model", &test_too_big_model );

@@ -2,8 +2,9 @@
 
 static inline void test_result_init( test_result_t *this_ )
 {
-    (*this_).total = 0;
+    (*this_).passed = 0;
     (*this_).failed = 0;
+    (*this_).skipped = 0;
 }
 
 static inline void test_result_destroy( test_result_t *this_ )
@@ -12,21 +13,34 @@ static inline void test_result_destroy( test_result_t *this_ )
 
 static inline void test_result_add_test_case_result( test_result_t *this_, test_case_result_t result )
 {
-    (*this_).total ++;
     if ( result != TEST_CASE_RESULT_OK )
     {
         (*this_).failed ++;
     }
+    else
+    {
+        (*this_).passed ++;
+    }
 }
 
-static inline unsigned int test_result_get_total( test_result_t *this_ )
+static inline void test_result_add_skipped( test_result_t *this_ )
 {
-    return (*this_).total;
+    (*this_).skipped ++;
+}
+
+static inline unsigned int test_result_get_passed( test_result_t *this_ )
+{
+    return (*this_).passed;
 }
 
 static inline unsigned int test_result_get_failed( test_result_t *this_ )
 {
     return (*this_).failed;
+}
+
+static inline unsigned int test_result_get_skipped( test_result_t *this_ )
+{
+    return (*this_).skipped;
 }
 
 

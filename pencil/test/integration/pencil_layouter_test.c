@@ -15,9 +15,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t layout_good_cases( test_fixture_t *fix );
 static test_case_result_t layout_challenging_cases( test_fixture_t *fix );
-#ifndef NDEBUG
 static test_case_result_t layout_edge_cases( test_fixture_t *fix );
-#endif
 
 /*
 Note that the test results/statistics stronly depend on the installed fonts.
@@ -26,12 +24,16 @@ Note that the test results/statistics stronly depend on the installed fonts.
 test_suite_t pencil_layouter_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "pencil_layouter_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "pencil_layouter_test_get_suite",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
     test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
-#ifndef NDEBUG
-    test_suite_add_test_case( &result, "layout_edge_cases", &layout_edge_cases );
-#endif
+    const test_category_t ON_QUEST = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_QUEST;
+    test_suite_add_special_test_case( &result, "layout_edge_cases", ON_QUEST, &layout_edge_cases );
     return result;
 }
 
@@ -198,7 +200,6 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-#ifndef NDEBUG
 static test_case_result_t layout_edge_cases( test_fixture_t *fix )
 {
     assert( fix != NULL );
@@ -229,7 +230,6 @@ static test_case_result_t layout_edge_cases( test_fixture_t *fix )
     test_data_setup_destroy( &ts_setup );
     return TEST_CASE_RESULT_OK;
 }
-#endif
 
 
 /*

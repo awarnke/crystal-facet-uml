@@ -22,7 +22,12 @@ static test_case_result_t testInsertAndDelete( test_fixture_t *fix );
 test_suite_t utf8stringbuf_performance_get_list(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8CodePointTest", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8CodePointTest",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testClear", &testClear );
     test_suite_add_test_case( &result, "testAppendStr", &testAppendStr );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );

@@ -13,7 +13,12 @@ static test_case_result_t test_unique( test_fixture_t *test_env );
 test_suite_t data_uuid_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "data_uuid_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "data_uuid_test",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_format", &test_format );
     test_suite_add_test_case( &result, "test_unique", &test_unique );
     return result;

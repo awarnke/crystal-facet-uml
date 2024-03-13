@@ -22,7 +22,12 @@ static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu1
 test_suite_t io_data_file_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_data_file_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "io_data_file_test",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "create_new_db", &create_new_db );
     test_suite_add_test_case( &result, "open_existing_db", &open_existing_db );
     test_suite_add_test_case( &result, "open_invalid_file", &open_invalid_file );

@@ -19,7 +19,12 @@ static test_case_result_t testIllegalUseCase( test_fixture_t *fix );
 test_suite_t utf8codepointiterator_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "utf8CodePointIteratorTest", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "utf8CodePointIteratorTest",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "testStandardUseCase", &testStandardUseCase );
     test_suite_add_test_case( &result, "testEmptyUseCase", &testEmptyUseCase );
     test_suite_add_test_case( &result, "testIllegalUseCase", &testIllegalUseCase );

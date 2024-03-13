@@ -14,7 +14,12 @@ static test_case_result_t test_scale_conversion( test_fixture_t *fix );
 test_suite_t geometry_non_linear_scale_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "geometry_non_linear_scale_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "geometry_non_linear_scale_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_scale_conversion", &test_scale_conversion );
     return result;
 }

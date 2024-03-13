@@ -88,6 +88,8 @@ int main (int argc, char *argv[]) {
 
     bool do_unit_tests = false;
     bool do_integration_tests = false;
+    test_category_t mask = TEST_CATEGORY_QUEST;
+    test_category_t pattern = 0x0;
 
     /* handle options */
     if ( argc == 2 )
@@ -106,15 +108,21 @@ int main (int argc, char *argv[]) {
         if ( utf8string_equals_str( argv[1], "-u" ) )
         {
             do_unit_tests = true;
+            mask = TEST_CATEGORY_UNIT | TEST_CATEGORY_QUEST;
+            pattern = TEST_CATEGORY_UNIT;
         }
         if ( utf8string_equals_str( argv[1], "-i" ) )
         {
             do_integration_tests = true;
+            mask = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_QUEST;
+            pattern = TEST_CATEGORY_INTEGRATION;
         }
         if ( utf8string_equals_str( argv[1], "-a" ) )
         {
             do_unit_tests = true;
             do_integration_tests = true;
+            mask = TEST_CATEGORY_QUEST;
+            pattern = 0x0;
         }
     }
 
@@ -129,10 +137,11 @@ int main (int argc, char *argv[]) {
 
     /* start tests */
     test_runner_t runner;
-    test_runner_init ( &runner );
+    test_runner_init( &runner );
+    test_runner_set_filter( &runner, mask, pattern );
 
     /* unit-tests test single software units and try to cover all control flows */
-    if ( do_unit_tests )
+    //if ( do_unit_tests )
     {
         /* data */
         test_runner_run_suite( &runner, data_small_set_test_get_suite() );
@@ -184,7 +193,7 @@ int main (int argc, char *argv[]) {
     }
 
     /* integration tests test multiple software units and their interactions */
-    if ( do_integration_tests )
+    //if ( do_integration_tests )
     {
         /* data */
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
@@ -212,8 +221,9 @@ int main (int argc, char *argv[]) {
     /* fetch failures */
     test_result_t res = test_get_result( &runner );
     fprintf( stdout,
-             "ALL TESTS - RESULT: total %d, failed: %d\n",
-             test_result_get_total( &res ),
+             "ALL TESTS - RESULT: skipped: %d, passed %d, failed: %d\n",
+             test_result_get_skipped( &res ),
+             test_result_get_passed( &res ),
              test_result_get_failed( &res )
            );
     exit_code = test_result_get_failed( &res );

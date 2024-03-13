@@ -17,7 +17,12 @@ static test_case_result_t test_alloc_blocks( test_fixture_t *fix );
 test_suite_t universal_memory_arena_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "universal_memory_arena_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "universal_memory_arena_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_alloc_blocks", &test_alloc_blocks );
     return result;
 }

@@ -16,26 +16,22 @@
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t render_good_cases( test_fixture_t *fix );
-#ifndef NDEBUG
 static test_case_result_t render_challenging_cases( test_fixture_t *fix );
 static test_case_result_t render_edge_cases( test_fixture_t *fix );
-#endif
-
-#ifndef NDEBUG
-#define PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-#else
-#endif
 
 test_suite_t pencil_diagram_maker_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "pencil_diagram_maker_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "pencil_diagram_maker_test_get_suite",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "render_good_cases", &render_good_cases );
-#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
-    /* no need to test more drawing if the diagrams are not generated to files */
-    test_suite_add_test_case( &result, "render_challenging_cases", &render_challenging_cases );
-    test_suite_add_test_case( &result, "render_edge_cases", &render_edge_cases );
-#endif
+    const test_category_t ON_QUEST = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_QUEST;
+    test_suite_add_special_test_case( &result, "render_challenging_cases", ON_QUEST, &render_challenging_cases );
+    test_suite_add_special_test_case( &result, "render_edge_cases", ON_QUEST, &render_edge_cases );
     return result;
 }
 
@@ -93,7 +89,6 @@ static void draw_background( const geometry_rectangle_t *diagram_bounds, cairo_t
     U8_TRACE_END();
 }
 
-#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
 static void render_to_file( cairo_surface_t *surface,
                             const test_data_setup_t *ts_case_setup,
                             data_stat_t *render_stats )
@@ -143,7 +138,6 @@ static void render_to_file( cairo_surface_t *surface,
     TEST_ENVIRONMENT_ASSERT( CAIRO_STATUS_SUCCESS == png_result );
     U8_TRACE_END();
 }
-#endif
 
 static test_case_result_t render_good_cases( test_fixture_t *fix )
 {
@@ -174,8 +168,7 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
                                   );
 
         /* check result */
-        /* TODO, manual check for now */
-#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
+#ifndef NDEBUG
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
 #endif
         data_stat_destroy( &layout_stats );
@@ -184,7 +177,6 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-#ifndef NDEBUG
 static test_case_result_t render_challenging_cases( test_fixture_t *fix )
 {
     assert( fix != NULL );
@@ -214,10 +206,7 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
                                   );
 
         /* check result */
-        /* TODO, manual check for now */
-#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
-#endif
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
@@ -253,16 +242,12 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
                                   );
 
         /* check result */
-        /* TODO, manual check for now */
-#ifdef PENCIL_DIAGRAM_MAKER_TEST_EXPORT_SAMPLES
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
-#endif
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );
     return TEST_CASE_RESULT_OK;
 }
-#endif
 
 
 /*

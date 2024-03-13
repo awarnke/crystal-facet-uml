@@ -16,7 +16,12 @@ static test_case_result_t test_notifier_list_full( test_fixture_t *fix );
 test_suite_t data_change_notifier_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "data_change_notifier_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "data_change_notifier_test",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_notifier_list_insert_and_remove", &test_notifier_list_insert_and_remove );
     test_suite_add_test_case( &result, "test_notifier_list_full", &test_notifier_list_full );
     return result;

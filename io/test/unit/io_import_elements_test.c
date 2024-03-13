@@ -26,7 +26,12 @@ static data_row_id_t set_mode_paste_to_root_diag( test_fixture_t *fix );
 test_suite_t io_import_elements_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_import_elements_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "io_import_elements_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_reject_duplicates", &test_reject_duplicates );
     return result;
 }

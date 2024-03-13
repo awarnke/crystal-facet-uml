@@ -21,7 +21,12 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
 test_suite_t ctrl_diagram_controller_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "ctrl_diagram_controller_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "ctrl_diagram_controller_test",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "create_read_modify_read", &create_read_modify_read );
     test_suite_add_test_case( &result, "create_diagramelements_and_delete", &create_diagramelements_and_delete );
     return result;

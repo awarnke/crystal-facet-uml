@@ -22,7 +22,12 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix );
 test_suite_t ctrl_undo_redo_list_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "ctrl_undo_redo_list_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "ctrl_undo_redo_list_test",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "undo_redo_classifier", &undo_redo_classifier );
     test_suite_add_test_case( &result, "undo_redo_list_limits", &undo_redo_list_limits );
     test_suite_add_test_case( &result, "undo_redo_feature_and_relationship", &undo_redo_feature_and_relationship );

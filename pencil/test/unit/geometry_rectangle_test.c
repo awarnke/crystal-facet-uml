@@ -25,7 +25,12 @@ static test_case_result_t test_embrace( test_fixture_t *fix );
 test_suite_t geometry_rectangle_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "geometry_rectangle_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "geometry_rectangle_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_contain", &test_contain );
     test_suite_add_test_case( &result, "test_intersect", &test_intersect );
     test_suite_add_test_case( &result, "test_bounds", &test_bounds );

@@ -23,7 +23,12 @@ static test_case_result_t test_calc_waypoint_zero( test_fixture_t *fix );
 test_suite_t geometry_connector_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "geometry_connector_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "geometry_connector_test_get_suite",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_base_methods", &test_base_methods );
     test_suite_add_test_case( &result, "test_bounding_rectangle", &test_bounding_rectangle );
     test_suite_add_test_case( &result, "test_segment_bounds", &test_segment_bounds );

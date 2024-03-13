@@ -22,7 +22,12 @@ static test_case_result_t test_parse( test_fixture_t *fix );
 test_suite_t json_token_reader_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "json_token_reader_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "json_token_reader_test",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_skip_whitespace", &test_skip_whitespace );
     test_suite_add_test_case( &result, "test_is_value_end", &test_is_value_end );
     test_suite_add_test_case( &result, "test_get_value_type", &test_get_value_type );

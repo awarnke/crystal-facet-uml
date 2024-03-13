@@ -14,7 +14,12 @@ static test_case_result_t test_database_listener_registration_full( test_fixture
 test_suite_t data_database_listener_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "data_database_listener_test", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "data_database_listener_test",
+                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "test_database_listener_register_and_notify", &test_database_listener_register_and_notify );
     test_suite_add_test_case( &result, "test_database_listener_registration_full", &test_database_listener_registration_full );
     return result;

@@ -34,7 +34,12 @@ static data_row_id_t create_root_diag( ctrl_controller_t *controller );  /* help
 test_suite_t io_importer_test_get_suite(void)
 {
     test_suite_t result;
-    test_suite_init( &result, "io_importer_test_test_get_suite", &set_up, &tear_down );
+    test_suite_init( &result,
+                     "io_importer_test_test_get_suite",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     &set_up,
+                     &tear_down
+                   );
     test_suite_add_test_case( &result, "insert_invalid_json", &insert_invalid_json );
     test_suite_add_test_case( &result, "insert_invalid_parent_diag", &insert_invalid_parent_diag );
     test_suite_add_test_case( &result, "insert_empty_set", &insert_empty_set );
