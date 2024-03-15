@@ -37,7 +37,7 @@ lcov --capture --initialize --directory ./crystal-facet-uml_${VERSIONSTR}/cmake_
 
 echo "running unit tests"
 cd crystal-facet-uml_${VERSIONSTR}/cmake_build/
-{ ./gcov_crystal-facet-uml -u || echo "ERROR == ERROR == ERROR == ERROR" ; } | grep -e '^test ' -e '^  test ' -e 'ERROR '
+{ ./gcov_crystal-facet-uml -U || echo "ERROR == ERROR == ERROR == ERROR" ; } | grep -e '^test ' -e '^  test ' -e 'ERROR '
 cd ../..
 
 echo "running gcov/lcov on unittest"
@@ -48,9 +48,9 @@ genhtml --prefix `pwd`/crystal-facet-uml_${VERSIONSTR} lcov_unit_filtered.info -
 echo "initializing lcov for all tests"
 lcov --capture --initialize --directory ./crystal-facet-uml_${VERSIONSTR}/cmake_build/CMakeFiles/gcov_crystal-facet-uml.dir --output-file lcov_all.info
 
-echo "running all tests"
+echo "running all coverage tests"
 cd crystal-facet-uml_${VERSIONSTR}/cmake_build/
-{ ./gcov_crystal-facet-uml -a || echo "ERROR == ERROR == ERROR == ERROR" ; } | grep -e '^test ' -e '^  test ' -e 'ERROR '
+{ ./gcov_crystal-facet-uml -C || echo "ERROR == ERROR == ERROR == ERROR" ; } | grep -e '^test ' -e '^  test ' -e 'ERROR '
 cd ../..
 
 echo "running gcov/lcov on alltests"

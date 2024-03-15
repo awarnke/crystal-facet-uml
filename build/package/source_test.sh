@@ -32,11 +32,10 @@ cd ..
 
 echo "runing unit tests"
 cd cmake_build
-./test_crystal-facet-uml -a || echo "ERROR == ERROR == ERROR == ERROR"
+./test_crystal-facet-uml -R || echo "ERROR == ERROR == ERROR == ERROR"
 cd ..
 
 echo "clean up test"
 sleep 10
 rm -fr crystal-facet-uml-$VERSIONSTR
 rm -fr cmake_build
-

@@ -18,7 +18,7 @@
 struct test_result_struct {
     unsigned int passed;  /*!< passed number of executed test cases */
     unsigned int failed;  /*!< failed number of executed test cases */
-    unsigned int skipped;  /*!< number of skipped test cases */
+    unsigned int skipped;  /*!< number of skipped/fitered test cases */
 };
 
 typedef struct test_result_struct test_result_t;
