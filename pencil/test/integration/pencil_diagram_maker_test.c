@@ -15,6 +15,7 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
+static test_case_result_t render_good_cases_no_output( test_fixture_t *fix );
 static test_case_result_t render_good_cases( test_fixture_t *fix );
 static test_case_result_t render_challenging_cases( test_fixture_t *fix );
 static test_case_result_t render_edge_cases( test_fixture_t *fix );
@@ -28,8 +29,9 @@ test_suite_t pencil_diagram_maker_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
-    test_suite_add_test_case( &result, "render_good_cases", &render_good_cases );
+    test_suite_add_test_case( &result, "render_good_cases_no_output", &render_good_cases_no_output );
     const test_category_t ON_QUEST = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_QUEST;
+    test_suite_add_special_test_case( &result, "render_good_cases", ON_QUEST, &render_good_cases );
     test_suite_add_special_test_case( &result, "render_challenging_cases", ON_QUEST, &render_challenging_cases );
     test_suite_add_special_test_case( &result, "render_edge_cases", ON_QUEST, &render_edge_cases );
     return result;
@@ -139,6 +141,41 @@ static void render_to_file( cairo_surface_t *surface,
     U8_TRACE_END();
 }
 
+static test_case_result_t render_good_cases_no_output( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+    test_data_setup_t ts_setup;
+    test_data_setup_init( &ts_setup, TEST_DATA_SETUP_MODE_GOOD_CASES );
+    for ( ; test_data_setup_is_valid_variant( &ts_setup ); test_data_setup_next_variant( &ts_setup ) )
+    {
+        /* setup */
+        test_data_setup_get_variant_data( &ts_setup, &((*fix).data_set) );
+        draw_background( &((*fix).diagram_bounds), (*fix).cr );
+
+        /* perform test: draw diagram */
+        data_id_t void_id;
+        data_id_init_void( &void_id );
+        data_small_set_t void_set;
+        data_small_set_init( &void_set );
+        data_stat_t layout_stats;
+        data_stat_init( &layout_stats );
+        pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
+        pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
+        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
+        pencil_diagram_maker_draw ( &((*fix).painter),
+                                    void_id,
+                                    void_id,
+                                    &void_set,
+                                    (*fix).cr
+                                  );
+
+        /* check result, no output to png files */
+        data_stat_destroy( &layout_stats );
+    }
+    test_data_setup_destroy( &ts_setup );
+    return TEST_CASE_RESULT_OK;
+}
+
 static test_case_result_t render_good_cases( test_fixture_t *fix )
 {
     assert( fix != NULL );
@@ -168,9 +205,7 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
                                   );
 
         /* check result */
-#ifndef NDEBUG
         render_to_file( (*fix).surface, &ts_setup, &layout_stats );
-#endif
         data_stat_destroy( &layout_stats );
     }
     test_data_setup_destroy( &ts_setup );

@@ -23,8 +23,8 @@ test_suite_t utf8stringbuf_performance_get_list(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "utf8CodePointTest",
-                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     "utf8StringBuf_PerformanceTest",
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_RELEASE,
                      &set_up,
                      &tear_down
                    );

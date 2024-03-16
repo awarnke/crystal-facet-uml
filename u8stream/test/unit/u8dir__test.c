@@ -22,7 +22,7 @@ test_suite_t u8dir__test_get_suite(void)
     test_suite_t result;
     test_suite_init( &result,
                      "u8dir__test_get_suite",
-                     TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
+                     TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
                    );

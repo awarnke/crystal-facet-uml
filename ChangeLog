@@ -1,7 +1,8 @@
 crystal-facet-uml (1.56.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * database supports worst-case length of description texts
+  * database supports worst-case length of diagram description texts
+  * test cases can be selected more finegranular, test coverage more accurate
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Mar 2024 10:00:00 +0100
 
