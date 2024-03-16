@@ -1,6 +1,6 @@
-/* File: u8dir__test.c; Copyright and License: see below */
+/* File: u8dir_file_test.c; Copyright and License: see below */
 
-#include "u8dir__test.h"
+#include "u8dir_file_test.h"
 #include "u8/u8_error.h"
 #include "u8dir/u8dir_file.h"
 #include "u8stream/universal_file_output_stream.h"
@@ -17,11 +17,11 @@ static test_case_result_t test_file_remove( test_fixture_t *fix );
 
 static void create_a_file( u8dir_file_t path );
 
-test_suite_t u8dir__test_get_suite(void)
+test_suite_t u8dir_file_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "u8dir__test_get_suite",
+                     "u8dir_file_test_get_suite",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down

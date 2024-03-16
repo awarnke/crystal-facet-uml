@@ -39,7 +39,6 @@
 #include "integration/io_export_model_traversal_test.h"
 /* u8stream */
 #include "unit/u8__test.h"
-#include "unit/u8dir__test.h"
 #include "unit/universal_array_index_sorter_test.h"
 #include "unit/universal_array_list_test.h"
 #include "unit/universal_memory_output_stream_test.h"
@@ -58,6 +57,8 @@
 #include "unit/utf8stringviewiterator_test.h"
 #include "unit/utf8stringviewtokenizer_test.h"
 #include "unit/utf8stream_writer_test.h"
+#include "integration/u8dir_file_test.h"
+#include "integration/universal_file_io_stream_test.h"
 /* TEST_ENVIRONMENT */
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
@@ -162,7 +163,7 @@ int main (int argc, char *argv[]) {
     {
         /* u8 */
         test_runner_run_suite( &runner, u8__test_get_suite() );
-        test_runner_run_suite( &runner, u8dir__test_get_suite() );
+        test_runner_run_suite( &runner, u8dir_file_test_get_suite() );
         test_runner_run_suite( &runner, universal_array_index_sorter_test_get_suite() );
         test_runner_run_suite( &runner, universal_array_list_test_get_suite() );
         test_runner_run_suite( &runner, universal_memory_output_stream_test_get_suite() );
@@ -172,6 +173,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, universal_buffer_output_stream_test_get_suite() );
         test_runner_run_suite( &runner, universal_memory_arena_test_get_suite() );
         test_runner_run_suite( &runner, universal_arena_list_test_get_suite() );
+        test_runner_run_suite( &runner, universal_file_io_stream_test_get_suite() );
         /* u8/utf8stringbuf */
         test_runner_run_suite( &runner, utf8codepoint_test_get_suite() );
         test_runner_run_suite( &runner, utf8codepointiterator_test_get_suite() );

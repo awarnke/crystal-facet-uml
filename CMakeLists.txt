@@ -83,7 +83,8 @@ FILE(GLOB utestSource  main/test/*.c
                        io/test/integration/*.c
                        pencil/test/unit/*.c
                        pencil/test/integration/*.c
-                       u8stream/test/unit/*.c)
+                       u8stream/test/unit/*.c
+                       u8stream/test/integration/*.c)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Check if CMAKE_BUILD_TYPE is set ==== ==== ==== ==== ==== ==== ==== ====
 

@@ -83,7 +83,8 @@ FILE(GLOB utestSource  ../../main/test/*.c
                        ../../io/test/integration/*.c
                        ../../pencil/test/unit/*.c
                        ../../pencil/test/integration/*.c
-                       ../../u8stream/test/unit/*.c)
+                       ../../u8stream/test/unit/*.c
+                       ../../u8stream/test/integration/*.c)
 
 EXECUTE_PROCESS(COMMAND "${PKG_CONFIG_EXECUTABLE}" --libs atk
                 OUTPUT_VARIABLE ATK_LIB OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -238,4 +239,3 @@ SET_TARGET_PROPERTIES(test_crystal-facet-uml PROPERTIES LINKER_LANGUAGE C)
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-

@@ -30,7 +30,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml-$VERSIONSTR
 make -j4    # start up to 4 parallel processes to make use of quad-core processors
 cd ..
 
-echo "runing unit tests"
+echo "running release-relevant tests"
 cd cmake_build
 ./test_crystal-facet-uml -R || echo "ERROR == ERROR == ERROR == ERROR"
 cd ..

@@ -1,18 +1,18 @@
-/* File: u8dir__test.h; Copyright and License: see below */
+/* File: u8dir_file_test.h; Copyright and License: see below */
 
-#ifndef U8DIR__TEST_H
-#define U8DIR__TEST_H
+#ifndef U8DIR_FILE_TEST_H
+#define U8DIR_FILE_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for all classes in u8dir
+ *  \brief TEST for file class in u8dir
  */
 
 #include "test_suite.h"
 
-test_suite_t u8dir__test_get_suite(void);
+test_suite_t u8dir_file_test_get_suite(void);
 
-#endif  /* U8DIR__TEST_H */
+#endif  /* U8DIR_FILE_TEST_H */
 
 
 /*

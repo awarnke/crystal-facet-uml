@@ -58,7 +58,8 @@ u8_error_t universal_file_input_stream_open ( universal_file_input_stream_t *thi
  *  \param out_buffer buffer to write read bytes
  *  \param max_size length of the buffer to write
  *  \param out_length number of bytes read
- *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file not open, U8_ERROR_AT_FILE_READ otherwise
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_WRONG_STATE if file not open,
+ *          U8_ERROR_END_OF_STREAM when file at end, U8_ERROR_AT_FILE_READ otherwise
  */
 u8_error_t universal_file_input_stream_read ( universal_file_input_stream_t *this_, void *out_buffer, size_t max_size, size_t *out_length );
 
