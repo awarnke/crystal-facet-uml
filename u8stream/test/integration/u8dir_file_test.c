@@ -74,11 +74,8 @@ static test_case_result_t test_file_remove( test_fixture_t *fix )
     const u8dir_file_t non_removable = "local_temp.dir/non_removable.file";
     int mode_err;
     {
-#ifdef _WIN32
-        mode_err = mkdir( temp_dir );
-#else
+        /* _WIN32 command would be: mode_err = mkdir( temp_dir ); */
         mode_err = mkdir( temp_dir, (mode_t)0777 );
-#endif
         TEST_ENVIRONMENT_ASSERT( mode_err == 0 );
         create_a_file( non_removable );
         mode_err = chmod( temp_dir, (mode_t)0 );

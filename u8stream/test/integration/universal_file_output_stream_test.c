@@ -14,7 +14,7 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
-static test_case_result_t test_file_write_read( test_fixture_t *fix );
+static test_case_result_t test_file_write( test_fixture_t *fix );
 
 test_suite_t universal_file_output_stream_test_get_suite(void)
 {
@@ -25,7 +25,7 @@ test_suite_t universal_file_output_stream_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
-    test_suite_add_test_case( &result, "test_file_write_read", &test_file_write_read );
+    test_suite_add_test_case( &result, "test_file_write", &test_file_write );
     return result;
 }
 
@@ -49,7 +49,7 @@ static void tear_down( test_fixture_t *fix )
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == file_err );
 }
 
-static test_case_result_t test_file_write_read( test_fixture_t *fix )
+static test_case_result_t test_file_write( test_fixture_t *fix )
 {
     /* write a file */
     {
