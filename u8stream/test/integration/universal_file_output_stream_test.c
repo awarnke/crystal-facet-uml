@@ -1,6 +1,6 @@
-/* File: universal_file_io_stream_test.c; Copyright and License: see below */
+/* File: universal_file_output_stream_test.c; Copyright and License: see below */
 
-#include "universal_file_io_stream_test.h"
+#include "universal_file_output_stream_test.h"
 #include "u8/u8_error.h"
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_file_output_stream.h"
@@ -16,11 +16,11 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_file_write_read( test_fixture_t *fix );
 
-test_suite_t universal_file_io_stream_test_get_suite(void)
+test_suite_t universal_file_output_stream_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "universal_file_io_stream_test_get_suite",
+                     "universal_file_output_stream_test_get_suite",
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
@@ -37,7 +37,7 @@ static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
-    test_fixture.test_file_name = "universal_file_io_stream_test.txt";
+    test_fixture.test_file_name = "universal_file_output_stream_test.txt";
     return &test_fixture;
 }
 

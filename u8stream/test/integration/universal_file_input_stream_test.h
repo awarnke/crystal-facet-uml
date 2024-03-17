@@ -1,7 +1,7 @@
-/* File: universal_file_io_stream_test.h; Copyright and License: see below */
+/* File: universal_file_input_stream_test.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_FILE_IO_STREAM_TEST_H
-#define UNIVERSAL_FILE_IO_STREAM_TEST_H
+#ifndef UNIVERSAL_FILE_INPUT_STREAM_TEST_H
+#define UNIVERSAL_FILE_INPUT_STREAM_TEST_H
 
 /*!
  *  \file
@@ -10,9 +10,9 @@
 
 #include "test_suite.h"
 
-test_suite_t universal_file_io_stream_test_get_suite(void);
+test_suite_t universal_file_input_stream_test_get_suite(void);
 
-#endif  /* UNIVERSAL_FILE_IO_STREAM_TEST_H */
+#endif  /* UNIVERSAL_FILE_INPUT_STREAM_TEST_H */
 
 
 /*
