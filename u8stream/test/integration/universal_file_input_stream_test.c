@@ -75,6 +75,8 @@ static test_case_result_t test_file_read( test_fixture_t *fix )
     /* open an existing and readable file */
     {
         universal_file_input_stream_init( &in_file );
+        universal_input_stream_t *base_class = universal_file_input_stream_get_input_stream( &in_file );
+        TEST_EXPECT( NULL != base_class );
         file_err = universal_file_input_stream_open( &in_file, (*fix).test_file_name );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
     }

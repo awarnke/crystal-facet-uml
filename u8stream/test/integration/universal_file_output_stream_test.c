@@ -55,15 +55,20 @@ static void tear_down( test_fixture_t *fix )
 
 static test_case_result_t test_file_write( test_fixture_t *fix )
 {
+    universal_file_output_stream_t create_file;
+    u8_error_t file_err = U8_ERROR_NONE;
+
     /* write a file */
     {
-        universal_file_output_stream_t create_file;
         universal_file_output_stream_init( &create_file );
-        u8_error_t file_err = U8_ERROR_NONE;
+        universal_output_stream_t *base_class = universal_file_output_stream_get_output_stream( &create_file );
+        TEST_EXPECT( NULL != base_class );
         file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
         const char content[] = "123";
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
         file_err = universal_file_output_stream_write( &create_file, &content, sizeof(content) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        file_err = universal_file_output_stream_flush( &create_file);
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
         file_err = universal_file_output_stream_close( &create_file );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
@@ -71,7 +76,7 @@ static test_case_result_t test_file_write( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
     }
 
-    /* read a file */
+    /* read and check the file */
     {
         universal_file_input_stream_t in_file;
         universal_file_input_stream_init( &in_file );
@@ -170,8 +175,6 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
         file_err = universal_file_output_stream_close( &create_file );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
-        file_err = universal_file_output_stream_destroy( &create_file );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
     }
     /* open an existing file without write-permissions */
 #ifdef _WIN32
