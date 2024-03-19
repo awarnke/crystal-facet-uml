@@ -2,6 +2,8 @@
 
 #include "universal_file_output_stream_test.h"
 #include "u8/u8_error.h"
+#include "u8/u8_fault_inject.h"
+#include "u8_test_cond.h"
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_file_output_stream.h"
 #include "u8dir/u8dir_file.h"
@@ -17,12 +19,19 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_file_write( test_fixture_t *fix );
 static test_case_result_t test_wrong_mode( test_fixture_t *fix );
 static test_case_result_t test_no_access( test_fixture_t *fix );
+#ifndef NDEBUG
+static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix );
+#endif
 
 test_suite_t universal_file_output_stream_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "universal_file_output_stream_test_get_suite",
+#ifndef NDEBUG
+                     "universal_file_output_stream_test_get_suite (VARIANT: DEBUG)",
+#else
+                     "universal_file_output_stream_test_get_suite (VARIANT: RELEASE)",
+#endif
                      TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
@@ -30,6 +39,9 @@ test_suite_t universal_file_output_stream_test_get_suite(void)
     test_suite_add_test_case( &result, "test_file_write", &test_file_write );
     test_suite_add_test_case( &result, "test_wrong_mode", &test_wrong_mode );
     test_suite_add_test_case( &result, "test_no_access", &test_no_access );
+#ifndef NDEBUG
+    test_suite_add_test_case( &result, "test_posix_errors_fault_injected", &test_posix_errors_fault_injected );
+#endif
     return result;
 }
 
@@ -201,6 +213,51 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
 
     return TEST_CASE_RESULT_OK;
 }
+
+#ifndef NDEBUG
+static test_case_result_t test_posix_errors_fault_injected( test_fixture_t *fix )
+{
+    universal_file_output_stream_t create_file;
+    u8_error_t file_err = U8_ERROR_NONE;
+
+    /* open a file */
+    {
+        universal_file_output_stream_init( &create_file );
+        file_err = universal_file_output_stream_open( &create_file, (*fix).test_file_name );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+    }
+
+    /* write to the file */
+    U8_FAULT_INJECT_SETUP( U8_TEST_COND_FWRITE );
+    {
+        const char content[] = "123";
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+        file_err = universal_file_output_stream_write( &create_file, &content, sizeof(content) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+    }
+    U8_FAULT_INJECT_RESET();
+
+    /* flush the file */
+    U8_FAULT_INJECT_SETUP( U8_TEST_COND_FFLUSH );
+    {
+        file_err = universal_file_output_stream_flush( &create_file);
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+    }
+    U8_FAULT_INJECT_RESET();
+
+    /* close the file */
+    U8_FAULT_INJECT_SETUP( U8_TEST_COND_FCLOSE );
+    {
+        file_err = universal_file_output_stream_close( &create_file );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, file_err );
+        file_err = universal_file_output_stream_destroy( &create_file );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+    }
+    U8_FAULT_INJECT_RESET();
+
+    return TEST_CASE_RESULT_OK;
+}
+#endif
 
 
 /*

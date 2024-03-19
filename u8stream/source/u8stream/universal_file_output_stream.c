@@ -2,6 +2,8 @@
 
 #include "u8stream/universal_file_output_stream.h"
 #include "u8stream/universal_output_stream_if.h"
+#include "u8_test_cond.h"
+#include "u8/u8_fault_inject.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <errno.h>
@@ -76,11 +78,14 @@ u8_error_t universal_file_output_stream_write ( universal_file_output_stream_t *
         size_t written = 0;
         while (( written < length )&&( err == U8_ERROR_NONE ))
         {
-            ssize_t out_count;
-            out_count = fwrite( ((const char*)start)+written, 1, length-written, (*this_).output );
-            if ( out_count < 0 )
+            const size_t remaining = length - written;
+            size_t out_count;
+            out_count = fwrite( ((const char*)start)+written, 1, remaining, (*this_).output );
+            assert( out_count != 0 );  /* this should not happen, but do not take this for granted */
+            out_count = U8_FAULT_INJECT_COND( U8_TEST_COND_FWRITE, 0, out_count );
+            if ( out_count == 0 )
             {
-                U8_LOG_ERROR_INT( "not all bytes could be written. missing:", length-written );
+                U8_LOG_ERROR_INT( "not all bytes could be written. missing:", remaining );
                 err = U8_ERROR_AT_FILE_WRITE;
             }
             else
@@ -106,8 +111,9 @@ u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *t
 
     if ( (*this_).output != NULL )
     {
-        int flush_err;
-        flush_err = fflush( (*this_).output );
+        int flush_err = fflush( (*this_).output );
+        assert( flush_err == 0 );  /* this should not happen, but do not take this for granted */
+        flush_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FFLUSH, EOF, 0 );
         if ( 0 != flush_err )
         {
             U8_LOG_ERROR_INT("error at flushing file:",flush_err);
@@ -131,7 +137,9 @@ u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *t
 
     if ( (*this_).output != NULL )
     {
-        const int close_err = fclose( (*this_).output );
+        int close_err = fclose( (*this_).output );
+        assert( close_err == 0 );  /* this should not happen, but do not take this for granted */
+        close_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FCLOSE, EOF, 0 );
         if ( 0 != close_err )
         {
             U8_LOG_ERROR_INT("error at closing file:",close_err);

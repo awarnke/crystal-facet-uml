@@ -158,39 +158,43 @@ static test_case_result_t test_error_info( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+double cirumvent_optimization = 0.0;
+
 static test_case_result_t test_f64( test_fixture_t *fix )
 {
     double result;
 
-    result = u8_f64_max2( 1.0, -1.0 );
+    result = u8_f64_max2( 1.0, -1.0 + cirumvent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( 1.0, result );
 
-    result = u8_f64_max3( -1.0, 1.0, 10.0 );
+    result = u8_f64_max3( -1.0, 1.0, 10.0 + cirumvent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( 10.0, result );
 
-    result = u8_f64_min2( 1.0, -1.0 );
+    result = u8_f64_min2( 1.0, -1.0 + cirumvent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( -1.0, result );
 
-    result = u8_f64_min3( -1.0, 1.0, 10.0 );
+    result = u8_f64_min3( -1.0, 1.0, 10.0 + cirumvent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( -1.0, result );
 
     return TEST_CASE_RESULT_OK;
 }
 
+int prevent_optimization = 0;
+
 static test_case_result_t test_i32( test_fixture_t *fix )
 {
     int_fast32_t result;
 
-    result = u8_i32_max2( 1, -1 );
+    result = u8_i32_max2( 1, -1 + prevent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( 1, result );
 
-    result = u8_i32_max3( -1, 1, 10 );
+    result = u8_i32_max3( -1, 1, 10 + prevent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( 10, result );
 
-    result = u8_i32_min2( 1, -1 );
+    result = u8_i32_min2( 1, -1 + prevent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( -1, result );
 
-    result = u8_i32_min3( -1, 1, 10 );
+    result = u8_i32_min3( -1, 1, 10 + prevent_optimization );
     TEST_EXPECT_EQUAL_DOUBLE( -1, result );
 
     return TEST_CASE_RESULT_OK;

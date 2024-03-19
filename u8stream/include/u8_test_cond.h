@@ -10,13 +10,17 @@
  */
 
 /*!
- *  \brief condition ids used to activate and deactivate fault injections during unit tests
+ *  \brief condition ids used to activate and deactivate fault injections during tests
  *
  *  Note that the 7538 prefix is the hexadecimal representation of the "u8" package name,
  */
 enum u8_test_cond_enum {
-    U8_TEST_COND_STRTOD = 0x75380001,  /*!< used in utf8string.inl at strtod */
-    U8_TEST_COND_STRTOLL = 0x75380002,  /*!< used in utf8string.inl at strtoll */
+    U8_TEST_COND_STRTOD = 0x75380001,  /*!< used in utf8string.c at strtod */
+    U8_TEST_COND_STRTOLL = 0x75380002,  /*!< used in utf8string.c at strtoll */
+    U8_TEST_COND_FSEEK = 0x75380003,  /*!< used in universal_file_input_stream.c at fseek */
+    U8_TEST_COND_FCLOSE = 0x75380004,  /*!< used in universal_file_input/output_stream.c at fclose */
+    U8_TEST_COND_FFLUSH = 0x75380005,  /*!< used in universal_file_output_stream.c at fflush */
+    U8_TEST_COND_FWRITE = 0x75380006,  /*!< used in universal_file_output_stream.c at fwrite */
 };
 
 #endif  /* U8_TEST_COND_H */

@@ -71,6 +71,7 @@ static void tear_down( test_fixture_t *fix )
     assert( fix != NULL );
     io_import_elements_destroy( &((*fix).elements_importer) );
     utf8stream_writer_destroy( &((*fix).out_writer) );
+    universal_null_output_stream_flush( &((*fix).null_out) );  /* does nothing - except to improve test coverage */
     universal_null_output_stream_destroy( &((*fix).null_out) );
 
     data_stat_destroy( &((*fix).stats) );

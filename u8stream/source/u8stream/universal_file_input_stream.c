@@ -2,6 +2,8 @@
 
 #include "u8stream/universal_file_input_stream.h"
 #include "u8stream/universal_input_stream_if.h"
+#include "u8_test_cond.h"
+#include "u8/u8_fault_inject.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <errno.h>
@@ -105,7 +107,9 @@ u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *th
 
     if ( (*this_).input != NULL )
     {
-        const int seek_err = fseek( (*this_).input, 0, SEEK_SET );
+        int seek_err = fseek( (*this_).input, 0, SEEK_SET );
+        assert( seek_err == 0 );  /* this should not happen, but do not take this for granted */
+        seek_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FSEEK, -1, 0 );
         if ( seek_err != 0 )
         {
             U8_LOG_ERROR("error at resetting the read-cursor in a file.");
@@ -129,8 +133,9 @@ u8_error_t universal_file_input_stream_close( universal_file_input_stream_t *thi
 
     if ( (*this_).input != NULL )
     {
-        int close_err;
-        close_err = fclose( (*this_).input );
+        int close_err = fclose( (*this_).input );
+        assert( close_err == 0 );  /* this should not happen, but do not take this for granted */
+        close_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FCLOSE, EOF, 0 );
         if ( 0 != close_err )
         {
             U8_LOG_ERROR_INT( "error at closing file:", close_err );
