@@ -19,8 +19,8 @@ enum u8_test_cond_enum {
     U8_TEST_COND_STRTOLL = 0x75380002,  /*!< used in utf8string.c at strtoll */
     U8_TEST_COND_FSEEK = 0x75380003,  /*!< used in universal_file_input_stream.c at fseek */
     U8_TEST_COND_FCLOSE = 0x75380004,  /*!< used in universal_file_input/output_stream.c at fclose */
-    U8_TEST_COND_FFLUSH = 0x75380005,  /*!< used in universal_file_output_stream.c at fflush */
-    U8_TEST_COND_FWRITE = 0x75380006,  /*!< used in universal_file_output_stream.c at fwrite */
+    U8_TEST_COND_FFLUSH = 0x75380005,  /*!< used in universal_file/stream_output_stream.c at fflush */
+    U8_TEST_COND_FWRITE = 0x75380006,  /*!< used in universal_file/stream_output_stream.c at fwrite */
 };
 
 #endif  /* U8_TEST_COND_H */

@@ -113,7 +113,7 @@ u8_error_t universal_file_output_stream_flush( universal_file_output_stream_t *t
     {
         int flush_err = fflush( (*this_).output );
         assert( flush_err == 0 );  /* this should not happen, but do not take this for granted */
-        flush_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FFLUSH, EOF, 0 );
+        flush_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FFLUSH, EOF, flush_err );
         if ( 0 != flush_err )
         {
             U8_LOG_ERROR_INT("error at flushing file:",flush_err);
@@ -139,7 +139,7 @@ u8_error_t universal_file_output_stream_close( universal_file_output_stream_t *t
     {
         int close_err = fclose( (*this_).output );
         assert( close_err == 0 );  /* this should not happen, but do not take this for granted */
-        close_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FCLOSE, EOF, 0 );
+        close_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FCLOSE, EOF, close_err );
         if ( 0 != close_err )
         {
             U8_LOG_ERROR_INT("error at closing file:",close_err);
