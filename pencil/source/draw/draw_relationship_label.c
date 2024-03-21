@@ -80,6 +80,8 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
                 pango_layout_set_font_description( font_layout, pencil_size_get_footnote_font_description( pencil_size ) );
                 pango_layout_set_text( font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH );
                 pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
+                text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+                text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
             }
         }
 
@@ -95,6 +97,8 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
                                  );
             pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+            text2_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+            text2_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
             /* restore pango context */
             pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);
         }
@@ -215,7 +219,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
             pango_layout_get_pixel_size( font_layout, &text1_width, &text1_height );
 
             /* draw text */
-            cairo_move_to ( cr, center_x - 0.5*text1_width, top );
+            cairo_move_to( cr, ceil( center_x - 0.5*text1_width ), ceil( top ) );  /* align font with pixel border */
             pango_cairo_show_layout( cr, font_layout );
         }
     }
@@ -236,8 +240,11 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
         /* draw text */
-        cairo_move_to ( cr, center_x - 0.5*text2_width, top + text1_height + f_line_gap );
-        pango_cairo_show_layout (cr, font_layout);
+        cairo_move_to( cr,
+                       ceil( center_x - 0.5*text2_width ),
+                       ceil( top + text1_height + f_line_gap )
+                     );  /* align font with pixel border */
+        pango_cairo_show_layout( cr, font_layout );
 
         /* restore pango context */
         pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);

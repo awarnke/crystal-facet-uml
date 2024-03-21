@@ -16,6 +16,13 @@
 #include <stdbool.h>
 
 /*!
+ *  \brief enumeration of alignment buffers for text rendering
+ */
+enum pencil_size_font_enum {
+    PENCIL_SIZE_FONT_ALIGN_MARGIN = 1,  /*!< to align font rendering on pixel borders, 1 pixel margin is needed */
+};
+
+/*!
  *  \brief attributes of the pencil_size_t
  */
 struct pencil_size_struct {

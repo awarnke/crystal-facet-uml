@@ -54,6 +54,8 @@ void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_
                                    DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH
                                  );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+            text2_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+            text2_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
         }
 
         *out_label_dim = (geometry_dimensions_t) {
@@ -144,7 +146,7 @@ void draw_diagram_label_draw_type_and_name ( const draw_diagram_label_t *this_,
                              );
 
         /* draw text */
-        cairo_move_to ( cr,text_left, text_top );
+        cairo_move_to ( cr, ceil( text_left ), ceil( text_top ) );  /* align font with pixel border */
         pango_cairo_show_layout (cr, font_layout);
     }
 

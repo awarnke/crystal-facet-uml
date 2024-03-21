@@ -133,13 +133,18 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
         pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
         pango_layout_set_text (font_layout, utf8stringbuf_get_string( id_str ), -1);
         pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
+        text4_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+        text4_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
 
         /* draw text */
         GdkRGBA grey_color;
         grey_color = pencil_size_get_gray_out_color( pencil_size );
         cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
-        cairo_move_to ( cr, left + width - text4_width - gap - gap, top + gap );
-        pango_cairo_show_layout (cr, font_layout);
+        cairo_move_to( cr,
+                       ceil( left + width - text4_width - gap - gap ),
+                       ceil( top + gap )
+                     );  /* align font with pixel border */
+        pango_cairo_show_layout( cr, font_layout );
     }
 
     /* mark focused and highlighted */

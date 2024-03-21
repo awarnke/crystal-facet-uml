@@ -59,6 +59,8 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                 pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
                 pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH );
                 pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
+                text1_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+                text1_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
             }
         }
 
@@ -92,6 +94,8 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             /* option for nicer layout but harder to read: */
             /* pango_layout_set_wrap( font_layout, PANGO_WRAP_WORD_CHAR ); */
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+            text2_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+            text2_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
 
             /* restore pango context */
             pango_layout_set_width(font_layout, DRAW_CLASSIFIER_PANGO_UNLIMITED_WIDTH );
@@ -114,6 +118,8 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                                     DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                                   );
             pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+            text3_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+            text3_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
         }
 
         *out_label_dim = (geometry_dimensions_t) {
@@ -179,8 +185,11 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
                                     DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                                   );
             pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
-            cairo_move_to ( cr, left + 0.5*( width - text1_width ), top );
-            pango_cairo_show_layout (cr, font_layout);
+            cairo_move_to( cr,
+                           ceil( left + 0.5*( width - text1_width ) ),
+                           ceil( top )
+                         );  /* align font with pixel border */
+            pango_cairo_show_layout( cr, font_layout );
         }
     }
 
@@ -214,7 +223,10 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         pango_layout_get_pixel_size( font_layout, &text2_width, &text2_height );
 
         /* draw text */
-        cairo_move_to( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap );
+        cairo_move_to( cr,
+                       ceil( left + 0.5*( width - text2_width ) ),
+                       ceil( top + text1_height + f_line_gap )
+                     );  /* align font with pixel border */
         pango_cairo_show_layout( cr, font_layout );
 
         /* restore pango context */
@@ -243,8 +255,11 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
 
         /* draw text */
-        cairo_move_to ( cr, left + 0.5*( width - text3_width ), top+text1_height+f_line_gap+text2_height+f_line_gap );
-        pango_cairo_show_layout (cr, font_layout);
+        cairo_move_to( cr,
+                       ceil( left + 0.5*( width - text3_width ) ),
+                       ceil( top + text1_height + f_line_gap + text2_height + f_line_gap )
+                     );  /* align font with pixel border */
+        pango_cairo_show_layout( cr, font_layout );
     }
 
     U8_TRACE_END();

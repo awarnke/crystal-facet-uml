@@ -37,7 +37,6 @@ ideas for future versions:
   [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] stereotype images of packages are positioned unluckily
 ! [ ] sequence diagrams shall provide more automatic line breaks in classifier names
-! [ ] on windows, the pango-rendered fonts are cut on the top line, maybe round the coordinates?
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

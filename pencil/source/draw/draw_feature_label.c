@@ -64,6 +64,8 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
             pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
             pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
+            text_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
+            text_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
             /* restore pango context */
             pango_layout_set_width(font_layout, DRAW_FEATURE_PANGO_UNLIMITED_WIDTH);
         }
@@ -167,7 +169,7 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
         pango_layout_set_width(font_layout, (text_width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
 
         /* draw text */
-        cairo_move_to ( cr, text_left, text_top );
+        cairo_move_to ( cr, ceil( text_left ), ceil( text_top ) );  /* align font with pixel border */
         pango_cairo_show_layout (cr, font_layout);
 
         /* restore pango context */
