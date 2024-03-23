@@ -4,9 +4,9 @@ crystal-facet-uml (1.56.1) UNRELEASED; urgency=medium
   * database supports worst-case length of diagram description texts
   * test cases can be selected more finegranular, test coverage more accurate
   * test coverage on u8stream package increased
-  * on windows, the pango-rendered fonts are not cut on the top line, maybe?
+  * on windows, the pango-rendered fonts are not cut on the top line of pixels
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Mar 2024 10:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 23 Mar 2024 05:00:00 +0100
 
 crystal-facet-uml (1.56.0) UNRELEASED; urgency=medium
 

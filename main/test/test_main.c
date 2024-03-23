@@ -60,6 +60,7 @@
 #include "integration/u8dir_file_test.h"
 #include "integration/universal_file_input_stream_test.h"
 #include "integration/universal_file_output_stream_test.h"
+#include "integration/universal_stream_output_stream_test.h"
 /* TEST_ENVIRONMENT */
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
@@ -176,6 +177,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, universal_arena_list_test_get_suite() );
         test_runner_run_suite( &runner, universal_file_input_stream_test_get_suite() );
         test_runner_run_suite( &runner, universal_file_output_stream_test_get_suite() );
+        test_runner_run_suite( &runner, universal_stream_output_stream_test_get_suite() );
         /* u8/utf8stringbuf */
         test_runner_run_suite( &runner, utf8codepoint_test_get_suite() );
         test_runner_run_suite( &runner, utf8codepointiterator_test_get_suite() );

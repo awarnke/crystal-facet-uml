@@ -66,11 +66,6 @@ ideas for future versions:
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the search+xmi+json export find them)
   @u8stream
-  [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
-      or a buffered view onto the database
-  [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
-      or a buffered view onto the database
-
   @main
   [ ] rename main() so that also the test code can call the main function from its own main()
   @test_fw
