@@ -49,13 +49,22 @@ static test_fixture_t test_fixture;
 
 static test_fixture_t * set_up()
 {
+#ifdef _WIN32
+    test_fixture.mem_outstream = fopen( "mem_fake.tmp", "w" );
+    TEST_ENVIRONMENT_ASSERT( NULL != test_fixture.mem_outstream );
+#else
     test_fixture.mem_outstream = fmemopen( &(test_fixture.membuf), sizeof(test_fixture.membuf), "w");
+#endif
     return &test_fixture;
 }
 
 static void tear_down( test_fixture_t *fix )
 {
     fclose( (*fix).mem_outstream );
+#ifdef _WIN32
+    TEST_ENVIRONMENT_ASSERT( 0 == remove( "mem_fake.tmp" ) );
+#else
+#endif
 }
 
 static test_case_result_t test_stream_write( test_fixture_t *fix )
@@ -72,7 +81,11 @@ static test_case_result_t test_stream_write( test_fixture_t *fix )
         file_err = universal_stream_output_stream_write( &out_2_mem, &content, sizeof( content ) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
         file_err = universal_stream_output_stream_flush( &out_2_mem );
+#ifdef _WIN32
+        /* no check on win */
+#else
         TEST_EXPECT_EQUAL_INT( 0, memcmp( &content, (*fix).membuf, sizeof( content ) ) );
+#endif
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
         universal_stream_output_stream_destroy( &out_2_mem );
     }

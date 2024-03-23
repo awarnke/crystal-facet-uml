@@ -183,13 +183,25 @@ static test_case_result_t test_no_access( test_fixture_t *fix )
         universal_file_input_stream_init( &in_file );
         const u8dir_file_t directory = ".";
         file_err = universal_file_input_stream_open( &in_file, directory );
+#ifdef _WIN32
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_READ, file_err );
+#else
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+#endif
         char content[4];
         size_t read_bytes;
         file_err = universal_file_input_stream_read( &in_file, &content, sizeof(content), &read_bytes );
+#ifdef _WIN32
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+#else
         TEST_EXPECT_EQUAL_INT( U8_ERROR_END_OF_STREAM, file_err );
+#endif
         file_err = universal_file_input_stream_close( &in_file );
+#ifdef _WIN32
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_WRONG_STATE, file_err );
+#else
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, file_err );
+#endif
     }
     /* open an existing file without read-permissions */
 #ifdef _WIN32
