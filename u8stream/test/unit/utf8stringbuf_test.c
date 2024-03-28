@@ -656,9 +656,9 @@ static test_case_result_t testCopyView( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     /* check truncated */
-    error = utf8stringbuf_copy_view( (*fix).four_byte_buf, &UTF8STRINGVIEW_STR("Hello") );
+    error = utf8stringbuf_copy_view( (*fix).four_byte_buf, &UTF8STRINGVIEW_STR("H\xE2\x80\x8B") );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
-    equal = utf8stringbuf_equals_str( (*fix).four_byte_buf, "Hel" );
+    equal = utf8stringbuf_equals_str( (*fix).four_byte_buf, "H" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     return TEST_CASE_RESULT_OK;

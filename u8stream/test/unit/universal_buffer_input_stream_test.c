@@ -75,15 +75,21 @@ static test_case_result_t test_read_chunks( test_fixture_t *fix )
     void *my_obj_data = universal_input_stream_get_objectdata ( my_in_stream );
     TEST_EXPECT_EQUAL_PTR( &((*fix).buf_in_stream), my_obj_data );
 
-    /* read first 5 */
+    /* read first (when buffer was empty) */
     size_t len;
     char buf5[5];
-    err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
+    err = universal_input_stream_read ( my_in_stream, &buf5, 1, &len );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( sizeof(buf5), len );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "12345", sizeof(buf5) ) );
+    TEST_EXPECT_EQUAL_INT( 1, len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "1", 1 ) );
 
-    /* read last 5 */
+    /* read next 4 (which are already buffered) */
+    err = universal_input_stream_read ( my_in_stream, &buf5, 4, &len );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( 4, len );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &buf5, "2345", 4 ) );
+
+    /* read last 5 (of which 1 is already in the buffer) */
     err = universal_input_stream_read ( my_in_stream, &buf5, sizeof(buf5), &len );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( sizeof(buf5), len );

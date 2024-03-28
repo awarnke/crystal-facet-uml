@@ -30,7 +30,7 @@ test_suite_t universal_buffer_output_stream_test_get_suite(void)
 }
 
 struct test_fixture_struct {
-    char out_buffer[10];
+    char out_buffer[20];
     universal_memory_output_stream_t mem_out_stream;
     char buffer[6];
     universal_buffer_output_stream_t buf_out_stream;
@@ -111,29 +111,29 @@ static test_case_result_t test_append_border_cases( test_fixture_t *fix )
     my_out_stream = universal_buffer_output_stream_get_output_stream( &((*fix).buf_out_stream) );
     TEST_EXPECT( my_out_stream != NULL );
 
-    /* write */
+    /* write more than buf-size (6) --> 7 */
     const char test_1[] = "1234567";
     err = universal_output_stream_write ( my_out_stream, test_1, strlen(test_1) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), &test_1, sizeof((*fix).buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), &test_1, sizeof((*fix).buffer) /*=6*/ ) );
 
-    /* write */
-    const char test_2[] = "890abc";
+    /* write more than current-buf remainder (5) plus buf-size (6) --> 12 */
+    const char test_2[] = "890abcdefghi";
     err = universal_output_stream_write ( my_out_stream, test_2, strlen(test_2) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890abcdefghi", 19 ) );
 
-    /* write */
-    const char test_3[] = "lo!!!";
+    /* write more than target memory location can hold*/
+    const char test_3[] = "!!!4567";
     err = universal_output_stream_write ( my_out_stream, test_3, sizeof(test_3) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890abcdefghi!", sizeof((*fix).out_buffer) ) );
 
-    /* write */
+    /* write nothing after error */
     const char test_4[] = "";
     err = universal_output_stream_write ( my_out_stream, test_4, 0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890abcdefghi!", sizeof((*fix).out_buffer) ) );
     return TEST_CASE_RESULT_OK;
 }
 
