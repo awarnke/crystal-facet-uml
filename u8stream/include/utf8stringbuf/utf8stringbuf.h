@@ -245,7 +245,7 @@ static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const 
  */
 static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
 
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Checks if the region equals the given string.
  *
@@ -256,9 +256,9 @@ static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const u
  *  \return 1 if the region equals the given string, 0 if not.
  */
 static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, int start, const char *that );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Checks if the region equals the given string.
  *
@@ -269,7 +269,7 @@ static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, 
  *  \return 1 if the region equals the given string, 0 if not.
  */
 static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, int start, const utf8stringbuf_t that );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 /*!
  *  \brief Checks if the string buffer starts with the specified characters.

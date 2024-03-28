@@ -162,7 +162,7 @@ static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const u
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
 
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, int start, const char *that )
 {
     int cmpResult = -1;
@@ -176,9 +176,9 @@ static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, 
     }
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, int start, const utf8stringbuf_t that )
 {
     int cmpResult = -1;
@@ -190,7 +190,7 @@ static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, 
     }
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern )
 {

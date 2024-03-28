@@ -28,6 +28,7 @@ static test_case_result_t testFindLast( test_fixture_t *fix );
 static test_case_result_t testCopyBuf( test_fixture_t *fix );
 static test_case_result_t testCopyStr( test_fixture_t *fix );
 static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix );
+static test_case_result_t testCopyView( test_fixture_t *fix );
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testCopyRegion( test_fixture_t *fix );
 static test_case_result_t testReplaceRegion( test_fixture_t *fix );
@@ -71,9 +72,9 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testLength", &testLength );
     test_suite_add_test_case( &result, "testGetView", &testGetView );
     test_suite_add_test_case( &result, "testEquals", &testEquals );
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
     test_suite_add_test_case( &result, "testEqualsRegion", &testEqualsRegion );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
     test_suite_add_test_case( &result, "testStartsWith", &testStartsWith );
     test_suite_add_test_case( &result, "testEndsWith", &testEndsWith );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
@@ -82,6 +83,7 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testCopyBuf", &testCopyBuf );
     test_suite_add_test_case( &result, "testCopyStr", &testCopyStr );
     test_suite_add_test_case( &result, "testCopyWithCutUtf8", &testCopyWithCutUtf8 );
+    test_suite_add_test_case( &result, "testCopyView", &testCopyView );
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
     test_suite_add_test_case( &result, "testCopyRegion", &testCopyRegion );
     test_suite_add_test_case( &result, "testReplaceRegion", &testReplaceRegion );
@@ -363,7 +365,7 @@ static test_case_result_t testEquals( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testEqualsRegion( test_fixture_t *fix )
 {
     //  prepare
@@ -416,7 +418,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, equal );
     return TEST_CASE_RESULT_OK;
 }
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 static test_case_result_t testStartsWith( test_fixture_t *fix )
 {
@@ -637,6 +639,26 @@ static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix )
     error = utf8stringbuf_copy_str( dynTestBuf2, "\xC2\xA2_\xC2\xA2_\xC2\xA2" );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
     equal = utf8stringbuf_equals_str( dynTestBuf2, "\xC2\xA2_\xC2\xA2_" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t testCopyView( test_fixture_t *fix )
+{
+    utf8error_t error;
+    int equal;
+
+    /* check success */
+    error = utf8stringbuf_copy_view( (*fix).four_byte_buf, &UTF8STRINGVIEW_STR("Hi") );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( (*fix).four_byte_buf, "Hi" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* check truncated */
+    error = utf8stringbuf_copy_view( (*fix).four_byte_buf, &UTF8STRINGVIEW_STR("Hello") );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
+    equal = utf8stringbuf_equals_str( (*fix).four_byte_buf, "Hel" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
     return TEST_CASE_RESULT_OK;

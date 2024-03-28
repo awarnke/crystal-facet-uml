@@ -19,6 +19,12 @@ extern "C" {
 #endif
 
 /*!
+ *  \def UTF8STRING_DEPRECATED_INDEX
+ *  \brief marker to identify deprecated functions that work with indices
+ */
+#define UTF8STRING_DEPRECATED_INDEX
+
+/*!
  *  \def UTF8STRING_NULL
  *  \brief NULL value of an utf8string_t
  *
@@ -74,6 +80,7 @@ static inline unsigned int utf8string_get_length( utf8string_t *this_ );
  */
 static inline int utf8string_equals_str( utf8string_t *this_, utf8string_t *that );
 
+#ifdef UTF8STRING_DEPRECATED_INDEX
 /*!
  * \brief Checks if the region equals the given string.
  *
@@ -84,6 +91,7 @@ static inline int utf8string_equals_str( utf8string_t *this_, utf8string_t *that
  * \return 1 if the region equals the given string, 0 if not.
  */
 static inline int utf8string_equals_region_str( utf8string_t *this_, int start, utf8string_t *that );
+#endif  /* UTF8STRING_DEPRECATED_INDEX */
 
 /*!
  * \brief Checks if the string buffer starts with the specified characters.

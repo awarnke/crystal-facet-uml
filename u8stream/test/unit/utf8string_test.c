@@ -17,7 +17,9 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t testSize( test_fixture_t *fix );
 static test_case_result_t testLength( test_fixture_t *fix );
 static test_case_result_t testEquals( test_fixture_t *fix );
+#ifdef UTF8STRING_DEPRECATED_INDEX
 static test_case_result_t testEqualsRegion( test_fixture_t *fix );
+#endif  /* UTF8STRING_DEPRECATED_INDEX */
 static test_case_result_t testStartsWith( test_fixture_t *fix );
 static test_case_result_t testEndsWith( test_fixture_t *fix );
 static test_case_result_t testFindFirst( test_fixture_t *fix );
@@ -48,7 +50,9 @@ test_suite_t utf8string_test_get_suite(void)
     test_suite_add_test_case( &result, "testSize", &testSize );
     test_suite_add_test_case( &result, "testLength", &testLength );
     test_suite_add_test_case( &result, "testEquals", &testEquals );
+#ifdef UTF8STRING_DEPRECATED_INDEX
     test_suite_add_test_case( &result, "testEqualsRegion", &testEqualsRegion );
+#endif  /* UTF8STRING_DEPRECATED_INDEX */
     test_suite_add_test_case( &result, "testStartsWith", &testStartsWith );
     test_suite_add_test_case( &result, "testEndsWith", &testEndsWith );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
@@ -119,6 +123,7 @@ static test_case_result_t testEquals( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRING_DEPRECATED_INDEX
 static test_case_result_t testEqualsRegion( test_fixture_t *fix )
 {
     //  prepare
@@ -150,6 +155,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *fix )
 
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRING_DEPRECATED_INDEX */
 
 static test_case_result_t testLength( test_fixture_t *fix )
 {
