@@ -179,11 +179,11 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
 
             int text1_width;
             cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text ( font_layout,
-                                    utf8stringbuf_get_string( stereotype_buf ),
-                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
-                                  );
+            pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_text( font_layout,
+                                   utf8stringbuf_get_string( stereotype_buf ),
+                                   DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
+                                 );
             pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
             cairo_move_to( cr,
                            ceil( left + 0.5*( width - text1_width ) ),

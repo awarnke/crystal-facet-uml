@@ -53,7 +53,7 @@
           {
             "id": 294,
             "display_flags": 0,
-            "classifier_name": "",
+            "classifier_name": "MoD5G",
             "node": "a929e73e-8f9d-40a7-81c2-f2e4da7ba93f",
             "uuid": "433c0f34-4bb1-48be-a92f-b6998a93ae7a"
           }
@@ -6755,7 +6755,7 @@
         "main_type": 138,
         "type": "Image",
         "stereotype": "mouse-droid",
-        "name": "",
+        "name": "MoD5G",
         "description": [
                 ""
         ],

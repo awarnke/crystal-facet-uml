@@ -31,7 +31,8 @@ test_suite_t pencil_layouter_test_get_suite(void)
                      &tear_down
                    );
     test_suite_add_test_case( &result, "layout_good_cases", &layout_good_cases );
-    test_suite_add_test_case( &result, "layout_challenging_cases", &layout_challenging_cases );
+    const test_category_t ON_RELEASE = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_RELEASE;
+    test_suite_add_special_test_case( &result, "layout_challenging_cases", ON_RELEASE, &layout_challenging_cases );
     const test_category_t ON_QUEST = TEST_CATEGORY_INTEGRATION | TEST_CATEGORY_QUEST;
     test_suite_add_special_test_case( &result, "layout_edge_cases", ON_QUEST, &layout_edge_cases );
     return result;

@@ -15,8 +15,11 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t testInit( test_fixture_t *fix );
 static test_case_result_t testClear( test_fixture_t *fix );
 static test_case_result_t testLength( test_fixture_t *fix );
+static test_case_result_t testGetView( test_fixture_t *fix );
 static test_case_result_t testEquals( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testEqualsRegion( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 static test_case_result_t testStartsWith( test_fixture_t *fix );
 static test_case_result_t testEndsWith( test_fixture_t *fix );
 static test_case_result_t testFindFirst( test_fixture_t *fix );
@@ -66,8 +69,11 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testInit", &testInit );
     test_suite_add_test_case( &result, "testClear", &testClear );
     test_suite_add_test_case( &result, "testLength", &testLength );
+    test_suite_add_test_case( &result, "testGetView", &testGetView );
     test_suite_add_test_case( &result, "testEquals", &testEquals );
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
     test_suite_add_test_case( &result, "testEqualsRegion", &testEqualsRegion );
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
     test_suite_add_test_case( &result, "testStartsWith", &testStartsWith );
     test_suite_add_test_case( &result, "testEndsWith", &testEndsWith );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
@@ -298,6 +304,30 @@ static test_case_result_t testClear( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+static test_case_result_t testLength( test_fixture_t *fix )
+{
+    int len;
+
+    /* check utf8stringbuf_get_length */
+    len = utf8stringbuf_get_length( (*fix).one_byte_buf );
+    TEST_EXPECT_EQUAL_INT( 0, len );
+    len = utf8stringbuf_get_length( (*fix).four_byte_buf );
+    TEST_EXPECT_EQUAL_INT( 2, len );
+    len = utf8stringbuf_get_length( (*fix).mega_byte_buf );
+    TEST_EXPECT_EQUAL_INT( UTF8STRINGBUFTEST_MEGASIZE-1, len );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t testGetView( test_fixture_t *fix )
+{
+    char dynTestArr[] = "Hello";
+    utf8stringbuf_t dynTestBuf = UTF8STRINGBUF( dynTestArr );
+    const utf8stringview_t testme = utf8stringbuf_get_view( dynTestBuf );
+    TEST_EXPECT_EQUAL_PTR( &dynTestArr, utf8stringview_get_start( &testme ) );
+    TEST_EXPECT_EQUAL_INT( 5, utf8stringview_get_length( &testme ) );
+    return TEST_CASE_RESULT_OK;
+}
+
 static test_case_result_t testEquals( test_fixture_t *fix )
 {
     //  prepare
@@ -333,6 +363,7 @@ static test_case_result_t testEquals( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testEqualsRegion( test_fixture_t *fix )
 {
     //  prepare
@@ -385,20 +416,7 @@ static test_case_result_t testEqualsRegion( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, equal );
     return TEST_CASE_RESULT_OK;
 }
-
-static test_case_result_t testLength( test_fixture_t *fix )
-{
-    int len;
-
-    /* check utf8stringbuf_get_length */
-    len = utf8stringbuf_get_length( (*fix).one_byte_buf );
-    TEST_EXPECT_EQUAL_INT( 0, len );
-    len = utf8stringbuf_get_length( (*fix).four_byte_buf );
-    TEST_EXPECT_EQUAL_INT( 2, len );
-    len = utf8stringbuf_get_length( (*fix).mega_byte_buf );
-    TEST_EXPECT_EQUAL_INT( UTF8STRINGBUFTEST_MEGASIZE-1, len );
-    return TEST_CASE_RESULT_OK;
-}
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 static test_case_result_t testStartsWith( test_fixture_t *fix )
 {

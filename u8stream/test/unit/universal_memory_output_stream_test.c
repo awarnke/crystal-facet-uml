@@ -147,7 +147,7 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), test_1 ) );
 
-    /* write null term*/
+    /* write null term */
     err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), true );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_1, sizeof(test_1) ) );
@@ -158,7 +158,7 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "789", sizeof((*fix).out_buffer) ) );
 
-    /* write null term, overwrite end*/
+    /* write null term, overwrite end */
     err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), false );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "78" "\0", sizeof((*fix).out_buffer) ) );
@@ -173,10 +173,18 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_3, sizeof((*fix).out_buffer) ) );
 
-    /* write null term, overwrite end so that last code point is not cut*/
+    /* write null term, overwrite end so that last code point is not cut */
     err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), true );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "\x92\x80\x80", sizeof((*fix).out_buffer) ) );
+
+    /* try to write null term on zero-size buffer */
+    int no_change = -1;
+    universal_memory_output_stream_t empty_stream;
+    universal_memory_output_stream_init( &empty_stream, &no_change, 0 );
+    err = universal_memory_output_stream_write_0term( &empty_stream, true );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_CONFIG_OUT_OF_RANGE, err );
+    TEST_EXPECT_EQUAL_INT( -1, no_change );
 
     return TEST_CASE_RESULT_OK;
 }

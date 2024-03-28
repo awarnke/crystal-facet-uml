@@ -59,51 +59,72 @@ extern unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf
 /* function to replace a region within a string buffer, the original string length must be provided in this_Length */
 extern utf8error_t utf8_string_buf_private_replace_region_by_str( utf8stringbuf_t this_, unsigned int this_Length, int start, int length, const char *replacement );
 
-static inline utf8stringbuf_t utf8stringbuf( char *that ) {
+static inline utf8stringbuf_t utf8stringbuf( char *that )
+{
     utf8stringbuf_t result;
-    if ( that == NULL ) {
+    if ( that == NULL )
+    {
         result.size = 1;
         result.buf = utf8stringbuf_private_empty_buf;
     }
-    else {
+    else
+    {
         result.size = strlen( that )+1;
         result.buf = that;
     }
     return result;
 }
 
-static inline utf8stringbuf_t utf8stringbuf_init( size_t size, char *buf ) {
+static inline utf8stringbuf_t utf8stringbuf_init( size_t size, char *buf )
+{
     utf8stringbuf_t result;
-    if (( buf == NULL )||(size==0)) {
+    if (( buf == NULL )||(size==0))
+    {
         result.size = 1;
         result.buf = utf8stringbuf_private_empty_buf;
     }
-    else {
+    else
+    {
         result.size = size;
         result.buf = buf;
     }
     return result;
 }
 
-static inline void utf8stringbuf_clear( utf8stringbuf_t this_ ) {
+static inline void utf8stringbuf_clear( utf8stringbuf_t this_ )
+{
     memset( this_.buf, '\0', this_.size );
 }
 
-static inline char* utf8stringbuf_get_string( const utf8stringbuf_t this_ ) {
+static inline char* utf8stringbuf_get_string( const utf8stringbuf_t this_ )
+{
     return this_.buf;
 }
 
-static inline size_t utf8stringbuf_get_size( const utf8stringbuf_t this_ ) {
+static inline size_t utf8stringbuf_get_size( const utf8stringbuf_t this_ )
+{
     return this_.size;
 }
 
-static inline unsigned int utf8stringbuf_get_length( const utf8stringbuf_t this_ ) {
+static inline unsigned int utf8stringbuf_get_length( const utf8stringbuf_t this_ )
+{
     unsigned int lenResult;
     lenResult = strlen( this_.buf );
     return lenResult;
 }
 
-static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const char *that ) {
+static inline utf8stringview_t utf8stringbuf_get_view( const utf8stringbuf_t this_ )
+{
+    utf8stringview_t result;
+    assert( NULL != this_.buf );
+    const utf8error_t err = utf8stringview_init( &result, this_.buf, strlen( this_.buf ) );
+    assert( UTF8ERROR_SUCCESS == err );
+    (void) err;  /* do not warn on unused value */
+    return result;
+}
+
+static inline int utf8stringbuf_equals_str( const utf8stringbuf_t this_, const char *that )
+{
     int cmpResult = -1;
     if ( that != NULL ) {
         cmpResult = strcmp( this_.buf, that );
@@ -134,13 +155,16 @@ static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const 
     return result;
 }
 
-static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that ) {
+static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that )
+{
     int cmpResult = -1;
     cmpResult = strcmp( this_.buf, that.buf );
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
 
-static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, int start, const char *that ) {
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, int start, const char *that )
+{
     int cmpResult = -1;
     if ( that != NULL ) {
         int thisLen = strlen(this_.buf);
@@ -152,8 +176,11 @@ static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, 
     }
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
-static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, int start, const utf8stringbuf_t that ) {
+#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
+static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, int start, const utf8stringbuf_t that )
+{
     int cmpResult = -1;
     int thisLen = strlen(this_.buf);
     int thatLen = strlen(that.buf);
@@ -163,8 +190,10 @@ static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, 
     }
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
+#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
-static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern ) {
+static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern )
+{
     int result = UTF8STRINGBUF_NOT_FOUND;
     const char *ptrResult = strstr( this_.buf, pattern.buf );
     if ( ptrResult != NULL ) {
@@ -173,7 +202,8 @@ static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, con
     return result;
 }
 
-static inline int utf8stringbuf_starts_with_str( const utf8stringbuf_t this_, const char *that ) {
+static inline int utf8stringbuf_starts_with_str( const utf8stringbuf_t this_, const char *that )
+{
     int cmpResult = -1;
     if ( that != NULL ) {
         unsigned int thatLen = strlen( that );

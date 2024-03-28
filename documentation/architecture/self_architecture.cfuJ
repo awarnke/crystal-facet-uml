@@ -4936,6 +4936,13 @@
             "classifier_name": "u8_error",
             "node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
             "uuid": "daee4dd5-e229-400c-8e4a-4786225f2ea0"
+          },
+          {
+            "id": 855,
+            "display_flags": 0,
+            "classifier_name": "ERROR",
+            "node": "d51722a3-fc6a-4e90-a886-e897ce9c3f25",
+            "uuid": "a3be7079-7a9c-4a21-92d1-5c9a7e80e135"
           }
         ]
       }
@@ -7497,7 +7504,7 @@
                 "where access rights differ from the OS-process in which crystal-facet-uml runs."
         ],
         "x_order": -13670836,
-        "y_order": -1409604443,
+        "y_order": -711091774,
         "list_order": 0,
         "uuid": "0c398a27-2f8e-410c-96a3-cf8f0119651d",
         "features":
@@ -8063,7 +8070,7 @@
                 "- controls selection-set\n",
                 "- encapsulates quite complex logic for mouse events"
         ],
-        "x_order": -626332123,
+        "x_order": -755179412,
         "y_order": -863059162,
         "list_order": 0,
         "uuid": "f208b8bc-a0ff-4536-8bb2-80edff271f58",
@@ -8077,7 +8084,7 @@
             "description": [
                 ""
             ],
-            "list_order": -187143138,
+            "list_order": -584824667,
             "uuid": "d373144e-c420-4c92-8390-3ffa8dae30fb"
           },
           {
@@ -8254,7 +8261,7 @@
                 "An error is a condition that leads to an observalbe malfunction."
         ],
         "x_order": -13670836,
-        "y_order": -1409604443,
+        "y_order": -711091774,
         "list_order": 0,
         "uuid": "56dc6265-21e0-441e-8f7f-643b2d4785ed",
         "features":
@@ -8310,7 +8317,7 @@
                 " An event is a signal that is send to or received from external software parts."
         ],
         "x_order": -10181582,
-        "y_order": -1409604443,
+        "y_order": -711091774,
         "list_order": 0,
         "uuid": "e6a45191-0ec1-4076-adbe-4c1022593762",
         "features":
@@ -10452,7 +10459,7 @@
             "description": [
                 ""
             ],
-            "list_order": 1426372702,
+            "list_order": 1567127152,
             "uuid": "270acb9a-d2be-457c-bd70-b535046fb0f9"
           },
           {
@@ -10563,7 +10570,7 @@
             "description": [
                 ""
             ],
-            "list_order": 665441737,
+            "list_order": 891685657,
             "uuid": "4a470190-0362-4699-b039-fdc69e8a7d15"
           }
         ]
@@ -14951,6 +14958,7 @@
         "id": 386,
         "main_type": 125,
         "type": "Class",
+        "stereotype": "logical element",
         "name": "ERROR",
         "description": [
                 ""
@@ -15471,7 +15479,7 @@
                 "An error mask representing one or multiple errors"
         ],
         "x_order": -1031544388,
-        "y_order": -1409604443,
+        "y_order": -711091774,
         "list_order": -105281114,
         "uuid": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
         "features":
@@ -27979,6 +27987,23 @@
         "from_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
         "to_node": "31c90a45-9457-4af8-8a06-36e47ddf7dca",
         "uuid": "9660328c-f15a-47dc-8b5d-2f566494b444"
+      }
+    },
+    {
+      "relationship": {
+        "id": 903,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "u8_error",
+        "to_classifier_name": "ERROR",
+        "from_node": "b22bef6b-9c0f-4278-8ec0-25e8f9cd5ec1",
+        "to_node": "d51722a3-fc6a-4e90-a886-e897ce9c3f25",
+        "uuid": "297c9645-600c-401d-b065-99fd3fe50e2f"
       }
     },
     {

@@ -206,14 +206,9 @@ static inline utf8error_t utf8stringbuf_private_write_char( char *destination, u
 
 utf8error_t utf8_string_buf_private_replace_region_by_str( utf8stringbuf_t this_, unsigned int this_Length, int start, int length, const char *replacement ) {
     utf8error_t result = UTF8ERROR_OUT_OF_RANGE;
-    if (( start >= 0 ) && ( start <= this_Length ) && ( length >= 0 )) {
+    if (( start >= 0 ) && ( start <= this_Length ) && ( length >= 0 ) && (( start + length ) <= this_Length )) {
         result = UTF8ERROR_SUCCESS;
         unsigned int replaceLen = ( replacement == NULL ) ? (0) : ( strlen(replacement) );
-        if (( start + length ) > this_Length ) {
-            /* length value was too big. update this; success is 0 */
-            length = this_Length - start;
-            result = UTF8ERROR_OUT_OF_RANGE;
-        }
         int tailLen = this_Length - start - length;
         if ( length > replaceLen ) {
             memmove( &(this_.buf[start+replaceLen]), &(this_.buf[start+length]), tailLen+1 );

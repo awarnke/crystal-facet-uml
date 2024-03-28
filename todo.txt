@@ -18,8 +18,7 @@ ideas for future versions:
 ! [ ] When pasting a new diagram, switch to the new diagram in nav view to see the changes
       --> idea: use gui_toolbox_set_selected_tool_and_focus
   [ ] store edited text fields before performing undo/redo operations
-! [ ] auto-save when losing focus
-      Check for gtk3: focus-out-event or gtk4: GtkEventControllerFocus (example in gui_main_window.c)
+! [ ] auto-save when losing focus; Check GtkEventControllerFocus (example in gui_main_window.c)
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
@@ -37,6 +36,7 @@ ideas for future versions:
   [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] stereotype images of packages are positioned unluckily
 ! [ ] sequence diagrams shall provide more automatic line breaks in classifier names
+      see U+0082 Break Permitted Here and U+200B zero-width space (0xE2 0x80 0x8B)
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
