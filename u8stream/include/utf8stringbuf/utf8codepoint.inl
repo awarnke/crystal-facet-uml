@@ -16,14 +16,6 @@ extern "C" {
 /*  enumeration for invalid code points */
 enum utf8codepoint_enum {UTF8CODEPOINT_INVALID_LEN=0,};
 
-/*!
- *  \fn utf8codepoint_private_init_from_multi_byte( const char *that, unsigned int max_size )
- *  \private
- *  \param that Pointer to a multi-byte utf-8 character; must not be NULL.
- *  \param max_size maximum number of bytes to read.
- */
-static inline utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, unsigned int max_size );
-
 static inline utf8codepoint_t utf8codepoint( uint32_t code_point ) {
     utf8codepoint_t result;
     /* for balanced performance between standard and worst cases, */
@@ -198,82 +190,6 @@ static inline int utf8codepoint_is_unicode( const utf8codepoint_t this_ ) {
             if (( this_.code_point & 0x00fffe ) != 0x00fffe ) {
                 result = 1;
             }
-        }
-    }
-    return result;
-}
-
-/* function to initialize an code point from a multi-byte character, non-inline */
-static inline utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, unsigned int max_size ) {
-    utf8codepoint_t result = { UTF8CODEPOINT_INVALID_LEN, 0x0, };
-    if ( max_size >= 1 ) {
-        unsigned char firstByte = (unsigned char) (that[0]);
-        unsigned int byte_length =
-            ( firstByte < 0xe0 )
-            ? (
-                    ( firstByte < 0xc0 ) ? 1 : 2
-            )
-            : (
-                    ( firstByte < 0xf8 )
-                    ? (
-                            ( firstByte < 0xf0 ) ? 3 : 4
-                    )
-                    : UTF8CODEPOINT_INVALID_LEN
-            );
-        switch ( byte_length ) {
-        case 1:
-            if ( firstByte < 0x80 ) {
-                /* first byte is valid */
-                result.byte_length = 1;
-                result.code_point = firstByte;
-            }
-            break;
-        case 2:
-            if ( max_size >= 2 ) {
-                unsigned char secondByte = (unsigned char) (that[1]);
-                if (( 0xc0 & secondByte ) == 0x80 ) {
-                    /* second byte is valid */
-                    result.byte_length = 2;
-                    result.code_point = (((uint32_t)(firstByte & 0x1f))<<6)
-                                       |(secondByte & 0x3f);
-                }
-            }
-            break;
-        case 3:
-            if ( max_size >= 3 ) {
-                unsigned char secondByte = (unsigned char) (that[1]);
-                unsigned char thirdByte = (unsigned char) (that[2]);
-                if (( ( 0xc0 & secondByte ) == 0x80 )
-                    && ( ( 0xc0 & thirdByte ) == 0x80 ))
-                {
-                    /* second and third bytes are valid */
-                    result.byte_length = 3;
-                    result.code_point = (((uint32_t)(firstByte & 0x0f))<<12)
-                                       |(((uint32_t)(secondByte & 0x3f))<<6)
-                                       |(thirdByte & 0x3f);
-                }
-            }
-            break;
-        case 4:
-            if ( max_size >= 4 ) {
-                unsigned char secondByte = (unsigned char) (that[1]);
-                unsigned char thirdByte = (unsigned char) (that[2]);
-                unsigned char fourthByte = (unsigned char) (that[3]);
-                if (( ( 0xc0 & secondByte ) == 0x80 )
-                    && ( ( 0xc0 & thirdByte ) == 0x80 )
-                    && ( ( 0xc0 & fourthByte ) == 0x80 ))
-                {
-                    /* second, third and fourth bytes are valid */
-                    result.byte_length = 4;
-                    result.code_point = (((uint32_t)(firstByte & 0x07))<<18)
-                                       |(((uint32_t)(secondByte & 0x3f))<<12)
-                                       |(((uint32_t)(thirdByte & 0x3f))<<6)
-                                       |(fourthByte & 0x3f);
-                }
-            }
-            break;
-        default:
-            break;
         }
     }
     return result;

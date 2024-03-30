@@ -1632,12 +1632,76 @@ static test_case_result_t testAppendChar( test_fixture_t *fix )
     equal = utf8stringbuf_equals_str( dynTestBuf1, "Hel" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
+    /* append zero */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x0 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0x1 1-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x01 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\x01" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0x7f 1-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x7f );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\x7f" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0x80 2-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x80 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\xC2\x80" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0x7ff 2-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x07ff );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\xDF\xBF" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0x800 3-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x800 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\xE0\xA0\x80" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0xffff 3-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0xffff );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\xEF\xBF\xBF" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0x10000 4-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x10000 );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\xF0\x90\x80\x80" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
+    /* append 0x10ffff 4-byte code point */
+    utf8stringbuf_clear( dynTestBuf1 );
+    error = utf8stringbuf_append_char( dynTestBuf1, 0x10ffff );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
+    equal = utf8stringbuf_equals_str( dynTestBuf1, "\xF4\x8F\xBF\xBF" );
+    TEST_EXPECT_EQUAL_INT( 1, equal );
+
     /* append illegal code point */
     utf8stringbuf_clear( dynTestBuf1 );
     error = utf8stringbuf_append_char( dynTestBuf1, 0x80000000 );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_NOT_A_CODEPOINT, error );
     equal = utf8stringbuf_equals_str( dynTestBuf1, "" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
+
     return TEST_CASE_RESULT_OK;
 }
 
