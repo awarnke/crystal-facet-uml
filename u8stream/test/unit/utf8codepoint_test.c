@@ -1,7 +1,9 @@
 /* File: utf8codepoint_test.c; Copyright and License: see below */
 
 #include "utf8codepoint_test.h"
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 #include "utf8stringbuf/utf8stringbuf.h"
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 #include "utf8stringbuf/utf8codepoint.h"
 #include "test_fixture.h"
 #include "test_expect.h"
@@ -14,7 +16,9 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testInit1( test_fixture_t *fix );
 static test_case_result_t testInit2( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testIntToUtf8ToInt( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 static test_case_result_t testIntToUtf8( test_fixture_t *fix );
 static test_case_result_t testUnicode( test_fixture_t *fix );
 
@@ -29,7 +33,9 @@ test_suite_t utf8codepoint_test_get_suite(void)
                    );
     test_suite_add_test_case( &result, "testInit1", &testInit1 );
     test_suite_add_test_case( &result, "testInit2", &testInit2 );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
     test_suite_add_test_case( &result, "testIntToUtf8ToInt", &testIntToUtf8ToInt );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
     test_suite_add_test_case( &result, "testIntToUtf8", &testIntToUtf8 );
     test_suite_add_test_case( &result, "testUnicode", &testUnicode );
     return result;
@@ -157,6 +163,7 @@ static test_case_result_t testInit2( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testIntToUtf8ToInt( test_fixture_t *fix )
 {
     utf8codepoint_t result;
@@ -239,6 +246,7 @@ static test_case_result_t testIntToUtf8ToInt( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0x1fffff, utf8codepoint_get_char(result) );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 static test_case_result_t testIntToUtf8( test_fixture_t *fix )
 {

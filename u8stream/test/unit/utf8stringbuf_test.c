@@ -22,9 +22,11 @@ static test_case_result_t testEqualsRegion( test_fixture_t *fix );
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 static test_case_result_t testStartsWith( test_fixture_t *fix );
 static test_case_result_t testEndsWith( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testFindFirst( test_fixture_t *fix );
 static test_case_result_t testFindNext( test_fixture_t *fix );
 static test_case_result_t testFindLast( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 static test_case_result_t testCopyBuf( test_fixture_t *fix );
 static test_case_result_t testCopyStr( test_fixture_t *fix );
 static test_case_result_t testCopyWithCutUtf8( test_fixture_t *fix );
@@ -39,7 +41,9 @@ static test_case_result_t testReplaceRegionBuf( test_fixture_t *fix );
 static test_case_result_t testReplaceAll( test_fixture_t *fix );
 static test_case_result_t testReplaceAllBadCases( test_fixture_t *fix );
 static test_case_result_t testReplaceAllStr( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 static test_case_result_t testReplaceAllBuf( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testInsertBuf( test_fixture_t *fix );
 static test_case_result_t testInsertStr( test_fixture_t *fix );
@@ -54,8 +58,10 @@ static test_case_result_t testAppendHex( test_fixture_t *fix );
 static test_case_result_t testAppendChar( test_fixture_t *fix );
 static test_case_result_t testAppendWStr( test_fixture_t *fix );
 static test_case_result_t testAppendView( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testCharAt( test_fixture_t *fix );
 static test_case_result_t testCharAtLoops( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 static test_case_result_t testGetEnd( test_fixture_t *fix );
 
 test_suite_t utf8stringbuf_test_get_suite(void)
@@ -77,9 +83,11 @@ test_suite_t utf8stringbuf_test_get_suite(void)
 #endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
     test_suite_add_test_case( &result, "testStartsWith", &testStartsWith );
     test_suite_add_test_case( &result, "testEndsWith", &testEndsWith );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
     test_suite_add_test_case( &result, "testFindNext", &testFindNext );
     test_suite_add_test_case( &result, "testFindLast", &testFindLast );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
     test_suite_add_test_case( &result, "testCopyBuf", &testCopyBuf );
     test_suite_add_test_case( &result, "testCopyStr", &testCopyStr );
     test_suite_add_test_case( &result, "testCopyWithCutUtf8", &testCopyWithCutUtf8 );
@@ -94,7 +102,9 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testReplaceAll", &testReplaceAll );
     test_suite_add_test_case( &result, "testReplaceAllBadCases", &testReplaceAllBadCases );
     test_suite_add_test_case( &result, "testReplaceAllStr", &testReplaceAllStr );
+#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
     test_suite_add_test_case( &result, "testReplaceAllBuf", &testReplaceAllBuf );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
     test_suite_add_test_case( &result, "testInsertBuf", &testInsertBuf );
     test_suite_add_test_case( &result, "testInsertStr", &testInsertStr );
@@ -109,8 +119,10 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testAppendChar", &testAppendChar );
     test_suite_add_test_case( &result, "testAppendWStr", &testAppendWStr );
     test_suite_add_test_case( &result, "testAppendView", &testAppendView );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
     test_suite_add_test_case( &result, "testCharAt", &testCharAt );
     test_suite_add_test_case( &result, "testCharAtLoops", &testCharAtLoops );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
     test_suite_add_test_case( &result, "testGetEnd", &testGetEnd );
     return result;
 }
@@ -664,6 +676,7 @@ static test_case_result_t testCopyView( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testFindFirst( test_fixture_t *fix )
 {
     int pos;
@@ -715,7 +728,9 @@ static test_case_result_t testFindFirst( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, pos );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testFindNext( test_fixture_t *fix )
 {
     int pos;
@@ -768,7 +783,9 @@ static test_case_result_t testFindNext( test_fixture_t *fix )
 
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testFindLast( test_fixture_t *fix )
 {
     int pos;
@@ -807,6 +824,7 @@ static test_case_result_t testFindLast( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 4, pos );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testCopyRegion( test_fixture_t *fix )
@@ -1307,6 +1325,7 @@ static test_case_result_t testReplaceAllStr( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 static test_case_result_t testReplaceAllBuf( test_fixture_t *fix )
 {
     /* utf8stringbuf_replace_all_buf_by_buf is just a wrapper around utf8stringbuf_replace_all */
@@ -1323,6 +1342,7 @@ static test_case_result_t testReplaceAllBuf( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
 
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testInsertBuf( test_fixture_t *fix )
@@ -1715,6 +1735,7 @@ static test_case_result_t testAppendView( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testCharAt( test_fixture_t *fix )
 {
     utf8codepoint_t result;
@@ -1755,7 +1776,9 @@ static test_case_result_t testCharAt( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0x0, utf8codepoint_get_char(result) );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testCharAtLoops( test_fixture_t *fix )
 {
     utf8codepoint_t result;
@@ -1821,6 +1844,7 @@ static test_case_result_t testCharAtLoops( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 3, countCodePoints );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 static test_case_result_t testGetEnd( test_fixture_t *fix )
 {

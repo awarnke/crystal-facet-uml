@@ -241,6 +241,7 @@ static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t this_, cons
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
 }
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline int utf8stringbuf_find_first_str( const utf8stringbuf_t this_, const char *pattern ) {
     int result = UTF8STRINGBUF_NOT_FOUND;
     if ( pattern != NULL ) {
@@ -251,7 +252,9 @@ static inline int utf8stringbuf_find_first_str( const utf8stringbuf_t this_, con
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline int utf8stringbuf_find_last_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern ) {
     int result = UTF8STRINGBUF_NOT_FOUND;
     int thisLen = utf8stringbuf_get_length( this_ );
@@ -267,7 +270,9 @@ static inline int utf8stringbuf_find_last_buf( const utf8stringbuf_t this_, cons
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline int utf8stringbuf_find_last_str( const utf8stringbuf_t this_, const char *pattern ) {
     int result = UTF8STRINGBUF_NOT_FOUND;
     if ( pattern != NULL ) {
@@ -285,7 +290,9 @@ static inline int utf8stringbuf_find_last_str( const utf8stringbuf_t this_, cons
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline int utf8stringbuf_find_next_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, int start_index ) {
     int result = UTF8STRINGBUF_NOT_FOUND;
     if (( start_index >= 0 ) && ( start_index < this_.size )) {
@@ -296,7 +303,9 @@ static inline int utf8stringbuf_find_next_buf( const utf8stringbuf_t this_, cons
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, const char *pattern, int start_index ) {
     int result = UTF8STRINGBUF_NOT_FOUND;
     if (( pattern != NULL ) && ( start_index >= 0 ) && ( start_index < this_.size )) {
@@ -307,7 +316,9 @@ static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, cons
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static inline utf8codepoint_t utf8stringbuf_get_char_at( const utf8stringbuf_t this_, unsigned int byte_index ) {
     utf8codepoint_t result = UTF8CODEPOINT_INVAL_CHAR;
     if ( byte_index < this_.size ) {
@@ -315,6 +326,7 @@ static inline utf8codepoint_t utf8stringbuf_get_char_at( const utf8stringbuf_t t
     }
     return result;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t this_, const utf8stringbuf_t original ) {
     utf8error_t complete = UTF8ERROR_SUCCESS;
@@ -391,10 +403,12 @@ static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8string
     return result;
 }
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, const utf8stringbuf_t replacement ) {
     const char *const patterns_and_replacements[][2] = { { pattern.buf, replacement.buf }, { NULL, NULL } };
     return utf8stringbuf_replace_all( this_, &patterns_and_replacements );
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
 
 static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const char *appendix ) {
     utf8error_t result = UTF8ERROR_SUCCESS;

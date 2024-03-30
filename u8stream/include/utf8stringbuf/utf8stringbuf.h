@@ -311,6 +311,7 @@ static inline int utf8stringbuf_ends_with_str( const utf8stringbuf_t this_, cons
  */
 static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Searches a pattern within a string
  *
@@ -326,7 +327,9 @@ static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t this_, cons
  *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Searches a pattern within a string
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
@@ -336,7 +339,9 @@ static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, con
  *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_first_str( const utf8stringbuf_t this_, const char *pattern );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Searches a pattern within a string starting at the end
  *
@@ -352,7 +357,9 @@ static inline int utf8stringbuf_find_first_str( const utf8stringbuf_t this_, con
  *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_last_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Searches a pattern within a string starting at the end
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
@@ -362,7 +369,9 @@ static inline int utf8stringbuf_find_last_buf( const utf8stringbuf_t this_, cons
  *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_last_str( const utf8stringbuf_t this_, const char *pattern );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Searches a pattern within a string
  *
@@ -379,7 +388,9 @@ static inline int utf8stringbuf_find_last_str( const utf8stringbuf_t this_, cons
  *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_next_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, int start_index );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Searches a pattern within a string
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
@@ -390,7 +401,9 @@ static inline int utf8stringbuf_find_next_buf( const utf8stringbuf_t this_, cons
  *          -1 if there is no match.
  */
 static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, const char *pattern, int start_index );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 /*!
  *  \brief Gets the code point at a given byte index.
  *
@@ -433,6 +446,7 @@ static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, cons
  *          The terminating zero of a string buffer is a valid character.
  */
 static inline utf8codepoint_t utf8stringbuf_get_char_at( const utf8stringbuf_t this_, unsigned int byte_index );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 /*!
  *  \brief Copies a string
@@ -534,6 +548,7 @@ extern utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, co
  */
 static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8stringbuf_t this_, const char *pattern, const char *replacement );
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 /*!
  *  \brief Replaces all occurrences of pattern by replacement.
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
@@ -544,6 +559,7 @@ static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8string
  *          UTF8ERROR_TRUNCATED if the string buffer was truncated.
  */
 static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, const utf8stringbuf_t replacement );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
 
 /*!
  *  \brief Replaces all occurrences of patterns by the corresponding replacement strings
@@ -774,7 +790,7 @@ static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t this_, const
  *  \brief Appends an unicode character to a string buffer
  *
  *  If the character does not fit to the destination buffer,
- *  the destinatoin buffer is not modified.
+ *  the destination buffer is not modified.
  *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
  *  \param this_ The destination string buffer
  *  \param appendix The unicode codepoint to be appended

@@ -14,7 +14,9 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testClear( test_fixture_t *fix );
 static test_case_result_t testAppendStr( test_fixture_t *fix );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testFindFirst( test_fixture_t *fix );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 static test_case_result_t testInsertAndDelete( test_fixture_t *fix );
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
@@ -30,7 +32,9 @@ test_suite_t utf8stringbuf_performance_get_list(void)
                    );
     test_suite_add_test_case( &result, "testClear", &testClear );
     test_suite_add_test_case( &result, "testAppendStr", &testAppendStr );
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
     test_suite_add_test_case( &result, "testInsertAndDelete", &testInsertAndDelete );
 #endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
@@ -178,6 +182,7 @@ static test_case_result_t testAppendStr( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
 static test_case_result_t testFindFirst( test_fixture_t *fix )
 {
     assert( fix != NULL );
@@ -219,6 +224,7 @@ static test_case_result_t testFindFirst( test_fixture_t *fix )
     TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
     return TEST_CASE_RESULT_OK;
 }
+#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 #ifdef UTF8STRINGBUF_UNCHECKED_RANGE
 const char EXAMPLE_DATA[] =

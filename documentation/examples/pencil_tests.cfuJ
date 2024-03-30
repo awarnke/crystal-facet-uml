@@ -1921,7 +1921,7 @@
           {
             "id": 134,
             "display_flags": 0,
-            "classifier_name": "c long long long long long long name 1",
+            "classifier_name": "c long long​long long long long name 1",
             "node": "4b0569c9-c116-45c1-a3f0-84fba2b9a325",
             "uuid": "e2376245-f63e-4462-a6f3-fedf441edebf"
           },
@@ -2122,7 +2122,7 @@
           {
             "id": 154,
             "display_flags": 0,
-            "classifier_name": "c long long long long long long name 1",
+            "classifier_name": "c long long​long long long long name 1",
             "node": "5009be89-8b3d-4b23-9dca-55d7c8cd406f",
             "uuid": "844060b8-8765-4633-ae2e-d9f5c7dfd73f"
           },
@@ -2191,7 +2191,7 @@
           {
             "id": 160,
             "display_flags": 0,
-            "classifier_name": "c long long long long long long name 1",
+            "classifier_name": "c long long​long long long long name 1",
             "node": "74a350dc-2f51-422a-9916-a37dd6744c60",
             "uuid": "a312ef1f-6875-4d24-b640-42975a133e33"
           },
@@ -2267,7 +2267,7 @@
           {
             "id": 166,
             "display_flags": 0,
-            "classifier_name": "c long long long long long long name 1",
+            "classifier_name": "c long long​long long long long name 1",
             "node": "ac33c72a-5389-4d2e-bb6e-ba15969e771c",
             "uuid": "dcc2712e-8807-4bbc-a43c-a82c19dff30a"
           },
@@ -2343,7 +2343,7 @@
           {
             "id": 172,
             "display_flags": 0,
-            "classifier_name": "c long long long long long long name 1",
+            "classifier_name": "c long long​long long long long name 1",
             "node": "4b0569c9-c116-45c1-a3f0-84fba2b9a325",
             "uuid": "6ad2791b-1e00-46a2-ae92-50d4223754de"
           },
@@ -2419,7 +2419,7 @@
           {
             "id": 178,
             "display_flags": 0,
-            "classifier_name": "c long long long long long long name 1",
+            "classifier_name": "c long long​long long long long name 1",
             "node": "4b0569c9-c116-45c1-a3f0-84fba2b9a325",
             "uuid": "a2b30cf5-c7fa-4d55-95d5-bc63a167f35f"
           },
@@ -5181,9 +5181,9 @@
         "id": 41,
         "main_type": 100,
         "type": "Actor",
-        "name": "c long long long long long long name 1",
+        "name": "c long long​long long long long name 1",
         "description": [
-                ""
+                "There is a ​ ZERO WIDTH SPACE character in the name."
         ],
         "x_order": -1403039051,
         "y_order": -1217596004,
@@ -9701,7 +9701,7 @@
                 ""
         ],
         "list_order": 229376,
-        "from_classifier_name": "c long long long long long long name 1",
+        "from_classifier_name": "c long long​long long long long name 1",
         "to_classifier_name": "c5",
         "from_node": "4b0569c9-c116-45c1-a3f0-84fba2b9a325",
         "to_node": "636abbd6-ab66-481b-a18f-701a3be4b5fb",
@@ -9718,7 +9718,7 @@
                 ""
         ],
         "list_order": 262144,
-        "from_classifier_name": "c long long long long long long name 1",
+        "from_classifier_name": "c long long​long long long long name 1",
         "to_classifier_name": "c2",
         "from_node": "4b0569c9-c116-45c1-a3f0-84fba2b9a325",
         "to_node": "dfec613d-4d0b-4935-af4f-a2b067f74e15",
@@ -9735,7 +9735,7 @@
                 ""
         ],
         "list_order": 207711603,
-        "from_classifier_name": "c long long long long long long name 1",
+        "from_classifier_name": "c long long​long long long long name 1",
         "from_feature_key": "",
         "to_classifier_name": "c2",
         "to_feature_key": "",
@@ -9754,7 +9754,7 @@
                 ""
         ],
         "list_order": 1294521750,
-        "from_classifier_name": "c long long long long long long name 1",
+        "from_classifier_name": "c long long​long long long long name 1",
         "from_feature_key": "",
         "to_classifier_name": "c6",
         "to_feature_key": "",
@@ -9773,7 +9773,7 @@
                 ""
         ],
         "list_order": -1279274884,
-        "from_classifier_name": "c long long long long long long name 1",
+        "from_classifier_name": "c long long​long long long long name 1",
         "from_feature_key": "",
         "to_classifier_name": "gray",
         "to_feature_key": "",
@@ -10045,7 +10045,7 @@
         ],
         "list_order": 196608,
         "from_classifier_name": "c6",
-        "to_classifier_name": "c long long long long long long name 1",
+        "to_classifier_name": "c long long​long long long long name 1",
         "from_node": "590f0dab-fc3a-4cfb-9f62-6417bfade2f5",
         "to_node": "4b0569c9-c116-45c1-a3f0-84fba2b9a325",
         "uuid": "c7f0bf32-415c-4299-a84a-98c4fdcf8d90"
@@ -10139,7 +10139,7 @@
         "list_order": 1294620054,
         "from_classifier_name": "c6",
         "from_feature_key": "",
-        "to_classifier_name": "c long long long long long long name 1",
+        "to_classifier_name": "c long long​long long long long name 1",
         "to_feature_key": "",
         "from_node": "d8836620-cb35-453e-917c-3d223120aa1c",
         "to_node": "5009be89-8b3d-4b23-9dca-55d7c8cd406f",
@@ -10856,7 +10856,7 @@
         "list_order": -1039724353,
         "from_classifier_name": "gray",
         "from_feature_key": "",
-        "to_classifier_name": "c long long long long long long name 1",
+        "to_classifier_name": "c long long​long long long long name 1",
         "to_feature_key": "",
         "from_node": "a808b055-01cf-4ccc-8d5d-d791cc6cf247",
         "to_node": "74a350dc-2f51-422a-9916-a37dd6744c60",

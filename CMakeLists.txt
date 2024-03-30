@@ -132,7 +132,7 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation/linux/crystal-facet-uml.
 
 if(CFU_ADD_GCOV_TARGET)
     if(CMAKE_COMPILER_IS_GNUCC)
-        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" )
+        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -O0" )
         SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs" )
         ADD_EXECUTABLE(gcov_crystal-facet-uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
         TARGET_INCLUDE_DIRECTORIES(gcov_crystal-facet-uml PUBLIC test_fw/include)
