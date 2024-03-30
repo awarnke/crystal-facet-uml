@@ -44,12 +44,12 @@ static inline void draw_line_breaker_destroy( draw_line_breaker_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param in_text label, title or description that shall be processed
- *  \param out_text buffer where the result shall be stored
+ *  \param out_text buffer where the result shall be appended to
  *  \return U8ERROR_NONE in case of success
  */
-u8_error_t draw_line_breaker_process ( const draw_line_breaker_t *this_,
+u8_error_t draw_line_breaker_append ( const draw_line_breaker_t *this_,
                                       const utf8stringview_t *in_text,
-                                      utf8stringbuf_t *out_text
+                                      utf8stringbuf_t out_text
                                     );
 
 #include "draw_line_breaker.inl"

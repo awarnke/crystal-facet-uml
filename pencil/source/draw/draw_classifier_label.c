@@ -73,7 +73,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
 
             /* prepare text */
-            char name_text[ DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
+            char name_text[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /* x4 because any character may be followed by a 3-byte space */
             utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
             if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ) )
             {
@@ -83,19 +83,15 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             {
                 utf8stringbuf_clear( name_buf );
             }
-            utf8stringbuf_append_str( name_buf, data_classifier_get_name_const( classifier ) );
-
+            utf8stringview_t class_name = UTF8STRINGVIEW_STR( data_classifier_get_name_const( classifier ) );
             /* insert linebreaks */
-            char mybuf[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];
-            utf8stringbuf_t mystrbuf = UTF8STRINGBUF( mybuf );
             {
                 draw_line_breaker_t linebr;
                 draw_line_breaker_init( &linebr, true );
-                const utf8stringview_t text = utf8stringbuf_get_view( name_buf );
-                u8_error_t err = draw_line_breaker_process( &linebr, &text, &mystrbuf );
+                u8_error_t err = draw_line_breaker_append( &linebr, &class_name, name_buf );
                 if ( err != U8_ERROR_NONE )
                 {
-                    U8_LOG_WARNING_HEX( "error ar draw_line_breaker_process", err );
+                    U8_LOG_WARNING_HEX( "error at draw_line_breaker_append", err );
                 }
                 draw_line_breaker_destroy( &linebr );
             }
@@ -103,7 +99,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             /* determine text width and height */
             pango_layout_set_font_description( font_layout, pencil_size_get_title_font_description(pencil_size) );
             pango_layout_set_text ( font_layout,
-                                    utf8stringbuf_get_string( mystrbuf ),
+                                    utf8stringbuf_get_string( name_buf ),
                                     DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                                   );
             pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
@@ -213,7 +209,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     int text2_height = 0;
     {
         /* prepare text */
-        char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
+        char name_text[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /* x4 because any character may be followed by a 3-byte space */
         utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
         if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ) )
         {
@@ -223,19 +219,15 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         {
             utf8stringbuf_clear( name_buf );
         }
-        utf8stringbuf_append_str( name_buf, data_classifier_get_name_const( classifier ) );
-
+        utf8stringview_t class_name = UTF8STRINGVIEW_STR( data_classifier_get_name_const( classifier ) );
         /* insert linebreaks */
-        char mybuf[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];
-        utf8stringbuf_t mystrbuf = UTF8STRINGBUF( mybuf );
         {
             draw_line_breaker_t linebr;
             draw_line_breaker_init( &linebr, true );
-            const utf8stringview_t text = utf8stringbuf_get_view( name_buf );
-            u8_error_t err = draw_line_breaker_process( &linebr, &text, &mystrbuf );
+            u8_error_t err = draw_line_breaker_append( &linebr, &class_name, name_buf );
             if ( err != U8_ERROR_NONE )
             {
-                U8_LOG_WARNING_HEX( "error ar draw_line_breaker_process", err );
+                U8_LOG_WARNING_HEX( "error at draw_line_breaker_append", err );
             }
             draw_line_breaker_destroy( &linebr );
         }
@@ -245,7 +237,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description( font_layout, pencil_size_get_title_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
-                               utf8stringbuf_get_string( mystrbuf ),
+                               utf8stringbuf_get_string( name_buf ),
                                DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                              );
         pango_layout_set_width( font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */

@@ -35,8 +35,6 @@ ideas for future versions:
       check data_visible_set.c data_visible_set_private_update_containment_cache()
   [ ] allow arbitrary compartment sequences for features, e.g. tag - operation - property
   [ ] stereotype images of packages are positioned unluckily
-! [ ] sequence diagrams shall provide more automatic line breaks in classifier names
-      see U+0082 Break Permitted Here and U+200B zero-width space (0xE2 0x80 0x8B)
   @io
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces

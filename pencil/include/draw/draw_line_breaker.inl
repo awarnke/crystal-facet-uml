@@ -12,38 +12,44 @@ static inline void draw_line_breaker_destroy( draw_line_breaker_t *this_ )
 {
 }
 
-u8_error_t draw_line_breaker_process( const draw_line_breaker_t *this_,
+u8_error_t draw_line_breaker_append( const draw_line_breaker_t *this_,
                                      const utf8stringview_t *in_text,
-                                     utf8stringbuf_t *out_text )
+                                     utf8stringbuf_t out_text )
 {
     u8_error_t err = U8_ERROR_NONE;
     utf8codepointiterator_t iter;
     utf8codepointiterator_init( &iter, in_text );
 
-    utf8stringbuf_clear( *out_text );
-
     const utf8codepoint_t space0width = utf8codepoint( 0x200B );
-    utf8codepoint_t last = utf8codepoint( ' ' );
-    unsigned int wordlen = 0;
+    uint32_t last = ' ';
     for(; utf8codepointiterator_has_next( &iter ); )
     {
         utf8codepoint_t codepnt = utf8codepointiterator_next( &iter );
-        const bool no_space
-            = ( utf8codepoint_get_char( last ) != ' ' )
-            &&( utf8codepoint_get_char ( codepnt ) != ' ' );
-        const bool insert_zws = no_space && ( wordlen >= 5 ); /* zws: zero width space */
-        if ( insert_zws )
+        uint32_t current = utf8codepoint_get_char ( codepnt );
+        const bool no_space = ( last != ' ' )&&( current != ' ' );
+        if ( no_space )
         {
-            err |= utf8stringbuf_append_char( *out_text, utf8codepoint_get_char( space0width ) );
-            wordlen = 0;
+            const bool last_AZ = ( last >= 'A' )&&( last <= 'Z' );
+            const bool last_az = ( last >= 'a' )&&( last <= 'z' );
+            const bool last_09 = ( last >= '0' )&&( last <= '9' );
+            const bool last_other = ( last > '\x7f' );
+            const bool cur_AZ = ( current >= 'A' )&&( current <= 'Z' );
+            const bool cur_az = ( current >= 'a' )&&( current <= 'z' );
+            const bool cur_09 = ( current >= '0' )&&( current <= '9' );
+            const bool cur_other = ( current > '\x7f' );
+            const bool same_token
+                = ( last_AZ && ( cur_AZ || cur_az || cur_09 ) )
+                || ( last_az && ( cur_az || cur_09 ) )
+                || ( last_09 && cur_09 )
+                || ( last_other && cur_other );
+            if ( ! same_token )
+            {
+                out_text = utf8stringbuf_get_end( out_text );
+                err |= utf8stringbuf_append_char( out_text, utf8codepoint_get_char( space0width ) );
+            }
         }
-        else if ( ! no_space )
-        {
-            wordlen = 0;
-        }
-        err |= utf8stringbuf_append_char( *out_text, utf8codepoint_get_char( codepnt ) );
-        wordlen ++;
-        last = codepnt;
+        err |= utf8stringbuf_append_char( out_text, utf8codepoint_get_char( codepnt ) );
+        last = current;
     }
 
     utf8codepointiterator_destroy( &iter );
