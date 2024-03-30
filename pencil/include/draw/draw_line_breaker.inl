@@ -12,20 +12,38 @@ static inline void draw_line_breaker_destroy( draw_line_breaker_t *this_ )
 {
 }
 
-u8error_t draw_line_breaker_process( const draw_line_breaker_t *this_,
+u8_error_t draw_line_breaker_process( const draw_line_breaker_t *this_,
                                      const utf8stringview_t *in_text,
                                      utf8stringbuf_t *out_text )
 {
-    u8error_t err = U8ERROR_NONE;
+    u8_error_t err = U8_ERROR_NONE;
     utf8codepointiterator_t iter;
     utf8codepointiterator_init( &iter, in_text );
 
     utf8stringbuf_clear( *out_text );
 
+    const utf8codepoint_t space0width = utf8codepoint( 0x200B );
+    utf8codepoint_t last = utf8codepoint( ' ' );
+    unsigned int wordlen = 0;
     for(; utf8codepointiterator_has_next( &iter ); )
     {
         utf8codepoint_t codepnt = utf8codepointiterator_next( &iter );
+        const bool no_space
+            = ( utf8codepoint_get_char( last ) != ' ' )
+            &&( utf8codepoint_get_char ( codepnt ) != ' ' );
+        const bool insert_zws = no_space && ( wordlen >= 5 ); /* zws: zero width space */
+        if ( insert_zws )
+        {
+            err |= utf8stringbuf_append_char( *out_text, utf8codepoint_get_char( space0width ) );
+            wordlen = 0;
+        }
+        else if ( ! no_space )
+        {
+            wordlen = 0;
+        }
         err |= utf8stringbuf_append_char( *out_text, utf8codepoint_get_char( codepnt ) );
+        wordlen ++;
+        last = codepnt;
     }
 
     utf8codepointiterator_destroy( &iter );

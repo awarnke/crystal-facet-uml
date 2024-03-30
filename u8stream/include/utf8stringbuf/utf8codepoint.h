@@ -35,7 +35,8 @@ typedef struct utf8codepointseq_struct utf8codepointseq_t;
  *  A byte_length of 0 indcates an invalid code_point.
  */
 struct utf8codepoint_struct {
-    unsigned int byte_length;
+    unsigned int byte_length;  /*<! The byte_length could be calculated from the code_point, but for performance */
+                               /*<! optimization of the iterator-usecase, the byte_length is not re-calculated. */
     uint32_t code_point;
 };
 

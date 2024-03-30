@@ -14,6 +14,7 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix );
 static test_case_result_t test_max_size( test_fixture_t *fix );
 static test_case_result_t test_element_lifecycle( test_fixture_t *fix );
+static test_case_result_t test_trace( test_fixture_t *fix );
 
 unsigned int ctor_calls;  /* count constructor callbacks */
 unsigned int dtor_calls;  /* count destructor callbacks */
@@ -31,6 +32,7 @@ test_suite_t universal_array_list_test_get_suite(void)
     test_suite_add_test_case( &result, "test_insert_and_retrieve", &test_insert_and_retrieve );
     test_suite_add_test_case( &result, "test_max_size", &test_max_size );
     test_suite_add_test_case( &result, "test_element_lifecycle", &test_element_lifecycle );
+    test_suite_add_test_case( &result, "test_trace", &test_trace );
     return result;
 }
 
@@ -231,6 +233,34 @@ static test_case_result_t test_element_lifecycle( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
     TEST_EXPECT_EQUAL_INT( 1, eq_calls );
     TEST_EXPECT_EQUAL_INT( 3, dtor_calls );
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_trace( test_fixture_t *fix )
+{
+    u8_error_t err;
+    char (string_buf[5])[7];
+    universal_array_list_t testee;
+
+    /* init */
+    universal_array_list_init ( &testee,
+                                5 /*max_elements*/,
+                                &(string_buf[0]),
+                                sizeof(char[7]),
+                                ((char*)(&(string_buf[1])))-((char*)(&(string_buf[0]))),
+                                NULL /*copy_ctor*/,
+                                NULL /*equal*/,
+                                NULL /*dtor*/
+                              );
+
+    /* do trace */
+    universal_array_list_trace( &testee );
+    /* no results - except that program still runs */
+
+    /* done */
+    universal_array_list_destroy( &testee );
+    TEST_EXPECT_EQUAL_INT( 0, ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
     return TEST_CASE_RESULT_OK;
 }
 
