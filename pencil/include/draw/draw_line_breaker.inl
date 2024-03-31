@@ -14,7 +14,7 @@ static inline void draw_line_breaker_destroy( draw_line_breaker_t *this_ )
 
 u8_error_t draw_line_breaker_append( const draw_line_breaker_t *this_,
                                      const utf8stringview_t *in_text,
-                                     utf8stringbuf_t out_text )
+                                     utf8stream_writer_t *out_text )
 {
     u8_error_t err = U8_ERROR_NONE;
     utf8codepointiterator_t iter;
@@ -42,13 +42,15 @@ u8_error_t draw_line_breaker_append( const draw_line_breaker_t *this_,
                 || ( last_az && ( cur_az || cur_09 ) )
                 || ( last_09 && cur_09 )
                 || ( last_other && cur_other );
-            if ( ! same_token )
+            const bool no_break
+                = ( last == '.' && cur_09 )
+                || ( last_09 && current == '.' );  /* even if not the same token, here no break */
+            if (( ! same_token )&&( ! no_break ))
             {
-                out_text = utf8stringbuf_get_end( out_text );
-                err |= utf8stringbuf_append_char( out_text, utf8codepoint_get_char( space0width ) );
+                err |= utf8stream_writer_write_char( out_text, utf8codepoint_get_char( space0width ) );
             }
         }
-        err |= utf8stringbuf_append_char( out_text, utf8codepoint_get_char( codepnt ) );
+        err |= utf8stream_writer_write_char( out_text, utf8codepoint_get_char( codepnt ) );
         last = current;
     }
 

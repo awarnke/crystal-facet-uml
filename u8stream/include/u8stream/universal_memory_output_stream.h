@@ -12,6 +12,15 @@
 #include "u8stream/universal_output_stream.h"
 
 /*!
+ *  \brief constant that declares the size of the internal buffer
+ */
+enum universal_memory_output_stream_0term_enum {
+    UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_NONE = 0,  /*!< no 0 termination of output buffer */
+    UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_CHAR = 1,  /*!< simple 0 termination of output buffer */
+    UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 = 2,  /*!< utf8-aware 0 termination of output buffer */
+};
+
+/*!
  *  \brief attributes of the universal_memory_output_stream
  */
 struct universal_memory_output_stream_struct {

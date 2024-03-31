@@ -1,7 +1,7 @@
 /* File: utf8stream_writer.h; Copyright and License: see below */
 
-#ifndef UNIVERSAL_UTF8_WRITER_H
-#define UNIVERSAL_UTF8_WRITER_H
+#ifndef UTF8STREAM_WRITER_H
+#define UTF8STREAM_WRITER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -14,10 +14,19 @@
 #include <stdio.h>
 
 /*!
+ *  \brief constant that declares the size of the internal buffer
+ */
+enum utf8stream_writer_max_enum {
+    UTF8STREAM_WRITER_MAX_BUF = 64,  /*!< size of the internal buffer */
+};
+
+/*!
  *  \brief attributes of the utf8stream_writer
  */
 struct utf8stream_writer_struct {
     universal_output_stream_t *output_stream;  /*!< pointer to external \c universal_output_stream_t */
+    char buffer[ UTF8STREAM_WRITER_MAX_BUF ];  /*!< internal buffer to optimize performance */
+    size_t buf_fill;  /*!< number of bytes in the internal buffer */
 };
 
 typedef struct utf8stream_writer_struct utf8stream_writer_t;
@@ -33,9 +42,13 @@ static inline void utf8stream_writer_init ( utf8stream_writer_t *this_, universa
 /*!
  *  \brief destroys the utf8stream_writer_t
  *
+ *  This method implicitly performs a utf8stream_writer_flush.
+ *  This method does not change the state of the underlying output_stream.
+ *
  *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
  */
-static inline void utf8stream_writer_destroy ( utf8stream_writer_t *this_ );
+static inline u8_error_t utf8stream_writer_destroy ( utf8stream_writer_t *this_ );
 
 /*!
  *  \brief writes an utf8 string to a stream
@@ -68,6 +81,17 @@ static inline u8_error_t utf8stream_writer_write_int ( utf8stream_writer_t *this
 static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this_, const int64_t number );
 
 /*!
+ *  \brief writes an unicode character utf8-encoded to a stream
+ *
+ *  \param this_ The destination string buffer
+ *  \param codepoint The unicode codepoint to be written
+ *  \return U8_ERROR_NONE in case of success,
+ *          UTF8ERROR_NOT_A_CODEPOINT if codepoint is greater than 0x10ffff,
+ *          U8_ERROR_AT_FILE_WRITE otherwise
+ */
+static inline utf8error_t utf8stream_writer_write_char( utf8stream_writer_t *this_, const uint32_t codepoint );
+
+/*!
  *  \brief writes an utf8 view to a stream
  *
  *  Note that the underlying universal_output_stream_t may cut the stream when e.g. the sink location is full.
@@ -89,7 +113,7 @@ static inline u8_error_t utf8stream_writer_flush ( utf8stream_writer_t *this_ );
 
 #include "utf8stream_writer.inl"
 
-#endif  /* UNIVERSAL_UTF8_WRITER_H */
+#endif  /* UTF8STREAM_WRITER_H */
 
 
 /*

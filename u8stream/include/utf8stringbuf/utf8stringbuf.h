@@ -796,7 +796,7 @@ static inline utf8error_t utf8stringbuf_append_hex( utf8stringbuf_t this_, const
  *  \param appendix The unicode codepoint to be appended
  *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
  *          UTF8ERROR_TRUNCATED if the character could not be appended.
- *          UTF8ERROR_NOT_A_CODEPOINT if appendix is greater than 0x7fffffff
+ *          UTF8ERROR_NOT_A_CODEPOINT if appendix is greater than 0x10ffff
  */
 extern utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix );
 
