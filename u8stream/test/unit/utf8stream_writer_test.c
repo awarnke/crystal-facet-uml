@@ -92,8 +92,44 @@ static test_case_result_t test_write( test_fixture_t *fix )
 static test_case_result_t test_buffer_and_flush( test_fixture_t *fix )
 {
     assert( fix != 0 );
-    //assert( UTF8STREAM_WRITER_MAX_BUF < sizeof( (*fix).out_buffer ) );
+    assert( UTF8STREAM_WRITER_MAX_BUF == 64 );  /* otherwise test case needs to be adapted */
     u8_error_t err;
+
+    utf8stream_writer_t test_me;
+    universal_output_stream_t *sink = universal_memory_output_stream_get_output_stream( &((*fix).mem_out_stream) );
+    utf8stream_writer_init( &test_me, sink );
+
+    /* write nothing to empty buffer and empty memory-sink */
+    err = utf8stream_writer_write_str( &test_me, "" );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+
+    /* write small data to empty buffer and empty memory-sink */
+    const char sixteen_chars[] = "TEST56789abcdef0";
+    err = utf8stream_writer_write_str( &test_me, sixteen_chars );
+    err |= utf8stream_writer_write_str( &test_me, sixteen_chars );
+    err |= utf8stream_writer_write_str( &test_me, sixteen_chars );
+    err |= utf8stream_writer_write_str( &test_me, sixteen_chars );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( '\0', (*fix).out_buffer[0] );  /* buffer full, memory-sink empty */
+
+    /* write small data to full buffer and empty memory-sink */
+    err |= utf8stream_writer_write_str( &test_me, "1" );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );  /* memory-sink over-full */
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer), sixteen_chars, sizeof( (*fix).out_buffer ) ) );
+
+    /* reset the underlying memory buffer */
+    universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
+
+    /* write big data to buffer and empty memory-sink */
+    char big[UTF8STREAM_WRITER_MAX_BUF+4];
+    memset( big, 'a', sizeof( big ) );
+    utf8stringview_t big_view = UTF8STRINGVIEW( (const char*) &big, sizeof( big ) );
+    err |= utf8stream_writer_write_view( &test_me, &big_view );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );  /* memory-sink over-full */
+    TEST_EXPECT_EQUAL_INT( '1', (*fix).out_buffer[0] );
+    TEST_EXPECT_EQUAL_INT( 'a', (*fix).out_buffer[1] );
+
+    utf8stream_writer_destroy( &test_me );
 
     return TEST_CASE_RESULT_OK;
 }

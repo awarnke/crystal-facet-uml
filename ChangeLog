@@ -1,7 +1,7 @@
-crystal-facet-uml (1.56.2) UNRELEASED; urgency=medium
+crystal-facet-uml (1.57.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * sequence diagrams provide more automatic line breaks in classifier names
+  * diagrams provide more automatic line breaks in classifier names
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 23 Mar 2024 05:00:00 +0100
 
