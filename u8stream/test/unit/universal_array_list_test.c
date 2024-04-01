@@ -238,7 +238,6 @@ static test_case_result_t test_element_lifecycle( test_fixture_t *fix )
 
 static test_case_result_t test_trace( test_fixture_t *fix )
 {
-    u8_error_t err;
     char (string_buf[5])[7];
     universal_array_list_t testee;
 

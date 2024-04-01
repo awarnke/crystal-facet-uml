@@ -27,8 +27,8 @@ static inline u8_error_t utf8stream_writer_write_str ( utf8stream_writer_t *this
     assert( (*this_).output_stream != NULL );
     assert( utf8_string != NULL );
 
-    const size_t length = strlen(utf8_string);
-    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, utf8_string, length );
+    utf8stringview_t view = UTF8STRINGVIEW_STR( utf8_string );
+    const u8_error_t err = utf8stream_writer_write_view( this_, &view );
 
     return err;
 }
@@ -40,8 +40,9 @@ static inline u8_error_t utf8stream_writer_write_int ( utf8stream_writer_t *this
     char number_str[21]; /* this is sufficient for signed 64 bit integers: -9223372036854775806 */
     /* Note: snprintf is not available on every OS */
     sprintf( number_str, "%" PRIi64, number );
-    const size_t length = strlen(number_str);
-    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, number_str, length );
+
+    utf8stringview_t view = UTF8STRINGVIEW_STR( number_str );
+    const u8_error_t err = utf8stream_writer_write_view( this_, &view );
 
     return err;
 }
@@ -53,8 +54,9 @@ static inline u8_error_t utf8stream_writer_write_hex ( utf8stream_writer_t *this
     char number_str[17]; /* this is sufficient for 64 bit integers */
     /* Note: snprintf is not available on every OS */
     sprintf( number_str, "%" PRIx64, number );
-    const size_t length = strlen(number_str);
-    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, number_str, length );
+
+    utf8stringview_t view = UTF8STRINGVIEW_STR( number_str );
+    const u8_error_t err = utf8stream_writer_write_view( this_, &view );
 
     return err;
 }
@@ -68,7 +70,7 @@ static inline utf8error_t utf8stream_writer_write_char( utf8stream_writer_t *thi
     const unsigned int mem_len = utf8codepoint_get_length( cp );
     assert( mem_len <= sizeof(utf8codepointseq_t) );
 
-    utf8stringview_t view = UTF8STRINGVIEW( (const char*)&mem_buf, mem_len );
+    utf8stringview_t view = UTF8STRINGVIEW( (const char*) &mem_buf, mem_len );
     const u8_error_t err = utf8stream_writer_write_view( this_, &view );
 
     return err;
@@ -77,11 +79,41 @@ static inline utf8error_t utf8stream_writer_write_char( utf8stream_writer_t *thi
 static inline u8_error_t utf8stream_writer_write_view ( utf8stream_writer_t *this_, const utf8stringview_t *utf8_view )
 {
     assert( (*this_).output_stream != NULL );
+    assert( (*this_).buf_fill <= sizeof( (*this_).buffer ) );
     assert( utf8_view != NULL );
-
     const char *start = utf8stringview_get_start( utf8_view );
     const size_t length = utf8stringview_get_length( utf8_view );
-    const u8_error_t err = universal_output_stream_write( (*this_).output_stream, start, length );
+    u8_error_t err = U8_ERROR_NONE;
+
+    /* is there buffer free? */
+    if ( (*this_).buf_fill + length <= UTF8STREAM_WRITER_MAX_BUF )
+    {
+        /* store to buffer */
+        memcpy( &((*this_).buffer[(*this_).buf_fill]), start, length );
+        (*this_).buf_fill += length;
+    }
+    else
+    {
+        /* flush the buffer */
+        if ( (*this_).buf_fill > 0 )
+        {
+            err |= universal_output_stream_write( (*this_).output_stream, &((*this_).buffer), (*this_).buf_fill );
+            (*this_).buf_fill = 0;
+        }
+
+        /* is there enough buffer free now? */
+        if ( length < UTF8STREAM_WRITER_MAX_BUF )
+        {
+            /* store to buffer */
+            memcpy( &((*this_).buffer), start, length );
+            (*this_).buf_fill = length;
+        }
+        else
+        {
+            /* write immediate */
+            err |= universal_output_stream_write( (*this_).output_stream, start, length );
+        }
+    }
 
     return err;
 }
@@ -89,8 +121,16 @@ static inline u8_error_t utf8stream_writer_write_view ( utf8stream_writer_t *thi
 static inline u8_error_t utf8stream_writer_flush ( utf8stream_writer_t *this_ )
 {
     assert( (*this_).output_stream != NULL );
+    assert( (*this_).buf_fill <= sizeof( (*this_).buffer ) );
+    u8_error_t err = U8_ERROR_NONE;
 
-    const u8_error_t err = universal_output_stream_flush( (*this_).output_stream );
+    if ( (*this_).buf_fill > 0 )
+    {
+        err |= universal_output_stream_write( (*this_).output_stream, &((*this_).buffer), (*this_).buf_fill );
+        (*this_).buf_fill = 0;
+    }
+
+    err |= universal_output_stream_flush( (*this_).output_stream );
 
     return err;
 }

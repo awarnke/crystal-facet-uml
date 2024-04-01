@@ -13,7 +13,8 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
-static test_case_result_t test_write_and_flush( test_fixture_t *fix );
+static test_case_result_t test_write( test_fixture_t *fix );
+static test_case_result_t test_buffer_and_flush( test_fixture_t *fix );
 
 test_suite_t utf8stream_writer_test_get_suite(void)
 {
@@ -24,7 +25,8 @@ test_suite_t utf8stream_writer_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
-    test_suite_add_test_case( &result, "test_write_and_flush", &test_write_and_flush );
+    test_suite_add_test_case( &result, "test_write", &test_write );
+    test_suite_add_test_case( &result, "test_buffer_and_flush", &test_buffer_and_flush );
     return result;
 }
 
@@ -53,7 +55,7 @@ static void tear_down( test_fixture_t *fix )
     universal_memory_output_stream_destroy( &((*fix).mem_out_stream) );
 }
 
-static test_case_result_t test_write_and_flush( test_fixture_t *fix )
+static test_case_result_t test_write( test_fixture_t *fix )
 {
     assert( fix != 0 );
     u8_error_t err;
@@ -83,6 +85,15 @@ static test_case_result_t test_write_and_flush( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer), "t\xE2\x82\xACst: -177210", sizeof( (*fix).out_buffer ) ) );
 
     utf8stream_writer_destroy( &test_me );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_buffer_and_flush( test_fixture_t *fix )
+{
+    assert( fix != 0 );
+    //assert( UTF8STREAM_WRITER_MAX_BUF < sizeof( (*fix).out_buffer ) );
+    u8_error_t err;
 
     return TEST_CASE_RESULT_OK;
 }
