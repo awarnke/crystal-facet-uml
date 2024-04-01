@@ -95,7 +95,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                 name_err |= draw_line_breaker_append( &linebr, &class_name, &to_name );
                 draw_line_breaker_destroy( &linebr );
             }
-            name_err |= utf8stream_writer_flush( &to_name );  /* enforces 0-termination on name_sink*/
+            name_err |= utf8stream_writer_flush( &to_name );  /* enforces 0-termination on name_sink */
             name_err |= utf8stream_writer_destroy( &to_name );
             name_err |= universal_memory_output_stream_destroy( &name_sink );
             if ( name_err != U8_ERROR_NONE )
@@ -106,8 +106,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             /* determine text width and height */
             pango_layout_set_font_description( font_layout, pencil_size_get_title_font_description(pencil_size) );
             pango_layout_set_text ( font_layout,
-                                    (const char*)&name_text,
-                                    //utf8stringbuf_get_string( name_buf ),
+                                    (const char*) &name_text,
                                     DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                                   );
             pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
@@ -236,7 +235,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
             name_err |= draw_line_breaker_append( &linebr, &class_name, &to_name );
             draw_line_breaker_destroy( &linebr );
         }
-        name_err |= utf8stream_writer_flush( &to_name );  /* enforces 0-termination on name_sink*/
+        name_err |= utf8stream_writer_flush( &to_name );  /* enforces 0-termination on name_sink */
         name_err |= utf8stream_writer_destroy( &to_name );
         name_err |= universal_memory_output_stream_destroy( &name_sink );
         if ( name_err != U8_ERROR_NONE )
@@ -249,8 +248,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description( font_layout, pencil_size_get_title_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
-                               (const char*)&name_text,
-                               //utf8stringbuf_get_string( name_buf ),
+                               (const char*) &name_text,
                                DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
                              );
         pango_layout_set_width( font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */

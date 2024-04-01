@@ -2654,7 +2654,7 @@
           {
             "id": 208,
             "display_flags": 0,
-            "classifier_name": "New Normal Operation-21",
+            "classifier_name": "NormalOperation-21",
             "node": "78820cd2-e64e-4c4e-9c04-30250467ee08",
             "uuid": "51f053fb-582f-4058-8071-6e881f98fc69"
           },
@@ -6127,7 +6127,7 @@
         "id": 81,
         "main_type": 168,
         "type": "AcceptEventAction",
-        "name": "New Normal Operation-21",
+        "name": "NormalOperation-21",
         "description": [
                 ""
         ],

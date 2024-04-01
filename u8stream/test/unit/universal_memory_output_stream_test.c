@@ -190,6 +190,22 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_CONFIG_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_INT( -1, no_change );
 
+    /* null term mode UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_BYTE */
+    char ascii[4] = "123";
+    universal_memory_output_stream_t ascii_stream;
+    universal_memory_output_stream_init( &ascii_stream, &ascii, sizeof(ascii), UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_BYTE );
+    err = universal_memory_output_stream_flush( &ascii_stream );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( '\0', ascii[0] );
+
+    /* null term mode UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_NONE */
+    char simple[4] = "123";
+    universal_memory_output_stream_t simple_stream;
+    universal_memory_output_stream_init( &simple_stream, &simple, sizeof(simple), UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_NONE );
+    err = universal_memory_output_stream_flush( &simple_stream );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( '1', ascii[0] );
+
     return TEST_CASE_RESULT_OK;
 }
 
