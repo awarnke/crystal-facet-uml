@@ -80,13 +80,14 @@ static inline u8_error_t utf8stream_writer_write_view ( utf8stream_writer_t *thi
 {
     assert( (*this_).output_stream != NULL );
     assert( (*this_).buf_fill <= sizeof( (*this_).buffer ) );
+    assert( UTF8STREAM_WRITER_MAX_BUF == sizeof( (*this_).buffer ) );
     assert( utf8_view != NULL );
     const char *start = utf8stringview_get_start( utf8_view );
     const size_t length = utf8stringview_get_length( utf8_view );
     u8_error_t err = U8_ERROR_NONE;
 
     /* is there buffer free? */
-    if ( (*this_).buf_fill + length <= UTF8STREAM_WRITER_MAX_BUF )
+    if ( length <= UTF8STREAM_WRITER_MAX_BUF - (*this_).buf_fill )  /* all possible constants are on the right side for compiler optimizations */
     {
         /* store to buffer */
         memcpy( &((*this_).buffer[(*this_).buf_fill]), start, length );

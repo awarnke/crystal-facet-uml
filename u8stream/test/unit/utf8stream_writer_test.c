@@ -75,16 +75,19 @@ static test_case_result_t test_write( test_fixture_t *fix )
     err = utf8stream_writer_write_hex( &test_me, 0x210 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     err = utf8stream_writer_flush( &test_me );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer), "t\xE2\x82\xACst: -177210", sizeof( (*fix).out_buffer ) ) );
 
     err = utf8stream_writer_write_str( &test_me, "TEST: " );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );  /* this is stored to the internal buffer, memory full error comes later at flush */
     err = utf8stream_writer_write_int( &test_me, 18 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     err = utf8stream_writer_flush( &test_me );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer), "t\xE2\x82\xACst: -177210", sizeof( (*fix).out_buffer ) ) );
 
-    utf8stream_writer_destroy( &test_me );
+    err = utf8stream_writer_destroy( &test_me );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );  /* because the null termination does not fit */
 
     return TEST_CASE_RESULT_OK;
 }
@@ -113,7 +116,7 @@ static test_case_result_t test_buffer_and_flush( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( '\0', (*fix).out_buffer[0] );  /* buffer full, memory-sink empty */
 
     /* write small data to full buffer and empty memory-sink */
-    err |= utf8stream_writer_write_str( &test_me, "1" );
+    err = utf8stream_writer_write_str( &test_me, "1" );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );  /* memory-sink over-full */
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer), sixteen_chars, sizeof( (*fix).out_buffer ) ) );
 
@@ -124,12 +127,13 @@ static test_case_result_t test_buffer_and_flush( test_fixture_t *fix )
     char big[UTF8STREAM_WRITER_MAX_BUF+4];
     memset( big, 'a', sizeof( big ) );
     utf8stringview_t big_view = UTF8STRINGVIEW( (const char*) &big, sizeof( big ) );
-    err |= utf8stream_writer_write_view( &test_me, &big_view );
+    err = utf8stream_writer_write_view( &test_me, &big_view );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );  /* memory-sink over-full */
     TEST_EXPECT_EQUAL_INT( '1', (*fix).out_buffer[0] );
     TEST_EXPECT_EQUAL_INT( 'a', (*fix).out_buffer[1] );
 
-    utf8stream_writer_destroy( &test_me );
+    err = utf8stream_writer_destroy( &test_me );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );  /* because the null termination does not fit */
 
     return TEST_CASE_RESULT_OK;
 }
