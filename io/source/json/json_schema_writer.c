@@ -344,6 +344,8 @@ u8_error_t json_schema_writer_write_schema( json_schema_writer_t *this_ )
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_RELATIONSHIP_FOOTER );
     export_err |= utf8stream_writer_write_str( &((*this_).writer), SCHEMA_GRAPH_FOOTER );
 
+    export_err |= utf8stream_writer_flush( &((*this_).writer) );
+
     U8_TRACE_END_ERR( export_err );
     return export_err;
 }
