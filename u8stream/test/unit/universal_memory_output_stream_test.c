@@ -198,6 +198,16 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( '\0', ascii[0] );
 
+    /* write to UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_BYTE and flush when full */
+    const char test_4[] = "1234";
+    err = universal_memory_output_stream_write ( &ascii_stream, test_4, strlen(test_4) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &ascii, test_4, sizeof(ascii) ) );
+
+    err = universal_memory_output_stream_flush( &ascii_stream );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &ascii, "123", sizeof(ascii) ) );
+
     /* null term mode UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_NONE */
     char simple[4] = "123";
     universal_memory_output_stream_t simple_stream;

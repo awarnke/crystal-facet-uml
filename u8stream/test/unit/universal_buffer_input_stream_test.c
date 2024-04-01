@@ -142,8 +142,16 @@ static test_case_result_t test_read_all( test_fixture_t *fix )
 static test_case_result_t test_peek( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    /* peek and read the 10 bytes */
-    for ( int idx = 0; idx < sizeof((*fix).in_buffer); idx ++ )
+    assert( sizeof((*fix).in_buffer) > 2 );
+
+    /* read the first two without peek when buffer is empty */
+    char cur0 = universal_buffer_input_stream_read_next( &((*fix).buf_in_stream) );
+    TEST_EXPECT_EQUAL_INT( (*fix).in_buffer[0], cur0 );
+    char cur1 = universal_buffer_input_stream_read_next( &((*fix).buf_in_stream) );
+    TEST_EXPECT_EQUAL_INT( (*fix).in_buffer[1], cur1 );
+
+    /* peek and read the bytes 2..9 */
+    for ( int idx = 2; idx < sizeof((*fix).in_buffer); idx ++ )
     {
         char nxt = universal_buffer_input_stream_peek_next( &((*fix).buf_in_stream) );
         TEST_EXPECT_EQUAL_INT( (*fix).in_buffer[idx], nxt );
