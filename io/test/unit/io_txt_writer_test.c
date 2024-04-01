@@ -56,7 +56,11 @@ static test_fixture_t * set_up()
     test_fixture_t *fix = &test_fixture;
     /* data_visible_set_init( &((*fix).fake_input_data) ); */
 
-    universal_memory_output_stream_init( &((*fix).out_stream), &((*fix).out_buffer), sizeof( (*fix).out_buffer ) );
+    universal_memory_output_stream_init( &((*fix).out_stream),
+                                         &((*fix).out_buffer),
+                                         sizeof( (*fix).out_buffer ),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
+                                       );
     io_txt_writer_init( &((*fix).fake_testee), universal_memory_output_stream_get_output_stream( &((*fix).out_stream) ) );
     return fix;
 }

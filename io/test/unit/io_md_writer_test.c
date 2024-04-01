@@ -65,7 +65,11 @@ static test_fixture_t * set_up()
     ctrl_controller_init( &((*fix).controller), &((*fix).database) );
 
     memset( &((*fix).out_buffer), '\0', sizeof( (*fix).out_buffer) );
-    universal_memory_output_stream_init( &((*fix).out_stream), &((*fix).out_buffer), sizeof( (*fix).out_buffer) );
+    universal_memory_output_stream_init( &((*fix).out_stream),
+                                         &((*fix).out_buffer),
+                                         sizeof( (*fix).out_buffer),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
+                                       );
     io_xml_writer_init( &((*fix).xml_writer), universal_memory_output_stream_get_output_stream( &((*fix).out_stream) ) );
 
     io_md_writer_init( &((*fix).md_writer), &((*fix).db_reader), TAG_BREAK, TAG_LINK1, TAG_LINK2, TAG_LINK3, &((*fix).xml_writer) );

@@ -283,7 +283,8 @@ u8_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf
         universal_memory_output_stream_t mem_out;
         universal_memory_output_stream_init( &mem_out,
                                              utf8stringbuf_get_string(out_value),
-                                             utf8stringbuf_get_size(out_value)
+                                             utf8stringbuf_get_size(out_value),
+                                             UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                            );
 
         universal_escaping_output_stream_t esc_out;
@@ -296,16 +297,13 @@ u8_error_t json_token_reader_read_string_value ( json_token_reader_t *this_, utf
                                                             universal_escaping_output_stream_get_output_stream( &esc_out )
                                                           );
 
-        universal_escaping_output_stream_flush( &esc_out );
+        const u8_error_t out_err = universal_escaping_output_stream_flush( &esc_out );  /* enforces 0-termination on mem_out */
         universal_escaping_output_stream_destroy( &esc_out );
-        const u8_error_t out_err
-            = universal_memory_output_stream_write_0term( &mem_out, true );
         if ( 0 != out_err )
         {
             result_err = U8_ERROR_STRING_BUFFER_EXCEEDED;
         }
         universal_memory_output_stream_destroy( &mem_out );
-
 
         /* expect string end */
         const bool in_err

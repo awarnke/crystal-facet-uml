@@ -33,7 +33,8 @@ static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_
     universal_memory_output_stream_t memout;
     universal_memory_output_stream_init( &memout,
                                          utf8stringbuf_get_string( out_buf ),
-                                         utf8stringbuf_get_size( out_buf )
+                                         utf8stringbuf_get_size( out_buf ),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                        );
     universal_output_stream_t *output;
     output = universal_memory_output_stream_get_output_stream( &memout );
@@ -70,8 +71,8 @@ static inline u8_error_t io_exporter_light_export_set_to_buf( io_exporter_light_
     json_element_writer_destroy( &json_writer );
 
     /* de-initialize an output stream */
-    exp_err |= universal_memory_output_stream_write_0term( &memout, true );
-    universal_memory_output_stream_destroy( &memout );
+    exp_err |= universal_memory_output_stream_flush( &memout );  /* enforces 0-termination */
+    exp_err |= universal_memory_output_stream_destroy( &memout );
 
     data_stat_destroy( &count_just_once );
     return exp_err;

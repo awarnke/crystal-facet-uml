@@ -48,7 +48,8 @@ void data_database_sql_builder_init ( data_database_sql_builder_t *this_ )
     /* initialize a memory output stream */
     universal_memory_output_stream_init( &((*this_).plain_out),
                                          &((*this_).private_sql_buffer),
-                                         sizeof((*this_).private_sql_buffer)
+                                         sizeof((*this_).private_sql_buffer),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                        );
     universal_output_stream_t *const plain_output
         = universal_memory_output_stream_get_output_stream( &((*this_).plain_out) );
@@ -191,21 +192,27 @@ u8_error_t data_database_sql_builder_build_create_diagram_command ( data_databas
 
     /* stereotype */
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_stereotype_const( diagram ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* name */
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_name_const( diagram ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* description */
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_description_const( diagram ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
@@ -215,12 +222,14 @@ u8_error_t data_database_sql_builder_build_create_diagram_command ( data_databas
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagram_get_uuid_const( diagram ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -244,7 +253,7 @@ u8_error_t data_database_sql_builder_build_delete_diagram_command ( data_databas
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -269,9 +278,10 @@ u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_STEREOTYPE );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_diagram_stereotype );
         if ( new_length <= DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH )
@@ -284,7 +294,8 @@ u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_
             utf8stringview_init( &shortened_text, new_diagram_stereotype, DATA_DIAGRAM_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -294,7 +305,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_stereotype_cmd ( data_
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -319,9 +330,10 @@ u8_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_databa
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_NAME );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_diagram_name );
         if ( new_length <= DATA_DIAGRAM_MAX_NAME_LENGTH )
@@ -334,7 +346,8 @@ u8_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_databa
             utf8stringview_init( &shortened_text, new_diagram_name, DATA_DIAGRAM_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -344,7 +357,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_databa
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -369,9 +382,10 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_DESCRIPTION );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_diagram_description );
         if ( new_length <= DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH )
@@ -384,7 +398,8 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
             utf8stringview_init( &shortened_text, new_diagram_description, DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -394,7 +409,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -423,7 +438,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_databa
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -452,7 +467,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -488,7 +503,7 @@ u8_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_d
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagram_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -603,19 +618,25 @@ u8_error_t data_database_sql_builder_build_create_classifier_command ( data_data
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_stereotype_const( classifier ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_name_const( classifier ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_description_const( classifier ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
@@ -628,12 +649,14 @@ u8_error_t data_database_sql_builder_build_create_classifier_command ( data_data
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_classifier_get_uuid_const( classifier ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -657,7 +680,7 @@ u8_error_t data_database_sql_builder_build_delete_classifier_command ( data_data
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -682,9 +705,10 @@ u8_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( da
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_STEREOTYPE );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_classifier_stereotype );
         if ( new_length <= DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH )
@@ -697,7 +721,8 @@ u8_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( da
             utf8stringview_init( &shortened_text, new_classifier_stereotype, DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -707,7 +732,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( da
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -732,9 +757,10 @@ u8_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_dat
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_NAME );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_classifier_name );
         if ( new_length <= DATA_CLASSIFIER_MAX_NAME_LENGTH )
@@ -747,7 +773,8 @@ u8_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_dat
             utf8stringview_init( &shortened_text, new_classifier_name, DATA_CLASSIFIER_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -757,7 +784,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_dat
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -782,9 +809,10 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_DESCRIPTION );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_classifier_description );
         if ( new_length <= DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH )
@@ -797,7 +825,8 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
             utf8stringview_init( &shortened_text, new_classifier_description, DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -807,7 +836,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_description_cmd ( d
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -837,7 +866,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( dat
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -867,7 +896,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -897,7 +926,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -927,7 +956,7 @@ u8_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( da
     out_err |= utf8stream_writer_write_int( &((*this_).plain), classifier_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1030,12 +1059,14 @@ u8_error_t data_database_sql_builder_build_create_diagramelement_command ( data_
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_diagramelement_get_uuid_const( diagramelement ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1059,7 +1090,7 @@ u8_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagramelement_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1089,7 +1120,7 @@ u8_error_t data_database_sql_builder_build_update_diagramelement_display_flags_c
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagramelement_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1126,7 +1157,7 @@ u8_error_t data_database_sql_builder_build_update_diagramelement_focused_feature
     out_err |= utf8stream_writer_write_int( &((*this_).plain), diagramelement_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1233,19 +1264,25 @@ u8_error_t data_database_sql_builder_build_create_feature_command ( data_databas
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_key_const( feature ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_value_const( feature ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_description_const( feature ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
@@ -1254,12 +1291,14 @@ u8_error_t data_database_sql_builder_build_create_feature_command ( data_databas
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_feature_get_uuid_const( feature ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1283,7 +1322,7 @@ u8_error_t data_database_sql_builder_build_delete_feature_command ( data_databas
     out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1313,7 +1352,7 @@ u8_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_d
     out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1338,9 +1377,10 @@ u8_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_databas
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_KEY );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_feature_key );
         if ( new_length <= DATA_FEATURE_MAX_KEY_LENGTH )
@@ -1353,7 +1393,8 @@ u8_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_databas
             utf8stringview_init( &shortened_text, new_feature_key, DATA_FEATURE_MAX_KEY_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1363,7 +1404,7 @@ u8_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_databas
     out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1388,9 +1429,10 @@ u8_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_datab
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_VALUE );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_feature_value );
         if ( new_length <= DATA_FEATURE_MAX_VALUE_LENGTH )
@@ -1403,7 +1445,8 @@ u8_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_datab
             utf8stringview_init( &shortened_text, new_feature_value, DATA_FEATURE_MAX_VALUE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1413,7 +1456,7 @@ u8_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_datab
     out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1438,9 +1481,10 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_DESCRIPTION );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_feature_description );
         if ( new_length <= DATA_FEATURE_MAX_DESCRIPTION_LENGTH )
@@ -1453,7 +1497,8 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
             utf8stringview_init( &shortened_text, new_feature_description, DATA_FEATURE_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1463,7 +1508,7 @@ u8_error_t data_database_sql_builder_build_update_feature_description_cmd ( data
     out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1493,7 +1538,7 @@ u8_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_
     out_err |= utf8stream_writer_write_int( &((*this_).plain), feature_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1607,21 +1652,27 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
 
     /* stereotype */
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_stereotype_const( relationship ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* name */
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_name_const( relationship ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     /* description*/
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_description_const( relationship ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
@@ -1649,12 +1700,14 @@ u8_error_t data_database_sql_builder_build_create_relationship_command ( data_da
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     out_err |= utf8stream_writer_write_str( &((*this_).escaped), data_relationship_get_uuid_const( relationship ) );
+    out_err |= utf8stream_writer_flush( &((*this_).escaped) );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1678,7 +1731,7 @@ u8_error_t data_database_sql_builder_build_delete_relationship_command ( data_da
     out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1708,7 +1761,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( d
     out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1736,9 +1789,10 @@ u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_STEREOTYPE );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_relationship_stereotype );
         if ( new_length <= DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH )
@@ -1751,7 +1805,8 @@ u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( 
             utf8stringview_init( &shortened_text, new_relationship_stereotype, DATA_RELATIONSHIP_MAX_STEREOTYPE_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1761,7 +1816,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_stereotype_cmd ( 
     out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1788,9 +1843,10 @@ u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_d
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_NAME );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_relationship_name );
         if ( new_length <= DATA_RELATIONSHIP_MAX_NAME_LENGTH )
@@ -1803,7 +1859,8 @@ u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_d
             utf8stringview_init( &shortened_text, new_relationship_name, DATA_RELATIONSHIP_MAX_NAME_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1813,7 +1870,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_d
     out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1838,9 +1895,10 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_DESCRIPTION );
 
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );
     {
-        /* prepare temp buf */
-        /* copy the string but not more than the maximum allowed bytes: */
+        /* prepare a shortened_text to */
+        /* view the string but limited to the maximum allowed bytes: */
         utf8stringview_t shortened_text;
         const size_t new_length = utf8string_get_length( new_relationship_description );
         if ( new_length <= DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH )
@@ -1853,7 +1911,8 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
             utf8stringview_init( &shortened_text, new_relationship_description, DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH );
             /* ignore a possible UTF8ERROR_OUT_OF_RANGE result */
         }
-        utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_write_view( &((*this_).escaped), &shortened_text );
+        out_err |= utf8stream_writer_flush( &((*this_).escaped) );
         utf8stringview_destroy( &shortened_text );
     }
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
@@ -1863,7 +1922,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_description_cmd (
     out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {
@@ -1893,7 +1952,7 @@ u8_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( 
     out_err |= utf8stream_writer_write_int( &((*this_).plain), relationship_id );
     out_err |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
 
-    out_err |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+    out_err |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
 
     if ( out_err != U8_ERROR_NONE )
     {

@@ -41,7 +41,11 @@ static test_fixture_t * set_up()
 {
     test_fixture_t *fix = &test_fixture;
     memset( &((*fix).out_buffer), '\0', sizeof((*fix).out_buffer) );
-    universal_memory_output_stream_init( &((*fix).mem_out_stream), &((*fix).out_buffer), sizeof((*fix).out_buffer) );
+    universal_memory_output_stream_init( &((*fix).mem_out_stream),
+                                         &((*fix).out_buffer),
+                                         sizeof((*fix).out_buffer),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
+                                       );
     return fix;
 }
 
@@ -148,20 +152,20 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, strcmp( &((*fix).out_buffer[0]), test_1 ) );
 
     /* write null term */
-    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), true );
+    err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_1, sizeof(test_1) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_1, sizeof(test_1) /* incl 0-term */) );
 
     /* write */
     const char test_2[] = "7890abc";
     err = universal_memory_output_stream_write ( &((*fix).mem_out_stream), test_2, strlen(test_2) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "789", sizeof((*fix).out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "1234567890", sizeof((*fix).out_buffer) ) );
 
-    /* write null term, overwrite end */
-    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), false );
+    /* write null term, overwrite end automatically by UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 mode */
+    err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
-    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "78" "\0", sizeof((*fix).out_buffer) ) );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456789" "\0", sizeof((*fix).out_buffer) ) );
 
     /* reset */
     err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
@@ -174,15 +178,15 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), test_3, sizeof((*fix).out_buffer) ) );
 
     /* write null term, overwrite end so that last code point is not cut */
-    err = universal_memory_output_stream_write_0term( &((*fix).mem_out_stream), true );
+    err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456" "\0" "\x92\x80\x80", sizeof((*fix).out_buffer) ) );
 
     /* try to write null term on zero-size buffer */
     int no_change = -1;
     universal_memory_output_stream_t empty_stream;
-    universal_memory_output_stream_init( &empty_stream, &no_change, 0 );
-    err = universal_memory_output_stream_write_0term( &empty_stream, true );
+    universal_memory_output_stream_init( &empty_stream, &no_change, 0, UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 );
+    err = universal_memory_output_stream_flush( &empty_stream );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_CONFIG_OUT_OF_RANGE, err );
     TEST_EXPECT_EQUAL_INT( -1, no_change );
 

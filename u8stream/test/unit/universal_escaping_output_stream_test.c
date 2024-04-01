@@ -43,7 +43,11 @@ static test_fixture_t * set_up()
 {
     test_fixture_t *fix = &test_fixture;
     memset( &((*fix).out_buffer), '\0', sizeof((*fix).out_buffer) );
-    universal_memory_output_stream_init( &((*fix).mem_out_stream), &((*fix).out_buffer), sizeof((*fix).out_buffer) );
+    universal_memory_output_stream_init( &((*fix).mem_out_stream),
+                                         &((*fix).out_buffer),
+                                         sizeof((*fix).out_buffer),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
+                                       );
     universal_escaping_output_stream_init( &((*fix).esc_out_stream),
                                            &my_patterns_and_replacements,
                                            universal_memory_output_stream_get_output_stream( &((*fix).mem_out_stream) )

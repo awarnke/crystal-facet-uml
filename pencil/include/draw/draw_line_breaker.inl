@@ -3,9 +3,8 @@
 #include "utf8stringbuf/utf8codepointiterator.h"
 #include <assert.h>
 
-static inline void draw_line_breaker_init( draw_line_breaker_t *this_, bool more )
+static inline void draw_line_breaker_init( draw_line_breaker_t *this_ )
 {
-    (*this_).more = more;
 }
 
 static inline void draw_line_breaker_destroy( draw_line_breaker_t *this_ )

@@ -42,7 +42,8 @@ void data_database_head_init ( data_database_head_t *this_, data_database_t *dat
     /* initialize a memory output stream */
     universal_memory_output_stream_init( &((*this_).plain_out),
                                          &((*this_).private_sql_buffer),
-                                         sizeof((*this_).private_sql_buffer)
+                                         sizeof((*this_).private_sql_buffer),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                        );
     universal_output_stream_t *const plain_output
         = universal_memory_output_stream_get_output_stream( &((*this_).plain_out) );
@@ -104,7 +105,7 @@ u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, da
         result |= utf8stream_writer_write_int( &((*this_).plain), obj_id );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_ID_POSTFIX );
 
-        result |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+        result |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
     }
 
     if ( result == U8_ERROR_NONE )
@@ -177,11 +178,13 @@ u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_, c
 
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_PREFIX );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+        result |= utf8stream_writer_flush( &((*this_).plain) );
         result |= utf8stream_writer_write_str( &((*this_).escaped), key );
+        result |= utf8stream_writer_flush( &((*this_).escaped) );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_SELECT_HEAD_BY_KEY_POSTFIX );
 
-        result |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+        result |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
     }
 
     if ( result == U8_ERROR_NONE )
@@ -253,17 +256,21 @@ u8_error_t data_database_head_create_value ( data_database_head_t *this_, const 
 
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+        result |= utf8stream_writer_flush( &((*this_).plain) );
         utf8string_t *const key = data_head_get_key_const( head );
         result |= utf8stream_writer_write_str( &((*this_).escaped), key );
+        result |= utf8stream_writer_flush( &((*this_).escaped) );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_VALUE_SEPARATOR );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+        result |= utf8stream_writer_flush( &((*this_).plain) );
         utf8string_t *const value = data_head_get_value_const( head );
         result |= utf8stream_writer_write_str( &((*this_).escaped), value );
+        result |= utf8stream_writer_flush( &((*this_).escaped) );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX );
 
-        result |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+        result |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
     }
 
     if ( result == U8_ERROR_NONE )
@@ -317,7 +324,7 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_r
         result |= utf8stream_writer_write_int( &((*this_).plain), obj_id );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_DELETE_HEAD_POSTFIX );
 
-        result |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+        result |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
     }
 
     if ( result == U8_ERROR_NONE )
@@ -368,13 +375,15 @@ u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_r
 
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_UPDATE_HEAD_PREFIX );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_START );
+        result |= utf8stream_writer_flush( &((*this_).plain) );
         result |= utf8stream_writer_write_str( &((*this_).escaped), new_head_value );
+        result |= utf8stream_writer_flush( &((*this_).escaped) );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_STRING_VALUE_END );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_UPDATE_HEAD_INFIX );
         result |= utf8stream_writer_write_int( &((*this_).plain), head_id );
         result |= utf8stream_writer_write_str( &((*this_).plain), DATA_DATABASE_HEAD_UPDATE_HEAD_POSTFIX );
 
-        result |= universal_memory_output_stream_write_0term( &((*this_).plain_out), true );
+        result |= utf8stream_writer_flush( &((*this_).plain) );  /* enforces 0-termination on (*this_).plain_out */
     }
 
     if ( result == U8_ERROR_NONE )

@@ -71,7 +71,8 @@ static test_fixture_t * set_up()
 
     universal_memory_output_stream_init( &((*fix).mem_output_stream),
                                          &((*fix).mem_buffer),
-                                         sizeof(test_fixture.mem_buffer)
+                                         sizeof(test_fixture.mem_buffer),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
                                        );
     return fix;
 }

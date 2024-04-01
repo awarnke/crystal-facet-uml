@@ -804,7 +804,7 @@ static test_case_result_t insert_scenario_relationships_to_scenario( test_fixtur
 
         char report_buffer[32];
         universal_memory_output_stream_t report_stream;
-        universal_memory_output_stream_init( &report_stream, &report_buffer, sizeof(report_buffer) );
+        universal_memory_output_stream_init( &report_stream, &report_buffer, sizeof(report_buffer), UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 );
         utf8stream_writer_t report;
         utf8stream_writer_init( &report, universal_memory_output_stream_get_output_stream( &report_stream ) );
 

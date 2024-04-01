@@ -19,7 +19,7 @@
  *  \brief attributes of the line breaker
  */
 struct draw_line_breaker_struct {
-    bool more;  /*!< true if more possible line breaks shall be inserted */
+    int dummy;  /*!< empty structs are not allowed */
 };
 
 typedef struct draw_line_breaker_struct draw_line_breaker_t;
@@ -28,9 +28,8 @@ typedef struct draw_line_breaker_struct draw_line_breaker_t;
  *  \brief initializes the draw_line_breaker_t
  *
  *  \param this_ pointer to own object attributes
- *  \param more find more possible line breaks
  */
-static inline void draw_line_breaker_init( draw_line_breaker_t *this_, bool more );
+static inline void draw_line_breaker_init( draw_line_breaker_t *this_ );
 
 /*!
  *  \brief destroys the draw_line_breaker_t

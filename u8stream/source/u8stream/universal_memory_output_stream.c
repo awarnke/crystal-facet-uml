@@ -17,7 +17,8 @@ static const universal_output_stream_if_t universal_memory_output_stream_private
 
 void universal_memory_output_stream_init ( universal_memory_output_stream_t *this_,
                                            void* mem_buf_start,
-                                           size_t mem_buf_size )
+                                           size_t mem_buf_size,
+                                           universal_memory_output_stream_0term_t mode )
 {
     U8_TRACE_BEGIN();
     assert( mem_buf_start != NULL );
@@ -25,21 +26,25 @@ void universal_memory_output_stream_init ( universal_memory_output_stream_t *thi
     (*this_).mem_buf_start = mem_buf_start;
     (*this_).mem_buf_size = mem_buf_size;
     (*this_).mem_buf_filled = 0;
+    (*this_).mode = mode;
     universal_output_stream_private_init( &((*this_).output_stream), &universal_memory_output_stream_private_if, this_ );
 
     U8_TRACE_END();
 }
 
-void universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ )
+u8_error_t universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+    const u8_error_t err = universal_memory_output_stream_flush( this_ );
 
     (*this_).mem_buf_start = NULL;
     (*this_).mem_buf_size = 0;
     (*this_).mem_buf_filled = 0;
     universal_output_stream_private_destroy( &((*this_).output_stream) );
 
-    U8_TRACE_END();
+    U8_TRACE_END_ERR(err);
+    return err;
 }
 
 u8_error_t universal_memory_output_stream_reset ( universal_memory_output_stream_t *this_ )
@@ -86,13 +91,35 @@ u8_error_t universal_memory_output_stream_flush( universal_memory_output_stream_
 {
     U8_TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
-    const u8_error_t err = U8_ERROR_NONE;
+    u8_error_t err = U8_ERROR_NONE;
+
+    switch( (*this_).mode )
+    {
+        case UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_BYTE:
+        {
+            err = universal_memory_output_stream_private_write_0term( this_, false );
+        }
+        break;
+
+        case UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8:
+        {
+            err = universal_memory_output_stream_private_write_0term( this_, true );
+        }
+        break;
+
+        default:
+        case UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_NONE:
+        {
+            /* no 0term to be appended */
+        }
+        break;
+    }
 
     U8_TRACE_END_ERR(err);
     return err;
 }
 
-u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_stream_t *this_, bool utf8_mode )
+u8_error_t universal_memory_output_stream_private_write_0term ( universal_memory_output_stream_t *this_, bool utf8_mode )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).mem_buf_start != NULL );
@@ -105,18 +132,20 @@ u8_error_t universal_memory_output_stream_write_0term ( universal_memory_output_
     }
     else if ( (*this_).mem_buf_filled < (*this_).mem_buf_size )
     {
-        /* add a terminating zero */
+        /* add a terminating zero at position (*this_).mem_buf_filled, */
+        /* but do not increase the mem_buf_filled because more bytes may be written ... */
         char *const term_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_filled]  );
         *term_char = '\0';
-        (*this_).mem_buf_filled += sizeof(char);
     }
     else
     {
         if ( utf8_mode )
         {
+            /* use a utf8stringview_t to determine the end-position of the last full unicode codepoint: */
             utf8stringview_t view_on_buf;
             const utf8error_t cut = utf8stringview_init( &view_on_buf, (*this_).mem_buf_start, (*this_).mem_buf_size-1 );
-            char *const last_char = &(  (*(  (char(*)[])utf8stringview_get_start(&view_on_buf)  ))[utf8stringview_get_length(&view_on_buf)]  );
+            char *const last_char
+                = &(  (*(  (char(*)[])utf8stringview_get_start(&view_on_buf)  ))[utf8stringview_get_length(&view_on_buf)]  );
             *last_char = '\0';
             utf8stringview_destroy( &view_on_buf );
             if ( cut == UTF8ERROR_SUCCESS )
