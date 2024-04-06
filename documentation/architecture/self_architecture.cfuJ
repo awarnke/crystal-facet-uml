@@ -36,6 +36,13 @@
             "classifier_name": "This Document",
             "node": "95d53726-7ba7-423a-973f-e8bb7d1a877b",
             "uuid": "300a389f-5699-40e9-9be8-9b5465ff55c8"
+          },
+          {
+            "id": 858,
+            "display_flags": 0,
+            "classifier_name": "Crystal-Facet-Uml",
+            "node": "84da4630-3946-47a5-b0e6-02c37bcb11f4",
+            "uuid": "1acbd898-2008-43ff-a0d1-7f8af3acb37d"
           }
         ]
       }
@@ -7100,6 +7107,20 @@
             "classifier_name": "argument",
             "node": "311881d8-f2e3-4b70-a2c1-ac1302fdf28f",
             "uuid": "e6d53aef-bef0-40ff-a991-afbb0968f0f9"
+          },
+          {
+            "id": 856,
+            "display_flags": 0,
+            "classifier_name": "cfu",
+            "node": "57e90687-58d4-474d-9096-14b486402cfa",
+            "uuid": "e671d7b8-798f-4170-9a90-da61557d34b7"
+          },
+          {
+            "id": 857,
+            "display_flags": 0,
+            "classifier_name": "cfu-img",
+            "node": "44481660-7f04-41f2-81bb-8d94879cdbac",
+            "uuid": "b8c38c98-1128-4ab8-b6fa-605c21a382e4"
           }
         ]
       }
@@ -9236,11 +9257,12 @@
         "stereotype": "reason_rejected",
         "name": "Classifier or Relationship selection def. view",
         "description": [
-                "Depending on the diagram type, either classifiers determine what is visble or relationships determine what is visible.\n",
+                "Diagram element records define what is shown in a diagram.\n",
+                "Depending on the diagram type, these select either classifiers or relationships and thereby determine what is visible.\n",
                 "\n",
-                "    pro: similar concept for diagrams that show options/alternatives/scenarios to diagrams that show invariants.\n",
+                "    pro: similar concept for diagrams that show options/alternatives/scenarios (as the 4 types of interaction diagrams) to diagrams that show invariants (that are all other diagrams).\n",
                 "\n",
-                "    con: Bigger extension to existing structure in version 1.0.0\n",
+                "    con: Bigger extension to existing structure. \n",
                 "         Algorithm to distinguish used from unused elements gets complicated"
         ],
         "x_order": -1428489671,
@@ -13651,8 +13673,7 @@
                 "- sorted,\n",
                 "- iterated,\n",
                 "- containment parents\n",
-                "  are descended to children\n",
-                "(since version 1.24.0)"
+                "  are descended to children"
         ],
         "x_order": 1758147567,
         "y_order": -879607721,
@@ -15512,7 +15533,9 @@
         "type": "Package",
         "name": "utf8stream",
         "description": [
-                "readers and writers that stream unicode code points instead of bytes."
+                "This package provides readers and writers that stream unicode code points instead of bytes.\n",
+                "\n",
+                "Also conversion functions are provides to write decimals and hexadecimals."
         ],
         "x_order": -1046875876,
         "y_order": -1409604443,
@@ -15645,8 +15668,7 @@
         "type": "Requirement",
         "name": "Constant order for unchanged parts",
         "description": [
-                "When merging two text files that have parts in common (the unchanged parts), then it is important that these unchanged parts occur in the same order in both files.\n",
-                "(Implemented in 1.45.0)"
+                "When merging two text files that have parts in common (the unchanged parts), then it is important that these unchanged parts occur in the same order in both files."
         ],
         "x_order": -696112420,
         "y_order": -2069399419,
@@ -17764,6 +17786,94 @@
         "y_order": 455829179,
         "list_order": 515458372,
         "uuid": "4abe52d5-8947-46e5-87b7-29feecd36bb9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 523,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "cfu",
+        "description": [
+                "    <path\n",
+                "       d=\"m 21.351332,1051.6633 4.69059,-25.2011 -5.371482,-5.0705 -5.749755,-0.6812 -5.9767186,1.665 -3.9340424,3.6326 -1.5130934,7.1138 z\" />\n",
+                "    <path\n",
+                "       d=\"m 3.4823316,1033.0901 17.8703884,18.5152 4.701708,-25.1648 -5.307278,-4.9458 -5.79026,-0.7744 -6.0397606,1.6505 -3.9057674,3.5625 z\" />\n",
+                "    <path\n",
+                "       d=\"m 20.943668,1021.5214 -2.971832,3.9903 -7.58974,2.2221 -5.3602594,-1.731\"/>\n",
+                "    <path\n",
+                "       d=\"m 3.4182675,1033.1062 7.1708205,3.1688 11.315614,-3.1943 4.048696,-6.6135\" />\n",
+                "    <path\n",
+                "       d=\"m 10.260116,1027.7444 0.424461,8.4823 10.737141,15.4642\" />\n",
+                "    <path\n",
+                "       d=\"m 17.764844,1025.3728 4.155874,7.783 -0.567998,18.3962\"/>\n",
+                "    <path\n",
+                "       fill=\"#00ac7e\" stroke=\"none\"\n",
+                "       d=\"m 3.9583316,1032.8667 1.2752037,-6.3742 3.2730231,1.0695 -1.530244,3.1657 0.680109,1.8395 -1.147684,1.4546 z\" />\n",
+                "    <path\n",
+                "       fill=\"#00ac7e\" stroke=\"none\"\n",
+                "       d=\"m 10.674406,1028.0326 0.371574,7.7321 2.603902,-0.7162 0.25504,-2.0107 -1.275204,-2.3528 0.807629,-3.4803 z\" />\n",
+                "    <path\n",
+                "       fill=\"#00ac7e\" stroke=\"none\"\n",
+                "       d=\"m 18.368136,1025.6797 3.570571,6.7164 0.595095,-1.0267 -0.637602,-2.3956 -1.530244,-1.1979 -1.020164,-3.5507 z\"/>\n",
+                "    <path\n",
+                "       fill=\"#00ac7e\" stroke=\"none\"\n",
+                "       d=\"m 8.3790384,1026.6637 0.850136,-2.0963 5.6108976,-1.8823 1.19019,-1.4545 -1.105177,-0.1283 -5.7809236,1.5828 -3.485558,3.1657 z\" />\n",
+                "    <path\n",
+                "       fill=\"#00ac7e\" stroke=\"none\"\n",
+                "       d=\"m 22.278762,1033.1234 -0.595096,15.6146 0.93515,-7.2298 -0.297547,-3.9357 0.935149,-6.0748 z\"/>\n",
+                "    <path\n",
+                "       fill=\"#00ac7e\" stroke=\"none\"\n",
+                "       d=\"m 11.269501,1036.4174 9.81907,14.374 -2.12534,-6.4169 -3.273023,-3.5935 -0.977657,-5.3047 z\"/>\n",
+                "    <path\n",
+                "       fill=\"#00ac7e\" stroke=\"none\"\n",
+                "       d=\"m 4.9359881,1034.1501 14.5798319,15.2296 -4.463214,-5.6469 -3.698091,-4.1496 -2.0403266,-3.508 z\" />"
+        ],
+        "x_order": 1406900157,
+        "y_order": 1634615090,
+        "list_order": 1635261611,
+        "uuid": "57e90687-58d4-474d-9096-14b486402cfa",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 524,
+        "main_type": 139,
+        "type": "Stereotype",
+        "stereotype": "cfu",
+        "name": "cfu-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1406900157,
+        "y_order": 1635637612,
+        "list_order": 1635782540,
+        "uuid": "44481660-7f04-41f2-81bb-8d94879cdbac",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 525,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "cfu",
+        "name": "Crystal-Facet-Uml",
+        "description": [
+                ""
+        ],
+        "x_order": -250783315,
+        "y_order": -1791517109,
+        "list_order": -1791517109,
+        "uuid": "84da4630-3946-47a5-b0e6-02c37bcb11f4",
         "features":
         [
         ]
@@ -30612,6 +30722,23 @@
         "from_node": "4abe52d5-8947-46e5-87b7-29feecd36bb9",
         "to_node": "fd1e6739-5f96-4444-9401-5cee6ef54d03",
         "uuid": "91fcc0b2-5a5c-46f1-aa82-80f65a2b2af7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 904,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1699275371,
+        "from_classifier_name": "cfu",
+        "to_classifier_name": "cfu-img",
+        "from_node": "57e90687-58d4-474d-9096-14b486402cfa",
+        "to_node": "44481660-7f04-41f2-81bb-8d94879cdbac",
+        "uuid": "b3372421-4051-4f71-bf5f-9f5387d8bce0"
       }
     }
   ]

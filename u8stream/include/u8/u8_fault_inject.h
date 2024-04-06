@@ -25,6 +25,8 @@ extern __thread unsigned int u8_fault_inject_condition_id;
  *  example calls:
  *  result_err |= U8_FAULT_INJECT_COND( TEST_COND_17, U8_ERROR_LOGIC_CORRUPT, 0 );
  *  pointer = U8_FAULT_INJECT_COND( TEST_COND_18, NULL, pointer );
+ *
+ *  WARNING: This macro is not dummy-proof. Check that you do not modify the logic in NDEBUG mode!
  */
 #define U8_FAULT_INJECT_COND(COND_ID,ERR_VALUE,OK_VALUE) \
     (((COND_ID)==u8_fault_inject_condition_id)?(ERR_VALUE):(OK_VALUE))
@@ -37,6 +39,15 @@ extern __thread unsigned int u8_fault_inject_condition_id;
 
 #else  // NDEBUG == Release
 
+/*! When calling U8_FAULT_INJECT_COND( COND_ID, ERR_VALUE, OK_VALUE ) it is important to select the OK_VALUE
+ *  expression in a way that the result of U8_FAULT_INJECT_COND does not change the behavior in this OK case.
+ *
+ *  example calls:
+ *  result_err |= U8_FAULT_INJECT_COND( TEST_COND_17, U8_ERROR_LOGIC_CORRUPT, 0 );
+ *  pointer = U8_FAULT_INJECT_COND( TEST_COND_18, NULL, pointer );
+ *
+ *  WARNING: This macro is not dummy-proof. Check that you do not modify the logic in NDEBUG mode!
+ */
 #define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE,OK_VALUE) (OK_VALUE)
 
 #endif  // NDEBUG

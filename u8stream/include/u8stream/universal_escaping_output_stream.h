@@ -63,6 +63,8 @@ void universal_escaping_output_stream_change_rules( universal_escaping_output_st
 /*!
  *  \brief writes a buffer (e.g. a stringview) to the data sink, replacing patterns by replacements
  *
+ *  Note that patterns can not cross two write operations. Writing "Hel" and "lo" will not match on "ll".
+ *
  *  \param this_ pointer to own object attributes
  *  \param start buffer to write, not 0-terminated
  *  \param length length of the buffer to write
