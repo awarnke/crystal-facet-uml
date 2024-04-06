@@ -16,10 +16,6 @@ static test_case_result_t test_max_size( test_fixture_t *fix );
 static test_case_result_t test_element_lifecycle( test_fixture_t *fix );
 static test_case_result_t test_trace( test_fixture_t *fix );
 
-unsigned int ctor_calls;  /* count constructor callbacks */
-unsigned int dtor_calls;  /* count destructor callbacks */
-unsigned int eq_calls;  /* count equal callbacks */
-
 test_suite_t universal_array_list_test_get_suite(void)
 {
     test_suite_t result;
@@ -36,12 +32,20 @@ test_suite_t universal_array_list_test_get_suite(void)
     return result;
 }
 
+struct test_fixture_struct {
+    unsigned int ctor_calls;  /* count constructor callbacks */
+    unsigned int dtor_calls;  /* count destructor callbacks */
+    unsigned int eq_calls;  /* count equal callbacks */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    ctor_calls = 0;
-    dtor_calls = 0;
-    eq_calls = 0;
-    return NULL;
+    test_fixture.ctor_calls = 0;
+    test_fixture.dtor_calls = 0;
+    test_fixture.eq_calls = 0;
+    return &test_fixture;
 }
 
 static void tear_down( test_fixture_t *fix )
@@ -101,8 +105,8 @@ static test_case_result_t test_insert_and_retrieve( test_fixture_t *fix )
 
     /* done */
     universal_array_list_destroy( &testee );
-    TEST_EXPECT_EQUAL_INT( 0, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).dtor_calls );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -159,18 +163,18 @@ static test_case_result_t test_max_size( test_fixture_t *fix )
 void copy_ctor (double* to_instance, const double* from_instance)
 {
     *to_instance = *from_instance;
-    ctor_calls++;
+    test_fixture.ctor_calls++;
 }
 
 void dtor (double* instance)
 {
     *instance = 0.0;
-    dtor_calls++;
+    test_fixture.dtor_calls++;
 }
 
 bool equal (const double* instance_1, const double* instance_2)
 {
-    eq_calls++;
+    test_fixture.eq_calls++;
     return ( *instance_1 == *instance_2 );
 }
 
@@ -190,49 +194,49 @@ static test_case_result_t test_element_lifecycle( test_fixture_t *fix )
                                 (bool (*)(const void*, const void*))equal,
                                 (void (*)(void*))dtor
                               );
-    TEST_EXPECT_EQUAL_INT( 0, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).dtor_calls );
 
     /* insert first */
     const double ele1 = 17.125;
     err = universal_array_list_append ( &testee, &ele1 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 1, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
-    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).eq_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).dtor_calls );
 
     /* clear */
     universal_array_list_clear( &testee );
-    TEST_EXPECT_EQUAL_INT( 1, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
-    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).dtor_calls );
 
     /* insert first again */
     err = universal_array_list_append ( &testee, &ele1 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 2, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
-    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 2, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).dtor_calls );
 
     /* insert self, first time */
     err = universal_array_list_append_all ( &testee, &testee );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
-    TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 0, eq_calls );
-    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 3, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).dtor_calls );
 
     /* search element */
     int idx = universal_array_list_get_index_of ( &testee, &ele1 );
     TEST_EXPECT_EQUAL_INT( 0, idx );
-    TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 1, eq_calls );
-    TEST_EXPECT_EQUAL_INT( 1, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 3, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).eq_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).dtor_calls );
 
     /* done */
     universal_array_list_destroy( &testee );
-    TEST_EXPECT_EQUAL_INT( 3, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 1, eq_calls );
-    TEST_EXPECT_EQUAL_INT( 3, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 3, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 1, (*fix).eq_calls );
+    TEST_EXPECT_EQUAL_INT( 3, (*fix).dtor_calls );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -258,8 +262,8 @@ static test_case_result_t test_trace( test_fixture_t *fix )
 
     /* done */
     universal_array_list_destroy( &testee );
-    TEST_EXPECT_EQUAL_INT( 0, ctor_calls );
-    TEST_EXPECT_EQUAL_INT( 0, dtor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).ctor_calls );
+    TEST_EXPECT_EQUAL_INT( 0, (*fix).dtor_calls );
     return TEST_CASE_RESULT_OK;
 }
 

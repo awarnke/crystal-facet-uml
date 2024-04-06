@@ -9,6 +9,7 @@
  *  \brief Sorts array indexes by a sorting criteria (weight) ascending
  */
 
+#include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -57,9 +58,12 @@ static inline void universal_array_index_sorter_destroy( universal_array_index_s
  *  \param this_ pointer to own object attributes
  *  \param array_index index of data within an external, unknown array
  *  \param weight weight of the array-entry by which to sort
- *  \return -1 in case the list is full, 0 in case of success
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED in case the list is full, U8_ERROR_NONE in case of success
  */
-static inline int universal_array_index_sorter_insert( universal_array_index_sorter_t *this_, uint32_t array_index, int64_t weight );
+static inline u8_error_t universal_array_index_sorter_insert( universal_array_index_sorter_t *this_,
+                                                              uint32_t array_index,
+                                                              int64_t weight
+                                                            );
 
 /*!
  *  \brief gets the current list length
@@ -76,7 +80,9 @@ static inline uint32_t universal_array_index_sorter_get_count( const universal_a
  *  \param sort_index index of the sorted index-array
  *  \return array index in the external, unsorted data array
  */
-static inline uint32_t universal_array_index_sorter_get_array_index( const universal_array_index_sorter_t *this_, uint32_t sort_index );
+static inline uint32_t universal_array_index_sorter_get_array_index( const universal_array_index_sorter_t *this_,
+                                                                     uint32_t sort_index
+                                                                   );
 
 #include "u8list/universal_array_index_sorter.inl"
 

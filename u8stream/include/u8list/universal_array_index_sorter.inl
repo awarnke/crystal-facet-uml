@@ -17,10 +17,12 @@ static inline void universal_array_index_sorter_destroy( universal_array_index_s
 {
 }
 
-static inline int universal_array_index_sorter_insert( universal_array_index_sorter_t *this_, uint32_t array_index, int64_t weight )
+static inline u8_error_t universal_array_index_sorter_insert( universal_array_index_sorter_t *this_,
+                                                              uint32_t array_index,
+                                                              int64_t weight )
 {
     assert( (*this_).entries_count <= UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE );
-    int result;
+    u8_error_t result;
     if ( (*this_).entries_count < UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE )
     {
         bool already_inserted = false;
@@ -46,11 +48,11 @@ static inline int universal_array_index_sorter_insert( universal_array_index_sor
             (*this_).weights[0] = weight;
         }
         (*this_).entries_count ++;
-        result = 0;
+        result = U8_ERROR_NONE;
     }
     else
     {
-        result = -1;
+        result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
     return result;
 }
