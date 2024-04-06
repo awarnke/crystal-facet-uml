@@ -19,14 +19,14 @@ static inline void universal_arena_list_destroy( universal_arena_list_t *this_ )
     (*this_).begin = NULL;
 }
 
-static inline int universal_arena_list_append( universal_arena_list_t *this_, void* element )
+static inline u8_error_t universal_arena_list_append( universal_arena_list_t *this_, void* element )
 {
     assert( (*this_).allocator != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     universal_arena_list_element_t *new_ele;
     err = universal_memory_arena_get_block( (*this_).allocator, sizeof(universal_arena_list_element_t), (void**)&new_ele );
-    if ( err == 0 )
+    if ( err == U8_ERROR_NONE )
     {
         universal_arena_list_element_init( new_ele, element, NULL );
 
@@ -38,6 +38,7 @@ static inline int universal_arena_list_append( universal_arena_list_t *this_, vo
         {
             universal_arena_list_element_t *find_last = (*this_).begin;
             bool finished = false;
+            /* cnt needed to detect and break endless loops */
             for ( uint_fast32_t cnt = 0; ( cnt < 1000000000 )&&( ! finished ); cnt ++ )
             {
                 if ( universal_arena_list_element_get_next( find_last ) == NULL )
@@ -53,7 +54,7 @@ static inline int universal_arena_list_append( universal_arena_list_t *this_, vo
             if ( ! finished )
             {
                 U8_LOG_WARNING("max loop count exceeded in universal_arena_list_append, list too long");
-                err = -1;
+                err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
         }
     }

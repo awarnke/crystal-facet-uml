@@ -11,6 +11,7 @@
 
 #include "u8arena/universal_arena_list_element.h"
 #include "u8arena/universal_memory_arena.h"
+#include "u8/u8_error.h"
 
 /*!
  *  \brief attributes of the universal_arena_list
@@ -42,9 +43,9 @@ static inline void universal_arena_list_destroy ( universal_arena_list_t *this_ 
  *
  *  \param this_ pointer to own object attributes
  *  \param element pointer to the element to be appended. Only a valid object can be added, NULL is not allowed.
- *  \return -1 if allocator is out of memory, 0 on success
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED in case of out of memory, U8_ERROR_NONE in case of success
  */
-static inline int universal_arena_list_append ( universal_arena_list_t *this_, void* element );
+static inline u8_error_t universal_arena_list_append ( universal_arena_list_t *this_, void* element );
 
 /*!
  *  \brief gets the begin of universal_arena_list_t

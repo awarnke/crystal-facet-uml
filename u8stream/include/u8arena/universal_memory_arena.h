@@ -12,6 +12,8 @@
  *  These functions are not multi-thread safe.
  */
 
+#include "u8/u8_error.h"
+
 /*!
  *  \brief attributes of the universal_memory_arena
  */
@@ -56,12 +58,12 @@ static inline void universal_memory_arena_reset ( universal_memory_arena_t *this
  *  \param this_ pointer to own object attributes
  *  \param block_size size of the buffer to allocate
  *  \param out_block start address of the allocated block, NULL if none available
- *  \return 0 in case of success, -1 if there is not sufficient memory available
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED in case there is not sufficient memory available, U8_ERROR_NONE in case of success
  */
-static inline int universal_memory_arena_get_block ( universal_memory_arena_t *this_,
-                                                     size_t block_size,
-                                                     void **out_block
-                                                   );
+static inline u8_error_t universal_memory_arena_get_block ( universal_memory_arena_t *this_,
+                                                            size_t block_size,
+                                                            void **out_block
+                                                          );
 
 #include "u8arena/universal_memory_arena.inl"
 

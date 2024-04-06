@@ -44,15 +44,15 @@ static test_case_result_t test_alloc_blocks( test_fixture_t *fix )
     universal_memory_arena_init( &test_me, &(thirty_three[1]), sizeof(thirty_three)-1 );
 
     void *block_1;
-    int err;
+    u8_error_t err;
     err = universal_memory_arena_get_block( &test_me, 1, &block_1 );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT( NULL != block_1 );
     TEST_EXPECT( &(thirty_three[1]) == block_1 );
 
     void *block_2;
     err = universal_memory_arena_get_block( &test_me, 1, &block_2 );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT( NULL != block_2 );
     TEST_EXPECT( &(thirty_three[1+sizeof(int)]) == block_2 );
 
@@ -60,13 +60,13 @@ static test_case_result_t test_alloc_blocks( test_fixture_t *fix )
 
     void *block_3;
     err = universal_memory_arena_get_block( &test_me, 33-sizeof(int), &block_3 );
-    TEST_EXPECT_EQUAL_INT( 0, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT( NULL != block_3 );
     TEST_EXPECT( &(thirty_three[1]) == block_3 );
 
     void *block_4;
     err = universal_memory_arena_get_block( &test_me, sizeof(int), &block_4 );
-    TEST_EXPECT_EQUAL_INT( -1, err );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err );
     TEST_EXPECT( NULL == block_4 );
 
     universal_memory_arena_destroy( &test_me );

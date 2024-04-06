@@ -23,23 +23,23 @@ static inline void universal_memory_arena_reset ( universal_memory_arena_t *this
     (*this_).int_buf_used = 0;
 }
 
-static inline int universal_memory_arena_get_block ( universal_memory_arena_t *this_,
-                                                     size_t block_size,
-                                                     void **out_block )
+static inline u8_error_t universal_memory_arena_get_block ( universal_memory_arena_t *this_,
+                                                            size_t block_size,
+                                                            void **out_block )
 {
     assert( out_block != NULL );
-    int err = 0;
+    u8_error_t err = U8_ERROR_NONE;
 
     const size_t requested_ints = ( block_size + sizeof(int) - 1 ) / sizeof(int);
 
     if (( (*this_).int_buf_used + requested_ints ) > (*this_).int_buf_size )
     {
-        err = -1;
+        err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
         *out_block = NULL;
     }
     else
     {
-        err = 0;
+        err = U8_ERROR_NONE;
         *out_block = &( (*this_).int_buf_start[(*this_).int_buf_used] );
         (*this_).int_buf_used += requested_ints;
     }
