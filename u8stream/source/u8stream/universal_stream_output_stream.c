@@ -50,7 +50,7 @@ u8_error_t universal_stream_output_stream_write ( universal_stream_output_stream
         size_t out_count;
         out_count = fwrite( ((const char*)start)+written, 1, remaining, (*this_).output );
         assert( out_count != 0 );  /* this should not happen, but do not take this for granted */
-        out_count = U8_FAULT_INJECT_COND( U8_TEST_COND_FWRITE, 0, out_count );
+        U8_FAULT_INJECT_COND_SET( U8_TEST_COND_FWRITE, out_count, 0 );
         if ( out_count == 0 )
         {
             U8_LOG_ERROR_INT( "not all bytes could be written. missing:", remaining );
@@ -74,7 +74,7 @@ u8_error_t universal_stream_output_stream_flush( universal_stream_output_stream_
 
     int flush_err = fflush( (*this_).output );
     assert( flush_err == 0 );  /* this should not happen, but do not take this for granted */
-    flush_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FFLUSH, EOF, flush_err );
+    U8_FAULT_INJECT_COND_SET( U8_TEST_COND_FFLUSH, flush_err, EOF );
     if ( 0 != flush_err )
     {
         U8_LOG_ERROR_INT("error at flushing file:",flush_err);

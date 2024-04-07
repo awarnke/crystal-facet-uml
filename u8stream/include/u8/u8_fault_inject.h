@@ -19,7 +19,7 @@ extern __thread unsigned int u8_fault_inject_condition_id;
 
 #ifndef NDEBUG
 
-/*! When calling U8_FAULT_INJECT_COND( COND_ID, ERR_VALUE, OK_VALUE ) it is important to select the OK_VALUE
+/*  When calling U8_FAULT_INJECT_COND( COND_ID, ERR_VALUE, OK_VALUE ) it is important to select the OK_VALUE
  *  expression in a way that the result of U8_FAULT_INJECT_COND does not change the behavior in this OK case.
  *
  *  example calls:
@@ -27,9 +27,16 @@ extern __thread unsigned int u8_fault_inject_condition_id;
  *  pointer = U8_FAULT_INJECT_COND( TEST_COND_18, NULL, pointer );
  *
  *  WARNING: This macro is not dummy-proof. Check that you do not modify the logic in NDEBUG mode!
+ *           Consider to use U8_FAULT_INJECT_COND_SET instead.
  */
-#define U8_FAULT_INJECT_COND(COND_ID,ERR_VALUE,OK_VALUE) \
-    (((COND_ID)==u8_fault_inject_condition_id)?(ERR_VALUE):(OK_VALUE))
+//#define U8_FAULT_INJECT_COND(COND_ID,ERR_VALUE,OK_VALUE)
+//    (((COND_ID)==u8_fault_inject_condition_id)?(ERR_VALUE):(OK_VALUE))
+
+/*! U8_FAULT_INJECT_COND_SET injects a fault if a) not NDEBUG and b) COND_ID: VAR_NAME is set to ERR_VALUE.
+ *  This macro is more dummy proof that U8_FAULT_INJECT_COND because it removes all code in NDEBUG mode.
+ */
+#define U8_FAULT_INJECT_COND_SET(COND_ID,VAR_NAME,ERR_VALUE) \
+    { if ((COND_ID)==u8_fault_inject_condition_id) { VAR_NAME = (ERR_VALUE); } }
 
 #define U8_FAULT_INJECT_SETUP(COND_ID) \
     {u8_fault_inject_condition_id=(COND_ID);};
@@ -39,7 +46,7 @@ extern __thread unsigned int u8_fault_inject_condition_id;
 
 #else  // NDEBUG == Release
 
-/*! When calling U8_FAULT_INJECT_COND( COND_ID, ERR_VALUE, OK_VALUE ) it is important to select the OK_VALUE
+/*  When calling U8_FAULT_INJECT_COND( COND_ID, ERR_VALUE, OK_VALUE ) it is important to select the OK_VALUE
  *  expression in a way that the result of U8_FAULT_INJECT_COND does not change the behavior in this OK case.
  *
  *  example calls:
@@ -47,8 +54,14 @@ extern __thread unsigned int u8_fault_inject_condition_id;
  *  pointer = U8_FAULT_INJECT_COND( TEST_COND_18, NULL, pointer );
  *
  *  WARNING: This macro is not dummy-proof. Check that you do not modify the logic in NDEBUG mode!
+ *           Consider to use U8_FAULT_INJECT_COND_SET instead.
  */
-#define U8_FAULT_INJECT_COND(COND_ID,ERR_CODE,OK_VALUE) (OK_VALUE)
+//#define U8_FAULT_INJECT_COND(COND_ID,ERR_VALUE,OK_VALUE) (OK_VALUE)
+
+/*! U8_FAULT_INJECT_COND_SET injects a fault if a) not NDEBUG and b) COND_ID: VAR_NAME is set to ERR_VALUE.
+ *  This macro is more dummy proof that U8_FAULT_INJECT_COND because it removes all code in NDEBUG mode.
+ */
+#define U8_FAULT_INJECT_COND_SET(COND_ID,VAR_NAME,ERR_VALUE)
 
 #endif  // NDEBUG
 

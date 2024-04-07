@@ -109,7 +109,7 @@ u8_error_t universal_file_input_stream_reset ( universal_file_input_stream_t *th
     {
         int seek_err = fseek( (*this_).input, 0, SEEK_SET );
         assert( seek_err == 0 );  /* this should not happen, but do not take this for granted */
-        seek_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FSEEK, -1, seek_err );
+        U8_FAULT_INJECT_COND_SET( U8_TEST_COND_FSEEK, seek_err, -1 );
         if ( seek_err != 0 )
         {
             U8_LOG_ERROR("error at resetting the read-cursor in a file.");
@@ -135,7 +135,7 @@ u8_error_t universal_file_input_stream_close( universal_file_input_stream_t *thi
     {
         int close_err = fclose( (*this_).input );
         assert( close_err == 0 );  /* this should not happen, but do not take this for granted */
-        close_err = U8_FAULT_INJECT_COND( U8_TEST_COND_FCLOSE, EOF, close_err );
+        U8_FAULT_INJECT_COND_SET( U8_TEST_COND_FCLOSE, close_err, EOF );
         if ( 0 != close_err )
         {
             U8_LOG_ERROR_INT( "error at closing file:", close_err );

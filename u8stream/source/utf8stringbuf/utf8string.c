@@ -32,7 +32,7 @@ utf8error_t utf8string_parse_int( utf8string_t *this_, unsigned int *out_byte_le
             }
         }
         assert( endptr != NULL );  /* this should not happen, but do not take this for granted */
-        endptr = U8_FAULT_INJECT_COND( U8_TEST_COND_STRTOLL, NULL, endptr );
+        U8_FAULT_INJECT_COND_SET( U8_TEST_COND_STRTOLL, endptr, NULL );
         unsigned int length;
         if ( endptr == NULL ) {
             length = utf8string_get_length( this_ );
@@ -79,7 +79,7 @@ utf8error_t utf8string_parse_float( utf8string_t *this_, unsigned int *out_byte_
             }
         }
         assert( endptr != NULL );  /* this should not happen, but do not take this for granted */
-        endptr = U8_FAULT_INJECT_COND( U8_TEST_COND_STRTOD, NULL, endptr );
+        U8_FAULT_INJECT_COND_SET( U8_TEST_COND_STRTOD, endptr, NULL );
         unsigned int length;
         if ( endptr == NULL ) {
             length = utf8string_get_length( this_ );
