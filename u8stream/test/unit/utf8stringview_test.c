@@ -271,6 +271,9 @@ static test_case_result_t testEquals( test_fixture_t *fix )
 
     /* section string parameter */
 
+    const bool result0 = utf8stringview_equals_str( &ananas_view, NULL );
+    TEST_EXPECT_EQUAL_INT( false, result0 );
+
     const bool result1 = utf8stringview_equals_str( &ananas_view, "" );
     TEST_EXPECT_EQUAL_INT( false, result1 );
 

@@ -29,7 +29,7 @@ test_suite_t universal_arena_list_test_get_suite(void)
 }
 
 struct test_fixture_struct {
-    char two_and_half_element[ 2*sizeof(universal_arena_list_element_t) + 3*sizeof(double) + sizeof(int) ];
+    char three_and_half_element[ 3*sizeof(universal_arena_list_element_t) + 4*sizeof(double) + sizeof(int) ];
     universal_memory_arena_t small_arena;
 };
 typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
@@ -39,8 +39,8 @@ static test_fixture_t * set_up()
 {
     test_fixture_t *fix = &test_fixture;
     universal_memory_arena_init( &((*fix).small_arena),
-                                 &((*fix).two_and_half_element),
-                                 sizeof( (*fix).two_and_half_element )
+                                 &((*fix).three_and_half_element),
+                                 sizeof( (*fix).three_and_half_element )
                                );
     return fix;
 }
@@ -67,7 +67,7 @@ static test_case_result_t test_append( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err1 );
     *ele_1 = 34.5;
 
-    /* append by getting memory from arena */
+    /* append 1st by getting memory from arena */
     err1 = universal_arena_list_append( &test_me, ele_1 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err1 );
 
@@ -77,7 +77,7 @@ static test_case_result_t test_append( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err2 );
     *ele_2 = 35.5;
 
-    /* append by getting memory from arena */
+    /* append 2nd by getting memory from arena */
     err2 = universal_arena_list_append( &test_me, ele_2 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err2 );
 
@@ -85,11 +85,21 @@ static test_case_result_t test_append( test_fixture_t *fix )
     double *ele_3;
     u8_error_t err3 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_3 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err3 );
-    *ele_3 = 17.25;
+    *ele_3 = 36.5;
 
-    /* fail to append by getting memory from arena */
+    /* append 3rd by getting memory from arena */
     err3 = universal_arena_list_append( &test_me, ele_3 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err3 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err3 );
+
+    /* get memory from arena */
+    double *ele_4;
+    u8_error_t err4 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_4 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err4 );
+    *ele_4 = 17.25;
+
+    /* fail to append 4th by getting memory from arena */
+    err4 = universal_arena_list_append( &test_me, ele_4 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err4 );
 
     /* check non-empty iterator */
     universal_arena_list_element_t *it2 = universal_arena_list_get_begin( &test_me );
@@ -102,6 +112,11 @@ static test_case_result_t test_append( test_fixture_t *fix )
     TEST_EXPECT( ele_2 == universal_arena_list_element_get_data( it2 ) );
 
     /* check iterate 2 */
+    it2 = universal_arena_list_element_get_next( it2 );
+    TEST_EXPECT( NULL != it2 );
+    TEST_EXPECT( ele_3 == universal_arena_list_element_get_data( it2 ) );
+
+    /* check iterate 3 */
     it2 = universal_arena_list_element_get_next( it2 );
     TEST_EXPECT( NULL == it2 );
     TEST_EXPECT( NULL == universal_arena_list_get_end( &test_me ) );

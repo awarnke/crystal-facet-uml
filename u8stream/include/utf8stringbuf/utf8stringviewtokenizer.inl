@@ -165,7 +165,7 @@ static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringv
                 }
                 else
                 {
-                    state = UTF8STRINGVIEWTOKENIZER_END_FLOAT;
+                    state = end_state;
                 }
             }
             break;
@@ -184,7 +184,7 @@ static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringv
                 else
                 {
                     /* a mantissa has to have at least i digit in the integer portion */
-                    state = UTF8STRINGVIEWTOKENIZER_END_FLOAT;
+                    state = end_state;
                 }
             }
             break;
@@ -210,14 +210,14 @@ static inline size_t utf8stringviewtokenizer_private_get_number_len( utf8stringv
                 }
                 else
                 {
-                    state = UTF8STRINGVIEWTOKENIZER_END_FLOAT;
+                    state = end_state;
                 }
             }
             break;
 
             case UTF8STRINGVIEWTOKENIZER_END_INT:
             {
-                /* finished, the for loop is ended */
+                /* finished, the for loop should be ended now. */
             }
             break;
 

@@ -298,6 +298,11 @@ static test_case_result_t testInit( test_fixture_t *fix )
     utf8stringbuf_t dynTestBuf3 = utf8stringbuf_init( 10, dynTestArr2 );
     TEST_EXPECT( utf8stringbuf_get_string( dynTestBuf3 ) == dynTestArr2 );
     TEST_EXPECT_EQUAL_INT( 10, utf8stringbuf_get_size( dynTestBuf3 ) );
+
+    /* check NULL initialization */
+    utf8stringbuf_t nullTestBuf = utf8stringbuf_init( 4, NULL );
+    TEST_EXPECT_EQUAL_INT( 1, utf8stringbuf_get_size( nullTestBuf ) );
+
     return TEST_CASE_RESULT_OK;
 }
 
