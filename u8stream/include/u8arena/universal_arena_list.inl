@@ -37,9 +37,7 @@ static inline u8_error_t universal_arena_list_append( universal_arena_list_t *th
         else
         {
             universal_arena_list_element_t *find_last = (*this_).begin;
-            bool finished = false;
-            /* cnt needed to detect and break endless loops */
-            for ( uint_fast32_t cnt = 0; ( cnt < 1000000000 )&&( ! finished ); cnt ++ )
+            for ( bool finished = false; ( ! finished ); )
             {
                 if ( universal_arena_list_element_get_next( find_last ) == NULL )
                 {
@@ -50,11 +48,6 @@ static inline u8_error_t universal_arena_list_append( universal_arena_list_t *th
                 {
                     find_last = universal_arena_list_element_get_next( find_last );
                 }
-            }
-            if ( ! finished )
-            {
-                U8_LOG_WARNING("max loop count exceeded in universal_arena_list_append, list too long");
-                err = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
         }
     }

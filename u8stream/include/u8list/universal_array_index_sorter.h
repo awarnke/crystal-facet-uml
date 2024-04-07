@@ -22,6 +22,11 @@ enum universal_array_index_sorter_max_enum {
 
 /*!
  *  \brief attributes of the universal_array_index_sorter_t
+ *
+ *  This universal_array_index_sorter_t assumes that some data is stored in an array.
+ *  These data entries are not moved or modified.
+ *  Instead, the universal_array_index_sorter_t keeps a list of indices into that array of data elements.
+ *  The list of indices is sorted accorting to a weight criteria.
  */
 struct universal_array_index_sorter_struct {
     uint32_t entries_count;  /*!< number of all contained array indices */
@@ -77,7 +82,7 @@ static inline uint32_t universal_array_index_sorter_get_count( const universal_a
  *  \brief adds an entry to the index-list
  *
  *  \param this_ pointer to own object attributes
- *  \param sort_index index of the sorted index-array
+ *  \param sort_index index in the sorted internal array of external array-indexes
  *  \return array index in the external, unsorted data array
  */
 static inline uint32_t universal_array_index_sorter_get_array_index( const universal_array_index_sorter_t *this_,

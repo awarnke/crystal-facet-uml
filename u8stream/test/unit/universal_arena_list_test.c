@@ -72,24 +72,24 @@ static test_case_result_t test_append( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err1 );
 
     /* get memory from arena */
-    double *ele_1b;
-    u8_error_t err1b = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_1b );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err1b );
-    *ele_1b = 35.5;
+    double *ele_2;
+    u8_error_t err2 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_2 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err2 );
+    *ele_2 = 35.5;
 
     /* append by getting memory from arena */
-    err1b = universal_arena_list_append( &test_me, ele_1b );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err1b );
+    err2 = universal_arena_list_append( &test_me, ele_2 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err2 );
 
     /* get memory from arena */
-    double *ele_2;
-    u8_error_t err3 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_2 );
+    double *ele_3;
+    u8_error_t err3 = universal_memory_arena_get_block( &((*fix).small_arena), sizeof(double), (void**)&ele_3 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err3 );
-    *ele_2 = 17.25;
+    *ele_3 = 17.25;
 
     /* fail to append by getting memory from arena */
-    u8_error_t err4 = universal_arena_list_append( &test_me, ele_2 );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err4 );
+    err3 = universal_arena_list_append( &test_me, ele_3 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, err3 );
 
     /* check non-empty iterator */
     universal_arena_list_element_t *it2 = universal_arena_list_get_begin( &test_me );
@@ -99,7 +99,7 @@ static test_case_result_t test_append( test_fixture_t *fix )
     /* check iterate 1 */
     it2 = universal_arena_list_element_get_next( it2 );
     TEST_EXPECT( NULL != it2 );
-    TEST_EXPECT( ele_1b == universal_arena_list_element_get_data( it2 ) );
+    TEST_EXPECT( ele_2 == universal_arena_list_element_get_data( it2 ) );
 
     /* check iterate 2 */
     it2 = universal_arena_list_element_get_next( it2 );
