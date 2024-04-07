@@ -225,7 +225,12 @@ static test_case_result_t testInitFunctionsOnWrongRange( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 2, utf8stringview_get_length( &my_view ) );
     utf8stringview_destroy( &my_view );
 
-    /* no check initialization with utf8stringview_init_str function, there are no range parameters */
+    /* check initialization with utf8stringview_init_str function */
+    /* sub test case: NULL ptr */
+    utf8stringview_init_str( &my_view, NULL );
+    TEST_EXPECT_EQUAL_PTR( NULL, utf8stringview_get_start( &my_view ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &my_view ) );
+    utf8stringview_destroy( &my_view );
 
     /* check initialization with utf8stringview_init_region function */
     /* sub test case: region contains a terminating zero */
@@ -310,6 +315,9 @@ static test_case_result_t testStartsWith( test_fixture_t *fix )
 
     /* section string parameter */
 
+    const bool resultZ = utf8stringview_starts_with_str( &ananas_view, NULL );
+    TEST_EXPECT_EQUAL_INT( false, resultZ );
+
     const bool result0 = utf8stringview_starts_with_str( &ananas_view, "" );
     TEST_EXPECT_EQUAL_INT( true, result0 );
 
@@ -352,6 +360,9 @@ static test_case_result_t testEndsWith( test_fixture_t *fix )
 
     /* section string parameter */
 
+    const bool resultZ = utf8stringview_ends_with_str( &ananas_view, NULL );
+    TEST_EXPECT_EQUAL_INT( false, resultZ );
+
     const bool result0 = utf8stringview_ends_with_str( &ananas_view, "" );
     TEST_EXPECT_EQUAL_INT( true, result0 );
 
@@ -393,6 +404,9 @@ static test_case_result_t testContains( test_fixture_t *fix )
     const utf8stringview_t ananas_view = UTF8STRINGVIEW_STR( ananas_arr );
 
     /* section string parameter */
+
+    const bool resultZ = utf8stringview_contains_str( &ananas_view, NULL );
+    TEST_EXPECT_EQUAL_INT( false, resultZ );
 
     const bool result0 = utf8stringview_contains_str( &ananas_view, "" );
     TEST_EXPECT_EQUAL_INT( true, result0 );
@@ -437,6 +451,11 @@ static test_case_result_t testSplitAtFirst( test_fixture_t *fix )
     utf8stringview_t after = UTF8STRINGVIEW_EMPTY;
 
     /* section string parameter */
+
+    const utf8error_t resultZ = utf8stringview_split_at_first_str( &ananas_view, NULL, &before, &after );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, resultZ );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &after ) );
 
     const utf8error_t result0 = utf8stringview_split_at_first_str( &ananas_view, "", &before, &after );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result0 );
@@ -521,6 +540,11 @@ static test_case_result_t testSplitAtLast( test_fixture_t *fix )
     utf8stringview_t after = UTF8STRINGVIEW_EMPTY;
 
     /* section string parameter */
+
+    const utf8error_t resultZ = utf8stringview_split_at_last_str( &ananas_view, NULL, &before, &after );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, resultZ );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &before ) );
+    TEST_EXPECT_EQUAL_INT( 0, utf8stringview_get_length( &after ) );
 
     const utf8error_t result0 = utf8stringview_split_at_last_str( &ananas_view, "", &before, &after );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, result0 );

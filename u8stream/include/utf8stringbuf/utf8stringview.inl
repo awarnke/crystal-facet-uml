@@ -107,7 +107,6 @@ static inline utf8error_t utf8stringview_init( utf8stringview_t *this_, const ch
 
 static inline void utf8stringview_init_str( utf8stringview_t *this_, const char* cstring )
 {
-    assert( cstring != NULL );
     *this_ = (utf8stringview_t){.start=cstring,.length=(cstring==NULL)?0:strlen(cstring)};
 }
 
@@ -224,6 +223,7 @@ static inline bool utf8stringview_equals_str( const utf8stringview_t *this_, con
 
 static inline bool utf8stringview_equals_view( const utf8stringview_t *this_, const utf8stringview_t *that )
 {
+    assert( that != NULL );
     bool result;
     if ( (*that).length == (*this_).length )
     {
@@ -245,7 +245,6 @@ static inline bool utf8stringview_equals_view( const utf8stringview_t *this_, co
 
 static inline bool utf8stringview_starts_with_str( const utf8stringview_t *this_, utf8string_t *that )
 {
-    assert( that != NULL );
     bool result = false;
     if (( this_ != NULL )&&( that != NULL ))
     {
@@ -282,7 +281,6 @@ static inline bool utf8stringview_starts_with_view( const utf8stringview_t *this
 
 static inline bool utf8stringview_ends_with_str( const utf8stringview_t *this_, utf8string_t *that )
 {
-    assert( that != NULL );
     bool result = false;
     if (( this_ != NULL )&&( that != NULL ))
     {
@@ -319,7 +317,6 @@ static inline bool utf8stringview_ends_with_view( const utf8stringview_t *this_,
 
 static inline bool utf8stringview_contains_str( const utf8stringview_t *this_, utf8string_t *that )
 {
-    assert( that != NULL );
     bool result = false;
     if (( this_ != NULL )&&( that != NULL ))
     {
@@ -365,7 +362,6 @@ static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringvie
                                                              utf8stringview_t *out_before,
                                                              utf8stringview_t *out_after )
 {
-    assert( pattern != NULL );
     utf8error_t result = UTF8ERROR_NOT_FOUND;
     if (( pattern != NULL )&&( this_ != NULL ))
     {
@@ -438,7 +434,6 @@ static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview
                                                             utf8stringview_t *out_before,
                                                             utf8stringview_t *out_after )
 {
-    assert( pattern != NULL );
     utf8error_t result = UTF8ERROR_NOT_FOUND;
     if (( pattern != NULL )&&( this_ != NULL ))
     {
