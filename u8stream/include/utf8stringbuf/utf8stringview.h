@@ -118,7 +118,7 @@ static inline void utf8stringview_init_str( utf8stringview_t *this_, const char*
  *  \param start_idx the start index from where the stringview shall start.
  *  \param length length of the stringview.
  *  \return UTF8ERROR_OUT_OF_RANGE if start or end positions cut an utf8 code point in half, resulting utf8stringview_t is shortened then.
- *          UTF8ERROR_OUT_OF_RANGE if start or end position exceeds a terminating zero, resulting utf8stringview_t is shortened then.
+ *          UTF8ERROR_OUT_OF_RANGE also if start or end position exceeds a terminating zero, resulting utf8stringview_t is shortened then.
  */
 static inline utf8error_t utf8stringview_init_region( utf8stringview_t *this_, const char* cstring, size_t start_idx, size_t length );
 

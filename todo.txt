@@ -23,6 +23,8 @@ ideas for future versions:
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
+! [ ] show static tests under the icons of buttons
+! [ ] make it obvious that in create mode, you shall click on the empty diagram space
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -40,6 +42,7 @@ ideas for future versions:
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
   [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
+  [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] json export declares "type": "ActivityFinalNode" even if type is state-final
   [ ] json export declares "type": "DecisionNode" even if type is ChoiceNode (statemachine)
