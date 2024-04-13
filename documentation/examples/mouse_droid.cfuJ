@@ -2188,6 +2188,74 @@
             "classifier_name": "orthogonal",
             "node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
             "uuid": "9221c45a-dd36-4cc0-b7c6-a86486e9c218"
+          },
+          {
+            "id": 332,
+            "display_flags": 0,
+            "classifier_name": "Operation Modes",
+            "node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
+            "uuid": "44179204-6095-4671-b115-9604afb9bb34"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 53,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Operation Modes",
+        "description": [
+                ""
+        ],
+        "list_order": -1073758208,
+        "display_flags": 0,
+        "parent_name": "Runtime View",
+        "parent": "3ad75bb7-9e06-47b2-b03b-97bf60246359",
+        "uuid": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
+        "diagramelements":
+        [
+          {
+            "id": 326,
+            "display_flags": 0,
+            "classifier_name": "Op::Modes",
+            "node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+            "uuid": "ef10ae37-5115-4b98-a844-fe153ef97307"
+          },
+          {
+            "id": 327,
+            "display_flags": 0,
+            "classifier_name": "Charging",
+            "node": "53562cf7-31db-4120-9eae-82666d6b8435",
+            "uuid": "70ed46f2-5d46-45d3-800f-9e2b7c8f3dfa"
+          },
+          {
+            "id": 328,
+            "display_flags": 0,
+            "classifier_name": "Programming",
+            "node": "baacb7c2-779d-435c-a8db-a488d079c75f",
+            "uuid": "ad48a30f-01e7-408e-9304-609c230c3a2f"
+          },
+          {
+            "id": 329,
+            "display_flags": 0,
+            "classifier_name": "Moving",
+            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+            "uuid": "8c889f92-bc40-401b-b8fa-a397e6e13714"
+          },
+          {
+            "id": 330,
+            "display_flags": 0,
+            "classifier_name": "Using Tools",
+            "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+            "uuid": "d4c4dfb6-04e4-4fdc-bbfa-a12dcb26b679"
+          },
+          {
+            "id": 331,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "84030bd7-8f9d-41de-9f0a-83783356a217"
           }
         ]
       }
@@ -2197,7 +2265,7 @@
         "id": 20,
         "diagram_type": 11,
         "type": "UMLActivityDiagram",
-        "name": "Power Modes",
+        "name": "Power States",
         "description": [
                 "This diagram shows the power states that are globally valid to all parts of the system."
         ],
@@ -2259,13 +2327,13 @@
         "id": 41,
         "diagram_type": 16,
         "type": "UMLInteractionDiagram/timing",
-        "name": "Power Mode Timings",
+        "name": "Power State Timings",
         "description": [
                 "This diagram shows the expected startup and shutdown timings."
         ],
         "list_order": 0,
         "display_flags": 0,
-        "parent_name": "Power Modes",
+        "parent_name": "Power States",
         "parent": "f6e7d1e5-893d-459d-8304-1eac0f664b6e",
         "uuid": "4ebf1267-24c3-4506-a4e8-f1592d8b7e00",
         "diagramelements":
@@ -5348,7 +5416,7 @@
                 "Calculate tactics based on given strategy and current situation model"
         ],
         "x_order": -1319632463,
-        "y_order": -1394544470,
+        "y_order": -1212883541,
         "list_order": 742633411,
         "uuid": "683c4a3d-e049-4411-9def-9d46674b3de4",
         "features":
@@ -5377,7 +5445,7 @@
                 "Move motors according to calculated tactics"
         ],
         "x_order": -377673688,
-        "y_order": -1212883541,
+        "y_order": -1289206389,
         "list_order": 1020826245,
         "uuid": "fb990bd5-8607-4c2f-adac-47ffcd5c4cac",
         "features":
@@ -5613,7 +5681,7 @@
                 ""
         ],
         "x_order": -1693475552,
-        "y_order": -1212883541,
+        "y_order": -1289206389,
         "list_order": -54224028,
         "uuid": "fd29096d-7e2f-40e5-a111-c204d77d9024",
         "features":
@@ -7151,6 +7219,143 @@
         "uuid": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "features":
         [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 188,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "Op::Modes",
+        "description": [
+                ""
+        ],
+        "x_order": 108823998,
+        "y_order": -804409521,
+        "list_order": -804409521,
+        "uuid": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 189,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "Charging",
+        "description": [
+                ""
+        ],
+        "x_order": -248945384,
+        "y_order": -938783025,
+        "list_order": -938783025,
+        "uuid": "53562cf7-31db-4120-9eae-82666d6b8435",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 190,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "Programming",
+        "description": [
+                ""
+        ],
+        "x_order": -248945384,
+        "y_order": -1090115455,
+        "list_order": -1353975493,
+        "uuid": "baacb7c2-779d-435c-a8db-a488d079c75f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 191,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "Moving",
+        "description": [
+                ""
+        ],
+        "x_order": 542369004,
+        "y_order": -938783025,
+        "list_order": -938783025,
+        "uuid": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 192,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "Using Tools",
+        "description": [
+                ""
+        ],
+        "x_order": 542369004,
+        "y_order": -688698802,
+        "list_order": -1353975493,
+        "uuid": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 193,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "Waiting",
+        "description": [
+                ""
+        ],
+        "x_order": 542369004,
+        "y_order": -1090115455,
+        "list_order": -1090115455,
+        "uuid": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 194,
+        "main_type": 112,
+        "type": "InteractionUse",
+        "name": "Operation Modes",
+        "description": [
+                ""
+        ],
+        "x_order": -1084878860,
+        "y_order": -808409892,
+        "list_order": -808409892,
+        "uuid": "f7c5def8-eac1-4867-a3ad-bcc4870692f8",
+        "features":
+        [
+          {
+            "id": 45,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315"
+          }
         ]
       }
     }
@@ -11247,6 +11452,25 @@
     },
     {
       "relationship": {
+        "id": 303,
+        "main_type": 221,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "orthogonal",
+        "from_feature_key": "",
+        "to_classifier_name": "Operation Modes",
+        "to_feature_key": "",
+        "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
+        "to_node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
+        "uuid": "1df1e353-d9bd-4d64-a54e-9b9bb39bf9bd"
+      }
+    },
+    {
+      "relationship": {
         "id": 265,
         "main_type": 210,
         "type": "Generalization",
@@ -11693,6 +11917,110 @@
         "from_node": "43e6ceb3-6a9c-4365-b5f1-8bbe71817f28",
         "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
         "uuid": "66eeb5c2-c638-4426-9cb4-f987c09923cb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 298,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -938783025,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Charging",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "53562cf7-31db-4120-9eae-82666d6b8435",
+        "uuid": "2e4d7528-3269-4a4d-b86f-60477b3cc6d8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 299,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1353975493,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Programming",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "baacb7c2-779d-435c-a8db-a488d079c75f",
+        "uuid": "24887abf-725a-4c8e-b288-e3a25982c8e2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 300,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -938783025,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Moving",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "uuid": "c278678d-d1d3-44c0-a9ad-bd9307f94fc1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 301,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1353975493,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Using Tools",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "uuid": "08f74752-2297-4fff-a993-e3e8109690e9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 302,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1090115455,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Waiting",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+        "uuid": "bbb43a17-c382-4804-b874-f44e101ddf05"
+      }
+    },
+    {
+      "relationship": {
+        "id": 304,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "need",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Operation Modes",
+        "from_feature_key": "",
+        "to_classifier_name": "Power Modes",
+        "to_feature_key": "",
+        "from_node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
+        "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
+        "uuid": "5984e61e-aa4c-4e5a-be6a-52b27e6a8b77"
       }
     }
   ]
