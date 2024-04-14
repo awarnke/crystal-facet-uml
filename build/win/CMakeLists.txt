@@ -71,8 +71,10 @@ FILE(GLOB commonSource ../../gui/source/*.c
                        ../../io/source/json/*.c
                        ../../io/source/document/*.c
                        ../../io/source/xmi/*.c
-                       ../../io/source/format/*.c)
-FILE(GLOB appSource    ../../main/source/*.c)
+                       ../../io/source/format/*.c
+                       ../../main/source/main_commands.c
+                       ../../main/source/main_execute.c)
+FILE(GLOB appSource    ../../main/source/main.c)
 FILE(GLOB utestSource  ../../main/test/*.c
                        ../../data/test/unit/*.c
                        ../../data/test/integration/*.c

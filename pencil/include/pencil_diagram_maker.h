@@ -220,6 +220,8 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const p
                                                                          data_full_id_t* out_surrounding_id
                                                                        );
 
+/* maybe allow to ask for an object layout description, given the id? */
+
 /*!
  *  \brief determines if the given position is on a grid line
  *

@@ -368,6 +368,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     (*this_).file_new_db = GTK_BUTTON(gtk_button_new());
     gtk_button_set_image( GTK_BUTTON((*this_).file_new_db), (*this_).file_new_db_icon );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_db), "New DB" );
+    /* gtk_button_set_label( (*this_).file_new_db, "New" ); */
 
     (*this_).file_use_db_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_use_db( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_use_db_icon), 32 /*=w*/ , 32 /*=h*/ );
