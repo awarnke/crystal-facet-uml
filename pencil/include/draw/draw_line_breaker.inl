@@ -11,9 +11,9 @@ static inline void draw_line_breaker_destroy( draw_line_breaker_t *this_ )
 {
 }
 
-u8_error_t draw_line_breaker_append( const draw_line_breaker_t *this_,
-                                     const utf8stringview_t *in_text,
-                                     utf8stream_writer_t *out_text )
+static inline u8_error_t draw_line_breaker_append( const draw_line_breaker_t *this_,
+                                                   const utf8stringview_t *in_text,
+                                                   utf8stream_writer_t *out_text )
 {
     u8_error_t err = U8_ERROR_NONE;
     utf8codepointiterator_t iter;

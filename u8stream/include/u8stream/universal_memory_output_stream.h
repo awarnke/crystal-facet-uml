@@ -58,7 +58,31 @@ void universal_memory_output_stream_init( universal_memory_output_stream_t *this
 u8_error_t universal_memory_output_stream_destroy( universal_memory_output_stream_t *this_ );
 
 /*!
- *  \brief resets write position to 0 of this memory output stream,
+ *  \brief gets the start address of the memory buffer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return start address of the memory buffer
+ */
+static inline void* universal_memory_output_stream_get_start ( const universal_memory_output_stream_t *this_ );
+
+/*!
+ *  \brief gets the size of the memory buffer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return size of the memory buffer
+ */
+static inline size_t universal_memory_output_stream_get_size ( const universal_memory_output_stream_t *this_ );
+
+/*!
+ *  \brief gets the fill quantity of the memory buffer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return fill quantity of the memory buffer
+ */
+static inline size_t universal_memory_output_stream_get_fill ( const universal_memory_output_stream_t *this_ );
+
+/*!
+ *  \brief resets write position to 0 of this memory output stream
  *
  *  \param this_ pointer to own object attributes
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise
@@ -101,7 +125,7 @@ u8_error_t universal_memory_output_stream_flush( universal_memory_output_stream_
  *          U8_ERROR_CONFIG_OUT_OF_RANGE if memory buffer has size 0,
  *          U8_ERROR_AT_FILE_WRITE otherwise
  */
-u8_error_t universal_memory_output_stream_private_write_0term ( universal_memory_output_stream_t *this_, bool utf8_mode );
+static inline u8_error_t universal_memory_output_stream_private_write_0term ( universal_memory_output_stream_t *this_, bool utf8_mode );
 
 /*!
  *  \brief gets the output stream interface of this universal_memory_output_stream_t
@@ -110,6 +134,8 @@ u8_error_t universal_memory_output_stream_private_write_0term ( universal_memory
  *  \return the abstract base class of this_
  */
 universal_output_stream_t* universal_memory_output_stream_get_output_stream( universal_memory_output_stream_t *this_ );
+
+#include "universal_memory_output_stream.inl"
 
 #endif  /* UNIVERSAL_MEMORY_OUTPUT_STREAM_H */
 

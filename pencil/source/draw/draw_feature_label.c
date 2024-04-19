@@ -1,6 +1,7 @@
 /* File: draw_feature_label.c; Copyright and License: see below */
 
 #include "draw/draw_feature_label.h"
+#include "draw/draw_line_breaker.h"
 #include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"

@@ -72,8 +72,6 @@ u8_error_t universal_buffer_output_stream_flush( universal_buffer_output_stream_
   */
 universal_output_stream_t* universal_buffer_output_stream_get_output_stream( universal_buffer_output_stream_t *this_ );
 
-#include "universal_buffer_output_stream.inl"
-
 #endif  /* UNIVERSAL_BUFFER_INPUT_STREAM_H */
 
 

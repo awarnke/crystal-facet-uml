@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.57.0"
+    "generator_version": "1.57.1"
   }
   ,
   "views":
@@ -2271,7 +2271,7 @@
             "id": 295,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "pencil.layout",
+            "classifier_name": "pencil/layout",
             "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
             "uuid": "45bd84ea-34a5-449c-9cde-e0ec7743c992"
           },
@@ -2279,7 +2279,7 @@
             "id": 304,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "pencil.draw",
+            "classifier_name": "pencil/draw",
             "node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
             "uuid": "bd82ccd1-5a46-4225-a635-77b676b3755f"
           }
@@ -2409,7 +2409,7 @@
           {
             "id": 287,
             "display_flags": 0,
-            "classifier_name": "pencil.layout",
+            "classifier_name": "pencil/layout",
             "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
             "uuid": "75a99553-46a5-43f7-a895-1403d70503d7"
           },
@@ -4314,7 +4314,7 @@
           {
             "id": 800,
             "display_flags": 0,
-            "classifier_name": "Future Mutlithreading Concept",
+            "classifier_name": "Future Multithreading Concept",
             "node": "b36b3631-0554-430d-ae40-aea26332ee94",
             "uuid": "eb4dd240-9ba7-42df-a736-19600cae538b"
           },
@@ -7185,8 +7185,30 @@
             "description": [
                 ""
             ],
-            "list_order": -362220128,
+            "list_order": -1438645662,
             "uuid": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b"
+          },
+          {
+            "id": 129,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "layout and draw",
+            "description": [
+                ""
+            ],
+            "list_order": -1079586162,
+            "uuid": "fe97bb1a-5188-4df8-b99f-430e69aeaeb0"
+          },
+          {
+            "id": 130,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "get coordinates",
+            "description": [
+                ""
+            ],
+            "list_order": -1910246981,
+            "uuid": "998755bf-3f01-479d-ac6e-04a4fa89bfab"
           }
         ]
       }
@@ -11309,7 +11331,7 @@
         "id": 196,
         "main_type": 124,
         "type": "Package",
-        "name": "pencil.layout",
+        "name": "pencil/layout",
         "description": [
                 ""
         ],
@@ -11537,7 +11559,7 @@
         "id": 205,
         "main_type": 124,
         "type": "Package",
-        "name": "pencil.draw",
+        "name": "pencil/draw",
         "description": [
                 "Encapulates drawing routines for\n",
                 "- geometric objects\n",
@@ -17124,7 +17146,7 @@
         "id": 485,
         "main_type": 130,
         "type": "Comment",
-        "name": "Future Mutlithreading Concept",
+        "name": "Future Multithreading Concept",
         "description": [
                 "This diagram shows\n",
                 "a possible future multhreading conecpt.\n",
@@ -18021,24 +18043,6 @@
     },
     {
       "relationship": {
-        "id": 530,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "layout/draw",
-        "description": [
-                ""
-        ],
-        "list_order": 1412282821,
-        "from_classifier_name": "gui",
-        "to_classifier_name": "pencil",
-        "to_feature_key": "pencil_diagram_maker",
-        "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
-        "to_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
-        "uuid": "966fdc04-fe3f-49b0-8686-f47af317d83f"
-      }
-    },
-    {
-      "relationship": {
         "id": 532,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -18089,6 +18093,42 @@
         "from_node": "179946c7-bd7c-4e36-9cc0-eb0d5ed7d6f5",
         "to_node": "35e11f38-34fd-4c1b-8a4b-e6145b340d8e",
         "uuid": "d381f451-ae8b-4ed9-b1d8-d222dc6ad928"
+      }
+    },
+    {
+      "relationship": {
+        "id": 909,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "draw",
+        "description": [
+                ""
+        ],
+        "list_order": 1412315589,
+        "from_classifier_name": "gui",
+        "to_classifier_name": "pencil",
+        "to_feature_key": "layout and draw",
+        "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
+        "to_node": "fe97bb1a-5188-4df8-b99f-430e69aeaeb0",
+        "uuid": "d83f4633-f6dc-417d-b9ea-c6b5748666cc"
+      }
+    },
+    {
+      "relationship": {
+        "id": 911,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "user interaction",
+        "description": [
+                ""
+        ],
+        "list_order": 1412348357,
+        "from_classifier_name": "gui",
+        "to_classifier_name": "pencil",
+        "to_feature_key": "get coordinates",
+        "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
+        "to_node": "998755bf-3f01-479d-ac6e-04a4fa89bfab",
+        "uuid": "667f1a22-f659-45ba-a9c8-bb40fed11fb8"
       }
     },
     {
@@ -18204,7 +18244,7 @@
         ],
         "list_order": 1411758533,
         "from_classifier_name": "pencil",
-        "to_classifier_name": "pencil.layout",
+        "to_classifier_name": "pencil/layout",
         "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
         "to_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "uuid": "3a50f7d4-d125-46a3-ab6e-2607486804c7"
@@ -18221,7 +18261,7 @@
         ],
         "list_order": -1300007225,
         "from_classifier_name": "pencil",
-        "to_classifier_name": "pencil.draw",
+        "to_classifier_name": "pencil/draw",
         "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
         "to_node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
         "uuid": "9108d2bf-d507-4039-b1a7-cbcb4e4336dd"
@@ -18243,6 +18283,44 @@
         "from_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
         "to_node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
         "uuid": "7b8c8ba3-0a63-4d59-bca6-e196d3366298"
+      }
+    },
+    {
+      "relationship": {
+        "id": 907,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412282821,
+        "from_classifier_name": "pencil",
+        "from_feature_key": "layout and draw",
+        "to_classifier_name": "pencil",
+        "to_feature_key": "pencil_diagram_maker",
+        "from_node": "fe97bb1a-5188-4df8-b99f-430e69aeaeb0",
+        "to_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
+        "uuid": "05c4d67d-32fd-4d96-8eba-2d0bf48a3dd9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 910,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412315589,
+        "from_classifier_name": "pencil",
+        "from_feature_key": "get coordinates",
+        "to_classifier_name": "pencil",
+        "to_feature_key": "pencil_diagram_maker",
+        "from_node": "998755bf-3f01-479d-ac6e-04a4fa89bfab",
+        "to_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
+        "uuid": "1e280d19-360e-43f9-b925-2a4408e8dadc"
       }
     },
     {
@@ -19820,7 +19898,7 @@
         ],
         "list_order": 1411824069,
         "from_classifier_name": "pencil_xxx_painter",
-        "to_classifier_name": "pencil.draw",
+        "to_classifier_name": "pencil/draw",
         "from_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
         "to_node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
         "uuid": "08ab025c-7bae-4a18-a69e-73f5ce486720"
@@ -23740,24 +23818,6 @@
     },
     {
       "relationship": {
-        "id": 531,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "layout/draw",
-        "description": [
-                ""
-        ],
-        "list_order": 1412315589,
-        "from_classifier_name": "io",
-        "to_classifier_name": "pencil",
-        "to_feature_key": "pencil_diagram_maker",
-        "from_node": "9a93182d-56f8-4865-a642-24d997264063",
-        "to_node": "f6ef3b4d-ca9e-4866-98e1-3a96c109ac1b",
-        "uuid": "7a39ace7-77fb-46b7-b545-d9024ad1f849"
-      }
-    },
-    {
-      "relationship": {
         "id": 566,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -23828,6 +23888,24 @@
     },
     {
       "relationship": {
+        "id": 908,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "draw",
+        "description": [
+                ""
+        ],
+        "list_order": 1412315589,
+        "from_classifier_name": "io",
+        "to_classifier_name": "pencil",
+        "to_feature_key": "layout and draw",
+        "from_node": "9a93182d-56f8-4865-a642-24d997264063",
+        "to_node": "fe97bb1a-5188-4df8-b99f-430e69aeaeb0",
+        "uuid": "b94aa27e-62c5-473e-8a7c-ba34f9fd1363"
+      }
+    },
+    {
+      "relationship": {
         "id": 261,
         "main_type": 300,
         "type": "Association",
@@ -23836,7 +23914,7 @@
                 ""
         ],
         "list_order": -1304108565,
-        "from_classifier_name": "pencil.layout",
+        "from_classifier_name": "pencil/layout",
         "to_classifier_name": "layout_diagram",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "a17e7252-9d30-44b4-96a4-4c46278cf393",
@@ -23853,7 +23931,7 @@
                 ""
         ],
         "list_order": -1322359446,
-        "from_classifier_name": "pencil.layout",
+        "from_classifier_name": "pencil/layout",
         "to_classifier_name": "layout_feature",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "e0ce0921-4c9e-4b11-bbbd-5e2209715115",
@@ -23870,7 +23948,7 @@
                 ""
         ],
         "list_order": -1307331198,
-        "from_classifier_name": "pencil.layout",
+        "from_classifier_name": "pencil/layout",
         "to_classifier_name": "layout _visible_classifier",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
@@ -23887,7 +23965,7 @@
                 ""
         ],
         "list_order": -1304108565,
-        "from_classifier_name": "pencil.layout",
+        "from_classifier_name": "pencil/layout",
         "to_classifier_name": "layout _relationship",
         "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
         "to_node": "a372226d-373f-4bca-b48c-d5a9f6480050",

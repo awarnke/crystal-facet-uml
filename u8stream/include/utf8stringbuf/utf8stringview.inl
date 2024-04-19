@@ -363,6 +363,7 @@ static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringvie
                                                              utf8stringview_t *out_after )
 {
     utf8error_t result = UTF8ERROR_NOT_FOUND;
+
     if (( pattern != NULL )&&( this_ != NULL ))
     {
         const size_t pattern_len = strlen( pattern );
@@ -390,6 +391,7 @@ static inline utf8error_t utf8stringview_split_at_first_str( const utf8stringvie
     {
         result = UTF8ERROR_NULL_PARAM;
     }
+
     return result;
 }
 
@@ -400,32 +402,27 @@ static inline utf8error_t utf8stringview_split_at_first_view( const utf8stringvi
 {
     assert( pattern != NULL );
     utf8error_t result = UTF8ERROR_NOT_FOUND;
-    if (( pattern != NULL )&&( this_ != NULL ))
+
+    if ( (*pattern).length <= (*this_).length )
     {
-        if ( (*pattern).length <= (*this_).length )
+        const char *const end = (*this_).start + (*this_).length - (*pattern).length;
+        for ( const char* pos = (*this_).start; ( pos <= end )&&( result == UTF8ERROR_NOT_FOUND ); pos ++ )
         {
-            const char *const end = (*this_).start + (*this_).length - (*pattern).length;
-            for ( const char* pos = (*this_).start; ( pos <= end )&&( result == UTF8ERROR_NOT_FOUND ); pos ++ )
+            if ( 0 == memcmp( pos, (*pattern).start, (*pattern).length ) )
             {
-                if ( 0 == memcmp( pos, (*pattern).start, (*pattern).length ) )
+                result = UTF8ERROR_SUCCESS;
+                if ( out_before != NULL )
                 {
-                    result = UTF8ERROR_SUCCESS;
-                    if ( out_before != NULL )
-                    {
-                        *out_before = (utf8stringview_t){ .start = (*this_).start, .length = ( pos - (*this_).start ) };
-                    }
-                    if ( out_after != NULL )
-                    {
-                        *out_after = (utf8stringview_t){ .start = ( pos + (*pattern).length ), .length = ( end - pos ) };
-                    }
+                    *out_before = (utf8stringview_t){ .start = (*this_).start, .length = ( pos - (*this_).start ) };
+                }
+                if ( out_after != NULL )
+                {
+                    *out_after = (utf8stringview_t){ .start = ( pos + (*pattern).length ), .length = ( end - pos ) };
                 }
             }
         }
     }
-    else
-    {
-        result = UTF8ERROR_NULL_PARAM;
-    }
+
     return result;
 }
 
@@ -435,6 +432,7 @@ static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview
                                                             utf8stringview_t *out_after )
 {
     utf8error_t result = UTF8ERROR_NOT_FOUND;
+
     if (( pattern != NULL )&&( this_ != NULL ))
     {
         const size_t pattern_len = strlen( pattern );
@@ -461,6 +459,7 @@ static inline utf8error_t utf8stringview_split_at_last_str( const utf8stringview
     {
         result = UTF8ERROR_NULL_PARAM;
     }
+
     return result;
 }
 
@@ -471,31 +470,26 @@ static inline utf8error_t utf8stringview_split_at_last_view( const utf8stringvie
 {
     assert( pattern != NULL );
     utf8error_t result = UTF8ERROR_NOT_FOUND;
-    if (( pattern != NULL )&&( this_ != NULL ))
+
+    if ( (*pattern).length <= (*this_).length )
     {
-        if ( (*pattern).length <= (*this_).length )
+        for ( ptrdiff_t pos = (*this_).length - (*pattern).length; ( pos >= 0 )&&( result == UTF8ERROR_NOT_FOUND ); pos -- )
         {
-            for ( ptrdiff_t pos = (*this_).length - (*pattern).length; ( pos >= 0 )&&( result == UTF8ERROR_NOT_FOUND ); pos -- )
+            if ( 0 == memcmp( (*this_).start + pos, (*pattern).start, (*pattern).length ) )
             {
-                if ( 0 == memcmp( (*this_).start + pos, (*pattern).start, (*pattern).length ) )
+                result = UTF8ERROR_SUCCESS;
+                if ( out_before != NULL )
                 {
-                    result = UTF8ERROR_SUCCESS;
-                    if ( out_before != NULL )
-                    {
-                        *out_before = (utf8stringview_t){ .start = (*this_).start, .length = pos };
-                    }
-                    if ( out_after != NULL )
-                    {
-                        *out_after = (utf8stringview_t){ .start = ( (*this_).start + pos + (*pattern).length ), .length = ( (*this_).length - (*pattern).length - pos ) };
-                    }
+                    *out_before = (utf8stringview_t){ .start = (*this_).start, .length = pos };
+                }
+                if ( out_after != NULL )
+                {
+                    *out_after = (utf8stringview_t){ .start = ( (*this_).start + pos + (*pattern).length ), .length = ( (*this_).length - (*pattern).length - pos ) };
                 }
             }
         }
     }
-    else
-    {
-        result = UTF8ERROR_NULL_PARAM;
-    }
+
     return result;
 }
 

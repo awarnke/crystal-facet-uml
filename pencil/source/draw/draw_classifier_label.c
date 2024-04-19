@@ -7,6 +7,7 @@
 #include "data_diagramelement.h"
 #include "u8/u8_i32.h"
 #include "utf8stream/utf8stream_writer.h"
+#include "utf8stream/utf8stream_writemem.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8stream/universal_memory_output_stream.h"
@@ -76,28 +77,26 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
             int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
 
             /* prepare text */
-            char name_text[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /* x4 because any character may be followed by a 3-byte space */
-            universal_memory_output_stream_t name_sink;
-            universal_memory_output_stream_init( &name_sink, &name_text, sizeof(name_text), UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 );
-            utf8stream_writer_t to_name;
-            utf8stream_writer_init( &to_name, universal_memory_output_stream_get_output_stream( &name_sink ) );
+            char out_name_buf[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /* +1 for colon, x4 because any character may be followed by a 3-byte space */
+            utf8stream_writemem_t out_name;
+            utf8stream_writemem_init( &out_name, &out_name_buf, sizeof( out_name_buf ) );
+            utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &out_name );
             u8_error_t name_err = U8_ERROR_NONE;
 
             if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ) )
             {
-                name_err |= utf8stream_writer_write_char( &to_name, DRAW_CLASSIFIER_COLON );
+                name_err |= utf8stream_writer_write_char( to_name, DRAW_CLASSIFIER_COLON );
             }
             utf8stringview_t class_name = UTF8STRINGVIEW_STR( data_classifier_get_name_const( classifier ) );
             /* insert linebreaks */
             {
                 draw_line_breaker_t linebr;
                 draw_line_breaker_init( &linebr );
-                name_err |= draw_line_breaker_append( &linebr, &class_name, &to_name );
+                name_err |= draw_line_breaker_append( &linebr, &class_name, to_name );
                 draw_line_breaker_destroy( &linebr );
             }
-            name_err |= utf8stream_writer_flush( &to_name );  /* enforces 0-termination on name_sink */
-            name_err |= utf8stream_writer_destroy( &to_name );
-            name_err |= universal_memory_output_stream_destroy( &name_sink );
+            const utf8stringview_t name = utf8stream_writemem_get_view( &out_name );
+            name_err |= utf8stream_writemem_destroy( &out_name );
             if ( name_err != U8_ERROR_NONE )
             {
                 U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
@@ -105,10 +104,10 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
 
             /* determine text width and height */
             pango_layout_set_font_description( font_layout, pencil_size_get_title_font_description(pencil_size) );
-            pango_layout_set_text ( font_layout,
-                                    (const char*) &name_text,
-                                    DRAW_CLASSIFIER_PANGO_AUTO_DETECT_LENGTH
-                                  );
+            pango_layout_set_text( font_layout,
+                                   utf8stringview_get_start( &name ),
+                                   utf8stringview_get_length( &name )
+                                 );
             pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
             /* option for nicer layout but harder to read: */
             /* pango_layout_set_wrap( font_layout, PANGO_WRAP_WORD_CHAR ); */
@@ -216,7 +215,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     int text2_height = 0;
     {
         /* prepare text */
-        char name_text[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /* x4 because any character may be followed by a 3-byte space */
+        char name_text[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /* +1 for colon, x4 because any character may be followed by a 3-byte space */
         universal_memory_output_stream_t name_sink;
         universal_memory_output_stream_init( &name_sink, &name_text, sizeof(name_text), UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8 );
         utf8stream_writer_t to_name;
@@ -235,8 +234,8 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
             name_err |= draw_line_breaker_append( &linebr, &class_name, &to_name );
             draw_line_breaker_destroy( &linebr );
         }
-        name_err |= utf8stream_writer_flush( &to_name );  /* enforces 0-termination on name_sink */
-        name_err |= utf8stream_writer_destroy( &to_name );
+        //name_err |= utf8stream_writer_flush( &to_name );  /* enforces 0-termination on name_sink */
+        name_err |= utf8stream_writer_destroy( &to_name );  /* enforces 0-termination on name_sink */
         name_err |= universal_memory_output_stream_destroy( &name_sink );
         if ( name_err != U8_ERROR_NONE )
         {
