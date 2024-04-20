@@ -1,7 +1,7 @@
 /* File: pencil_relationship_painter.c; Copyright and License: see below */
 
 #include "pencil_relationship_painter.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>
@@ -606,7 +606,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                                                      cr
                                                    );
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangles */
         {
             const geometry_rectangle_t bounds

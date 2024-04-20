@@ -12,7 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "pencil_feature_painter.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "layout/layout_visible_classifier.h"
 #include "draw/draw_classifier_icon.h"
 #include "draw/draw_classifier_label.h"
@@ -81,7 +81,7 @@ void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
                                        data_id_t mark_focused,
                                        data_id_t mark_highlighted,
                                        const data_small_set_t *mark_selected,
-                                       const pencil_layout_data_t *layout_data,
+                                       const layout_visible_set_t *layout_data,
                                        const data_profile_part_t *profile,
                                        const pencil_size_t *pencil_size,
                                        PangoLayout *font_layout,
@@ -176,7 +176,7 @@ int pencil_classifier_composer_private_get_label_box ( pencil_classifier_compose
  */
 void pencil_classifier_composer_private_draw_feature_compartments ( const pencil_classifier_composer_t *this_,
                                                                     const layout_visible_classifier_t *layouted_classifier,
-                                                                    const pencil_layout_data_t *layout_data,
+                                                                    const layout_visible_set_t *layout_data,
                                                                     const pencil_size_t *pencil_size,
                                                                     cairo_t *cr
                                                                   );

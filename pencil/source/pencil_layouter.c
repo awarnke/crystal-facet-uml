@@ -22,7 +22,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
     data_rules_init( &((*this_).rules) );
 
     /* initialize the layout data objects */
-    pencil_layout_data_init( &((*this_).layout_data), input_data );
+    layout_visible_set_init( &((*this_).layout_data), input_data );
     (*this_).profile = profile;
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
@@ -101,7 +101,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     geometry_dimensions_destroy( &((*this_).default_classifier_size) );
     data_rules_destroy( &((*this_).rules) );
 
-    pencil_layout_data_destroy( &((*this_).layout_data) );
+    layout_visible_set_destroy( &((*this_).layout_data) );
 
     U8_TRACE_END();
 }
@@ -115,7 +115,7 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
 
     /* get the diagram data */
     layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    the_diagram = layout_visible_set_get_diagram_ptr( &((*this_).layout_data) );
     const data_diagram_t *const diagram_data
         = layout_diagram_get_data_const ( the_diagram );
 
@@ -146,15 +146,15 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
 
     /* iterate over all classifiers */
     const uint32_t count
-        = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+        = layout_visible_set_get_visible_classifier_count ( &((*this_).layout_data) );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         const layout_visible_classifier_t *const visible_classifier
-            = pencil_layout_data_get_visible_classifier_ptr ( &((*this_).layout_data), index );
+            = layout_visible_set_get_visible_classifier_ptr ( &((*this_).layout_data), index );
         const data_classifier_t *const classifier_data
             = layout_visible_classifier_get_classifier_const( visible_classifier );
         const uint32_t visible_descendants
-            = pencil_layout_data_count_descendants( &((*this_).layout_data), visible_classifier );
+            = layout_visible_set_count_descendants( &((*this_).layout_data), visible_classifier );
 
         /* adjust the non-linear scales for this classifier (if no contained descendants) */
         if ( 0 == visible_descendants )
@@ -173,7 +173,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     assert( font_layout != NULL );
 
     /* get the diagram data */
-    const layout_diagram_t *const the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    const layout_diagram_t *const the_diagram = layout_visible_set_get_diagram_ptr( &((*this_).layout_data) );
     const data_diagram_t *const diagram_data = layout_diagram_get_data_const ( the_diagram );
     const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diagram_data );
 
@@ -281,14 +281,14 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     const uint_fast32_t interv_count_x = geometry_non_linear_scale_get_grid_intervals ( &((*this_).x_scale) );
     const uint_fast32_t interv_count_y = geometry_non_linear_scale_get_grid_intervals ( &((*this_).y_scale) );
     const uint_fast32_t inner_point_count = (interv_count_x-1)*(interv_count_y-1);
-    const uint_fast32_t c_count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+    const uint_fast32_t c_count = layout_visible_set_get_visible_classifier_count ( &((*this_).layout_data) );
     if ( inner_point_count < c_count )
     {
         /* many classifiers share the same location */
         /* default size is calculated based on count and size, not on grid */
         /* get the diagram data */
         const layout_diagram_t *const the_diagram
-            = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+            = layout_visible_set_get_diagram_ptr( &((*this_).layout_data) );
         const geometry_rectangle_t *const diagram_draw_area
             = layout_diagram_get_draw_area_const( the_diagram );
         const double draw_width = geometry_rectangle_get_width ( diagram_draw_area );
@@ -357,7 +357,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
     data_full_id_reinit_void( out_selected_id );
     data_full_id_reinit_void( out_surrounding_id );
     const layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    the_diagram = layout_visible_set_get_diagram_const( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
     diagram_data = layout_diagram_get_data_const ( the_diagram );
 
@@ -444,7 +444,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
 
     /* get draw area */
     const layout_diagram_t *const the_diagram
-        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+        = layout_visible_set_get_diagram_const( &((*this_).layout_data) );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( the_diagram );
 
@@ -452,13 +452,13 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
     {
         /* iterate over all classifiers */
         const uint32_t count
-            = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+            = layout_visible_set_get_visible_classifier_count ( &((*this_).layout_data) );
         double surrounding_classifier_area = geometry_rectangle_get_area( diagram_draw_area );
 
         for ( uint32_t index = 0; index < count; index ++ )
         {
             const layout_visible_classifier_t *const visible_classifier
-                = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), index );
+                = layout_visible_set_get_visible_classifier_const ( &((*this_).layout_data), index );
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const ( visible_classifier );
             const geometry_rectangle_t *const classifier_space
@@ -518,11 +518,11 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
     pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
 
     /* check all contained features */
-    const uint32_t f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
+    const uint32_t f_count = layout_visible_set_get_feature_count( &((*this_).layout_data) );
     for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
     {
         const layout_feature_t *const the_feature
-            = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
+            = layout_visible_set_get_feature_const ( &((*this_).layout_data), f_idx );
         const geometry_rectangle_t *const feature_symbol_box
             = layout_feature_get_symbol_box_const ( the_feature );
         const geometry_rectangle_t *const feature_label_box
@@ -583,12 +583,12 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
     pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
 
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count ( &((*this_).layout_data) );
+        = layout_visible_set_get_relationship_count ( &((*this_).layout_data) );
     uint32_t matching_relations_found = 0;
     for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
     {
         const layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_const( &((*this_).layout_data), rel_index );
+            = layout_visible_set_get_relationship_const( &((*this_).layout_data), rel_index );
         const geometry_connector_t *const relationship_shape
             = layout_relationship_get_shape_const( the_relationship );
         const geometry_rectangle_t *const rel_label_box
@@ -601,7 +601,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
             if ( ((uint32_t)(x+y))%(matching_relations_found+1) == 0 )
             {
                 const layout_relationship_t *current_relation;
-                current_relation = pencil_layout_data_get_relationship_const ( &((*this_).layout_data), rel_index );
+                current_relation = layout_visible_set_get_relationship_const ( &((*this_).layout_data), rel_index );
                 const data_relationship_t *relation_data;
                 relation_data = layout_relationship_get_data_const( current_relation );
 
@@ -635,7 +635,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
 
     /* get the bounding box of the diagram */
     const layout_diagram_t *const the_diagram
-        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+        = layout_visible_set_get_diagram_const( &((*this_).layout_data) );
     const geometry_rectangle_t *const diagram_bounds
         = layout_diagram_get_bounds_const( the_diagram );
     const geometry_rectangle_t *const diagram_draw_area
@@ -741,7 +741,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
 
     /* get the bounding box of the diagram */
     const layout_diagram_t *const the_diagram
-        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+        = layout_visible_set_get_diagram_const( &((*this_).layout_data) );
     const geometry_rectangle_t *const diagram_bounds
         = layout_diagram_get_bounds_const( the_diagram );
 
@@ -760,11 +760,11 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         /* iterate over all classifiers, search the closest_parent_instance */
         const layout_visible_classifier_t *closest_parent_instance = NULL;
         const uint32_t classfy_count
-            = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
+            = layout_visible_set_get_visible_classifier_count ( &((*this_).layout_data) );
         for ( uint32_t classfy_index = 0; classfy_index < classfy_count; classfy_index ++ )
         {
             const layout_visible_classifier_t *const visible_classifier
-                = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
+                = layout_visible_set_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
             const data_row_id_t classfy_id
                 = layout_visible_classifier_get_classifier_id ( visible_classifier );
             if ( parent_classifier_id == classfy_id )
@@ -802,12 +802,12 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                     int32_t max_order_above = INT32_MIN;
                     int32_t min_order_below = INT32_MAX;
                     /* iterate over all contained features */
-                    const uint32_t f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
+                    const uint32_t f_count = layout_visible_set_get_feature_count( &((*this_).layout_data) );
                     for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
                     {
                         /* check if feature belongs to same parent classifier */
                         const layout_feature_t *const the_feature
-                            = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
+                            = layout_visible_set_get_feature_const ( &((*this_).layout_data), f_idx );
                         const layout_visible_classifier_t *const vis_classfy
                             = layout_feature_get_classifier_const ( the_feature );
                         if ( closest_parent_instance == vis_classfy )
@@ -948,7 +948,7 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
 
     /* get the bounding box of the diagram */
     const layout_diagram_t *const the_diagram
-        = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+        = layout_visible_set_get_diagram_const( &((*this_).layout_data) );
     const geometry_rectangle_t *const diagram_bounds
         = layout_diagram_get_bounds_const( the_diagram );
     const geometry_rectangle_t *const diagram_draw_area

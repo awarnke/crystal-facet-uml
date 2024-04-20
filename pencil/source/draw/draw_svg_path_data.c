@@ -1,7 +1,7 @@
 /* File: draw_svg_path_data.c; Copyright and License: see below */
 
 #include "draw_svg_path_data.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "u8/u8_trace.h"
 #include <stdio.h>
 #include <stdlib.h>

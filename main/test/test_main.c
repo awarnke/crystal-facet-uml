@@ -21,9 +21,9 @@
 #include "unit/geometry_rectangle_test.h"
 #include "unit/geometry_connector_test.h"
 #include "unit/geometry_non_linear_scale_test.h"
+#include "unit/layout_visible_set_test.h"
 #include "unit/draw_classifier_contour_test.h"
 #include "unit/draw_stereotype_image_test.h"
-#include "unit/pencil_layout_data_test.h"
 #include "unit/pencil_classifier_composer_test.h"
 #include "integration/pencil_layouter_test.h"
 #include "integration/pencil_diagram_maker_test.h"
@@ -215,10 +215,10 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, geometry_rectangle_test_get_suite() );
         test_runner_run_suite( &runner, geometry_connector_test_get_suite() );
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_suite() );
+        test_runner_run_suite( &runner, layout_visible_set_test_get_suite() );
         test_runner_run_suite( &runner, draw_classifier_contour_test_get_suite() );
         test_runner_run_suite( &runner, draw_stereotype_image_test_get_suite() );
         test_runner_run_suite( &runner, pencil_classifier_composer_test_get_suite() );
-        test_runner_run_suite( &runner, pencil_layout_data_test_get_suite() );
 
         test_runner_run_suite( &runner, pencil_layouter_test_get_suite() );
         test_runner_run_suite( &runner, pencil_diagram_maker_test_get_suite() );

@@ -100,17 +100,17 @@ static test_case_result_t layout_good_cases( test_fixture_t *fix )
         pencil_layouter_prepare ( &((*fix).layouter) );
         pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
-        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
+        layout_visible_set_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
 
         /* check result */
-        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
+        const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
         TEST_EXPECT( NULL != layout_data );
         /*
-        const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
+        const uint32_t class_cnt = layout_visible_set_get_visible_classifier_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, class_cnt );
-        const uint32_t feat_cnt = pencil_layout_data_get_feature_count( layout_data );
+        const uint32_t feat_cnt = layout_visible_set_get_feature_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, feat_cnt );
-        const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
+        const uint32_t rel_cnt = layout_visible_set_get_relationship_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, rel_cnt );
         */
 
@@ -169,17 +169,17 @@ static test_case_result_t layout_challenging_cases( test_fixture_t *fix )
         pencil_layouter_prepare ( &((*fix).layouter) );
         pencil_layouter_define_grid ( &((*fix).layouter), (*fix).diagram_bounds, (*fix).font_layout );
         pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
-        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
+        layout_visible_set_get_statistics( pencil_layouter_get_layout_data_const( &((*fix).layouter) ), &layout_stats );
 
         /* check result */
-        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
+        const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
         TEST_EXPECT( NULL != layout_data );
         /*
-        const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
+        const uint32_t class_cnt = layout_visible_set_get_visible_classifier_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, class_cnt );
-        const uint32_t feat_cnt = pencil_layout_data_get_feature_count( layout_data );
+        const uint32_t feat_cnt = layout_visible_set_get_feature_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, feat_cnt );
-        const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
+        const uint32_t rel_cnt = layout_visible_set_get_relationship_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, rel_cnt );
         */
         data_stat_add( &total_stats, &layout_stats );
@@ -217,14 +217,14 @@ static test_case_result_t layout_edge_cases( test_fixture_t *fix )
         pencil_layouter_layout_elements ( &((*fix).layouter), (*fix).font_layout );
 
         /* check result */
-        const pencil_layout_data_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
+        const layout_visible_set_t *const layout_data = pencil_layouter_get_layout_data_const( &((*fix).layouter) );
         TEST_EXPECT( NULL != layout_data );
         /*
-        const uint32_t class_cnt = pencil_layout_data_get_visible_classifier_count( layout_data );
+        const uint32_t class_cnt = layout_visible_set_get_visible_classifier_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, class_cnt );
-        const uint32_t feat_cnt = pencil_layout_data_get_feature_count( layout_data );
+        const uint32_t feat_cnt = layout_visible_set_get_feature_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, feat_cnt );
-        const uint32_t rel_cnt = pencil_layout_data_get_relationship_count( layout_data );
+        const uint32_t rel_cnt = layout_visible_set_get_relationship_count( layout_data );
         TEST_EXPECT_EQUAL_INT( 0, rel_cnt );
         */
     }

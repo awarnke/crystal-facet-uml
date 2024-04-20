@@ -297,6 +297,12 @@ pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diag
                                                                layout_order_t* out_layout_order
                                                              );
 
+/*!
+ *  \brief returns the layout_visible_set_t object
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const ( const pencil_diagram_maker_t *this_ );
 
 /*!
  *  \brief draws rectangles for pencil_diagram_maker_show_overlaps

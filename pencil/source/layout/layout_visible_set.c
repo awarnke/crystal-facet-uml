@@ -1,16 +1,16 @@
-/* File: pencil_layout_data.c; Copyright and License: see below */
+/* File: layout_visible_set.c; Copyright and License: see below */
 
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "filter/pencil_rules.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <assert.h>
 
-void pencil_layout_data_init( pencil_layout_data_t *this_, const data_visible_set_t *input_data )
+void layout_visible_set_init( layout_visible_set_t *this_, const data_visible_set_t *input_data )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != input_data );
-    U8_TRACE_INFO_INT( "sizeof(pencil_layout_data_t):", sizeof(pencil_layout_data_t) );
+    U8_TRACE_INFO_INT( "sizeof(layout_visible_set_t):", sizeof(layout_visible_set_t) );
 
     data_rules_init ( &((*this_).filter_rules) );
 
@@ -18,19 +18,19 @@ void pencil_layout_data_init( pencil_layout_data_t *this_, const data_visible_se
     (*this_).input_data = input_data;
 
     /* initialite the layout data objects */
-    pencil_layout_data_private_init_diagram( this_ );
-    pencil_layout_data_private_init_classifiers( this_ );
-    pencil_layout_data_private_init_features( this_ );
-    pencil_layout_data_private_init_relationships( this_ );
+    layout_visible_set_private_init_diagram( this_ );
+    layout_visible_set_private_init_classifiers( this_ );
+    layout_visible_set_private_init_features( this_ );
+    layout_visible_set_private_init_relationships( this_ );
 
     if ( data_visible_set_is_valid( input_data ) )
     {
-        assert ( pencil_layout_data_is_valid( this_ ) );
+        assert ( layout_visible_set_is_valid( this_ ) );
     }
     U8_TRACE_END();
 }
 
-void pencil_layout_data_private_init_diagram( pencil_layout_data_t *this_ )
+void layout_visible_set_private_init_diagram( layout_visible_set_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
@@ -47,14 +47,14 @@ void pencil_layout_data_private_init_diagram( pencil_layout_data_t *this_ )
     U8_TRACE_END();
 }
 
-void pencil_layout_data_private_init_classifiers( pencil_layout_data_t *this_ )
+void layout_visible_set_private_init_classifiers( layout_visible_set_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
     const uint_fast32_t data_classifier_count = data_visible_set_get_visible_classifier_count( (*this_).input_data );
     (*this_).visible_classifier_count = 0;
-    assert ( data_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
+    assert ( data_classifier_count <= LAYOUT_VISIBLE_SET_MAX_CLASSIFIERS );
 
     for ( uint_fast32_t c_idx = 0; c_idx < data_classifier_count; c_idx ++ )
     {
@@ -82,7 +82,7 @@ void pencil_layout_data_private_init_classifiers( pencil_layout_data_t *this_ )
     U8_TRACE_END();
 }
 
-void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
+void layout_visible_set_private_init_features( layout_visible_set_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
@@ -120,7 +120,7 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                                                                                           feature_data );
                     if ( one_parent_found )
                     {
-                        if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
+                        if ( (*this_).feature_count < LAYOUT_VISIBLE_SET_MAX_FEATURES )
                         {
                             layout_feature_init( &((*this_).feature_layout[(*this_).feature_count]),
                                                  feature_data,
@@ -155,13 +155,13 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
     U8_TRACE_INFO_INT ( "layout_feature       objects:", (*this_).feature_count );
     if ( 0 != warn_dropped_features )
     {
-        U8_LOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, layout_features not visible:", warn_dropped_features );
+        U8_LOG_WARNING_INT( "LAYOUT_VISIBLE_SET_MAX_FEATURES exceeded, layout_features not visible:", warn_dropped_features );
     }
 
     U8_TRACE_END();
 }
 
-void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ )
+void layout_visible_set_private_init_relationships( layout_visible_set_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
@@ -188,7 +188,7 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
 
             if ( show )
             {
-                layout_relationship_count = pencil_layout_data_private_init_relationship( this_,
+                layout_relationship_count = layout_visible_set_private_init_relationship( this_,
                                                                                           relationship_data,
                                                                                           &warn_dropped_relationships
                                                                                         );
@@ -212,13 +212,13 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
     U8_TRACE_INFO_INT ( "layout_relationship  objects:", (*this_).relationship_count );
     if ( 0 != warn_dropped_relationships )
     {
-        U8_LOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, layout_relationships not visible:", warn_dropped_relationships );
+        U8_LOG_WARNING_INT( "LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS exceeded, layout_relationships not visible:", warn_dropped_relationships );
     }
 
     U8_TRACE_END();
 }
 
-uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *this_,
+uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *this_,
                                                        const data_relationship_t *relationship_data,
                                                        uint32_t *io_dropped_relationships )
 {
@@ -253,7 +253,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                         const bool one_to_classifier_found =  ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) );
                         if ( one_to_classifier_found )
                         {
-                            if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                            if ( (*this_).relationship_count < LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )
                             {
                                 layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                           relationship_data,
@@ -285,7 +285,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                                 = ( to_classifier_id == data_feature_get_classifier_row_id(layout_feature_get_data_const( probe4_feature )) );
                             if ( to_feature_ok )
                             {
-                                if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                if ( (*this_).relationship_count < LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )
                                 {
                                     layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                               relationship_data,
@@ -336,7 +336,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                                 = ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe5_classifier ) );
                             if ( one_to_classifier_found )
                             {
-                                if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                if ( (*this_).relationship_count < LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )
                                 {
                                     layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                               relationship_data,
@@ -368,7 +368,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                                 const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_row_id(layout_feature_get_data_const( probe5_feature )) );
                                 if ( to_feature_ok )
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                    if ( (*this_).relationship_count < LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )
                                     {
                                         layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                                   relationship_data,
@@ -405,12 +405,12 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
     return layout_relationship_count;
 }
 
-void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
+void layout_visible_set_destroy( layout_visible_set_t *this_ )
 {
     U8_TRACE_BEGIN();
-    assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
-    assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
-    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert( (*this_).visible_classifier_count <= LAYOUT_VISIBLE_SET_MAX_CLASSIFIERS );
+    assert( (*this_).feature_count <= LAYOUT_VISIBLE_SET_MAX_FEATURES );
+    assert( (*this_).relationship_count <= LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS );
 
     data_rules_destroy ( &((*this_).filter_rules) );
 
@@ -439,7 +439,7 @@ void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
 
 /* ================================ misc ================================ */
 
-bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
+bool layout_visible_set_is_valid ( const layout_visible_set_t *this_ )
 {
     bool result = true;
 
@@ -470,7 +470,7 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
     }
 
     /* check classifiers */
-    if ( (*this_).visible_classifier_count > PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS )
+    if ( (*this_).visible_classifier_count > LAYOUT_VISIBLE_SET_MAX_CLASSIFIERS )
     {
         /* if the object is already initialized, this is a severe error */
         result = false;
@@ -488,7 +488,7 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
     }
 
     /* check features */
-    if ( (*this_).feature_count > PENCIL_LAYOUT_DATA_MAX_FEATURES )
+    if ( (*this_).feature_count > LAYOUT_VISIBLE_SET_MAX_FEATURES )
     {
         /* if the object is already initialized, this is a severe error */
         result = false;
@@ -506,7 +506,7 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
     }
 
     /* check relationships */
-    if ( (*this_).relationship_count > PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+    if ( (*this_).relationship_count > LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS )
     {
         /* if the object is already initialized, this is a severe error */
         result = false;
@@ -527,34 +527,34 @@ bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
 }
 
 #ifndef NDEBUG
-#define PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#define LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
 #else
 /* REMOVE ME */
-#define PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#define LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
 #endif
 
-void pencil_layout_data_private_analyze_nothing_callback ( void *data,
+void layout_visible_set_private_analyze_nothing_callback ( void *data,
                                                            const geometry_rectangle_t *rect_a,
                                                            const geometry_rectangle_t *rect_b )
 {
 }
 
-void pencil_layout_data_get_statistics ( const pencil_layout_data_t *this_, data_stat_t *io_layout_stat )
+void layout_visible_set_get_statistics ( const layout_visible_set_t *this_, data_stat_t *io_layout_stat )
 {
     U8_TRACE_BEGIN();
-    pencil_layout_data_analyze( this_, io_layout_stat, pencil_layout_data_private_analyze_nothing_callback, NULL );
+    layout_visible_set_analyze( this_, io_layout_stat, layout_visible_set_private_analyze_nothing_callback, NULL );
     U8_TRACE_END();
 }
 
-void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
+void layout_visible_set_analyze ( const layout_visible_set_t *this_,
                                   data_stat_t *io_layout_stat,
                                   void (*overlap_callback)(void *data, const geometry_rectangle_t *a, const geometry_rectangle_t *b),
                                   void *data )
 {
     U8_TRACE_BEGIN();
-    assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
-    assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
-    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert( (*this_).visible_classifier_count <= LAYOUT_VISIBLE_SET_MAX_CLASSIFIERS );
+    assert( (*this_).feature_count <= LAYOUT_VISIBLE_SET_MAX_FEATURES );
+    assert( (*this_).relationship_count <= LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS );
     assert( io_layout_stat != NULL );
     pencil_rules_t pencil_rules;
     pencil_rules_init( &pencil_rules );
@@ -579,7 +579,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                 = layout_visible_classifier_get_symbol_box_const( classifier );
             const geometry_rectangle_t *const c_label
                = layout_visible_classifier_get_label_box_const( classifier );
-#ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#ifdef LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
             const geometry_rectangle_t *const c_space
                = layout_visible_classifier_get_space_const( classifier );
 #endif
@@ -589,7 +589,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             {
                 data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_EXPORTED );
 
-#ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#ifdef LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
                 /* check current classifier against already processed classifiers */
 
                 for ( uint_fast32_t probe_idx = 0; probe_idx < c_idx; probe_idx ++ )
@@ -613,12 +613,12 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
                     if ( symbox_overlaps || mixed_overlaps || label_overlaps )
                     {
                         const bool probe_is_ancestor
-                            = pencil_layout_data_is_ancestor( this_,
+                            = layout_visible_set_is_ancestor( this_,
                                                               probe,      /* ancestor */
                                                               classifier  /* descendant */
                                                             );
                         const bool probe_is_descendant
-                            = pencil_layout_data_is_ancestor( this_,
+                            = layout_visible_set_is_ancestor( this_,
                                                               classifier,  /* ancestor */
                                                               probe        /* descendant */
                                                             );
@@ -696,7 +696,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             {
                 data_stat_inc_count( io_layout_stat, feat_or_lifeline, DATA_STAT_SERIES_EXPORTED );
 
-#ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#ifdef LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
                 /* check features against classifiers */
 
                 for ( uint_fast32_t probe_idx = 0; probe_idx < (*this_).visible_classifier_count; probe_idx ++ )
@@ -851,7 +851,7 @@ void pencil_layout_data_analyze ( const pencil_layout_data_t *this_,
             {
                 data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_RELATIONSHIP, DATA_STAT_SERIES_EXPORTED );
 
-#ifdef PENCIL_LAYOUT_DATA_STATS_WITH_WARNINGS
+#ifdef LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
                 /* check relationships against classifiers */
 
                 for ( uint_fast32_t probe_idx = 0; probe_idx < (*this_).visible_classifier_count; probe_idx ++ )

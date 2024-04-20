@@ -2,7 +2,7 @@
 
 #include "draw_svg_path_data.h"
 #include "draw/draw_stereotype_image.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdio.h>
@@ -79,7 +79,7 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
         result = U8_ERROR_NOT_FOUND;
     }
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
     /* draw the rectangle */
     {
         cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );

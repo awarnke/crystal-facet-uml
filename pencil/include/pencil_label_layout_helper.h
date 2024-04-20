@@ -9,7 +9,7 @@
  *  \brief Evaluates proposed label positions in a diagram
  */
 
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_point.h"
 /* #include "geometry/geometry_anchor.h" */
@@ -51,7 +51,7 @@ void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ );
  *  \param out_index_of_best index of the best solution; must not be NULL.
  */
 void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *this_,
-                                                  pencil_layout_data_t *layout_data,
+                                                  layout_visible_set_t *layout_data,
                                                   geometry_point_t target_point,
                                                   uint32_t solutions_count,
                                                   const geometry_rectangle_t solutions[],

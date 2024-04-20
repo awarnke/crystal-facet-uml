@@ -5,7 +5,7 @@
 #include "utf8stringbuf/utf8string.h"
 
 void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
-                                      pencil_layout_data_t *layout_data,
+                                      layout_visible_set_t *layout_data,
                                       const data_profile_part_t *profile,
                                       const pencil_size_t *pencil_size )
 {
@@ -24,7 +24,7 @@ void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
 }
 
 void pencil_feat_label_layouter_reinit( pencil_feat_label_layouter_t *this_,
-                                        pencil_layout_data_t *layout_data,
+                                        layout_visible_set_t *layout_data,
                                         const data_profile_part_t *profile,
                                         const pencil_size_t *pencil_size )
 {
@@ -53,7 +53,7 @@ void pencil_feat_label_layouter_destroy( pencil_feat_label_layouter_t *this_ )
 void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_, PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
-    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) LAYOUT_VISIBLE_SET_MAX_FEATURES );
     assert( NULL != font_layout );
 
     universal_array_index_sorter_t sorted;
@@ -71,7 +71,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         const uint32_t index
             = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         layout_feature_t *current_feature;
-        current_feature = pencil_layout_data_get_feature_ptr( (*this_).layout_data, index );
+        current_feature = layout_visible_set_get_feature_ptr( (*this_).layout_data, index );
         geometry_point_t feature_middle = layout_feature_get_symbol_middle ( current_feature );
 
         /* declaration of list of options */
@@ -121,11 +121,11 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
 
     /* sort the features by their label-box: the less simple, the earlier it shall be processed */
     const uint32_t count_features
-        = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+        = layout_visible_set_get_feature_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_features; index ++ )
     {
         const layout_feature_t *const current_feature
-            = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_feature_ptr ( (*this_).layout_data, index );
         const data_feature_t *const feature_data = layout_feature_get_data_const ( current_feature );
         assert( NULL != feature_data );
         const data_feature_type_t current_type = data_feature_get_main_type( feature_data );

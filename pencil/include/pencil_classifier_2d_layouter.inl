@@ -20,12 +20,12 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_de
     geometry_rectangle_t descendant_envelope;
     bool descendant_envelope_initialized = false;
 
-    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    const uint32_t count_classifiers = layout_visible_set_get_visible_classifier_count( (*this_).layout_data );
     for ( uint32_t classifier_search_idx = 0; classifier_search_idx < count_classifiers; classifier_search_idx ++ )
     {
         const layout_visible_classifier_t *const probe_classifier
-            = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_search_idx );
-        if ( pencil_layout_data_is_ancestor( (*this_).layout_data, ancestor_classifier, probe_classifier ) )
+            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, classifier_search_idx );
+        if ( layout_visible_set_is_ancestor( (*this_).layout_data, ancestor_classifier, probe_classifier ) )
         {
             const geometry_rectangle_t probe_envelope = layout_visible_classifier_get_envelope_box( probe_classifier );
             if ( ! descendant_envelope_initialized )
@@ -79,16 +79,16 @@ static inline geometry_rectangle_t pencil_classifier_2d_layouter_private_calc_ou
 
         geometry_rectangle_init_by_intersect( &outer_space, &outer_space, (*this_).diagram_draw_area );
 
-        const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+        const uint32_t count_classifiers = layout_visible_set_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t probe_index = 0; probe_index < count_classifiers; probe_index ++ )
         {
             /* get classifier to check overlaps */
             const layout_visible_classifier_t *const the_probe
-                = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, probe_index );
+                = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, probe_index );
 
             const bool ignore
-                = pencil_layout_data_is_ancestor ( (*this_).layout_data, the_classifier, the_probe )
-                || pencil_layout_data_is_ancestor ( (*this_).layout_data, the_probe, the_classifier ) /* ancestor may already encapsulate probe */
+                = layout_visible_set_is_ancestor ( (*this_).layout_data, the_classifier, the_probe )
+                || layout_visible_set_is_ancestor ( (*this_).layout_data, the_probe, the_classifier ) /* ancestor may already encapsulate probe */
                 || ( layout_visible_classifier_is_equal_diagramelement_id( the_classifier, the_probe ));
             if ( ! ignore )
             {
@@ -109,11 +109,11 @@ static inline void pencil_classifier_2d_layouter_private_move_descendants( penci
     assert( ancestor_classifier != NULL );
 
     /* check all classifiers */
-    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+    const uint32_t count_classifiers = layout_visible_set_get_visible_classifier_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_classifiers; index ++ )
     {
-        layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
-        const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ancestor_classifier, probe_classifier );
+        layout_visible_classifier_t *const probe_classifier = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, index );
+        const bool is_descendant = layout_visible_set_is_ancestor ( (*this_).layout_data, ancestor_classifier, probe_classifier );
         if ( is_descendant )
         {
             layout_visible_classifier_shift ( probe_classifier, delta_x, delta_y );

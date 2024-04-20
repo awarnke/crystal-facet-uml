@@ -1,7 +1,7 @@
 /* File: draw_classifier_icon.c; Copyright and License: see below */
 
 #include "draw/draw_classifier_icon.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "u8/u8_trace.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,7 +59,7 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
     cairo_rectangle ( cr, port_left, port2_top, port_width, port_height );
     cairo_stroke (cr);
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangle */
         {
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
@@ -111,7 +111,7 @@ void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, art_right - art_corner_edge, art_top );
     cairo_stroke (cr);
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangle */
         {
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
@@ -171,7 +171,7 @@ void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, act_left, arm_top );
     cairo_stroke (cr);
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangle */
         {
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
@@ -287,7 +287,7 @@ void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
         cairo_stroke (cr);
     }
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangle */
         {
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
@@ -331,7 +331,7 @@ void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, right, bottom );
     cairo_stroke (cr);
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangle */
         {
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
@@ -366,7 +366,7 @@ void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangle */
         {
             cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );

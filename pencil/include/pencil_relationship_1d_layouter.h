@@ -10,7 +10,7 @@
  */
 
 #include "pencil_size.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "pencil_relationship_painter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
@@ -31,7 +31,7 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_relationship_1d_layouter_struct {
-    pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
+    layout_visible_set_t *layout_data;  /* pointer to an instance of layout data */
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
     const pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
@@ -49,7 +49,7 @@ typedef struct pencil_relationship_1d_layouter_struct pencil_relationship_1d_lay
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_relationship_1d_layouter_init( pencil_relationship_1d_layouter_t *this_,
-                                           pencil_layout_data_t *layout_data,
+                                           layout_visible_set_t *layout_data,
                                            const data_profile_part_t *profile,
                                            const pencil_size_t *pencil_size
                                          );

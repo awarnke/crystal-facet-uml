@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 void pencil_relationship_2d_layouter_init( pencil_relationship_2d_layouter_t *this_,
-                                           pencil_layout_data_t *layout_data,
+                                           layout_visible_set_t *layout_data,
                                            const data_profile_part_t *profile,
                                            const pencil_size_t *pencil_size )
 {
@@ -43,7 +43,7 @@ void pencil_relationship_2d_layouter_destroy( pencil_relationship_2d_layouter_t 
 void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_layouter_t *this_ )
 {
     U8_TRACE_BEGIN();
-    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_reinit( &((*this_).sorted_relationships) );
 
@@ -61,7 +61,7 @@ void pencil_relationship_2d_layouter_private_do_layout ( pencil_relationship_2d_
                                                              (*this_).sorted_rel_index
                                                            );
         layout_relationship_t *const current_relationship
-            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
+            = layout_visible_set_get_relationship_ptr( (*this_).layout_data, index );
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
@@ -106,17 +106,17 @@ void pencil_relationship_2d_layouter_private_propose_processing_order ( pencil_r
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
-        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* sort the relationships by their shaping-needs: the less simple, the earlier it shall be processed */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+        = layout_visible_set_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         layout_relationship_t *const current_relation
-            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
 
         int64_t simpleness = 0;
 
@@ -182,7 +182,7 @@ void pencil_relationship_2d_layouter_private_propose_solutions ( pencil_relation
     const uint32_t index
         = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
     layout_relationship_t *const current_relation
-        = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
 
     /* propose connections between source and destination */
     {
@@ -261,7 +261,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
     const uint32_t index
         = universal_array_index_sorter_get_array_index ( &((*this_).sorted_relationships), (*this_).sorted_rel_index );
     const layout_relationship_t *const current_relation
-        = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
 #if 0
     const data_relationship_t *const current_relation_data
         = layout_relationship_get_data_const ( current_relation );
@@ -277,7 +277,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
-        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
     const double diagram_draw_center_x = geometry_rectangle_get_center_x( diagram_draw_area );
@@ -457,11 +457,11 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
 
         /* iterate over all classifiers */
         const uint32_t count_clasfy
-            = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+            = layout_visible_set_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
             const layout_visible_classifier_t *const probe_classifier
-                = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
+                = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
 
             const geometry_rectangle_t *const classifier_space
                 = layout_visible_classifier_get_space_const( probe_classifier );
@@ -485,11 +485,11 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
 
         /* iterate over all features, check symbol boxes only, label boxes are not yet initialized */
         const uint32_t count_features
-            = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+            = layout_visible_set_get_feature_count ( (*this_).layout_data );
         for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
         {
             const layout_feature_t *const feature_layout
-                = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
+                = layout_visible_set_get_feature_ptr ( (*this_).layout_data, f_idx );
 
             const geometry_rectangle_t *const feature_symbol_box
                 = layout_feature_get_symbol_box_const( feature_layout );
@@ -506,7 +506,7 @@ void pencil_relationship_2d_layouter_private_select_solution ( pencil_relationsh
             const uint32_t probe_index
                 = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), probe_sort_index );
             const layout_relationship_t *const probe_relationship
-                = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, probe_index );
+                = layout_visible_set_get_relationship_ptr( (*this_).layout_data, probe_index );
 #if 0
             const data_relationship_t *const probe_relation_data
                 = layout_relationship_get_data_const ( probe_relationship );
@@ -976,7 +976,7 @@ void pencil_relationship_2d_layouter_private_connect_rectangles_by_UC ( pencil_r
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
-        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
     const double draw_left = geometry_rectangle_get_left( diagram_draw_area );
@@ -1532,11 +1532,11 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
         hit = false;
 
         /* move away from classifiers */
-        const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
+        const uint32_t count_classifiers = layout_visible_set_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
         {
             const layout_visible_classifier_t *const the_classifier
-                = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
+                = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
 
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( the_classifier );
@@ -1653,11 +1653,11 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
         }
 
         /* move away from features, check symbol boxes only, label boxes are not yet initialized */
-        const uint32_t count_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+        const uint32_t count_features = layout_visible_set_get_feature_count ( (*this_).layout_data );
         for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
         {
             const layout_feature_t *const feature_layout
-                = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
+                = layout_visible_set_get_feature_ptr ( (*this_).layout_data, f_idx );
 
             const geometry_rectangle_t *const feature_symbol_box
                 = layout_feature_get_symbol_box_const( feature_layout );
@@ -1702,7 +1702,7 @@ u8_error_t pencil_relationship_2d_layouter_private_find_space_for_line ( pencil_
             const uint32_t exist_index
                 = universal_array_index_sorter_get_array_index( &((*this_).sorted_relationships), exist_sort_index );
             const layout_relationship_t *const exist_relationship
-                = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, exist_index );
+                = layout_visible_set_get_relationship_ptr( (*this_).layout_data, exist_index );
             /* Note: This algorithm ignores the relationship types (same_type), sources and destinations (one_same_end) */
 
             const geometry_connector_t *const exist_shape = layout_relationship_get_shape_const( exist_relationship );
@@ -1925,10 +1925,10 @@ void pencil_relationship_2d_layouter_private_make_all_visible ( pencil_relations
     U8_TRACE_BEGIN();
 
     /* determine visibility */
-    const uint32_t count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations = layout_visible_set_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
-        layout_relationship_t *const the_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const the_relation = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
         const layout_visible_classifier_t *const from_layout = layout_relationship_get_from_classifier_ptr ( the_relation );
         const layout_visible_classifier_t *const to_layout = layout_relationship_get_to_classifier_ptr ( the_relation );
         assert( from_layout != NULL );
@@ -1970,13 +1970,13 @@ void pencil_relationship_2d_layouter_layout_void( pencil_relationship_2d_layoute
 
     /* hide all relationships */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+        = layout_visible_set_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /*
-        pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_HIDE );
+        layout_visible_set_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_HIDE );
         */
-        pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+        layout_visible_set_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
     }
 
     /* layout the relationships (needed for PENCIL_VISIBILITY_IMPLICIT) */
@@ -1993,18 +1993,18 @@ void pencil_relationship_2d_layouter_layout_for_communication( pencil_relationsh
 
     /* hide some relationships */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+        = layout_visible_set_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
 
         /* adjust visibility */
         if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
             && ( NULL == layout_relationship_get_to_feature_ptr ( the_relationship ) ) )
         {
             /* this is a globally visible relation, not local/scenario-based */
-            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+            layout_visible_set_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
         }
     }
 

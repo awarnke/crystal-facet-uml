@@ -1,7 +1,7 @@
 /* File: pencil_feature_painter.c; Copyright and License: see below */
 
 #include "pencil_feature_painter.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -133,7 +133,7 @@ void pencil_feature_painter_draw( pencil_feature_painter_t *this_,
                                                cr
                                              );
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangles */
         {
             const geometry_rectangle_t *const feature_label_box

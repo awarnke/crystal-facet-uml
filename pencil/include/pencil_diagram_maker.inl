@@ -56,9 +56,9 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
     U8_TRACE_END();
 }
 
-static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
-                                                      geometry_rectangle_t diagram_bounds,
-                                                      cairo_t *cr )
+static inline void pencil_diagram_maker_define_grid( pencil_diagram_maker_t *this_,
+                                                     geometry_rectangle_t diagram_bounds,
+                                                     cairo_t *cr )
 {
     U8_TRACE_BEGIN();
 
@@ -73,9 +73,9 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
     U8_TRACE_END();
 }
 
-static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_,
-                                                          data_stat_t *io_layout_stat,
-                                                          cairo_t *cr )
+static inline void pencil_diagram_maker_layout_elements( pencil_diagram_maker_t *this_,
+                                                         data_stat_t *io_layout_stat,
+                                                         cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( cr != NULL );
@@ -91,7 +91,7 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
     pencil_layouter_layout_elements ( &((*this_).layouter), font_layout );
     if ( io_layout_stat != NULL )
     {
-        pencil_layout_data_get_statistics( pencil_layouter_get_layout_data_const( &((*this_).layouter) ), io_layout_stat );
+        layout_visible_set_get_statistics( pencil_layouter_get_layout_data_const( &((*this_).layouter) ), io_layout_stat );
     }
 
     g_object_unref (font_layout);
@@ -99,12 +99,12 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
     U8_TRACE_END();
 }
 
-static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const pencil_diagram_maker_t *this_,
-                                                                         double x,
-                                                                         double y,
-                                                                         pencil_type_filter_t filter,
-                                                                         data_full_id_t* out_selected_id,
-                                                                         data_full_id_t* out_surrounding_id )
+static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos( const pencil_diagram_maker_t *this_,
+                                                                        double x,
+                                                                        double y,
+                                                                        pencil_type_filter_t filter,
+                                                                        data_full_id_t* out_selected_id,
+                                                                        data_full_id_t* out_surrounding_id )
 {
     return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter),
                                                   x,
@@ -116,11 +116,11 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const p
                                                 );
 }
 
-static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_maker_t *this_,
-                                                         double x,
-                                                         double y,
-                                                         bool *out_x_on_grid,
-                                                         bool *out_y_on_grid )
+static inline void pencil_diagram_maker_is_pos_on_grid( const pencil_diagram_maker_t *this_,
+                                                        double x,
+                                                        double y,
+                                                        bool *out_x_on_grid,
+                                                        bool *out_y_on_grid )
 {
     pencil_layouter_is_pos_on_grid ( &((*this_).layouter),
                                      x,
@@ -131,16 +131,21 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_ma
                                    );
 }
 
-static inline void pencil_diagram_maker_get_grid_lines ( const pencil_diagram_maker_t *this_,
-                                                         double *out_x0,
-                                                         double *out_y0,
-                                                         double *out_dx,
-                                                         double *out_dy,
-                                                         uint32_t *out_x_count,
-                                                         uint32_t *out_y_count
-                                                       )
+static inline void pencil_diagram_maker_get_grid_lines( const pencil_diagram_maker_t *this_,
+                                                        double *out_x0,
+                                                        double *out_y0,
+                                                        double *out_dx,
+                                                        double *out_dy,
+                                                        uint32_t *out_x_count,
+                                                        uint32_t *out_y_count
+                                                      )
 {
     pencil_layouter_get_grid_lines( &((*this_).layouter), out_x0, out_y0, out_dx, out_dy, out_x_count, out_y_count );
+}
+
+static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const( const pencil_diagram_maker_t *this_ )
+{
+    return pencil_layouter_get_layout_data_const( &((*this_).layouter) );
 }
 
 

@@ -11,7 +11,7 @@
 
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "pencil_feature_layouter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
@@ -33,7 +33,7 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct pencil_classifier_2d_layouter_struct {
-    pencil_layout_data_t *layout_data;  /* pointer to external layout data */
+    layout_visible_set_t *layout_data;  /* pointer to external layout data */
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
     const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, */
                                        /*!< defining pen sizes, gap sizes, font sizes and colors */
@@ -63,7 +63,7 @@ typedef struct pencil_classifier_2d_layouter_struct pencil_classifier_2d_layoute
  *  \param feature_layouter pointer to a feature layout helper
  */
 void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
-                                         pencil_layout_data_t *layout_data,
+                                         layout_visible_set_t *layout_data,
                                          const data_profile_part_t *profile,
                                          const pencil_size_t *pencil_size,
                                          geometry_dimensions_t *default_classifier_size,

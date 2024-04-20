@@ -1,7 +1,7 @@
-/* File: pencil_layout_data_test.c; Copyright and License: see below */
+/* File: layout_visible_set_test.c; Copyright and License: see below */
 
-#include "pencil_layout_data_test.h"
-#include "layout/pencil_layout_data.h"
+#include "layout_visible_set_test.h"
+#include "layout/layout_visible_set.h"
 #include "set/data_visible_set.h"
 #include "test_fixture.h"
 #include "test_expect.h"
@@ -17,11 +17,11 @@ static test_case_result_t test_inconsistent_model( test_fixture_t *fix );
 static data_visible_set_t* init_empty_input_data();
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships );
 
-test_suite_t pencil_layout_data_test_get_suite(void)
+test_suite_t layout_visible_set_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "pencil_layout_data_test_get_suite",
+                     "layout_visible_set_test_get_suite",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
@@ -176,25 +176,25 @@ static test_case_result_t test_empty_model( test_fixture_t *fix )
     data_visible_set_t* empty_input_data;
     empty_input_data = init_empty_input_data();
 
-    static pencil_layout_data_t testee;
-    pencil_layout_data_init( &testee, empty_input_data );
-    TEST_EXPECT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) )
-    TEST_EXPECT_EQUAL_INT( 0, pencil_layout_data_get_visible_classifier_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 0, pencil_layout_data_get_feature_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 0, pencil_layout_data_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( ! pencil_layout_data_is_valid( &testee ) );
+    static layout_visible_set_t testee;
+    layout_visible_set_init( &testee, empty_input_data );
+    TEST_EXPECT( NULL != layout_visible_set_get_diagram_ptr ( &testee ) )
+    TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_visible_classifier_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_feature_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_relationship_count ( &testee ) );
+    TEST_EXPECT ( ! layout_visible_set_is_valid( &testee ) );
 
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(0,10,10);
 
-    pencil_layout_data_reinit( &testee, fake_input_data );
-    TEST_EXPECT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 0, pencil_layout_data_get_visible_classifier_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 0, pencil_layout_data_get_feature_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 0, pencil_layout_data_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
+    layout_visible_set_reinit( &testee, fake_input_data );
+    TEST_EXPECT( NULL != layout_visible_set_get_diagram_ptr ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_visible_classifier_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_feature_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_relationship_count ( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
 
-    pencil_layout_data_destroy( &testee );
+    layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -207,15 +207,15 @@ static test_case_result_t test_normal_model( test_fixture_t *fix )
     data_relationship_set_from_feature_row_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
     data_relationship_set_to_feature_row_id ( linked_rel, 0 /* not DATA_ROW_ID_VOID */ );
 
-    static pencil_layout_data_t testee;
-    pencil_layout_data_init( &testee, fake_input_data );
-    TEST_EXPECT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 15, pencil_layout_data_get_visible_classifier_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 30*DUPLICATE_PARENT_CLASSIFIER, pencil_layout_data_get_feature_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 20*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, pencil_layout_data_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
+    static layout_visible_set_t testee;
+    layout_visible_set_init( &testee, fake_input_data );
+    TEST_EXPECT( NULL != layout_visible_set_get_diagram_ptr ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 15, layout_visible_set_get_visible_classifier_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 30*DUPLICATE_PARENT_CLASSIFIER, layout_visible_set_get_feature_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 20*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, layout_visible_set_get_relationship_count ( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
 
-    pencil_layout_data_destroy( &testee );
+    layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -227,15 +227,15 @@ static test_case_result_t test_too_big_model( test_fixture_t *fix )
                                             DATA_VISIBLE_SET_MAX_RELATIONSHIPS
                                           );
 
-    static pencil_layout_data_t testee;
-    pencil_layout_data_init( &testee, fake_input_data );
-    TEST_EXPECT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, pencil_layout_data_get_visible_classifier_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( PENCIL_LAYOUT_DATA_MAX_FEATURES, pencil_layout_data_get_feature_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS, pencil_layout_data_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
+    static layout_visible_set_t testee;
+    layout_visible_set_init( &testee, fake_input_data );
+    TEST_EXPECT( NULL != layout_visible_set_get_diagram_ptr ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, layout_visible_set_get_visible_classifier_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( LAYOUT_VISIBLE_SET_MAX_FEATURES, layout_visible_set_get_feature_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS, layout_visible_set_get_relationship_count ( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
 
-    pencil_layout_data_destroy( &testee );
+    layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;
 }
 
@@ -254,15 +254,15 @@ static test_case_result_t test_inconsistent_model( test_fixture_t *fix )
     data_relationship_t *illegal_rel3 = data_visible_set_get_relationship_ptr ( fake_input_data, 2 /*index*/ );
     data_relationship_set_to_classifier_row_id ( illegal_rel3, 12000 /*non-existing classifier_id*/ );
 
-    static pencil_layout_data_t testee;
-    pencil_layout_data_init( &testee, fake_input_data );
-    TEST_EXPECT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 5, pencil_layout_data_get_visible_classifier_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( (5-1)*DUPLICATE_PARENT_CLASSIFIER, pencil_layout_data_get_feature_count ( &testee ) );
-    TEST_EXPECT_EQUAL_INT( (5-3)*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, pencil_layout_data_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( pencil_layout_data_is_valid( &testee ) );
+    static layout_visible_set_t testee;
+    layout_visible_set_init( &testee, fake_input_data );
+    TEST_EXPECT( NULL != layout_visible_set_get_diagram_ptr ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 5, layout_visible_set_get_visible_classifier_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( (5-1)*DUPLICATE_PARENT_CLASSIFIER, layout_visible_set_get_feature_count ( &testee ) );
+    TEST_EXPECT_EQUAL_INT( (5-3)*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, layout_visible_set_get_relationship_count ( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
 
-    pencil_layout_data_destroy( &testee );
+    layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;
 }
 

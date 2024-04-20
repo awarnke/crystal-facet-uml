@@ -7,7 +7,7 @@
 #include "utf8stringbuf/utf8string.h"
 
 void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
-                                     pencil_layout_data_t *layout_data,
+                                     layout_visible_set_t *layout_data,
                                      const data_profile_part_t *profile,
                                      const pencil_size_t *pencil_size )
 {
@@ -26,7 +26,7 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
 }
 
 void pencil_rel_label_layouter_reinit( pencil_rel_label_layouter_t *this_,
-                                       pencil_layout_data_t *layout_data,
+                                       layout_visible_set_t *layout_data,
                                        const data_profile_part_t *profile,
                                        const pencil_size_t *pencil_size )
 {
@@ -55,7 +55,7 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
 void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
-    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS );
     assert( NULL != font_layout );
 
     universal_array_index_sorter_t sorted;
@@ -73,7 +73,7 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         const uint32_t index
             = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         layout_relationship_t *const current_relation
-            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
         geometry_point_t relation_middle = layout_relationship_get_middle ( current_relation );
 
         /* declaration of list of options */
@@ -124,11 +124,11 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
 
     /* sort the relationships by their label-box: the less simple, the earlier it shall be processed */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+        = layout_visible_set_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         const layout_relationship_t *const current_relation
-            = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
         const data_relationship_t *const relation_data
             = layout_relationship_get_data_const ( current_relation );
         assert( NULL != relation_data );

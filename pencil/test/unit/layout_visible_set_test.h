@@ -1,18 +1,18 @@
-/* File: pencil_layout_data_test.h; Copyright and License: see below */
+/* File: layout_visible_set_test.h; Copyright and License: see below */
 
-#ifndef PENCIL_LAYOUT_DATA_TEST_H
-#define PENCIL_LAYOUT_DATA_TEST_H
+#ifndef LAYOUT_VISIBLE_SET_TEST_H
+#define LAYOUT_VISIBLE_SET_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for pencil_layout_data
+ *  \brief UNITTEST for layout_visible_set
  */
 
 #include "test_suite.h"
 
-test_suite_t pencil_layout_data_test_get_suite(void);
+test_suite_t layout_visible_set_test_get_suite(void);
 
-#endif  /* PENCIL_LAYOUT_DATA_TEST_H */
+#endif  /* LAYOUT_VISIBLE_SET_TEST_H */
 
 
 /*

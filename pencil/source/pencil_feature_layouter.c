@@ -9,7 +9,7 @@
 #include <math.h>
 
 void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
-                                   pencil_layout_data_t *layout_data,
+                                   layout_visible_set_t *layout_data,
                                    const data_profile_part_t *profile,
                                    const pencil_size_t *pencil_size )
 {
@@ -51,7 +51,7 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ )
 void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout )
 {
     U8_TRACE_BEGIN();
-    assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
+    assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) LAYOUT_VISIBLE_SET_MAX_FEATURES );
 
     /* establish precondition: precalculate the dimensions of labels */
     if ( ! (*this_).label_dimensions_initialized )
@@ -60,7 +60,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     }
     /* get diagram draw area */
     const layout_diagram_t *const diagram_layout
-        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
     const data_diagram_t *const diagram_data
@@ -70,11 +70,11 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 
     /* layout the unsorted features */
     const uint32_t count_features
-        = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+        = layout_visible_set_get_feature_count ( (*this_).layout_data );
     for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
     {
         layout_feature_t *const feature_layout
-            = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
+            = layout_visible_set_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *const the_feature
             = layout_feature_get_data_const ( feature_layout );
         const layout_visible_classifier_t *const layout_classifier
@@ -187,11 +187,11 @@ void pencil_feature_layouter_calculate_features_bounds( pencil_feature_layouter_
 
     /* search all contained features */
     const uint32_t count_features
-        = pencil_layout_data_get_feature_count( (*this_).layout_data );
+        = layout_visible_set_get_feature_count( (*this_).layout_data );
     for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
     {
         const layout_feature_t *const feature_layout
-            = pencil_layout_data_get_feature_ptr( (*this_).layout_data, f_idx );
+            = layout_visible_set_get_feature_ptr( (*this_).layout_data, f_idx );
         const data_feature_t *const the_feature
             = layout_feature_get_data_const( feature_layout );
         const layout_visible_classifier_t *const layout_classifier
@@ -226,11 +226,11 @@ void pencil_feature_layouter_private_init_label_dimensions( pencil_feature_layou
     assert ( NULL != font_layout );
 
     const uint32_t count_features
-        = pencil_layout_data_get_feature_count( (*this_).layout_data );
+        = layout_visible_set_get_feature_count( (*this_).layout_data );
     for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
     {
         layout_feature_t *const feature_layout
-            = pencil_layout_data_get_feature_ptr( (*this_).layout_data, f_idx );
+            = layout_visible_set_get_feature_ptr( (*this_).layout_data, f_idx );
         const data_feature_t *const the_feature
             = layout_feature_get_data_const( feature_layout );
         const data_feature_type_t the_feature_type = data_feature_get_main_type( the_feature );
@@ -551,11 +551,11 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
 
     /* calculate the feat_top by summing up the heights of the features above */
     double feat_top = geometry_rectangle_get_top( classifier_space );
-    const uint32_t num_features = pencil_layout_data_get_feature_count( (*this_).layout_data );
+    const uint32_t num_features = layout_visible_set_get_feature_count( (*this_).layout_data );
     for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
     {
         const layout_feature_t *const f_probe_layout
-            = pencil_layout_data_get_feature_ptr( (*this_).layout_data, f_probe_idx );
+            = layout_visible_set_get_feature_ptr( (*this_).layout_data, f_probe_idx );
         assert( NULL != f_probe_layout );
         const layout_visible_classifier_t *const probe_vis_classfy
             = layout_feature_get_classifier_const( f_probe_layout );

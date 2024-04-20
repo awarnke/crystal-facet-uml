@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 void pencil_relationship_1d_layouter_init( pencil_relationship_1d_layouter_t *this_,
-                                           pencil_layout_data_t *layout_data,
+                                           layout_visible_set_t *layout_data,
                                            const data_profile_part_t *profile,
                                            const pencil_size_t *pencil_size )
 {
@@ -41,10 +41,10 @@ void pencil_relationship_1d_layouter_private_make_all_visible ( pencil_relations
     U8_TRACE_BEGIN();
 
     /* determine visibility */
-    const uint32_t count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    const uint32_t count_relations = layout_visible_set_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
-        layout_relationship_t *const the_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        layout_relationship_t *const the_relation = layout_visible_set_get_relationship_ptr ( (*this_).layout_data, index );
         const layout_visible_classifier_t *const from_layout = layout_relationship_get_from_classifier_ptr ( the_relation );
         const layout_visible_classifier_t *const to_layout = layout_relationship_get_to_classifier_ptr ( the_relation );
         assert( from_layout != NULL );
@@ -77,26 +77,26 @@ void pencil_relationship_1d_layouter_layout_for_sequence( pencil_relationship_1d
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
-        = pencil_layout_data_get_diagram_const( (*this_).layout_data );
+        = layout_visible_set_get_diagram_const( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* layout the relationships */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count( (*this_).layout_data );
+        = layout_visible_set_get_relationship_count( (*this_).layout_data );
     U8_TRACE_INFO_INT( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
         layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
+            = layout_visible_set_get_relationship_ptr( (*this_).layout_data, index );
 
         /* adjust visibility */
         if ( ( NULL == layout_relationship_get_from_feature_ptr( the_relationship ) )
             && ( NULL == layout_relationship_get_to_feature_ptr( the_relationship ) ) )
         {
             /* this is a globally visible relation, not local/scenario-based */
-            pencil_layout_data_set_relationship_visibility( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+            layout_visible_set_set_relationship_visibility( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
         }
 
         /* calculate layout */
@@ -202,26 +202,26 @@ void pencil_relationship_1d_layouter_layout_for_timing( pencil_relationship_1d_l
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
-        = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
 
     /* layout the relationships */
     const uint32_t count_relations
-        = pencil_layout_data_get_relationship_count( (*this_).layout_data );
+        = layout_visible_set_get_relationship_count( (*this_).layout_data );
     U8_TRACE_INFO_INT( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         /* get the relationship to layout */
         layout_relationship_t *const the_relationship
-            = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
+            = layout_visible_set_get_relationship_ptr( (*this_).layout_data, index );
 
         /* adjust visibility */
         if ( ( NULL == layout_relationship_get_from_feature_ptr( the_relationship ) )
             && ( NULL == layout_relationship_get_to_feature_ptr( the_relationship ) ) )
         {
             /* this is a globally visible relation, not local/scenario-based */
-            pencil_layout_data_set_relationship_visibility( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+            layout_visible_set_set_relationship_visibility( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
         }
 
         /* calculate layout */

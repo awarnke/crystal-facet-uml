@@ -12,7 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
-#include "layout/pencil_layout_data.h"
+#include "layout/layout_visible_set.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_feature_painter.h"
 #include "pencil_feature_layouter.h"
@@ -44,7 +44,7 @@
  *  \brief attributes of the layouter
  */
 struct pencil_layouter_struct {
-    pencil_layout_data_t layout_data;  /* own instance of layout data */
+    layout_visible_set_t layout_data;  /* own instance of layout data */
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
 
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
@@ -125,18 +125,18 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
 void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout );
 
 /* !
- *  \brief returns the pencil_layout_data_t object
+ *  \brief returns the layout_visible_set_t object
  *
  *  \param this_ pointer to own object attributes
  */
-static inline pencil_layout_data_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ );
+static inline layout_visible_set_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ );
 
 /*!
- *  \brief returns the pencil_layout_data_t object
+ *  \brief returns the layout_visible_set_t object
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const pencil_layout_data_t *pencil_layouter_get_layout_data_const ( const pencil_layouter_t *this_ );
+static inline const layout_visible_set_t *pencil_layouter_get_layout_data_const ( const pencil_layouter_t *this_ );
 
 /*!
  *  \brief returns the pencil size object

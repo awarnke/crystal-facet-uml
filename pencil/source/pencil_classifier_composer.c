@@ -43,7 +43,7 @@ void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
                                        data_id_t mark_focused,
                                        data_id_t mark_highlighted,
                                        const data_small_set_t *mark_selected,
-                                       const pencil_layout_data_t *layout_data,
+                                       const layout_visible_set_t *layout_data,
                                        const data_profile_part_t *profile,
                                        const pencil_size_t *pencil_size,
                                        PangoLayout *font_layout,
@@ -457,7 +457,7 @@ void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
             break;
         }
 
-#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
         /* draw the rectangles */
         {
             const geometry_rectangle_t *const classifier_space
@@ -979,7 +979,7 @@ int pencil_classifier_composer_private_get_label_box ( pencil_classifier_compose
 
 void pencil_classifier_composer_private_draw_feature_compartments ( const pencil_classifier_composer_t *this_,
                                                                     const layout_visible_classifier_t *layouted_classifier,
-                                                                    const pencil_layout_data_t *layout_data,
+                                                                    const layout_visible_set_t *layout_data,
                                                                     const pencil_size_t *pencil_size,
                                                                     cairo_t *cr )
 {
@@ -1003,10 +1003,10 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     double compartment3_y = geometry_rectangle_get_top( classifier_space ) + 5.0 * gap;
     uint_fast32_t count_compartment_entries = 0;
 
-    const uint32_t num_features = pencil_layout_data_get_feature_count ( layout_data );
+    const uint32_t num_features = layout_visible_set_get_feature_count ( layout_data );
     for ( uint32_t f_probe_idx = 0; f_probe_idx < num_features; f_probe_idx ++ )
     {
-        const layout_feature_t *const f_probe_layout = pencil_layout_data_get_feature_const ( layout_data, f_probe_idx );
+        const layout_feature_t *const f_probe_layout = layout_visible_set_get_feature_const ( layout_data, f_probe_idx );
         assert ( NULL != f_probe_layout );
         const layout_visible_classifier_t *const probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
         assert ( NULL != probe_vis_classfy );

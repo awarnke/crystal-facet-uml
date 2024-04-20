@@ -8,7 +8,7 @@
 #include <math.h>
 
 void pencil_classifier_1d_layouter_init( pencil_classifier_1d_layouter_t *this_,
-                                         pencil_layout_data_t *layout_data,
+                                         layout_visible_set_t *layout_data,
                                          const data_profile_part_t *profile,
                                          const pencil_size_t *pencil_size )
 {
@@ -26,7 +26,7 @@ void pencil_classifier_1d_layouter_init( pencil_classifier_1d_layouter_t *this_,
     /* get draw area */
     {
         const layout_diagram_t *const diagram_layout
-            = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+            = layout_visible_set_get_diagram_ptr( (*this_).layout_data );
         (*this_).diagram_draw_area = layout_diagram_get_draw_area_const( diagram_layout );
     }
 
@@ -67,11 +67,11 @@ void pencil_classifier_1d_layouter_layout_for_list( pencil_classifier_1d_layoute
     universal_array_index_sorter_init( &sorted_classifiers );
 
     /* calculate preferred classifier bounds/envelopes */
-    const uint_fast32_t c_count = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    const uint_fast32_t c_count = layout_visible_set_get_visible_classifier_count( (*this_).layout_data );
     for ( uint_fast32_t plain_idx = 0; plain_idx < c_count; plain_idx ++ )
     {
         layout_visible_classifier_t *const visible_classifier1
-            = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
+            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
         const data_visible_classifier_t *const visible_classifier_data
             = layout_visible_classifier_get_data_const ( visible_classifier1 );
         const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
@@ -159,11 +159,11 @@ void pencil_classifier_1d_layouter_layout_for_sequence( pencil_classifier_1d_lay
     universal_array_index_sorter_init( &sorted_acting_classifiers );
 
     /* calculate preferred classifier bounds */
-    const uint_fast32_t c_count = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    const uint_fast32_t c_count = layout_visible_set_get_visible_classifier_count( (*this_).layout_data );
     for ( uint_fast32_t plain_idx = 0; plain_idx < c_count; plain_idx ++ )
     {
         layout_visible_classifier_t *const visible_classifier1
-            = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
+            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
         const data_visible_classifier_t *const visible_classifier_data
             = layout_visible_classifier_get_data_const ( visible_classifier1 );
         const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
@@ -297,11 +297,11 @@ void pencil_classifier_1d_layouter_layout_for_timing( pencil_classifier_1d_layou
     universal_array_index_sorter_init( &sorted_acting_classifiers );
 
     /* calculate preferred classifier bounds */
-    const uint_fast32_t c_count = pencil_layout_data_get_visible_classifier_count( (*this_).layout_data );
+    const uint_fast32_t c_count = layout_visible_set_get_visible_classifier_count( (*this_).layout_data );
     for ( uint_fast32_t plain_idx = 0; plain_idx < c_count; plain_idx ++ )
     {
         layout_visible_classifier_t *const visible_classifier1
-            = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
+            = layout_visible_set_get_visible_classifier_ptr( (*this_).layout_data, plain_idx );
         const data_visible_classifier_t *const visible_classifier_data
             = layout_visible_classifier_get_data_const ( visible_classifier1 );
         const data_classifier_t *const classifier1 = data_visible_classifier_get_classifier_const( visible_classifier_data );
@@ -394,7 +394,7 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
     {
         uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         const layout_visible_classifier_t *const visible_classifier1
-            = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, index );
+            = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, index );
 
         /* update sum of wished envelope widths */
         const geometry_rectangle_t envelope
@@ -409,7 +409,7 @@ void pencil_classifier_1d_layouter_private_layout_horizontal( const pencil_class
     {
         const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         const geometry_rectangle_t envelope
             = layout_visible_classifier_get_envelope_box( visible_classifier2 );
@@ -472,7 +472,7 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
     {
         const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         const layout_visible_classifier_t *const visible_classifier1
-            = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, index );
+            = layout_visible_set_get_visible_classifier_const( (*this_).layout_data, index );
 
         /* update sum of wished envelope heights */
         const geometry_rectangle_t envelope
@@ -487,7 +487,7 @@ void pencil_classifier_1d_layouter_private_layout_vertical( const pencil_classif
     {
         const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         const geometry_rectangle_t envelope
             = layout_visible_classifier_get_envelope_box( visible_classifier2 );
@@ -552,7 +552,7 @@ void pencil_classifier_1d_layouter_private_linear_horizontal( const pencil_class
     {
         uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         /* get envelope */
         const geometry_rectangle_t envelope
@@ -612,7 +612,7 @@ void pencil_classifier_1d_layouter_private_linear_vertical( const pencil_classif
     {
         const uint_fast32_t index = universal_array_index_sorter_get_array_index( classifier_list, sort_idx );
         layout_visible_classifier_t *const visible_classifier2
-            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
+            = layout_visible_set_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         /* get envelope */
         const geometry_rectangle_t envelope

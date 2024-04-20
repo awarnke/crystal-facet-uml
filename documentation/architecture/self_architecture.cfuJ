@@ -2249,14 +2249,14 @@
           {
             "id": 35,
             "display_flags": 0,
-            "classifier_name": "data_visible_set",
+            "classifier_name": "data_visible_set_t",
             "node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
             "uuid": "8cffd841-ecef-42ae-9ea2-4ed321310e39"
           },
           {
             "id": 36,
             "display_flags": 0,
-            "classifier_name": "pencil_layout_data",
+            "classifier_name": "layout_visible_set_t",
             "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
             "uuid": "b9a24b09-ca12-4658-a023-a9600430958b"
           },
@@ -2319,7 +2319,7 @@
           {
             "id": 134,
             "display_flags": 0,
-            "classifier_name": "pencil_layout_data",
+            "classifier_name": "layout_visible_set_t",
             "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
             "uuid": "498389aa-7a0e-4462-a979-9987509ff90c"
           },
@@ -2327,7 +2327,7 @@
             "id": 135,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "data_visible_set",
+            "classifier_name": "data_visible_set_t",
             "node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
             "uuid": "c552b182-be84-4b4a-93ae-7d964e632a6b"
           },
@@ -7203,7 +7203,7 @@
             "id": 130,
             "main_type": 4,
             "type": "Interface",
-            "key": "get coordinates",
+            "key": "get_layout_data",
             "description": [
                 ""
             ],
@@ -7873,7 +7873,7 @@
         "id": 35,
         "main_type": 125,
         "type": "Class",
-        "name": "data_visible_set",
+        "name": "data_visible_set_t",
         "description": [
                 "- caches data from the database needed to draw a diagram"
         ],
@@ -7891,7 +7891,7 @@
         "id": 36,
         "main_type": 125,
         "type": "Class",
-        "name": "pencil_layout_data",
+        "name": "layout_visible_set_t",
         "description": [
                 "- stores locations of layouted elements (in the current diagram)"
         ],
@@ -18125,7 +18125,7 @@
         "list_order": 1412348357,
         "from_classifier_name": "gui",
         "to_classifier_name": "pencil",
-        "to_feature_key": "get coordinates",
+        "to_feature_key": "get_layout_data",
         "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
         "to_node": "998755bf-3f01-479d-ac6e-04a4fa89bfab",
         "uuid": "667f1a22-f659-45ba-a9c8-bb40fed11fb8"
@@ -18193,7 +18193,7 @@
         ],
         "list_order": 726976,
         "from_classifier_name": "pencil",
-        "to_classifier_name": "data_visible_set",
+        "to_classifier_name": "data_visible_set_t",
         "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
         "to_node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
         "uuid": "673f587d-c8cb-4652-9252-1159632c80f0"
@@ -18210,7 +18210,7 @@
         ],
         "list_order": 728000,
         "from_classifier_name": "pencil",
-        "to_classifier_name": "pencil_layout_data",
+        "to_classifier_name": "layout_visible_set_t",
         "from_node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
         "to_node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
         "uuid": "ff3870d9-afdf-463c-a6aa-3e9af4d7b605"
@@ -18315,7 +18315,7 @@
         ],
         "list_order": 1412315589,
         "from_classifier_name": "pencil",
-        "from_feature_key": "get coordinates",
+        "from_feature_key": "get_layout_data",
         "to_classifier_name": "pencil",
         "to_feature_key": "pencil_diagram_maker",
         "from_node": "998755bf-3f01-479d-ac6e-04a4fa89bfab",
@@ -19711,7 +19711,7 @@
         ],
         "list_order": 3072,
         "from_classifier_name": "pencil_xxx_layouter",
-        "to_classifier_name": "pencil_layout_data",
+        "to_classifier_name": "layout_visible_set_t",
         "from_node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
         "to_node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
         "uuid": "b169f1db-e279-4a56-80bb-23dfc7677dd2"
@@ -19813,7 +19813,7 @@
         ],
         "list_order": 6144,
         "from_classifier_name": "pencil_xxx_painter",
-        "to_classifier_name": "pencil_layout_data",
+        "to_classifier_name": "layout_visible_set_t",
         "from_node": "a49bd993-9c84-44a1-8eef-457a2986a266",
         "to_node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
         "uuid": "6df3522e-ee6b-474d-8cd2-fba6edb34c5a"
@@ -19914,8 +19914,8 @@
                 ""
         ],
         "list_order": 2048,
-        "from_classifier_name": "pencil_layout_data",
-        "to_classifier_name": "data_visible_set",
+        "from_classifier_name": "layout_visible_set_t",
+        "to_classifier_name": "data_visible_set_t",
         "from_node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
         "to_node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
         "uuid": "b19c9310-47df-4335-907e-5670eeef04fb"

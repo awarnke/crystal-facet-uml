@@ -21,7 +21,7 @@ void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ )
 }
 
 void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *this_,
-                                                  pencil_layout_data_t *layout_data,
+                                                  layout_visible_set_t *layout_data,
                                                   geometry_point_t target_point,
                                                   uint32_t solutions_count,
                                                   const geometry_rectangle_t solutions[],
@@ -34,7 +34,7 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
 
     /* get draw area */
     const layout_diagram_t *const diagram_layout
-        = pencil_layout_data_get_diagram_ptr( layout_data );
+        = layout_visible_set_get_diagram_ptr( layout_data );
     const geometry_rectangle_t *const diagram_draw_area
         = layout_diagram_get_draw_area_const( diagram_layout );
 
@@ -64,11 +64,11 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
 
         /* iterate over all classifiers */
         const uint32_t count_clasfy
-            = pencil_layout_data_get_visible_classifier_count ( layout_data );
+            = layout_visible_set_get_visible_classifier_count ( layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
             const layout_visible_classifier_t *const probe_classifier
-                = pencil_layout_data_get_visible_classifier_ptr( layout_data, clasfy_index );
+                = layout_visible_set_get_visible_classifier_ptr( layout_data, clasfy_index );
 
             const geometry_rectangle_t *const classifier_symbol_box
                 = layout_visible_classifier_get_symbol_box_const( probe_classifier );
@@ -93,11 +93,11 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
 
         /* iterate over all features */
         const uint32_t count_feat
-            = pencil_layout_data_get_feature_count ( layout_data );
+            = layout_visible_set_get_feature_count ( layout_data );
         for ( uint32_t feat_index = 0; feat_index < count_feat; feat_index ++ )
         {
             const layout_feature_t *const probe_feature
-                = pencil_layout_data_get_feature_ptr( layout_data, feat_index );
+                = layout_visible_set_get_feature_ptr( layout_data, feat_index );
             const data_feature_t *const probe_f_data
                 = layout_feature_get_data_const( probe_feature );
 
@@ -125,12 +125,12 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
 
         /* iterate over all relationships */
         const uint32_t count_relations
-            = pencil_layout_data_get_relationship_count ( layout_data );
+            = layout_visible_set_get_relationship_count ( layout_data );
         for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
         {
             /* add debts if intersects */
             const layout_relationship_t *const probe_relationship
-                = pencil_layout_data_get_relationship_ptr( layout_data, rel_index );
+                = layout_visible_set_get_relationship_ptr( layout_data, rel_index );
             if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( probe_relationship ) )
                 || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( probe_relationship ) ))
             {
