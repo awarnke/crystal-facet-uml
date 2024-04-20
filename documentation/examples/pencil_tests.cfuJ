@@ -9946,6 +9946,25 @@
     },
     {
       "relationship": {
+        "id": 133,
+        "main_type": 221,
+        "type": "Message",
+        "name": "GET https://andreaswarnke.de/crystal-facet-uml",
+        "description": [
+                ""
+        ],
+        "list_order": 1804816559,
+        "from_classifier_name": "c4",
+        "from_feature_key": "",
+        "to_classifier_name": "gray",
+        "to_feature_key": "",
+        "from_node": "9faad1a1-c017-4350-b9e3-e622d8d7befa",
+        "to_node": "a808b055-01cf-4ccc-8d5d-d791cc6cf247",
+        "uuid": "75ec0842-6cfc-4f20-a017-c1993ffc848b"
+      }
+    },
+    {
+      "relationship": {
         "id": 6,
         "main_type": 0,
         "type": "Dependency",

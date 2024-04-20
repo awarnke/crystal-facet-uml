@@ -111,10 +111,15 @@ void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_la
             u8_error_t name_err = U8_ERROR_NONE;
             utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
 
+            /* append parts to name and insert linebreaks */
+            utf8stringview_t rel_name = UTF8STRINGVIEW_STR( data_relationship_get_name_const( relationship ) );
+            name_err |= draw_line_breaker_append( &((*this_).linebr), &rel_name, to_name );
+            const utf8stringview_t name = utf8stream_writemem_get_view( &((*this_).text_builder) );
+
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text( font_layout,
-                                   data_relationship_get_name_const( relationship ),
-                                   DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
+                                   utf8stringview_get_start( &name ),
+                                   utf8stringview_get_length( &name )
                                  );
             pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
@@ -259,14 +264,19 @@ void draw_relationship_label_draw_type_and_name ( draw_relationship_label_t *thi
         u8_error_t name_err = U8_ERROR_NONE;
         utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
 
+        /* append parts to name and insert linebreaks */
+        utf8stringview_t rel_name = UTF8STRINGVIEW_STR( data_relationship_get_name_const( relationship ) );
+        name_err |= draw_line_breaker_append( &((*this_).linebr), &rel_name, to_name );
+        const utf8stringview_t name = utf8stream_writemem_get_view( &((*this_).text_builder) );
+
         int text2_height;
         int text2_width;
         const double f_size = pencil_size_get_standard_font_size( pencil_size );
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
         pango_layout_set_text( font_layout,
-                               data_relationship_get_name_const( relationship ),
-                               DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH
+                               utf8stringview_get_start( &name ),
+                               utf8stringview_get_length( &name )
                              );
         pango_layout_set_width(font_layout, (text_width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
