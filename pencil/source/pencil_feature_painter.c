@@ -1,7 +1,7 @@
 /* File: pencil_feature_painter.c; Copyright and License: see below */
 
 #include "pencil_feature_painter.h"
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>

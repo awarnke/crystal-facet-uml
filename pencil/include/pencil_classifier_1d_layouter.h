@@ -13,7 +13,7 @@
 
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"

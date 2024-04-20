@@ -2,7 +2,7 @@
 
 #include "draw_svg_path_data.h"
 #include "draw/draw_stereotype_image.h"
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdio.h>

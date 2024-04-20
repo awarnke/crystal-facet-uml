@@ -1,7 +1,7 @@
 /* File: pencil_relationship_painter.c; Copyright and License: see below */
 
 #include "pencil_relationship_painter.h"
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "u8/u8_trace.h"
 #include "utf8stringbuf/utf8string.h"
 #include <pango/pangocairo.h>

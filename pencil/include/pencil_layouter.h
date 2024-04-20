@@ -12,7 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_feature_painter.h"
 #include "pencil_feature_layouter.h"

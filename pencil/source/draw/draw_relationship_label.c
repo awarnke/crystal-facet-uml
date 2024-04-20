@@ -116,13 +116,13 @@ void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_la
             name_err |= draw_line_breaker_append( &((*this_).linebr), &rel_name, to_name );
             const utf8stringview_t name = utf8stream_writemem_get_view( &((*this_).text_builder) );
 
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text( font_layout,
                                    utf8stringview_get_start( &name ),
                                    utf8stringview_get_length( &name )
                                  );
-            pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
-            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+            pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
+            pango_layout_get_pixel_size( font_layout, &text2_width, &text2_height );
             text2_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
             text2_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
 

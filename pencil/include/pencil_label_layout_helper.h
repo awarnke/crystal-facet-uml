@@ -9,7 +9,7 @@
  *  \brief Evaluates proposed label positions in a diagram
  */
 
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_point.h"
 /* #include "geometry/geometry_anchor.h" */

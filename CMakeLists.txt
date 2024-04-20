@@ -65,6 +65,7 @@ FILE(GLOB commonSource gui/source/*.c
                        u8stream/source/u8/*.c
                        pencil/source/*.c
                        pencil/source/geometry/*.c
+                       pencil/source/layout/*.c
                        pencil/source/draw/*.c
                        io/source/*.c
                        io/source/image/*.c

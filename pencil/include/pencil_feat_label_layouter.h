@@ -10,7 +10,7 @@
  */
 
 #include "pencil_size.h"
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "pencil_label_layout_helper.h"
 #include "draw/draw_feature_label.h"
 #include "geometry/geometry_rectangle.h"

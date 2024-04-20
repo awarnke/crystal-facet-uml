@@ -1,7 +1,7 @@
 /* File: pencil_layout_data_test.c; Copyright and License: see below */
 
 #include "pencil_layout_data_test.h"
-#include "pencil_layout_data.h"
+#include "layout/pencil_layout_data.h"
 #include "set/data_visible_set.h"
 #include "test_fixture.h"
 #include "test_expect.h"
