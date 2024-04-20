@@ -76,7 +76,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
+void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
                                        const layout_visible_classifier_t *layouted_classifier,
                                        data_id_t mark_focused,
                                        data_id_t mark_highlighted,
@@ -103,7 +103,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
  *  \param io_classifier_layout classifier layout of which the box coordinates shall be modified. Must not be NULL.
  *  \return 0 in case of success, 1 in case of additionally needed width by label text
  */
-int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t *this_,
+int pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
                                               const geometry_rectangle_t *space,
                                               bool shows_contained_children,
                                               const data_profile_part_t *profile,
@@ -127,7 +127,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
  *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
  *  \return 0 in case of success, 1 in case of additionally needed width or height
  */
-int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_composer_t *this_,
+int pencil_classifier_composer_set_envelope_box ( pencil_classifier_composer_t *this_,
                                                   const geometry_rectangle_t *envelope,
                                                   bool shows_contained_children,
                                                   const data_profile_part_t *profile,
@@ -153,7 +153,7 @@ int pencil_classifier_composer_set_envelope_box ( const pencil_classifier_compos
  *  \param out_label_compartment position and dimensions of label compartment (width as the inner_area if fitting, may contain an icon)
  *  \return 0 in case of success, 1 in case of additionally needed width or height
  */
-int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
+int pencil_classifier_composer_private_get_label_box ( pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
                                                        bool with_stereotype,

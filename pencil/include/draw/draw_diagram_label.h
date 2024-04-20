@@ -37,14 +37,14 @@ typedef struct draw_diagram_label_struct draw_diagram_label_t;
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_diagram_label_init( draw_diagram_label_t *this_ );
+void draw_diagram_label_init( draw_diagram_label_t *this_ );
 
 /*!
  *  \brief destroys the draw_diagram_label_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_diagram_label_destroy( draw_diagram_label_t *this_ );
+void draw_diagram_label_destroy( draw_diagram_label_t *this_ );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the diagram.
@@ -87,8 +87,6 @@ void draw_diagram_label_draw_type_and_name( const draw_diagram_label_t *this_,
                                             PangoLayout *font_layout,
                                             cairo_t *cr
                                           );
-
-#include "draw_diagram_label.inl"
 
 #endif  /* DRAW_DIAGRAM_LABEL_H */
 

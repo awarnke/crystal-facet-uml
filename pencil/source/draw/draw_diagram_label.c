@@ -14,6 +14,16 @@
 
 static const int DRAW_DIAGRAM_PANGO_AUTO_DETECT_LENGTH = -1;
 
+void draw_diagram_label_init( draw_diagram_label_t *this_ )
+{
+    draw_stereotype_image_init( &((*this_).image_renderer) );
+}
+
+void draw_diagram_label_destroy( draw_diagram_label_t *this_ )
+{
+    draw_stereotype_image_destroy( &((*this_).image_renderer) );
+}
+
 void draw_diagram_label_get_type_and_name_dimensions ( const draw_diagram_label_t *this_,
                                                        const data_diagram_t *diagram,
                                                        const data_profile_part_t *profile,

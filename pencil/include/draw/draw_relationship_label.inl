@@ -3,16 +3,6 @@
 #include "u8/u8_log.h"
 #include <assert.h>
 
-static inline void draw_relationship_label_init( draw_relationship_label_t *this_ )
-{
-    draw_stereotype_image_init( &((*this_).image_renderer) );
-}
-
-static inline void draw_relationship_label_destroy( draw_relationship_label_t *this_ )
-{
-    draw_stereotype_image_destroy( &((*this_).image_renderer) );
-}
-
 static inline char const * draw_relationship_label_private_stereotype_from_type( const draw_relationship_label_t *this_,
                                                                                  data_relationship_type_t rel_type )
 {

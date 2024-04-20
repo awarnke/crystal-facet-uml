@@ -1,7 +1,6 @@
   /* File: draw_relationship_label.c; Copyright and License: see below */
 
 #include "draw/draw_relationship_label.h"
-#include "draw/draw_line_breaker.h"
 #include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
@@ -19,7 +18,25 @@ static const int DRAW_RELATIONSHIP_PANGO_AUTO_DETECT_LENGTH = -1;
 #define DRAW_RELATIONSHIP_LEFT_GUILLEMENTS "\xc2\xab"
 #define DRAW_RELATIONSHIP_RIGHT_GUILLEMENTS "\xc2\xbb"
 
-void draw_relationship_label_get_type_and_name_dimensions ( const draw_relationship_label_t *this_,
+void draw_relationship_label_init( draw_relationship_label_t *this_ )
+{
+    utf8stream_writemem_init( &((*this_).text_builder), &((*this_).text_buffer), sizeof( (*this_).text_buffer) );
+    draw_line_breaker_init( &((*this_).linebr) );
+    draw_stereotype_image_init( &((*this_).image_renderer) );
+}
+
+void draw_relationship_label_destroy( draw_relationship_label_t *this_ )
+{
+    draw_line_breaker_destroy( &((*this_).linebr) );
+    const u8_error_t text_err = utf8stream_writemem_destroy( &((*this_).text_builder) );
+    if ( text_err != U8_ERROR_NONE )
+    {
+        U8_LOG_WARNING_HEX( "error at draw/draw_classifier_label: buffer too small", text_err );
+    }
+    draw_stereotype_image_destroy( &((*this_).image_renderer) );
+}
+
+void draw_relationship_label_get_type_and_name_dimensions ( draw_relationship_label_t *this_,
                                                             const data_relationship_t *relationship,
                                                             const data_profile_part_t *profile,
                                                             const geometry_dimensions_t *proposed_bounds,
@@ -91,6 +108,9 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
         int text2_width = 0;
         if ( 0 != utf8string_get_length( data_relationship_get_name_const( relationship ) ))
         {
+            u8_error_t name_err = U8_ERROR_NONE;
+            utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text( font_layout,
                                    data_relationship_get_name_const( relationship ),
@@ -100,8 +120,16 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
             text2_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
             text2_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
+
             /* restore pango context */
             pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);
+
+            /* cleanup the text_builder */
+            name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+            if ( name_err != U8_ERROR_NONE )
+            {
+                U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
+            }
         }
 
         *out_label_dim = (geometry_dimensions_t){
@@ -117,7 +145,7 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
     U8_TRACE_END();
 }
 
-void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_t *this_,
+void draw_relationship_label_draw_type_and_name ( draw_relationship_label_t *this_,
                                                   const data_relationship_t *relationship,
                                                   const data_profile_part_t *profile,
                                                   const GdkRGBA *color,
@@ -228,6 +256,9 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     /* draw name text */
     if ( 0 != utf8string_get_length( data_relationship_get_name_const( relationship ) ))
     {
+        u8_error_t name_err = U8_ERROR_NONE;
+        utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
         int text2_height;
         int text2_width;
         const double f_size = pencil_size_get_standard_font_size( pencil_size );
@@ -249,6 +280,13 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
 
         /* restore pango context */
         pango_layout_set_width(font_layout, DRAW_RELATIONSHIP_PANGO_UNLIMITED_WIDTH);
+
+        /* cleanup the text_builder */
+        name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+        if ( name_err != U8_ERROR_NONE )
+        {
+            U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
+        }
     }
 
     U8_TRACE_END();

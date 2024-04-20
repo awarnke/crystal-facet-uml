@@ -1,7 +1,6 @@
 /* File: draw_feature_label.c; Copyright and License: see below */
 
 #include "draw/draw_feature_label.h"
-#include "draw/draw_line_breaker.h"
 #include "u8/u8_trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
@@ -14,9 +13,26 @@
 #include <assert.h>
 
 static const int DRAW_FEATURE_PANGO_UNLIMITED_WIDTH = -1;
-static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
-void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_t *this_,
+void draw_feature_label_init( draw_feature_label_t *this_ )
+{
+    utf8stream_writemem_init( &((*this_).text_builder), &((*this_).text_buffer), sizeof( (*this_).text_buffer) );
+    draw_line_breaker_init( &((*this_).linebr) );
+    draw_stereotype_image_init( &((*this_).image_renderer) );
+}
+
+void draw_feature_label_destroy( draw_feature_label_t *this_ )
+{
+    draw_line_breaker_destroy( &((*this_).linebr) );
+    const u8_error_t text_err = utf8stream_writemem_destroy( &((*this_).text_builder) );
+    if ( text_err != U8_ERROR_NONE )
+    {
+        U8_LOG_WARNING_HEX( "error at draw/draw_classifier_label: buffer too small", text_err );
+    }
+    draw_stereotype_image_destroy( &((*this_).image_renderer) );
+}
+
+void draw_feature_label_get_key_and_value_dimensions ( draw_feature_label_t *this_,
                                                        const data_feature_t *feature,
                                                        const data_profile_part_t *profile,
                                                        const geometry_dimensions_t *proposed_bounds,
@@ -51,24 +67,39 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
         if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (feature) )
         {
             /* prepare text */
-            char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
-            utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-            utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( feature ) );
+            u8_error_t name_err = U8_ERROR_NONE;
+            utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
+            /* append parts to name and insert linebreaks */
+            utf8stringview_t feat_key = UTF8STRINGVIEW_STR( data_feature_get_key_const( feature ) );
+            name_err |= draw_line_breaker_append( &((*this_).linebr), &feat_key, to_name );
             if ( data_feature_has_value( feature ) && ( ! has_stereotype_image ) )
             {
-                utf8stringbuf_append_str( label_buf, ": " );
-                utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );
+                name_err |= utf8stream_writer_write_str( to_name, ": " );
+                utf8stringview_t feat_value = UTF8STRINGVIEW_STR( data_feature_get_value_const( feature ) );
+                name_err |= draw_line_breaker_append( &((*this_).linebr), &feat_value, to_name );
             }
+            const utf8stringview_t name = utf8stream_writemem_get_view( &((*this_).text_builder) );
 
             /* determine text width and height */
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-            pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
-            pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
+            pango_layout_set_font_description( font_layout, pencil_size_get_standard_font_description( pencil_size ) );
+            pango_layout_set_text( font_layout,
+                                   utf8stringview_get_start( &name ),
+                                   utf8stringview_get_length( &name )
+                                 );
+            pango_layout_set_width( font_layout, proposed_pango_width * PANGO_SCALE );
+            pango_layout_get_pixel_size( font_layout, &text_width, &text_height );
             text_height += PENCIL_SIZE_FONT_ALIGN_MARGIN;  /* allow to align font with pixel border */
             text_width += PENCIL_SIZE_FONT_ALIGN_MARGIN;
             /* restore pango context */
-            pango_layout_set_width(font_layout, DRAW_FEATURE_PANGO_UNLIMITED_WIDTH);
+            pango_layout_set_width( font_layout, DRAW_FEATURE_PANGO_UNLIMITED_WIDTH );
+
+            /* cleanup the text_builder */
+            name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+            if ( name_err != U8_ERROR_NONE )
+            {
+                U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
+            }
         }
 
         *out_label_dim = (geometry_dimensions_t) {
@@ -84,7 +115,7 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
     U8_TRACE_END();
 }
 
-void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
+void draw_feature_label_draw_key_and_value ( draw_feature_label_t *this_,
                                              const data_feature_t *feature,
                                              const data_profile_part_t *profile,
                                              const GdkRGBA *color,
@@ -154,19 +185,27 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
     if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (feature) )
     {
         /* prepare text */
-        char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
-        utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-        utf8stringbuf_copy_str( label_buf, data_feature_get_key_const( feature ) );
+        u8_error_t name_err = U8_ERROR_NONE;
+        utf8stream_writer_t *to_name = utf8stream_writemem_get_writer( &((*this_).text_builder) );
+
+        /* append parts to name and insert linebreaks */
+        utf8stringview_t feat_key = UTF8STRINGVIEW_STR( data_feature_get_key_const( feature ) );
+        name_err |= draw_line_breaker_append( &((*this_).linebr), &feat_key, to_name );
         if ( data_feature_has_value( feature ) && ( ! has_stereotype_image ) )
         {
-            utf8stringbuf_append_str( label_buf, ": " );
-            utf8stringbuf_append_str( label_buf, data_feature_get_value_const( feature ) );
+            name_err |= utf8stream_writer_write_str( to_name, ": " );
+            utf8stringview_t feat_value = UTF8STRINGVIEW_STR( data_feature_get_value_const( feature ) );
+            name_err |= draw_line_breaker_append( &((*this_).linebr), &feat_value, to_name );
         }
+        const utf8stringview_t name = utf8stream_writemem_get_view( &((*this_).text_builder) );
 
         const double f_size = pencil_size_get_standard_font_size( pencil_size );
         cairo_set_source_rgba( cr, color->red, color->green, color->blue, color->alpha );
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, utf8stringbuf_get_string( label_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+        pango_layout_set_text (font_layout,
+                               utf8stringview_get_start( &name ),
+                               utf8stringview_get_length( &name )
+                             );
         pango_layout_set_width(font_layout, (text_width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
 
         /* draw text */
@@ -175,6 +214,13 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
 
         /* restore pango context */
         pango_layout_set_width(font_layout, DRAW_FEATURE_PANGO_UNLIMITED_WIDTH);
+
+        /* cleanup the text_builder */
+        name_err |= utf8stream_writemem_reset( &((*this_).text_builder) );
+        if ( name_err != U8_ERROR_NONE )
+        {
+            U8_LOG_WARNING_HEX( "error at get_dim/draw_line_breaker_append", name_err );
+        }
     }
 
     U8_TRACE_END();

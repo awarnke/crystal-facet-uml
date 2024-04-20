@@ -13,6 +13,7 @@
 
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8stringview.h"
+#include "utf8stream/utf8stream_writer.h"
 #include <stdbool.h>
 
 /*!

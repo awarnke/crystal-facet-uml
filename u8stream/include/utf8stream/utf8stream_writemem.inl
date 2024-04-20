@@ -29,6 +29,15 @@ static inline u8_error_t utf8stream_writemem_destroy( utf8stream_writemem_t *thi
     return err;
 }
 
+static inline u8_error_t utf8stream_writemem_reset ( utf8stream_writemem_t *this_ )
+{
+    u8_error_t err = (*this_).lazy_err;
+    (*this_).lazy_err = U8_ERROR_NONE;
+    err |= utf8stream_writer_flush( &((*this_).writer) );
+    err |= universal_memory_output_stream_reset( &((*this_).mem_output) );
+    return err;
+}
+
 static inline utf8stream_writer_t * utf8stream_writemem_get_writer( utf8stream_writemem_t *this_ )
 {
     return &((*this_).writer);

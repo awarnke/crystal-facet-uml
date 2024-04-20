@@ -38,7 +38,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
     U8_TRACE_END();
 }
 
-void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
+void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
                                        const layout_visible_classifier_t *layouted_classifier,
                                        data_id_t mark_focused,
                                        data_id_t mark_highlighted,
@@ -503,7 +503,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     U8_TRACE_END();
 }
 
-int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t *this_,
+int pencil_classifier_composer_expand_space ( pencil_classifier_composer_t *this_,
                                               const geometry_rectangle_t *space,
                                               bool shows_contained_children,
                                               const data_profile_part_t *profile,
@@ -661,7 +661,7 @@ int pencil_classifier_composer_expand_space ( const pencil_classifier_composer_t
     return area_too_small;
 }
 
-int pencil_classifier_composer_set_envelope_box( const pencil_classifier_composer_t *this_,
+int pencil_classifier_composer_set_envelope_box( pencil_classifier_composer_t *this_,
                                                  const geometry_rectangle_t *envelope,
                                                  bool shows_contained_children,
                                                  const data_profile_part_t *profile,
@@ -825,7 +825,7 @@ int pencil_classifier_composer_set_envelope_box( const pencil_classifier_compose
     return area_too_small;
 }
 
-int pencil_classifier_composer_private_get_label_box ( const pencil_classifier_composer_t *this_,
+int pencil_classifier_composer_private_get_label_box ( pencil_classifier_composer_t *this_,
                                                        const data_visible_classifier_t *visible_classifier,
                                                        bool shows_contained_children,
                                                        bool with_stereotype,

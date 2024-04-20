@@ -11,6 +11,7 @@
  *  This class does not show stereotype images, only their textual representation.
  */
 
+#include "draw/draw_line_breaker.h"
 #include "pencil_size.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
@@ -18,6 +19,7 @@
 #include "geometry/geometry_dimensions.h"
 #include "data_rules.h"
 #include "set/data_visible_classifier.h"
+#include "utf8stream/utf8stream_writemem.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -28,7 +30,9 @@
  *        It may either be instantiated once and used many times or be instantiated per use.
  */
 struct draw_classifier_label_struct {
-    int dummy;  /*!< This object is a collection of stateless drawing functions */
+    char text_buffer[ ( DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ) * 4 ];  /*!< +1 for colon, x4 because any character may be followed by a 3-byte space */
+    utf8stream_writemem_t text_builder;  /*!< a pair of utf8stream_writer_t and universal_memory_output_stream_t to build an output text */
+    draw_line_breaker_t linebr;  /*!< An object to insert zero-width spaces (a 3 byte utf8 sequence) wherever a linebreak is allowed */
 };
 
 typedef struct draw_classifier_label_struct draw_classifier_label_t;
@@ -38,14 +42,14 @@ typedef struct draw_classifier_label_struct draw_classifier_label_t;
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_classifier_label_init( draw_classifier_label_t *this_ );
+void draw_classifier_label_init( draw_classifier_label_t *this_ );
 
 /*!
  *  \brief destroys the draw_classifier_label_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_classifier_label_destroy( draw_classifier_label_t *this_ );
+void draw_classifier_label_destroy( draw_classifier_label_t *this_ );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
@@ -58,7 +62,7 @@ static inline void draw_classifier_label_destroy( draw_classifier_label_t *this_
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_label_dim width and height of the type and name is returned. NULL is not permitted.
  */
-void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classifier_label_t *this_,
+void draw_classifier_label_get_stereotype_and_name_dimensions( draw_classifier_label_t *this_,
                                                                const data_visible_classifier_t *visible_classifier,
                                                                bool with_stereotype,
                                                                const geometry_dimensions_t *proposed_bounds,
@@ -79,7 +83,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param cr the cairo drawing context.
  */
-void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label_t *this_,
+void draw_classifier_label_draw_stereotype_and_name( draw_classifier_label_t *this_,
                                                      const data_visible_classifier_t *visible_classifier,
                                                      bool with_stereotype,
                                                      const GdkRGBA *color,
@@ -88,8 +92,6 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
                                                      PangoLayout *font_layout,
                                                      cairo_t *cr
                                                    );
-
-#include "draw_classifier_label.inl"
 
 #endif  /* DRAW_CLASSIFIER_LABEL_H */
 

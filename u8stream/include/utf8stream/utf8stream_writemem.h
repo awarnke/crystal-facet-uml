@@ -50,6 +50,17 @@ static inline void utf8stream_writemem_init ( utf8stream_writemem_t *this_, void
 static inline u8_error_t utf8stream_writemem_destroy ( utf8stream_writemem_t *this_ );
 
 /*!
+ *  \brief resets the utf8stream_writemem_t to an empty buffer
+ *
+ *  Even if an error is returned, the utf8stream_writemem_t is reset and can be used.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_FILE_WRITE otherwise.
+ *          Also a previous error that was not yet reported may be returned now.
+ */
+static inline u8_error_t utf8stream_writemem_reset ( utf8stream_writemem_t *this_ );
+
+/*!
  *  \brief gets a pointer to the own writer
  *
  *  \param this_ pointer to own object attributes
