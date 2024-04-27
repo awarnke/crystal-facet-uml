@@ -7168,8 +7168,19 @@
         "type": "Component",
         "name": "pencil",
         "description": [
-                "- renders diagrams to cairo drawing contexts\n",
-                "- highlights uml-elements as requested by the gui module"
+                "- renders diagrams to cairo drawing contexts:\n",
+                "    this includes\n",
+                "    - definnig a grid and\n",
+                "      layouting the ekements and\n",
+                "    - drawing the elements\n",
+                "- supports user interaction:\n",
+                "    this includes\n",
+                "    - highlighting of uml-elements\n",
+                "      as requested by the gui module,\n",
+                "    - allowing the gui module to re-position\n",
+                "      the uml-elements\n",
+                "    - providing the layout positions\n",
+                "      to the gui module"
         ],
         "x_order": -1429582248,
         "y_order": -1300007225,

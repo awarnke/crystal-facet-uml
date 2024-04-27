@@ -182,7 +182,7 @@ static test_case_result_t test_empty_model( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_visible_classifier_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_feature_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( ! layout_visible_set_is_valid( &testee ) );
+    TEST_EXPECT ( ! layout_visible_set_is_consistent( &testee ) );
 
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(0,10,10);
@@ -192,7 +192,7 @@ static test_case_result_t test_empty_model( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_visible_classifier_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_feature_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( 0, layout_visible_set_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_consistent( &testee ) );
 
     layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;
@@ -213,7 +213,7 @@ static test_case_result_t test_normal_model( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 15, layout_visible_set_get_visible_classifier_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( 30*DUPLICATE_PARENT_CLASSIFIER, layout_visible_set_get_feature_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( 20*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, layout_visible_set_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_consistent( &testee ) );
 
     layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;
@@ -233,7 +233,7 @@ static test_case_result_t test_too_big_model( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, layout_visible_set_get_visible_classifier_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( LAYOUT_VISIBLE_SET_MAX_FEATURES, layout_visible_set_get_feature_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( LAYOUT_VISIBLE_SET_MAX_RELATIONSHIPS, layout_visible_set_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_consistent( &testee ) );
 
     layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;
@@ -260,7 +260,7 @@ static test_case_result_t test_inconsistent_model( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 5, layout_visible_set_get_visible_classifier_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( (5-1)*DUPLICATE_PARENT_CLASSIFIER, layout_visible_set_get_feature_count ( &testee ) );
     TEST_EXPECT_EQUAL_INT( (5-3)*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, layout_visible_set_get_relationship_count ( &testee ) );
-    TEST_EXPECT ( layout_visible_set_is_valid( &testee ) );
+    TEST_EXPECT ( layout_visible_set_is_consistent( &testee ) );
 
     layout_visible_set_destroy( &testee );
     return TEST_CASE_RESULT_OK;

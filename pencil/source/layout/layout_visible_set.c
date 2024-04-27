@@ -25,7 +25,7 @@ void layout_visible_set_init( layout_visible_set_t *this_, const data_visible_se
 
     if ( data_visible_set_is_valid( input_data ) )
     {
-        assert ( layout_visible_set_is_valid( this_ ) );
+        assert ( layout_visible_set_is_consistent( this_ ) );
     }
     U8_TRACE_END();
 }
@@ -439,7 +439,7 @@ void layout_visible_set_destroy( layout_visible_set_t *this_ )
 
 /* ================================ misc ================================ */
 
-bool layout_visible_set_is_valid ( const layout_visible_set_t *this_ )
+bool layout_visible_set_is_consistent ( const layout_visible_set_t *this_ )
 {
     bool result = true;
 

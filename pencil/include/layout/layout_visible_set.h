@@ -113,6 +113,16 @@ void layout_visible_set_destroy( layout_visible_set_t *this_ );
  */
 static inline void layout_visible_set_resync( layout_visible_set_t *this_ );
 
+/*!
+ *  \brief checks if this set contains valid layout data for a diagram
+ *
+ *  This function checks if the data was initialized - it does not perform a consistency check.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if this object contains valid layout data
+ */
+static inline bool layout_visible_set_is_valid( const layout_visible_set_t *this_ );
+
 /* ================================ diagram ================================ */
 
 /*!
@@ -273,7 +283,7 @@ static inline uint32_t layout_visible_set_count_descendants ( const layout_visib
  *  \param this_ pointer to own object attributes
  *  \return true if this_ contains valid data for sketching a diagram
  */
-bool layout_visible_set_is_valid ( const layout_visible_set_t *this_ );
+bool layout_visible_set_is_consistent ( const layout_visible_set_t *this_ );
 
 /*!
  *  \brief gets statistics on layout_visible_set.

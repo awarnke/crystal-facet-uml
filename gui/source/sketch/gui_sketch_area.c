@@ -558,6 +558,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     /* draw all cards, backwards */
     for ( signed int card_idx = (*this_).card_num-1; card_idx >= 0; card_idx -- )
     {
+        gui_sketch_card_draw_paper( &((*this_).cards[card_idx]), cr );
         gui_sketch_card_draw( &((*this_).cards[card_idx]), (*this_).marker, cr );
     }
 

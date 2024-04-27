@@ -14,6 +14,11 @@ static inline void layout_visible_set_resync( layout_visible_set_t *this_ )
     layout_visible_set_reinit( this_, (*this_).input_data );
 }
 
+static inline bool layout_visible_set_is_valid( const layout_visible_set_t *this_ )
+{
+    return (*this_).diagram_valid;
+}
+
 /* ================================ diagram ================================ */
 
 static inline layout_diagram_t *layout_visible_set_get_diagram_ptr ( layout_visible_set_t *this_ )

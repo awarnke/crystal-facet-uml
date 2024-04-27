@@ -40,29 +40,24 @@ static const double WHITE_G = 1.0;
 static const double WHITE_B = 1.0;
 static const double WHITE_A = 1.0;
 
-void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
+void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_, cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
     if ( (*this_).visible )
     {
-        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
-        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
-        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
-
-        /* get marked ids */
-        const data_id_t mark_focused = gui_marked_set_get_focused_obj( marker );
-        const data_id_t mark_highlighted = gui_marked_set_get_highlighted( marker );
-        const data_small_set_t *mark_selected_set = gui_marked_set_get_selected_set_const( marker );
-
         /* layout elements if necessary */
         if ( (*this_).dirty_elements_layout )
         {
             pencil_diagram_maker_layout_elements ( &((*this_).painter), NULL, cr );
             (*this_).dirty_elements_layout = false;
         }
+
+        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
         /* draw paper */
         cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
@@ -73,6 +68,49 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         /* draw warnings at overlaps in debug mode */
         pencil_diagram_maker_show_overlaps ( &((*this_).painter), NULL, cr );
 #endif
+
+        const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+        if ( layout_visible_set_is_valid( layout ) )
+        {
+            const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layout );
+
+            const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
+            const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag_data );
+            const geometry_rectangle_t *const diag_bounds = layout_diagram_get_bounds_const( layout_diag );
+            const geometry_rectangle_t *const diag_space = layout_diagram_get_draw_area_const( layout_diag );
+
+            cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, WHITE_A );
+            cairo_rectangle( cr,
+                             geometry_rectangle_get_left( diag_space ),
+                             geometry_rectangle_get_top( diag_space ),
+                             geometry_rectangle_get_width( diag_space ),
+                             geometry_rectangle_get_height( diag_space )
+                           );
+            cairo_fill (cr);
+        }
+    }
+
+    U8_TRACE_END();
+}
+
+void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != cr );
+
+    if ( (*this_).visible )
+    {
+        /* layout elements if necessary */
+        if ( (*this_).dirty_elements_layout )
+        {
+            pencil_diagram_maker_layout_elements ( &((*this_).painter), NULL, cr );
+            (*this_).dirty_elements_layout = false;
+        }
+
+        /* get marked ids */
+        const data_id_t mark_focused = gui_marked_set_get_focused_obj( marker );
+        const data_id_t mark_highlighted = gui_marked_set_get_highlighted( marker );
+        const data_small_set_t *mark_selected_set = gui_marked_set_get_selected_set_const( marker );
 
         /* draw highlighting */
         const data_diagram_t *const diag = data_visible_set_get_diagram_const ( &((*this_).painter_input_data) );
@@ -291,4 +329,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-

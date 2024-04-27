@@ -113,6 +113,16 @@ static inline bool gui_sketch_card_is_visible( const gui_sketch_card_t *this_ );
 static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool visible );
 
 /*!
+ *  \brief draws the background of a single diagram
+ *
+ *  If gui_sketch_card_is_visible() is false, this method does nothing.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_, cairo_t *cr );
+
+/*!
  *  \brief draws a single diagram
  *
  *  If gui_sketch_card_is_visible() is false, this method does nothing.
