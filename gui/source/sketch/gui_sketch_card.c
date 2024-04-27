@@ -40,7 +40,10 @@ static const double WHITE_G = 1.0;
 static const double WHITE_B = 1.0;
 static const double WHITE_A = 1.0;
 
-void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_, cairo_t *cr )
+void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
+                                 gui_tool_t selected_tool,
+                                 const gui_sketch_drag_state_t *drag_state,
+                                 cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
@@ -69,8 +72,9 @@ void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_, cairo_t *cr )
         pencil_diagram_maker_show_overlaps ( &((*this_).painter), NULL, cr );
 #endif
 
+        const bool create_tool = ( selected_tool == GUI_TOOL_CREATE );
         const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
-        if ( layout_visible_set_is_valid( layout ) )
+        if ( layout_visible_set_is_valid( layout ) && create_tool )
         {
             const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layout );
 
@@ -93,7 +97,7 @@ void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_, cairo_t *cr )
     U8_TRACE_END();
 }
 
-void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
+void gui_sketch_card_draw( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
@@ -134,9 +138,9 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
     U8_TRACE_END();
 }
 
-void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
-                                            data_id_t obj_id,
-                                            const layout_order_t *order )
+void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
+                                           data_id_t obj_id,
+                                           const layout_order_t *order )
 {
     U8_TRACE_BEGIN();
     assert( NULL != order );

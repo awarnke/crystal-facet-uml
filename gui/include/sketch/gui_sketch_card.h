@@ -10,7 +10,9 @@
 
 #include "sketch/gui_sketch_marker.h"
 #include "sketch/gui_sketch_snap_state.h"
+#include "sketch/gui_sketch_drag_state.h"
 #include "gui_marked_set.h"
+#include "gui_tool.h"
 #include "shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
@@ -118,9 +120,15 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
  *  If gui_sketch_card_is_visible() is false, this method does nothing.
  *
  *  \param this_ pointer to own object attributes
+ *  \param selected_tool currently selected tool/edit-mode
+ *  \param drag_state current dragging status
  *  \param cr cairo drawing context
  */
-void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_, cairo_t *cr );
+void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_,
+                                  gui_tool_t selected_tool,
+                                  const gui_sketch_drag_state_t *drag_state,
+                                  cairo_t *cr
+                                );
 
 /*!
  *  \brief draws a single diagram
