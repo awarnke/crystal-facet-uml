@@ -2472,6 +2472,13 @@
             "classifier_name": "visible_classifier",
             "node": "73338600-d624-43f6-9d30-55cb003e1f56",
             "uuid": "a05fc5ef-7c2c-45d7-97ca-aaee406fb815"
+          },
+          {
+            "id": 859,
+            "display_flags": 0,
+            "classifier_name": "layout_visible_set_t",
+            "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
+            "uuid": "8da431c6-5781-46b2-ba47-a6414b94363b"
           }
         ]
       }
@@ -3245,7 +3252,7 @@
           {
             "id": 570,
             "display_flags": 0,
-            "classifier_name": "gui_sketch _card",
+            "classifier_name": "gui_sketch_card",
             "node": "091e9bb0-dd72-4b0c-894e-ca86b34b0e07",
             "uuid": "8a1b0dbc-1c7b-40be-9d14-fd49f08c59eb"
           },
@@ -3360,7 +3367,7 @@
           {
             "id": 394,
             "display_flags": 0,
-            "classifier_name": "gui_sketch _card",
+            "classifier_name": "gui_sketch_card",
             "node": "87538a0b-c268-4bfe-a436-fde819fc8469",
             "uuid": "5624a079-1ae9-4b18-968f-52db0ebba9c6"
           }
@@ -7136,10 +7143,11 @@
         "type": "Component",
         "name": "gui",
         "description": [
-                "- allows a user \n",
-                "    - to select the database\n",
-                "    - to export diagrams\n",
-                "    - to modify the uml-model"
+                "allows a user \n",
+                "- to select the database\n",
+                "- to export diagrams in various formats\n",
+                "- to navigate and search in the uml-model\n",
+                "- to modify the uml-model interactively"
         ],
         "x_order": -550118132,
         "y_order": -1927900663,
@@ -7847,8 +7855,19 @@
         "stereotype": "abstract",
         "name": "pencil_xxx_layouter",
         "description": [
-                "- layouts multiple elements within the bounds of a diagram\n",
-                "- can convert abstract order-values to x/y coordinates and vice versa"
+                "The pencil_xxx_layouter\n",
+                "- transforms a model description of a diagram\n",
+                "  to a corresponding layout description\n",
+                "- can convert abstract order-values to x/y coordinates\n",
+                "  and vice versa\n",
+                "\n",
+                "The pencil layout package does not care about \n",
+                "- user interaction\n",
+                "- input modes like if user clicked a lifeline,\n",
+                "  then select the parent classifier instead\n",
+                "  (see gui_sketch_card in D0090#name)\n",
+                "\n",
+                ""
         ],
         "x_order": -1818442449,
         "y_order": -698109218,
@@ -8161,10 +8180,18 @@
         "id": 44,
         "main_type": 90,
         "type": "Block",
-        "name": "gui_sketch _card",
+        "name": "gui_sketch_card",
         "description": [
                 "- maintains the data of one diagram\n",
-                "- displays one diagram"
+                "- displays one diagram\n",
+                "- performs user interaction\n",
+                "  like highlighting elements under the mouse pointer\n",
+                "- handles situation-specific modes\n",
+                "  like not selecting lifelines but their classifiers instead\n",
+                "\n",
+                "The gui gui_sketch_card is not responsible for\n",
+                "- mapping ordering-hints to layout-positions\n",
+                "  (see D0047#name)"
         ],
         "x_order": -626332123,
         "y_order": 89180891,
@@ -11344,6 +11371,8 @@
         "type": "Package",
         "name": "pencil/layout",
         "description": [
+                "This package contains data objects\n",
+                "that define the layout positions of model elements.\n",
                 ""
         ],
         "x_order": -1899688922,
@@ -23985,6 +24014,23 @@
     },
     {
       "relationship": {
+        "id": 912,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1412348357,
+        "from_classifier_name": "pencil/layout",
+        "to_classifier_name": "layout_visible_set_t",
+        "from_node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
+        "to_node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
+        "uuid": "079603bf-a8e3-47ea-ac94-e19dfc13b11a"
+      }
+    },
+    {
+      "relationship": {
         "id": 271,
         "main_type": 200,
         "type": "Association",
@@ -25124,7 +25170,7 @@
         ],
         "list_order": 1411758533,
         "from_classifier_name": "sketch",
-        "to_classifier_name": "gui_sketch _card",
+        "to_classifier_name": "gui_sketch_card",
         "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
         "to_node": "091e9bb0-dd72-4b0c-894e-ca86b34b0e07",
         "uuid": "776026a1-f329-4228-a8ba-245ad9797f92"
@@ -25178,7 +25224,7 @@
         "list_order": 1298211244,
         "from_classifier_name": "sketch",
         "from_feature_key": "",
-        "to_classifier_name": "gui_sketch _card",
+        "to_classifier_name": "gui_sketch_card",
         "to_feature_key": "",
         "from_node": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48",
         "to_node": "87538a0b-c268-4bfe-a436-fde819fc8469",

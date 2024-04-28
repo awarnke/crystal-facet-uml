@@ -40,6 +40,18 @@ static const double WHITE_G = 1.0;
 static const double WHITE_B = 1.0;
 static const double WHITE_A = 1.0;
 
+typedef int gui_sketch_location_thing_t;
+
+gui_sketch_location_thing_t gui_sketch_card_get_location_thing( gui_sketch_card_t *this_, int32_t pos_x, int32_t pos_y )
+{
+
+}
+
+void gui_sketch_card_private_draw_location_space( gui_sketch_card_t *this_, gui_sketch_location_thing_t location )
+{
+
+}
+
 void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
                                  gui_tool_t selected_tool,
                                  const gui_sketch_drag_state_t *drag_state,
@@ -76,6 +88,8 @@ void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
         const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
         if ( layout_visible_set_is_valid( layout ) && create_tool )
         {
+            const int32_t mouse_x = gui_sketch_drag_state_get_to_x( drag_state );
+            const int32_t mouse_y = gui_sketch_drag_state_get_to_y( drag_state );
             const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layout );
 
             const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
