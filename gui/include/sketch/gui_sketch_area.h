@@ -320,14 +320,14 @@ static inline gui_sketch_card_t *gui_sketch_area_private_get_card_at_pos ( gui_s
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
+ *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
  *  \param[out] out_object_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param[out] out_diagram_id the diagram id at given location. The id is invalid if there is no diagram.
  */
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
-                                                                  pencil_type_filter_t filter,
+                                                                  bool filter_lifelines,
                                                                   data_full_id_t* out_object_id,
                                                                   data_id_t* out_diagram_id
                                                                 );
@@ -340,7 +340,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
+ *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
  *  \param[out] out_object_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param[out] out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
  *  \param[out] out_diagram_id the diagram id at given location. The id is invalid if there is no diagram.
@@ -348,7 +348,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
 static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_area_t *this_,
                                                                    int32_t x,
                                                                    int32_t y,
-                                                                   pencil_type_filter_t filter,
+                                                                   bool filter_lifelines,
                                                                    data_full_id_t* out_object_id,
                                                                    data_full_id_t* out_surrounding_id,
                                                                    data_id_t* out_diagram_id

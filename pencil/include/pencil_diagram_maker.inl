@@ -99,23 +99,6 @@ static inline void pencil_diagram_maker_layout_elements( pencil_diagram_maker_t 
     U8_TRACE_END();
 }
 
-static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos( const pencil_diagram_maker_t *this_,
-                                                                        double x,
-                                                                        double y,
-                                                                        pencil_type_filter_t filter,
-                                                                        data_full_id_t* out_selected_id,
-                                                                        data_full_id_t* out_surrounding_id )
-{
-    return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter),
-                                                  x,
-                                                  y,
-                                                  3.0,
-                                                  filter,
-                                                  out_selected_id,
-                                                  out_surrounding_id
-                                                );
-}
-
 static inline void pencil_diagram_maker_is_pos_on_grid( const pencil_diagram_maker_t *this_,
                                                         double x,
                                                         double y,

@@ -62,7 +62,7 @@ static inline void gui_sketch_area_private_get_diagram_and_object_id_at_pos ( gu
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
-                                                                  pencil_type_filter_t filter,
+                                                                  bool filter_lifelines,
                                                                   data_full_id_t* out_object_id,
                                                                   data_id_t* out_diagram_id )
 {
@@ -80,7 +80,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
         {
             *out_diagram_id = gui_sketch_card_get_diagram_id( card );
             data_full_id_t surrounding_id;  /* dummy */
-            gui_sketch_card_get_object_id_at_pos ( card, x, y, filter, out_object_id, &surrounding_id );
+            gui_sketch_card_get_object_id_at_pos ( card, x, y, filter_lifelines, out_object_id, &surrounding_id );
             break;
         }
     }
@@ -89,7 +89,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
 static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_area_t *this_,
                                                                    int32_t x,
                                                                    int32_t y,
-                                                                   pencil_type_filter_t filter,
+                                                                   bool filter_lifelines,
                                                                    data_full_id_t* out_object_id,
                                                                    data_full_id_t* out_surrounding_id,
                                                                    data_id_t* out_diagram_id )
@@ -109,7 +109,7 @@ static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_ar
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             *out_diagram_id = gui_sketch_card_get_diagram_id( card );
-            gui_sketch_card_get_object_id_at_pos ( card, x, y, filter, out_object_id, out_surrounding_id );
+            gui_sketch_card_get_object_id_at_pos ( card, x, y, filter_lifelines, out_object_id, out_surrounding_id );
             break;
         }
     }

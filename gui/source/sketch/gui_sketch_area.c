@@ -725,7 +725,7 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
                 gui_sketch_area_private_get_object_id_at_pos( this_,
                                                               x,
                                                               y,
-                                                              PENCIL_TYPE_FILTER_LIFELINE,
+                                                              true /* FILTER_LIFELINE */,
                                                               &object_under_mouse,
                                                               &diag_id
                                                             );
@@ -755,7 +755,7 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
             gui_sketch_area_private_get_object_id_at_pos( this_,
                                                           x,
                                                           y,
-                                                          PENCIL_TYPE_FILTER_NONE,
+                                                          false /* FILTER_LIFELINE */,
                                                           &object_under_mouse,
                                                           &diag_id
                                                         );
@@ -965,7 +965,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             gui_sketch_area_private_get_object_id_at_pos( this_,
                                                           x,
                                                           y,
-                                                          PENCIL_TYPE_FILTER_LIFELINE,
+                                                          true /* FILTER_LIFELINE */,
                                                           &focused_object,
                                                           &diag_id
                                                         );
@@ -1044,7 +1044,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 gui_sketch_area_private_get_object_ids_at_pos( this_,
                                                                x,
                                                                y,
-                                                               PENCIL_TYPE_FILTER_NONE,
+                                                               false /* FILTER_LIFELINE */,
                                                                &clicked_object,
                                                                &surrounding_object,
                                                                &diag_id
@@ -1499,7 +1499,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 gui_sketch_area_private_get_object_id_at_pos( this_,
                                                               x,
                                                               y,
-                                                              PENCIL_TYPE_FILTER_NONE,
+                                                              false /* FILTER_LIFELINE */,
                                                               &destination_object,
                                                               &diag_id
                                                             );

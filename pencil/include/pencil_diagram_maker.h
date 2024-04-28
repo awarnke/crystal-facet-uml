@@ -16,7 +16,6 @@
 #include "pencil_relationship_painter.h"
 #include "pencil_size.h"
 #include "pencil_error.h"
-#include "filter/pencil_type_filter.h"
 #include "layout/layout_order.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
@@ -197,30 +196,6 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                                                        PangoLayout *layout,
                                                        cairo_t *cr
                                                      );
-
-/*!
- *  \brief gets the object-id of the object at a given position
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param filter a filter for object types.
- *                E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
- *  \param out_selected_id the object id at the given location.
- *                         The id is invalid if there is no object at the given location.
- *  \param out_surrounding_id the id of the embracing object at the given location.
- *                            The id is invalid if there is no object at the given location.
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
- */
-static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const pencil_diagram_maker_t *this_,
-                                                                         double x,
-                                                                         double y,
-                                                                         pencil_type_filter_t filter,
-                                                                         data_full_id_t* out_selected_id,
-                                                                         data_full_id_t* out_surrounding_id
-                                                                       );
-
-/* maybe allow to ask for an object layout description, given the id? */
 
 /*!
  *  \brief determines if the given position is on a grid line

@@ -12,8 +12,6 @@
 #include "gui_marked_set.h"
 #include "shape/shape_int_rectangle.h"
 #include "pencil_marker.h"
-#include "geometry/geometry_rectangle.h"
-#include "set/data_small_set.h"
 #include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>

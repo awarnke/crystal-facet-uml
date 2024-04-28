@@ -71,42 +71,6 @@ static inline data_id_t gui_sketch_card_get_diagram_id ( const gui_sketch_card_t
     return (diag==NULL) ? DATA_ID_VOID : data_diagram_get_data_id(diag);
 }
 
-static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,
-                                                          int32_t x,
-                                                          int32_t y,
-                                                          pencil_type_filter_t filter,
-                                                          data_full_id_t* out_selected_id,
-                                                          data_full_id_t* out_surrounding_id )
-{
-    pencil_error_t pen_err;
-    pen_err = pencil_diagram_maker_get_object_id_at_pos( &((*this_).painter),
-                                                         (double) x,
-                                                         (double) y,
-                                                         filter,
-                                                         out_selected_id,
-                                                         out_surrounding_id
-                                                       );
-
-    switch ( pen_err )
-    {
-        case PENCIL_ERROR_NONE:
-        {
-            /* success */
-        }
-        break;
-        case PENCIL_ERROR_OUT_OF_BOUNDS:
-        {
-            U8_TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_object_id_at_pos" );
-        }
-        break;
-        case PENCIL_ERROR_UNKNOWN_OBJECT:
-        {
-            U8_LOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_object_id_at_pos" );
-        }
-        break;
-    }
-}
-
 static inline layout_order_t gui_sketch_card_get_order_at_pos( const gui_sketch_card_t *this_,
                                                                data_id_t obj_id,
                                                                int32_t x,
