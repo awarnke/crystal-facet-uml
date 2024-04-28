@@ -307,16 +307,105 @@ static const double WHITE_G = 1.0;
 static const double WHITE_B = 1.0;
 static const double WHITE_A = 1.0;
 
-gui_sketch_location_thing_t gui_sketch_card_get_location_thing( gui_sketch_card_t *this_, int32_t pos_x, int32_t pos_y )
+gui_sketch_location_thing_t gui_sketch_card_get_location_thing( const gui_sketch_card_t *this_, int32_t x, int32_t y )
 {
+    data_full_id_t id;
+    data_full_id_t surrounding_id;
+    gui_sketch_card_get_object_id_at_pos( this_, x, y, false /* filter_lifelines */, &id, &surrounding_id );
+
     gui_sketch_location_thing_t result;
-    gui_sketch_location_thing_init( &result );
+    gui_sketch_location_thing_init( &result, GUI_SKETCH_LOCATION_THING_KIND_SPACE, &id, &surrounding_id );
     return result;
 }
 
-void gui_sketch_card_private_draw_location_space( gui_sketch_card_t *this_, gui_sketch_location_thing_t location )
+void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_, const gui_sketch_location_thing_t *location, cairo_t *cr )
 {
+    const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+    const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layout );
 
+    geometry_rectangle_t highlight;
+    geometry_rectangle_init_empty( &highlight );
+    data_id_t search_id;
+    data_id_copy( &search_id, data_full_id_get_primary_id_const( gui_sketch_location_thing_get_id_const( location ) ) );
+    if ( ! data_id_is_valid( &search_id ) )
+    {
+        data_id_copy( &search_id, data_full_id_get_secondary_id_const( gui_sketch_location_thing_get_id_const( location ) ) );
+    }
+    if ( ! data_id_is_valid( &search_id ) )
+    {
+        data_id_copy( &search_id, data_full_id_get_primary_id_const( gui_sketch_location_thing_get_surrounding_id_const( location ) ) );
+    }
+
+    /* check diagram */
+    const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
+    //const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag_data );
+    const data_id_t diag_id = data_diagram_get_data_id( diag_data );
+    if ( data_id_equals( &search_id, &diag_id ) )
+    {
+        //const geometry_rectangle_t *const diag_bounds = layout_diagram_get_bounds_const( layout_diag );
+        geometry_rectangle_replace( &highlight, layout_diagram_get_draw_area_const( layout_diag ) );
+    }
+
+    /* iterate over all classifiers */
+    const uint32_t c_count = layout_visible_set_get_visible_classifier_count( layout );
+    for ( uint32_t c_index = 0; c_index < c_count; c_index ++ )
+    {
+        const layout_visible_classifier_t *const visible_classifier
+            = layout_visible_set_get_visible_classifier_const ( layout, c_index );
+        const data_classifier_t *classifier = layout_visible_classifier_get_classifier_const( visible_classifier );
+        const data_id_t classifier_id = data_classifier_get_data_id( classifier );
+        if ( data_id_equals( &search_id, &classifier_id ) )
+        {
+            //const geometry_rectangle_t *const classifier_symbol_box
+            //    = layout_visible_classifier_get_symbol_box_const ( visible_classifier );
+            geometry_rectangle_replace( &highlight, layout_visible_classifier_get_space_const ( visible_classifier ) );
+            //const geometry_rectangle_t *const classifier_label_box
+            //    = layout_visible_classifier_get_label_box_const( visible_classifier );
+        }
+    }
+
+    /* check all contained features */
+    const uint32_t f_count = layout_visible_set_get_feature_count( layout );
+    for ( uint32_t f_index = 0; f_index < f_count; f_index ++ )
+    {
+        const layout_feature_t *const the_feature
+            = layout_visible_set_get_feature_const ( layout, f_index );
+        const data_feature_t *feature = layout_feature_get_data_const( the_feature );
+        const data_id_t feature_id = data_feature_get_data_id( feature );
+        if ( data_id_equals( &search_id, &feature_id ) )
+        {
+            //const geometry_rectangle_t *const feature_symbol_box
+            //    = layout_feature_get_symbol_box_const ( the_feature );
+            geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
+        }
+    }
+
+    const uint32_t count_relations = layout_visible_set_get_relationship_count ( layout );
+    for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+    {
+        const layout_relationship_t *const the_relationship
+            = layout_visible_set_get_relationship_const( layout, rel_index );
+        const data_relationship_t *relationship = layout_relationship_get_data_const( the_relationship );
+        const data_id_t relationship_id = data_relationship_get_data_id( relationship );
+        if ( data_id_equals( &search_id, &relationship_id ) )
+        {
+            //const geometry_connector_t *const relationship_shape
+            //    = layout_relationship_get_shape_const( the_relationship );
+            geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
+        }
+    }
+
+    /* draw whatever has been found */
+    {
+        cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, WHITE_A );
+        cairo_rectangle( cr,
+                         geometry_rectangle_get_left( &highlight ),
+                         geometry_rectangle_get_top( &highlight ),
+                         geometry_rectangle_get_width( &highlight ),
+                         geometry_rectangle_get_height( &highlight )
+                       );
+        cairo_fill (cr);
+    }
 }
 
 void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
@@ -357,21 +446,11 @@ void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
         {
             const int32_t mouse_x = gui_sketch_drag_state_get_to_x( drag_state );
             const int32_t mouse_y = gui_sketch_drag_state_get_to_y( drag_state );
-            const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layout );
 
-            const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
-            const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag_data );
-            const geometry_rectangle_t *const diag_bounds = layout_diagram_get_bounds_const( layout_diag );
-            const geometry_rectangle_t *const diag_space = layout_diagram_get_draw_area_const( layout_diag );
+            const gui_sketch_location_thing_t thing_to_highlight
+                = gui_sketch_card_get_location_thing( this_, mouse_x, mouse_y );
 
-            cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, WHITE_A );
-            cairo_rectangle( cr,
-                             geometry_rectangle_get_left( diag_space ),
-                             geometry_rectangle_get_top( diag_space ),
-                             geometry_rectangle_get_width( diag_space ),
-                             geometry_rectangle_get_height( diag_space )
-                           );
-            cairo_fill (cr);
+            gui_sketch_card_private_draw_location_space( this_, &thing_to_highlight, cr );
         }
     }
 

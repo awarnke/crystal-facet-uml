@@ -97,7 +97,7 @@ static inline data_id_t data_full_id_get_primary_id ( const data_full_id_t *this
     return (*this_).primary_id;
 }
 
-static inline data_id_t *data_full_id_get_primary_id_ptr ( data_full_id_t *this_ )
+static inline const data_id_t *data_full_id_get_primary_id_const ( const data_full_id_t *this_ )
 {
     return &((*this_).primary_id);
 }
@@ -107,7 +107,7 @@ static inline data_id_t data_full_id_get_secondary_id ( const data_full_id_t *th
     return (*this_).secondary_id;
 }
 
-static inline data_id_t *data_full_id_get_secondary_id_ptr ( data_full_id_t *this_ )
+static inline const data_id_t *data_full_id_get_secondary_id_const ( const data_full_id_t *this_ )
 {
     return &((*this_).secondary_id);
 }

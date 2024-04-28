@@ -1052,9 +1052,9 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 data_full_id_trace( &clicked_object );
                 data_full_id_trace( &surrounding_object );
                 const data_id_t *const clicked_classifier
-                    = data_full_id_get_secondary_id_ptr( &clicked_object );
+                    = data_full_id_get_secondary_id_const( &clicked_object );
                 const data_id_t *const surrounding_classifier
-                    = data_full_id_get_secondary_id_ptr( &surrounding_object );
+                    = data_full_id_get_secondary_id_const( &surrounding_object );
 
                 if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )
                 {

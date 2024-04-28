@@ -148,10 +148,10 @@ void gui_search_request_id_search_callback ( GtkWidget *widget, gpointer user_da
     if ( data_full_id_is_valid( &focused_id ) )
     {
         /* get the primary id unless it is a DIAGRAMELEMENT, then take the secondary id */
-        const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &focused_id );
+        const data_id_t *const vis_id = data_full_id_get_primary_id_const( &focused_id );
         const data_id_t *const model_id
             = (DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( vis_id ))
-            ? data_full_id_get_secondary_id_ptr( &focused_id )
+            ? data_full_id_get_secondary_id_const( &focused_id )
             : vis_id;
 
         char focused_id_buf[DATA_ID_MAX_UTF8STRING_LENGTH] = "";

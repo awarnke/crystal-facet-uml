@@ -50,7 +50,7 @@ static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_,
 static inline void gui_marked_set_toggle_obj ( gui_marked_set_t *this_, data_full_id_t obj_id, data_id_t diagram_id )
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
-    const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &obj_id );
+    const data_id_t *const vis_id = data_full_id_get_primary_id_const( &obj_id );
 
     data_id_t model_id;
     if ( data_full_id_equals( &obj_id, &((*this_).focused) ) )
@@ -94,7 +94,7 @@ static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_,
     data_id_replace( &((*this_).focused_diagram), &diagram_id );
 
     /* notify new focused element */
-    const data_id_t *const vis_id = data_full_id_get_primary_id_ptr( &obj_id );
+    const data_id_t *const vis_id = data_full_id_get_primary_id_const( &obj_id );
     const data_id_t model_id
         = (DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( vis_id ))
         ? data_full_id_get_secondary_id( &obj_id )

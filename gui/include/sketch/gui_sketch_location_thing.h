@@ -24,6 +24,7 @@
  *  \brief list of thing-types
  */
 enum gui_sketch_location_thing_kind_enum {
+    GUI_SKETCH_LOCATION_THING_KIND_VOID,
     GUI_SKETCH_LOCATION_THING_KIND_BORDER,
     GUI_SKETCH_LOCATION_THING_KIND_LABEL,
     GUI_SKETCH_LOCATION_THING_KIND_SYMBOL,
@@ -47,8 +48,22 @@ typedef struct gui_sketch_location_thing_struct gui_sketch_location_thing_t;
  *  \brief initializes the gui_sketch_location_thing_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param kind type of the location_thing
+ *  \param id pointer to element and possibly parent classifier (if applicable)
+ *  \param surrounding_id pointer to a surrounding classifier (if applicable)
  */
-static inline void gui_sketch_location_thing_init( gui_sketch_location_thing_t *this_ );
+static inline void gui_sketch_location_thing_init( gui_sketch_location_thing_t *this_ ,
+                                                   gui_sketch_location_thing_kind_t kind,
+                                                   const data_full_id_t *id,
+                                                   const data_full_id_t *surrounding_id
+                                                 );
+
+/*!
+ *  \brief initializes the gui_sketch_location_thing_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void gui_sketch_location_thing_init_void( gui_sketch_location_thing_t *this_ );
 
 /*!
  *  \brief destroys the gui_sketch_location_thing_t
@@ -56,6 +71,30 @@ static inline void gui_sketch_location_thing_init( gui_sketch_location_thing_t *
  *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_location_thing_destroy( gui_sketch_location_thing_t *this_ );
+
+/*!
+ *  \brief gets the attribute of gui_sketch_location_thing_t: kind
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return type of the location_thing
+ */
+static inline gui_sketch_location_thing_kind_t gui_sketch_location_thing_get_kind( const gui_sketch_location_thing_t *this_ );
+
+/*!
+ *  \brief gets the attribute of gui_sketch_location_thing_t: id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the location_thing
+ */
+static inline const data_full_id_t *gui_sketch_location_thing_get_id_const( const gui_sketch_location_thing_t *this_ );
+
+/*!
+ *  \brief gets the attribute of gui_sketch_location_thing_t: surrounding_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return surrounding_id of the location_thing
+ */
+static inline const data_full_id_t *gui_sketch_location_thing_get_surrounding_id_const( const gui_sketch_location_thing_t *this_ );
 
 #include "gui_sketch_location_thing.inl"
 

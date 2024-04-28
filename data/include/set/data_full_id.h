@@ -157,7 +157,7 @@ static inline data_id_t data_full_id_get_primary_id ( const data_full_id_t *this
  *  \param this_ pointer to own object attributes
  *  \return the id of the primary object
  */
-static inline data_id_t *data_full_id_get_primary_id_ptr ( data_full_id_t *this_ );
+static inline const data_id_t *data_full_id_get_primary_id_const ( const data_full_id_t *this_ );
 
 /*!
  *  \brief gets the secondary object id
@@ -173,7 +173,7 @@ static inline data_id_t data_full_id_get_secondary_id ( const data_full_id_t *th
  *  \param this_ pointer to own object attributes
  *  \return the id of the secondary object
  */
-static inline data_id_t *data_full_id_get_secondary_id_ptr ( data_full_id_t *this_ );
+static inline const data_id_t *data_full_id_get_secondary_id_const ( const data_full_id_t *this_ );
 
 /*!
  *  \brief checks if two data_full_id_t objects are equal
