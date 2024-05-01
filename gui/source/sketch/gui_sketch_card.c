@@ -339,6 +339,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
     geometry_rectangle_init_empty( &highlight );
     data_id_t search_id;
     data_id_copy( &search_id, data_full_id_get_primary_id_const( gui_sketch_location_thing_get_id_const( location ) ) );
+    const gui_sketch_location_thing_kind_t kind = gui_sketch_location_thing_get_kind( location );
 
     /* check diagram */
     const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
@@ -346,8 +347,28 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
     const data_id_t diag_id = data_diagram_get_data_id( diag_data );
     if ( data_id_equals( &search_id, &diag_id ) )
     {
-        //const geometry_rectangle_t *const diag_bounds = layout_diagram_get_bounds_const( layout_diag );
-        geometry_rectangle_replace( &highlight, layout_diagram_get_draw_area_const( layout_diag ) );
+        switch ( kind )
+        {
+            case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
+            {
+                geometry_rectangle_replace( &highlight, layout_diagram_get_label_box_const( layout_diag ) );
+                geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+            }
+            break;
+
+            case GUI_SKETCH_LOCATION_THING_KIND_OUTLINE:
+            {
+                geometry_rectangle_replace( &highlight, layout_diagram_get_bounds_const( layout_diag ) );
+            }
+            break;
+
+            default:
+            case GUI_SKETCH_LOCATION_THING_KIND_SPACE:
+            {
+                geometry_rectangle_replace( &highlight, layout_diagram_get_draw_area_const( layout_diag ) );
+            }
+            break;
+        }
     }
 
     /* iterate over all classifiers */
@@ -356,17 +377,34 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
     {
         const layout_visible_classifier_t *const visible_classifier
             = layout_visible_set_get_visible_classifier_const ( layout, c_index );
-        const data_classifier_t *classifier = layout_visible_classifier_get_classifier_const( visible_classifier );
+        //const data_classifier_t *classifier = layout_visible_classifier_get_classifier_const( visible_classifier );
         const data_diagramelement_t *diagele = layout_visible_classifier_get_diagramelement_const( visible_classifier );
-        const data_id_t classifier_id = data_classifier_get_data_id( classifier );
+        //const data_id_t classifier_id = data_classifier_get_data_id( classifier );
         const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
         if ( data_id_equals( &search_id, &diagele_id ) )
         {
-            //const geometry_rectangle_t *const classifier_symbol_box
-            //    = layout_visible_classifier_get_symbol_box_const ( visible_classifier );
-            geometry_rectangle_replace( &highlight, layout_visible_classifier_get_space_const ( visible_classifier ) );
-            //const geometry_rectangle_t *const classifier_label_box
-            //    = layout_visible_classifier_get_label_box_const( visible_classifier );
+            switch ( kind )
+            {
+                case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
+                {
+                    geometry_rectangle_replace( &highlight, layout_visible_classifier_get_label_box_const( visible_classifier ) );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                }
+                break;
+
+                case GUI_SKETCH_LOCATION_THING_KIND_OUTLINE:
+                {
+                    geometry_rectangle_replace( &highlight, layout_visible_classifier_get_symbol_box_const( visible_classifier ) );
+                }
+                break;
+
+                default:
+                case GUI_SKETCH_LOCATION_THING_KIND_SPACE:
+                {
+                    geometry_rectangle_replace( &highlight, layout_visible_classifier_get_space_const( visible_classifier ) );
+                }
+                break;
+            }
         }
     }
 
@@ -383,6 +421,23 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
             //const geometry_rectangle_t *const feature_symbol_box
             //    = layout_feature_get_symbol_box_const ( the_feature );
             geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
+            switch ( kind )
+            {
+                case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
+                {
+                    geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                }
+                break;
+
+                default:
+                case GUI_SKETCH_LOCATION_THING_KIND_OUTLINE:
+                {
+                    geometry_rectangle_replace( &highlight, layout_feature_get_symbol_box_const( the_feature ) );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                }
+                break;
+            }
         }
     }
 
@@ -395,9 +450,62 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
         const data_id_t relationship_id = data_relationship_get_data_id( relationship );
         if ( data_id_equals( &search_id, &relationship_id ) )
         {
-            //const geometry_connector_t *const relationship_shape
-            //    = layout_relationship_get_shape_const( the_relationship );
             geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
+            switch ( kind )
+            {
+                case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
+                {
+                    geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
+                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                }
+                break;
+
+                default:
+                case GUI_SKETCH_LOCATION_THING_KIND_OUTLINE:
+                {
+                    const geometry_connector_t *const relationship_shape
+                        = layout_relationship_get_shape_const( the_relationship );
+                    {
+                        geometry_rectangle_t segment_src;
+                        segment_src = geometry_connector_get_segment_bounds( relationship_shape,
+                                                                             GEOMETRY_CONNECTOR_SEGMENT_SOURCE
+                                                                           );
+                        geometry_rectangle_expand_4dir( &segment_src, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+
+                        cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, WHITE_A );
+                        cairo_rectangle( cr,
+                                        geometry_rectangle_get_left( &segment_src ),
+                                        geometry_rectangle_get_top( &segment_src ),
+                                        geometry_rectangle_get_width( &segment_src ),
+                                        geometry_rectangle_get_height( &segment_src )
+                                    );
+                        cairo_fill (cr);
+                    }
+                    {
+                        geometry_rectangle_t segment_dst;
+                        segment_dst = geometry_connector_get_segment_bounds( relationship_shape,
+                                                                             GEOMETRY_CONNECTOR_SEGMENT_DESTINATION
+                                                                           );
+                        geometry_rectangle_expand_4dir( &segment_dst, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+
+                        cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, WHITE_A );
+                        cairo_rectangle( cr,
+                                        geometry_rectangle_get_left( &segment_dst ),
+                                        geometry_rectangle_get_top( &segment_dst ),
+                                        geometry_rectangle_get_width( &segment_dst ),
+                                        geometry_rectangle_get_height( &segment_dst )
+                                    );
+                        cairo_fill (cr);
+                    }
+                    {
+                        highlight = geometry_connector_get_segment_bounds( relationship_shape,
+                                                                           GEOMETRY_CONNECTOR_SEGMENT_MAIN
+                                                                         );
+                        geometry_rectangle_expand_4dir( &highlight, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                    }
+                }
+                break;
+            }
         }
     }
 

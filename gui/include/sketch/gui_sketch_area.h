@@ -333,6 +333,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
                                                                   data_id_t* out_diagram_id
                                                                 );
 
+#if 0
 /*!
  *  \brief gets the object-id of the surrounding object and a selected-part-info at a given position
  *
@@ -352,6 +353,7 @@ static inline void gui_sketch_area_private_get_element_at_pos ( gui_sketch_area_
                                                                 gui_sketch_location_thing_t* out_element_id,
                                                                 data_id_t* out_diagram_id
                                                               );
+#endif
 
 #include "gui_sketch_area.inl"
 

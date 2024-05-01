@@ -87,6 +87,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
     }
 }
 
+#if 0
 static inline void gui_sketch_area_private_get_element_at_pos ( gui_sketch_area_t *this_,
                                                                 int32_t x,
                                                                 int32_t y,
@@ -114,6 +115,7 @@ static inline void gui_sketch_area_private_get_element_at_pos ( gui_sketch_area_
         }
     }
 }
+#endif
 
 static inline gui_sketch_card_t *gui_sketch_area_private_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
 {

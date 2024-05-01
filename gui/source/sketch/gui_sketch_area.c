@@ -1038,8 +1038,10 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             else
             {
                 /* determine the object at click location */
-                data_id_t diagram_id;
-                gui_sketch_location_thing_t element_id;
+                const data_id_t diagram_id = gui_sketch_card_get_diagram_id( target_card );
+                const gui_sketch_location_thing_t element_id
+                    = gui_sketch_card_get_element_at_pos( target_card, x, y, false /* FILTER_LIFELINE */ );
+#if 0
                 gui_sketch_area_private_get_element_at_pos( this_,
                                                             x,
                                                             y,
@@ -1047,6 +1049,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                                                             &element_id,
                                                             &diagram_id
                                                           );
+#endif
                 const data_full_id_t *const clicked_object
                     = gui_sketch_location_thing_get_id_const( &element_id );
                 data_full_id_trace( clicked_object );
@@ -1072,9 +1075,11 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     assert( data_id_is_valid( surrounding_element ) );
 
                     /* create a new classifier */
+#if 0
                     const data_diagram_t *const target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
                     const data_row_id_t selected_diagram_id = data_diagram_get_row_id( target_diag );
                     U8_TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+#endif
 
                     data_id_t dummy_classifier;
                     data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ROW_ID_VOID );
@@ -1095,7 +1100,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
                         data_row_id_t new_relationship_id;
                         c_result = gui_sketch_object_creator_create_classifier_as_child( &((*this_).object_creator),
-                                                                                         selected_diagram_id,
+                                                                                         data_id_get_row_id( &diagram_id ),
                                                                                          data_id_get_row_id( surrounding_classifier ),
                                                                                          x_order,
                                                                                          y_order,
@@ -1108,7 +1113,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     {
                         assert( DATA_TABLE_DIAGRAM == data_id_get_table( surrounding_element ) );
                         c_result = gui_sketch_object_creator_create_classifier( &((*this_).object_creator),
-                                                                                selected_diagram_id,
+                                                                                data_id_get_row_id( &diagram_id ),
                                                                                 x_order,
                                                                                 y_order,
                                                                                 &new_diagele_id,
