@@ -123,7 +123,6 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
  *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
  */
 void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,
                                             int32_t x,
@@ -141,7 +140,6 @@ void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,
  *  \param y y-position
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no classifier is at the given position x, y.
  */
 void gui_sketch_card_private_get_classifier_id_at_pos ( const gui_sketch_card_t *this_,
                                                         int32_t x,
@@ -159,7 +157,6 @@ void gui_sketch_card_private_get_classifier_id_at_pos ( const gui_sketch_card_t 
  *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no feature is at the given position x, y.
  */
 void gui_sketch_card_private_get_feature_id_at_pos ( const gui_sketch_card_t *this_,
                                                      int32_t x,
@@ -176,15 +173,13 @@ void gui_sketch_card_private_get_feature_id_at_pos ( const gui_sketch_card_t *th
  *  \param x x-position
  *  \param y y-position
  *  \param snap_distance maximum distance to the next connector line when to select the connector
- *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no relationship is at the given position x, y.
+ *  \return the object id and object kind at the given location. The id is invalid if there is no object at the given location.
  */
-void gui_sketch_card_private_get_relationship_id_at_pos ( const gui_sketch_card_t *this_,
-                                                                    int32_t x,
-                                                                    int32_t y,
-                                                                    int32_t snap_distance,
-                                                                    data_full_id_t* out_selected_id
-                                                                  );
+gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_id_at_pos ( const gui_sketch_card_t *this_,
+                                                                                 int32_t x,
+                                                                                 int32_t y,
+                                                                                 int32_t snap_distance
+                                                                               );
 
 /*!
  *  \brief draws the background of a single diagram

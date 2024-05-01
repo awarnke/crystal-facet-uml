@@ -1056,7 +1056,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 const data_id_t *const surrounding_classifier
                     = data_full_id_get_secondary_id_const( &surrounding_object );
 
-                if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )
+                if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )  /* feature or diagramelement */
                 {
                     /* update drag state */
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), clicked_object );

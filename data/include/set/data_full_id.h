@@ -29,7 +29,7 @@
  */
 struct data_full_id_struct {
     data_id_t primary_id;  /*!< the primary object id */
-    data_id_t secondary_id;  /*!< the classifier object id */
+    data_id_t secondary_id;  /*!< the classifier parent object id (if applicable) */
 };
 
 typedef struct data_full_id_struct data_full_id_t;

@@ -63,12 +63,16 @@ void gui_sketch_card_get_object_id_at_pos( const gui_sketch_card_t *this_,
     {
         /* check the relationship shapes */
         {
-            gui_sketch_card_private_get_relationship_id_at_pos( this_,
-                                                                x,
-                                                                y,
-                                                                snap_distance,
-                                                                out_selected_id
-                                                              );
+            const gui_sketch_location_thing_t rel_thing
+                = gui_sketch_card_private_get_relationship_id_at_pos( this_,
+                                                                      x,
+                                                                      y,
+                                                                      snap_distance
+                                                                    );
+            if ( gui_sketch_location_thing_is_valid( &rel_thing ) )
+            {
+                data_full_id_replace( out_selected_id, gui_sketch_location_thing_get_id_const( &rel_thing ) );
+            }
         }
 
         /* determine a feature at the given position */
@@ -255,14 +259,14 @@ void gui_sketch_card_private_get_feature_id_at_pos( const gui_sketch_card_t *thi
     U8_TRACE_END();
 }
 
-void gui_sketch_card_private_get_relationship_id_at_pos( const gui_sketch_card_t *this_,
-                                                         int32_t x,
-                                                         int32_t y,
-                                                         int32_t snap_distance,
-                                                         data_full_id_t* out_selected_id )
+gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_id_at_pos( const gui_sketch_card_t *this_,
+                                                                                int32_t x,
+                                                                                int32_t y,
+                                                                                int32_t snap_distance )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_selected_id );
+    gui_sketch_location_thing_t result;
+    gui_sketch_location_thing_init_void( &result );
 
     const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
     const uint32_t count_relations
@@ -288,18 +292,15 @@ void gui_sketch_card_private_get_relationship_id_at_pos( const gui_sketch_card_t
                 const data_relationship_t *relation_data;
                 relation_data = layout_relationship_get_data_const( current_relation );
 
-                data_full_id_reinit_by_table_and_id ( out_selected_id,
-                                                      DATA_TABLE_RELATIONSHIP,
-                                                      data_relationship_get_row_id( relation_data ),
-                                                      DATA_TABLE_VOID,
-                                                      DATA_ROW_ID_VOID
-                                                    );
+                const data_id_t relation_id = data_relationship_get_data_id( relation_data );
+                gui_sketch_location_thing_reinit_solo( &result, GUI_SKETCH_LOCATION_THING_KIND_OUTLINE, &relation_id );
             }
             matching_relations_found ++;
         }
     }
 
     U8_TRACE_END();
+    return result;
 }
 
 static const double WHITE_R = 1.0;
@@ -314,7 +315,12 @@ gui_sketch_location_thing_t gui_sketch_card_get_location_thing( const gui_sketch
     gui_sketch_card_get_object_id_at_pos( this_, x, y, false /* filter_lifelines */, &id, &surrounding_id );
 
     gui_sketch_location_thing_t result;
-    gui_sketch_location_thing_init( &result, GUI_SKETCH_LOCATION_THING_KIND_SPACE, &id, &surrounding_id );
+    const data_id_t *const classifier = data_full_id_get_secondary_id_const( &id );
+    const bool is_space = ( DATA_TABLE_CLASSIFIER != data_id_get_table( classifier ) );  /* neither feature nor diagramelement */
+    gui_sketch_location_thing_init( &result,
+                                    ( is_space ? GUI_SKETCH_LOCATION_THING_KIND_SPACE : GUI_SKETCH_LOCATION_THING_KIND_SYMBOL ),
+                                    ( is_space ? &surrounding_id : &id )
+                                  );
     return result;
 }
 
@@ -327,14 +333,6 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
     geometry_rectangle_init_empty( &highlight );
     data_id_t search_id;
     data_id_copy( &search_id, data_full_id_get_primary_id_const( gui_sketch_location_thing_get_id_const( location ) ) );
-    if ( ! data_id_is_valid( &search_id ) )
-    {
-        data_id_copy( &search_id, data_full_id_get_secondary_id_const( gui_sketch_location_thing_get_id_const( location ) ) );
-    }
-    if ( ! data_id_is_valid( &search_id ) )
-    {
-        data_id_copy( &search_id, data_full_id_get_primary_id_const( gui_sketch_location_thing_get_surrounding_id_const( location ) ) );
-    }
 
     /* check diagram */
     const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
@@ -353,8 +351,10 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
         const layout_visible_classifier_t *const visible_classifier
             = layout_visible_set_get_visible_classifier_const ( layout, c_index );
         const data_classifier_t *classifier = layout_visible_classifier_get_classifier_const( visible_classifier );
+        const data_diagramelement_t *diagele = layout_visible_classifier_get_diagramelement_const( visible_classifier );
         const data_id_t classifier_id = data_classifier_get_data_id( classifier );
-        if ( data_id_equals( &search_id, &classifier_id ) )
+        const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
+        if ( data_id_equals( &search_id, &diagele_id ) )
         {
             //const geometry_rectangle_t *const classifier_symbol_box
             //    = layout_visible_classifier_get_symbol_box_const ( visible_classifier );

@@ -143,7 +143,8 @@
  *    the U8_FAULT_INJECT_COND() macro shall be inserted to allow unit-testing of the error handling.
  *  - error_codes
  *    \n The return parameter of a function shall be the error code. Futher return values shall be declared as *out_xy parmeter.
- *    \n Exception to this rule are helper and utility functions which do not report errors (only perform asserts).
+ *    \n Exception to this rule are helper and utility functions which do not report errors (only perform asserts)
+ *    or where the return value contains the error e.g. by being invalid/void/empty (if such a state exists).
  *  - error handling
  *    \n Errors shall be reported to the user: in GUI mode, a message shall be shown in a window, in console mode, it shall be
  *    shown on std_err.
