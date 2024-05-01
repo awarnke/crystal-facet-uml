@@ -1,6 +1,7 @@
-crystal-facet-uml (1.57.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.58.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
+  * in create mode, the mouse-over element-part is highlighted
   * diagrams provide more automatic line breaks at features, relationships
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 08 Apr 2024 21:30:00 +0200

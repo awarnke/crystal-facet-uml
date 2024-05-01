@@ -26,8 +26,7 @@
 enum gui_sketch_location_thing_kind_enum {
     GUI_SKETCH_LOCATION_THING_KIND_VOID,
     GUI_SKETCH_LOCATION_THING_KIND_OUTLINE,  /* this is the border or the connector line */
-    GUI_SKETCH_LOCATION_THING_KIND_LABEL,
-    GUI_SKETCH_LOCATION_THING_KIND_SYMBOL,
+    GUI_SKETCH_LOCATION_THING_KIND_LABEL,  /* this is the name, stereotype or icon */
     GUI_SKETCH_LOCATION_THING_KIND_SPACE,  /* the inner space of a classifier or diagram */
 };
 

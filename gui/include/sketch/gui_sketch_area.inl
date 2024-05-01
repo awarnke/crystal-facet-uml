@@ -74,13 +74,14 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
-        const gui_sketch_card_t *card = &((*this_).cards[idx]);
+        const gui_sketch_card_t *const card = &((*this_).cards[idx]);
         const shape_int_rectangle_t card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             *out_diagram_id = gui_sketch_card_get_diagram_id( card );
-            data_full_id_t surrounding_id;  /* dummy */
-            gui_sketch_card_get_object_id_at_pos ( card, x, y, filter_lifelines, out_object_id, &surrounding_id );
+            const gui_sketch_location_thing_t element
+                = gui_sketch_card_get_element_at_pos( card, x, y, filter_lifelines );
+            data_full_id_replace( out_object_id, gui_sketch_location_thing_get_id_const( &element ) );
             break;
         }
     }
@@ -99,17 +100,19 @@ static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_ar
     assert( NULL != out_surrounding_id );
     assert( NULL != out_diagram_id );
     data_full_id_init_void( out_object_id );
-    data_full_id_init_void( out_surrounding_id );
+    data_full_id_init_void( out_surrounding_id );  /* TODO */
     data_id_reinit_void( out_diagram_id );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
-        const gui_sketch_card_t *card = &((*this_).cards[idx]);
+        const gui_sketch_card_t *const card = &((*this_).cards[idx]);
         const shape_int_rectangle_t card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             *out_diagram_id = gui_sketch_card_get_diagram_id( card );
-            gui_sketch_card_get_object_id_at_pos ( card, x, y, filter_lifelines, out_object_id, out_surrounding_id );
+            const gui_sketch_location_thing_t element
+                = gui_sketch_card_get_element_at_pos( card, x, y, filter_lifelines );
+            data_full_id_replace( out_object_id, gui_sketch_location_thing_get_id_const( &element ) );
             break;
         }
     }

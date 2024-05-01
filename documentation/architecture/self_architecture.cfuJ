@@ -6907,6 +6907,74 @@
     },
     {
       "diagram": {
+        "id": 117,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "Model Terms",
+        "description": [
+                ""
+        ],
+        "list_order": 81920,
+        "display_flags": 0,
+        "parent_name": "Glossary",
+        "parent": "cdf38da8-0a5d-4fcb-97d5-84b8ecdbabd7",
+        "uuid": "932e0899-052a-45b7-89cf-1c3c4f123675",
+        "diagramelements":
+        [
+          {
+            "id": 861,
+            "display_flags": 0,
+            "classifier_name": "diagrams",
+            "node": "7671f0cf-fae4-4efd-88df-947f35d44466",
+            "uuid": "b2c6bf9f-f44d-4f4c-845d-09d24718fc92"
+          },
+          {
+            "id": 862,
+            "display_flags": 0,
+            "classifier_name": "diagramelements",
+            "node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
+            "uuid": "c52b9649-0c8c-4df9-ac41-aa6cbdd0bfdf"
+          },
+          {
+            "id": 863,
+            "display_flags": 0,
+            "classifier_name": "classifiers",
+            "node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+            "uuid": "558790f8-5571-47b7-96c9-7cccacb28429"
+          },
+          {
+            "id": 864,
+            "display_flags": 0,
+            "classifier_name": "relationships",
+            "node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
+            "uuid": "633a5609-2c37-4a02-a148-0c1736bce1e6"
+          },
+          {
+            "id": 865,
+            "display_flags": 0,
+            "classifier_name": "features",
+            "node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+            "uuid": "84b2c5c4-f63c-430d-bcea-427881b7bc06"
+          },
+          {
+            "id": 866,
+            "display_flags": 0,
+            "classifier_name": "element",
+            "node": "1a6ad898-da94-49fa-aeee-0ffb836993ff",
+            "uuid": "dee74caa-e6d6-4b75-8191-ff0ab4a8e86d"
+          },
+          {
+            "id": 867,
+            "display_flags": 0,
+            "classifier_name": "object",
+            "node": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
+            "uuid": "2536cf08-66ff-48e5-bb85-f13254f8161c"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 66,
         "diagram_type": 0,
         "type": "CFUListDiagram",
@@ -6941,6 +7009,13 @@
             "classifier_name": "uuid",
             "node": "b39d21d5-daa2-4918-98b4-db2e508d5b09",
             "uuid": "3b3ead0c-4c3b-4ebf-93ae-a22520e6ad8f"
+          },
+          {
+            "id": 860,
+            "display_flags": 0,
+            "classifier_name": "full_id",
+            "node": "95c46f3c-123f-49b4-98ae-467c80048c45",
+            "uuid": "13f0c6a7-3f82-46e4-883d-ff02df63bb33"
           }
         ]
       }
@@ -7260,7 +7335,7 @@
         "description": [
                 "- provides read access to ctrl, pencil and gui components\n",
                 "- provides write acccess to only the ctrl component\n",
-                "- ensures low-level consistency of database: all referenced objects exist.\n",
+                "- ensures low-level consistency of database: all referenced elements exist.\n",
                 "- sends notifications on changes"
         ],
         "x_order": -550118132,
@@ -17940,6 +18015,64 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 526,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "full_id",
+        "description": [
+                "A data_full_id identifies one or two objects, which are called primary and secondary.\n",
+                "The secondary object is void for relationships, classifiers and diagrams.\n",
+                "In case of a diagramelement or a feature, the secondary object refers to the associated classifier."
+        ],
+        "x_order": 461612593,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "95c46f3c-123f-49b4-98ae-467c80048c45",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 527,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "abstract",
+        "name": "element",
+        "description": [
+                ""
+        ],
+        "x_order": -507551363,
+        "y_order": -1754191469,
+        "list_order": -1383056468,
+        "uuid": "1a6ad898-da94-49fa-aeee-0ffb836993ff",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 528,
+        "main_type": 125,
+        "type": "Class",
+        "stereotype": "abstract",
+        "name": "object",
+        "description": [
+                ""
+        ],
+        "x_order": -435392186,
+        "y_order": -1383056468,
+        "list_order": -1383056468,
+        "uuid": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -20801,6 +20934,23 @@
     },
     {
       "relationship": {
+        "id": 914,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390810486,
+        "from_classifier_name": "classifiers",
+        "to_classifier_name": "object",
+        "from_node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+        "to_node": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
+        "uuid": "de523657-d21a-46b1-a633-75baedb2268b"
+      }
+    },
+    {
+      "relationship": {
         "id": 96,
         "main_type": 200,
         "type": "Association",
@@ -20869,6 +21019,23 @@
     },
     {
       "relationship": {
+        "id": 913,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390777718,
+        "from_classifier_name": "relationships",
+        "to_classifier_name": "object",
+        "from_node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
+        "to_node": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
+        "uuid": "1490b3b8-bc5a-4a66-98f2-46423ebc0436"
+      }
+    },
+    {
+      "relationship": {
         "id": 100,
         "main_type": 200,
         "type": "Association",
@@ -20920,6 +21087,40 @@
     },
     {
       "relationship": {
+        "id": 918,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390941558,
+        "from_classifier_name": "diagramelements",
+        "to_classifier_name": "element",
+        "from_node": "ba6f1629-9d3d-45ae-b827-aed9b71a91da",
+        "to_node": "1a6ad898-da94-49fa-aeee-0ffb836993ff",
+        "uuid": "ddc745af-6e4f-41ea-8e73-9fe8a0e4408e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 915,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390843254,
+        "from_classifier_name": "features",
+        "to_classifier_name": "object",
+        "from_node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+        "to_node": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
+        "uuid": "352cf7a5-c3b8-4438-952a-503cabacf70c"
+      }
+    },
+    {
+      "relationship": {
         "id": 99,
         "main_type": 200,
         "type": "Association",
@@ -20933,6 +21134,23 @@
         "from_node": "7671f0cf-fae4-4efd-88df-947f35d44466",
         "to_node": "7671f0cf-fae4-4efd-88df-947f35d44466",
         "uuid": "c78b70bb-7942-4197-8527-989696638003"
+      }
+    },
+    {
+      "relationship": {
+        "id": 917,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390908790,
+        "from_classifier_name": "diagrams",
+        "to_classifier_name": "element",
+        "from_node": "7671f0cf-fae4-4efd-88df-947f35d44466",
+        "to_node": "1a6ad898-da94-49fa-aeee-0ffb836993ff",
+        "uuid": "66c04fed-19ef-44e3-b0b4-26c10eb7c64d"
       }
     },
     {
@@ -30874,6 +31092,23 @@
         "from_node": "57e90687-58d4-474d-9096-14b486402cfa",
         "to_node": "44481660-7f04-41f2-81bb-8d94879cdbac",
         "uuid": "b3372421-4051-4f71-bf5f-9f5387d8bce0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 916,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1390876022,
+        "from_classifier_name": "object",
+        "to_classifier_name": "element",
+        "from_node": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
+        "to_node": "1a6ad898-da94-49fa-aeee-0ffb836993ff",
+        "uuid": "68c4fa25-bd60-4851-9cf0-945b9025d2f1"
       }
     }
   ]

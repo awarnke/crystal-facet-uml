@@ -35,79 +35,78 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_card_get_object_id_at_pos( const gui_sketch_card_t *this_,
-                                           int32_t x,
-                                           int32_t y,
-                                           bool filter_lifelines,
-                                           data_full_id_t* out_selected_id,
-                                           data_full_id_t* out_surrounding_id )
+gui_sketch_location_thing_t gui_sketch_card_get_element_at_pos( const gui_sketch_card_t *this_,
+                                                                int32_t x,
+                                                                int32_t y,
+                                                                bool filter_lifelines )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_selected_id );
-    assert( NULL != out_surrounding_id );
     static const int32_t snap_distance = 3;  /* snap_distance is the maximum distance to the next connector line when to select the connector */
+    gui_sketch_location_thing_t result;
+    gui_sketch_location_thing_init_void( &result );
 
-    data_full_id_reinit_void( out_selected_id );
-    data_full_id_reinit_void( out_surrounding_id );
-    const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
-    const layout_diagram_t *the_diagram;
-    the_diagram = layout_visible_set_get_diagram_const( layout );
-    const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_const ( the_diagram );
+    const layout_visible_set_t *const layout
+        = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
+    const layout_diagram_t *const the_diagram
+        = layout_visible_set_get_diagram_const( layout );
+    const data_diagram_t *const diagram_data
+        = layout_diagram_get_data_const ( the_diagram );
 
     /* get bounding box */
     const geometry_rectangle_t *diagram_bounds;
     diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
 
-    if ( geometry_rectangle_contains( diagram_bounds, (double) x, (double) y ) )
+    const bool pos_on_bounds
+        = geometry_rectangle_contains( diagram_bounds, (double) x, (double) y );
+    if ( pos_on_bounds )
     {
         /* check the relationship shapes */
         {
-            const gui_sketch_location_thing_t rel_thing
-                = gui_sketch_card_private_get_relationship_id_at_pos( this_,
+            result = gui_sketch_card_private_get_relationship_at_pos( this_,
                                                                       x,
                                                                       y,
                                                                       snap_distance
                                                                     );
-            if ( gui_sketch_location_thing_is_valid( &rel_thing ) )
-            {
-                data_full_id_replace( out_selected_id, gui_sketch_location_thing_get_id_const( &rel_thing ) );
-            }
         }
 
         /* determine a feature at the given position */
-        if ( ! data_full_id_is_valid( out_selected_id ) )
+        if ( ! gui_sketch_location_thing_is_valid( &result ) )
         {
-            gui_sketch_card_private_get_feature_id_at_pos( this_,
-                                                           x,
-                                                           y,
-                                                           filter_lifelines,
-                                                           out_selected_id,
-                                                           out_surrounding_id
-                                                         );
+            result = gui_sketch_card_private_get_feature_at_pos( this_,
+                                                                 x,
+                                                                 y,
+                                                                 filter_lifelines
+                                                               );
         }
 
         /* determine a classifier at the given position */
-        if ( ! data_full_id_is_valid( out_selected_id ) )
+        if ( ! gui_sketch_location_thing_is_valid( &result ) )
         {
-            gui_sketch_card_private_get_classifier_id_at_pos( this_,
-                                                              x,
-                                                              y,
-                                                              out_selected_id,
-                                                              out_surrounding_id
-                                                            );
+            result = gui_sketch_card_private_get_classifier_at_pos( this_,
+                                                                    x,
+                                                                    y
+                                                                  );
         }
 
         /* fallback: return the diagram */
-        if ( ! data_full_id_is_valid( out_selected_id ) )
+        if ( ! gui_sketch_location_thing_is_valid( &result ) )
         {
-            data_full_id_reinit_by_table_and_id ( out_selected_id,
-                                                  DATA_TABLE_DIAGRAM,
-                                                  data_diagram_get_row_id(diagram_data),
-                                                  DATA_TABLE_VOID,
-                                                  DATA_ROW_ID_VOID
-                                                );
+            const geometry_rectangle_t *const diagram_space
+                = layout_diagram_get_draw_area_const( the_diagram );
+            const geometry_rectangle_t *const diagram_label
+                = layout_diagram_get_label_box_const( the_diagram );
+            const bool pos_on_space
+                = geometry_rectangle_contains( diagram_space, (double) x, (double) y );
+            const bool pos_on_label
+                = geometry_rectangle_contains( diagram_label, (double) x, (double) y );
+            const data_id_t diagram_id = data_diagram_get_data_id( diagram_data );
+            const gui_sketch_location_thing_kind_t kind
+                = ( pos_on_space
+                ? GUI_SKETCH_LOCATION_THING_KIND_SPACE
+                : ( pos_on_label ? GUI_SKETCH_LOCATION_THING_KIND_LABEL : GUI_SKETCH_LOCATION_THING_KIND_OUTLINE ) );
+            gui_sketch_location_thing_reinit_solo( &result, kind, &diagram_id );
         }
+#if 0
         if ( ! data_full_id_is_valid( out_surrounding_id ) )
         {
             data_full_id_reinit_by_table_and_id ( out_surrounding_id,
@@ -117,6 +116,7 @@ void gui_sketch_card_get_object_id_at_pos( const gui_sketch_card_t *this_,
                                                   DATA_ROW_ID_VOID
                                                 );
         }
+#endif
     }
     else
     {
@@ -124,17 +124,16 @@ void gui_sketch_card_get_object_id_at_pos( const gui_sketch_card_t *this_,
     }
 
     U8_TRACE_END();
+    return result;
 }
 
-void gui_sketch_card_private_get_classifier_id_at_pos( const gui_sketch_card_t *this_,
-                                                       int32_t x,
-                                                       int32_t y,
-                                                       data_full_id_t* out_selected_id,
-                                                       data_full_id_t* out_surrounding_id )
+gui_sketch_location_thing_t gui_sketch_card_private_get_classifier_at_pos( const gui_sketch_card_t *this_,
+                                                                           int32_t x,
+                                                                           int32_t y )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_selected_id );
-    assert( NULL != out_surrounding_id );
+    gui_sketch_location_thing_t result;
+    gui_sketch_location_thing_init_void( &result );
 
     /* get draw area */
     const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
@@ -161,51 +160,62 @@ void gui_sketch_card_private_get_classifier_id_at_pos( const gui_sketch_card_t *
             const geometry_rectangle_t *const classifier_label_box
                 = layout_visible_classifier_get_label_box_const( visible_classifier );
 
-            if ( geometry_rectangle_contains( classifier_symbol_box, (double) x, (double) y )
-                || geometry_rectangle_contains( classifier_label_box, (double) x, (double) y ) )
+            const bool pos_on_symbol
+                = geometry_rectangle_contains( classifier_symbol_box, (double) x, (double) y );
+            const bool pos_on_label
+                = geometry_rectangle_contains( classifier_label_box, (double) x, (double) y );
+            if ( pos_on_symbol || pos_on_label )
             {
-                if ( geometry_rectangle_contains( classifier_space, (double) x, (double) y ) )
+                const bool pos_on_space
+                    = geometry_rectangle_contains( classifier_space, (double) x, (double) y );
+                if ( pos_on_space )
                 {
                     /* surrounding classifier is found. select it if it is the smallest found area */
                     const double current_classifier_area = geometry_rectangle_get_area( classifier_space );
                     if ( current_classifier_area < surrounding_classifier_area )
                     {
                         surrounding_classifier_area = current_classifier_area;
-                        data_full_id_reinit_by_table_and_id ( out_surrounding_id,
-                                                              DATA_TABLE_DIAGRAMELEMENT,
-                                                              layout_visible_classifier_get_diagramelement_id( visible_classifier ),
-                                                              DATA_TABLE_CLASSIFIER,
-                                                              layout_visible_classifier_get_classifier_id( visible_classifier )
-                                                            );
+
+                        data_full_id_t found_id;
+                        data_full_id_init_by_table_and_id( &found_id,
+                                                           DATA_TABLE_DIAGRAMELEMENT,
+                                                           layout_visible_classifier_get_diagramelement_id( visible_classifier ),
+                                                           DATA_TABLE_CLASSIFIER,
+                                                           layout_visible_classifier_get_classifier_id( visible_classifier )
+                                                         );
+                        gui_sketch_location_thing_reinit( &result, GUI_SKETCH_LOCATION_THING_KIND_SPACE, &found_id );
                     }
                 }
                 else
                 {
                     /* classifier is found */
-                    data_full_id_reinit_by_table_and_id ( out_selected_id,
-                                                          DATA_TABLE_DIAGRAMELEMENT,
-                                                          layout_visible_classifier_get_diagramelement_id( visible_classifier ),
-                                                          DATA_TABLE_CLASSIFIER,
-                                                          layout_visible_classifier_get_classifier_id( visible_classifier )
-                                                        );
+                    data_full_id_t found_id;
+                    data_full_id_init_by_table_and_id( &found_id,
+                                                       DATA_TABLE_DIAGRAMELEMENT,
+                                                       layout_visible_classifier_get_diagramelement_id( visible_classifier ),
+                                                       DATA_TABLE_CLASSIFIER,
+                                                       layout_visible_classifier_get_classifier_id( visible_classifier )
+                                                     );
+                    const gui_sketch_location_thing_kind_t kind
+                        = ( pos_on_label ? GUI_SKETCH_LOCATION_THING_KIND_LABEL : GUI_SKETCH_LOCATION_THING_KIND_OUTLINE );
+                    gui_sketch_location_thing_reinit( &result, kind, &found_id );
                 }
             }
         }
     }
 
     U8_TRACE_END();
+    return result;
 }
 
-void gui_sketch_card_private_get_feature_id_at_pos( const gui_sketch_card_t *this_,
-                                                    int32_t x,
-                                                    int32_t y,
-                                                    bool filter_lifelines,
-                                                    data_full_id_t* out_selected_id,
-                                                    data_full_id_t* out_surrounding_id )
+gui_sketch_location_thing_t gui_sketch_card_private_get_feature_at_pos( const gui_sketch_card_t *this_,
+                                                                        int32_t x,
+                                                                        int32_t y,
+                                                                        bool filter_lifelines )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_selected_id );
-    assert( NULL != out_surrounding_id );
+    gui_sketch_location_thing_t result;
+    gui_sketch_location_thing_init_void( &result );
 
     /* check all contained features */
     const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
@@ -219,50 +229,60 @@ void gui_sketch_card_private_get_feature_id_at_pos( const gui_sketch_card_t *thi
         const geometry_rectangle_t *const feature_label_box
             = layout_feature_get_label_box_const( the_feature );
 
-        if ( geometry_rectangle_contains( feature_symbol_box, (double) x, (double) y )
-            || geometry_rectangle_contains( feature_label_box, (double) x, (double) y ) )
+        const bool pos_on_symbol
+            = geometry_rectangle_contains( feature_symbol_box, (double) x, (double) y );
+        const bool pos_on_label
+            = geometry_rectangle_contains( feature_label_box, (double) x, (double) y );
+        if ( pos_on_symbol || pos_on_label )
         {
             /* feature is found */
             const data_feature_t *const data_feature
                 = layout_feature_get_data_const ( the_feature );
             const layout_visible_classifier_t *const layout_classifier
                 = layout_feature_get_classifier_const ( the_feature );
+            data_full_id_t found_id;
             if (( filter_lifelines )
                 &&( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( data_feature ) ))
             {
-                data_full_id_reinit_by_table_and_id ( out_selected_id,
-                                                      DATA_TABLE_DIAGRAMELEMENT,
-                                                      layout_visible_classifier_get_diagramelement_id( layout_classifier ),
-                                                      DATA_TABLE_CLASSIFIER,
-                                                      layout_visible_classifier_get_classifier_id( layout_classifier )
-                                                    );
+                data_full_id_init_by_table_and_id( &found_id,
+                                                   DATA_TABLE_DIAGRAMELEMENT,
+                                                   layout_visible_classifier_get_diagramelement_id( layout_classifier ),
+                                                   DATA_TABLE_CLASSIFIER,
+                                                   layout_visible_classifier_get_classifier_id( layout_classifier )
+                                                 );
             }
             else
             {
-                data_full_id_reinit_by_table_and_id ( out_selected_id,
-                                                      DATA_TABLE_FEATURE,
-                                                      layout_feature_get_feature_id( the_feature ),
-                                                      DATA_TABLE_CLASSIFIER,
-                                                      data_feature_get_classifier_row_id( data_feature )
-                                                    );
+                data_full_id_init_by_table_and_id( &found_id,
+                                                   DATA_TABLE_FEATURE,
+                                                   layout_feature_get_feature_id( the_feature ),  /* feature or lifeline */
+                                                   DATA_TABLE_CLASSIFIER,
+                                                   data_feature_get_classifier_row_id( data_feature )
+                                                 );
             }
 
+            const gui_sketch_location_thing_kind_t kind
+                = ( pos_on_label ? GUI_SKETCH_LOCATION_THING_KIND_LABEL : GUI_SKETCH_LOCATION_THING_KIND_OUTLINE );
+            gui_sketch_location_thing_reinit( &result, kind, &found_id );
+#if 0
             data_full_id_reinit_by_table_and_id ( out_surrounding_id,
                                                   DATA_TABLE_DIAGRAMELEMENT,
                                                   layout_visible_classifier_get_diagramelement_id( layout_classifier ),
                                                   DATA_TABLE_CLASSIFIER,
                                                   layout_visible_classifier_get_classifier_id( layout_classifier )
                                                 );
+#endif
         }
     }
 
     U8_TRACE_END();
+    return result;
 }
 
-gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_id_at_pos( const gui_sketch_card_t *this_,
-                                                                                int32_t x,
-                                                                                int32_t y,
-                                                                                int32_t snap_distance )
+gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_at_pos( const gui_sketch_card_t *this_,
+                                                                             int32_t x,
+                                                                             int32_t y,
+                                                                             int32_t snap_distance )
 {
     U8_TRACE_BEGIN();
     gui_sketch_location_thing_t result;
@@ -281,19 +301,21 @@ gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_id_at_pos( 
         const geometry_rectangle_t *const rel_label_box
             = layout_relationship_get_label_box_const( the_relationship );
 
-        if ( geometry_connector_is_close( relationship_shape, (double) x, (double) y, (double) snap_distance )
-            || geometry_rectangle_contains( rel_label_box, (double) x, (double) y ) )
+        const bool pos_on_shape
+            = geometry_connector_is_close( relationship_shape, (double) x, (double) y, (double) snap_distance );
+        const bool pos_on_label
+            = geometry_rectangle_contains( rel_label_box, (double) x, (double) y );
+        if ( pos_on_shape || pos_on_label )
         {
             /* ensure that every relation at that location can be selected by small mouse movements */
             if ( ((uint32_t)(x+y))%(matching_relations_found+1) == 0 )
             {
-                const layout_relationship_t *current_relation;
-                current_relation = layout_visible_set_get_relationship_const ( layout, rel_index );
-                const data_relationship_t *relation_data;
-                relation_data = layout_relationship_get_data_const( current_relation );
-
+                const data_relationship_t *const relation_data
+                    = layout_relationship_get_data_const( the_relationship );
                 const data_id_t relation_id = data_relationship_get_data_id( relation_data );
-                gui_sketch_location_thing_reinit_solo( &result, GUI_SKETCH_LOCATION_THING_KIND_OUTLINE, &relation_id );
+                const gui_sketch_location_thing_kind_t kind
+                    = ( pos_on_label ? GUI_SKETCH_LOCATION_THING_KIND_LABEL : GUI_SKETCH_LOCATION_THING_KIND_OUTLINE );
+                gui_sketch_location_thing_reinit_solo( &result, kind, &relation_id );
             }
             matching_relations_found ++;
         }
@@ -308,6 +330,7 @@ static const double WHITE_G = 1.0;
 static const double WHITE_B = 1.0;
 static const double WHITE_A = 1.0;
 
+#if 0
 gui_sketch_location_thing_t gui_sketch_card_get_location_thing( const gui_sketch_card_t *this_, int32_t x, int32_t y )
 {
     data_full_id_t id;
@@ -323,6 +346,7 @@ gui_sketch_location_thing_t gui_sketch_card_get_location_thing( const gui_sketch
                                   );
     return result;
 }
+#endif
 
 void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_, const gui_sketch_location_thing_t *location, cairo_t *cr )
 {
@@ -448,7 +472,7 @@ void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
             const int32_t mouse_y = gui_sketch_drag_state_get_to_y( drag_state );
 
             const gui_sketch_location_thing_t thing_to_highlight
-                = gui_sketch_card_get_location_thing( this_, mouse_x, mouse_y );
+                = gui_sketch_card_get_element_at_pos( this_, mouse_x, mouse_y, !create_tool /* filter_lifelines */ );
 
             gui_sketch_card_private_draw_location_space( this_, &thing_to_highlight, cr );
         }

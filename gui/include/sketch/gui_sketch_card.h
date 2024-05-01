@@ -115,71 +115,62 @@ static inline bool gui_sketch_card_is_visible( const gui_sketch_card_t *this_ );
 static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool visible );
 
 /*!
- *  \brief gets the object-id of the object at a given position
+ *  \brief gets the id and kind of the element-part at a given position
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
  *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
- *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
+ *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,
-                                            int32_t x,
-                                            int32_t y,
-                                            bool filter_lifelines,
-                                            data_full_id_t* out_selected_id,
-                                            data_full_id_t* out_surrounding_id
-                                          );
+gui_sketch_location_thing_t gui_sketch_card_get_element_at_pos ( const gui_sketch_card_t *this_,
+                                                                 int32_t x,
+                                                                 int32_t y,
+                                                                 bool filter_lifelines
+                                                               );
 
 /*!
- *  \brief gets the classifier-id of the classifier at a given position
+ *  \brief gets the id and kind of the classifier-part at a given position
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
+ *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-void gui_sketch_card_private_get_classifier_id_at_pos ( const gui_sketch_card_t *this_,
-                                                        int32_t x,
-                                                        int32_t y,
-                                                        data_full_id_t* out_selected_id,
-                                                        data_full_id_t* out_surrounding_id
-                                                      );
+gui_sketch_location_thing_t gui_sketch_card_private_get_classifier_at_pos ( const gui_sketch_card_t *this_,
+                                                                            int32_t x,
+                                                                            int32_t y
+                                                                          );
 
 /*!
- *  \brief gets the feature-id of the feature at a given position
+ *  \brief gets the id and kind of the feature-part at a given position
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
  *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
- *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
+ *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-void gui_sketch_card_private_get_feature_id_at_pos ( const gui_sketch_card_t *this_,
-                                                     int32_t x,
-                                                     int32_t y,
-                                                     bool filter_lifelines,
-                                                     data_full_id_t* out_selected_id,
-                                                     data_full_id_t* out_surrounding_id
-                                                   );
+gui_sketch_location_thing_t gui_sketch_card_private_get_feature_at_pos ( const gui_sketch_card_t *this_,
+                                                                         int32_t x,
+                                                                         int32_t y,
+                                                                         bool filter_lifelines
+                                                                       );
 
 /*!
- *  \brief gets the relationship-id of the relationship at a given position
+ *  \brief gets the id and kind of the relationship-part at a given position
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
  *  \param snap_distance maximum distance to the next connector line when to select the connector
- *  \return the object id and object kind at the given location. The id is invalid if there is no object at the given location.
+ *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_id_at_pos ( const gui_sketch_card_t *this_,
-                                                                                 int32_t x,
-                                                                                 int32_t y,
-                                                                                 int32_t snap_distance
-                                                                               );
+gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_at_pos ( const gui_sketch_card_t *this_,
+                                                                              int32_t x,
+                                                                              int32_t y,
+                                                                              int32_t snap_distance
+                                                                            );
 
 /*!
  *  \brief draws the background of a single diagram
