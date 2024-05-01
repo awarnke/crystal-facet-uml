@@ -87,36 +87,6 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
     }
 }
 
-#if 0
-static inline void gui_sketch_area_private_get_element_at_pos ( gui_sketch_area_t *this_,
-                                                                int32_t x,
-                                                                int32_t y,
-                                                                bool filter_lifelines,
-                                                                gui_sketch_location_thing_t* out_element_id,
-                                                                data_id_t* out_diagram_id )
-{
-    assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
-    assert( NULL != out_element_id );
-    assert( NULL != out_diagram_id );
-    gui_sketch_location_thing_init_void( out_element_id );
-    data_id_reinit_void( out_diagram_id );
-
-    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
-    {
-        const gui_sketch_card_t *const card = &((*this_).cards[idx]);
-        const shape_int_rectangle_t card_bounds = gui_sketch_card_get_bounds( card );
-        if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
-        {
-            *out_diagram_id = gui_sketch_card_get_diagram_id( card );
-            const gui_sketch_location_thing_t element
-                = gui_sketch_card_get_element_at_pos( card, x, y, filter_lifelines );
-            gui_sketch_location_thing_replace( out_element_id, &element );
-            break;
-        }
-    }
-}
-#endif
-
 static inline gui_sketch_card_t *gui_sketch_area_private_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );

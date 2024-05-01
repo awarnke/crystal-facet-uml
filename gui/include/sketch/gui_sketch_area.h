@@ -333,28 +333,6 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
                                                                   data_id_t* out_diagram_id
                                                                 );
 
-#if 0
-/*!
- *  \brief gets the object-id of the surrounding object and a selected-part-info at a given position
- *
- *  Nav-Tree and Result-List objects are ignored; this function is intended for use in EDIT and CREATE modes.
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
- *  \param[out] out_element_id the id and kind of element at the given location. The id is invalid if there is no object at the given location.
- *  \param[out] out_diagram_id the diagram id at given location. The id is invalid if there is no diagram.
- */
-static inline void gui_sketch_area_private_get_element_at_pos ( gui_sketch_area_t *this_,
-                                                                int32_t x,
-                                                                int32_t y,
-                                                                bool filter_lifelines,
-                                                                gui_sketch_location_thing_t* out_element_id,
-                                                                data_id_t* out_diagram_id
-                                                              );
-#endif
-
 #include "gui_sketch_area.inl"
 
 #endif  /* GUI_SKETCH_AREA_H */

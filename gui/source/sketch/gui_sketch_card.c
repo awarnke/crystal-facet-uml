@@ -106,17 +106,6 @@ gui_sketch_location_thing_t gui_sketch_card_get_element_at_pos( const gui_sketch
                 : ( pos_on_label ? GUI_SKETCH_LOCATION_THING_KIND_LABEL : GUI_SKETCH_LOCATION_THING_KIND_OUTLINE ) );
             gui_sketch_location_thing_reinit_solo( &result, kind, &diagram_id );
         }
-#if 0
-        if ( ! data_full_id_is_valid( out_surrounding_id ) )
-        {
-            data_full_id_reinit_by_table_and_id ( out_surrounding_id,
-                                                  DATA_TABLE_DIAGRAM,
-                                                  data_diagram_get_row_id(diagram_data),
-                                                  DATA_TABLE_VOID,
-                                                  DATA_ROW_ID_VOID
-                                                );
-        }
-#endif
     }
     else
     {
@@ -264,14 +253,6 @@ gui_sketch_location_thing_t gui_sketch_card_private_get_feature_at_pos( const gu
             const gui_sketch_location_thing_kind_t kind
                 = ( pos_on_label ? GUI_SKETCH_LOCATION_THING_KIND_LABEL : GUI_SKETCH_LOCATION_THING_KIND_OUTLINE );
             gui_sketch_location_thing_reinit( &result, kind, &found_id );
-#if 0
-            data_full_id_reinit_by_table_and_id ( out_surrounding_id,
-                                                  DATA_TABLE_DIAGRAMELEMENT,
-                                                  layout_visible_classifier_get_diagramelement_id( layout_classifier ),
-                                                  DATA_TABLE_CLASSIFIER,
-                                                  layout_visible_classifier_get_classifier_id( layout_classifier )
-                                                );
-#endif
         }
     }
 
@@ -343,7 +324,6 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
 
     /* check diagram */
     const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
-    //const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag_data );
     const data_id_t diag_id = data_diagram_get_data_id( diag_data );
     if ( data_id_equals( &search_id, &diag_id ) )
     {
@@ -352,7 +332,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
             case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
             {
                 geometry_rectangle_replace( &highlight, layout_diagram_get_label_box_const( layout_diag ) );
-                geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
             }
             break;
 
@@ -377,9 +357,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
     {
         const layout_visible_classifier_t *const visible_classifier
             = layout_visible_set_get_visible_classifier_const ( layout, c_index );
-        //const data_classifier_t *classifier = layout_visible_classifier_get_classifier_const( visible_classifier );
         const data_diagramelement_t *diagele = layout_visible_classifier_get_diagramelement_const( visible_classifier );
-        //const data_id_t classifier_id = data_classifier_get_data_id( classifier );
         const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
         if ( data_id_equals( &search_id, &diagele_id ) )
         {
@@ -388,7 +366,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                 case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
                 {
                     geometry_rectangle_replace( &highlight, layout_visible_classifier_get_label_box_const( visible_classifier ) );
-                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
                 }
                 break;
 
@@ -418,15 +396,12 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
         const data_id_t feature_id = data_feature_get_data_id( feature );
         if ( data_id_equals( &search_id, &feature_id ) )
         {
-            //const geometry_rectangle_t *const feature_symbol_box
-            //    = layout_feature_get_symbol_box_const ( the_feature );
-            geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
             switch ( kind )
             {
                 case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
-                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
                 }
                 break;
 
@@ -434,7 +409,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                 case GUI_SKETCH_LOCATION_THING_KIND_OUTLINE:
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_symbol_box_const( the_feature ) );
-                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
                 }
                 break;
             }
@@ -450,13 +425,12 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
         const data_id_t relationship_id = data_relationship_get_data_id( relationship );
         if ( data_id_equals( &search_id, &relationship_id ) )
         {
-            geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
             switch ( kind )
             {
                 case GUI_SKETCH_LOCATION_THING_KIND_LABEL:
                 {
                     geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
-                    geometry_rectangle_expand_4dir( &highlight, 2.0 /* delta_width */, 2.0 /* delta_height */ );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
                 }
                 break;
 

@@ -13,24 +13,13 @@
  *  gui_sketch_location_thing_t stores the type and the id of an element and if needed their parent classifier.
  */
 
+#include "sketch/gui_sketch_location_thing_kind.h"
 #include "gui_marked_set.h"
 #include "shape/shape_int_rectangle.h"
 #include "pencil_marker.h"
 #include "data_id.h"
 #include "set/data_full_id.h"
 #include <stdint.h>
-
-/*!
- *  \brief list of thing-types
- */
-enum gui_sketch_location_thing_kind_enum {
-    GUI_SKETCH_LOCATION_THING_KIND_VOID,
-    GUI_SKETCH_LOCATION_THING_KIND_OUTLINE,  /* this is the border or the connector line */
-    GUI_SKETCH_LOCATION_THING_KIND_LABEL,  /* this is the name, stereotype or icon */
-    GUI_SKETCH_LOCATION_THING_KIND_SPACE,  /* the inner space of a classifier or diagram */
-};
-
-typedef enum gui_sketch_location_thing_kind_enum gui_sketch_location_thing_kind_t;
 
 /*!
  *  \brief attributes of the thing
