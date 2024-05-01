@@ -330,24 +330,6 @@ static const double WHITE_G = 1.0;
 static const double WHITE_B = 1.0;
 static const double WHITE_A = 1.0;
 
-#if 0
-gui_sketch_location_thing_t gui_sketch_card_get_location_thing( const gui_sketch_card_t *this_, int32_t x, int32_t y )
-{
-    data_full_id_t id;
-    data_full_id_t surrounding_id;
-    gui_sketch_card_get_object_id_at_pos( this_, x, y, false /* filter_lifelines */, &id, &surrounding_id );
-
-    gui_sketch_location_thing_t result;
-    const data_id_t *const classifier = data_full_id_get_secondary_id_const( &id );
-    const bool is_space = ( DATA_TABLE_CLASSIFIER != data_id_get_table( classifier ) );  /* neither feature nor diagramelement */
-    gui_sketch_location_thing_init( &result,
-                                    ( is_space ? GUI_SKETCH_LOCATION_THING_KIND_SPACE : GUI_SKETCH_LOCATION_THING_KIND_SYMBOL ),
-                                    ( is_space ? &surrounding_id : &id )
-                                  );
-    return result;
-}
-#endif
-
 void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_, const gui_sketch_location_thing_t *location, cairo_t *cr )
 {
     const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
@@ -409,7 +391,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
     {
         const layout_relationship_t *const the_relationship
             = layout_visible_set_get_relationship_const( layout, rel_index );
-        const data_relationship_t *relationship = layout_relationship_get_data_const( the_relationship );
+        const data_relationship_t *const relationship = layout_relationship_get_data_const( the_relationship );
         const data_id_t relationship_id = data_relationship_get_data_id( relationship );
         if ( data_id_equals( &search_id, &relationship_id ) )
         {

@@ -1038,36 +1038,38 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             else
             {
                 /* determine the object at click location */
-                data_full_id_t clicked_object;
-                data_full_id_t surrounding_object;
-                data_id_t diag_id;
-                gui_sketch_area_private_get_object_ids_at_pos( this_,
-                                                               x,
-                                                               y,
-                                                               false /* FILTER_LIFELINE */,
-                                                               &clicked_object,
-                                                               &surrounding_object,
-                                                               &diag_id
-                                                             );
-                data_full_id_trace( &clicked_object );
-                data_full_id_trace( &surrounding_object );
-                const data_id_t *const clicked_classifier
-                    = data_full_id_get_secondary_id_const( &clicked_object );
-                const data_id_t *const surrounding_classifier
-                    = data_full_id_get_secondary_id_const( &surrounding_object );
-
-                if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )  /* feature or diagramelement */
+                data_id_t diagram_id;
+                gui_sketch_location_thing_t element_id;
+                gui_sketch_area_private_get_element_at_pos( this_,
+                                                            x,
+                                                            y,
+                                                            false /* FILTER_LIFELINE */,
+                                                            &element_id,
+                                                            &diagram_id
+                                                          );
+                const data_full_id_t *const clicked_object
+                    = gui_sketch_location_thing_get_id_const( &element_id );
+                data_full_id_trace( clicked_object );
+                const gui_sketch_location_thing_kind_t kind
+                    = gui_sketch_location_thing_get_kind( &element_id );
+                if ( kind != GUI_SKETCH_LOCATION_THING_KIND_SPACE )
+                //if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )  /* feature or diagramelement */
                 {
                     /* update drag state */
-                    gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), clicked_object );
+                    gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), *clicked_object );
 
                     /* set focused object (either a diagramelement or a feature) */
-                    gui_marked_set_set_focused( (*this_).marker, clicked_object, diag_id );
+                    gui_marked_set_set_focused( (*this_).marker, *clicked_object, diagram_id );
                 }
-                else /* clicked either into inner space of a classifier or at a relation or outside any classifier */
+                else /* clicked either into inner space of a classifier or of a diagram */
                 {
                     /* stop dragging */
                     gui_sketch_drag_state_stop_dragging ( &((*this_).drag_state) );
+
+                    /* get data */
+                    const data_id_t *const surrounding_element
+                        = data_full_id_get_primary_id_const( clicked_object );
+                    assert( data_id_is_valid( surrounding_element ) );
 
                     /* create a new classifier */
                     const data_diagram_t *const target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
@@ -1085,8 +1087,12 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     u8_error_t c_result;
                     data_row_id_t new_diagele_id;
                     data_row_id_t new_classifier_id;
-                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( surrounding_classifier ) )
+                    if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( surrounding_element ) )
                     {
+                        const data_id_t *const surrounding_classifier
+                            = data_full_id_get_secondary_id_const( clicked_object );
+                        assert( data_id_is_valid( surrounding_classifier ) );
+
                         data_row_id_t new_relationship_id;
                         c_result = gui_sketch_object_creator_create_classifier_as_child( &((*this_).object_creator),
                                                                                          selected_diagram_id,
@@ -1100,6 +1106,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     }
                     else
                     {
+                        assert( DATA_TABLE_DIAGRAM == data_id_get_table( surrounding_element ) );
                         c_result = gui_sketch_object_creator_create_classifier( &((*this_).object_creator),
                                                                                 selected_diagram_id,
                                                                                 x_order,
@@ -1127,7 +1134,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                         /* set focused object and notify listener */
                         const data_full_id_t focused_object
                             = DATA_FULL_ID( DATA_TABLE_DIAGRAMELEMENT, new_diagele_id, new_classifier_id );
-                        gui_marked_set_set_focused( (*this_).marker, focused_object, diag_id );
+                        gui_marked_set_set_focused( (*this_).marker, focused_object, diagram_id );
                         gui_marked_set_clear_selected_set( (*this_).marker );
 
                         U8_TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );

@@ -173,6 +173,18 @@ gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_at_pos ( co
                                                                             );
 
 /*!
+ *  \brief draws the highlighted box of an element-part
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param location currently highlighted element-part
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_card_private_draw_location_space ( const gui_sketch_card_t *this_,
+                                                   const gui_sketch_location_thing_t *location,
+                                                   cairo_t *cr
+                                                 );
+
+/*!
  *  \brief draws the background of a single diagram
  *
  *  If gui_sketch_card_is_visible() is false, this method does nothing.
