@@ -187,6 +187,8 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                 = (( highlighted_object_table == DATA_TABLE_CLASSIFIER )
                 ||( highlighted_object_table == DATA_TABLE_FEATURE )
                 ||( highlighted_object_table == DATA_TABLE_DIAGRAMELEMENT ));
+            const bool draw_icon
+                = draw_arrow || ( highlighted_object_table == DATA_TABLE_DIAGRAM );
 
             const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag );
@@ -209,9 +211,12 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             }
 
             /* get coordinates */
-            const int32_t x = gui_sketch_drag_state_get_to_x ( drag_state );
-            const int32_t y = gui_sketch_drag_state_get_to_y ( drag_state );
-            gui_sketch_overlay_private_draw_create_icon( this_, x, y, draw_arrow, cr );
+            if ( draw_icon )
+            {
+                const int32_t x = gui_sketch_drag_state_get_to_x ( drag_state );
+                const int32_t y = gui_sketch_drag_state_get_to_y ( drag_state );
+                gui_sketch_overlay_private_draw_create_icon( this_, x, y, draw_arrow, cr );
+            }
         }
     }
 

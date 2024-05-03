@@ -1039,14 +1039,14 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             {
                 /* determine the object at click location */
                 const data_id_t diagram_id = gui_sketch_card_get_diagram_id( target_card );
-                const gui_sketch_location_thing_t element_id
+                const layout_subelement_id_t element_id
                     = gui_sketch_card_get_element_at_pos( target_card, x, y, false /* FILTER_LIFELINE */ );
                 const data_full_id_t *const clicked_object
-                    = gui_sketch_location_thing_get_id_const( &element_id );
+                    = layout_subelement_id_get_id_const( &element_id );
                 data_full_id_trace( clicked_object );
-                const gui_sketch_location_thing_kind_t kind
-                    = gui_sketch_location_thing_get_kind( &element_id );
-                if ( kind != GUI_SKETCH_LOCATION_THING_KIND_SPACE )
+                const layout_subelement_kind_t kind
+                    = layout_subelement_id_get_kind( &element_id );
+                if ( kind != LAYOUT_SUBELEMENT_KIND_SPACE )
                 {
                     /* update drag state */
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), *clicked_object );

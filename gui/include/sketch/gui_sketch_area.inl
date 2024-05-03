@@ -79,9 +79,9 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             *out_diagram_id = gui_sketch_card_get_diagram_id( card );
-            const gui_sketch_location_thing_t element
+            const layout_subelement_id_t subelement
                 = gui_sketch_card_get_element_at_pos( card, x, y, filter_lifelines );
-            data_full_id_replace( out_object_id, gui_sketch_location_thing_get_id_const( &element ) );
+            data_full_id_replace( out_object_id, layout_subelement_id_get_id_const( &subelement ) );
             break;
         }
     }

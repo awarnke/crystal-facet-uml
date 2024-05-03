@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.57.1"
+    "generator_version": "1.58.0"
   }
   ,
   "views":
@@ -5313,7 +5313,7 @@
         "description": [
                 "This diagram shows fundamental design decisions of the crystal-facet-uml architecture."
         ],
-        "list_order": 0,
+        "list_order": -1610612736,
         "display_flags": 0,
         "parent_name": "Architectural Decisions",
         "parent": "cdc0dce1-2144-4ecf-8f3b-456e24e22e34",
@@ -5384,7 +5384,7 @@
         "description": [
                 ""
         ],
-        "list_order": 0,
+        "list_order": -1073741824,
         "display_flags": 0,
         "parent_name": "Architectural Decisions",
         "parent": "cdc0dce1-2144-4ecf-8f3b-456e24e22e34",
@@ -5480,7 +5480,7 @@
         "description": [
                 ""
         ],
-        "list_order": 0,
+        "list_order": 1073872895,
         "display_flags": 0,
         "parent_name": "Architectural Decisions",
         "parent": "cdc0dce1-2144-4ecf-8f3b-456e24e22e34",
@@ -5916,7 +5916,7 @@
         "description": [
                 ""
         ],
-        "list_order": 32768,
+        "list_order": 1073872895,
         "display_flags": 0,
         "parent_name": "Architectural Decisions",
         "parent": "cdc0dce1-2144-4ecf-8f3b-456e24e22e34",
@@ -6066,7 +6066,7 @@
         "description": [
                 "This section shows quality requirements (structured into a quality tree)"
         ],
-        "list_order": 131072,
+        "list_order": 1073889279,
         "display_flags": 0,
         "parent_name": "Quality Requirements",
         "parent": "8d612afa-14be-462b-84b4-5fc77dabe59e",
@@ -6289,7 +6289,7 @@
         "description": [
                 "This section shows scenarios which are of special importance for the quallity requirements stated in D0076#name."
         ],
-        "list_order": 163840,
+        "list_order": 1073889279,
         "display_flags": 0,
         "parent_name": "Quality Requirements",
         "parent": "8d612afa-14be-462b-84b4-5fc77dabe59e",

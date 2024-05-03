@@ -17,7 +17,7 @@
 #include "sketch/gui_sketch_background.h"
 #include "sketch/gui_sketch_request.h"
 #include "sketch/gui_sketch_texture.h"
-#include "sketch/gui_sketch_location_thing.h"
+#include "layout/layout_subelement_id.h"
 #include "gui_toolbox.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
@@ -289,6 +289,8 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
 
 /*!
  *  \brief gets the diagram-id of the diagram and the object-id of the object at a given position
+ *
+ *  This function is intended for use in search and navigate modes only.
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position

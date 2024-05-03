@@ -11,7 +11,7 @@
 #include "sketch/gui_sketch_marker.h"
 #include "sketch/gui_sketch_snap_state.h"
 #include "sketch/gui_sketch_drag_state.h"
-#include "sketch/gui_sketch_location_thing.h"
+#include "layout/layout_subelement_id.h"
 #include "gui_marked_set.h"
 #include "gui_tool.h"
 #include "shape/shape_int_rectangle.h"
@@ -123,11 +123,11 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
  *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
  *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-gui_sketch_location_thing_t gui_sketch_card_get_element_at_pos ( const gui_sketch_card_t *this_,
-                                                                 int32_t x,
-                                                                 int32_t y,
-                                                                 bool filter_lifelines
-                                                               );
+layout_subelement_id_t gui_sketch_card_get_element_at_pos ( const gui_sketch_card_t *this_,
+                                                            int32_t x,
+                                                            int32_t y,
+                                                            bool filter_lifelines
+                                                          );
 
 /*!
  *  \brief gets the id and kind of the classifier-part at a given position
@@ -137,10 +137,10 @@ gui_sketch_location_thing_t gui_sketch_card_get_element_at_pos ( const gui_sketc
  *  \param y y-position
  *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-gui_sketch_location_thing_t gui_sketch_card_private_get_classifier_at_pos ( const gui_sketch_card_t *this_,
-                                                                            int32_t x,
-                                                                            int32_t y
-                                                                          );
+layout_subelement_id_t gui_sketch_card_private_get_classifier_at_pos ( const gui_sketch_card_t *this_,
+                                                                       int32_t x,
+                                                                       int32_t y
+                                                                     );
 
 /*!
  *  \brief gets the id and kind of the feature-part at a given position
@@ -151,11 +151,11 @@ gui_sketch_location_thing_t gui_sketch_card_private_get_classifier_at_pos ( cons
  *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
  *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-gui_sketch_location_thing_t gui_sketch_card_private_get_feature_at_pos ( const gui_sketch_card_t *this_,
-                                                                         int32_t x,
-                                                                         int32_t y,
-                                                                         bool filter_lifelines
-                                                                       );
+layout_subelement_id_t gui_sketch_card_private_get_feature_at_pos ( const gui_sketch_card_t *this_,
+                                                                    int32_t x,
+                                                                    int32_t y,
+                                                                    bool filter_lifelines
+                                                                  );
 
 /*!
  *  \brief gets the id and kind of the relationship-part at a given position
@@ -166,11 +166,11 @@ gui_sketch_location_thing_t gui_sketch_card_private_get_feature_at_pos ( const g
  *  \param snap_distance maximum distance to the next connector line when to select the connector
  *  \return id and kind of element-part at the given position. The id is invalid if there is no element at the given position.
  */
-gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_at_pos ( const gui_sketch_card_t *this_,
-                                                                              int32_t x,
-                                                                              int32_t y,
-                                                                              int32_t snap_distance
-                                                                            );
+layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos ( const gui_sketch_card_t *this_,
+                                                                         int32_t x,
+                                                                         int32_t y,
+                                                                         int32_t snap_distance
+                                                                       );
 
 /*!
  *  \brief draws the highlighted box of an element-part
@@ -180,7 +180,7 @@ gui_sketch_location_thing_t gui_sketch_card_private_get_relationship_at_pos ( co
  *  \param cr cairo drawing context
  */
 void gui_sketch_card_private_draw_location_space ( const gui_sketch_card_t *this_,
-                                                   const gui_sketch_location_thing_t *location,
+                                                   const layout_subelement_id_t *location,
                                                    cairo_t *cr
                                                  );
 
