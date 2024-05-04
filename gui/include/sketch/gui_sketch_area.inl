@@ -59,17 +59,17 @@ static inline void gui_sketch_area_private_get_diagram_and_object_id_at_pos ( gu
     }
 }
 
-static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
-                                                                  int32_t x,
-                                                                  int32_t y,
-                                                                  bool filter_lifelines,
-                                                                  data_full_id_t* out_object_id,
-                                                                  data_id_t* out_diagram_id )
+static inline void gui_sketch_area_private_get_element_id_at_pos ( gui_sketch_area_t *this_,
+                                                                   int32_t x,
+                                                                   int32_t y,
+                                                                   bool filter_lifelines,
+                                                                   data_full_id_t* out_element_id,
+                                                                   data_id_t* out_diagram_id )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
-    assert( NULL != out_object_id );
+    assert( NULL != out_element_id );
     assert( NULL != out_diagram_id );
-    data_full_id_reinit_void( out_object_id );
+    data_full_id_reinit_void( out_element_id );
     data_id_reinit_void( out_diagram_id );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
@@ -81,7 +81,15 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
             *out_diagram_id = gui_sketch_card_get_diagram_id( card );
             const layout_subelement_id_t subelement
                 = gui_sketch_card_get_element_at_pos( card, x, y, filter_lifelines );
-            data_full_id_replace( out_object_id, layout_subelement_id_get_id_const( &subelement ) );
+            if ( LAYOUT_SUBELEMENT_KIND_SPACE == layout_subelement_id_get_kind( &subelement ) )
+            {
+                /* do not report space areas, in EDIT mode these are of no concern, */
+                /* in CREATE mode during dragging, these are also of no concern. */
+            }
+            else
+            {
+                data_full_id_replace( out_element_id, layout_subelement_id_get_id_const( &subelement ) );
+            }
             break;
         }
     }

@@ -722,13 +722,13 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
             {
                 data_full_id_t object_under_mouse;
                 data_id_t diag_id;
-                gui_sketch_area_private_get_object_id_at_pos( this_,
-                                                              x,
-                                                              y,
-                                                              true /* FILTER_LIFELINE */,
-                                                              &object_under_mouse,
-                                                              &diag_id
-                                                            );
+                gui_sketch_area_private_get_element_id_at_pos( this_,
+                                                               x,
+                                                               y,
+                                                               true /* FILTER_LIFELINE */,
+                                                               &object_under_mouse,
+                                                               &diag_id
+                                                             );
                 const data_id_t object_highlighted
                     = gui_marked_set_get_highlighted( (*this_).marker );
                 const data_id_t mouseover_element
@@ -750,25 +750,34 @@ void gui_sketch_area_motion_notify( gui_sketch_area_t *this_, int x, int y )
 
         case GUI_TOOL_CREATE:
         {
-            data_full_id_t object_under_mouse;
-            data_id_t diag_id;
-            gui_sketch_area_private_get_object_id_at_pos( this_,
-                                                          x,
-                                                          y,
-                                                          false /* FILTER_LIFELINE */,
-                                                          &object_under_mouse,
-                                                          &diag_id
-                                                        );
-            const data_id_t classifier_under_mouse
-                = data_full_id_get_primary_id( &object_under_mouse );
+            const gui_sketch_card_t *const target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
+            const layout_subelement_id_t element_id
+                = ( NULL == target_card )
+                ? LAYOUT_SUBELEMENT_ID_VOID
+                : gui_sketch_card_get_element_at_pos( target_card, x, y, false /* FILTER_LIFELINE */ );
+            const data_id_t diagram_id
+                = ( NULL == target_card )
+                ? DATA_ID_VOID
+                : gui_sketch_card_get_diagram_id( target_card );
+            const data_full_id_t *const element_under_mouse_full
+                = layout_subelement_id_get_id_const( &element_id );  /* may return VOID */
+            const layout_subelement_kind_t element_under_mouse_kind
+                = layout_subelement_id_get_kind( &element_id );  /* may return VOID */
+            const data_id_t element_under_mouse
+                = data_full_id_get_primary_id( element_under_mouse_full );
 
-            const data_id_t object_highlighted
+            const data_id_t element_highlighted
                 = gui_marked_set_get_highlighted( (*this_).marker );
-            if ( ! data_id_equals( &classifier_under_mouse, &object_highlighted ) )
+            const layout_subelement_kind_t element_highlighted_kind
+                = gui_marked_set_get_highlighted_kind( (*this_).marker );
+            const bool highlighted_element_changed
+                = ( ! data_id_equals( &element_under_mouse, &element_highlighted ) )
+                || ( element_under_mouse_kind != element_highlighted_kind );
+            if ( highlighted_element_changed )
             {
-                if ( data_id_is_valid( &classifier_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                if ( data_id_is_valid( &element_under_mouse ) || data_id_is_valid( &element_highlighted ) )
                 {
-                    gui_marked_set_set_highlighted( (*this_).marker, classifier_under_mouse, diag_id );
+                    gui_marked_set_set_highlighted_subelement( (*this_).marker, &element_id, diagram_id );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( (*this_).drawing_area );
@@ -962,13 +971,13 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             /* determine the focused object */
             data_full_id_t focused_object;
             data_id_t diag_id;
-            gui_sketch_area_private_get_object_id_at_pos( this_,
-                                                          x,
-                                                          y,
-                                                          true /* FILTER_LIFELINE */,
-                                                          &focused_object,
-                                                          &diag_id
-                                                        );
+            gui_sketch_area_private_get_element_id_at_pos( this_,
+                                                           x,
+                                                           y,
+                                                           true /* FILTER_LIFELINE */,
+                                                           &focused_object,
+                                                           &diag_id
+                                                         );
             data_full_id_trace( &focused_object );
 
             /* update drag state */
@@ -1492,13 +1501,13 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 /* which object is at the target location? */
                 data_full_id_t destination_object;
                 data_id_t diag_id;
-                gui_sketch_area_private_get_object_id_at_pos( this_,
-                                                              x,
-                                                              y,
-                                                              false /* FILTER_LIFELINE */,
-                                                              &destination_object,
-                                                              &diag_id
-                                                            );
+                gui_sketch_area_private_get_element_id_at_pos( this_,
+                                                               x,
+                                                               y,
+                                                               false /* FILTER_LIFELINE */,
+                                                               &destination_object,
+                                                               &diag_id
+                                                             );
                 data_full_id_trace( &destination_object );
                 const data_id_t destination_element
                     = data_full_id_get_primary_id( &destination_object );

@@ -13,6 +13,7 @@
 #include "sketch/gui_sketch_nav_tree.h"
 #include "sketch/gui_sketch_drag_state.h"
 #include "gui_tool.h"
+#include "layout/layout_subelement_kind.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -95,13 +96,15 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param drag_state current dragging status
  *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
- *  \param highlighted_object_table the object's type (table) the mouse is hovering on
+ *  \param highlighted_table the elements's type (table) the mouse is hovering on
+ *  \param highlighted_kind the kind of the highlighted element part
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
                                                   const gui_sketch_card_t *card_under_mouse,
-                                                  data_table_t highlighted_object_table,
+                                                  data_table_t highlighted_table,
+                                                  layout_subelement_kind_t highlighted_kind,
                                                   cairo_t *cr
                                                 );
 

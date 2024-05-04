@@ -55,7 +55,14 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         case GUI_TOOL_CREATE:
         {
             const data_id_t highlighted = gui_marked_set_get_highlighted( marked_objects );
-            gui_sketch_overlay_private_draw_create_mode( this_, drag_state, card_under_mouse, data_id_get_table(&highlighted), cr );
+            const layout_subelement_kind_t highlighted_kind = gui_marked_set_get_highlighted_kind( marked_objects );
+            gui_sketch_overlay_private_draw_create_mode( this_,
+                                                         drag_state,
+                                                         card_under_mouse,
+                                                         data_id_get_table(&highlighted),
+                                                         highlighted_kind,
+                                                         cr
+                                                       );
         }
         break;
 
@@ -163,7 +170,8 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
 void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
                                                   const gui_sketch_card_t *card_under_mouse,
-                                                  data_table_t highlighted_object_table,
+                                                  data_table_t highlighted_table,
+                                                  layout_subelement_kind_t highlighted_kind,
                                                   cairo_t *cr )
 {
     U8_TRACE_BEGIN();
@@ -184,11 +192,14 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
         if ( NULL != card_under_mouse )
         {
             const bool draw_arrow
-                = (( highlighted_object_table == DATA_TABLE_CLASSIFIER )
-                ||( highlighted_object_table == DATA_TABLE_FEATURE )
-                ||( highlighted_object_table == DATA_TABLE_DIAGRAMELEMENT ));
-            const bool draw_icon
-                = draw_arrow || ( highlighted_object_table == DATA_TABLE_DIAGRAM );
+                = (( highlighted_table == DATA_TABLE_CLASSIFIER )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
+                ||(( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
+                ||( highlighted_table == DATA_TABLE_FEATURE );
+            const bool draw_box
+                = draw_arrow
+                || ( highlighted_table == DATA_TABLE_CLASSIFIER )
+                || ( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )
+                || (( highlighted_table == DATA_TABLE_DIAGRAM )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_SPACE ));
 
             const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag );
@@ -211,7 +222,7 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             }
 
             /* get coordinates */
-            if ( draw_icon )
+            if ( draw_box )
             {
                 const int32_t x = gui_sketch_drag_state_get_to_x ( drag_state );
                 const int32_t y = gui_sketch_drag_state_get_to_y ( drag_state );

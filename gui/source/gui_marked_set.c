@@ -19,8 +19,10 @@ void gui_marked_set_init( gui_marked_set_t *this_, GObject *signal_source )
     data_full_id_init_void( &((*this_).focused) );
     data_id_init_void( &((*this_).focused_diagram) );
     data_id_init_void( &((*this_).highlighted) );
+    (*this_).highlighted_kind = LAYOUT_SUBELEMENT_KIND_VOID;
     data_id_init_void( &((*this_).highlighted_diagram) );
     (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
+
     data_small_set_init( &((*this_).selected_set) );
 
     /* define a new signal */
@@ -55,6 +57,7 @@ void gui_marked_set_reinit( gui_marked_set_t *this_ )
     data_full_id_init_void( &((*this_).focused) );
     data_id_init_void( &((*this_).focused_diagram) );
     data_id_init_void( &((*this_).highlighted) );
+    (*this_).highlighted_kind = LAYOUT_SUBELEMENT_KIND_VOID;
     data_id_init_void( &((*this_).highlighted_diagram) );
     (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
     data_small_set_reinit( &((*this_).selected_set) );
@@ -102,4 +105,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-

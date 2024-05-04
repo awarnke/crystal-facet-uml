@@ -21,6 +21,8 @@
 #include "set/data_full_id.h"
 #include <stdint.h>
 
+#define LAYOUT_SUBELEMENT_ID_VOID ((layout_subelement_id_t){.kind=LAYOUT_SUBELEMENT_KIND_VOID,.id=DATA_FULL_ID_VOID})
+
 /*!
  *  \brief attributes of the thing
  */

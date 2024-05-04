@@ -290,7 +290,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, 
 /*!
  *  \brief gets the diagram-id of the diagram and the object-id of the object at a given position
  *
- *  This function is intended for use in search and navigate modes only.
+ *  This function is intended for use in SEARCH and NAVIGATE modes only.
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
@@ -316,24 +316,25 @@ static inline void gui_sketch_area_private_get_diagram_and_object_id_at_pos ( gu
 static inline gui_sketch_card_t *gui_sketch_area_private_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
 
 /*!
- *  \brief gets the object-id of the object at a given position
+ *  \brief gets the out_element_id of the out_element at a given position
  *
  *  Nav-Tree and Result-List objects are ignored; this function is intended for use in EDIT and CREATE modes.
+ *  In case the position is a space, VOID is returned as out_element_id.
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
  *  \param filter_lifelines a filter for object types. true will return the classifier instead of the lifeline-feature.
- *  \param[out] out_object_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param[out] out_diagram_id the diagram id at given location. The id is invalid if there is no diagram.
+ *  \param[out] out_element_id the element id at the given location. The id is invalid if there is no element.
+ *  \param[out] out_diagram_id the diagram id at the given location. The id is invalid if there is no diagram.
  */
-static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
-                                                                  int32_t x,
-                                                                  int32_t y,
-                                                                  bool filter_lifelines,
-                                                                  data_full_id_t* out_object_id,
-                                                                  data_id_t* out_diagram_id
-                                                                );
+static inline void gui_sketch_area_private_get_element_id_at_pos ( gui_sketch_area_t *this_,
+                                                                   int32_t x,
+                                                                   int32_t y,
+                                                                   bool filter_lifelines,
+                                                                   data_full_id_t* out_element_id,
+                                                                   data_id_t* out_diagram_id
+                                                                 );
 
 #include "gui_sketch_area.inl"
 

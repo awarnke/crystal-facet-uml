@@ -27,6 +27,11 @@ static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t 
     return( (*this_).highlighted );
 }
 
+static inline layout_subelement_kind_t gui_marked_set_get_highlighted_kind ( const gui_marked_set_t *this_ )
+{
+    return( (*this_).highlighted_kind );
+}
+
 static inline data_id_t gui_marked_set_get_highlighted_diagram ( const gui_marked_set_t *this_ )
 {
     return( (*this_).highlighted_diagram );
@@ -108,6 +113,20 @@ static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
 {
     assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
     data_id_replace( &((*this_).highlighted), &obj_id );
+    (*this_).highlighted_kind = LAYOUT_SUBELEMENT_KIND_VOID;
+    data_id_replace( &((*this_).highlighted_diagram), &diagram_id );
+    (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
+}
+
+static inline void gui_marked_set_set_highlighted_subelement ( gui_marked_set_t *this_,
+                                                               const layout_subelement_id_t *subelement_id,
+                                                               data_id_t diagram_id )
+{
+    assert(( data_id_get_table(&diagram_id) == DATA_TABLE_DIAGRAM )||( data_id_get_table(&diagram_id) == DATA_TABLE_VOID ));
+    assert( subelement_id != NULL );
+    const data_full_id_t *const full_id = layout_subelement_id_get_id_const( subelement_id );
+    data_id_replace( &((*this_).highlighted), data_full_id_get_primary_id_const( full_id ) );
+    (*this_).highlighted_kind = layout_subelement_id_get_kind( subelement_id );
     data_id_replace( &((*this_).highlighted_diagram), &diagram_id );
     (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
 }
@@ -115,6 +134,7 @@ static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_,
 static inline void gui_marked_set_set_highlighted_button ( gui_marked_set_t *this_, gui_sketch_action_t button_id )
 {
     data_id_init_void( &((*this_).highlighted) );
+    (*this_).highlighted_kind = LAYOUT_SUBELEMENT_KIND_VOID;
     data_id_init_void( &((*this_).highlighted_diagram) );
     (*this_).highlighted_button = button_id;
 }
@@ -130,7 +150,9 @@ static inline void gui_marked_set_clear_focused ( gui_marked_set_t *this_ )
 static inline void gui_marked_set_clear_highlighted ( gui_marked_set_t *this_ )
 {
     data_id_reinit_void( &((*this_).highlighted) );
+    (*this_).highlighted_kind = LAYOUT_SUBELEMENT_KIND_VOID;
     data_id_reinit_void( &((*this_).highlighted_diagram) );
+    (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
 }
 
 
