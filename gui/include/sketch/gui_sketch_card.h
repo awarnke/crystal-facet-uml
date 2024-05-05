@@ -176,13 +176,39 @@ layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos ( const g
  *  \brief draws the highlighted box of an element-part
  *
  *  \param this_ pointer to own object attributes
- *  \param location currently highlighted element-part
+ *  \param subelement currently highlighted element-part
  *  \param cr cairo drawing context
  */
-void gui_sketch_card_private_draw_location_space ( const gui_sketch_card_t *this_,
-                                                   const layout_subelement_id_t *location,
-                                                   cairo_t *cr
-                                                 );
+void gui_sketch_card_private_draw_element_space ( const gui_sketch_card_t *this_,
+                                                  const layout_subelement_id_t *subelement,
+                                                  cairo_t *cr
+                                                );
+
+/*!
+ * \brief draws a rectangle in bold/highlighted color
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect rectangle to draw
+ *  \param cr cairo drawing context
+ */
+static inline void gui_sketch_card_private_draw_rect ( const gui_sketch_card_t *this_,
+                                                       const geometry_rectangle_t *rect,
+                                                       cairo_t *cr
+                                                     );
+
+/*!
+ * \brief draws a rectangle in bold/highlighted color, leaves out the empty space rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param border rectangle to draw
+ *  \param space rectangle to leave out from draw
+ *  \param cr cairo drawing context
+ */
+static inline void gui_sketch_card_private_draw_border ( const gui_sketch_card_t *this_,
+                                                         const geometry_rectangle_t *border,
+                                                         const geometry_rectangle_t *space,
+                                                         cairo_t *cr
+                                                       );
 
 /*!
  *  \brief draws the background of a single diagram

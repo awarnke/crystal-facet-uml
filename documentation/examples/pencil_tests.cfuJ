@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.57.1"
+    "generator_version": "1.58.0"
   }
   ,
   "views":
@@ -1818,6 +1818,13 @@
             "classifier_name": "Constraint My",
             "node": "2cc3802b-270a-4bde-9f27-576eb139e264",
             "uuid": "fc5aa1a0-8c60-49b3-a2f0-bc9586781426"
+          },
+          {
+            "id": 338,
+            "display_flags": 0,
+            "classifier_name": "New ErrorLogger",
+            "node": "f4935530-71a1-4b01-94d4-164e9e78a4d7",
+            "uuid": "6df16283-cd18-478b-a61b-1abf10ae8e3b"
           }
         ]
       }
@@ -2809,6 +2816,13 @@
             "classifier_name": "Fire",
             "node": "aa4e4423-092f-4083-a87f-227423ee6c23",
             "uuid": "9931458b-7ebd-4583-b1b4-adae9fb52ba7"
+          },
+          {
+            "id": 339,
+            "display_flags": 0,
+            "classifier_name": "Fish",
+            "node": "9ec3c3fa-5fdc-438b-ae10-90c273d95677",
+            "uuid": "c2e409b8-d0a9-466d-afaa-d11351eadcae"
           }
         ]
       }
@@ -9545,6 +9559,24 @@
         "y_order": -873809220,
         "list_order": -864969023,
         "uuid": "ba32cf89-fe44-4fc7-b1a6-fae5a7189b55",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 190,
+        "main_type": 121,
+        "type": "Component",
+        "name": "New ErrorLogger",
+        "description": [
+                ""
+        ],
+        "x_order": -1706363223,
+        "y_order": -2132801245,
+        "list_order": -2132801245,
+        "uuid": "f4935530-71a1-4b01-94d4-164e9e78a4d7",
         "features":
         [
         ]

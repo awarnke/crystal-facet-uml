@@ -5,7 +5,6 @@
 #include "geometry/geometry_rectangle.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
-#include "u8/u8_f64.h"
 #include <gdk/gdk.h>
 
 void gui_sketch_card_init( gui_sketch_card_t *this_ )
@@ -307,23 +306,16 @@ layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos( const gu
     return result;
 }
 
-static const double GRAY_R = 0.875;
-static const double GRAY_G = 0.875;
-static const double GRAY_B = 0.875;
-static const double GRAY_A = 1.0;
-
-void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_, const layout_subelement_id_t *location, cairo_t *cr )
+void gui_sketch_card_private_draw_element_space( const gui_sketch_card_t *this_, const layout_subelement_id_t *subelement, cairo_t *cr )
 {
     const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
     const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layout );
 
     geometry_rectangle_t highlight;
     geometry_rectangle_init_empty( &highlight );
-    geometry_rectangle_t empty_space;
-    geometry_rectangle_init_empty( &empty_space );
     data_id_t search_id;
-    data_id_copy( &search_id, data_full_id_get_primary_id_const( layout_subelement_id_get_id_const( location ) ) );
-    const layout_subelement_kind_t kind = layout_subelement_id_get_kind( location );
+    data_id_copy( &search_id, data_full_id_get_primary_id_const( layout_subelement_id_get_id_const( subelement ) ) );
+    const layout_subelement_kind_t kind = layout_subelement_id_get_kind( subelement );
 
     /* check diagram */
     const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
@@ -336,13 +328,16 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
             {
                 geometry_rectangle_replace( &highlight, layout_diagram_get_label_box_const( layout_diag ) );
                 geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                gui_sketch_card_private_draw_rect( this_, &highlight, cr );
             }
             break;
 
             case LAYOUT_SUBELEMENT_KIND_OUTLINE:
             {
+                geometry_rectangle_t empty_space;
                 geometry_rectangle_replace( &highlight, layout_diagram_get_bounds_const( layout_diag ) );
-                geometry_rectangle_replace( &empty_space, layout_diagram_get_draw_area_const( layout_diag ) );  /* no highlight in space */
+                geometry_rectangle_copy( &empty_space, layout_diagram_get_draw_area_const( layout_diag ) );  /* no highlight in space */
+                gui_sketch_card_private_draw_border( this_, &highlight, &empty_space, cr );
             }
             break;
 
@@ -350,6 +345,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
             case LAYOUT_SUBELEMENT_KIND_SPACE:
             {
                 geometry_rectangle_replace( &highlight, layout_diagram_get_draw_area_const( layout_diag ) );
+                gui_sketch_card_private_draw_rect( this_, &highlight, cr );
             }
             break;
         }
@@ -371,13 +367,16 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                 {
                     geometry_rectangle_replace( &highlight, layout_visible_classifier_get_label_box_const( visible_classifier ) );
                     geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
 
                 case LAYOUT_SUBELEMENT_KIND_OUTLINE:
                 {
+                    geometry_rectangle_t empty_space;
                     geometry_rectangle_replace( &highlight, layout_visible_classifier_get_symbol_box_const( visible_classifier ) );
-                    geometry_rectangle_replace( &empty_space, layout_visible_classifier_get_space_const( visible_classifier ) );  /* no highlight in space */
+                    geometry_rectangle_copy( &empty_space, layout_visible_classifier_get_space_const( visible_classifier ) );  /* no highlight in space */
+                    gui_sketch_card_private_draw_border( this_, &highlight, &empty_space, cr );
                 }
                 break;
 
@@ -385,6 +384,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                 case LAYOUT_SUBELEMENT_KIND_SPACE:
                 {
                     geometry_rectangle_replace( &highlight, layout_visible_classifier_get_space_const( visible_classifier ) );
+                    gui_sketch_card_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
             }
@@ -407,6 +407,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
                     geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
 
@@ -415,6 +416,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                 {
                     geometry_rectangle_replace( &highlight, layout_feature_get_symbol_box_const( the_feature ) );
                     geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
             }
@@ -436,6 +438,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                 {
                     geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
                     geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_private_draw_rect( this_, &highlight, cr );
                 }
                 break;
 
@@ -450,15 +453,7 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                                                                              GEOMETRY_CONNECTOR_SEGMENT_SOURCE
                                                                            );
                         geometry_rectangle_expand_4dir( &segment_src, 6.0 /* delta_width */, 6.0 /* delta_height */ );
-
-                        cairo_set_source_rgba( cr, GRAY_R, GRAY_G, GRAY_B, GRAY_A );
-                        cairo_rectangle( cr,
-                                        geometry_rectangle_get_left( &segment_src ),
-                                        geometry_rectangle_get_top( &segment_src ),
-                                        geometry_rectangle_get_width( &segment_src ),
-                                        geometry_rectangle_get_height( &segment_src )
-                                    );
-                        cairo_fill (cr);
+                        gui_sketch_card_private_draw_rect( this_, &segment_src, cr );
                     }
                     {
                         geometry_rectangle_t segment_dst;
@@ -466,77 +461,22 @@ void gui_sketch_card_private_draw_location_space( const gui_sketch_card_t *this_
                                                                              GEOMETRY_CONNECTOR_SEGMENT_DESTINATION
                                                                            );
                         geometry_rectangle_expand_4dir( &segment_dst, 6.0 /* delta_width */, 6.0 /* delta_height */ );
-
-                        cairo_set_source_rgba( cr, GRAY_R, GRAY_G, GRAY_B, GRAY_A );
-                        cairo_rectangle( cr,
-                                        geometry_rectangle_get_left( &segment_dst ),
-                                        geometry_rectangle_get_top( &segment_dst ),
-                                        geometry_rectangle_get_width( &segment_dst ),
-                                        geometry_rectangle_get_height( &segment_dst )
-                                    );
-                        cairo_fill (cr);
+                        gui_sketch_card_private_draw_rect( this_, &segment_dst, cr );
                     }
                     {
-                        highlight = geometry_connector_get_segment_bounds( relationship_shape,
+                        geometry_rectangle_t segment_main;
+                        segment_main = geometry_connector_get_segment_bounds( relationship_shape,
                                                                            GEOMETRY_CONNECTOR_SEGMENT_MAIN
                                                                          );
-                        geometry_rectangle_expand_4dir( &highlight, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        geometry_rectangle_expand_4dir( &segment_main, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        gui_sketch_card_private_draw_rect( this_, &segment_main, cr );
                     }
                 }
                 break;
             }
         }
     }
-
-    /* draw whatever has been found */
-    {
-        const double bold_left = geometry_rectangle_get_left( &highlight );
-        const double bold_top = geometry_rectangle_get_top( &highlight );
-        const double bold_width = geometry_rectangle_get_width( &highlight );
-        const double bold_height = geometry_rectangle_get_height( &highlight );
-        const double bold_right = bold_left + bold_width;
-        const double bold_bottom = bold_top + bold_height;
-        const double void_left = geometry_rectangle_get_left( &empty_space );
-        const double void_top = geometry_rectangle_get_top( &empty_space );
-        const double void_width = geometry_rectangle_get_width( &empty_space );
-        const double void_height = geometry_rectangle_get_height( &empty_space );
-        const double void_right = void_left + void_width;
-        const double void_bottom = void_top + void_height;
-        /* fit the empty space into the hightlight space, round to make parts fit together and to not have negative widths/heights */
-        const double void_left_adjusted = floor( u8_f64_min2( u8_f64_max2( void_left, bold_left ), bold_right ) );
-        const double void_top_adjusted = floor( u8_f64_min2( u8_f64_max2( void_top, bold_top ), bold_bottom ) );
-        const double void_right_adjusted = ceil( u8_f64_max2( u8_f64_min2( void_right, bold_right ), bold_left ) );
-        const double void_bottom_adjusted = ceil( u8_f64_max2( u8_f64_min2( void_bottom, bold_bottom ), bold_top ) );
-        /* draw */
-        cairo_set_source_rgba( cr, GRAY_R, GRAY_G, GRAY_B, GRAY_A );
-        /* draw top region */
-        if ( bold_top < void_top )
-        {
-            cairo_rectangle( cr, bold_left, bold_top, bold_width, void_top_adjusted - bold_top );
-        }
-        /* draw left region */
-        if ( bold_left < void_left )
-        {
-            cairo_rectangle( cr, bold_left, void_top_adjusted, void_left_adjusted - bold_left, void_bottom_adjusted - void_top_adjusted );
-        }
-        /* draw right region */
-        if ( bold_right > void_right )
-        {
-            cairo_rectangle( cr, void_right_adjusted, void_top_adjusted, bold_right - void_right_adjusted, void_bottom_adjusted - void_top_adjusted );
-        }
-        /* draw bottom region */
-        if ( bold_bottom > void_bottom )
-        {
-            cairo_rectangle( cr, bold_left, void_bottom_adjusted, bold_width, bold_bottom - void_bottom_adjusted );
-        }
-        cairo_fill (cr);
-    }
 }
-
-static const double WHITE_R = 1.0;
-static const double WHITE_G = 1.0;
-static const double WHITE_B = 1.0;
-static const double WHITE_A = 1.0;
 
 void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
                                  gui_tool_t selected_tool,
@@ -548,6 +488,8 @@ void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
 
     if ( (*this_).visible )
     {
+        const bool create_tool = ( selected_tool == GUI_TOOL_CREATE );
+
         /* layout elements if necessary */
         if ( (*this_).dirty_elements_layout )
         {
@@ -561,7 +503,22 @@ void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
         const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
         /* draw paper */
-        cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
+        if ( create_tool )
+        {
+            static const double GRAY_R = 0.875;
+            static const double GRAY_G = 0.875;
+            static const double GRAY_B = 0.875;
+            static const double GRAY_A = 1.0;
+            cairo_set_source_rgba( cr, GRAY_R, GRAY_G, GRAY_B, GRAY_A );
+        }
+        else
+        {
+            static const double WHITE_R = 1.0;
+            static const double WHITE_G = 1.0;
+            static const double WHITE_B = 1.0;
+            static const double WHITE_A = 1.0;
+            cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
+        }
         cairo_rectangle ( cr, left, top, width, height );
         cairo_fill (cr);
 
@@ -570,17 +527,16 @@ void gui_sketch_card_draw_paper( gui_sketch_card_t *this_,
         pencil_diagram_maker_show_overlaps ( &((*this_).painter), NULL, cr );
 #endif
 
-        const bool create_tool = ( selected_tool == GUI_TOOL_CREATE );
         const layout_visible_set_t *const layout = pencil_diagram_maker_get_layout_data_const( &((*this_).painter) );
         if ( layout_visible_set_is_valid( layout ) && create_tool )
         {
             const int32_t mouse_x = gui_sketch_drag_state_get_to_x( drag_state );
             const int32_t mouse_y = gui_sketch_drag_state_get_to_y( drag_state );
 
-            const layout_subelement_id_t thing_to_highlight
+            const layout_subelement_id_t subelement_to_highlight
                 = gui_sketch_card_get_element_at_pos( this_, mouse_x, mouse_y, !create_tool /* filter_lifelines */ );
 
-            gui_sketch_card_private_draw_location_space( this_, &thing_to_highlight, cr );
+            gui_sketch_card_private_draw_element_space( this_, &subelement_to_highlight, cr );
         }
     }
 
