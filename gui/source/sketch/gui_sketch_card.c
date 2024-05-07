@@ -149,31 +149,29 @@ layout_subelement_id_t gui_sketch_card_private_get_classifier_at_pos( const gui_
             const geometry_rectangle_t *const classifier_label_box
                 = layout_visible_classifier_get_label_box_const( visible_classifier );
 
+            /* surrounding classifier is found. select it if it is the smallest found area */
+            const double current_classifier_area = geometry_rectangle_get_area( classifier_space );
+            const bool current_classifier_is_contained = ( current_classifier_area < surrounding_classifier_area );
             const bool pos_on_symbol
                 = geometry_rectangle_contains( classifier_symbol_box, (double) x, (double) y );
             const bool pos_on_label
                 = geometry_rectangle_contains( classifier_label_box, (double) x, (double) y );
-            if ( pos_on_symbol || pos_on_label )
+            if (( pos_on_symbol || pos_on_label ) && current_classifier_is_contained )
             {
+                surrounding_classifier_area = current_classifier_area;
+
                 const bool pos_on_space
                     = geometry_rectangle_contains( classifier_space, (double) x, (double) y );
                 if ( pos_on_space )
                 {
-                    /* surrounding classifier is found. select it if it is the smallest found area */
-                    const double current_classifier_area = geometry_rectangle_get_area( classifier_space );
-                    if ( current_classifier_area < surrounding_classifier_area )
-                    {
-                        surrounding_classifier_area = current_classifier_area;
-
-                        data_full_id_t found_id;
-                        data_full_id_init_by_table_and_id( &found_id,
-                                                           DATA_TABLE_DIAGRAMELEMENT,
-                                                           layout_visible_classifier_get_diagramelement_id( visible_classifier ),
-                                                           DATA_TABLE_CLASSIFIER,
-                                                           layout_visible_classifier_get_classifier_id( visible_classifier )
-                                                         );
-                        layout_subelement_id_reinit( &result, LAYOUT_SUBELEMENT_KIND_SPACE, &found_id );
-                    }
+                    data_full_id_t found_id;
+                    data_full_id_init_by_table_and_id( &found_id,
+                                                       DATA_TABLE_DIAGRAMELEMENT,
+                                                       layout_visible_classifier_get_diagramelement_id( visible_classifier ),
+                                                       DATA_TABLE_CLASSIFIER,
+                                                       layout_visible_classifier_get_classifier_id( visible_classifier )
+                                                     );
+                    layout_subelement_id_reinit( &result, LAYOUT_SUBELEMENT_KIND_SPACE, &found_id );
                 }
                 else
                 {
