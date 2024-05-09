@@ -20,10 +20,10 @@
  *  \brief attributes of the sketch overlay
  */
 struct gui_sketch_overlay_struct {
-    double overlay_std_red;  /*!< standard overlay color */
-    double overlay_std_green;  /*!< standard overlay color */
-    double overlay_std_blue;  /*!< standard overlay color */
-    double overlay_std_alpha;  /*!< standard overlay opaqueness */
+    double overlay_std_red;  /*!< standard overlay color, use gui_sketch_style_get_highlight_color() instead! */
+    double overlay_std_green;  /*!< standard overlay color, use gui_sketch_style_get_highlight_color() instead! */
+    double overlay_std_blue;  /*!< standard overlay color, use gui_sketch_style_get_highlight_color() instead! */
+    double overlay_std_alpha;  /*!< standard overlay opaqueness, use gui_sketch_style_get_highlight_color() instead! */
 };
 
 typedef struct gui_sketch_overlay_struct gui_sketch_overlay_t;
@@ -49,7 +49,6 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ );
  *  \param selected_tool currently selected tool/edit-mode
  *  \param drag_state current dragging status
  *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
- *  \param nav_tree the navigation tree, not NULL
  *  \param marked_objects the focused and highighted objects
  *  \param cr cairo drawing context
  */
@@ -57,24 +56,9 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               gui_tool_t selected_tool,
                               const gui_sketch_drag_state_t *drag_state,
                               const gui_sketch_card_t *card_under_mouse,
-                              const gui_sketch_nav_tree_t *nav_tree,
                               gui_marked_set_t *marked_objects,
                               cairo_t *cr
                             );
-
-/*!
- *  \brief draws overlay graphics for GUI_TOOL_NAVIGATE mode to the cairo context
- *
- *  \param this_ pointer to own object attributes
- *  \param drag_state current dragging status
- *  \param nav_tree the navigation tree, not NULL
- *  \param cr cairo drawing context
- */
-void gui_sketch_overlay_private_draw_nav_mode( gui_sketch_overlay_t *this_,
-                                               const gui_sketch_drag_state_t *drag_state,
-                                               const gui_sketch_nav_tree_t *nav_tree,
-                                               cairo_t *cr
-                                             );
 
 /*!
  *  \brief draws overlay graphics for GUI_TOOL_EDIT mode to the cairo context

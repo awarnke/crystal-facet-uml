@@ -573,10 +573,13 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
                              selected_tool,
                              &((*this_).drag_state),
                              gui_sketch_area_private_get_card_at_pos ( this_, mouse_x, mouse_y ),
-                             &((*this_).nav_tree),
                              (*this_).marker,
                              cr
                            );
+    if ( gui_sketch_nav_tree_is_visible( &((*this_).nav_tree) ) )
+    {
+        gui_sketch_nav_tree_draw_overlay( &((*this_).nav_tree), &((*this_).drag_state) , cr );
+    }
 
     U8_TRACE_END();
 }

@@ -689,6 +689,49 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
     U8_TRACE_END();
 }
 
+void gui_sketch_nav_tree_draw_overlay( const gui_sketch_nav_tree_t *this_,
+                                       const gui_sketch_drag_state_t *drag_state,
+                                       cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != drag_state );
+    assert( NULL != cr );
+
+    if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
+    {
+        const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+        const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+        data_id_t out_parent_id;
+        int32_t out_list_order;
+        shape_int_rectangle_t out_gap_line;
+        gui_error_t gap_err;
+        gap_err = gui_sketch_nav_tree_get_gap_info_at_pos ( this_,
+                                                            to_x,
+                                                            to_y,
+                                                            &out_parent_id,
+                                                            &out_list_order,
+                                                            &out_gap_line
+                                                          );
+        if ( gap_err == GUI_ERROR_NONE )
+        {
+            const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+            cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
+            cairo_rectangle ( cr,
+                              shape_int_rectangle_get_left(&out_gap_line),
+                              shape_int_rectangle_get_top(&out_gap_line),
+                              shape_int_rectangle_get_width(&out_gap_line),
+                              shape_int_rectangle_get_height(&out_gap_line)
+                            );
+            cairo_fill (cr);
+        }
+        else
+        {
+            U8_TRACE_INFO("dragging diagram outside nav_tree");
+        }
+    }
+    U8_TRACE_END();
+}
+
 
 /*
 Copyright 2018-2024 Andreas Warnke

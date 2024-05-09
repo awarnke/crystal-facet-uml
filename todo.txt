@@ -23,8 +23,9 @@ ideas for future versions:
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
-! [ ] show static tests under the icons of buttons (Note: sadly, gtk_button_set_label replaces the image)
+! [ ] show static texts under the icons of buttons (Note: sadly, gtk_button_set_label replaces the image)
 ! [ ] make it obvious that in create mode, you shall click on the empty diagram space
+! [ ] and fix some strange behavior in create mode, where the highlight does not fit to mouse-press reaction
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -60,6 +61,7 @@ ideas for future versions:
       --> use a DATA_RELATIONSHIP_TYPE_UML_INSTANCE_OF
   [?] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
+  [ ] introduce a TABLE diagram type to do resource and risk calculations
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)

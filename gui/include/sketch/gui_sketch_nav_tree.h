@@ -12,6 +12,7 @@
 #include "sketch/gui_sketch_action.h"
 #include "sketch/gui_sketch_style.h"
 #include "sketch/gui_sketch_texture.h"
+#include "sketch/gui_sketch_drag_state.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_error.h"
@@ -332,6 +333,18 @@ void gui_sketch_nav_tree_private_draw_node( gui_sketch_nav_tree_t *this_,
                                             PangoLayout *font_layout,
                                             cairo_t *cr
                                           );
+
+/*!
+ *  \brief draws overlay graphics for dragging a diagram to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param drag_state current dragging status
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_nav_tree_draw_overlay( const gui_sketch_nav_tree_t *this_,
+                                       const gui_sketch_drag_state_t *drag_state,
+                                       cairo_t *cr
+                                     );
 
 #include "gui_sketch_nav_tree.inl"
 
