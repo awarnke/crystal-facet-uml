@@ -6,12 +6,13 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Draws graphical elements on top of diagrams
+ *  \brief Draws graphical elements on top of sketch cards
  */
 
 #include "sketch/gui_sketch_card.h"
 #include "sketch/gui_sketch_nav_tree.h"
 #include "sketch/gui_sketch_drag_state.h"
+#include "sketch/gui_sketch_style.h"
 #include "gui_tool.h"
 #include "layout/layout_subelement_kind.h"
 #include <gtk/gtk.h>
@@ -20,10 +21,7 @@
  *  \brief attributes of the sketch overlay
  */
 struct gui_sketch_overlay_struct {
-    double overlay_std_red;  /*!< standard overlay color, use gui_sketch_style_get_highlight_color() instead! */
-    double overlay_std_green;  /*!< standard overlay color, use gui_sketch_style_get_highlight_color() instead! */
-    double overlay_std_blue;  /*!< standard overlay color, use gui_sketch_style_get_highlight_color() instead! */
-    double overlay_std_alpha;  /*!< standard overlay opaqueness, use gui_sketch_style_get_highlight_color() instead! */
+    gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing */
 };
 
 typedef struct gui_sketch_overlay_struct gui_sketch_overlay_t;

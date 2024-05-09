@@ -10,10 +10,7 @@ void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    (*this_).overlay_std_red = 0.0;
-    (*this_).overlay_std_green = 0.6;
-    (*this_).overlay_std_blue = 0.4;
-    (*this_).overlay_std_alpha = 1.0;
+    gui_sketch_style_init( &((*this_).sketch_style) );
 
     U8_TRACE_END();
 }
@@ -21,6 +18,8 @@ void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ )
 void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ )
 {
     U8_TRACE_BEGIN();
+
+    gui_sketch_style_destroy( &((*this_).sketch_style) );
 
     U8_TRACE_END();
 }
@@ -193,12 +192,8 @@ void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    cairo_set_source_rgba( cr,
-                           (*this_).overlay_std_red,
-                           (*this_).overlay_std_green,
-                           (*this_).overlay_std_blue,
-                           (*this_).overlay_std_alpha
-                         );
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
     cairo_move_to ( cr, from_x, from_y );
     cairo_line_to ( cr, to_x, to_y );
     cairo_stroke (cr);
@@ -281,12 +276,8 @@ void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
     U8_TRACE_BEGIN();
     assert( NULL != cr );
 
-    cairo_set_source_rgba( cr,
-                           (*this_).overlay_std_red,
-                           (*this_).overlay_std_green,
-                           (*this_).overlay_std_blue,
-                           (*this_).overlay_std_alpha
-                         );
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
     static const int32_t ICON_UNIT = 2;
     static const int32_t DIST = 12;
 
@@ -338,12 +329,8 @@ void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
     assert( NULL != card_under_mouse );
     assert( NULL != cr );
 
-    cairo_set_source_rgba( cr,
-                           (*this_).overlay_std_red,
-                           (*this_).overlay_std_green,
-                           (*this_).overlay_std_blue,
-                           (*this_).overlay_std_alpha
-                         );
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
 
     /* draw grid */
     shape_int_rectangle_t bounds;
@@ -384,12 +371,8 @@ void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_
     assert( NULL != card_under_mouse );
     assert( NULL != cr );
 
-    cairo_set_source_rgba( cr,
-                           (*this_).overlay_std_red,
-                           (*this_).overlay_std_green,
-                           (*this_).overlay_std_blue,
-                           (*this_).overlay_std_alpha
-                         );
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
 
     /* draw marker that position snapped to grid */
     const shape_int_rectangle_t bounds = gui_sketch_card_get_bounds( card_under_mouse );
