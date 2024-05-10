@@ -1060,8 +1060,12 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                     /* update drag state */
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), *clicked_object );
 
-                    /* set focused object (either a diagramelement or a feature) */
-                    gui_marked_set_set_focused( (*this_).marker, *clicked_object, diagram_id );
+                    /* set focused object (either a diagramelement or a feature - but not a lifeline!) */
+                    const layout_subelement_id_t filtered_element_id
+                        = gui_sketch_card_get_element_at_pos( target_card, x, y, true /* FILTER_LIFELINE */ );
+                    const data_full_id_t *const clicked_filtered_object
+                        = layout_subelement_id_get_id_const( &filtered_element_id );
+                    gui_marked_set_set_focused( (*this_).marker, *clicked_filtered_object, diagram_id );
                 }
                 else /* clicked either into inner space of a classifier or of a diagram */
                 {
