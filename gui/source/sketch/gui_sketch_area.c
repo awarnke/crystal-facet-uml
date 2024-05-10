@@ -485,9 +485,9 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         shape_int_rectangle_t cards_bounds;
         shape_int_rectangle_init( &cards_bounds, cards_left, top, cards_width, height );
         gui_sketch_card_layouter_t cards_layouter;
-        gui_sketch_card_layouter_init ( &cards_layouter, &cards_bounds );
-        gui_sketch_card_layouter_layout ( &cards_layouter, selected_tool, &((*this_).cards[0]), (*this_).card_num, cr );
-        gui_sketch_card_layouter_destroy ( &cards_layouter );
+        gui_sketch_card_layouter_init( &cards_layouter, &cards_bounds );
+        gui_sketch_card_layouter_layout( &cards_layouter, selected_tool, &((*this_).cards[0]), (*this_).card_num, cr );
+        gui_sketch_card_layouter_destroy( &cards_layouter );
     }
 
     /* layout background */
@@ -1343,11 +1343,11 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
         {
             U8_TRACE_INFO("GUI_TOOL_EDIT");
 
-            if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+            if ( gui_sketch_drag_state_is_dragging( &((*this_).drag_state) ) )
             {
                 /* which object is selected? */
                 const data_full_id_t *const dragged_object
-                    = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    = gui_sketch_drag_state_get_dragged_object_ptr( &((*this_).drag_state) );
                 const data_id_t dragged_element
                     = data_full_id_get_primary_id( dragged_object );
                 const data_id_t dragged_classifier
@@ -1514,16 +1514,16 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 const data_id_t destination_classifier
                     = data_full_id_get_secondary_id( &destination_object );
 
-                gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
+                gui_sketch_card_t *target_card = gui_sketch_area_private_get_card_at_pos( this_, x, y );
                 if ( data_id_is_valid( &dragged_classifier ) && data_id_is_valid( &destination_classifier ) && ( NULL != target_card ))
                 {
                     if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
                         && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_classifier ) ) )
                     {
                         /* get the diagram type */
-                        const data_diagram_t *const target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                        const data_diagram_t *const target_diag = gui_sketch_card_get_diagram_ptr( target_card );
                         assert ( target_diag != NULL );
-                        data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
+                        data_diagram_type_t diag_type = data_diagram_get_diagram_type( target_diag );
 
                         /* determine source and destionation */
                         data_row_id_t new_from_classifier_id;
@@ -1601,15 +1601,22 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                 /* click on classifier without drag */
                 const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                const data_id_t dragged_element
+                    = data_full_id_get_primary_id( dragged_object );
                 const data_id_t dragged_classifier
                     = data_full_id_get_secondary_id( dragged_object );
 
                 const gui_sketch_card_t *const target_card
-                    = gui_sketch_area_private_get_card_at_pos ( this_, x, y );
+                    = gui_sketch_area_private_get_card_at_pos( this_, x, y );
                 if ( data_id_is_valid( &dragged_classifier ) && ( NULL != target_card ) )
                 {
+                    /* const bool is_feature */
+                    /*    = DATA_TABLE_FEATURE == data_id_get_table( &dragged_element ); */
+                    const bool is_diagele
+                        = DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &dragged_element );
+
                     const data_id_t diag_id = gui_sketch_card_get_diagram_id( target_card );
-                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
+                    if ( is_diagele && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) ) )
                     {
                         /* get the diagram type */
                         const data_diagram_t *const target_diag
