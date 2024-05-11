@@ -1602,11 +1602,8 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
             }
             else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
             {
-                /* click on classifier without drag */
                 const data_full_id_t *const dragged_object
                     = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                const data_id_t dragged_element
-                    = data_full_id_get_primary_id( dragged_object );
                 const data_id_t dragged_classifier
                     = data_full_id_get_secondary_id( dragged_object );
 
@@ -1614,13 +1611,23 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                     = gui_sketch_area_private_get_card_at_pos( this_, x, y );
                 if ( data_id_is_valid( &dragged_classifier ) && ( NULL != target_card ) )
                 {
-                    /* const bool is_feature */
-                    /*    = DATA_TABLE_FEATURE == data_id_get_table( &dragged_element ); */
+                    /* click on classifier without drag */
+                    const layout_subelement_id_t subelement_id
+                        = gui_sketch_card_get_element_at_pos( target_card, x, y, false /* FILTER_LIFELINE */ );
+                    const data_full_id_t *const full_element
+                        = layout_subelement_id_get_id_const( &subelement_id );
+                    data_full_id_trace( full_element );
+                    const data_id_t clicked_element
+                        = data_full_id_get_primary_id( full_element );
+                    const data_id_t clicked_classifier
+                        = data_full_id_get_secondary_id( full_element );
                     const bool is_diagele
-                        = DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &dragged_element );
+                        = ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &clicked_element ) );
+                    const bool is_outline
+                        = ( LAYOUT_SUBELEMENT_KIND_OUTLINE == layout_subelement_id_get_kind( &subelement_id ) );
 
                     const data_id_t diag_id = gui_sketch_card_get_diagram_id( target_card );
-                    if ( is_diagele && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) ) )
+                    if ( is_diagele && is_outline && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &clicked_classifier ) ) )
                     {
                         /* get the diagram type */
                         const data_diagram_t *const target_diag
@@ -1629,11 +1636,11 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
 
                         /* determine id of classifier to which the clicked object belongs */
-                        const data_row_id_t classifier_id = data_id_get_row_id( &dragged_classifier );
+                        const data_row_id_t classifier_id = data_id_get_row_id( &clicked_classifier );
 
                         /* propose a list_order for the feature */
                         const int32_t std_list_order_proposal
-                            = gui_sketch_card_get_highest_feat_list_order( target_card, dragged_classifier ) + 32768;
+                            = gui_sketch_card_get_highest_feat_list_order( target_card, clicked_classifier ) + 32768;
                         int32_t port_list_order_proposal = 0;
                         {
                             data_feature_init_new( &((*this_).private_temp_fake_feature),

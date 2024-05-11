@@ -541,12 +541,13 @@
                     </listitem>
                     <listitem>
                         <para>
-                            To create a feature, click onto a classifier (name or border).
+                            To create a feature, click onto a classifier border (not on the classifier name).
                         </para>
                     </listitem>
                     <listitem>
                         <para>
-                            To create a relationship, press on the source classifier and drag it to the destination classifier.
+                            To create a relationship, press on the source classifier or feature
+                            and drag it to the destination classifier or feature.
                         </para>
                     </listitem>
                 </orderedlist>

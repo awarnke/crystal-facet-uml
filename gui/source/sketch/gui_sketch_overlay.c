@@ -144,10 +144,11 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                 || (( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_SPACE ))
                 || (( highlighted_table == DATA_TABLE_DIAGRAM )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_SPACE ));
             const bool draw_new_feature
-                = (( highlighted_table == DATA_TABLE_CLASSIFIER )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
-                || (( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ));
+                = (( highlighted_table == DATA_TABLE_CLASSIFIER )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_OUTLINE ))
+                || (( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_OUTLINE ));
             const bool draw_new_relationship
-                = draw_new_feature
+                = (( highlighted_table == DATA_TABLE_CLASSIFIER )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
+                || (( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
                 || ( highlighted_table == DATA_TABLE_FEATURE );
 
             const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
