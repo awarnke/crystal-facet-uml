@@ -139,15 +139,16 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
     {
         if ( NULL != card_under_mouse )
         {
-            const bool draw_arrow
-                = (( highlighted_table == DATA_TABLE_CLASSIFIER )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
-                ||(( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
-                ||( highlighted_table == DATA_TABLE_FEATURE );
-            const bool draw_box
-                = draw_arrow
-                || ( highlighted_table == DATA_TABLE_CLASSIFIER )
-                || ( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )
+            const bool draw_new_classifier
+                = (( highlighted_table == DATA_TABLE_CLASSIFIER )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_SPACE ))
+                || (( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_SPACE ))
                 || (( highlighted_table == DATA_TABLE_DIAGRAM )&&( highlighted_kind == LAYOUT_SUBELEMENT_KIND_SPACE ));
+            const bool draw_new_feature
+                = (( highlighted_table == DATA_TABLE_CLASSIFIER )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ))
+                || (( highlighted_table == DATA_TABLE_DIAGRAMELEMENT )&&( highlighted_kind != LAYOUT_SUBELEMENT_KIND_SPACE ));
+            const bool draw_new_relationship
+                = draw_new_feature
+                || ( highlighted_table == DATA_TABLE_FEATURE );
 
             const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( diag );
@@ -156,25 +157,33 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                 && ( diag_type != DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
                 && ( diag_type != DATA_DIAGRAM_TYPE_LIST ));
 
+            /* get coordinates */
+            const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+            const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+
             /* draw grid */
-            if (( ! draw_arrow )&&( draw_2d_diagram ))
+            if (( draw_new_classifier )&&( draw_2d_diagram ))
             {
                 /* draw grid line crossings */
                 gui_sketch_overlay_private_draw_grid( this_, card_under_mouse, cr );
 
                 /* draw snap-to-grid indicator */
-                const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
-                const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
                 const gui_sketch_snap_state_t snapped = gui_sketch_card_is_pos_on_grid( card_under_mouse, to_x, to_y );
                 gui_sketch_overlay_private_draw_snap_indicator( this_, card_under_mouse, snapped, to_x, to_y, cr );
             }
 
-            /* get coordinates */
-            if ( draw_box )
+            /* draw boxes and arrow icons */
+            if ( draw_new_classifier )
             {
-                const int32_t x = gui_sketch_drag_state_get_to_x ( drag_state );
-                const int32_t y = gui_sketch_drag_state_get_to_y ( drag_state );
-                gui_sketch_overlay_private_draw_create_icon( this_, x, y, draw_arrow, cr );
+                gui_sketch_overlay_private_draw_new_classifier( this_, to_x, to_y, cr );
+            }
+            if ( draw_new_feature )
+            {
+                gui_sketch_overlay_private_draw_new_feature( this_, to_x, to_y, cr );
+            }
+            if ( draw_new_relationship )
+            {
+                gui_sketch_overlay_private_draw_new_relationship( this_, to_x, to_y, cr );
             }
         }
     }
@@ -267,10 +276,44 @@ void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
+void gui_sketch_overlay_private_draw_new_classifier( gui_sketch_overlay_t *this_,
+                                                     int32_t x,
+                                                     int32_t y,
+                                                     cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != cr );
+
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
+    static const int32_t ICON_UNIT = 2;
+    static const int32_t DIST = 12;
+
+    /* star */
+    const int32_t star_center_x = x+(1)*ICON_UNIT;
+    const int32_t star_center_y = y-DIST-6*ICON_UNIT;
+    cairo_move_to ( cr, star_center_x, star_center_y-2*ICON_UNIT );
+    cairo_line_to ( cr, star_center_x, star_center_y+2*ICON_UNIT );
+    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y-1*ICON_UNIT );
+    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y+1*ICON_UNIT );
+    cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y+1*ICON_UNIT );
+    cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y-1*ICON_UNIT );
+
+    /* big box */
+    cairo_move_to ( cr, x-1*ICON_UNIT, y-DIST-6*ICON_UNIT );
+    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
+    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST+3*ICON_UNIT );
+    cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST+3*ICON_UNIT );
+    cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST-2*ICON_UNIT );
+
+    cairo_stroke (cr);
+
+    U8_TRACE_END();
+}
+
+void gui_sketch_overlay_private_draw_new_feature( gui_sketch_overlay_t *this_,
                                                   int32_t x,
                                                   int32_t y,
-                                                  bool with_arrow_option,
                                                   cairo_t *cr )
 {
     U8_TRACE_BEGIN();
@@ -282,7 +325,7 @@ void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
     static const int32_t DIST = 12;
 
     /* star */
-    const int32_t star_center_x = x+(with_arrow_option?-2:1)*ICON_UNIT;
+    const int32_t star_center_x = x+(-2)*ICON_UNIT;
     const int32_t star_center_y = y-DIST-6*ICON_UNIT;
     cairo_move_to ( cr, star_center_x, star_center_y-2*ICON_UNIT );
     cairo_line_to ( cr, star_center_x, star_center_y+2*ICON_UNIT );
@@ -291,30 +334,36 @@ void gui_sketch_overlay_private_draw_create_icon( gui_sketch_overlay_t *this_,
     cairo_move_to ( cr, star_center_x-2*ICON_UNIT, star_center_y+1*ICON_UNIT );
     cairo_line_to ( cr, star_center_x+2*ICON_UNIT, star_center_y-1*ICON_UNIT );
 
-    if ( with_arrow_option )
-    {
-        /* small box */
-        cairo_move_to ( cr, x-4*ICON_UNIT, y-DIST-6*ICON_UNIT );
-        cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-        cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-2*ICON_UNIT );
-        cairo_line_to ( cr, x-2*ICON_UNIT, y-DIST-2*ICON_UNIT );
+    /* small box */
+    cairo_move_to ( cr, x-4*ICON_UNIT, y-DIST-6*ICON_UNIT );
+    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
+    cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-2*ICON_UNIT );
+    cairo_line_to ( cr, x-2*ICON_UNIT, y-DIST-2*ICON_UNIT );
 
-        /* arrow */
-        cairo_move_to ( cr, x+2*ICON_UNIT, y-DIST-0*ICON_UNIT );
-        cairo_line_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-        cairo_line_to ( cr, x+5*ICON_UNIT, y-DIST-5*ICON_UNIT );
-        cairo_move_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-        cairo_line_to ( cr, x+7*ICON_UNIT, y-DIST-3*ICON_UNIT );
-    }
-    else
-    {
-        /* big box */
-        cairo_move_to ( cr, x-1*ICON_UNIT, y-DIST-6*ICON_UNIT );
-        cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST-6*ICON_UNIT );
-        cairo_line_to ( cr, x-8*ICON_UNIT, y-DIST+3*ICON_UNIT );
-        cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST+3*ICON_UNIT );
-        cairo_line_to ( cr, x+1*ICON_UNIT, y-DIST-2*ICON_UNIT );
-    }
+    cairo_stroke (cr);
+
+    U8_TRACE_END();
+}
+
+void gui_sketch_overlay_private_draw_new_relationship( gui_sketch_overlay_t *this_,
+                                                       int32_t x,
+                                                       int32_t y,
+                                                       cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != cr );
+
+    const GdkRGBA high_color = gui_sketch_style_get_highlight_color( &((*this_).sketch_style) );
+    cairo_set_source_rgba( cr, high_color.red, high_color.green, high_color.blue, high_color.alpha );
+    static const int32_t ICON_UNIT = 2;
+    static const int32_t DIST = 12;
+
+    /* arrow */
+    cairo_move_to ( cr, x+2*ICON_UNIT, y-DIST-0*ICON_UNIT );
+    cairo_line_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
+    cairo_line_to ( cr, x+5*ICON_UNIT, y-DIST-5*ICON_UNIT );
+    cairo_move_to ( cr, x+8*ICON_UNIT, y-DIST-6*ICON_UNIT );
+    cairo_line_to ( cr, x+7*ICON_UNIT, y-DIST-3*ICON_UNIT );
 
     cairo_stroke (cr);
 

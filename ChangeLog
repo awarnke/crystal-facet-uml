@@ -4,7 +4,7 @@ crystal-facet-uml (1.58.2) UNRELEASED; urgency=medium
   * in create mode, a click on a feature does not create another feature
   * in create mode, a click on a lifeline selects the classifier
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 07 May 2024 06:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 11 May 2024 19:00:00 +0200
 
 crystal-facet-uml (1.58.1) UNRELEASED; urgency=medium
 
