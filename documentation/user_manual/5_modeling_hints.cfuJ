@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.54.1"
+    "generator_version": "1.58.2"
   }
   ,
   "views":
@@ -167,6 +167,39 @@
             "classifier_name": "txt writer",
             "node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
             "uuid": "1cbf411e-62aa-45ab-ab42-a5343fd0c6aa"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 4,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "interfaces list methods",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "display_flags": 0,
+        "parent_name": "New Overview",
+        "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
+        "uuid": "e7701c86-c2a0-47b7-9062-2d22a5254337",
+        "diagramelements":
+        [
+          {
+            "id": 16,
+            "display_flags": 0,
+            "classifier_name": "file provider",
+            "node": "040c8834-a428-43d2-8767-76ff800d017a",
+            "uuid": "eac8e934-fb5a-4846-ac57-15fca8a5a7ec"
+          },
+          {
+            "id": 17,
+            "display_flags": 0,
+            "classifier_name": "file provider interface",
+            "node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
+            "uuid": "d5098387-f06a-45e7-add8-3c311b23688b"
           }
         ]
       }
@@ -612,6 +645,97 @@
         "uuid": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
         "features":
         [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 16,
+        "main_type": 125,
+        "type": "Class",
+        "name": "file provider",
+        "description": [
+                ""
+        ],
+        "x_order": -1148850062,
+        "y_order": -819811752,
+        "list_order": -819811752,
+        "uuid": "040c8834-a428-43d2-8767-76ff800d017a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 17,
+        "main_type": 123,
+        "type": "Interface",
+        "name": "file provider interface",
+        "description": [
+                ""
+        ],
+        "x_order": 845007361,
+        "y_order": -1496529748,
+        "list_order": -1496529748,
+        "uuid": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
+        "features":
+        [
+          {
+            "id": 16,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "open",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "02158aed-2b04-4818-8656-595f7758d7ba"
+          },
+          {
+            "id": 17,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "read",
+            "description": [
+                ""
+            ],
+            "list_order": 65536,
+            "uuid": "eedaa6f1-c3ec-409a-991f-a29c7c0cb3c2"
+          },
+          {
+            "id": 18,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "write",
+            "description": [
+                ""
+            ],
+            "list_order": 98304,
+            "uuid": "d77558c6-cd11-43ad-b72e-83a4e5f6e48e"
+          },
+          {
+            "id": 19,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "close",
+            "description": [
+                ""
+            ],
+            "list_order": 131072,
+            "uuid": "9ae58577-89df-40c9-ac0e-b7b01960bba3"
+          },
+          {
+            "id": 20,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "delete",
+            "description": [
+                ""
+            ],
+            "list_order": 163840,
+            "uuid": "5dde68b0-cebb-4f3a-b137-5a8f1727ab48"
+          }
         ]
       }
     }
@@ -1100,6 +1224,23 @@
         "from_node": "18779bd2-0aec-44e0-ac27-210a4315cf0d",
         "to_node": "6c395810-23d1-49bb-a915-756d918194be",
         "uuid": "20566e5c-a55a-4223-8366-31940ec063a0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 34,
+        "main_type": 211,
+        "type": "Realization",
+        "name": "realizes",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "file provider",
+        "to_classifier_name": "file provider interface",
+        "from_node": "040c8834-a428-43d2-8767-76ff800d017a",
+        "to_node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
+        "uuid": "315582a4-b65a-4aac-94e6-ed76036bcac2"
       }
     }
   ]
