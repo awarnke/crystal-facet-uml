@@ -1,12 +1,12 @@
-/* File: gui_sketch_overlay.c; Copyright and License: see below */
+/* File: gui_sketch_card_painter.c; Copyright and License: see below */
 
-#include "sketch/gui_sketch_overlay.h"
+#include "sketch/gui_sketch_card_painter.h"
 #include "sketch/gui_sketch_snap_state.h"
 #include "u8/u8_trace.h"
 #include <gtk/gtk.h>
 #include <assert.h>
 
-void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ )
+void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -15,7 +15,7 @@ void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ )
+void gui_sketch_card_painter_destroy( gui_sketch_card_painter_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -24,7 +24,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_draw( gui_sketch_card_painter_t *this_,
                               gui_tool_t selected_tool,
                               const gui_sketch_drag_state_t *drag_state,
                               const gui_sketch_card_t *card_under_mouse,
@@ -44,7 +44,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
 
         case GUI_TOOL_EDIT:
         {
-            gui_sketch_overlay_private_draw_edit_mode( this_, drag_state, card_under_mouse, cr );
+            gui_sketch_card_painter_private_draw_edit_mode( this_, drag_state, card_under_mouse, cr );
         }
         break;
 
@@ -52,7 +52,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         {
             const data_id_t highlighted = gui_marked_set_get_highlighted( marked_objects );
             const layout_subelement_kind_t highlighted_kind = gui_marked_set_get_highlighted_kind( marked_objects );
-            gui_sketch_overlay_private_draw_create_mode( this_,
+            gui_sketch_card_painter_private_draw_create_mode( this_,
                                                          drag_state,
                                                          card_under_mouse,
                                                          data_id_get_table(&highlighted),
@@ -78,7 +78,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
 }
 
 
-void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *this_,
                                                 const gui_sketch_drag_state_t *drag_state,
                                                 const gui_sketch_card_t *card_under_mouse,
                                                 cairo_t *cr )
@@ -101,13 +101,13 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
             if ( draw_2d_diagram )
             {
                 /* draw grid line crossings */
-                gui_sketch_overlay_private_draw_grid( this_, card_under_mouse, cr );
+                gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
 
                 /* draw snap-to-grid indicator */
                 const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
                 const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
                 const gui_sketch_snap_state_t snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
-                gui_sketch_overlay_private_draw_snap_indicator( this_, card_under_mouse, snapped, to_x, to_y, cr );
+                gui_sketch_card_painter_private_draw_snap_indicator( this_, card_under_mouse, snapped, to_x, to_y, cr );
             }
         }
     }
@@ -115,7 +115,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
                                                   const gui_sketch_card_t *card_under_mouse,
                                                   data_table_t highlighted_table,
@@ -133,7 +133,7 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
         const int32_t from_y = gui_sketch_drag_state_get_from_y ( drag_state );
         const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
         const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
-        gui_sketch_overlay_private_draw_arrow( this_, from_x, from_y, to_x, to_y, cr );
+        gui_sketch_card_painter_private_draw_arrow( this_, from_x, from_y, to_x, to_y, cr );
     }
     else /* ! gui_sketch_drag_state_is_dragging() */
     {
@@ -166,25 +166,25 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
             if (( draw_new_classifier )&&( draw_2d_diagram ))
             {
                 /* draw grid line crossings */
-                gui_sketch_overlay_private_draw_grid( this_, card_under_mouse, cr );
+                gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );
 
                 /* draw snap-to-grid indicator */
                 const gui_sketch_snap_state_t snapped = gui_sketch_card_is_pos_on_grid( card_under_mouse, to_x, to_y );
-                gui_sketch_overlay_private_draw_snap_indicator( this_, card_under_mouse, snapped, to_x, to_y, cr );
+                gui_sketch_card_painter_private_draw_snap_indicator( this_, card_under_mouse, snapped, to_x, to_y, cr );
             }
 
             /* draw boxes and arrow icons */
             if ( draw_new_classifier )
             {
-                gui_sketch_overlay_private_draw_new_classifier( this_, to_x, to_y, cr );
+                gui_sketch_card_painter_private_draw_new_classifier( this_, to_x, to_y, cr );
             }
             if ( draw_new_feature )
             {
-                gui_sketch_overlay_private_draw_new_feature( this_, to_x, to_y, cr );
+                gui_sketch_card_painter_private_draw_new_feature( this_, to_x, to_y, cr );
             }
             if ( draw_new_relationship )
             {
-                gui_sketch_overlay_private_draw_new_relationship( this_, to_x, to_y, cr );
+                gui_sketch_card_painter_private_draw_new_relationship( this_, to_x, to_y, cr );
             }
         }
     }
@@ -192,7 +192,7 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this_,
                                             int32_t from_x,
                                             int32_t from_y,
                                             int32_t to_x,
@@ -277,7 +277,7 @@ void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_new_classifier( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_new_classifier( gui_sketch_card_painter_t *this_,
                                                      int32_t x,
                                                      int32_t y,
                                                      cairo_t *cr )
@@ -312,7 +312,7 @@ void gui_sketch_overlay_private_draw_new_classifier( gui_sketch_overlay_t *this_
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_new_feature( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t *this_,
                                                   int32_t x,
                                                   int32_t y,
                                                   cairo_t *cr )
@@ -346,7 +346,7 @@ void gui_sketch_overlay_private_draw_new_feature( gui_sketch_overlay_t *this_,
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_new_relationship( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_painter_t *this_,
                                                        int32_t x,
                                                        int32_t y,
                                                        cairo_t *cr )
@@ -371,7 +371,7 @@ void gui_sketch_overlay_private_draw_new_relationship( gui_sketch_overlay_t *thi
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_,
                                            const gui_sketch_card_t *card_under_mouse,
                                            cairo_t *cr )
 {
@@ -410,7 +410,7 @@ void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
     U8_TRACE_END();
 }
 
-void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_snap_indicator( gui_sketch_card_painter_t *this_,
                                                      const gui_sketch_card_t *card_under_mouse,
                                                      gui_sketch_snap_state_t snapped,
                                                      int32_t x,

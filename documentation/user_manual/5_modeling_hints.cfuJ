@@ -176,7 +176,7 @@
         "id": 4,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "interfaces list methods",
+        "name": "interface list methods",
         "description": [
                 ""
         ],
@@ -190,14 +190,14 @@
           {
             "id": 16,
             "display_flags": 0,
-            "classifier_name": "file provider",
+            "classifier_name": "file wrapper class",
             "node": "040c8834-a428-43d2-8767-76ff800d017a",
             "uuid": "eac8e934-fb5a-4846-ac57-15fca8a5a7ec"
           },
           {
             "id": 17,
             "display_flags": 0,
-            "classifier_name": "file provider interface",
+            "classifier_name": "file wrapper interface",
             "node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
             "uuid": "d5098387-f06a-45e7-add8-3c311b23688b"
           }
@@ -653,7 +653,7 @@
         "id": 16,
         "main_type": 125,
         "type": "Class",
-        "name": "file provider",
+        "name": "file wrapper class",
         "description": [
                 ""
         ],
@@ -671,7 +671,7 @@
         "id": 17,
         "main_type": 123,
         "type": "Interface",
-        "name": "file provider interface",
+        "name": "file wrapper interface",
         "description": [
                 ""
         ],
@@ -735,6 +735,28 @@
             ],
             "list_order": 163840,
             "uuid": "5dde68b0-cebb-4f3a-b137-5a8f1727ab48"
+          },
+          {
+            "id": 21,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "seek",
+            "description": [
+                ""
+            ],
+            "list_order": 81920,
+            "uuid": "d34a0d8d-de4d-4ce9-96c8-ee45e86c16ec"
+          },
+          {
+            "id": 22,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "flush",
+            "description": [
+                ""
+            ],
+            "list_order": 114688,
+            "uuid": "8b797a55-50c3-47b1-8275-9bd7704d813f"
           }
         ]
       }
@@ -1236,8 +1258,8 @@
                 ""
         ],
         "list_order": 32768,
-        "from_classifier_name": "file provider",
-        "to_classifier_name": "file provider interface",
+        "from_classifier_name": "file wrapper class",
+        "to_classifier_name": "file wrapper interface",
         "from_node": "040c8834-a428-43d2-8767-76ff800d017a",
         "to_node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
         "uuid": "315582a4-b65a-4aac-94e6-ed76036bcac2"

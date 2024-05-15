@@ -1,7 +1,7 @@
-/* File: gui_sketch_overlay.h; Copyright and License: see below */
+/* File: gui_sketch_card_painter.h; Copyright and License: see below */
 
-#ifndef GUI_SKETCH_OVERLAY_H
-#define GUI_SKETCH_OVERLAY_H
+#ifndef GUI_SKETCH_CARD_PAINTER_H
+#define GUI_SKETCH_CARD_PAINTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -20,25 +20,25 @@
 /*!
  *  \brief attributes of the sketch overlay
  */
-struct gui_sketch_overlay_struct {
+struct gui_sketch_card_painter_struct {
     gui_sketch_style_t sketch_style;  /*!< helper class to perform drawing */
 };
 
-typedef struct gui_sketch_overlay_struct gui_sketch_overlay_t;
+typedef struct gui_sketch_card_painter_struct gui_sketch_card_painter_t;
 
 /*!
  *  \brief initializes the sketch overlay
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ );
+void gui_sketch_card_painter_init( gui_sketch_card_painter_t *this_ );
 
 /*!
  *  \brief destroys the sketch overlay
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ );
+void gui_sketch_card_painter_destroy( gui_sketch_card_painter_t *this_ );
 
 /*!
  *  \brief draws overlay graphics to the cairo context
@@ -50,7 +50,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ );
  *  \param marked_objects the focused and highighted objects
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_draw( gui_sketch_card_painter_t *this_,
                               gui_tool_t selected_tool,
                               const gui_sketch_drag_state_t *drag_state,
                               const gui_sketch_card_t *card_under_mouse,
@@ -66,7 +66,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
  *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *this_,
                                                 const gui_sketch_drag_state_t *drag_state,
                                                 const gui_sketch_card_t *card_under_mouse,
                                                 cairo_t *cr
@@ -82,7 +82,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
  *  \param highlighted_kind the kind of the highlighted element part
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
                                                   const gui_sketch_card_t *card_under_mouse,
                                                   data_table_t highlighted_table,
@@ -100,7 +100,7 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
  *  \param to_y destination y coordinate of the mouse pointer
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this_,
                                             int32_t from_x,
                                             int32_t from_y,
                                             int32_t to_x,
@@ -116,7 +116,7 @@ void gui_sketch_overlay_private_draw_arrow( gui_sketch_overlay_t *this_,
  *  \param y y coordinate of the mouse pointer
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_new_classifier( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_new_classifier( gui_sketch_card_painter_t *this_,
                                                      int32_t x,
                                                      int32_t y,
                                                     cairo_t *cr
@@ -130,7 +130,7 @@ void gui_sketch_overlay_private_draw_new_classifier( gui_sketch_overlay_t *this_
  *  \param y y coordinate of the mouse pointer
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_new_feature( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t *this_,
                                                   int32_t x,
                                                   int32_t y,
                                                   cairo_t *cr
@@ -145,7 +145,7 @@ void gui_sketch_overlay_private_draw_new_feature( gui_sketch_overlay_t *this_,
  *  \param with_arrow_option true if arrow and feature box shall be shown, false for classifier-box
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_new_relationship( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_painter_t *this_,
                                                        int32_t x,
                                                        int32_t y,
                                                        cairo_t *cr
@@ -158,7 +158,7 @@ void gui_sketch_overlay_private_draw_new_relationship( gui_sketch_overlay_t *thi
  *  \param card_under_mouse the sketch card under the current mouse position, not NULL
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_,
                                            const gui_sketch_card_t *card_under_mouse,
                                            cairo_t *cr
                                          );
@@ -173,7 +173,7 @@ void gui_sketch_overlay_private_draw_grid( gui_sketch_overlay_t *this_,
  *  \param y actual pointer position
  *  \param cr cairo drawing context
  */
-void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_,
+void gui_sketch_card_painter_private_draw_snap_indicator( gui_sketch_card_painter_t *this_,
                                                      const gui_sketch_card_t *card_under_mouse,
                                                      gui_sketch_snap_state_t snapped,
                                                      int32_t x,
@@ -182,7 +182,7 @@ void gui_sketch_overlay_private_draw_snap_indicator( gui_sketch_overlay_t *this_
                                                    );
 
 
-#endif  /* GUI_SKETCH_OVERLAY_H */
+#endif  /* GUI_SKETCH_CARD_PAINTER_H */
 
 
 /*
