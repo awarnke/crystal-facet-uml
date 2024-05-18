@@ -24,12 +24,12 @@ void gui_sketch_card_painter_destroy( gui_sketch_card_painter_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_card_painter_draw( gui_sketch_card_painter_t *this_,
-                              gui_tool_t selected_tool,
-                              const gui_sketch_drag_state_t *drag_state,
-                              const gui_sketch_card_t *card_under_mouse,
-                              gui_marked_set_t *marked_objects,
-                              cairo_t *cr )
+void gui_sketch_card_painter_draw_overlay( gui_sketch_card_painter_t *this_,
+                                           gui_tool_t selected_tool,
+                                           const gui_sketch_drag_state_t *drag_state,
+                                           const gui_sketch_card_t *card_under_mouse,
+                                           gui_marked_set_t *marked_objects,
+                                           cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != drag_state );
@@ -79,9 +79,9 @@ void gui_sketch_card_painter_draw( gui_sketch_card_painter_t *this_,
 
 
 void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *this_,
-                                                const gui_sketch_drag_state_t *drag_state,
-                                                const gui_sketch_card_t *card_under_mouse,
-                                                cairo_t *cr )
+                                                     const gui_sketch_drag_state_t *drag_state,
+                                                     const gui_sketch_card_t *card_under_mouse,
+                                                     cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != drag_state );
@@ -116,11 +116,11 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
 }
 
 void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t *this_,
-                                                  const gui_sketch_drag_state_t *drag_state,
-                                                  const gui_sketch_card_t *card_under_mouse,
-                                                  data_table_t highlighted_table,
-                                                  layout_subelement_kind_t highlighted_kind,
-                                                  cairo_t *cr )
+                                                       const gui_sketch_drag_state_t *drag_state,
+                                                       const gui_sketch_card_t *card_under_mouse,
+                                                       data_table_t highlighted_table,
+                                                       layout_subelement_kind_t highlighted_kind,
+                                                       cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != drag_state );
@@ -193,11 +193,11 @@ void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t
 }
 
 void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this_,
-                                            int32_t from_x,
-                                            int32_t from_y,
-                                            int32_t to_x,
-                                            int32_t to_y,
-                                            cairo_t *cr )
+                                                 int32_t from_x,
+                                                 int32_t from_y,
+                                                 int32_t to_x,
+                                                 int32_t to_y,
+                                                 cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
@@ -278,9 +278,9 @@ void gui_sketch_card_painter_private_draw_arrow( gui_sketch_card_painter_t *this
 }
 
 void gui_sketch_card_painter_private_draw_new_classifier( gui_sketch_card_painter_t *this_,
-                                                     int32_t x,
-                                                     int32_t y,
-                                                     cairo_t *cr )
+                                                          int32_t x,
+                                                         int32_t y,
+                                                         cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
@@ -313,9 +313,9 @@ void gui_sketch_card_painter_private_draw_new_classifier( gui_sketch_card_painte
 }
 
 void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t *this_,
-                                                  int32_t x,
-                                                  int32_t y,
-                                                  cairo_t *cr )
+                                                       int32_t x,
+                                                       int32_t y,
+                                                       cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
@@ -347,9 +347,9 @@ void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t
 }
 
 void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_painter_t *this_,
-                                                       int32_t x,
-                                                       int32_t y,
-                                                       cairo_t *cr )
+                                                            int32_t x,
+                                                            int32_t y,
+                                                            cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != cr );
@@ -372,8 +372,8 @@ void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_pain
 }
 
 void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_,
-                                           const gui_sketch_card_t *card_under_mouse,
-                                           cairo_t *cr )
+                                                const gui_sketch_card_t *card_under_mouse,
+                                                cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != card_under_mouse );
@@ -411,11 +411,11 @@ void gui_sketch_card_painter_private_draw_grid( gui_sketch_card_painter_t *this_
 }
 
 void gui_sketch_card_painter_private_draw_snap_indicator( gui_sketch_card_painter_t *this_,
-                                                     const gui_sketch_card_t *card_under_mouse,
-                                                     gui_sketch_snap_state_t snapped,
-                                                     int32_t x,
-                                                     int32_t y,
-                                                     cairo_t *cr )
+                                                          const gui_sketch_card_t *card_under_mouse,
+                                                          gui_sketch_snap_state_t snapped,
+                                                          int32_t x,
+                                                          int32_t y,
+                                                          cairo_t *cr )
 {
     U8_TRACE_BEGIN();
     assert( NULL != card_under_mouse );
@@ -443,6 +443,240 @@ void gui_sketch_card_painter_private_draw_snap_indicator( gui_sketch_card_painte
         cairo_fill (cr);
         cairo_rectangle ( cr, left, y+2, width, 1 );
         cairo_fill (cr);
+    }
+
+    U8_TRACE_END();
+}
+
+void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_painter_t *this_,
+                                                         const layout_subelement_id_t *subelement,
+                                                         const layout_visible_set_t *layouted_set,
+                                                         cairo_t *cr )
+{
+    assert( NULL != subelement );
+    assert( NULL != layouted_set );
+    assert( NULL != cr );
+    const layout_diagram_t *const layout_diag = layout_visible_set_get_diagram_const( layouted_set );
+
+    geometry_rectangle_t highlight;
+    geometry_rectangle_init_empty( &highlight );
+    data_id_t search_id;
+    data_id_copy( &search_id, data_full_id_get_primary_id_const( layout_subelement_id_get_id_const( subelement ) ) );
+    const layout_subelement_kind_t kind = layout_subelement_id_get_kind( subelement );
+
+    /* check diagram */
+    const data_diagram_t *const diag_data = layout_diagram_get_data_const( layout_diag );
+    const data_id_t diag_id = data_diagram_get_data_id( diag_data );
+    if ( data_id_equals( &search_id, &diag_id ) )
+    {
+        switch ( kind )
+        {
+            case LAYOUT_SUBELEMENT_KIND_LABEL:
+            {
+                geometry_rectangle_replace( &highlight, layout_diagram_get_label_box_const( layout_diag ) );
+                geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
+            }
+            break;
+
+            case LAYOUT_SUBELEMENT_KIND_OUTLINE:
+            {
+                geometry_rectangle_t empty_space;
+                geometry_rectangle_replace( &highlight, layout_diagram_get_bounds_const( layout_diag ) );
+                geometry_rectangle_copy( &empty_space, layout_diagram_get_draw_area_const( layout_diag ) );  /* no highlight in space */
+                gui_sketch_card_painter_private_draw_border( this_, &highlight, &empty_space, cr );
+            }
+            break;
+
+            default:
+            case LAYOUT_SUBELEMENT_KIND_SPACE:
+            {
+                geometry_rectangle_replace( &highlight, layout_diagram_get_draw_area_const( layout_diag ) );
+                gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
+            }
+            break;
+        }
+    }
+
+    /* iterate over all classifiers */
+    const uint32_t c_count = layout_visible_set_get_visible_classifier_count( layouted_set );
+    for ( uint32_t c_index = 0; c_index < c_count; c_index ++ )
+    {
+        const layout_visible_classifier_t *const visible_classifier
+            = layout_visible_set_get_visible_classifier_const ( layouted_set, c_index );
+        const data_diagramelement_t *diagele = layout_visible_classifier_get_diagramelement_const( visible_classifier );
+        const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
+        if ( data_id_equals( &search_id, &diagele_id ) )
+        {
+            switch ( kind )
+            {
+                case LAYOUT_SUBELEMENT_KIND_LABEL:
+                {
+                    geometry_rectangle_replace( &highlight, layout_visible_classifier_get_label_box_const( visible_classifier ) );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
+                }
+                break;
+
+                case LAYOUT_SUBELEMENT_KIND_OUTLINE:
+                {
+                    geometry_rectangle_t empty_space;
+                    geometry_rectangle_replace( &highlight, layout_visible_classifier_get_symbol_box_const( visible_classifier ) );
+                    geometry_rectangle_copy( &empty_space, layout_visible_classifier_get_space_const( visible_classifier ) );  /* no highlight in space */
+                    gui_sketch_card_painter_private_draw_border( this_, &highlight, &empty_space, cr );
+                }
+                break;
+
+                default:
+                case LAYOUT_SUBELEMENT_KIND_SPACE:
+                {
+                    geometry_rectangle_replace( &highlight, layout_visible_classifier_get_space_const( visible_classifier ) );
+                    gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
+                }
+                break;
+            }
+        }
+    }
+
+    /* check all contained features */
+    const uint32_t f_count = layout_visible_set_get_feature_count( layouted_set );
+    for ( uint32_t f_index = 0; f_index < f_count; f_index ++ )
+    {
+        const layout_feature_t *const the_feature
+            = layout_visible_set_get_feature_const ( layouted_set, f_index );
+        const data_feature_t *feature = layout_feature_get_data_const( the_feature );
+        const data_id_t feature_id = data_feature_get_data_id( feature );
+        if ( data_id_equals( &search_id, &feature_id ) )
+        {
+            switch ( kind )
+            {
+                case LAYOUT_SUBELEMENT_KIND_LABEL:
+                {
+                    geometry_rectangle_replace( &highlight, layout_feature_get_label_box_const( the_feature ) );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
+                }
+                break;
+
+                default:
+                case LAYOUT_SUBELEMENT_KIND_OUTLINE:
+                {
+                    geometry_rectangle_replace( &highlight, layout_feature_get_symbol_box_const( the_feature ) );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
+                }
+                break;
+            }
+        }
+    }
+
+    const uint32_t count_relations = layout_visible_set_get_relationship_count ( layouted_set );
+    for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+    {
+        const layout_relationship_t *const the_relationship
+            = layout_visible_set_get_relationship_const( layouted_set, rel_index );
+        const data_relationship_t *const relationship = layout_relationship_get_data_const( the_relationship );
+        const data_id_t relationship_id = data_relationship_get_data_id( relationship );
+        if ( data_id_equals( &search_id, &relationship_id ) )
+        {
+            switch ( kind )
+            {
+                case LAYOUT_SUBELEMENT_KIND_LABEL:
+                {
+                    geometry_rectangle_replace( &highlight, layout_relationship_get_label_box_const( the_relationship ) );
+                    geometry_rectangle_expand_4dir( &highlight, 4.0 /* delta_width */, 4.0 /* delta_height */ );
+                    gui_sketch_card_painter_private_draw_rect( this_, &highlight, cr );
+                }
+                break;
+
+                default:
+                case LAYOUT_SUBELEMENT_KIND_OUTLINE:
+                {
+                    const geometry_connector_t *const relationship_shape
+                        = layout_relationship_get_shape_const( the_relationship );
+                    {
+                        geometry_rectangle_t segment_src;
+                        segment_src = geometry_connector_get_segment_bounds( relationship_shape,
+                                                                             GEOMETRY_CONNECTOR_SEGMENT_SOURCE
+                                                                           );
+                        geometry_rectangle_expand_4dir( &segment_src, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        gui_sketch_card_painter_private_draw_rect( this_, &segment_src, cr );
+                    }
+                    {
+                        geometry_rectangle_t segment_dst;
+                        segment_dst = geometry_connector_get_segment_bounds( relationship_shape,
+                                                                             GEOMETRY_CONNECTOR_SEGMENT_DESTINATION
+                                                                           );
+                        geometry_rectangle_expand_4dir( &segment_dst, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        gui_sketch_card_painter_private_draw_rect( this_, &segment_dst, cr );
+                    }
+                    {
+                        geometry_rectangle_t segment_main;
+                        segment_main = geometry_connector_get_segment_bounds( relationship_shape,
+                                                                           GEOMETRY_CONNECTOR_SEGMENT_MAIN
+                                                                         );
+                        geometry_rectangle_expand_4dir( &segment_main, 6.0 /* delta_width */, 6.0 /* delta_height */ );
+                        gui_sketch_card_painter_private_draw_rect( this_, &segment_main, cr );
+                    }
+                }
+                break;
+            }
+        }
+    }
+}
+
+void gui_sketch_card_painter_draw_paper( gui_sketch_card_painter_t *this_,
+                                         gui_tool_t selected_tool,
+                                         const gui_sketch_drag_state_t *drag_state,
+                                         const gui_sketch_card_t *card,
+                                         cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != drag_state );
+    assert( NULL != card );
+    assert( NULL != cr );
+
+    if ( gui_sketch_card_is_visible(card) )
+    {
+        const bool create_tool = ( selected_tool == GUI_TOOL_CREATE );
+
+        shape_int_rectangle_t bounds = gui_sketch_card_get_bounds( card );
+        const int32_t left = shape_int_rectangle_get_left( &bounds );
+        const int32_t top = shape_int_rectangle_get_top( &bounds );
+        const uint32_t width = shape_int_rectangle_get_width( &bounds );
+        const uint32_t height = shape_int_rectangle_get_height( &bounds );
+
+        /* draw paper */
+        if ( create_tool )
+        {
+            static const double GRAY_R = 0.875;
+            static const double GRAY_G = 0.875;
+            static const double GRAY_B = 0.875;
+            static const double GRAY_A = 1.0;
+            cairo_set_source_rgba( cr, GRAY_R, GRAY_G, GRAY_B, GRAY_A );
+        }
+        else
+        {
+            static const double WHITE_R = 1.0;
+            static const double WHITE_G = 1.0;
+            static const double WHITE_B = 1.0;
+            static const double WHITE_A = 1.0;
+            cairo_set_source_rgba( cr, WHITE_R, WHITE_G, WHITE_B, WHITE_A );
+        }
+        cairo_rectangle ( cr, left, top, width, height );
+        cairo_fill (cr);
+
+        const layout_visible_set_t *const layout = gui_sketch_card_get_visible_set( card );
+        if ( layout_visible_set_is_valid( layout ) && create_tool )
+        {
+            const int32_t mouse_x = gui_sketch_drag_state_get_to_x( drag_state );
+            const int32_t mouse_y = gui_sketch_drag_state_get_to_y( drag_state );
+
+            const layout_subelement_id_t subelement_to_highlight
+                = gui_sketch_card_get_element_at_pos( card, mouse_x, mouse_y, !create_tool /* filter_lifelines */ );
+
+            gui_sketch_card_painter_private_draw_element_space( this_, &subelement_to_highlight, layout, cr );
+        }
     }
 
     U8_TRACE_END();

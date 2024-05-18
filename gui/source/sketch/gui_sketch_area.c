@@ -558,24 +558,32 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     /* draw all cards, backwards */
     for ( signed int card_idx = (*this_).card_num-1; card_idx >= 0; card_idx -- )
     {
-        gui_sketch_card_draw_paper( &((*this_).cards[card_idx]),
-                                    selected_tool,
-                                    &((*this_).drag_state),
-                                    cr
-                                  );
-        gui_sketch_card_draw( &((*this_).cards[card_idx]), (*this_).marker, cr );
+        gui_sketch_card_t *card = &((*this_).cards[card_idx]);
+        /* lazy layouting: only re-calulate positions when these are needed: */
+        if ( gui_sketch_card_needs_layout( card ) )
+        {
+            gui_sketch_card_layout_elements( card, cr );
+        }
+
+        gui_sketch_card_painter_draw_paper( &((*this_).card_overlay),
+                                            selected_tool,
+                                            &((*this_).drag_state),
+                                            card,
+                                            cr
+                                          );
+        gui_sketch_card_draw( card, (*this_).marker, cr );
     }
 
     /* overlay tool-helper lines */
     const int32_t mouse_x = gui_sketch_drag_state_get_to_x( &((*this_).drag_state) );
     const int32_t mouse_y = gui_sketch_drag_state_get_to_y( &((*this_).drag_state) );
-    gui_sketch_card_painter_draw( &((*this_).card_overlay),
-                                  selected_tool,
-                                  &((*this_).drag_state),
-                                  gui_sketch_area_private_get_card_at_pos ( this_, mouse_x, mouse_y ),
-                                  (*this_).marker,
-                                  cr
-                                );
+    gui_sketch_card_painter_draw_overlay( &((*this_).card_overlay),
+                                          selected_tool,
+                                          &((*this_).drag_state),
+                                          gui_sketch_area_private_get_card_at_pos ( this_, mouse_x, mouse_y ),
+                                          (*this_).marker,
+                                          cr
+                                        );
     gui_sketch_nav_tree_draw_overlay( &((*this_).nav_tree), &((*this_).drag_state) , cr );
 
     U8_TRACE_END();
