@@ -529,8 +529,7 @@ bool layout_visible_set_is_consistent ( const layout_visible_set_t *this_ )
 #ifndef NDEBUG
 #define LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
 #else
-/* REMOVE ME */
-#define LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
+/* no layouting warnings to user in release mode */
 #endif
 
 void layout_visible_set_private_analyze_nothing_callback ( void *data,

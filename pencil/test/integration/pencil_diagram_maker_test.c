@@ -20,6 +20,18 @@ static test_case_result_t render_good_cases( test_fixture_t *fix );
 static test_case_result_t render_challenging_cases( test_fixture_t *fix );
 static test_case_result_t render_edge_cases( test_fixture_t *fix );
 
+/*!
+ *  \brief draws rectangles for layout_visible_set_analyze to indicate overlaps
+ *
+ *  \param data pointer that is passed to overlap_callback
+ *  \param rect_a pointer to a rectangle that overlaps with rect_b
+ *  \param rect_b pointer to a rectangle that overlaps with rect_a
+ */
+void pencil_diagram_maker_test_draw_rects_callback ( void *data,
+                                                     const geometry_rectangle_t *rect_a,
+                                                     const geometry_rectangle_t *rect_b
+                                                   );
+
 test_suite_t pencil_diagram_maker_test_get_suite(void)
 {
     test_suite_t result;
@@ -161,7 +173,9 @@ static test_case_result_t render_good_cases_no_output( test_fixture_t *fix )
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
         pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
+        layout_visible_set_get_statistics( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                           &layout_stats
+                                         );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -196,7 +210,11 @@ static test_case_result_t render_good_cases( test_fixture_t *fix )
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
         pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
+        layout_visible_set_analyze( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                    &layout_stats,
+                                    pencil_diagram_maker_test_draw_rects_callback,
+                                    (*fix).cr /* the user data of type void* */
+                                  );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -232,7 +250,11 @@ static test_case_result_t render_challenging_cases( test_fixture_t *fix )
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
         pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
+        layout_visible_set_analyze( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                    &layout_stats,
+                                    pencil_diagram_maker_test_draw_rects_callback,
+                                    (*fix).cr /* the user data of type void* */
+                                  );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -268,7 +290,11 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
         data_stat_init( &layout_stats );
         pencil_diagram_maker_define_grid( &((*fix).painter), (*fix).diagram_bounds, (*fix).cr );
         pencil_diagram_maker_layout_elements( &((*fix).painter), NULL, (*fix).cr );
-        pencil_diagram_maker_show_overlaps( &((*fix).painter), &layout_stats, (*fix).cr );
+        layout_visible_set_analyze( pencil_diagram_maker_get_layout_data_const( &((*fix).painter) ),
+                                    &layout_stats,
+                                    pencil_diagram_maker_test_draw_rects_callback,
+                                    (*fix).cr /* the user data of type void* */
+                                  );
         pencil_diagram_maker_draw ( &((*fix).painter),
                                     void_id,
                                     void_id,
@@ -282,6 +308,44 @@ static test_case_result_t render_edge_cases( test_fixture_t *fix )
     }
     test_data_setup_destroy( &ts_setup );
     return TEST_CASE_RESULT_OK;
+}
+
+void pencil_diagram_maker_test_draw_rects_callback ( void *data,
+                                                     const geometry_rectangle_t *rect_a,
+                                                     const geometry_rectangle_t *rect_b )
+{
+    assert( NULL != data );
+    assert( NULL != rect_a );
+    assert( NULL != rect_b );
+    cairo_t *cr = data;
+    cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, 1.0 );
+    cairo_rectangle ( cr,
+                      geometry_rectangle_get_left ( rect_a ),
+                      geometry_rectangle_get_top ( rect_a ),
+                      geometry_rectangle_get_width ( rect_a ),
+                      geometry_rectangle_get_height ( rect_a )
+                    );
+    cairo_rectangle ( cr,
+                      geometry_rectangle_get_left ( rect_b ),
+                      geometry_rectangle_get_top ( rect_b ),
+                      geometry_rectangle_get_width ( rect_b ),
+                      geometry_rectangle_get_height ( rect_b )
+                    );
+    cairo_stroke (cr);
+
+    geometry_rectangle_t isect;
+    const int err_no_intersect = geometry_rectangle_init_by_intersect( &isect, rect_a, rect_b );
+    if ( err_no_intersect == 0 )
+    {
+        cairo_rectangle ( cr,
+                        geometry_rectangle_get_left ( &isect ),
+                        geometry_rectangle_get_top ( &isect ),
+                        geometry_rectangle_get_width ( &isect ),
+                        geometry_rectangle_get_height ( &isect )
+                        );
+        cairo_fill (cr);
+        geometry_rectangle_destroy( &isect );
+    }
 }
 
 

@@ -7,58 +7,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-void pencil_diagram_maker_draw_rects_callback ( void *data,
-                                                const geometry_rectangle_t *rect_a,
-                                                const geometry_rectangle_t *rect_b )
-{
-    assert( NULL != data );
-    assert( NULL != rect_a );
-    assert( NULL != rect_b );
-    cairo_t *cr = data;
-    cairo_set_source_rgba( cr, 1.0, 0.8, 0.8, 1.0 );
-    cairo_rectangle ( cr,
-                      geometry_rectangle_get_left ( rect_a ),
-                      geometry_rectangle_get_top ( rect_a ),
-                      geometry_rectangle_get_width ( rect_a ),
-                      geometry_rectangle_get_height ( rect_a )
-                    );
-    cairo_rectangle ( cr,
-                      geometry_rectangle_get_left ( rect_b ),
-                      geometry_rectangle_get_top ( rect_b ),
-                      geometry_rectangle_get_width ( rect_b ),
-                      geometry_rectangle_get_height ( rect_b )
-                    );
-    cairo_stroke (cr);
-
-    geometry_rectangle_t isect;
-    const int err_no_intersect = geometry_rectangle_init_by_intersect( &isect, rect_a, rect_b );
-    if ( err_no_intersect == 0 )
-    {
-        cairo_rectangle ( cr,
-                        geometry_rectangle_get_left ( &isect ),
-                        geometry_rectangle_get_top ( &isect ),
-                        geometry_rectangle_get_width ( &isect ),
-                        geometry_rectangle_get_height ( &isect )
-                        );
-        cairo_fill (cr);
-        geometry_rectangle_destroy( &isect );
-    }
-}
-
-void pencil_diagram_maker_show_overlaps ( pencil_diagram_maker_t *this_,
-                                          data_stat_t *io_layout_stat,
-                                          cairo_t *cr )
-{
-    data_stat_t dummy_layout_stats;
-    data_stat_init( &dummy_layout_stats );
-    layout_visible_set_analyze( pencil_layouter_get_layout_data_const( &((*this_).layouter) ),
-                                (io_layout_stat == NULL) ? &dummy_layout_stats : io_layout_stat,
-                                pencil_diagram_maker_draw_rects_callback,
-                                cr
-                              );
-    data_stat_destroy( &dummy_layout_stats );
-}
-
 void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                  data_id_t mark_focused,
                                  data_id_t mark_highlighted,
