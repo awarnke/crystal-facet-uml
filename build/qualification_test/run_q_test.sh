@@ -1,4 +1,5 @@
 #!/bin/sh
+rm -fr Makefile cmake_install.cmake  CMakeFiles/ CMakeCache.txt
 cmake ../.. -DCMAKE_BUILD_TYPE=Release
 cmake --build . -j --target crystal-facet-uml --config Release
 find . -name '*.rs' | xargs rustfmt

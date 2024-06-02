@@ -101,7 +101,7 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
     if( ! open_existing )
     {
         /* moved here as workaround for disabled file dialog widgets, see https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
-        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).new_file_chooser ), "untitled.cfuJ" );
+        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).new_file_chooser ), "NewModel.cfuJ" );
 
         gtk_widget_set_visible( GTK_WIDGET( (*this_).new_file_chooser ), TRUE );
         gtk_widget_set_sensitive( GTK_WIDGET((*this_).new_file_chooser), TRUE );  /* idea taken from gtk demo */
