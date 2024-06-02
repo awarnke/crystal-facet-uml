@@ -24,8 +24,8 @@ ideas for future versions:
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
 ! [ ] show static texts under the icons of buttons (Note: sadly, gtk_button_set_label replaces the image)
-! [ ] make it obvious that in create mode, you shall click on the empty diagram space
-! [ ] and fix some strange behavior in create mode, where the highlight does not fit to mouse-press reaction
+! [ ] make it obvious that in create mode, you shall click on the empty diagram space - nice button needed maybe?
+  [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

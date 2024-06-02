@@ -173,60 +173,6 @@ layout_subelement_id_t gui_sketch_card_private_get_relationship_at_pos ( const g
                                                                        );
 
 /*!
- *  \brief draws the highlighted box of an element-part
- *
- *  \param this_ pointer to own object attributes
- *  \param subelement currently highlighted element-part
- *  \param cr cairo drawing context
- */
-void gui_sketch_card_private_draw_element_space ( const gui_sketch_card_t *this_,
-                                                  const layout_subelement_id_t *subelement,
-                                                  cairo_t *cr
-                                                );
-
-/*!
- * \brief draws a rectangle in bold/highlighted color
- *
- *  \param this_ pointer to own object attributes
- *  \param rect rectangle to draw
- *  \param cr cairo drawing context
- */
-static inline void gui_sketch_card_private_draw_rect ( const gui_sketch_card_t *this_,
-                                                       const geometry_rectangle_t *rect,
-                                                       cairo_t *cr
-                                                     );
-
-/*!
- * \brief draws a rectangle in bold/highlighted color, leaves out the empty space rect
- *
- *  \param this_ pointer to own object attributes
- *  \param border rectangle to draw
- *  \param space rectangle to leave out from draw
- *  \param cr cairo drawing context
- */
-static inline void gui_sketch_card_private_draw_border ( const gui_sketch_card_t *this_,
-                                                         const geometry_rectangle_t *border,
-                                                         const geometry_rectangle_t *space,
-                                                         cairo_t *cr
-                                                       );
-
-/*!
- *  \brief draws the background of a single diagram
- *
- *  If gui_sketch_card_is_visible() is false, this method does nothing.
- *
- *  \param this_ pointer to own object attributes
- *  \param selected_tool currently selected tool/edit-mode
- *  \param drag_state current dragging status
- *  \param cr cairo drawing context
- */
-void gui_sketch_card_draw_paper ( gui_sketch_card_t *this_,
-                                  gui_tool_t selected_tool,
-                                  const gui_sketch_drag_state_t *drag_state,
-                                  cairo_t *cr
-                                );
-
-/*!
  *  \brief draws a single diagram
  *
  *  If gui_sketch_card_is_visible() is false, this method does nothing.
@@ -332,7 +278,23 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
                                           );
 
 /*!
- *  \brief lays out the diagram
+ *  \brief gets the dirty_elements_layout flag
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the elements on this this sketch card need to be re-layouted
+ */
+static inline bool gui_sketch_card_needs_layout( const gui_sketch_card_t *this_ );
+
+/*!
+ *  \brief lays out the elements, resets the dirty_elements_layout flag
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context, needed to determine the font metrics
+ */
+static inline void gui_sketch_card_layout_elements( gui_sketch_card_t *this_, cairo_t *cr );
+
+/*!
+ *  \brief lays out the diagram (grid and elements)
  *
  *  This method may be called even if gui_sketch_card_is_valid() is false.
  *
@@ -340,6 +302,14 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
  *  \param cr cairo drawing context, needed to determine the font metrics
  */
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr );
+
+/*!
+ *  \brief gets the layouted visible_set
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return visible_set containing the layouter elements on this this sketch card
+ */
+static inline const layout_visible_set_t * gui_sketch_card_get_visible_set( const gui_sketch_card_t *this_ );
 
 /*!
  *  \brief determines the highest list order of relationships in the current diagram.

@@ -60,7 +60,8 @@
                 <itemizedlist>
                 <listitem>
                     <para>
-                        Define a port at a parent to bundle multiple communication paths of children
+                        Define a port at a parent
+                        to bundle multiple communication paths of children
                         <mediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0003_parent_ports.svg" width="12cm"/></imageobject>
                         </mediaobject>
@@ -69,8 +70,17 @@
                 <listitem>
                     <para>
                         Separate abstract classes/components/blocks and their specializations
+                        to hide details when showing the abstract concepts
                         <mediaobject>
                             <imageobject><imagedata fileref="5_modeling_hints_export/D0002_abstract_components.svg" width="12cm"/></imageobject>
+                        </mediaobject>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Extract methods to an interface to hide details when using the class
+                        <mediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0004_interface_list_methods.svg" width="12cm"/></imageobject>
                         </mediaobject>
                     </para>
                 </listitem>
@@ -83,11 +93,6 @@
                 Put a prefix to all your elements denoting its namespace. You can then distinguish
                 a GLOBAL_START_STATE from an AUDIO_START_STATE or global::start from audio::start.
             </para>
-            <para>
-                To achieve a more compact layout of an element,
-                one may insert space characters into names.
-                (In case names get long, the space allows for a linebreak).
-            </para>
         </section>
         <section>
             <title>Attic/Storage room</title>
@@ -95,6 +100,7 @@
                 If you are not sure if you really want to delete elements,
                 1) copy them to an attic-diagram and then
                 2) delete them from the original diagram.
+                Note that copy, in contrast to a cut, keeps all relationships.
             </para>
         </section>
         <section>

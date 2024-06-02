@@ -50,7 +50,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     gui_sketch_nav_tree_init( &((*this_).nav_tree), resources, &((*this_).texture_downloader) );
     gui_sketch_result_list_init( &((*this_).result_list), resources, &((*this_).texture_downloader) );
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
-    gui_sketch_overlay_init( &((*this_).overlay) );
+    gui_sketch_card_painter_init( &((*this_).card_overlay) );
     gui_sketch_background_init( &((*this_).background), resources, &((*this_).texture_downloader) );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
 
@@ -108,7 +108,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 
     /* destroy instances of own objects */
     gui_sketch_object_creator_destroy ( &((*this_).object_creator) );
-    gui_sketch_overlay_destroy( &((*this_).overlay) );
+    gui_sketch_card_painter_destroy( &((*this_).card_overlay) );
     gui_sketch_background_destroy( &((*this_).background) );
     gui_sketch_drag_state_destroy ( &((*this_).drag_state) );
     gui_sketch_texture_destroy( &((*this_).texture_downloader) );
@@ -558,24 +558,32 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     /* draw all cards, backwards */
     for ( signed int card_idx = (*this_).card_num-1; card_idx >= 0; card_idx -- )
     {
-        gui_sketch_card_draw_paper( &((*this_).cards[card_idx]),
-                                    selected_tool,
-                                    &((*this_).drag_state),
-                                    cr
-                                  );
-        gui_sketch_card_draw( &((*this_).cards[card_idx]), (*this_).marker, cr );
+        gui_sketch_card_t *card = &((*this_).cards[card_idx]);
+        /* lazy layouting: only re-calulate positions when these are needed: */
+        if ( gui_sketch_card_needs_layout( card ) )
+        {
+            gui_sketch_card_layout_elements( card, cr );
+        }
+
+        gui_sketch_card_painter_draw_paper( &((*this_).card_overlay),
+                                            selected_tool,
+                                            &((*this_).drag_state),
+                                            card,
+                                            cr
+                                          );
+        gui_sketch_card_draw( card, (*this_).marker, cr );
     }
 
     /* overlay tool-helper lines */
     const int32_t mouse_x = gui_sketch_drag_state_get_to_x( &((*this_).drag_state) );
     const int32_t mouse_y = gui_sketch_drag_state_get_to_y( &((*this_).drag_state) );
-    gui_sketch_overlay_draw( &((*this_).overlay),
-                             selected_tool,
-                             &((*this_).drag_state),
-                             gui_sketch_area_private_get_card_at_pos ( this_, mouse_x, mouse_y ),
-                             (*this_).marker,
-                             cr
-                           );
+    gui_sketch_card_painter_draw_overlay( &((*this_).card_overlay),
+                                          selected_tool,
+                                          &((*this_).drag_state),
+                                          gui_sketch_area_private_get_card_at_pos ( this_, mouse_x, mouse_y ),
+                                          (*this_).marker,
+                                          cr
+                                        );
     gui_sketch_nav_tree_draw_overlay( &((*this_).nav_tree), &((*this_).drag_state) , cr );
 
     U8_TRACE_END();

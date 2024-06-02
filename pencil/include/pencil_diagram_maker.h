@@ -111,21 +111,6 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
                                                         );
 
 /*!
- *  \brief draws markers where diagram elements and relationships overlap
- *
- *  This function may be called only after a call to pencil_diagram_maker_layout_elements()
- *
- *  \param this_ pointer to own object attributes
- *  \param io_layout_stat pointer to already initialized statistics object where layouting statistics are added
- *                        or NULL if no statistics of interest
- *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
- */
-void pencil_diagram_maker_show_overlaps ( pencil_diagram_maker_t *this_,
-                                          data_stat_t *io_layout_stat,
-                                          cairo_t *cr
-                                        );
-
-/*!
  *  \brief draws the chosen diagram contents into the diagram_bounds area of the cairo drawing context
  *
  *  This function may be called only after a call to pencil_diagram_maker_layout_elements()
@@ -278,18 +263,6 @@ pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diag
  *  \param this_ pointer to own object attributes
  */
 static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const ( const pencil_diagram_maker_t *this_ );
-
-/*!
- *  \brief draws rectangles for pencil_diagram_maker_show_overlaps
- *
- *  \param data pointer that is passed to overlap_callback
- *  \param rect_a pointer to a rectangle that overlaps with rect_b
- *  \param rect_b pointer to a rectangle that overlaps with rect_a
- */
-void pencil_diagram_maker_draw_rects_callback ( void *data,
-                                                const geometry_rectangle_t *rect_a,
-                                                const geometry_rectangle_t *rect_b
-                                              );
 
 #include "pencil_diagram_maker.inl"
 

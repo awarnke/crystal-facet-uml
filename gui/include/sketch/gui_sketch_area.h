@@ -9,11 +9,11 @@
  */
 
 #include "sketch/gui_sketch_card.h"
+#include "sketch/gui_sketch_card_painter.h"
 #include "sketch/gui_sketch_nav_tree.h"
 #include "sketch/gui_sketch_result_list.h"
 #include "sketch/gui_sketch_drag_state.h"
 #include "sketch/gui_sketch_object_creator.h"
-#include "sketch/gui_sketch_overlay.h"
 #include "sketch/gui_sketch_background.h"
 #include "sketch/gui_sketch_request.h"
 #include "sketch/gui_sketch_texture.h"
@@ -70,7 +70,7 @@ struct gui_sketch_area_struct {
     gui_sketch_texture_t texture_downloader;  /*!< own instance of an gui_sketch_texture_t */
 
     /* sub widgets, things that can draw provided input-data */
-    gui_sketch_overlay_t overlay;  /*!< own instance of sketch overlay */
+    gui_sketch_card_painter_t card_overlay;  /*!< own instance of sketch card overlay */
     gui_sketch_background_t background;  /*!< own instance of sketch background */
     gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
     uint32_t card_num;
