@@ -808,8 +808,9 @@ void layout_visible_set_analyze ( const layout_visible_set_t *this_,
                         }
                     }
                 }
+#else
+                (void) diag_type;  /* unused variable */
 #endif
-
             }
             else if ( geometry_rectangle_is_containing( diag_bounds, f_symbox )
                 && geometry_rectangle_is_containing( diag_bounds, f_label ) )

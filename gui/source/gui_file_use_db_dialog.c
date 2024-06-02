@@ -18,33 +18,53 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
     (*this_).parent_window = parent_window;
 
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
-    (*this_).use_db_file_chooser = gtk_file_chooser_dialog_new ( "Select DB to use",
-                                                                 parent_window,
-                                                                 GTK_FILE_CHOOSER_ACTION_SAVE,
-                                                                 "Cancel",
-                                                                 GTK_RESPONSE_CANCEL,
-                                                                 "Use DB-File",
-                                                                 GTK_RESPONSE_ACCEPT,
-                                                                 NULL
-                                                               );
+    (*this_).new_file_chooser = gtk_file_chooser_dialog_new ( "Select new file",
+                                                              parent_window,
+                                                              GTK_FILE_CHOOSER_ACTION_SAVE,
+                                                              "Cancel",
+                                                              GTK_RESPONSE_CANCEL,
+                                                              "New",
+                                                              GTK_RESPONSE_ACCEPT,
+                                                              NULL
+                                                            );
     /* set name postponed, see https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
+    (*this_).open_file_chooser = gtk_file_chooser_dialog_new ( "Select file to open",
+                                                               parent_window,
+                                                               GTK_FILE_CHOOSER_ACTION_OPEN,
+                                                               "Cancel",
+                                                               GTK_RESPONSE_CANCEL,
+                                                               "Open",
+                                                               GTK_RESPONSE_ACCEPT,
+                                                               NULL
+                                                             );
 #else
-    (*this_).use_db_file_dialog = gtk_file_dialog_new();
-    gtk_file_dialog_set_accept_label( (*this_).use_db_file_dialog, "Use DB-File" );
-    gtk_file_dialog_set_modal( (*this_).use_db_file_dialog, false );
-    gtk_file_dialog_set_title( (*this_).use_db_file_dialog, "Select DB to use" );
-    gtk_file_dialog_set_initial_name( (*this_).use_db_file_dialog, "NewModel.cfuJ" );
+    (*this_).new_file_dialog = gtk_file_dialog_new();
+    gtk_file_dialog_set_accept_label( (*this_).new_file_dialog, "New" );
+    gtk_file_dialog_set_modal( (*this_).new_file_dialog, false );
+    gtk_file_dialog_set_title( (*this_).new_file_dialog, "Select new file" );
+    gtk_file_dialog_set_initial_name( (*this_).new_file_dialog, "NewModel.cfuJ" );
+
+    (*this_).open_file_dialog = gtk_file_dialog_new();
+    gtk_file_dialog_set_accept_label( (*this_).open_file_dialog, "Open" );
+    gtk_file_dialog_set_modal( (*this_).open_file_dialog, false );
+    gtk_file_dialog_set_title( (*this_).open_file_dialog, "Select file to open" );
 #endif
 
     gui_file_db_manager_init( &((*this_).file_manager), controller, database, message_to_user );
 
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
-    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser),
+    g_signal_connect( G_OBJECT((*this_).new_file_chooser),
                       "response",
                       G_CALLBACK(gui_file_use_db_dialog_response_callback),
                       this_
                     );
-    gtk_window_set_hide_on_close( GTK_WINDOW((*this_).use_db_file_chooser), true);
+    gtk_window_set_hide_on_close( GTK_WINDOW((*this_).new_file_chooser), true);
+    g_signal_connect( G_OBJECT((*this_).open_file_chooser),
+                      "response",
+                      G_CALLBACK(gui_file_use_db_dialog_response_callback),
+                      this_
+                    );
+    gtk_window_set_hide_on_close( GTK_WINDOW((*this_).open_file_chooser), true);
 #else
     /* no signal at new FileDialog - this works with Async, see gtk_file_dialog_save */
 #endif
@@ -57,10 +77,13 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
     U8_TRACE_BEGIN();
 
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
-    gtk_window_destroy( GTK_WINDOW((*this_).use_db_file_chooser) );
-    /* no need to g_object_unref ( (*this_).use_db_file_chooser ); here */
+    gtk_window_destroy( GTK_WINDOW((*this_).new_file_chooser) );
+    /* no need to g_object_unref ( (*this_).new_file_chooser ); here */
+    gtk_window_destroy( GTK_WINDOW((*this_).open_file_chooser) );
+    /* no need to g_object_unref ( (*this_).open_file_chooser ); here */
 #else
-    g_object_unref( (*this_).use_db_file_dialog );
+    g_object_unref( (*this_).new_file_dialog );
+    g_object_unref( (*this_).open_file_dialog );
 #endif
 
     gui_file_db_manager_destroy( &((*this_).file_manager) );
@@ -75,25 +98,27 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
     U8_TRACE_BEGIN();
 
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
-    gtk_file_chooser_set_action( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ),
-                                 open_existing ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE
-                               );
     if( ! open_existing )
     {
         /* moved here as workaround for disabled file dialog widgets, see https://gitlab.gnome.org/GNOME/gtk/-/issues/4832 */
-        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfuJ" );
+        gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).new_file_chooser ), "NewModel.cfuJ" );
+
+        gtk_widget_set_visible( GTK_WIDGET( (*this_).new_file_chooser ), TRUE );
+        gtk_widget_set_sensitive( GTK_WIDGET((*this_).new_file_chooser), TRUE );  /* idea taken from gtk demo */
+        GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).new_file_chooser) );
+        gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
     }
-
-    gtk_widget_set_visible( GTK_WIDGET( (*this_).use_db_file_chooser ), TRUE );
-
-    gtk_widget_set_sensitive( GTK_WIDGET((*this_).use_db_file_chooser), TRUE );  /* idea taken from gtk demo */
-
-    GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).use_db_file_chooser) );
-    gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
+    else
+    {
+        gtk_widget_set_visible( GTK_WIDGET( (*this_).open_file_chooser ), TRUE );
+        gtk_widget_set_sensitive( GTK_WIDGET((*this_).open_file_chooser), TRUE );  /* idea taken from gtk demo */
+        GdkSurface *surface = gtk_native_get_surface( GTK_NATIVE((*this_).open_file_chooser) );
+        gdk_surface_set_cursor( surface, NULL );  /* idea taken from gtk3->4 guide */
+    }
 #else
     if ( open_existing )
     {
-        gtk_file_dialog_open( (*this_).use_db_file_dialog,
+        gtk_file_dialog_open( (*this_).open_file_dialog,
                               (*this_).parent_window,
                               NULL,
                               &gui_file_use_db_dialog_async_ready_callback_on_open,
@@ -102,10 +127,10 @@ void gui_file_use_db_dialog_show( gui_file_use_db_dialog_t *this_, bool open_exi
     }
     else
     {
-        gtk_file_dialog_save( (*this_).use_db_file_dialog,
+        gtk_file_dialog_save( (*this_).new_file_dialog,
                               (*this_).parent_window,
                               NULL,
-                              &gui_file_use_db_dialog_async_ready_callback_on_save,
+                              &gui_file_use_db_dialog_async_ready_callback_on_new,
                               this_
                             );
     }
@@ -192,7 +217,7 @@ void gui_file_use_db_dialog_async_ready_callback_on_open( GObject* source_object
         U8_TRACE_INFO_STR( "unexpected response from file dialog:", error->message );
         g_error_free( error );
     }
-    if ( result != NULL )
+    else if ( result != NULL )
     {
         gchar *folder_path = g_file_get_path ( result );
         if ( folder_path != NULL )
@@ -211,15 +236,18 @@ void gui_file_use_db_dialog_async_ready_callback_on_open( GObject* source_object
 
             g_free (folder_path);
         }
+    }
+    if ( result != NULL )
+    {
         g_object_unref( result );
     }
 
     U8_TRACE_END();
 }
 
-void gui_file_use_db_dialog_async_ready_callback_on_save( GObject* source_object,
-                                                          GAsyncResult* res,
-                                                          gpointer user_data )
+void gui_file_use_db_dialog_async_ready_callback_on_new( GObject* source_object,
+                                                         GAsyncResult* res,
+                                                         gpointer user_data )
 {
     U8_TRACE_BEGIN();
 
@@ -232,7 +260,7 @@ void gui_file_use_db_dialog_async_ready_callback_on_save( GObject* source_object
         U8_TRACE_INFO_STR( "unexpected response from file dialog:", error->message );
         g_error_free( error );
     }
-    if ( result != NULL )
+    else if ( result != NULL )
     {
         gchar *folder_path = g_file_get_path ( result );
         if ( folder_path != NULL )
@@ -251,6 +279,9 @@ void gui_file_use_db_dialog_async_ready_callback_on_save( GObject* source_object
 
             g_free (folder_path);
         }
+    }
+    if ( result != NULL )
+    {
         g_object_unref( result );
     }
 

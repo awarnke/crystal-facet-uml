@@ -69,6 +69,10 @@ ideas for future versions:
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the search+xmi+json export find them)
   @u8stream
+  [ ] avoid the compiler warning on u8stream/include/utf8stream/utf8stream_writer.inl:93:17: warning:
+      array subscript 65 is above array bounds of ‘char[64]’ [-Warray-bounds=]
+       93 |         memcpy( &((*this_).buffer[(*this_).buf_fill]), start, length );
+
   @main
   @test_fw
 
