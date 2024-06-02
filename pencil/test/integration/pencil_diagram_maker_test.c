@@ -20,18 +20,6 @@ static test_case_result_t render_good_cases( test_fixture_t *fix );
 static test_case_result_t render_challenging_cases( test_fixture_t *fix );
 static test_case_result_t render_edge_cases( test_fixture_t *fix );
 
-/*!
- *  \brief draws rectangles for layout_visible_set_analyze to indicate overlaps
- *
- *  \param data pointer that is passed to overlap_callback
- *  \param rect_a pointer to a rectangle that overlaps with rect_b
- *  \param rect_b pointer to a rectangle that overlaps with rect_a
- */
-void pencil_diagram_maker_test_draw_rects_callback ( void *data,
-                                                     const geometry_rectangle_t *rect_a,
-                                                     const geometry_rectangle_t *rect_b
-                                                   );
-
 test_suite_t pencil_diagram_maker_test_get_suite(void)
 {
     test_suite_t result;

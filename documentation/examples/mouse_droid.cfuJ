@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.58.2"
+    "generator_version": "1.58.3"
   }
   ,
   "views":
@@ -2256,6 +2256,13 @@
             "classifier_name": "Waiting",
             "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
             "uuid": "84030bd7-8f9d-41de-9f0a-83783356a217"
+          },
+          {
+            "id": 333,
+            "display_flags": 0,
+            "classifier_name": "Being Repaired",
+            "node": "580f3aaa-a590-43f1-bd18-0b608951290d",
+            "uuid": "c2d1ca8d-9b9a-43bf-b8c5-a74908fbfea3"
           }
         ]
       }
@@ -3850,8 +3857,8 @@
         "description": [
                 ""
         ],
-        "x_order": 452796978,
-        "y_order": -1547700145,
+        "x_order": 557710743,
+        "y_order": -1547710079,
         "list_order": -1595072604,
         "uuid": "00a46df1-c0b7-40ab-8363-08d12041357b",
         "features":
@@ -7356,6 +7363,24 @@
             "list_order": 0,
             "uuid": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315"
           }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 195,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "Being Repaired",
+        "description": [
+                ""
+        ],
+        "x_order": -248945384,
+        "y_order": -688698802,
+        "list_order": -688698802,
+        "uuid": "580f3aaa-a590-43f1-bd18-0b608951290d",
+        "features":
+        [
         ]
       }
     }
@@ -12002,6 +12027,23 @@
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
         "to_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
         "uuid": "bbb43a17-c382-4804-b874-f44e101ddf05"
+      }
+    },
+    {
+      "relationship": {
+        "id": 305,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -688698802,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Being Repaired",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "580f3aaa-a590-43f1-bd18-0b608951290d",
+        "uuid": "0cb5ee39-c596-40f5-9d44-462017bdfef8"
       }
     },
     {

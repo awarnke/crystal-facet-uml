@@ -9,8 +9,26 @@
  */
 
 #include "test_suite.h"
+#include "geometry/geometry_rectangle.h"
 
+/*!
+ *  \brief gets the test suite for pencil_diagram_maker
+ *
+ *  \return test suite
+ */
 test_suite_t pencil_diagram_maker_test_get_suite(void);
+
+/*!
+ *  \brief draws rectangles for layout_visible_set_analyze to indicate overlaps
+ *
+ *  \param data pointer that is passed to overlap_callback
+ *  \param rect_a pointer to a rectangle that overlaps with rect_b
+ *  \param rect_b pointer to a rectangle that overlaps with rect_a
+ */
+void pencil_diagram_maker_test_draw_rects_callback ( void *data,
+                                                     const geometry_rectangle_t *rect_a,
+                                                     const geometry_rectangle_t *rect_b
+                                                   );
 
 #endif  /* PENCIL_DIAGRAM_MAKER_TEST_H */
 

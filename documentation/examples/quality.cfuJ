@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.58.1"
+    "generator_version": "1.58.3"
   }
   ,
   "views":
@@ -123,7 +123,7 @@
         "name": "Domains",
         "description": [
                 "The \"Quality in Use\" depends on the domain.\n",
-                "Measures to improve software quality are often domain-specific.\n",
+                "Measures to improve and to validate software quality are often domain-specific.\n",
                 "\n",
                 "Some domains are more focusing on tests, some on formal proves, \n",
                 "some on reaction times till deploying software updates."
@@ -2110,7 +2110,7 @@
           {
             "id": 358,
             "display_flags": 0,
-            "classifier_name": "Comport",
+            "classifier_name": "Comfort",
             "node": "1737a735-7f65-4a5f-9d74-fb1c0eb2aaf8",
             "uuid": "eed17a67-1f24-439b-8e27-a05d9440cb8d"
           }
@@ -2161,6 +2161,13 @@
             "classifier_name": "Real Time Execution",
             "node": "fb10b08a-995e-4edf-ba1a-77b94668bb98",
             "uuid": "f1466cee-9c8c-4713-98a4-2fc711492ad2"
+          },
+          {
+            "id": 379,
+            "display_flags": 0,
+            "classifier_name": "Redundancy",
+            "node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
+            "uuid": "79c13bfd-53bb-47c7-b976-be40909de13a"
           }
         ]
       }
@@ -2170,7 +2177,7 @@
         "id": 11,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "Tactics for Safety",
+        "name": "Tactics for Safety I",
         "description": [
                 "This diagram shows examples for measures\n",
                 " - not aiming for completeness.\n",
@@ -2244,6 +2251,55 @@
             "classifier_name": "freedom from interference (FFI)",
             "node": "1a1600ad-4966-4d8d-9fc5-e674648231c0",
             "uuid": "7bcfbddf-a74b-4c44-bb97-ca3e915b7573"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 35,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "Tactics for Safety II",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Strategies for Safety",
+        "parent": "7a2c1c6e-8f4b-46a5-9a5b-5f1a4348df08",
+        "uuid": "9dced986-67a8-4c39-9afc-78c95c78119e",
+        "diagramelements":
+        [
+          {
+            "id": 378,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Redundancy",
+            "node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
+            "uuid": "f17994c5-de85-43bf-b6c1-27d5be462730"
+          },
+          {
+            "id": 380,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Functional Safety",
+            "node": "486e43a4-edea-4ecb-a34e-0596617c298d",
+            "uuid": "040f2827-be03-4260-99ee-d71905f1518e"
+          },
+          {
+            "id": 381,
+            "display_flags": 0,
+            "classifier_name": "Lockstep CPUs",
+            "node": "256a41a3-cebe-4bc4-83e7-a045848b35a4",
+            "uuid": "2fb84e9d-49c6-41bd-a90c-5e8a1f6c5993"
+          },
+          {
+            "id": 382,
+            "display_flags": 0,
+            "classifier_name": "ECC on memory",
+            "node": "c6a53466-e8ab-445d-b1da-d17c6840b871",
+            "uuid": "f5ce798b-c2b3-4657-a902-68d29b21268c"
           }
         ]
       }
@@ -4958,6 +5014,17 @@
             ],
             "list_order": 804304,
             "uuid": "6e969cb4-64a1-431b-9f97-dc9223ca1b47"
+          },
+          {
+            "id": 87,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "- self test",
+            "description": [
+                ""
+            ],
+            "list_order": 987763220,
+            "uuid": "456bd296-7581-4f53-997c-123fc115d018"
           }
         ]
       }
@@ -7157,7 +7224,8 @@
         "type": "Component",
         "name": "entity",
         "description": [
-                ""
+                "Entity is some system element of which some quality is expected.\n",
+                "It exhibits one or more quality attributes."
         ],
         "x_order": 1731455158,
         "y_order": 394569503,
@@ -8183,7 +8251,7 @@
         "id": 242,
         "main_type": 125,
         "type": "Class",
-        "name": "Comport",
+        "name": "Comfort",
         "description": [
                 ""
         ],
@@ -8505,6 +8573,45 @@
         "y_order": 0,
         "list_order": 1478954414,
         "uuid": "5d0934b9-fca0-4f9f-be18-79c79ec7d63c",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 260,
+        "main_type": 90,
+        "type": "Block",
+        "name": "Lockstep CPUs",
+        "description": [
+                "Two CPUs execute the same program with the same input data at the same time.\n",
+                "A deviation in the result is detected."
+        ],
+        "x_order": 2107520219,
+        "y_order": -2082470503,
+        "list_order": -2082470503,
+        "uuid": "256a41a3-cebe-4bc4-83e7-a045848b35a4",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 261,
+        "main_type": 121,
+        "type": "Component",
+        "name": "ECC on memory",
+        "description": [
+                "Error correction codes on volatile or persistant storages allow to correct one or two bitflips and to detect if more bitflips occurred.\n",
+                "\n",
+                "Main causes for bitflips may be x-rays and cosmic rays; also reading nearby cells may cause bitflips in physically-close cells."
+        ],
+        "x_order": 2107520219,
+        "y_order": -2137811601,
+        "list_order": -2137811601,
+        "uuid": "c6a53466-e8ab-445d-b1da-d17c6840b871",
         "features":
         [
         ]
@@ -9738,6 +9845,23 @@
         "from_node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
         "to_node": "434e57ae-2dd0-4d37-a8af-c4044307974b",
         "uuid": "049e4d59-763d-46f2-a540-894016f72d71"
+      }
+    },
+    {
+      "relationship": {
+        "id": 315,
+        "main_type": 200,
+        "type": "Association",
+        "name": "may support a claim",
+        "description": [
+                ""
+        ],
+        "list_order": 866768,
+        "from_classifier_name": "Redundancy",
+        "to_classifier_name": "Functional Safety",
+        "from_node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
+        "to_node": "486e43a4-edea-4ecb-a34e-0596617c298d",
+        "uuid": "f2ab2f8a-d9f3-4b22-8840-38c549d876a2"
       }
     },
     {
@@ -11077,7 +11201,7 @@
         ],
         "list_order": -1138751812,
         "from_classifier_name": "Satisfaction",
-        "to_classifier_name": "Comport",
+        "to_classifier_name": "Comfort",
         "from_node": "a72211d7-244f-4ecc-928d-432fd1131579",
         "to_node": "1737a735-7f65-4a5f-9d74-fb1c0eb2aaf8",
         "uuid": "2853c777-c985-4f3a-af4d-1e48b04bc239"
@@ -11921,7 +12045,7 @@
         "id": 247,
         "main_type": 211,
         "type": "Realization",
-        "name": "0..n",
+        "name": "realizes (0..n)",
         "description": [
                 ""
         ],
@@ -12815,6 +12939,40 @@
         "from_node": "59c0e212-2914-428a-8118-a1515b4ef4e8",
         "to_node": "ad1491d9-ad70-4c56-8c78-986c0f2ad301",
         "uuid": "32de5d24-19e1-4308-a376-fbea43c3d692"
+      }
+    },
+    {
+      "relationship": {
+        "id": 316,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 899536,
+        "from_classifier_name": "Lockstep CPUs",
+        "to_classifier_name": "Redundancy",
+        "from_node": "256a41a3-cebe-4bc4-83e7-a045848b35a4",
+        "to_node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
+        "uuid": "01159eb5-666d-415c-927e-a72688a38e8f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 317,
+        "main_type": 210,
+        "type": "Generalization",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 932304,
+        "from_classifier_name": "ECC on memory",
+        "to_classifier_name": "Redundancy",
+        "from_node": "c6a53466-e8ab-445d-b1da-d17c6840b871",
+        "to_node": "06bc06e7-4ad3-405c-ae0b-8a66cd7a79b6",
+        "uuid": "87fadb68-6c35-4be4-a3dc-c92b00178c06"
       }
     }
   ]

@@ -565,9 +565,11 @@ void layout_visible_set_analyze ( const layout_visible_set_t *this_,
         data_stat_inc_count( io_layout_stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_EXPORTED );
 
         const data_diagram_t *const diag_data = layout_diagram_get_data_const ( &((*this_).diagram_layout) );
-        const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag_data );
         const geometry_rectangle_t *const diag_bounds = layout_diagram_get_bounds_const( &((*this_).diagram_layout) );
         const geometry_rectangle_t *const diag_space = layout_diagram_get_draw_area_const( &((*this_).diagram_layout) );
+#ifdef LAYOUT_VISIBLE_SET_STATS_WITH_WARNINGS
+        const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag_data );
+#endif
 
         /* check classifiers against diagram */
 
