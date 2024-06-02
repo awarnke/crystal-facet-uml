@@ -17,6 +17,9 @@
 
 static const char *const MAIN_HELP
     = "\nUsage:\n"
+#ifndef NDEBUG
+    "    G_ENABLE_DIAGNOSTIC=1 ./crystal-facet-uml : for mor debug information\n"
+#endif
     "    -h : for help\n"
     "    -v : for version\n"
     "    -e <database_file> <export_format> <export_directory> : to export all diagrams,\n"

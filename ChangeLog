@@ -1,3 +1,10 @@
+crystal-facet-uml (1.58.3) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * no gtk_file_chooser_set_action in gui_file_use_db_dialog (Closes: #4)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 02 Jun 2024 08:00:00 +0200
+
 crystal-facet-uml (1.58.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

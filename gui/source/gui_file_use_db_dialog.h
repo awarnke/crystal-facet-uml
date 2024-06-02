@@ -24,9 +24,11 @@ struct gui_file_use_db_dialog_struct {
 
     GtkWindow *parent_window;  /*!< pointer to parent window, needed for modal dialogs */
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
-    GtkWidget *use_db_file_chooser;  /*!< pointer to instance of a file chooser for use_db */
+    GtkWidget *new_file_chooser;  /*!< pointer to instance of a file chooser for new */
+    GtkWidget *open_file_chooser;  /*!< pointer to instance of a file chooser for open */
 #else
-    GtkFileDialog *use_db_file_dialog;  /*!< pointer to instance of a file dialog for create and open */
+    GtkFileDialog *new_file_dialog;  /*!< pointer to instance of a file dialog for new */
+    GtkFileDialog *open_file_dialog;  /*!< pointer to instance of a file dialog for open */
 #endif
 };
 
@@ -75,10 +77,10 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
 /*!
  *  \brief callback function of the 4.10 GtkFileDialog
  */
-void gui_file_use_db_dialog_async_ready_callback_on_save( GObject* source_object,
-                                                          GAsyncResult* res,
-                                                          gpointer user_data
-                                                        );
+void gui_file_use_db_dialog_async_ready_callback_on_new( GObject* source_object,
+                                                         GAsyncResult* res,
+                                                         gpointer user_data
+                                                       );
 
 /*!
  *  \brief callback function of the 4.10 GtkFileDialog
@@ -88,7 +90,7 @@ void gui_file_use_db_dialog_async_ready_callback_on_open( GObject* source_object
                                                           gpointer user_data
                                                         );
 
-#endif  /* GTK ? 4.10 */
+#endif  /* GTK < 4.10 */
 
 #endif  /* GUI_FILE_USE_DB_DIALOG_H */
 
