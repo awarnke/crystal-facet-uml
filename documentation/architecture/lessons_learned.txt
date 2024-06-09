@@ -1,0 +1,33 @@
+/*!
+ *  \page cfu-lessons-learned-page crystal-facet-uml lessons learned
+ *
+ *  \image html crystal_facet_uml.png
+ *  \image latex crystal_facet_uml.pdf "" width=3cm
+ *
+ *  \section cfu-compiler Compiler Anomalies
+ *
+ *  Compiler optimizations cause strange effects.
+ *
+ *  \subsection cfu-optimizations Automatic optimizations
+ *
+ *  Automatic optimizations change the code and then produce warnings.
+ *
+ *  E.g. mut_A + const_B < mut_C
+ *
+ *  may implicitely be optimized to
+ *
+ *  (mut_A - mut_C) + const_B < 0
+ *
+ *  which is a similar expression but differs when looking at overflows.
+ *
+ *  \section cfu-posix Posix Variants
+ *
+ *  \subsection Locale-Dependencies
+ *
+ *  Some functions are locale-dependant:
+ *
+ *  strtod parses floating point numbers where the decimal separator is either a dot or a comma.
+ *
+ *  \section cfu-lessons-learned-apx Appendix
+ *  \author Copyright 2024-2024 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ */

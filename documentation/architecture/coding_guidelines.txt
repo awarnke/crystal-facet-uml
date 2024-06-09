@@ -1,5 +1,5 @@
 /*!
- *  \page cfu-programming-guidelines-page crystal-facet-uml programming guidelines
+ *  \page cfu-coding-guidelines-page crystal-facet-uml coding guidelines
  *
  *  \image html crystal_facet_uml.png
  *  \image latex crystal_facet_uml.pdf "" width=3cm
@@ -187,6 +187,6 @@
  *  In case you do not have a copy at hand, consider this similar set of rules:
  *  https://www.autosar.org/fileadmin/standards/R22-11/AP/AUTOSAR_RS_CPP14Guidelines.pdf
  *
- *  \section cfu-programming-guidelines-apx Appendix
+ *  \section cfu-coding-guidelines-apx Appendix
  *  \author Copyright 2016-2024 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */

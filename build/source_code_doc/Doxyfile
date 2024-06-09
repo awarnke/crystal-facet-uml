@@ -748,7 +748,8 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = ./source_code_doc.txt \
-                         ../../documentation/architecture/programming_guidelines.txt \
+                         ../../documentation/architecture/coding_guidelines.txt \
+                         ../../documentation/architecture/lessons_learned.txt \
                          ../../ctrl \
                          ../../data \
                          ../../gui \
