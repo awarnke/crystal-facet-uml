@@ -8,7 +8,7 @@
  *  \brief utf8codepoint is a struct of utf8-byte-length and the code-point of a character.
  *
  *  You typically do not create a code point object yourself.
- *  It is simply the return value of \link utf8stringbuf_get_char_at(utf8stringbuf_t,unsigned int) utf8stringbuf_get_char_at \endlink
+ *  It is simply the return value of \link utf8codepointiterator_next \endlink
  */
 
 #include <stdint.h>

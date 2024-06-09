@@ -142,7 +142,6 @@ void gui_sketch_card_painter_private_draw_new_feature( gui_sketch_card_painter_t
  *  \param this_ pointer to own object attributes
  *  \param x x coordinate of the mouse pointer
  *  \param y y coordinate of the mouse pointer
- *  \param with_arrow_option true if arrow and feature box shall be shown, false for classifier-box
  *  \param cr cairo drawing context
  */
 void gui_sketch_card_painter_private_draw_new_relationship( gui_sketch_card_painter_t *this_,
