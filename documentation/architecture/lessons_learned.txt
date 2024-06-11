@@ -20,6 +20,18 @@
  *
  *  which is a similar expression but differs when looking at overflows.
  *
+ *  \subsection cfu-wrong_warnings
+ *
+ *  Some warnings are simply not correct - for whatever reason, the compiler cannot calculate strlen
+ *  but then warns on subsequent wrong positions in memcpy behind an if-condition, for example:
+ *
+ *  warning: array subscript 18446744073709551549 is above array bounds of ‘char[64]’
+ *
+ *  Solve this by disabling the warnings by one of:
+ *
+ *  #pragma GCC diagnostic ignored "-Wstringop-truncation"
+ *  #pragma GCC diagnostic ignored "-Warray-bounds"
+ *
  *  \section cfu-posix Posix Variants
  *
  *  \subsection Locale-Dependencies

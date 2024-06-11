@@ -87,10 +87,17 @@ static inline u8_error_t utf8stream_writer_write_view ( utf8stream_writer_t *thi
     u8_error_t err = U8_ERROR_NONE;
 
     /* is there buffer free? */
-    if ( length <= UTF8STREAM_WRITER_MAX_BUF - (*this_).buf_fill )  /* all possible constants are on the right side for compiler optimizations */
+    if ( length <= ((size_t)UTF8STREAM_WRITER_MAX_BUF) - (*this_).buf_fill )  /* all possible constants are on the right side for compiler optimizations */
     {
         /* store to buffer */
+#if __GNUC__ >= 8
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
         memcpy( &((*this_).buffer[(*this_).buf_fill]), start, length );
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
         (*this_).buf_fill += length;
     }
     else
