@@ -1,6 +1,7 @@
 /* File: pencil_layouter.c; Copyright and License: see below */
 
 #include "pencil_layouter.h"
+#include "geometry/geometry_non_linear_scale.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -16,8 +17,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
     assert( NULL != profile );
 
     pencil_size_init_empty( &((*this_).pencil_size) );
-    geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
-    geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
+    geometry_grid_init( &((*this_).grid), GEOMETRY_GRID_KIND_0 );
     geometry_dimensions_init_empty( &((*this_).default_classifier_size) );
     data_rules_init( &((*this_).rules) );
 
@@ -42,8 +42,7 @@ void pencil_layouter_init( pencil_layouter_t *this_,
                                         profile,
                                         &((*this_).pencil_size),
                                         &((*this_).default_classifier_size),
-                                        &((*this_).x_scale),
-                                        &((*this_).y_scale),
+                                        &((*this_).grid),
                                         &((*this_).feature_layouter)
                                       );
     pencil_classifier_1d_layouter_init( &((*this_).pencil_classifier_1d_layouter),
@@ -96,8 +95,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
 
     pencil_size_destroy( &((*this_).pencil_size) );
-    geometry_non_linear_scale_destroy( &((*this_).x_scale) );
-    geometry_non_linear_scale_destroy( &((*this_).y_scale) );
+    geometry_grid_destroy( &((*this_).grid) );
     geometry_dimensions_destroy( &((*this_).default_classifier_size) );
     data_rules_destroy( &((*this_).rules) );
 
@@ -141,8 +139,10 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
     const double draw_top = geometry_rectangle_get_top( diagram_draw_area );
     const double draw_right = geometry_rectangle_get_right( diagram_draw_area );
     const double draw_bottom = geometry_rectangle_get_bottom( diagram_draw_area );
-    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left, draw_right );
-    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top, draw_bottom );
+    geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_ptr( &((*this_).grid) );
+    geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_ptr( &((*this_).grid) );
+    geometry_non_linear_scale_reinit( x_scale, draw_left, draw_right );
+    geometry_non_linear_scale_reinit( y_scale, draw_top, draw_bottom );
 
     /* iterate over all classifiers */
     const uint32_t count
@@ -159,8 +159,8 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
         /* adjust the non-linear scales for this classifier (if no contained descendants) */
         if ( 0 == visible_descendants )
         {
-            geometry_non_linear_scale_add_order ( &((*this_).x_scale), data_classifier_get_x_order( classifier_data ) );
-            geometry_non_linear_scale_add_order ( &((*this_).y_scale), data_classifier_get_y_order( classifier_data ) );
+            geometry_non_linear_scale_add_order( x_scale, data_classifier_get_x_order( classifier_data ) );
+            geometry_non_linear_scale_add_order( y_scale, data_classifier_get_y_order( classifier_data ) );
         }
     }
 
@@ -272,14 +272,16 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     U8_TRACE_BEGIN();
 
     /* determine grid cell size */
-    const double grid_width = geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
-    const double grid_height = geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
+    const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( &((*this_).grid) );
+    const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( &((*this_).grid) );
+    const double grid_width = geometry_non_linear_scale_get_grid_distances( x_scale );
+    const double grid_height = geometry_non_linear_scale_get_grid_distances( y_scale );
     double cell_width = grid_width;
     double cell_height = grid_height;
 
     /* check if the grid has enough points for all classifiers */
-    const uint_fast32_t interv_count_x = geometry_non_linear_scale_get_grid_intervals ( &((*this_).x_scale) );
-    const uint_fast32_t interv_count_y = geometry_non_linear_scale_get_grid_intervals ( &((*this_).y_scale) );
+    const uint_fast32_t interv_count_x = geometry_non_linear_scale_get_grid_intervals( x_scale );
+    const uint_fast32_t interv_count_y = geometry_non_linear_scale_get_grid_intervals( y_scale );
     const uint_fast32_t inner_point_count = (interv_count_x-1)*(interv_count_y-1);
     const uint_fast32_t c_count = layout_visible_set_get_visible_classifier_count ( &((*this_).layout_data) );
     if ( inner_point_count < c_count )
@@ -429,10 +431,12 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
         else
         {
             /* classifiers are x/y arranged */
-            const int32_t x_order
-                = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
-            const int32_t y_order
-                = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+            const geometry_non_linear_scale_t *const x_scale
+                = geometry_grid_get_x_scale_const( &((*this_).grid) );
+            const geometry_non_linear_scale_t *const y_scale
+                = geometry_grid_get_y_scale_const( &((*this_).grid) );
+            const int32_t x_order = geometry_non_linear_scale_get_order( x_scale, x, snap_distance );
+            const int32_t y_order = geometry_non_linear_scale_get_order( y_scale, y, snap_distance );
             layout_order_init_x_y( out_layout_order, x_order, y_order );
         }
     }

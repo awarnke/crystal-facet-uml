@@ -15,7 +15,7 @@
 #include "pencil_feature_layouter.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
-#include "geometry/geometry_non_linear_scale.h"
+#include "geometry/geometry_grid.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
@@ -39,8 +39,7 @@ struct pencil_classifier_2d_layouter_struct {
                                        /*!< defining pen sizes, gap sizes, font sizes and colors */
     const geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an external drawing rectangle */
                                                     /*!< containing inner contents of the diagram */
-    geometry_non_linear_scale_t *x_scale;  /*!< pointer to an external scale object for the x-axis */
-    geometry_non_linear_scale_t *y_scale;  /*!< pointer to an external scale object for the y-axis */
+    const geometry_grid_t *grid;  /*!< pointer to an external pair of scale objects to calculate positions from order numbers */
     geometry_dimensions_t *default_classifier_size;  /*!< pointer to an external classifier default size rectangle */
 
     pencil_classifier_composer_t classifier_composer;  /*!< own instance of a composer object to ask for display dimensions */
@@ -58,8 +57,7 @@ typedef struct pencil_classifier_2d_layouter_struct pencil_classifier_2d_layoute
  *  \param profile pointer to the profile-part that provides the stereotypes of the elements to be layouted
  *  \param pencil_size pointer to the pencil_size_t object
  *  \param default_classifier_size pointer to the default size of a classifier
- *  \param x_scale pointer to the scale object for the x-axis
- *  \param y_scale pointer to the scale object for the y-axis
+ *  \param grid pointer to an external pair of scale objects to calculate positions from order numbers
  *  \param feature_layouter pointer to a feature layout helper
  */
 void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
@@ -67,8 +65,7 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
                                          const data_profile_part_t *profile,
                                          const pencil_size_t *pencil_size,
                                          geometry_dimensions_t *default_classifier_size,
-                                         geometry_non_linear_scale_t *x_scale,
-                                         geometry_non_linear_scale_t *y_scale,
+                                         const geometry_grid_t *grid,
                                          pencil_feature_layouter_t *feature_layouter
                                        );
 

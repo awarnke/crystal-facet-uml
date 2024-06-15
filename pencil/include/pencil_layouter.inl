@@ -1,6 +1,7 @@
 /* File: pencil_layouter.inl; Copyright and License: see below */
 
 #include "u8/u8_log.h"
+#include "geometry/geometry_non_linear_scale.h"
 #include <assert.h>
 
 static inline void pencil_layouter_prepare ( pencil_layouter_t *this_ )
@@ -34,8 +35,10 @@ static inline void pencil_layouter_is_pos_on_grid ( const pencil_layouter_t *thi
     assert ( NULL != out_x_on_grid );
     assert ( NULL != out_y_on_grid );
 
-    double x_dist = geometry_non_linear_scale_get_closest_fix_location( &((*this_).x_scale), x ) - x;
-    double y_dist = geometry_non_linear_scale_get_closest_fix_location( &((*this_).y_scale), y ) - y;
+    const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( &((*this_).grid) );
+    const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( &((*this_).grid) );
+    double x_dist = geometry_non_linear_scale_get_closest_fix_location( x_scale, x ) - x;
+    double y_dist = geometry_non_linear_scale_get_closest_fix_location( y_scale, y ) - y;
 
     *out_x_on_grid = ((-snap_distance < x_dist)&&( x_dist < snap_distance));
     *out_y_on_grid = ((-snap_distance < y_dist)&&( y_dist < snap_distance));
@@ -56,13 +59,16 @@ static inline void pencil_layouter_get_grid_lines ( const pencil_layouter_t *thi
     assert( out_x_count != NULL );
     assert( out_y_count != NULL );
 
-    *out_x0 = geometry_non_linear_scale_get_location ( &((*this_).x_scale), /*order=*/ INT32_MIN );
-    *out_dx = geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
-    *out_x_count = geometry_non_linear_scale_get_grid_intervals ( &((*this_).x_scale) ) + 1;
+    const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( &((*this_).grid) );
+    const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( &((*this_).grid) );
 
-    *out_y0 = geometry_non_linear_scale_get_location ( &((*this_).y_scale), /*order=*/ INT32_MIN );
-    *out_dy = geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
-    *out_y_count = geometry_non_linear_scale_get_grid_intervals ( &((*this_).y_scale) ) + 1;
+    *out_x0 = geometry_non_linear_scale_get_location( x_scale, /*order=*/ INT32_MIN );
+    *out_dx = geometry_non_linear_scale_get_grid_distances( x_scale );
+    *out_x_count = geometry_non_linear_scale_get_grid_intervals( x_scale ) + 1;
+
+    *out_y0 = geometry_non_linear_scale_get_location( y_scale, /*order=*/ INT32_MIN );
+    *out_dy = geometry_non_linear_scale_get_grid_distances( y_scale );
+    *out_y_count = geometry_non_linear_scale_get_grid_intervals( y_scale ) + 1;
 }
 
 

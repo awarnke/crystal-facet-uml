@@ -27,7 +27,6 @@
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_grid.h"
-#include "geometry/geometry_non_linear_scale.h"
 #include "set/data_full_id.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
@@ -48,8 +47,7 @@ struct pencil_layouter_struct {
     const data_profile_part_t *profile;  /*!< pointer to an external stereotype-image cache */
 
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
-    geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
-    geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
+    geometry_grid_t grid;  /*!< own instance of a pair of scale objects to calculate positions from order numbers */
     geometry_dimensions_t default_classifier_size;  /*!< own instance of a classifier default size */
     data_rules_t rules;  /*!< own instance of modelling rules */
 

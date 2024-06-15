@@ -1,6 +1,7 @@
 /* File: pencil_classifier_2d_layouter.c; Copyright and License: see below */
 
 #include "pencil_classifier_2d_layouter.h"
+#include "geometry/geometry_non_linear_scale.h"
 #include "u8/u8_trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -12,8 +13,7 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
                                          const data_profile_part_t *profile,
                                          const pencil_size_t *pencil_size,
                                          geometry_dimensions_t *default_classifier_size,
-                                         geometry_non_linear_scale_t *x_scale,
-                                         geometry_non_linear_scale_t *y_scale,
+                                         const geometry_grid_t *grid,
                                          pencil_feature_layouter_t *feature_layouter )
 {
     U8_TRACE_BEGIN();
@@ -21,16 +21,14 @@ void pencil_classifier_2d_layouter_init( pencil_classifier_2d_layouter_t *this_,
     assert( NULL != profile );
     assert( NULL != pencil_size );
     assert( NULL != default_classifier_size );
-    assert( NULL != x_scale );
-    assert( NULL != y_scale );
+    assert( NULL != grid );
     assert( NULL != feature_layouter );
 
     (*this_).layout_data = layout_data;
     (*this_).profile = profile;
     (*this_).pencil_size = pencil_size;
     (*this_).default_classifier_size = default_classifier_size;
-    (*this_).x_scale = x_scale;
-    (*this_).y_scale = y_scale;
+    (*this_).grid = grid;
     (*this_).feature_layouter = feature_layouter;
     pencil_classifier_composer_init( &((*this_).classifier_composer) );
 
@@ -147,8 +145,10 @@ void pencil_classifier_2d_layouter_estimate_bounds( pencil_classifier_2d_layoute
             const double act_center_y = geometry_rectangle_get_center_y( classifier_symbol_box );
             const int32_t order_x = data_classifier_get_x_order( classifier2 );
             const int32_t order_y = data_classifier_get_y_order( classifier2 );
-            const double center_x = geometry_non_linear_scale_get_location( (*this_).x_scale, order_x );
-            const double center_y = geometry_non_linear_scale_get_location( (*this_).y_scale, order_y );
+            const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( (*this_).grid );
+            const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( (*this_).grid );
+            const double center_x = geometry_non_linear_scale_get_location( x_scale, order_x );
+            const double center_y = geometry_non_linear_scale_get_location( y_scale, order_y );
             layout_visible_classifier_shift( classifier_layout, center_x-act_center_x, center_y-act_center_y );
         }
     }
