@@ -115,6 +115,13 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
                                  );
 
 /*!
+ *  \brief returns the geometry_grid_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const geometry_grid_t *pencil_layouter_get_grid_const ( const pencil_layouter_t *this_ );
+
+/*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
  *
  *  \param this_ pointer to own object attributes

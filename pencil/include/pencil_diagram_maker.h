@@ -95,6 +95,13 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
                                                     );
 
 /*!
+ *  \brief returns the geometry_grid_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const geometry_grid_t *pencil_diagram_maker_get_grid_const ( const pencil_diagram_maker_t *this_ );
+
+/*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
  *
  *  No reset of internal caches, no structural changes in input_data are allowed;

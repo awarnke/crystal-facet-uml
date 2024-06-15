@@ -139,6 +139,7 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_,
     const double draw_top = geometry_rectangle_get_top( diagram_draw_area );
     const double draw_right = geometry_rectangle_get_right( diagram_draw_area );
     const double draw_bottom = geometry_rectangle_get_bottom( diagram_draw_area );
+    geometry_grid_reinit( &((*this_).grid), GEOMETRY_GRID_KIND_XY );
     geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_ptr( &((*this_).grid) );
     geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_ptr( &((*this_).grid) );
     geometry_non_linear_scale_reinit( x_scale, draw_left, draw_right );

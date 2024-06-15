@@ -10,6 +10,11 @@ static inline void pencil_layouter_prepare ( pencil_layouter_t *this_ )
     pencil_feature_layouter_reset( &((*this_).feature_layouter) );
 }
 
+static inline const geometry_grid_t *pencil_layouter_get_grid_const ( const pencil_layouter_t *this_ )
+{
+    return &((*this_).grid);
+}
+
 static inline layout_visible_set_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ )
 {
     return &((*this_).layout_data);

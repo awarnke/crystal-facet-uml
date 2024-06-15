@@ -73,6 +73,11 @@ static inline void pencil_diagram_maker_define_grid( pencil_diagram_maker_t *thi
     U8_TRACE_END();
 }
 
+static inline const geometry_grid_t *pencil_diagram_maker_get_grid_const ( const pencil_diagram_maker_t *this_ )
+{
+    return pencil_layouter_get_grid_const( &((*this_).layouter) );
+}
+
 static inline void pencil_diagram_maker_layout_elements( pencil_diagram_maker_t *this_,
                                                          data_stat_t *io_layout_stat,
                                                          cairo_t *cr )
