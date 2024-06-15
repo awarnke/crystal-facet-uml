@@ -4567,6 +4567,28 @@
         "uuid": "d79de9a5-bc92-4359-889f-d22771927c0c",
         "features":
         [
+          {
+            "id": 88,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "verification",
+            "description": [
+                ""
+            ],
+            "list_order": -1725512640,
+            "uuid": "4335d013-3d6e-4d57-be78-09e1ca298028"
+          },
+          {
+            "id": 89,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "validation",
+            "description": [
+                ""
+            ],
+            "list_order": -1725545408,
+            "uuid": "ba5c43d6-0dc8-4c4f-a192-bd03f3a3952d"
+          }
         ]
       }
     },
@@ -8331,7 +8353,7 @@
                 ""
         ],
         "x_order": -1702941968,
-        "y_order": 905473840,
+        "y_order": 1892609431,
         "list_order": -1710565171,
         "uuid": "6978f09b-e18d-4136-8ae4-10bca296608d",
         "features":
@@ -8351,7 +8373,7 @@
                 ""
         ],
         "x_order": -1702941968,
-        "y_order": 1373784640,
+        "y_order": 2016022840,
         "list_order": -1690236228,
         "uuid": "01b769f0-5c37-45e0-8120-f77f6ac82188",
         "features":
@@ -8404,7 +8426,7 @@
         "description": [
                 ""
         ],
-        "x_order": -729493205,
+        "x_order": 1878331530,
         "y_order": 905473840,
         "list_order": 884766938,
         "uuid": "85b5915c-5090-48aa-a548-29675e91af28",
@@ -8420,7 +8442,7 @@
         "type": "Class",
         "name": "Plan of Artifacts",
         "description": [
-                ""
+                "Defines workflow, needed skills, review and approval processes."
         ],
         "x_order": -729493205,
         "y_order": 1373784640,
@@ -8492,7 +8514,7 @@
         "type": "Class",
         "name": "Report on Results",
         "description": [
-                ""
+                "For example review reports or test results"
         ],
         "x_order": 1878331530,
         "y_order": 1373784640,
@@ -12739,6 +12761,23 @@
     },
     {
       "relationship": {
+        "id": 318,
+        "main_type": 201,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 688128,
+        "from_classifier_name": "Project Execution Plan",
+        "to_classifier_name": "Plan of Artifacts",
+        "from_node": "85b5915c-5090-48aa-a548-29675e91af28",
+        "to_node": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+        "uuid": "2a3ae720-7c3c-4d0b-9301-26193c666831"
+      }
+    },
+    {
+      "relationship": {
         "id": 302,
         "main_type": 211,
         "type": "Realization",
@@ -12810,7 +12849,7 @@
         "id": 306,
         "main_type": 401,
         "type": "Trace",
-        "name": "",
+        "name": "provide evidence",
         "description": [
                 ""
         ],

@@ -12,25 +12,24 @@
  *
  *  Automatic optimizations change the code and then produce warnings.
  *
- *  E.g. mut_A + const_B < mut_C
+ *      mut_A + const_B < mut_C
  *
- *  may implicitely be optimized to
+ *  may implicitly be optimized to
  *
- *  (mut_A - mut_C) + const_B < 0
+ *      (mut_A - mut_C) + const_B < 0
  *
  *  which is a similar expression but differs when looking at overflows.
  *
- *  \subsection cfu-wrong_warnings
+ *  \subsection cfu-wrong_warnings Wrong warnings from inline functions
  *
  *  Some warnings are simply not correct - for whatever reason, the compiler cannot calculate strlen
  *  but then warns on subsequent wrong positions in memcpy behind an if-condition, for example:
  *
- *  warning: array subscript 18446744073709551549 is above array bounds of ‘char[64]’
+ *      warning: array subscript 18446744073709551549 is above array bounds of ‘char[64]’
  *
- *  Solve this by disabling the warnings by one of:
+ *  Solve this by disabling the warnings by:
  *
- *  #pragma GCC diagnostic ignored "-Wstringop-truncation"
- *  #pragma GCC diagnostic ignored "-Warray-bounds"
+ *      #pragma GCC diagnostic ignored "-Warray-bounds"
  *
  *  \section cfu-posix Posix Variants
  *
@@ -38,7 +37,9 @@
  *
  *  Some functions are locale-dependant:
  *
- *  strtod parses floating point numbers where the decimal separator is either a dot or a comma.
+ *      strtod
+ *
+ *  parses floating point numbers where the decimal separator is either a dot or a comma.
  *
  *  \section cfu-lessons-learned-apx Appendix
  *  \author Copyright 2024-2024 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de

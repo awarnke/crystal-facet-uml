@@ -26,6 +26,7 @@
 #include "layout/layout_order.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
+#include "geometry/geometry_grid.h"
 #include "geometry/geometry_non_linear_scale.h"
 #include "set/data_full_id.h"
 #include "set/data_profile_part.h"
