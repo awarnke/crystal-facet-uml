@@ -19,6 +19,8 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data), &((*this_).profile) );
     gui_sketch_marker_init( &((*this_).sketch_marker), false );
 
+    (*this_).snap_to_grid_distance = 5.000001;  /* 5 is the expected accuracy of mouse pointers */
+
     U8_TRACE_END();
 }
 

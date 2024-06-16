@@ -53,12 +53,12 @@ void gui_sketch_card_painter_draw_overlay( gui_sketch_card_painter_t *this_,
             const data_id_t highlighted = gui_marked_set_get_highlighted( marked_objects );
             const layout_subelement_kind_t highlighted_kind = gui_marked_set_get_highlighted_kind( marked_objects );
             gui_sketch_card_painter_private_draw_create_mode( this_,
-                                                         drag_state,
-                                                         card_under_mouse,
-                                                         data_id_get_table(&highlighted),
-                                                         highlighted_kind,
-                                                         cr
-                                                       );
+                                                              drag_state,
+                                                              card_under_mouse,
+                                                              data_id_get_table(&highlighted),
+                                                              highlighted_kind,
+                                                              cr
+                                                            );
         }
         break;
 
@@ -613,8 +613,8 @@ void gui_sketch_card_painter_private_draw_element_space( const gui_sketch_card_p
                     {
                         geometry_rectangle_t segment_main;
                         segment_main = geometry_connector_get_segment_bounds( relationship_shape,
-                                                                           GEOMETRY_CONNECTOR_SEGMENT_MAIN
-                                                                         );
+                                                                              GEOMETRY_CONNECTOR_SEGMENT_MAIN
+                                                                            );
                         geometry_rectangle_expand_4dir( &segment_main, 6.0 /* delta_width */, 6.0 /* delta_height */ );
                         gui_sketch_card_painter_private_draw_rect( this_, &segment_main, cr );
                     }

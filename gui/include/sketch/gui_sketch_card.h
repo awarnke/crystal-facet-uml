@@ -39,6 +39,8 @@ struct gui_sketch_card_struct {
 
     /* helper classes to perform drawing */
     gui_sketch_marker_t sketch_marker;
+
+    double snap_to_grid_distance;  /*!< number of pixels by which a close-to-grid position is snapped to the grid */
 };
 
 typedef struct gui_sketch_card_struct gui_sketch_card_t;

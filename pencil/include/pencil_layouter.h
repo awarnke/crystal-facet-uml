@@ -205,44 +205,6 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
                                                              );
 
 /*!
- *  \brief determines if the given position is on a grid line
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param snap_distance maximum distance to the next grid line when to evaluate to "yes, on grid"
- *  \param out_x_on_grid flag indicating if the given x position is on a grid line
- *  \param out_y_on_grid flag indicating if the given y position is on a grid line
- */
-static inline void pencil_layouter_is_pos_on_grid ( const pencil_layouter_t *this_,
-                                                    double x,
-                                                    double y,
-                                                    double snap_distance,
-                                                    bool *out_x_on_grid,
-                                                    bool *out_y_on_grid
-                                                  );
-
-/*!
- *  \brief determines the grid lines
- *
- *  \param this_ pointer to own object attributes
- *  \param out_x0 x-position of leftmost grid line
- *  \param out_y0 y-position of topmost grid line
- *  \param out_dx width between grid lines
- *  \param out_dy height between grid lines
- *  \param out_x_count number of x-position grid lines
- *  \param out_y_count number of y-position grid lines
- */
-static inline void pencil_layouter_get_grid_lines ( const pencil_layouter_t *this_,
-                                                    double *out_x0,
-                                                    double *out_y0,
-                                                    double *out_dx,
-                                                    double *out_dy,
-                                                    uint32_t *out_x_count,
-                                                    uint32_t *out_y_count
-                                                  );
-
-/*!
  *  \brief proposes a default classifier bounds rectangle
  *
  *  \param this_ pointer to own object attributes

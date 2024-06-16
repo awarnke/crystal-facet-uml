@@ -233,6 +233,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
                                                        data_id_t obj_id,
                                                        double x,
                                                        double y,
+                                                       double snap_to_grid_distance,
                                                        layout_order_t* out_layout_order )
 {
     U8_TRACE_BEGIN();
@@ -256,7 +257,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
                                                                    c_type,
                                                                    x,
                                                                    y,
-                                                                   (*this_).snap_to_grid_distance,
+                                                                   snap_to_grid_distance,
                                                                    out_layout_order
                                                                  );
         }

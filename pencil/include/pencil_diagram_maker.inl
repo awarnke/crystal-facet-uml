@@ -21,8 +21,6 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_,
     (*this_).profile = profile;
     pencil_layouter_init( &((*this_).layouter), input_data, profile );
 
-    (*this_).snap_to_grid_distance = 5.000001;
-
     U8_TRACE_END();
 }
 
@@ -102,33 +100,6 @@ static inline void pencil_diagram_maker_layout_elements( pencil_diagram_maker_t 
     g_object_unref (font_layout);
 
     U8_TRACE_END();
-}
-
-static inline void pencil_diagram_maker_is_pos_on_grid( const pencil_diagram_maker_t *this_,
-                                                        double x,
-                                                        double y,
-                                                        bool *out_x_on_grid,
-                                                        bool *out_y_on_grid )
-{
-    pencil_layouter_is_pos_on_grid ( &((*this_).layouter),
-                                     x,
-                                     y,
-                                     (*this_).snap_to_grid_distance,
-                                     out_x_on_grid,
-                                     out_y_on_grid
-                                   );
-}
-
-static inline void pencil_diagram_maker_get_grid_lines( const pencil_diagram_maker_t *this_,
-                                                        double *out_x0,
-                                                        double *out_y0,
-                                                        double *out_dx,
-                                                        double *out_dy,
-                                                        uint32_t *out_x_count,
-                                                        uint32_t *out_y_count
-                                                      )
-{
-    pencil_layouter_get_grid_lines( &((*this_).layouter), out_x0, out_y0, out_dx, out_dy, out_x_count, out_y_count );
 }
 
 static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const( const pencil_diagram_maker_t *this_ )

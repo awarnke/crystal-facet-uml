@@ -42,9 +42,6 @@ struct pencil_diagram_maker_struct {
     pencil_classifier_composer_t classifier_painter;  /*!< own instance of a classifier painter */
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a relationship_painter */
     pencil_feature_painter_t feature_painter;  /*!< own instance of a feature_painter */
-
-    double snap_to_grid_distance;  /*!< plus/minus some pixels shall snap to grid. */
-                                   /*!< This is the expected accuracy for mouse input devices */
 };
 
 typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;
@@ -190,48 +187,13 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                                                      );
 
 /*!
- *  \brief determines if the given position is on a grid line
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param out_x_on_grid flag indicating if the given x position is on a grid line
- *  \param out_y_on_grid flag indicating if the given y position is on a grid line
- */
-static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_maker_t *this_,
-                                                         double x,
-                                                         double y,
-                                                         bool *out_x_on_grid,
-                                                         bool *out_y_on_grid
-                                                       );
-
-/*!
- *  \brief determines the grid lines
- *
- *  \param this_ pointer to own object attributes
- *  \param out_x0 x-position of leftmost grid line
- *  \param out_y0 y-position of topmost grid line
- *  \param out_dx width between grid lines
- *  \param out_dy height between grid lines
- *  \param out_x_count number of x-position grid lines
- *  \param out_y_count number of y-position grid lines
- */
-static inline void pencil_diagram_maker_get_grid_lines ( const pencil_diagram_maker_t *this_,
-                                                         double *out_x0,
-                                                         double *out_y0,
-                                                         double *out_dx,
-                                                         double *out_dy,
-                                                         uint32_t *out_x_count,
-                                                         uint32_t *out_y_count
-                                                       );
-
-/*!
  *  \brief gets the layout order at a given position
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id object for which to determine the layout order
  *  \param x x-position
  *  \param y y-position
+ *  \param snap_to_grid_distance number of pixels by which a close-to-grid position is snapped to the grid
  *  \param out_layout_order order at given position
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
@@ -240,6 +202,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
                                                        data_id_t obj_id,
                                                        double x,
                                                        double y,
+                                                       double snap_to_grid_distance,
                                                        layout_order_t* out_layout_order
                                                      );
 
