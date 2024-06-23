@@ -149,27 +149,6 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketc
     return layout_order_get_first( &result );
 }
 
-static inline gui_sketch_snap_state_t gui_sketch_card_is_pos_on_grid ( const gui_sketch_card_t *this_, int32_t x, int32_t y )
-{
-    bool x_on_grid;
-    bool y_on_grid;
-
-    const geometry_grid_t *grid = pencil_diagram_maker_get_grid_const( &((*this_).painter) );
-    const geometry_non_linear_scale_t *const x_scale = geometry_grid_get_x_scale_const( grid );
-    const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( grid );
-    double x_dist = geometry_non_linear_scale_get_closest_fix_location( x_scale, (double) x ) - (double) x;
-    double y_dist = geometry_non_linear_scale_get_closest_fix_location( y_scale, (double) y ) - (double) y;
-
-    x_on_grid = ((-(*this_).snap_to_grid_distance < x_dist)&&( x_dist < (*this_).snap_to_grid_distance));
-    y_on_grid = ((-(*this_).snap_to_grid_distance < y_dist)&&( y_dist < (*this_).snap_to_grid_distance));
-
-    const gui_sketch_snap_state_t result
-        = x_on_grid
-        ? ( y_on_grid ? GUI_SKETCH_SNAP_STATE_XY : GUI_SKETCH_SNAP_STATE_X )
-        : ( y_on_grid ? GUI_SKETCH_SNAP_STATE_Y : GUI_SKETCH_SNAP_STATE_0 );
-    return result;
-}
-
 static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this_,
                                                    shape_int_rectangle_t *out_bounds,
                                                    uint32_t *out_x_count,
