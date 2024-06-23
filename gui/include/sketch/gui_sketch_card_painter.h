@@ -181,6 +181,22 @@ void gui_sketch_card_painter_private_draw_snap_indicator( gui_sketch_card_painte
                                                         );
 
 /*!
+ *  \brief draws overlay graphics to visualize the order where the mouse points at
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param card_under_mouse the sketch card under the current mouse position, not NULL
+ *  \param x actual pointer position
+ *  \param y actual pointer position
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t *this_,
+                                                      const gui_sketch_card_t *card_under_mouse,
+                                                      int32_t x,
+                                                      int32_t y,
+                                                      cairo_t *cr
+                                                    );
+
+/*!
  *  \brief draws the highlighted box of an element-part
  *
  *  \param this_ pointer to own object attributes

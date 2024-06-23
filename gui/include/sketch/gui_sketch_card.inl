@@ -202,6 +202,11 @@ static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this
                             );
 }
 
+static inline const geometry_grid_t *gui_sketch_card_get_grid_const ( const gui_sketch_card_t *this_ )
+{
+    return pencil_diagram_maker_get_grid_const( &((*this_).painter) );
+}
+
 static inline bool gui_sketch_card_needs_layout( const gui_sketch_card_t *this_ )
 {
     return (*this_).dirty_elements_layout;

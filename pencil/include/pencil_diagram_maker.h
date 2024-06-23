@@ -17,8 +17,10 @@
 #include "pencil_size.h"
 #include "pencil_error.h"
 #include "layout/layout_order.h"
+#include "layout/layout_visible_set.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_non_linear_scale.h"
+#include "geometry/geometry_grid.h"
 #include "set/data_full_id.h"
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
@@ -113,6 +115,13 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
                                                           data_stat_t *io_layout_stat,
                                                           cairo_t *cr
                                                         );
+
+/*!
+ *  \brief returns the layout_visible_set_t object
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const ( const pencil_diagram_maker_t *this_ );
 
 /*!
  *  \brief draws the chosen diagram contents into the diagram_bounds area of the cairo drawing context
@@ -226,13 +235,6 @@ pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diag
                                                                double y,
                                                                layout_order_t* out_layout_order
                                                              );
-
-/*!
- *  \brief returns the layout_visible_set_t object
- *
- *  \param this_ pointer to own object attributes
- */
-static inline const layout_visible_set_t *pencil_diagram_maker_get_layout_data_const ( const pencil_diagram_maker_t *this_ );
 
 #include "pencil_diagram_maker.inl"
 

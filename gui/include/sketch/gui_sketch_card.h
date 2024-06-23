@@ -11,17 +11,19 @@
 #include "sketch/gui_sketch_marker.h"
 #include "sketch/gui_sketch_snap_state.h"
 #include "sketch/gui_sketch_drag_state.h"
-#include "layout/layout_subelement_id.h"
 #include "gui_marked_set.h"
 #include "gui_tool.h"
 #include "shape/shape_int_rectangle.h"
-#include "storage/data_database.h"
-#include "ctrl_controller.h"
+#include "layout/layout_subelement_id.h"
+#include "layout/layout_order.h"
+#include "layout/layout_visible_set.h"
+#include "geometry/geometry_grid.h"
 #include "pencil_diagram_maker.h"
+#include "ctrl_controller.h"
+#include "storage/data_database.h"
 #include "set/data_visible_set.h"
 #include "set/data_full_id.h"
 #include "set/data_profile_part.h"
-#include "layout/layout_order.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -265,6 +267,13 @@ static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this
                                                    uint32_t *out_x_count,
                                                    uint32_t *out_y_count
                                                  );
+
+/*!
+ *  \brief returns the geometry_grid_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const geometry_grid_t *gui_sketch_card_get_grid_const ( const gui_sketch_card_t *this_ );
 
 /*!
  *  \brief moves an object to an order (without modifying the database)

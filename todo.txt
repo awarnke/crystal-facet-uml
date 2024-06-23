@@ -70,8 +70,11 @@ ideas for future versions:
       (rationale: the search+xmi+json export find them)
   @u8stream
   [ ] avoid the compiler warning on u8stream/include/utf8stream/utf8stream_writer.inl:93:17: warning:
-
   @main
+  [ ] prevent slow start; This here does not work:
+      In case the startup takes multiple seconds, consider installing also the following package:
+      <userinput>sudo apt install at-spi2-core</userinput>
+      to prevent that crystal-facet-uml searches and waits for a non-existing accessability service.
   @test_fw
 
 ideas for a version 2

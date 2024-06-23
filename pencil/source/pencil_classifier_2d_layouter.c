@@ -170,8 +170,7 @@ void pencil_classifier_2d_layouter_move_to_avoid_overlaps ( pencil_classifier_2d
     pencil_classifier_2d_layouter_private_propose_move_processing_order ( this_, &sorted );
 
     /* move the classifiers */
-    uint32_t count_sorted;
-    count_sorted = universal_array_index_sorter_get_count( &sorted );
+    const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
         /* declaration of list of options */
@@ -305,9 +304,8 @@ void pencil_classifier_2d_layouter_private_propose_move_processing_order ( penci
             }
         }
 
-        int insert_error;
-        insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
-        if ( 0 != insert_error )
+        const u8_error_t insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
+        if ( U8_ERROR_NONE != insert_error )
         {
             U8_LOG_WARNING( "not all rectangles are moved" );
         }
@@ -792,9 +790,8 @@ void pencil_classifier_2d_layouter_private_propose_embracing_order ( pencil_clas
 
         /* sort it into the array by the number of decendants: */
         /* the less descendants the earlier it shall be processed. */
-        const int err
-            = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
-        if ( 0 != err )
+        const u8_error_t err = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
+        if ( U8_ERROR_NONE != err )
         {
             U8_LOG_ERROR ( "universal_array_index_sorter_t list is full." );
         }
@@ -1067,9 +1064,8 @@ void pencil_classifier_2d_layouter_private_propose_move_embrace_order ( pencil_c
         const uint32_t child_count = layout_visible_set_count_descendants ( (*this_).layout_data, the_classifier );
         lazy_move = child_count;
 
-        int insert_error;
-        insert_error = universal_array_index_sorter_insert( out_sorted, index, lazy_move );
-        if ( 0 != insert_error )
+        const u8_error_t insert_error = universal_array_index_sorter_insert( out_sorted, index, lazy_move );
+        if ( U8_ERROR_NONE != insert_error )
         {
             U8_LOG_WARNING( "not all rectangles are grown" );
         }

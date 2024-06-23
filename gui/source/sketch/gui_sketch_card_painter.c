@@ -108,6 +108,9 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
                 const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
                 const gui_sketch_snap_state_t snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
                 gui_sketch_card_painter_private_draw_snap_indicator( this_, card_under_mouse, snapped, to_x, to_y, cr );
+
+                /* draw new grid lines that visualize the order of classifiers */
+                gui_sketch_card_painter_private_visualize_order( this_, card_under_mouse, to_x, to_y, cr );
             }
         }
     }
@@ -171,6 +174,9 @@ void gui_sketch_card_painter_private_draw_create_mode( gui_sketch_card_painter_t
                 /* draw snap-to-grid indicator */
                 const gui_sketch_snap_state_t snapped = gui_sketch_card_is_pos_on_grid( card_under_mouse, to_x, to_y );
                 gui_sketch_card_painter_private_draw_snap_indicator( this_, card_under_mouse, snapped, to_x, to_y, cr );
+
+                /* draw new grid lines that visualize the order of classifiers */
+                gui_sketch_card_painter_private_visualize_order( this_, card_under_mouse, to_x, to_y, cr );
             }
 
             /* draw boxes and arrow icons */
@@ -443,6 +449,93 @@ void gui_sketch_card_painter_private_draw_snap_indicator( gui_sketch_card_painte
         cairo_fill (cr);
         cairo_rectangle ( cr, left, y+2, width, 1 );
         cairo_fill (cr);
+    }
+
+    U8_TRACE_END();
+}
+
+void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t *this_,
+                                                      const gui_sketch_card_t *card_under_mouse,
+                                                      int32_t x,
+                                                      int32_t y,
+                                                      cairo_t *cr )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != card_under_mouse );
+    assert( NULL != cr );
+
+    /* fetch input data */
+    const geometry_grid_t *const grid = gui_sketch_card_get_grid_const( card_under_mouse);
+    const geometry_grid_kind_t grid_kind = geometry_grid_get_kind( grid );
+    const layout_visible_set_t *const layout_data = gui_sketch_card_get_visible_set( card_under_mouse );
+    const uint32_t classifiers = layout_visible_set_get_visible_classifier_count( layout_data );
+
+    /* to draw x, follow y from top to bottom */
+    if (( grid_kind == GEOMETRY_GRID_KIND_X )||( grid_kind == GEOMETRY_GRID_KIND_XY ))
+    {
+        /* order visible set by top y coordinates of classifiers */
+        universal_array_index_sorter_t sorted;
+        universal_array_index_sorter_init( &sorted );
+        for ( uint32_t idx = 0; idx < classifiers; idx ++ )
+        {
+            const layout_visible_classifier_t *const classifier
+                = layout_visible_set_get_visible_classifier_const( layout_data, idx );
+
+            const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
+            int64_t weight = geometry_rectangle_get_top( envelope );
+            const u8_error_t insert_error = universal_array_index_sorter_insert( &sorted, idx, weight );
+            if ( U8_ERROR_NONE != insert_error )
+            {
+                U8_LOG_WARNING( "not all rectangles are considered for the top-to-bottom line" );
+            }
+        }
+
+        /* process rectangles */
+        const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
+        for ( uint32_t idx_of_idx = 0; idx_of_idx < count_sorted; idx_of_idx ++ )
+        {
+            const uint32_t idx = universal_array_index_sorter_get_array_index( &sorted, idx_of_idx );
+            const layout_visible_classifier_t *const classifier
+                = layout_visible_set_get_visible_classifier_const( layout_data, idx );
+            const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
+
+            cairo_rectangle ( cr, x-3, geometry_rectangle_get_top( envelope )-3, 6, 6 );
+            cairo_fill (cr);
+        }
+    }
+
+    /* to draw y, follow x from left to right */
+    if (( grid_kind == GEOMETRY_GRID_KIND_Y )||( grid_kind == GEOMETRY_GRID_KIND_XY ))
+    {
+        /* order visible set by left x coordinates of classifiers */
+        universal_array_index_sorter_t sorted;
+        universal_array_index_sorter_init( &sorted );
+        for ( uint32_t idx = 0; idx < classifiers; idx ++ )
+        {
+            const layout_visible_classifier_t *const classifier
+                = layout_visible_set_get_visible_classifier_const( layout_data, idx );
+
+            const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
+            int64_t weight = geometry_rectangle_get_left( envelope );
+            const u8_error_t insert_error = universal_array_index_sorter_insert( &sorted, idx, weight );
+            if ( U8_ERROR_NONE != insert_error )
+            {
+                U8_LOG_WARNING( "not all rectangles are considered for the left-to-right line" );
+            }
+        }
+
+        /* process rectangles */
+        const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
+        for ( uint32_t idx_of_idx = 0; idx_of_idx < count_sorted; idx_of_idx ++ )
+        {
+            const uint32_t idx = universal_array_index_sorter_get_array_index( &sorted, idx_of_idx );
+            const layout_visible_classifier_t *const classifier
+                = layout_visible_set_get_visible_classifier_const( layout_data, idx );
+            const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
+
+            cairo_rectangle ( cr, geometry_rectangle_get_left( envelope )-3, y-3, 6, 6 );
+            cairo_fill (cr);
+        }
     }
 
     U8_TRACE_END();
