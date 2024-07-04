@@ -1,9 +1,11 @@
-crystal-facet-uml (1.58.4) UNRELEASED; urgency=medium
+crystal-facet-uml (1.59.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * tbd
+  * some compiler warnings checked
+  * while moving classifiers, grid lines better show the alignment towards
+    other classifiers
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 02 Jun 2024 09:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 07 Jul 2024 09:00:00 +0200
 
 crystal-facet-uml (1.58.3) UNRELEASED; urgency=medium
 

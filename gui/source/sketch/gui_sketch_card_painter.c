@@ -449,7 +449,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                 = layout_visible_set_get_visible_classifier_const( layout_data, idx );
 
             const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
-            int64_t weight = geometry_rectangle_get_top( envelope );
+            const int64_t weight = geometry_rectangle_get_top( envelope );
             const u8_error_t insert_error = universal_array_index_sorter_insert( &sorted, idx, weight );
             if ( U8_ERROR_NONE != insert_error )
             {
@@ -458,9 +458,13 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
 
         /* process rectangles top to bottom */
+        /* local variables represent 3 points: */
+        /* current_pos_x / current_pos_y : The position where the already drawn line ends */
+        /* planned_pos_x / planned_pos_y : The position that would be the next unless the next loop finds an earlier position */
+        /* draw_to_pos_x / draw_to_pos_y : While drawing, this is a temporary value storing the next current_pos position */
         const double gap = 2.0;
-        double current_x = x;
-        double next_y = top;
+        double current_pos_x = x;
+        double planned_pos_y = top;  /* the planned next y - may be superseded by the next classifier */
         cairo_move_to( cr, x, top );
         const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
         for ( uint32_t idx_of_idx = 0; idx_of_idx < count_sorted; idx_of_idx ++ )
@@ -478,54 +482,54 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                 const int32_t c_x_order = data_classifier_get_x_order( c_data );
                 const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
                 const double envelope_left = geometry_rectangle_get_left( envelope );
-                const double envelope_center_x = geometry_rectangle_get_center_x( envelope );
                 const double envelope_right = geometry_rectangle_get_right( envelope );
                 const double envelope_top = geometry_rectangle_get_top( envelope );
                 const double envelope_bottom = geometry_rectangle_get_bottom( envelope );
+                /* if line passes through the classifier, center on symbol, not on envelope */
+                const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( classifier );
+                const double symbol_center_x = geometry_rectangle_get_center_x( symbol );
 
-                if (( c_x_order == order_at_x ))
+                const bool pass_through_center_x = ( c_x_order == order_at_x );
+                const bool pass_on_left = ( c_x_order > order_at_x ) && ( envelope_left < x );
+                const bool pass_on_right = ( c_x_order < order_at_x ) && ( envelope_right > x );
+                const bool ignored = !( pass_through_center_x || pass_on_left || pass_on_right );
+                double draw_to_pos_x = x;
+                if ( pass_through_center_x )
                 {
-                    if ( next_y > top )
-                    {
-                        cairo_line_to( cr, current_x, next_y + gap );
-                        cairo_line_to( cr, x, next_y + gap );
-                    }
-                    cairo_line_to( cr, x, envelope_top - gap );
-                    cairo_line_to( cr, envelope_center_x, envelope_top - gap );
-                    current_x = envelope_center_x;
-                    next_y = envelope_bottom;
+                    draw_to_pos_x = symbol_center_x;
                 }
-                if (( envelope_left < x )&&( c_x_order > order_at_x ))
+                if ( pass_on_left )
                 {
-                    if ( next_y > top )
-                    {
-                        cairo_line_to( cr, current_x, next_y + gap );
-                        cairo_line_to( cr, x, next_y + gap );
-                    }
-                    cairo_line_to( cr, x, envelope_top - gap );
-                    cairo_line_to( cr, envelope_left - gap, envelope_top - gap );
-                    current_x = envelope_left - gap;
-                    next_y = envelope_bottom;
+                    draw_to_pos_x = envelope_left - gap;
                 }
-                if (( envelope_right > x )&&( c_x_order < order_at_x ))
+                if ( pass_on_right )
                 {
-                    if ( next_y > top )
+                    draw_to_pos_x = envelope_right + gap;
+                }
+                if ( ! ignored )
+                {
+                    /* draw end of last pass-by (if any) */
+                    if ( planned_pos_y > top )
                     {
-                        cairo_line_to( cr, current_x, next_y + gap );
-                        cairo_line_to( cr, x, next_y + gap );
+                        cairo_line_to( cr, current_pos_x, planned_pos_y + gap );
+                        cairo_line_to( cr, x, planned_pos_y + gap );
                     }
+                    /* draw begin of current pass-by */
                     cairo_line_to( cr, x, envelope_top - gap );
-                    cairo_line_to( cr, envelope_right + gap, envelope_top - gap );
-                    current_x = envelope_right + gap;
-                    next_y = envelope_bottom;
+                    cairo_line_to( cr, draw_to_pos_x, envelope_top - gap );
+                    /* update variables for next loop */
+                    current_pos_x = draw_to_pos_x;
+                    planned_pos_y = envelope_bottom;
                 }
             }
         }
-        if ( next_y > top )
+        /* draw end of last pass-by (if any) */
+        if ( planned_pos_y > top )
         {
-            cairo_line_to( cr, current_x, next_y + gap );
-            cairo_line_to( cr, x, next_y + gap );
+            cairo_line_to( cr, current_pos_x, planned_pos_y + gap );
+            cairo_line_to( cr, x, planned_pos_y + gap );
         }
+        /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, x, bottom );
         cairo_stroke (cr);
     }
@@ -542,7 +546,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                 = layout_visible_set_get_visible_classifier_const( layout_data, idx );
 
             const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
-            int64_t weight = geometry_rectangle_get_left( envelope );
+            const int64_t weight = geometry_rectangle_get_left( envelope );
             const u8_error_t insert_error = universal_array_index_sorter_insert( &sorted, idx, weight );
             if ( U8_ERROR_NONE != insert_error )
             {
@@ -551,9 +555,13 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
 
         /* process rectangles left to right */
+        /* local variables represent 3 points: */
+        /* current_pos_x / current_pos_y : The position where the already drawn line ends */
+        /* planned_pos_x / planned_pos_y : The position that would be the next unless the next loop finds an earlier position */
+        /* draw_to_pos_x / draw_to_pos_y : While drawing, this is a temporary value storing the next current_pos position */
         const double gap = 2.0;
-        double current_y = y;
-        double next_x = left;
+        double current_pos_y = y;
+        double planned_pos_x = left;  /* the planned next x - may be superseded by the next classifier */
         cairo_move_to( cr, left, y );
         const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
         for ( uint32_t idx_of_idx = 0; idx_of_idx < count_sorted; idx_of_idx ++ )
@@ -571,54 +579,54 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                 const int32_t c_y_order = data_classifier_get_y_order( c_data );
                 const geometry_rectangle_t *const envelope = layout_visible_classifier_get_envelope_box_const( classifier );
                 const double envelope_top = geometry_rectangle_get_top( envelope );
-                const double envelope_center_y = geometry_rectangle_get_center_y( envelope );
                 const double envelope_bottom = geometry_rectangle_get_bottom( envelope );
                 const double envelope_left = geometry_rectangle_get_left( envelope );
                 const double envelope_right = geometry_rectangle_get_right( envelope );
+                /* if line passes through the classifier, center on symbol, not on envelope */
+                const geometry_rectangle_t *const symbol = layout_visible_classifier_get_symbol_box_const( classifier );
+                const double symbol_center_y = geometry_rectangle_get_center_y( symbol );
 
-                if (( c_y_order == order_at_y ))
+                const bool pass_through_center_y = ( c_y_order == order_at_y );
+                const bool pass_on_top = ( c_y_order > order_at_y ) && ( envelope_top < y );
+                const bool pass_on_bottom = ( c_y_order < order_at_y ) && ( envelope_bottom > y );
+                const bool ignored = !( pass_through_center_y || pass_on_top || pass_on_bottom );
+                double draw_to_pos_y = y;
+                if ( pass_through_center_y )
                 {
-                    if ( next_x > left )
-                    {
-                        cairo_line_to( cr, next_x + gap, current_y );
-                        cairo_line_to( cr, next_x + gap, y );
-                    }
-                    cairo_line_to( cr, envelope_left - gap, y );
-                    cairo_line_to( cr, envelope_left - gap, envelope_center_y );
-                    current_y = envelope_center_y;
-                    next_x = envelope_right;
+                    draw_to_pos_y = symbol_center_y;
                 }
-                if (( envelope_top < y )&&( c_y_order > order_at_y ))
+                if ( pass_on_top )
                 {
-                    if ( next_x > left )
-                    {
-                        cairo_line_to( cr, next_x + gap, current_y );
-                        cairo_line_to( cr, next_x + gap, y );
-                    }
-                    cairo_line_to( cr, envelope_left - gap, y );
-                    cairo_line_to( cr, envelope_left - gap, envelope_top - gap );
-                    current_y = envelope_top - gap;
-                    next_x = envelope_right;
+                    draw_to_pos_y = envelope_top - gap;
                 }
-                if (( envelope_bottom > y )&&( c_y_order < order_at_y ))
+                if ( pass_on_bottom )
                 {
-                    if ( next_x > left )
+                    draw_to_pos_y = envelope_bottom + gap;
+                }
+                if ( ! ignored )
+                {
+                    /* draw end of last pass-by (if any) */
+                    if ( planned_pos_x > left )
                     {
-                        cairo_line_to( cr, next_x + gap, current_y );
-                        cairo_line_to( cr, next_x + gap, y );
+                        cairo_line_to( cr, planned_pos_x + gap, current_pos_y );
+                        cairo_line_to( cr, planned_pos_x + gap, y );
                     }
+                    /* draw begin of current pass-by */
                     cairo_line_to( cr, envelope_left - gap, y );
-                    cairo_line_to( cr, envelope_left - gap, envelope_bottom + gap );
-                    current_y = envelope_bottom + gap;
-                    next_x = envelope_right;
+                    cairo_line_to( cr, envelope_left - gap, draw_to_pos_y );
+                    /* update variables for next loop */
+                    current_pos_y = draw_to_pos_y;
+                    planned_pos_x = envelope_right;
                 }
             }
         }
-        if ( next_x > left )
+        /* draw end of last pass-by (if any) */
+        if ( planned_pos_x > left )
         {
-            cairo_line_to( cr, next_x + gap, current_y );
-            cairo_line_to( cr, next_x + gap, y );
+            cairo_line_to( cr, planned_pos_x + gap, current_pos_y );
+            cairo_line_to( cr, planned_pos_x + gap, y );
         }
+        /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, right, y );
         cairo_stroke (cr);
     }
