@@ -433,6 +433,10 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
     const geometry_non_linear_scale_t *const y_scale = geometry_grid_get_y_scale_const( grid );
     const int32_t order_at_y = geometry_non_linear_scale_get_order( y_scale, (double) y, snap_interval );
 
+    /* define own distances */
+    const double gap = 3.0;
+    const double curve_space = 3.0 * gap;
+
     /* fetch input data: visible set */
     const layout_visible_set_t *const layout_data = gui_sketch_card_get_visible_set( card_under_mouse );
     const uint32_t classifiers = layout_visible_set_get_visible_classifier_count( layout_data );
@@ -462,8 +466,8 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         /* current_pos_x / current_pos_y : The position where the already drawn line ends */
         /* planned_pos_x / planned_pos_y : The position that would be the next unless the next loop finds an earlier position */
         /* draw_to_pos_x / draw_to_pos_y : While drawing, this is a temporary value storing the next current_pos position */
-        const double gap = 2.0;
         double current_pos_x = x;
+        double current_pos_y = top;
         double planned_pos_y = top;  /* the planned next y - may be superseded by the next classifier */
         cairo_move_to( cr, x, top );
         const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted );
@@ -511,23 +515,48 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                     /* draw end of last pass-by (if any) */
                     if ( planned_pos_y > top )
                     {
-                        cairo_line_to( cr, current_pos_x, planned_pos_y + gap );
-                        cairo_line_to( cr, x, planned_pos_y + gap );
+                        cairo_line_to( cr, current_pos_x, planned_pos_y );
+                        //cairo_line_to( cr, x, planned_pos_y );
+                        cairo_curve_to( cr,
+                                        current_pos_x,
+                                        planned_pos_y + curve_space,
+                                        x,
+                                        planned_pos_y - curve_space,
+                                        x,
+                                        planned_pos_y
+                                      );
                     }
                     /* draw begin of current pass-by */
                     cairo_line_to( cr, x, envelope_top - gap );
-                    cairo_line_to( cr, draw_to_pos_x, envelope_top - gap );
+                    //cairo_line_to( cr, draw_to_pos_x, envelope_top - gap );
+                    cairo_curve_to( cr,
+                                    x,
+                                    envelope_top - gap + curve_space,
+                                    draw_to_pos_x,
+                                    envelope_top - gap - curve_space,
+                                    draw_to_pos_x,
+                                    envelope_top - gap
+                                  );
                     /* update variables for next loop */
                     current_pos_x = draw_to_pos_x;
-                    planned_pos_y = envelope_bottom;
+                    current_pos_y = envelope_top - gap;
+                    planned_pos_y = envelope_bottom + gap;
                 }
             }
         }
         /* draw end of last pass-by (if any) */
         if ( planned_pos_y > top )
         {
-            cairo_line_to( cr, current_pos_x, planned_pos_y + gap );
-            cairo_line_to( cr, x, planned_pos_y + gap );
+            cairo_line_to( cr, current_pos_x, planned_pos_y );
+            //cairo_line_to( cr, x, planned_pos_y );
+            cairo_curve_to( cr,
+                            current_pos_x,
+                            planned_pos_y + curve_space,
+                            x,
+                            planned_pos_y - curve_space,
+                            x,
+                            planned_pos_y
+                          );
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, x, bottom );
@@ -559,7 +588,7 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         /* current_pos_x / current_pos_y : The position where the already drawn line ends */
         /* planned_pos_x / planned_pos_y : The position that would be the next unless the next loop finds an earlier position */
         /* draw_to_pos_x / draw_to_pos_y : While drawing, this is a temporary value storing the next current_pos position */
-        const double gap = 2.0;
+        double current_pos_x = left;
         double current_pos_y = y;
         double planned_pos_x = left;  /* the planned next x - may be superseded by the next classifier */
         cairo_move_to( cr, left, y );
@@ -608,23 +637,48 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
                     /* draw end of last pass-by (if any) */
                     if ( planned_pos_x > left )
                     {
-                        cairo_line_to( cr, planned_pos_x + gap, current_pos_y );
-                        cairo_line_to( cr, planned_pos_x + gap, y );
+                        cairo_line_to( cr, planned_pos_x, current_pos_y );
+                        //cairo_line_to( cr, planned_pos_x, y );
+                        cairo_curve_to( cr,
+                                        planned_pos_x + curve_space,
+                                        current_pos_y,
+                                        planned_pos_x - curve_space,
+                                        y,
+                                        planned_pos_x,
+                                        y
+                                      );
                     }
                     /* draw begin of current pass-by */
                     cairo_line_to( cr, envelope_left - gap, y );
-                    cairo_line_to( cr, envelope_left - gap, draw_to_pos_y );
+                    //cairo_line_to( cr, envelope_left - gap, draw_to_pos_y );
+                    cairo_curve_to( cr,
+                                    envelope_left - gap + curve_space,
+                                    y,
+                                    envelope_left - gap - curve_space,
+                                    draw_to_pos_y,
+                                    envelope_left - gap,
+                                    draw_to_pos_y
+                                  );
                     /* update variables for next loop */
+                    current_pos_x = envelope_left - gap;
                     current_pos_y = draw_to_pos_y;
-                    planned_pos_x = envelope_right;
+                    planned_pos_x = envelope_right + gap;
                 }
             }
         }
         /* draw end of last pass-by (if any) */
         if ( planned_pos_x > left )
         {
-            cairo_line_to( cr, planned_pos_x + gap, current_pos_y );
-            cairo_line_to( cr, planned_pos_x + gap, y );
+            cairo_line_to( cr, planned_pos_x, current_pos_y );
+            //cairo_line_to( cr, planned_pos_x, y );
+            cairo_curve_to( cr,
+                            planned_pos_x + curve_space,
+                            current_pos_y,
+                            planned_pos_x - curve_space,
+                            y,
+                            planned_pos_x,
+                            y
+                          );
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, right, y );
