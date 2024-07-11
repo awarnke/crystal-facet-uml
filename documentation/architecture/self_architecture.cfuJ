@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.58.3"
+    "generator_version": "1.59.0"
   }
   ,
   "views":
@@ -8276,11 +8276,12 @@
                 "- displays one diagram\n",
                 "- performs user interaction\n",
                 "  like highlighting elements under the mouse pointer\n",
+                "- visualizes order-hints of elements\n",
                 "- handles situation-specific modes\n",
                 "  like not selecting lifelines but their classifiers instead\n",
                 "\n",
                 "The gui gui_sketch_card is not responsible for\n",
-                "- mapping ordering-hints to layout-positions\n",
+                "- mapping order-hints to layout-positions\n",
                 "  (see D0047#name)"
         ],
         "x_order": -626332123,

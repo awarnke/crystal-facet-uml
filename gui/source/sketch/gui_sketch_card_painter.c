@@ -574,7 +574,14 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, current_pos_x, bottom );
-        cairo_stroke (cr);
+        {
+            double dashes[2];
+            dashes[0] = 2.0 * gap;  /* on segment */
+            dashes[1] = 4.0 * gap;  /* off segment */
+            cairo_set_dash ( cr, dashes, 2, 0.0 );
+        }
+        cairo_stroke( cr );
+        cairo_set_dash( cr, NULL, 0, 0.0 );
     }
 
     /* to draw y, follow x from left to right */
@@ -710,7 +717,14 @@ void gui_sketch_card_painter_private_visualize_order( gui_sketch_card_painter_t 
         }
         /* draw to end point and stroke the drawn path */
         cairo_line_to( cr, right, current_pos_y );
-        cairo_stroke (cr);
+        {
+            double dashes[2];
+            dashes[0] = 2.0 * gap;  /* on segment */
+            dashes[1] = 4.0 * gap;  /* off segment */
+            cairo_set_dash ( cr, dashes, 2, 0.0 );
+        }
+        cairo_stroke( cr );
+        cairo_set_dash( cr, NULL, 0, 0.0 );
     }
 
     U8_TRACE_END();

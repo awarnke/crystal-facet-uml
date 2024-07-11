@@ -19,12 +19,12 @@ ideas for future versions:
       --> idea: use gui_toolbox_set_selected_tool_and_focus
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus; Check GtkEventControllerFocus (example in gui_main_window.c)
+  [ ] kill -SIGTERM should save the latest changes
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
 ! [ ] show static texts under the icons of buttons (Note: sadly, gtk_button_set_label replaces the image)
-! [ ] make it obvious that in create mode, you shall click on the empty diagram space - nice button needed maybe?
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   @pencil
   [ ] activity bars on lifelines missing
@@ -69,7 +69,6 @@ ideas for future versions:
   [ ] delete relationships immediately when they become invisible in all diagrams (partly works since 1.27.3)
       (rationale: the search+xmi+json export find them)
   @u8stream
-  [ ] avoid the compiler warning on u8stream/include/utf8stream/utf8stream_writer.inl:93:17: warning:
   @main
   [ ] prevent slow start; This here does not work:
       In case the startup takes multiple seconds, consider installing also the following package:
