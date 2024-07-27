@@ -90,6 +90,15 @@ static inline gui_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *this_ );
 void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_tool_t tool );
 
 /*!
+ *  \brief sets the selected tool and focuses on a diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param tool tool to be selected
+ *  \param focused_diagram id of the diagram to show or DATA_ID_VOID for root diagram
+ */
+void gui_toolbox_set_selected_tool_and_focus ( gui_toolbox_t *this_, gui_tool_t tool, data_id_t focused_diagram );
+
+/*!
  *  \brief callback that informs that the tool button was pressed
  */
 void gui_toolbox_navigate_btn_callback( GtkWidget* button, gpointer data );

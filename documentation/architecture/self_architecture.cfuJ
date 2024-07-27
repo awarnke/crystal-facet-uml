@@ -3155,6 +3155,13 @@
             "classifier_name": "gui_simple_message_to_user",
             "node": "16495ce7-8208-4453-857b-cba9f10beb95",
             "uuid": "c59be115-9e79-4fc8-86d9-f4c0568d3ca2"
+          },
+          {
+            "id": 883,
+            "display_flags": 0,
+            "classifier_name": "gui_clipboard",
+            "node": "de2823b9-a965-463d-b587-3202297075cf",
+            "uuid": "91b87d0a-c2d4-4eed-9428-4d4eeda5cc9d"
           }
         ]
       }
@@ -3324,6 +3331,13 @@
             "classifier_name": "create",
             "node": "aa788489-bbec-4f4b-b74b-4cd114dbe390",
             "uuid": "386810e4-1e33-468a-868a-bc9e3f29dd5f"
+          },
+          {
+            "id": 870,
+            "display_flags": 0,
+            "classifier_name": "GUI Activities",
+            "node": "3f04ff4f-a6b4-4891-9581-88367b389922",
+            "uuid": "8115665b-f617-4c07-b176-77980dd2a5bd"
           }
         ]
       }
@@ -3385,6 +3399,121 @@
             "classifier_name": "gui_sketch_card",
             "node": "87538a0b-c268-4bfe-a436-fde819fc8469",
             "uuid": "5624a079-1ae9-4b18-968f-52db0ebba9c6"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 118,
+        "diagram_type": 13,
+        "type": "UMLInteractionDiagram/sequence",
+        "name": "undo control flow",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "gui: Runtime View",
+        "parent": "65463912-947e-4e45-9d91-38b47fae6ae9",
+        "uuid": "a1c863d4-fee1-4e59-be7a-c52e43bb15ba",
+        "diagramelements":
+        [
+          {
+            "id": 871,
+            "display_flags": 0,
+            "classifier_name": "SW Architect",
+            "node": "95ca51d3-a7f9-4890-9d9d-86b135dad665",
+            "uuid": "e061017e-aae9-40e6-bce8-06149a8371d7"
+          },
+          {
+            "id": 872,
+            "display_flags": 0,
+            "classifier_name": "sketch",
+            "node": "d5002670-8295-4ffc-b4ec-091b02716888",
+            "uuid": "5f5b45e3-6f7c-41bf-b775-c8012491d20a"
+          },
+          {
+            "id": 873,
+            "display_flags": 0,
+            "classifier_name": "gtk4",
+            "node": "78544b53-af10-4e9a-bebd-79f15996b451",
+            "uuid": "cc716c43-d646-4a2a-9d85-31637bc6b2e0"
+          },
+          {
+            "id": 874,
+            "display_flags": 0,
+            "classifier_name": "gui_toolbox",
+            "node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+            "uuid": "19033599-1332-49f1-a015-4ebfb77a6ed9"
+          },
+          {
+            "id": 875,
+            "display_flags": 0,
+            "classifier_name": "ctrl",
+            "node": "121605a6-53a2-4a6c-bcc9-733e45ceea2a",
+            "uuid": "22bc5734-2406-410a-a92a-73e86412b88f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 120,
+        "diagram_type": 13,
+        "type": "UMLInteractionDiagram/sequence",
+        "name": "gui paste from clipboard",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "display_flags": 0,
+        "parent_name": "gui: Runtime View",
+        "parent": "65463912-947e-4e45-9d91-38b47fae6ae9",
+        "uuid": "b0bfd4c2-1961-4253-8196-96a725f9513c",
+        "diagramelements":
+        [
+          {
+            "id": 878,
+            "display_flags": 0,
+            "classifier_name": "SW Architect",
+            "node": "7ec46922-6c4d-43df-9aee-fe3b8353356b",
+            "uuid": "3a480303-01a3-4d14-9eaf-96d42fb2e9e0"
+          },
+          {
+            "id": 879,
+            "display_flags": 0,
+            "classifier_name": "gui_toolbox",
+            "node": "6efdf925-5991-4a00-a772-a32e04205a32",
+            "uuid": "a1b22ffd-17cc-4c77-b817-d4917f1e32dd"
+          },
+          {
+            "id": 880,
+            "display_flags": 0,
+            "classifier_name": "gtk4",
+            "node": "82c69556-08d4-4dcf-9763-e81d1a5698bc",
+            "uuid": "d60f2aee-0a1c-46ba-a1d4-b1119487c129"
+          },
+          {
+            "id": 881,
+            "display_flags": 0,
+            "classifier_name": "ctrl",
+            "node": "70b09bd7-e2fc-46f9-89ce-f07322adb567",
+            "uuid": "93476ffd-2cd1-4b60-b813-12dad4f9d8c4"
+          },
+          {
+            "id": 882,
+            "display_flags": 0,
+            "classifier_name": "sketch",
+            "node": "3ad4ca33-2c6b-45d1-b166-d35f211b5976",
+            "uuid": "ba67592e-0525-4ffc-9123-19ad94d2329a"
+          },
+          {
+            "id": 884,
+            "display_flags": 0,
+            "classifier_name": "gui_clipboard",
+            "node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+            "uuid": "fc16cfee-3319-4261-97ca-d68c6f9a7b2d"
           }
         ]
       }
@@ -7221,6 +7350,39 @@
           }
         ]
       }
+    },
+    {
+      "diagram": {
+        "id": 119,
+        "diagram_type": 39,
+        "type": "UMLProfileDiagram",
+        "name": "Further Stereotypes on Solution Space",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Stereotypes on Solution Space",
+        "parent": "c2df026a-fcfb-4d2d-8fef-8acfbf1bb3e2",
+        "uuid": "829efa74-03ef-4765-9799-7d8b8d09d3c6",
+        "diagramelements":
+        [
+          {
+            "id": 876,
+            "display_flags": 0,
+            "classifier_name": "not-yet-implemented",
+            "node": "b0cf4c91-29fd-4d3c-b605-d3bb6813f40a",
+            "uuid": "b96b069d-8160-4f6d-ae02-707a09a9f785"
+          },
+          {
+            "id": 877,
+            "display_flags": 0,
+            "classifier_name": "not-yet-implemented-img",
+            "node": "17359826-5f4d-42aa-97b8-b44439c0e534",
+            "uuid": "5bc0cafb-6f73-4c38-995d-de6f1f1aa753"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -7338,6 +7500,28 @@
         "uuid": "906d936b-c68c-4592-b5c7-610e29065707",
         "features":
         [
+          {
+            "id": 135,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "121605a6-53a2-4a6c-bcc9-733e45ceea2a"
+          },
+          {
+            "id": 139,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "70b09bd7-e2fc-46f9-89ce-f07322adb567"
+          }
         ]
       }
     },
@@ -7379,6 +7563,28 @@
         "uuid": "3c504335-5769-43f7-8af2-782e18d9bb13",
         "features":
         [
+          {
+            "id": 133,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "78544b53-af10-4e9a-bebd-79f15996b451"
+          },
+          {
+            "id": 138,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "82c69556-08d4-4dcf-9763-e81d1a5698bc"
+          }
         ]
       }
     },
@@ -8347,6 +8553,28 @@
             ],
             "list_order": 0,
             "uuid": "c506b0f9-87b9-488d-9b8b-102ea3a154ac"
+          },
+          {
+            "id": 131,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "95ca51d3-a7f9-4890-9d9d-86b135dad665"
+          },
+          {
+            "id": 136,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "7ec46922-6c4d-43df-9aee-fe3b8353356b"
           }
         ]
       }
@@ -10645,6 +10873,28 @@
             ],
             "list_order": 824692185,
             "uuid": "7d60442d-eed7-4e1e-a264-e31f17b052ff"
+          },
+          {
+            "id": 134,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb"
+          },
+          {
+            "id": 137,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "6efdf925-5991-4a00-a772-a32e04205a32"
           }
         ]
       }
@@ -10669,7 +10919,7 @@
                 "(update on user-interaction, reload on change events).\n",
                 ""
         ],
-        "x_order": -388232729,
+        "x_order": -393485223,
         "y_order": -863059162,
         "list_order": -771987038,
         "uuid": "35820ebc-1688-437b-9bfc-c8ca1b26c59e",
@@ -12725,6 +12975,28 @@
             ],
             "list_order": 0,
             "uuid": "8b15d401-b02f-4dd9-91e4-833c3fe3fb48"
+          },
+          {
+            "id": 132,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "d5002670-8295-4ffc-b4ec-091b02716888"
+          },
+          {
+            "id": 140,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "3ad4ca33-2c6b-45d1-b166-d35f211b5976"
           }
         ]
       }
@@ -12743,8 +13015,8 @@
                 "When a search is started,\n",
                 "the gui_search_runner is triggered to execute it."
         ],
-        "x_order": -388232729,
-        "y_order": -1927900663,
+        "x_order": -393485223,
+        "y_order": -1300007225,
         "list_order": -1865746220,
         "uuid": "a10bc1db-02b2-4557-8e21-fbc9f2653ebf",
         "features":
@@ -17283,7 +17555,7 @@
                 "a possible future multhreading conecpt.\n",
                 "Today, the software runs single threaded."
         ],
-        "x_order": 1474089831,
+        "x_order": 1874320449,
         "y_order": -1756074638,
         "list_order": -1756074638,
         "uuid": "b36b3631-0554-430d-ae40-aea26332ee94",
@@ -17333,6 +17605,7 @@
         "id": 488,
         "main_type": 110,
         "type": "Activity",
+        "stereotype": "not-yet-implemented",
         "name": "Load-or-Render Thread(s)",
         "description": [
                 ""
@@ -17374,7 +17647,7 @@
                 ""
         ],
         "x_order": 1874320449,
-        "y_order": -1019520866,
+        "y_order": 1081347266,
         "list_order": -838402729,
         "uuid": "aeb7cd4d-6960-4f80-b763-cdd021970444",
         "features":
@@ -17746,6 +18019,7 @@
         "id": 510,
         "main_type": 157,
         "type": "DecisionNode",
+        "stereotype": "not-yet-implemented",
         "name": "more actual?",
         "description": [
                 "If the .tmp-cfu file has the right checksum of the data file stored, then the .tmp-cfu file is more actual.\n",
@@ -17837,6 +18111,7 @@
         "id": 517,
         "main_type": 157,
         "type": "DecisionNode",
+        "stereotype": "not-yet-implemented",
         "name": "checksum changed?",
         "description": [
                 "If the checksum of the data file changed during focus lost, the data file shall be reloaded."
@@ -18107,6 +18382,104 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 530,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "GUI Activities",
+        "description": [
+                ""
+        ],
+        "x_order": -1676677989,
+        "y_order": -1686700529,
+        "list_order": -1686700529,
+        "uuid": "3f04ff4f-a6b4-4891-9581-88367b389922",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 531,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "not-yet-implemented",
+        "description": [
+                "<path \n",
+                "    fill=\"#eeff00\"\n",
+                "    d=\"\n",
+                "    M 3.5,10\n",
+                "    C 3.5,7 1,7 1,4\n",
+                "    C 1,0 9,0 9,4\n",
+                "    C 9,7 6.5,7 6.5,10\n",
+                "    \"\n",
+                "/>\n",
+                "<path \n",
+                "    fill=\"#777777\"\n",
+                "    d=\"\n",
+                "    M 4,10 4,12, 5,12.5, 6,12, 6,10\n",
+                "    \"\n",
+                "/>"
+        ],
+        "x_order": -894578095,
+        "y_order": -392659694,
+        "list_order": -219277007,
+        "uuid": "b0cf4c91-29fd-4d3c-b605-d3bb6813f40a",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 532,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "not-yet-implemented",
+        "name": "not-yet-implemented-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1001389677,
+        "y_order": -392659694,
+        "list_order": -392659694,
+        "uuid": "17359826-5f4d-42aa-97b8-b44439c0e534",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 533,
+        "main_type": 121,
+        "type": "Component",
+        "name": "gui_clipboard",
+        "description": [
+                "abstracts the gtk4 and OS clipboard"
+        ],
+        "x_order": -393485223,
+        "y_order": -1927900663,
+        "list_order": -533438710,
+        "uuid": "de2823b9-a965-463d-b587-3202297075cf",
+        "features":
+        [
+          {
+            "id": 141,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -18336,6 +18709,23 @@
         "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
         "to_node": "998755bf-3f01-479d-ac6e-04a4fa89bfab",
         "uuid": "667f1a22-f659-45ba-a9c8-bb40fed11fb8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 942,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -1300007225,
+        "from_classifier_name": "gui",
+        "to_classifier_name": "gui_clipboard",
+        "from_node": "387eaa1b-44bb-4017-83a8-ec3cd6f211e7",
+        "to_node": "de2823b9-a965-463d-b587-3202297075cf",
+        "uuid": "a05d00ad-f273-47da-8db1-23781f3a97bc"
       }
     },
     {
@@ -18719,6 +19109,44 @@
     },
     {
       "relationship": {
+        "id": 933,
+        "main_type": 222,
+        "type": "Message",
+        "name": "4. return",
+        "description": [
+                ""
+        ],
+        "list_order": -580532937,
+        "from_classifier_name": "ctrl",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "121605a6-53a2-4a6c-bcc9-733e45ceea2a",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "0da6d84a-b7d1-4f37-a9fd-5f14d902946f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 958,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1303358792,
+        "from_classifier_name": "ctrl",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_clipboard",
+        "to_feature_key": "",
+        "from_node": "70b09bd7-e2fc-46f9-89ce-f07322adb567",
+        "to_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "uuid": "71b7df55-08c3-448c-8c6c-d2ee1b22a289"
+      }
+    },
+    {
+      "relationship": {
         "id": 40,
         "main_type": 300,
         "type": "Association",
@@ -18987,6 +19415,120 @@
         "from_node": "3c504335-5769-43f7-8af2-782e18d9bb13",
         "to_node": "2670489e-a3a1-4491-9cc6-ef5c46926245",
         "uuid": "627f7681-0f3d-4a4e-89e5-47ccc14f44cf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 929,
+        "main_type": 221,
+        "type": "Message",
+        "name": "2. gui_toolbox_undo_btn_callback",
+        "description": [
+                ""
+        ],
+        "list_order": -1013269644,
+        "from_classifier_name": "gtk4",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "78544b53-af10-4e9a-bebd-79f15996b451",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "a37b91c9-1f2f-4341-ac9d-5f35e36174ee"
+      }
+    },
+    {
+      "relationship": {
+        "id": 934,
+        "main_type": 221,
+        "type": "Message",
+        "name": "7. gui_toolbox_*_btn_callback",
+        "description": [
+                ""
+        ],
+        "list_order": 445829765,
+        "from_classifier_name": "gtk4",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "78544b53-af10-4e9a-bebd-79f15996b451",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "3c7a8e88-7665-4daa-bc17-7fc3298bc184"
+      }
+    },
+    {
+      "relationship": {
+        "id": 936,
+        "main_type": 222,
+        "type": "Message",
+        "name": "9. return",
+        "description": [
+                ""
+        ],
+        "list_order": 911853911,
+        "from_classifier_name": "gtk4",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "78544b53-af10-4e9a-bebd-79f15996b451",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "67ef355c-831a-4c22-90b4-7dcd7e0fbb3b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 947,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -847527882,
+        "from_classifier_name": "gtk4",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_clipboard",
+        "to_feature_key": "",
+        "from_node": "82c69556-08d4-4dcf-9763-e81d1a5698bc",
+        "to_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "uuid": "891a0807-e4da-4444-9505-7db624548238"
+      }
+    },
+    {
+      "relationship": {
+        "id": 953,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 16317070,
+        "from_classifier_name": "gtk4",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_clipboard",
+        "to_feature_key": "",
+        "from_node": "82c69556-08d4-4dcf-9763-e81d1a5698bc",
+        "to_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "uuid": "7c48e7f3-5af3-49bb-a79a-22e5b93b59cf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 956,
+        "main_type": 221,
+        "type": "Message",
+        "name": "gui_clipboard_clipboard_text_received_callback",
+        "description": [
+                ""
+        ],
+        "list_order": 718736450,
+        "from_classifier_name": "gtk4",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_clipboard",
+        "to_feature_key": "",
+        "from_node": "82c69556-08d4-4dcf-9763-e81d1a5698bc",
+        "to_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "uuid": "c721ef29-9a57-41e7-97dc-f20b62b715b1"
       }
     },
     {
@@ -20675,6 +21217,63 @@
         "from_node": "c87cd518-84ef-43b2-aeb3-85ef8499a7a4",
         "to_node": "beb18a0a-8d7c-465c-bff1-b011cb0190a4",
         "uuid": "4f6a10f5-d342-4012-b0d1-bbb822fe0d46"
+      }
+    },
+    {
+      "relationship": {
+        "id": 928,
+        "main_type": 220,
+        "type": "Message",
+        "name": "1. press button",
+        "description": [
+                ""
+        ],
+        "list_order": -1283723505,
+        "from_classifier_name": "SW Architect",
+        "from_feature_key": "",
+        "to_classifier_name": "gtk4",
+        "to_feature_key": "",
+        "from_node": "95ca51d3-a7f9-4890-9d9d-86b135dad665",
+        "to_node": "78544b53-af10-4e9a-bebd-79f15996b451",
+        "uuid": "444398fd-ec9d-4138-9e1b-2f98e7ac3c5c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 944,
+        "main_type": 221,
+        "type": "Message",
+        "name": "copy",
+        "description": [
+                ""
+        ],
+        "list_order": -1270724651,
+        "from_classifier_name": "SW Architect",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "7ec46922-6c4d-43df-9aee-fe3b8353356b",
+        "to_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "uuid": "76d5ec5d-7714-42ca-ab7e-c81dcb898981"
+      }
+    },
+    {
+      "relationship": {
+        "id": 950,
+        "main_type": 221,
+        "type": "Message",
+        "name": "paste",
+        "description": [
+                ""
+        ],
+        "list_order": -411242552,
+        "from_classifier_name": "SW Architect",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "7ec46922-6c4d-43df-9aee-fe3b8353356b",
+        "to_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "uuid": "350a7bb4-fd3a-4a67-ac6e-d7afb635730f"
       }
     },
     {
@@ -22934,6 +23533,273 @@
     },
     {
       "relationship": {
+        "id": 930,
+        "main_type": 221,
+        "type": "Message",
+        "name": "3. ctrl_controller_undo",
+        "description": [
+                ""
+        ],
+        "list_order": -680395254,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "121605a6-53a2-4a6c-bcc9-733e45ceea2a",
+        "uuid": "fc6e2da9-3642-403d-8ba7-3d44d1f7fecf"
+      }
+    },
+    {
+      "relationship": {
+        "id": 931,
+        "main_type": 221,
+        "type": "Message",
+        "name": "5. gui_toolbox_set_selected_tool_and_focus",
+        "description": [
+                ""
+        ],
+        "list_order": -201432735,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "d7e2a861-4fdc-4ca4-b949-99e7943dfb04"
+      }
+    },
+    {
+      "relationship": {
+        "id": 932,
+        "main_type": 221,
+        "type": "Message",
+        "name": "6. gtk_toggle_button_set_active",
+        "description": [
+                ""
+        ],
+        "list_order": 167006676,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gtk4",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "78544b53-af10-4e9a-bebd-79f15996b451",
+        "uuid": "7f0e3840-f87d-4c15-8a48-6e735a103fda"
+      }
+    },
+    {
+      "relationship": {
+        "id": 935,
+        "main_type": 222,
+        "type": "Message",
+        "name": "8. return",
+        "description": [
+                ""
+        ],
+        "list_order": 556787895,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gtk4",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "78544b53-af10-4e9a-bebd-79f15996b451",
+        "uuid": "84ccd188-c66d-4a6f-b8b5-a2bff1a2e344"
+      }
+    },
+    {
+      "relationship": {
+        "id": 937,
+        "main_type": 221,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "10. focus",
+        "description": [
+                ""
+        ],
+        "list_order": 1161509704,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "sketch",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "d5002670-8295-4ffc-b4ec-091b02716888",
+        "uuid": "f1dab889-e844-406c-862f-e6b7d38f8044"
+      }
+    },
+    {
+      "relationship": {
+        "id": 939,
+        "main_type": 222,
+        "type": "Message",
+        "name": "12. return",
+        "description": [
+                ""
+        ],
+        "list_order": 1549863158,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "df16a724-8e94-49ac-bf2e-2bcfcecec155"
+      }
+    },
+    {
+      "relationship": {
+        "id": 940,
+        "main_type": 222,
+        "type": "Message",
+        "name": "13. return",
+        "description": [
+                ""
+        ],
+        "list_order": 1782875231,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gtk4",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "78544b53-af10-4e9a-bebd-79f15996b451",
+        "uuid": "7571016e-ab78-4aa7-9350-189029bd89b9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 943,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1549895926,
+        "from_classifier_name": "gui_toolbox",
+        "to_classifier_name": "gui_clipboard",
+        "from_node": "4fee1430-f181-4761-9e89-e8e42a9f389c",
+        "to_node": "de2823b9-a965-463d-b587-3202297075cf",
+        "uuid": "7a448a43-26f9-4fbe-bfe1-165be1304329"
+      }
+    },
+    {
+      "relationship": {
+        "id": 945,
+        "main_type": 221,
+        "type": "Message",
+        "name": "gui_clipboard_copy_set_to_clipboard",
+        "description": [
+                ""
+        ],
+        "list_order": -1192193292,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_clipboard",
+        "to_feature_key": "",
+        "from_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "to_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "uuid": "08afa10a-a083-4ac5-b3cf-a2b6e605cf2e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 949,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -686102310,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "SW Architect",
+        "to_feature_key": "",
+        "from_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "to_node": "7ec46922-6c4d-43df-9aee-fe3b8353356b",
+        "uuid": "ddd24070-6482-4481-99a3-5d1b1dac0922"
+      }
+    },
+    {
+      "relationship": {
+        "id": 951,
+        "main_type": 221,
+        "type": "Message",
+        "name": "gui_clipboard_request_clipboard_text",
+        "description": [
+                ""
+        ],
+        "list_order": -337074046,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_clipboard",
+        "to_feature_key": "",
+        "from_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "to_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "uuid": "ca30139d-b714-44cc-b4cb-9e57156e6410"
+      }
+    },
+    {
+      "relationship": {
+        "id": 955,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 238822588,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "SW Architect",
+        "to_feature_key": "",
+        "from_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "to_node": "7ec46922-6c4d-43df-9aee-fe3b8353356b",
+        "uuid": "f35a8ea4-9cfb-4636-b540-d110aecc54b5"
+      }
+    },
+    {
+      "relationship": {
+        "id": 961,
+        "main_type": 222,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1761458387,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_clipboard",
+        "to_feature_key": "",
+        "from_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "to_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "uuid": "754e9b79-c6fc-487b-a7a2-afb03bb18bdb"
+      }
+    },
+    {
+      "relationship": {
+        "id": 962,
+        "main_type": 220,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "cfu_tool_changed",
+        "description": [
+                ""
+        ],
+        "list_order": 1621847082,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "sketch",
+        "to_feature_key": "",
+        "from_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "to_node": "3ad4ca33-2c6b-45d1-b166-d35f211b5976",
+        "uuid": "6197b443-2132-4d7a-958a-0ade80e3cd5f"
+      }
+    },
+    {
+      "relationship": {
         "id": 535,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -23866,6 +24732,23 @@
         "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
         "to_node": "1d1bdc65-0d5a-45d6-a68d-a4294d6db829",
         "uuid": "a4f8179a-3d94-4100-80ba-187dc381b5d9"
+      }
+    },
+    {
+      "relationship": {
+        "id": 923,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 841768858,
+        "from_classifier_name": "GUI-mode",
+        "to_classifier_name": "Future Multithreading Concept",
+        "from_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",
+        "to_node": "b36b3631-0554-430d-ae40-aea26332ee94",
+        "uuid": "99679e6a-1980-46d1-9ef9-000d416291d5"
       }
     },
     {
@@ -25566,6 +26449,26 @@
         "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
         "to_node": "235a527e-3f82-4624-92d0-008f6b9122cc",
         "uuid": "a9e0f5aa-c69a-4351-8a28-596ef395d047"
+      }
+    },
+    {
+      "relationship": {
+        "id": 938,
+        "main_type": 222,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "11. return",
+        "description": [
+                ""
+        ],
+        "list_order": 1255824114,
+        "from_classifier_name": "sketch",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "d5002670-8295-4ffc-b4ec-091b02716888",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "f16abbbc-9381-43a6-8237-c7b4ae16dd30"
       }
     },
     {
@@ -31211,6 +32114,225 @@
         "from_node": "1c07e374-a2ea-438c-a5da-6cff6913e8f5",
         "to_node": "1a6ad898-da94-49fa-aeee-0ffb836993ff",
         "uuid": "68c4fa25-bd60-4851-9cf0-945b9025d2f1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 924,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "GUI Activities",
+        "to_classifier_name": "navigate",
+        "from_node": "3f04ff4f-a6b4-4891-9581-88367b389922",
+        "to_node": "33579675-87fa-4c62-b132-f131576f669e",
+        "uuid": "3e3e6959-8411-4cf8-ba7f-24896fa947c0"
+      }
+    },
+    {
+      "relationship": {
+        "id": 925,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "GUI Activities",
+        "to_classifier_name": "create",
+        "from_node": "3f04ff4f-a6b4-4891-9581-88367b389922",
+        "to_node": "aa788489-bbec-4f4b-b74b-4cd114dbe390",
+        "uuid": "4789243a-ef14-431d-958c-c985f2022abe"
+      }
+    },
+    {
+      "relationship": {
+        "id": 926,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "GUI Activities",
+        "to_classifier_name": "edit",
+        "from_node": "3f04ff4f-a6b4-4891-9581-88367b389922",
+        "to_node": "61415f02-f0d8-4d92-b952-e41f3e26969f",
+        "uuid": "b24a9570-ada7-417d-a47b-d029d0d0749b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 927,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "GUI Activities",
+        "to_classifier_name": "search",
+        "from_node": "3f04ff4f-a6b4-4891-9581-88367b389922",
+        "to_node": "687cc351-64e4-493d-9141-ec06b23b9431",
+        "uuid": "81215c63-8833-4333-be61-b836dcb3e388"
+      }
+    },
+    {
+      "relationship": {
+        "id": 941,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "not-yet-implemented",
+        "to_classifier_name": "not-yet-implemented-img",
+        "from_node": "b0cf4c91-29fd-4d3c-b605-d3bb6813f40a",
+        "to_node": "17359826-5f4d-42aa-97b8-b44439c0e534",
+        "uuid": "39f07199-3216-4cb1-9b68-f56a4c135faa"
+      }
+    },
+    {
+      "relationship": {
+        "id": 946,
+        "main_type": 221,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -926059241,
+        "from_classifier_name": "gui_clipboard",
+        "from_feature_key": "",
+        "to_classifier_name": "gtk4",
+        "to_feature_key": "",
+        "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "to_node": "82c69556-08d4-4dcf-9763-e81d1a5698bc",
+        "uuid": "7559f9c4-b38f-4347-8ba8-9600d1daf3ef"
+      }
+    },
+    {
+      "relationship": {
+        "id": 948,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -790810789,
+        "from_classifier_name": "gui_clipboard",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "to_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "uuid": "d4d3c689-86c0-429c-bb67-9bff39b11079"
+      }
+    },
+    {
+      "relationship": {
+        "id": 952,
+        "main_type": 221,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -66577142,
+        "from_classifier_name": "gui_clipboard",
+        "from_feature_key": "",
+        "to_classifier_name": "gtk4",
+        "to_feature_key": "",
+        "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "to_node": "82c69556-08d4-4dcf-9763-e81d1a5698bc",
+        "uuid": "4f103f0c-68c0-402e-8cca-fa151245bf52"
+      }
+    },
+    {
+      "relationship": {
+        "id": 954,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 129751256,
+        "from_classifier_name": "gui_clipboard",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "to_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "uuid": "6df27131-93db-45f1-81ad-548e7772dde3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 957,
+        "main_type": 221,
+        "type": "Message",
+        "name": "io_importer_import_clipboard",
+        "description": [
+                ""
+        ],
+        "list_order": 1111393247,
+        "from_classifier_name": "gui_clipboard",
+        "from_feature_key": "",
+        "to_classifier_name": "ctrl",
+        "to_feature_key": "",
+        "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "to_node": "70b09bd7-e2fc-46f9-89ce-f07322adb567",
+        "uuid": "ab9156e8-3474-4b8f-a4b7-3652970facf2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 959,
+        "main_type": 222,
+        "type": "Message",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1861804013,
+        "from_classifier_name": "gui_clipboard",
+        "from_feature_key": "",
+        "to_classifier_name": "gtk4",
+        "to_feature_key": "",
+        "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "to_node": "82c69556-08d4-4dcf-9763-e81d1a5698bc",
+        "uuid": "ebf3d04d-79a7-4886-b8a6-60900a944a48"
+      }
+    },
+    {
+      "relationship": {
+        "id": 960,
+        "main_type": 221,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "clipboard reveived",
+        "description": [
+                ""
+        ],
+        "list_order": 1019773328,
+        "from_classifier_name": "gui_clipboard",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
+        "to_node": "6efdf925-5991-4a00-a772-a32e04205a32",
+        "uuid": "e051af1c-40e5-450f-a269-46ce971f26ab"
       }
     }
   ]

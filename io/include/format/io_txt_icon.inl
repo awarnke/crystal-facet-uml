@@ -52,7 +52,7 @@ static inline const char* io_txt_icon_get_relationship ( io_txt_icon_t *this_, d
 
         case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
         {
-            result = "..|>";
+            result = IO_TXT_ICON_TWO_MIDDLE_DOTS "|>";
         }
         break;
 

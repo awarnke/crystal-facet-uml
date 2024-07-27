@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.58.4"
+    "generator_version": "1.59.1"
   }
   ,
   "views":
@@ -5862,7 +5862,7 @@
             "id": 71,
             "main_type": 0,
             "type": "Property",
-            "key": "Monitoring CPU",
+            "key": "Isolated Monitoring CPU",
             "description": [
                 ""
             ],
@@ -5879,6 +5879,17 @@
             ],
             "list_order": -812313843,
             "uuid": "1af849dc-0ddd-45fa-912b-fe365ccf305a"
+          },
+          {
+            "id": 90,
+            "main_type": 0,
+            "type": "Property",
+            "key": "Hardware security module/environment",
+            "description": [
+                ""
+            ],
+            "list_order": -992701963,
+            "uuid": "0c127ca6-117b-4a8b-9f47-9c0e477d3283"
           }
         ]
       }
@@ -8424,7 +8435,7 @@
         "type": "Class",
         "name": "Project Execution Plan",
         "description": [
-                ""
+                "A plan/strategy document that explains how a project shall be executed."
         ],
         "x_order": 1878331530,
         "y_order": 905473840,
@@ -8442,7 +8453,7 @@
         "type": "Class",
         "name": "Plan of Artifacts",
         "description": [
-                "Defines workflow, needed skills, review and approval processes."
+                "A plan document that defines workflow, tools, needed skills, review and approval processes."
         ],
         "x_order": -729493205,
         "y_order": 1373784640,
@@ -12795,6 +12806,40 @@
     },
     {
       "relationship": {
+        "id": 319,
+        "main_type": 201,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 720896,
+        "from_classifier_name": "Plan of Artifacts",
+        "to_classifier_name": "Template",
+        "from_node": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+        "to_node": "4d010710-11f0-49c2-b588-289443f8890a",
+        "uuid": "aa249550-fbdf-46d5-b1f2-29f8d14abe4d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 320,
+        "main_type": 201,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 753664,
+        "from_classifier_name": "Plan of Artifacts",
+        "to_classifier_name": "Guidelines",
+        "from_node": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
+        "to_node": "e3246368-acdf-4ff9-8c35-50976bca84b2",
+        "uuid": "53fa37c2-efd1-442a-982c-f9b57601083c"
+      }
+    },
+    {
+      "relationship": {
         "id": 303,
         "main_type": 401,
         "type": "Trace",
@@ -12825,23 +12870,6 @@
         "from_node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
         "to_node": "4d010710-11f0-49c2-b588-289443f8890a",
         "uuid": "8988d36b-fb9e-4ab4-adcc-ddbf4b8f13c1"
-      }
-    },
-    {
-      "relationship": {
-        "id": 305,
-        "main_type": 0,
-        "type": "Dependency",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 393216,
-        "from_classifier_name": "Artifact (e.g. Document)",
-        "to_classifier_name": "Guidelines",
-        "from_node": "d30978b9-0d41-46f5-a852-a5c52a7f97d4",
-        "to_node": "e3246368-acdf-4ff9-8c35-50976bca84b2",
-        "uuid": "253f1f7a-1aa4-4e44-9077-4742e74a0858"
       }
     },
     {

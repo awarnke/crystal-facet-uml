@@ -97,6 +97,8 @@ void gui_toolbox_destroy ( gui_toolbox_t *this_ )
 
 void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
 {
+    U8_TRACE_BEGIN();
+
     switch ( tool )
     {
         case GUI_TOOL_NAVIGATE:
@@ -141,6 +143,27 @@ void gui_toolbox_set_selected_tool( gui_toolbox_t *this_, gui_tool_t tool )
         }
         break;
     }
+
+    U8_TRACE_END();
+}
+
+void gui_toolbox_set_selected_tool_and_focus ( gui_toolbox_t *this_, gui_tool_t tool, data_id_t focused_diagram )
+{
+    U8_TRACE_BEGIN();
+
+    /* switch tool */
+    gui_toolbox_set_selected_tool( this_, tool );
+
+    /* clear selected set (no notification) */
+    gui_marked_set_clear_selected_set( (*this_).marker );
+
+    /* load data to be drawn (sends a notification) */
+    data_full_id_t element_id;
+    data_full_id_init_solo( &element_id, focused_diagram );
+    gui_marked_set_set_focused( (*this_).marker, element_id, focused_diagram );
+    data_full_id_destroy( &element_id );
+
+    U8_TRACE_END();
 }
 
 void gui_toolbox_navigate_btn_callback( GtkWidget* button, gpointer data )
