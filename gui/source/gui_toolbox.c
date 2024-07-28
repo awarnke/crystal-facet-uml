@@ -49,6 +49,7 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
 
     gui_clipboard_init ( &((*this_).clipboard),
                          gtk_clipboard,
+                         this_,
                          message_to_user,
                          db_reader,
                          controller

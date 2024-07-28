@@ -3514,6 +3514,13 @@
             "classifier_name": "gui_clipboard",
             "node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
             "uuid": "fc16cfee-3319-4261-97ca-d68c6f9a7b2d"
+          },
+          {
+            "id": 885,
+            "display_flags": 0,
+            "classifier_name": "New Deserializer",
+            "node": "419444f5-f07a-43f0-917e-68a97174d755",
+            "uuid": "cea5d2d4-7fde-4850-b555-ab8764533294"
           }
         ]
       }
@@ -18480,6 +18487,35 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 534,
+        "main_type": 125,
+        "type": "Class",
+        "name": "New Deserializer",
+        "description": [
+                ""
+        ],
+        "x_order": 1430085129,
+        "y_order": 0,
+        "list_order": 0,
+        "uuid": "c152aed5-08c9-4074-a5ea-a91fbe0a07b5",
+        "features":
+        [
+          {
+            "id": 142,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "419444f5-f07a-43f0-917e-68a97174d755"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -19135,7 +19171,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1303358792,
+        "list_order": 1127870264,
         "from_classifier_name": "ctrl",
         "from_feature_key": "",
         "to_classifier_name": "gui_clipboard",
@@ -19419,28 +19455,10 @@
     },
     {
       "relationship": {
-        "id": 929,
-        "main_type": 221,
-        "type": "Message",
-        "name": "2. gui_toolbox_undo_btn_callback",
-        "description": [
-                ""
-        ],
-        "list_order": -1013269644,
-        "from_classifier_name": "gtk4",
-        "from_feature_key": "",
-        "to_classifier_name": "gui_toolbox",
-        "to_feature_key": "",
-        "from_node": "78544b53-af10-4e9a-bebd-79f15996b451",
-        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
-        "uuid": "a37b91c9-1f2f-4341-ac9d-5f35e36174ee"
-      }
-    },
-    {
-      "relationship": {
         "id": 934,
         "main_type": 221,
         "type": "Message",
+        "stereotype": "not-yet-implemented",
         "name": "7. gui_toolbox_*_btn_callback",
         "description": [
                 ""
@@ -19460,6 +19478,7 @@
         "id": 936,
         "main_type": 222,
         "type": "Message",
+        "stereotype": "not-yet-implemented",
         "name": "9. return",
         "description": [
                 ""
@@ -21221,25 +21240,6 @@
     },
     {
       "relationship": {
-        "id": 928,
-        "main_type": 220,
-        "type": "Message",
-        "name": "1. press button",
-        "description": [
-                ""
-        ],
-        "list_order": -1283723505,
-        "from_classifier_name": "SW Architect",
-        "from_feature_key": "",
-        "to_classifier_name": "gtk4",
-        "to_feature_key": "",
-        "from_node": "95ca51d3-a7f9-4890-9d9d-86b135dad665",
-        "to_node": "78544b53-af10-4e9a-bebd-79f15996b451",
-        "uuid": "444398fd-ec9d-4138-9e1b-2f98e7ac3c5c"
-      }
-    },
-    {
-      "relationship": {
         "id": 944,
         "main_type": 221,
         "type": "Message",
@@ -21274,6 +21274,25 @@
         "from_node": "7ec46922-6c4d-43df-9aee-fe3b8353356b",
         "to_node": "6efdf925-5991-4a00-a772-a32e04205a32",
         "uuid": "350a7bb4-fd3a-4a67-ac6e-d7afb635730f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 963,
+        "main_type": 220,
+        "type": "Message",
+        "name": "2. gui_toolbox_undo_btn_callback",
+        "description": [
+                ""
+        ],
+        "list_order": -1191796776,
+        "from_classifier_name": "SW Architect",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "95ca51d3-a7f9-4890-9d9d-86b135dad665",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "477bd0ad-a255-4baa-bfdd-3224f04ed32f"
       }
     },
     {
@@ -23555,6 +23574,7 @@
         "id": 931,
         "main_type": 221,
         "type": "Message",
+        "stereotype": "not-yet-implemented",
         "name": "5. gui_toolbox_set_selected_tool_and_focus",
         "description": [
                 ""
@@ -23574,6 +23594,7 @@
         "id": 932,
         "main_type": 221,
         "type": "Message",
+        "stereotype": "not-yet-implemented",
         "name": "6. gtk_toggle_button_set_active",
         "description": [
                 ""
@@ -23593,6 +23614,7 @@
         "id": 935,
         "main_type": 222,
         "type": "Message",
+        "stereotype": "not-yet-implemented",
         "name": "8. return",
         "description": [
                 ""
@@ -23632,6 +23654,7 @@
         "id": 939,
         "main_type": 222,
         "type": "Message",
+        "stereotype": "not-yet-implemented",
         "name": "12. return",
         "description": [
                 ""
@@ -23644,25 +23667,6 @@
         "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
         "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
         "uuid": "df16a724-8e94-49ac-bf2e-2bcfcecec155"
-      }
-    },
-    {
-      "relationship": {
-        "id": 940,
-        "main_type": 222,
-        "type": "Message",
-        "name": "13. return",
-        "description": [
-                ""
-        ],
-        "list_order": 1782875231,
-        "from_classifier_name": "gui_toolbox",
-        "from_feature_key": "",
-        "to_classifier_name": "gtk4",
-        "to_feature_key": "",
-        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
-        "to_node": "78544b53-af10-4e9a-bebd-79f15996b451",
-        "uuid": "7571016e-ab78-4aa7-9350-189029bd89b9"
       }
     },
     {
@@ -23763,12 +23767,11 @@
         "id": 961,
         "main_type": 222,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
         "name": "",
         "description": [
                 ""
         ],
-        "list_order": 1761458387,
+        "list_order": 1430808466,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gui_clipboard",
@@ -23783,12 +23786,11 @@
         "id": 962,
         "main_type": 220,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
         "name": "cfu_tool_changed",
         "description": [
                 ""
         ],
-        "list_order": 1621847082,
+        "list_order": 1340275210,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "sketch",
@@ -32286,7 +32288,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1111393247,
+        "list_order": 1047783153,
         "from_classifier_name": "gui_clipboard",
         "from_feature_key": "",
         "to_classifier_name": "ctrl",
@@ -32305,7 +32307,7 @@
         "description": [
                 ""
         ],
-        "list_order": 1861804013,
+        "list_order": 1528305818,
         "from_classifier_name": "gui_clipboard",
         "from_feature_key": "",
         "to_classifier_name": "gtk4",
@@ -32320,12 +32322,11 @@
         "id": 960,
         "main_type": 221,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
-        "name": "clipboard reveived",
+        "name": "gui_toolbox_set_selected_tool",
         "description": [
-                ""
+                "The control/responsability of the \"paste\" requests stays with the gui_clipboard"
         ],
-        "list_order": 1019773328,
+        "list_order": 1263670147,
         "from_classifier_name": "gui_clipboard",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",

@@ -1,7 +1,7 @@
 crystal-facet-uml (1.59.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * tbd.
+  * When pasting a new diagram, navigation view is activated to see the changes
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 04 Oct 2024 21:00:00 +0200
 

@@ -17,11 +17,14 @@
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <gdk/gdkclipboard.h>
 
+typedef struct gui_toolbox_struct gui_toolbox_t;
+
 /*!
  *  \brief attributes of the serdes object
  */
 struct gui_clipboard_struct {
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
+    gui_toolbox_t *tool_switcher;  /*!< the toolbox can switch the active tool */
 
     io_exporter_light_t exporter;  /*!< own instance of a json exporter */
     io_importer_t importer;  /*!< own instance of a json importer */
@@ -39,12 +42,14 @@ typedef struct gui_clipboard_struct gui_clipboard_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param clipboard pointer to the main/primary GtkClipboard
+ *  \param tool_switcher pointer to the gui_toolbox which can switch the active tool
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_clipboard_init ( gui_clipboard_t *this_,
                           GdkClipboard *clipboard,
+                          gui_toolbox_t *tool_switcher,
                           gui_simple_message_to_user_t *message_to_user,
                           data_database_reader_t *db_reader,
                           ctrl_controller_t *controller

@@ -1,6 +1,8 @@
 /* File: gui_clipboard.c; Copyright and License: see below */
 
 #include "gui_clipboard.h"
+#include "gui_toolbox.h"
+#include "gui_tool.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_error.h"
 #include "set/data_stat.h"
@@ -11,6 +13,7 @@
 
 void gui_clipboard_init ( gui_clipboard_t *this_,
                           GdkClipboard *clipboard,
+                          gui_toolbox_t *tool_switcher,
                           gui_simple_message_to_user_t *message_to_user,
                           data_database_reader_t *db_reader,
                           ctrl_controller_t *controller )
@@ -23,6 +26,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
 
     (*this_).destination_diagram_id = DATA_ROW_ID_VOID;
     (*this_).message_to_user = message_to_user;
+    (*this_).tool_switcher = tool_switcher;
     (*this_).the_clipboard = clipboard;
     (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
                                                        (*this_).private_clipboard_buffer
@@ -42,6 +46,7 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ )
     io_importer_destroy ( &((*this_).importer) );
 
     (*this_).the_clipboard = NULL;
+    (*this_).tool_switcher = NULL;
     (*this_).message_to_user = NULL;
 
     U8_TRACE_END();
@@ -136,9 +141,10 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     assert( NULL != json_text );
     U8_TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
 
+    /* import the clipboard */
     u8_error_t parse_error;
     data_stat_t stat;
-    data_stat_init(&stat);
+    data_stat_init( &stat );
     u8_error_info_t err_info;
     parse_error = io_importer_import_clipboard( &((*this_).importer),
                                                 json_text,
@@ -147,6 +153,13 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
                                                 &err_info
                                               );
 
+    /* in case a new diagram was pasted, go to nav mode */
+    if ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) )
+    {
+        gui_toolbox_set_selected_tool( (*this_).tool_switcher, GUI_TOOL_NAVIGATE );
+    }
+
+    /* show a message to the user */
     if ( u8_error_info_is_error( &err_info ) )
     {
         gui_simple_message_to_user_show_error_info( (*this_).message_to_user, &err_info );
@@ -167,7 +180,7 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
                                                          );
     }
 
-    data_stat_destroy(&stat);
+    data_stat_destroy( &stat );
     U8_TRACE_END();
 }
 
