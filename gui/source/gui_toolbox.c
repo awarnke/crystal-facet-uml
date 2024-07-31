@@ -468,8 +468,8 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
 }
 
 u8_error_t gui_toolbox_private_delete_set( gui_toolbox_t *this_,
-                                             const data_small_set_t *set_to_be_deleted,
-                                             data_stat_t *io_stat )
+                                           const data_small_set_t *set_to_be_deleted,
+                                           data_stat_t *io_stat )
 {
     U8_TRACE_BEGIN();
     assert( NULL != set_to_be_deleted );
@@ -690,15 +690,24 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     data_stat_t stat;
-    data_stat_init(&stat);
+    data_stat_init( &stat );
 
     ctrl_err = ctrl_controller_undo( (*this_).controller, &stat );
+
+    /* in case a new diagram was pasted, go to nav mode */
+    if ( ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) )
+        || ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ) ) )
+    {
+        gui_toolbox_set_selected_tool( this_, GUI_TOOL_NAVIGATE );
+    }
+
+    /* show error/success message to the user */
     if ( U8_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_UNDO
-        );
+                                               );
     }
     else if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == ctrl_err )
     {
@@ -710,14 +719,14 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
     else
     {
         /* success */
-        gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_UNDO,
-                                                            &stat
-                                                          );
+        gui_simple_message_to_user_show_message_with_stat( (*this_).message_to_user,
+                                                           GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_UNDO,
+                                                           &stat
+                                                         );
     }
 
-    data_stat_destroy(&stat);
+    data_stat_destroy( &stat );
 
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();
@@ -739,9 +748,18 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     data_stat_t stat;
-    data_stat_init(&stat);
+    data_stat_init( &stat );
 
     ctrl_err = ctrl_controller_redo( (*this_).controller, &stat );
+
+    /* in case a new diagram was pasted, go to nav mode */
+    if ( ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) )
+        || ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ) ) )
+    {
+        gui_toolbox_set_selected_tool( this_, GUI_TOOL_NAVIGATE );
+    }
+
+    /* show error/success message to the user */
     if ( U8_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -752,14 +770,14 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
     else
     {
         /* success */
-        gui_simple_message_to_user_show_message_with_stat ( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_REDO,
-                                                            &stat
-                                                          );
+        gui_simple_message_to_user_show_message_with_stat( (*this_).message_to_user,
+                                                           GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_REDO,
+                                                           &stat
+                                                         );
     }
 
-    data_stat_destroy(&stat);
+    data_stat_destroy( &stat );
 
     U8_TRACE_TIMESTAMP();
     U8_TRACE_END();

@@ -101,6 +101,28 @@ static inline u8_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_red
     return result;
 }
 
+static inline u8_error_t ctrl_undo_redo_list_get_undo_iterator ( const ctrl_undo_redo_list_t *this_,
+                                                                 ctrl_undo_redo_iterator_t *out_undo_iterator )
+{
+    assert( NULL != out_undo_iterator );
+    u8_error_t result = U8_ERROR_NONE;
+
+    result = U8_ERROR_NOT_YET_IMPLEMENTED;
+
+    return result;
+}
+
+static inline u8_error_t ctrl_undo_redo_list_get_redo_iterator ( const ctrl_undo_redo_list_t *this_,
+                                                                 ctrl_undo_redo_iterator_t *out_redo_iterator )
+{
+    assert( NULL != out_redo_iterator );
+    u8_error_t result = U8_ERROR_NONE;
+
+    result = U8_ERROR_NOT_YET_IMPLEMENTED;
+
+    return result;
+}
+
 /* ================================ DIAGRAM ================================ */
 
 static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value )

@@ -1,7 +1,7 @@
 /* File: utf8stringbuf_performance.c; Copyright and License: see below */
 
-#include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf_performance.h"
+#include "utf8stringbuf/utf8stringbuf.h"
 #include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"

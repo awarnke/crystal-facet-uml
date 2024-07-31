@@ -1,6 +1,6 @@
 /* File: utf8codepointiterator_test.c; Copyright and License: see below */
 
-#include "utf8string_test.h"
+#include "utf8codepointiterator_test.h"
 #include "utf8stringbuf/utf8codepointiterator.h"
 #include "utf8stringbuf/utf8stringview.h"
 #include "test_fixture.h"
