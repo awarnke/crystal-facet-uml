@@ -13,13 +13,17 @@
 #include <stdbool.h>
 
 /*!
- *  \brief all data attributes needed for the code point iterator functions
+ *  \brief all data attributes needed for ctrl_undo_redo_entry_t iterator functions
  *
  *  The iterator works similar to the J2SE-ListIterator, hibernate-query-Iterator and QT-QListIterator:
- *  while ( hasNext() ) { element = next() };
+ *  while ( has_next() ) { element = next() };
  */
 struct ctrl_undo_redo_iterator_struct {
-    const ctrl_undo_redo_entry_t *next;  /*!< the next codepoint-element */
+    const ctrl_undo_redo_entry_t (*ring_buf)[];  /*!< the ring buffer address */
+    uint32_t ring_buf_size;  /*!< the ring buffer size, unit is array-element */
+    bool iterate_upwards;  /*!< true if next is (current+1)%ring_buf_size, false if downwards direction */
+    uint32_t current;  /*!< index of current element, range 0..(ring_buf_size-1) */
+    uint32_t length;  /*!< remaining number of elements to iterate over, range 0..ring_buf_size */
 };
 
 typedef struct ctrl_undo_redo_iterator_struct ctrl_undo_redo_iterator_t;
@@ -28,9 +32,44 @@ typedef struct ctrl_undo_redo_iterator_struct ctrl_undo_redo_iterator_t;
  *  \brief initializes the ctrl_undo_redo_iterator_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param next next ctrl_undo_redo_entry_t to return by the iterator
+ *  \param ring_buf the ring buffer address
+ *  \param ring_buf_size the ring buffer size, unit is array-element
+ *  \param iterate_upwards true if next is (current+1)%ring_buf_size, false if downwards direction
+ *  \param current index of current element, range 0..(ring_buf_size-1)
+ *  \param length remaining number of elements to iterate over, range 0..ring_buf_size
  */
-static inline void ctrl_undo_redo_iterator_init ( ctrl_undo_redo_iterator_t *this_, const ctrl_undo_redo_entry_t *next );
+static inline void ctrl_undo_redo_iterator_init ( ctrl_undo_redo_iterator_t *this_,
+                                                  const ctrl_undo_redo_entry_t (*ring_buf)[],
+                                                  uint32_t ring_buf_size,
+                                                  bool iterate_upwards,
+                                                  uint32_t current,
+                                                  uint32_t length
+                                                );
+
+/*!
+ *  \brief re-initializes the ctrl_undo_redo_iterator_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ring_buf the ring buffer address
+ *  \param ring_buf_size the ring buffer size, unit is array-element
+ *  \param iterate_upwards true if next is (current+1)%ring_buf_size, false if downwards direction
+ *  \param current index of current element, range 0..(ring_buf_size-1)
+ *  \param length remaining number of elements to iterate over, range 0..ring_buf_size
+ */
+static inline void ctrl_undo_redo_iterator_reinit ( ctrl_undo_redo_iterator_t *this_,
+                                                    const ctrl_undo_redo_entry_t (*ring_buf)[],
+                                                    uint32_t ring_buf_size,
+                                                    bool iterate_upwards,
+                                                    uint32_t current,
+                                                    uint32_t length
+                                                  );
+
+/*!
+ *  \brief initializes the ctrl_undo_redo_iterator_t struct to an empty iterator
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void ctrl_undo_redo_iterator_init_empty ( ctrl_undo_redo_iterator_t *this_ );
 
 /*!
  *  \brief destroys the ctrl_undo_redo_iterator_t struct
@@ -40,7 +79,7 @@ static inline void ctrl_undo_redo_iterator_init ( ctrl_undo_redo_iterator_t *thi
 static inline void ctrl_undo_redo_iterator_destroy ( ctrl_undo_redo_iterator_t *this_ );
 
 /*!
- *  \brief checks if a next code point-element exists in the iterator - does not modify the iterator state
+ *  \brief checks if a next ctrl_undo_redo_entry_t exists in the iterator - does not modify the iterator state
  *
  *  \param this_ pointer to own object attributes
  *  \return true if there is a next element in the iterator
@@ -48,20 +87,12 @@ static inline void ctrl_undo_redo_iterator_destroy ( ctrl_undo_redo_iterator_t *
 static inline bool ctrl_undo_redo_iterator_has_next ( const ctrl_undo_redo_iterator_t *this_ );
 
 /*!
- *  \brief reads the next code point-element from the stringview.
+ *  \brief reads the next ctrl_undo_redo_entry_t from the iterator.
  *
  *  \param this_ pointer to own object attributes
- *  \return the next code point-element parsed from the stringview;
- *          in case there is no next code point-element, utf8codepoint_is_valid() of the result is false
+ *  \return the next ctrl_undo_redo_entry_t from the iterator
  */
 static inline const ctrl_undo_redo_entry_t * ctrl_undo_redo_iterator_next ( ctrl_undo_redo_iterator_t *this_ );
-
-/*!
- *  \brief moves the iterator to the next code point-element, updates (*this_).next
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void ctrl_undo_redo_iterator_private_step_to_next ( ctrl_undo_redo_iterator_t *this_ );
 
 #include "ctrl_undo_redo_iterator.inl"
 

@@ -1,30 +1,72 @@
 /* File: ctrl_undo_redo_iterator.inl; Copyright and License: see below */
 
-static inline void ctrl_undo_redo_iterator_init ( ctrl_undo_redo_iterator_t *this_, const ctrl_undo_redo_entry_t *next )
+static inline void ctrl_undo_redo_iterator_init ( ctrl_undo_redo_iterator_t *this_,
+                                                  const ctrl_undo_redo_entry_t (*ring_buf)[],
+                                                  uint32_t ring_buf_size,
+                                                  bool iterate_upwards,
+                                                  uint32_t current,
+                                                  uint32_t length )
 {
-    (*this_).next = next;
-    ctrl_undo_redo_iterator_private_step_to_next( this_ );
+    assert( ring_buf != NULL );
+    assert( ring_buf_size > 0 );
+    assert( current < ring_buf_size );
+    assert( length <= ring_buf_size );
+    (*this_).ring_buf = ring_buf;
+    (*this_).ring_buf_size = ring_buf_size;
+    (*this_).iterate_upwards = iterate_upwards;
+    (*this_).current = current;
+    (*this_).length = length;
+}
+
+static inline void ctrl_undo_redo_iterator_reinit ( ctrl_undo_redo_iterator_t *this_,
+                                                    const ctrl_undo_redo_entry_t (*ring_buf)[],
+                                                    uint32_t ring_buf_size,
+                                                    bool iterate_upwards,
+                                                    uint32_t current,
+                                                    uint32_t length )
+{
+    ctrl_undo_redo_iterator_init( this_, ring_buf, ring_buf_size, iterate_upwards, current, length );
+}
+
+static inline void ctrl_undo_redo_iterator_init_empty ( ctrl_undo_redo_iterator_t *this_ )
+{
+    (*this_).ring_buf = NULL;
+    (*this_).ring_buf_size = 1;
+    (*this_).iterate_upwards = true;
+    (*this_).current = 0;
+    (*this_).length = 0;
 }
 
 static inline void ctrl_undo_redo_iterator_destroy ( ctrl_undo_redo_iterator_t *this_ )
 {
+    (*this_).ring_buf = NULL;
 }
 
 static inline bool ctrl_undo_redo_iterator_has_next ( const ctrl_undo_redo_iterator_t *this_ )
 {
-    return false;
+    return ( (*this_).length != 0 );
 }
 
 static inline const ctrl_undo_redo_entry_t * ctrl_undo_redo_iterator_next ( ctrl_undo_redo_iterator_t *this_ )
 {
-    const ctrl_undo_redo_entry_t * result = (*this_).next;
-    ctrl_undo_redo_iterator_private_step_to_next( this_ );
-    return result;
-}
+    assert( (*this_).length > 0 );
 
-static inline void ctrl_undo_redo_iterator_private_step_to_next ( ctrl_undo_redo_iterator_t *this_ )
-{
-    // TODO
+    const ctrl_undo_redo_entry_t * result = NULL;
+    if ( (*this_).length > 0 )
+    {
+        result = &((*(*this_).ring_buf)[(*this_).current]);
+        if ( (*this_).iterate_upwards )
+        {
+            (*this_).current = ( (*this_).current + 1 ) % (*this_).ring_buf_size;
+        }
+        else
+        {
+            (*this_).current = ( (*this_).current + (*this_).ring_buf_size - 1 ) % (*this_).ring_buf_size;
+        }
+        (*this_).length --;
+    }
+
+    return result;
 }
 
 

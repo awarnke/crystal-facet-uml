@@ -12,7 +12,7 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testIterateForward( test_fixture_t *fix );
 static test_case_result_t testIterateReverse( test_fixture_t *fix );
-static test_case_result_t testErrors( test_fixture_t *fix );
+static test_case_result_t testEmpty( test_fixture_t *fix );
 
 test_suite_t ctrl_undo_redo_iterator_test_get_suite(void)
 {
@@ -25,34 +25,121 @@ test_suite_t ctrl_undo_redo_iterator_test_get_suite(void)
                    );
     test_suite_add_test_case( &result, "testIterateForward", &testIterateForward );
     test_suite_add_test_case( &result, "testIterateReverse", &testIterateReverse );
-    test_suite_add_test_case( &result, "testErrors", &testErrors );
+    test_suite_add_test_case( &result, "testEmpty", &testEmpty );
     return result;
 }
 
+#define CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE (3)
+struct test_fixture_struct {
+    const ctrl_undo_redo_entry_t ring_buf[CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE];
+};
+typedef struct test_fixture_struct test_fixture_t;
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    return NULL;
+    test_fixture_t *fix = &test_fixture;
+    return fix;
 }
 
 static void tear_down( test_fixture_t *fix )
 {
+    assert( fix != NULL );
 }
 
 static test_case_result_t testIterateForward( test_fixture_t *fix )
 {
-    TEST_EXPECT_EQUAL_INT( true, true );
+    ctrl_undo_redo_iterator_t iter;
+    ctrl_undo_redo_iterator_init( &iter,
+                                  &((*fix).ring_buf),
+                                  CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE,
+                                  true, /* iterate_upwards */
+                                  1, /* current */
+                                  CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE /* length */
+                                );
 
-    return TEST_CASE_RESULT_ERR;
+    bool has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    const ctrl_undo_redo_entry_t *next = ctrl_undo_redo_iterator_next( &iter );
+    TEST_EXPECT_EQUAL_PTR( &((*fix).ring_buf[1]), next );
+
+    has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    next = ctrl_undo_redo_iterator_next( &iter );
+    TEST_EXPECT_EQUAL_PTR( &((*fix).ring_buf[2]), next );
+
+    has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    next = ctrl_undo_redo_iterator_next( &iter );
+    TEST_EXPECT_EQUAL_PTR( &((*fix).ring_buf[0]), next );
+
+    has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( false, has_next );
+
+    ctrl_undo_redo_iterator_destroy( &iter );
+
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t testIterateReverse( test_fixture_t *fix )
 {
-    return TEST_CASE_RESULT_ERR;
+    ctrl_undo_redo_iterator_t iter;
+    ctrl_undo_redo_iterator_init( &iter,
+                                  &((*fix).ring_buf),
+                                  CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE,
+                                  false, /* iterate_upwards */
+                                  1, /* current */
+                                  CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE /* length */
+                                );
+
+    const ctrl_undo_redo_entry_t *next = ctrl_undo_redo_iterator_next( &iter );
+    TEST_EXPECT_EQUAL_PTR( &((*fix).ring_buf[1]), next );
+
+    bool has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    next = ctrl_undo_redo_iterator_next( &iter );
+    TEST_EXPECT_EQUAL_PTR( &((*fix).ring_buf[0]), next );
+
+    next = ctrl_undo_redo_iterator_next( &iter );
+    TEST_EXPECT_EQUAL_PTR( &((*fix).ring_buf[2]), next );
+
+    has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( false, has_next );
+
+    ctrl_undo_redo_iterator_reinit( &iter,
+                                    &((*fix).ring_buf),
+                                    CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE,
+                                    false, /* iterate_upwards */
+                                    1, /* current */
+                                    CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE /* length */
+                                  );
+
+    has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( true, has_next );
+
+    ctrl_undo_redo_iterator_destroy( &iter );
+
+    return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testErrors( test_fixture_t *fix )
+static test_case_result_t testEmpty( test_fixture_t *fix )
 {
-    return TEST_CASE_RESULT_ERR;
+    ctrl_undo_redo_iterator_t iter;
+    ctrl_undo_redo_iterator_init_empty( &iter );
+
+    bool has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( UTF8STRINGBUF_FALSE, has_next );
+
+    ctrl_undo_redo_iterator_destroy( &iter );
+
+    return TEST_CASE_RESULT_OK;
 }
 
 

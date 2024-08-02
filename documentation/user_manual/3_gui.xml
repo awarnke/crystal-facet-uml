@@ -98,7 +98,7 @@
                     <listitem>
                         <para>
                             Stores the latest changes to the database immediately.
-                            Note that at program exit, the database is stored automatically anyhow.
+                            Note that at regular program exit, the database is stored automatically anyhow.
                         </para>
                     </listitem>
                 </itemizedlist>
