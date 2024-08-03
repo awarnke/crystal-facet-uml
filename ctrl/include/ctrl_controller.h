@@ -15,6 +15,7 @@
 #include "ctrl_diagram_controller.h"
 #include "ctrl_diagram_trigger.h"
 #include "ctrl_undo_redo_list.h"
+#include "ctrl_undo_redo_iterator.h"
 #include "consistency/consistency_drop_invisibles.h"
 #include "consistency/consistency_lifeline.h"
 #include "storage/data_database.h"
@@ -127,16 +128,48 @@ static inline u8_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_s
 /*!
  *  \brief determines the statistics between the current history position and the last history boundary entry
  *
- *  Usage is intended for calls from the ctrl package, from outside there should be more suitable interfaces.
+ *  Usage is intended for calls from the ctrl package;
+ *  from outside the ctrl package, there should be more suitable interfaces.
  *
  *  \param this_ pointer to own object attributes
- *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
- *                 DATA_STAT_SERIES_DELETED.
- *                 *io_stat shall be initialized by caller, statistics are added to initial values.
+ *  \param[in,out] io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
+ *                         DATA_STAT_SERIES_DELETED.
+ *                         *io_stat shall be initialized by caller, statistics are added to initial values.
  *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of undo actions to be counted,
  *          U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t ctrl_controller_get_statistics ( ctrl_controller_t *this_, data_stat_t *io_stat );
+
+/*!
+ *  \brief gets an iterator on the last (=undo) set of actions
+ *
+ *  Before performing an undo, this function returns the expected changes.
+ *  After performing an successful redo, this function returns the changes.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_undo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
+ *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
+ *          U8_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
+ *          U8_ERROR_NONE otherwise.
+ */
+static inline u8_error_t ctrl_controller_get_undo_iterator ( const ctrl_controller_t *this_,
+                                                             ctrl_undo_redo_iterator_t *out_undo_iterator
+                                                           );
+
+/*!
+ *  \brief gets an iterator on the next (=redo) set of actions
+ *
+ *  Before performing an redo, this function returns the expected changes.
+ *  After performing an successful undo, this function returns the changes.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param[out] out_redo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
+ *  \return U8_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done
+ *          U8_ERROR_NONE otherwise.
+ */
+static inline u8_error_t ctrl_controller_get_redo_iterator ( const ctrl_controller_t *this_,
+                                                             ctrl_undo_redo_iterator_t *out_redo_iterator
+                                                           );
 
 /* ================================ interface for database file ================================ */
 

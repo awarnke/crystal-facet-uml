@@ -48,6 +48,20 @@ static inline u8_error_t ctrl_controller_get_statistics ( ctrl_controller_t *thi
     return ctrl_undo_redo_list_get_last_statistics( &((*this_).undo_redo_list), io_stat );
 }
 
+static inline u8_error_t ctrl_controller_get_undo_iterator ( const ctrl_controller_t *this_,
+                                                             ctrl_undo_redo_iterator_t *out_undo_iterator )
+{
+    assert ( NULL != out_undo_iterator );
+    return ctrl_undo_redo_list_get_undo_iterator( &((*this_).undo_redo_list), out_undo_iterator );
+}
+
+static inline u8_error_t ctrl_controller_get_redo_iterator ( const ctrl_controller_t *this_,
+                                                             ctrl_undo_redo_iterator_t *out_redo_iterator )
+{
+    assert ( NULL != out_redo_iterator );
+    return ctrl_undo_redo_list_get_redo_iterator( &((*this_).undo_redo_list), out_redo_iterator );
+}
+
 /* ================================ interface for database file ================================ */
 
 static inline u8_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_,

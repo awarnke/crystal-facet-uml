@@ -138,7 +138,7 @@ static inline u8_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_red
  *  \brief gets an iterator on the last (=undo) set of entries
  *
  *  \param this_ pointer to own object attributes
- *  \param out_undo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
+ *  \param[out] out_undo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
  *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
  *          U8_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
  *          U8_ERROR_NONE otherwise.
@@ -151,7 +151,7 @@ static inline u8_error_t ctrl_undo_redo_list_get_undo_iterator ( const ctrl_undo
  *  \brief gets an iterator on the next (=redo) set of entries
  *
  *  \param this_ pointer to own object attributes
- *  \param out_redo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
+ *  \param[out] out_redo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
  *  \return U8_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done
  *          U8_ERROR_NONE otherwise.
  */
