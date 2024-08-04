@@ -123,18 +123,6 @@ u8_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_, data_stat_t 
 u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
 
 /*!
- *  \brief determines the statistics between the current position and the last boundary entry
- *
- *  \param this_ pointer to own object attributes
- *  \param io_stat Statistics on DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED,
- *                 DATA_STAT_SERIES_DELETED.
- *                 *io_stat shall be initialized by caller, statistics are added to initial values.
- *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be counted,
- *          U8_ERROR_NONE otherwise.
- */
-static inline u8_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_redo_list_t *this_, data_stat_t *io_stat );
-
-/*!
  *  \brief gets an iterator on the last (=undo) set of entries
  *
  *  \param this_ pointer to own object attributes
@@ -143,9 +131,9 @@ static inline u8_error_t ctrl_undo_redo_list_get_last_statistics ( ctrl_undo_red
  *          U8_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
  *          U8_ERROR_NONE otherwise.
  */
-static inline u8_error_t ctrl_undo_redo_list_get_undo_iterator ( const ctrl_undo_redo_list_t *this_,
-                                                                 ctrl_undo_redo_iterator_t *out_undo_iterator
-                                                               );
+u8_error_t ctrl_undo_redo_list_get_undo_iterator ( const ctrl_undo_redo_list_t *this_,
+                                                   ctrl_undo_redo_iterator_t *out_undo_iterator
+                                                 );
 
 /*!
  *  \brief gets an iterator on the next (=redo) set of entries
@@ -155,9 +143,9 @@ static inline u8_error_t ctrl_undo_redo_list_get_undo_iterator ( const ctrl_undo
  *  \return U8_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done
  *          U8_ERROR_NONE otherwise.
  */
-static inline u8_error_t ctrl_undo_redo_list_get_redo_iterator ( const ctrl_undo_redo_list_t *this_,
-                                                                 ctrl_undo_redo_iterator_t *out_redo_iterator
-                                                               );
+u8_error_t ctrl_undo_redo_list_get_redo_iterator ( const ctrl_undo_redo_list_t *this_,
+                                                   ctrl_undo_redo_iterator_t *out_redo_iterator
+                                                 );
 
 /* ================================ DIAGRAM ================================ */
 

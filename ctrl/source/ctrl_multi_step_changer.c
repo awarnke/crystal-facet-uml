@@ -250,7 +250,11 @@ u8_error_t ctrl_multi_step_changer_delete_set ( ctrl_multi_step_changer_t *this_
         }
 
         /* update statistics based on undo redo list */
-        result |= ctrl_controller_get_statistics( (*this_).controller, io_stat );
+        ctrl_undo_redo_iterator_t iter;
+        ctrl_undo_redo_iterator_init_empty( &iter );
+        result |= ctrl_controller_get_undo_iterator( (*this_).controller, &iter );
+        ctrl_undo_redo_iterator_collect_statistics( &iter, false /* NOT categorize as undo */, io_stat );
+        ctrl_undo_redo_iterator_destroy( &iter );
     }
 
     U8_TRACE_END_ERR( result );

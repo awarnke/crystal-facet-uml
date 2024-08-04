@@ -94,6 +94,21 @@ static inline bool ctrl_undo_redo_iterator_has_next ( const ctrl_undo_redo_itera
  */
 static inline const ctrl_undo_redo_entry_t * ctrl_undo_redo_iterator_next ( ctrl_undo_redo_iterator_t *this_ );
 
+/*!
+ *  \brief iterates through the iterator and collects statistics
+ *
+ *  This function finds types DATA_STAT_SERIES_CREATED, DATA_STAT_SERIES_MODIFIED, DATA_STAT_SERIES_DELETED.
+ *  When finished, no more elements are left in the iterator.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param undo true if the action shall be counted as undone, false if it shall be counted as redone
+ *  \param io_stat[in,out] *io_stat shall be initialized by caller, statistics are added to initial values
+ */
+static inline void ctrl_undo_redo_iterator_collect_statistics ( ctrl_undo_redo_iterator_t *this_,
+                                                                bool undo,
+                                                                data_stat_t *io_stat
+                                                              );
+
 #include "ctrl_undo_redo_iterator.inl"
 
 #endif  /* CTRL_UNDO_REDO_ITERATOR_H */

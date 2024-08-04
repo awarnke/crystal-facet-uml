@@ -178,6 +178,145 @@ u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t 
     return result;
 }
 
+u8_error_t ctrl_undo_redo_list_get_undo_iterator ( const ctrl_undo_redo_list_t *this_,
+                                                   ctrl_undo_redo_iterator_t *out_undo_iterator )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != out_undo_iterator );
+    assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).current <= (*this_).length );  /* current is in 0..length, relative to start */
+    /*    B0   A1   A2   A3   B1   A4   B2   X   X    */
+    /*  0    1    2    3    4    5    6    7   8   9  */
+    /*  ^ start                            ^ current  */
+    /*  Boundaries B0..2, Actions A1..4 */
+    u8_error_t result = U8_ERROR_NONE;
+
+    if ( (*this_).current > 0 )
+    {
+        const uint32_t last
+            = ( (*this_).start + (*this_).current + CTRL_UNDO_REDO_LIST_MAX_SIZE - 2 ) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        const uint32_t undo_length = (*this_).current - 1;  /* total number of undo entries */
+        uint32_t count = 0;
+        {
+            ctrl_undo_redo_iterator_t pre_scan;
+            ctrl_undo_redo_iterator_init( &pre_scan,
+                                          &((*this_).buffer),
+                                          CTRL_UNDO_REDO_LIST_MAX_SIZE,
+                                          false, /* NOT iterate_upwards */
+                                          last,
+                                          undo_length
+                                        );
+            for( bool finished = false; ctrl_undo_redo_iterator_has_next( &pre_scan ) && ( ! finished ); )
+            {
+                const ctrl_undo_redo_entry_t *next = ctrl_undo_redo_iterator_next( &pre_scan );
+                if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( next ) )
+                {
+                    finished = true;
+                }
+                else
+                {
+                    count ++;
+                }
+            }
+            ctrl_undo_redo_iterator_destroy( &pre_scan );
+        }
+        if ( count == undo_length )
+        {
+            /* no boundary found */
+            if ( (*this_).buffer_incomplete )
+            {
+                result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            else
+            {
+                assert( count == 0 );  /* this should happen only when (*this_).current is at the initial boundary */
+                result = U8_ERROR_INVALID_REQUEST;
+            }
+        }
+        else
+        {
+            assert( count < undo_length );
+            ctrl_undo_redo_iterator_reinit( out_undo_iterator,
+                                            &((*this_).buffer),
+                                            CTRL_UNDO_REDO_LIST_MAX_SIZE,
+                                            false, /* NOT iterate_upwards */
+                                            last,
+                                            count
+                                          );
+        }
+    }
+    else
+    {
+        assert( false );  /* already at the start of the list, not even a single boundary is there anymore */
+        result = U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+u8_error_t ctrl_undo_redo_list_get_redo_iterator ( const ctrl_undo_redo_list_t *this_,
+                                                   ctrl_undo_redo_iterator_t *out_redo_iterator )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != out_redo_iterator );
+    assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).current <= (*this_).length );  /* current is in 0..length, relative to start */
+    /*    B0   A1   A2   A3   B1   A4   B2   X   X    */
+    /*  0    1    2    3    4    5    6    7   8   9  */
+    /*  ^ start                            ^ current  */
+    /*  Boundaries B0..2, Actions A1..4 */
+    u8_error_t result = U8_ERROR_NONE;
+
+    const uint32_t next
+        = ( (*this_).start + (*this_).current ) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+    const uint32_t redo_length = (*this_).length - (*this_).current;  /* total number of redo entries */
+    if ( redo_length > 0 )
+    {
+        uint32_t count = 0;
+        {
+            ctrl_undo_redo_iterator_t pre_scan;
+            ctrl_undo_redo_iterator_init( &pre_scan,
+                                          &((*this_).buffer),
+                                          CTRL_UNDO_REDO_LIST_MAX_SIZE,
+                                          true, /* iterate_upwards */
+                                          next,
+                                          redo_length
+                                        );
+            for( bool finished = false; ctrl_undo_redo_iterator_has_next( &pre_scan ) && ( ! finished ); )
+            {
+                const ctrl_undo_redo_entry_t *next = ctrl_undo_redo_iterator_next( &pre_scan );
+                if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( next ) )
+                {
+                    finished = true;
+                }
+                else
+                {
+                    count ++;
+                }
+            }
+            ctrl_undo_redo_iterator_destroy( &pre_scan );
+        }
+        assert( count < redo_length );
+        ctrl_undo_redo_iterator_reinit( out_redo_iterator,
+                                        &((*this_).buffer),
+                                        CTRL_UNDO_REDO_LIST_MAX_SIZE,
+                                        true, /* iterate_upwards */
+                                        next,
+                                        count
+                                      );
+    }
+    else
+    {
+        result = U8_ERROR_INVALID_REQUEST;
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 /* ================================ private ================================ */
 
 ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_redo_list_t *this_ )

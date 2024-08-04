@@ -10,9 +10,10 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
-static test_case_result_t testIterateForward( test_fixture_t *fix );
-static test_case_result_t testIterateReverse( test_fixture_t *fix );
-static test_case_result_t testEmpty( test_fixture_t *fix );
+static test_case_result_t test_iterate_forward( test_fixture_t *fix );
+static test_case_result_t test_iterate_reverse( test_fixture_t *fix );
+static test_case_result_t test_empty( test_fixture_t *fix );
+static test_case_result_t test_statistics( test_fixture_t *fix );
 
 test_suite_t ctrl_undo_redo_iterator_test_get_suite(void)
 {
@@ -23,9 +24,10 @@ test_suite_t ctrl_undo_redo_iterator_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
-    test_suite_add_test_case( &result, "testIterateForward", &testIterateForward );
-    test_suite_add_test_case( &result, "testIterateReverse", &testIterateReverse );
-    test_suite_add_test_case( &result, "testEmpty", &testEmpty );
+    test_suite_add_test_case( &result, "test_iterate_forward", &test_iterate_forward );
+    test_suite_add_test_case( &result, "test_iterate_reverse", &test_iterate_reverse );
+    test_suite_add_test_case( &result, "test_empty", &test_empty );
+    test_suite_add_test_case( &result, "test_statistics", &test_statistics );
     return result;
 }
 
@@ -34,7 +36,11 @@ struct test_fixture_struct {
     const ctrl_undo_redo_entry_t ring_buf[CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE];
 };
 typedef struct test_fixture_struct test_fixture_t;
-static test_fixture_t test_fixture;
+static test_fixture_t test_fixture = { .ring_buf = {
+    [0]={.action_type=CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM},
+    [1]={.action_type=CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT},
+    [2]={.action_type=CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER}
+}};
 
 static test_fixture_t * set_up()
 {
@@ -47,7 +53,7 @@ static void tear_down( test_fixture_t *fix )
     assert( fix != NULL );
 }
 
-static test_case_result_t testIterateForward( test_fixture_t *fix )
+static test_case_result_t test_iterate_forward( test_fixture_t *fix )
 {
     ctrl_undo_redo_iterator_t iter;
     ctrl_undo_redo_iterator_init( &iter,
@@ -87,7 +93,7 @@ static test_case_result_t testIterateForward( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testIterateReverse( test_fixture_t *fix )
+static test_case_result_t test_iterate_reverse( test_fixture_t *fix )
 {
     ctrl_undo_redo_iterator_t iter;
     ctrl_undo_redo_iterator_init( &iter,
@@ -129,13 +135,43 @@ static test_case_result_t testIterateReverse( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testEmpty( test_fixture_t *fix )
+static test_case_result_t test_empty( test_fixture_t *fix )
 {
     ctrl_undo_redo_iterator_t iter;
     ctrl_undo_redo_iterator_init_empty( &iter );
 
     bool has_next = ctrl_undo_redo_iterator_has_next( &iter );
     TEST_EXPECT_EQUAL_INT( UTF8STRINGBUF_FALSE, has_next );
+
+    ctrl_undo_redo_iterator_destroy( &iter );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_statistics( test_fixture_t *fix )
+{
+    ctrl_undo_redo_iterator_t iter;
+    ctrl_undo_redo_iterator_init( &iter,
+                                  &((*fix).ring_buf),
+                                  CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE,
+                                  false, /* iterate_upwards */
+                                  0, /* current */
+                                  CTRL_UNDO_REDO_ITERATOR_TEST_BUF_SIZE /* length */
+                                );
+
+    data_stat_t stat;
+    data_stat_init( &stat );
+
+    ctrl_undo_redo_iterator_collect_statistics( &iter, true /*categorize as undo*/, &stat );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_MODIFIED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAMELEMENT, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_CREATED ) );
+    TEST_EXPECT_EQUAL_INT( 3, data_stat_get_total_count( &stat ) );
+
+    bool has_next = ctrl_undo_redo_iterator_has_next( &iter );
+    TEST_EXPECT_EQUAL_INT( UTF8STRINGBUF_FALSE, has_next );
+
+    data_stat_destroy( &stat );
 
     ctrl_undo_redo_iterator_destroy( &iter );
 

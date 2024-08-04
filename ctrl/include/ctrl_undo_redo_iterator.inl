@@ -69,6 +69,18 @@ static inline const ctrl_undo_redo_entry_t * ctrl_undo_redo_iterator_next ( ctrl
     return result;
 }
 
+static inline void ctrl_undo_redo_iterator_collect_statistics ( ctrl_undo_redo_iterator_t *this_,
+                                                                bool undo,
+                                                                data_stat_t *io_stat )
+{
+    assert( io_stat != NULL );
+    while ( ctrl_undo_redo_iterator_has_next( this_ ) )
+    {
+        const ctrl_undo_redo_entry_t *const current_entry = ctrl_undo_redo_iterator_next( this_ );
+        ctrl_undo_redo_entry_to_statistics ( current_entry, undo /*=undo*/, false /*=err*/, io_stat );
+    }
+}
+
 
 /*
 Copyright 2024-2024 Andreas Warnke
