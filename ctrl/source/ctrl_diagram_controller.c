@@ -278,7 +278,8 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
         data_diagram_destroy( &old_diagram );
 
         /* report statistics */
-        /* changing diagram types may create or delete lifelines, therefore ask the undo_redo_list for statistics */
+        /* changing diagram types may create or delete lifelines and messages, */
+        /* therefore ask the undo_redo_list for statistics */
         ctrl_undo_redo_iterator_t iter;
         ctrl_undo_redo_iterator_init_empty( &iter );
         result |= ctrl_undo_redo_list_get_undo_iterator( (*this_).undo_redo_list, &iter );

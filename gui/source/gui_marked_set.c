@@ -11,7 +11,10 @@ static bool gui_marked_set_glib_signal_initialized = false;
 static guint gui_marked_set_glib_signal_id = 0;
 const char *GUI_MARKED_SET_GLIB_SIGNAL_NAME = "cfu_object_selected";
 
-void gui_marked_set_init( gui_marked_set_t *this_, GObject *signal_source )
+void gui_marked_set_init ( gui_marked_set_t *this_,
+                           GObject *signal_source,
+                           void(*request_focus_call)(struct gui_sketch_area_struct* user_data, data_id_t diagram_wish),
+                           void* request_focus_user_data )
 {
     U8_TRACE_BEGIN();
     assert( NULL != signal_source );
@@ -46,21 +49,8 @@ void gui_marked_set_init( gui_marked_set_t *this_, GObject *signal_source )
 
     (*this_).signal_source = signal_source;
 
-    U8_TRACE_END();
-}
-
-void gui_marked_set_reinit( gui_marked_set_t *this_ )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != (*this_).signal_source );
-
-    data_full_id_init_void( &((*this_).focused) );
-    data_id_init_void( &((*this_).focused_diagram) );
-    data_id_init_void( &((*this_).highlighted) );
-    (*this_).highlighted_kind = LAYOUT_SUBELEMENT_KIND_VOID;
-    data_id_init_void( &((*this_).highlighted_diagram) );
-    (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
-    data_small_set_reinit( &((*this_).selected_set) );
+    (*this_).request_focus_call = request_focus_call;
+    (*this_).request_focus_user_data = request_focus_user_data;
 
     U8_TRACE_END();
 }
@@ -75,6 +65,24 @@ void gui_marked_set_destroy( gui_marked_set_t *this_ )
     data_id_destroy( &((*this_).highlighted_diagram) );
     data_small_set_destroy( &((*this_).selected_set) );
     (*this_).signal_source = NULL;
+    (*this_).request_focus_call = NULL;
+    (*this_).request_focus_user_data = NULL;
+
+    U8_TRACE_END();
+}
+
+void gui_marked_set_reset( gui_marked_set_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != (*this_).signal_source );
+
+    data_full_id_init_void( &((*this_).focused) );
+    data_id_init_void( &((*this_).focused_diagram) );
+    data_id_init_void( &((*this_).highlighted) );
+    (*this_).highlighted_kind = LAYOUT_SUBELEMENT_KIND_VOID;
+    data_id_init_void( &((*this_).highlighted_diagram) );
+    (*this_).highlighted_button = GUI_SKETCH_ACTION_NONE;
+    data_small_set_reinit( &((*this_).selected_set) );
 
     U8_TRACE_END();
 }

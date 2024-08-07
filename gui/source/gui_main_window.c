@@ -69,7 +69,11 @@ void gui_main_window_init( gui_main_window_t *this_,
         current_clipboard = gtk_widget_get_clipboard( GTK_WIDGET((*this_).window) );  /* idea taken from gtk demo */
     }
 
-    gui_marked_set_init( &((*this_).marker_data), G_OBJECT((*this_).window) );
+    gui_marked_set_init( &((*this_).marker_data),
+                         G_OBJECT((*this_).window),
+                         &gui_sketch_area_show_diagram,
+                         &((*this_).sketcharea_data)
+                       );
     gui_toolbox_init( &((*this_).tools_data),
                       GTK_WIDGET((*this_).tool_row),
                       GTK_WIDGET((*this_).view_navigate),

@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.59.0"
+    "generator_version": "1.59.1"
   }
   ,
   "views":
@@ -3085,6 +3085,48 @@
             "classifier_name": "chosen",
             "node": "d37609cd-0039-41e2-add0-fb6367dceeff",
             "uuid": "3c81ba26-bd99-4d27-9df4-437f42c7bb89"
+          },
+          {
+            "id": 334,
+            "display_flags": 0,
+            "classifier_name": "SW",
+            "node": "c46afe48-7549-42c9-8992-e90e63c8613e",
+            "uuid": "2fba405f-6593-4fba-986f-62a6a1a4e89d"
+          },
+          {
+            "id": 335,
+            "display_flags": 0,
+            "classifier_name": "SW-img",
+            "node": "c225b5d5-37b5-4816-a6e0-cb51b1f6a37e",
+            "uuid": "8c7887cd-dba9-4641-ace4-e960ae5c0777"
+          },
+          {
+            "id": 336,
+            "display_flags": 0,
+            "classifier_name": "HW",
+            "node": "66cc5d17-4a3f-4756-9fda-5094bbbb6034",
+            "uuid": "4e4f9575-d5b0-490f-8dcb-51337d05cdde"
+          },
+          {
+            "id": 337,
+            "display_flags": 0,
+            "classifier_name": "HW-img",
+            "node": "2fc8a02c-5537-4bd3-acbd-a7158c39889d",
+            "uuid": "5dd2c7a2-c873-4593-8d59-e95867115dfd"
+          },
+          {
+            "id": 338,
+            "display_flags": 0,
+            "classifier_name": "EE",
+            "node": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
+            "uuid": "a9c608d8-a494-4376-9897-bd43038d9862"
+          },
+          {
+            "id": 339,
+            "display_flags": 0,
+            "classifier_name": "EE-img",
+            "node": "9046bd5b-70c4-45e4-b894-36e31a67de97",
+            "uuid": "f3834ca7-df8a-4c4f-9fc2-81414c56a396"
           }
         ]
       }
@@ -3552,7 +3594,7 @@
         "id": 19,
         "main_type": 90,
         "type": "Block",
-        "stereotype": "HW",
+        "stereotype": "EE",
         "name": "Electrical Parts and Electronics",
         "description": [
                 "The main components of the electric parts are:\n",
@@ -5029,7 +5071,7 @@
         "id": 91,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "sw_engineering",
+        "stereotype": "SW",
         "name": "Develop Software",
         "description": [
                 "A team of engineers designs, produces and tests the control logic and factory data of the droids."
@@ -6010,7 +6052,7 @@
         "id": 135,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "hw_design",
+        "stereotype": "HW",
         "name": "Design Hardware",
         "description": [
                 "A team of engineers designs, produces and tests the mechanical hardware parts of the droids."
@@ -6029,7 +6071,7 @@
         "id": 136,
         "main_type": 101,
         "type": "UseCase",
-        "stereotype": "electronics_design",
+        "stereotype": "EE",
         "name": "Electrical Engineering",
         "description": [
                 "A team of engineers designs, produces and tests the electrical and electronic parts of the droids."
@@ -7379,6 +7421,143 @@
         "y_order": -688698802,
         "list_order": -688698802,
         "uuid": "580f3aaa-a590-43f1-bd18-0b608951290d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 196,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "SW",
+        "description": [
+                "<path fill=\"#eeffdd\" d=\"\n",
+                "M 1.5,5 \n",
+                "L 2,3\n",
+                "C 4,2 6,2, 8,3\n",
+                "L 8.5,5 7.5,5 8,4\n",
+                "C 6,5 4,5 2,4\n",
+                "L 2.5,5 1.5,5 \n",
+                " \" />"
+        ],
+        "x_order": 1103928885,
+        "y_order": -1738517685,
+        "list_order": -1738517685,
+        "uuid": "c46afe48-7549-42c9-8992-e90e63c8613e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 197,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "SW",
+        "name": "SW-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1510836225,
+        "y_order": -1738517685,
+        "list_order": -1738517685,
+        "uuid": "c225b5d5-37b5-4816-a6e0-cb51b1f6a37e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 198,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "HW",
+        "description": [
+                "<path fill=\"#eeddff\" d=\"\n",
+                "M 1,3 \n",
+                "L 5,1 7,1 7.5,2 2,5 z\n",
+                " \" />\n",
+                "<path d=\"\n",
+                "M 4,4 \n",
+                "L 7,10 8,9.5 5,3.5\n",
+                " \" />"
+        ],
+        "x_order": 1103928885,
+        "y_order": -1883935665,
+        "list_order": -1883935665,
+        "uuid": "66cc5d17-4a3f-4756-9fda-5094bbbb6034",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 199,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "HW",
+        "name": "HW-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1510836225,
+        "y_order": -1883935665,
+        "list_order": -1883935665,
+        "uuid": "2fc8a02c-5537-4bd3-acbd-a7158c39889d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 200,
+        "main_type": 139,
+        "type": "Stereotype",
+        "name": "EE",
+        "description": [
+                "<path fill=\"#ffffdd\" d=\"\n",
+                "M 1,5 \n",
+                "L 3,5 3,3.5, 5,5 3,6.5 3,5\n",
+                "M 5,3.5\n",
+                "L 5,6.5\n",
+                "M 5,5\n",
+                "L 7,5\" />\n",
+                "<path d=\"\n",
+                "M 4,3 \n",
+                "L 5,1 4.5,1.5\n",
+                "M 5,3 \n",
+                "L 6,1 5.5,1.5\n",
+                "\" />"
+        ],
+        "x_order": 1103928885,
+        "y_order": -2039976797,
+        "list_order": -2039976797,
+        "uuid": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 201,
+        "main_type": 138,
+        "type": "Image",
+        "stereotype": "EE",
+        "name": "EE-img",
+        "description": [
+                ""
+        ],
+        "x_order": 1510836225,
+        "y_order": -2039976797,
+        "list_order": -2039976797,
+        "uuid": "9046bd5b-70c4-45e4-b894-36e31a67de97",
         "features":
         [
         ]
@@ -12063,6 +12242,57 @@
         "from_node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
         "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
         "uuid": "5984e61e-aa4c-4e5a-be6a-52b27e6a8b77"
+      }
+    },
+    {
+      "relationship": {
+        "id": 306,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "SW",
+        "to_classifier_name": "SW-img",
+        "from_node": "c46afe48-7549-42c9-8992-e90e63c8613e",
+        "to_node": "c225b5d5-37b5-4816-a6e0-cb51b1f6a37e",
+        "uuid": "afacc0d3-87ff-4101-b7a7-5f72494c1aad"
+      }
+    },
+    {
+      "relationship": {
+        "id": 307,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "HW",
+        "to_classifier_name": "HW-img",
+        "from_node": "66cc5d17-4a3f-4756-9fda-5094bbbb6034",
+        "to_node": "2fc8a02c-5537-4bd3-acbd-a7158c39889d",
+        "uuid": "5f658e9e-c822-4109-95b1-61c073238871"
+      }
+    },
+    {
+      "relationship": {
+        "id": 308,
+        "main_type": 202,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 491520,
+        "from_classifier_name": "EE",
+        "to_classifier_name": "EE-img",
+        "from_node": "eb640ad2-a02f-4314-8245-e9d8f012a74e",
+        "to_node": "9046bd5b-70c4-45e4-b894-36e31a67de97",
+        "uuid": "76c83dc1-4828-4d26-800e-5a15ee45d4d2"
       }
     }
   ]

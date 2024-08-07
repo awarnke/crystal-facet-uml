@@ -32,7 +32,17 @@ static inline data_classifier_t *ctrl_undo_redo_entry_get_classifier_before_acti
     return &((*this_).data_before_action.classifier);
 }
 
+static inline const data_classifier_t *ctrl_undo_redo_entry_get_classifier_before_action_const ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_before_action.classifier);
+}
+
 static inline data_diagram_t *ctrl_undo_redo_entry_get_diagram_before_action_ptr ( ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_before_action.diagram);
+}
+
+static inline const data_diagram_t *ctrl_undo_redo_entry_get_diagram_before_action_const ( const ctrl_undo_redo_entry_t *this_ )
 {
     return &((*this_).data_before_action.diagram);
 }
@@ -42,7 +52,17 @@ static inline data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_bef
     return &((*this_).data_before_action.diagramelement);
 }
 
+static inline const data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_before_action_const ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_before_action.diagramelement);
+}
+
 static inline data_relationship_t *ctrl_undo_redo_entry_get_relationship_before_action_ptr ( ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_before_action.relationship);
+}
+
+static inline const data_relationship_t *ctrl_undo_redo_entry_get_relationship_before_action_const ( const ctrl_undo_redo_entry_t *this_ )
 {
     return &((*this_).data_before_action.relationship);
 }
@@ -52,7 +72,17 @@ static inline data_feature_t *ctrl_undo_redo_entry_get_feature_before_action_ptr
     return &((*this_).data_before_action.feature);
 }
 
+static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_before_action_const ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_before_action.feature);
+}
+
 static inline data_classifier_t *ctrl_undo_redo_entry_get_classifier_after_action_ptr ( ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_after_action.classifier);
+}
+
+static inline const data_classifier_t *ctrl_undo_redo_entry_get_classifier_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
 {
     return &((*this_).data_after_action.classifier);
 }
@@ -62,7 +92,17 @@ static inline data_diagram_t *ctrl_undo_redo_entry_get_diagram_after_action_ptr 
     return &((*this_).data_after_action.diagram);
 }
 
+static inline const data_diagram_t *ctrl_undo_redo_entry_get_diagram_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_after_action.diagram);
+}
+
 static inline data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_after_action_ptr ( ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_after_action.diagramelement);
+}
+
+static inline const data_diagramelement_t *ctrl_undo_redo_entry_get_diagramelement_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
 {
     return &((*this_).data_after_action.diagramelement);
 }
@@ -72,7 +112,17 @@ static inline data_relationship_t *ctrl_undo_redo_entry_get_relationship_after_a
     return &((*this_).data_after_action.relationship);
 }
 
+static inline const data_relationship_t *ctrl_undo_redo_entry_get_relationship_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_after_action.relationship);
+}
+
 static inline data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_ptr ( ctrl_undo_redo_entry_t *this_ )
+{
+    return &((*this_).data_after_action.feature);
+}
+
+static inline const data_feature_t *ctrl_undo_redo_entry_get_feature_after_action_const ( const ctrl_undo_redo_entry_t *this_ )
 {
     return &((*this_).data_after_action.feature);
 }

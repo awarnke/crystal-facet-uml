@@ -125,6 +125,8 @@ u8_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_, data_stat_t 
 /*!
  *  \brief gets an iterator on the last (=undo) set of entries
  *
+ *  The iterator is valid only till the next change action on the data.
+ *
  *  \param this_ pointer to own object attributes
  *  \param[out] out_undo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
  *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
@@ -137,6 +139,8 @@ u8_error_t ctrl_undo_redo_list_get_undo_iterator ( const ctrl_undo_redo_list_t *
 
 /*!
  *  \brief gets an iterator on the next (=redo) set of entries
+ *
+ *  The iterator is valid only till the next change action on the data.
  *
  *  \param this_ pointer to own object attributes
  *  \param[out] out_redo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)

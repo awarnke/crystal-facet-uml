@@ -17,6 +17,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+struct gui_sketch_area_struct;
+
 /*!
  *  \brief attributes of the marked set
  *
@@ -31,15 +33,18 @@ struct gui_marked_set_struct {
     data_full_id_t focused;  /*!<  references the one focused visible object, */
                              /*!<  e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
                              /*!<  with an optional classifier id as the secondary id */
-    data_id_t focused_diagram;  /*!< the focused diagram is the place where to e.g. insert pasted objects. */
-                                /*!< Even if the focused object is VOID, the focused_diagram should be set */
+    data_id_t focused_diagram;  /*!<  the focused diagram is the place where to e.g. insert pasted objects. */
+                                /*!<  Even if the focused object is VOID, the focused_diagram should be set */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
-    layout_subelement_kind_t highlighted_kind;  /*!< specifies which part of the element is highlighted */
-    data_id_t highlighted_diagram;  /*!< the highlighted diagram, the diagram to zoom in when clicking on the highlighted id */
+    layout_subelement_kind_t highlighted_kind;  /*!<  specifies which part of the element is highlighted */
+    data_id_t highlighted_diagram;  /*!<  the highlighted diagram, the diagram to zoom in when clicking on the highlighted id */
     gui_sketch_action_t highlighted_button;  /*!<  the buttons action-id if the highlighted/mouse over object is a button */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
 
     GObject *signal_source;  /*!<  The source gobject from which the changed-signal shall be emitted */
+    void(*request_focus_call)(struct gui_sketch_area_struct* user_data, data_id_t diagram_wish);  /*!<  A function */
+                                                               /*!<  to call for requesting the focus on a diagram */
+    void* request_focus_user_data;  /*!<  The user data for a function to call for requesting the focus on a diagram */
 };
 
 typedef struct gui_marked_set_struct gui_marked_set_t;
@@ -51,17 +56,14 @@ extern const char *GUI_MARKED_SET_GLIB_SIGNAL_NAME;
  *
  *  \param this_ pointer to own object attributes
  *  \param signal_source the gobject at which listeners need to register to get changed-notifications
+ *  \param request_focus_call A function to call for requesting the focus on a diagram
+ *  \param request_focus_user_data The user data for a function to call for requesting the focus on a diagram
  */
-void gui_marked_set_init ( gui_marked_set_t *this_, GObject *signal_source );
-
-/*!
- *  \brief re-initializes the gui_marked_set_t struct
- *
- *  The signal_source stays unchanged.
- *
- *  \param this_ pointer to own object attributes
- */
-void gui_marked_set_reinit ( gui_marked_set_t *this_ );
+void gui_marked_set_init ( gui_marked_set_t *this_,
+                           GObject *signal_source,
+                           void(*request_focus_call)(struct gui_sketch_area_struct* user_data, data_id_t diagram_wish),
+                           void* request_focus_user_data
+                         );
 
 /*!
  *  \brief destroys the gui_marked_set_t struct
@@ -69,6 +71,15 @@ void gui_marked_set_reinit ( gui_marked_set_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void gui_marked_set_destroy ( gui_marked_set_t *this_ );
+
+/*!
+ *  \brief resets the gui_marked_set_t struct to empty
+ *
+ *  The signal_source and request_focus_call stay unchanged.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_marked_set_reset ( gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the focused object id
@@ -102,6 +113,14 @@ static inline data_id_t gui_marked_set_get_focused_diagram ( const gui_marked_se
  *  \return true if focused object id is valid
  */
 static inline bool gui_marked_set_has_focus ( const gui_marked_set_t *this_ );
+
+/*!
+ *  \brief requests to change the focus to the focused_diagram id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_wish if of the requested diagram to focus on.
+ */
+static inline void gui_marked_set_request_focused_diagram ( const gui_marked_set_t *this_, data_id_t diagram_wish );
 
 /*!
  *  \brief gets the highlighted object id

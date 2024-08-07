@@ -131,6 +131,8 @@ static inline u8_error_t ctrl_controller_redo ( ctrl_controller_t *this_, data_s
  *  Before performing an undo, this function returns the expected changes.
  *  After performing an successful redo, this function returns the changes.
  *
+ *  The iterator is valid only till the next change action on the data.
+ *
  *  \param this_ pointer to own object attributes
  *  \param[out] out_undo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)
  *  \return U8_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
@@ -146,6 +148,8 @@ static inline u8_error_t ctrl_controller_get_undo_iterator ( const ctrl_controll
  *
  *  Before performing an redo, this function returns the expected changes.
  *  After performing an successful undo, this function returns the changes.
+ *
+ *  The iterator is valid only till the next change action on the data.
  *
  *  \param this_ pointer to own object attributes
  *  \param[out] out_redo_iterator a valid iterator if U8_ERROR_NONE (providing NULL is not allowed)

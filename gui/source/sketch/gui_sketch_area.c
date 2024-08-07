@@ -1804,7 +1804,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
         gui_sketch_result_list_invalidate_data( &((*this_).result_list) );
 
         /* do not keep selected or focued objects */
-        gui_marked_set_reinit( (*this_).marker );
+        gui_marked_set_reset( (*this_).marker );
 
         /* reset the currently visible diagram */
         gui_sketch_request_reinit( &((*this_).request) );

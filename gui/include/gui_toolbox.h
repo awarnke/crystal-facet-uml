@@ -179,6 +179,13 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data );
 gboolean gui_toolbox_redo_shortcut_callback( GtkWidget* widget, GVariant* args, gpointer user_data );
 
 /*!
+ *  \brief searches a suitable diagram to show the changes
+ */
+void gui_toolbox_private_show_changes( gui_toolbox_t *this_,
+                                       ctrl_undo_redo_iterator_t *action_iterator
+                                     );
+
+/*!
  *  \brief notifies the listeners
  *
  *  \param this_ pointer to own object attributes

@@ -22,6 +22,11 @@ static inline bool gui_marked_set_has_focus ( const gui_marked_set_t *this_ )
     return data_full_id_is_valid( &((*this_).focused) );
 }
 
+static inline void gui_marked_set_request_focused_diagram ( const gui_marked_set_t *this_, data_id_t diagram_wish )
+{
+    (*this_).request_focus_call( (*this_).request_focus_user_data, diagram_wish );
+}
+
 static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t *this_ )
 {
     return( (*this_).highlighted );

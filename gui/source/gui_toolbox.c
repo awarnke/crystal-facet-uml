@@ -155,14 +155,15 @@ void gui_toolbox_set_selected_tool_and_focus ( gui_toolbox_t *this_, gui_tool_t 
     /* switch tool */
     gui_toolbox_set_selected_tool( this_, tool );
 
-    /* clear selected set (no notification) */
-    gui_marked_set_clear_selected_set( (*this_).marker );
+    const data_id_t current_focus = gui_marked_set_get_focused_diagram( (*this_).marker );
+    if ( ! data_id_equals_or_both_void( &focused_diagram, &current_focus ) )
+    {
+        /* clear selected set (no notification) */
+        gui_marked_set_clear_selected_set( (*this_).marker );
 
-    /* load data to be drawn (sends a notification) */
-    data_full_id_t element_id;
-    data_full_id_init_solo( &element_id, focused_diagram );
-    gui_marked_set_set_focused( (*this_).marker, element_id, focused_diagram );
-    data_full_id_destroy( &element_id );
+        /* request to load the diagram to focus on */
+        gui_marked_set_request_focused_diagram( (*this_).marker, focused_diagram );
+    }
 
     U8_TRACE_END();
 }
@@ -694,6 +695,15 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
 
     ctrl_err = ctrl_controller_undo( (*this_).controller, &stat );
 
+    /* find a diagram that can show the changes */
+    {
+        ctrl_undo_redo_iterator_t iter;
+        ctrl_undo_redo_iterator_init_empty( &iter );
+        ctrl_err |= ctrl_controller_get_redo_iterator( (*this_).controller, &iter );
+        gui_toolbox_private_show_changes( this_, &iter );
+        ctrl_undo_redo_iterator_destroy( &iter );
+    }
+
     /* in case a new diagram was pasted, go to nav mode */
     if ( ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) )
         || ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ) ) )
@@ -752,6 +762,15 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
 
     ctrl_err = ctrl_controller_redo( (*this_).controller, &stat );
 
+    /* find a diagram that can show the changes */
+    {
+        ctrl_undo_redo_iterator_t iter;
+        ctrl_undo_redo_iterator_init_empty( &iter );
+        ctrl_err |= ctrl_controller_get_undo_iterator( (*this_).controller, &iter );
+        gui_toolbox_private_show_changes( this_, &iter );
+        ctrl_undo_redo_iterator_destroy( &iter );
+    }
+
     /* in case a new diagram was pasted, go to nav mode */
     if ( ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_CREATED ) )
         || ( 0 != data_stat_get_count( &stat, DATA_STAT_TABLE_DIAGRAM, DATA_STAT_SERIES_DELETED ) ) )
@@ -790,6 +809,100 @@ gboolean gui_toolbox_redo_shortcut_callback( GtkWidget* widget, GVariant* args, 
 {
     gui_toolbox_redo_btn_callback( widget, user_data );
     return TRUE;
+}
+
+void gui_toolbox_private_show_changes( gui_toolbox_t *this_,
+                                       ctrl_undo_redo_iterator_t *action_iterator )
+{
+    U8_TRACE_BEGIN();
+    data_id_t display_diag_nav = DATA_ID_VOID;  /* display this diagram in navigation mode, prio 1 */
+    data_id_t display_diag_edit = DATA_ID_VOID;  /* display this diagram in edit mode, prio 2 */
+
+    while( ctrl_undo_redo_iterator_has_next( action_iterator ) )
+    {
+        const ctrl_undo_redo_entry_t *const probe = ctrl_undo_redo_iterator_next( action_iterator );
+
+        switch( ctrl_undo_redo_entry_get_action_type( probe ) )
+        {
+             case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM:
+             {
+                 const data_diagram_t *const diag
+                     = ctrl_undo_redo_entry_get_diagram_before_action_const( probe );
+                 display_diag_nav = data_diagram_get_parent_data_id( diag );
+             }
+             break;
+
+             case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM:
+             {
+                 const data_diagram_t *const diag
+                     = ctrl_undo_redo_entry_get_diagram_after_action_const( probe );
+                 display_diag_nav = data_diagram_get_parent_data_id( diag );
+             }
+             break;
+
+             case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM:
+             {
+                 const data_diagram_t *const diag
+                     = ctrl_undo_redo_entry_get_diagram_after_action_const( probe );
+                 display_diag_edit = data_diagram_get_data_id( diag );
+             }
+             break;
+
+             case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT:
+             {
+                 const data_diagramelement_t *const diagele
+                     = ctrl_undo_redo_entry_get_diagramelement_before_action_const( probe );
+                 display_diag_edit = data_diagramelement_get_diagram_data_id( diagele );
+             }
+             break;
+
+             case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT:
+             {
+                 const data_diagramelement_t *const diagele
+                     = ctrl_undo_redo_entry_get_diagramelement_after_action_const( probe );
+                 display_diag_edit = data_diagramelement_get_diagram_data_id( diagele );
+             }
+             break;
+
+             case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP:
+             {
+                 U8_LOG_ANOMALY( "gui_toolbox_private_show_changes runs into un-implemented switch-case." );
+             }
+             break;
+
+             default:  /* ... or ... */
+             case CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY:
+             {
+                 U8_LOG_WARNING( "gui_toolbox_private_show_changes runs into unexpected switch-case." );
+                 assert( false );
+             }
+             break;
+        }
+    }
+
+    if ( data_id_is_valid( &display_diag_nav ) )
+    {
+        gui_toolbox_set_selected_tool_and_focus( this_, GUI_TOOL_NAVIGATE, display_diag_nav );
+    }
+    else if ( data_id_is_valid( &display_diag_edit ) )
+    {
+        gui_toolbox_set_selected_tool_and_focus( this_, GUI_TOOL_EDIT, display_diag_edit );
+    }
+    else
+    {
+        U8_LOG_ANOMALY( "gui_toolbox_private_show_changes did not find a diagram to show the changes." );
+    }
+
+    U8_TRACE_END();
 }
 
 void gui_toolbox_private_notify_listeners( gui_toolbox_t *this_ )

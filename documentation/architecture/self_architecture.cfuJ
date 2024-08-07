@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.59.0"
+    "generator_version": "1.59.1"
   }
   ,
   "views":
@@ -3284,6 +3284,13 @@
             "classifier_name": "gui_sketch_result_list",
             "node": "235a527e-3f82-4624-92d0-008f6b9122cc",
             "uuid": "9d22d5bd-be3c-4f0a-ac4e-f30b6df26884"
+          },
+          {
+            "id": 886,
+            "display_flags": 0,
+            "classifier_name": "gui_marked_set",
+            "node": "ba3f0d81-fbdf-43d3-a68e-4ef11bfba6b7",
+            "uuid": "1745a2ad-6210-4d0d-8a9b-8c4daa5a082d"
           }
         ]
       }
@@ -3453,6 +3460,13 @@
             "classifier_name": "ctrl",
             "node": "121605a6-53a2-4a6c-bcc9-733e45ceea2a",
             "uuid": "22bc5734-2406-410a-a92a-73e86412b88f"
+          },
+          {
+            "id": 887,
+            "display_flags": 0,
+            "classifier_name": "gui_marked_set",
+            "node": "bb8eae70-ce9b-4053-b6e2-463b155b8453",
+            "uuid": "5be9cdc2-271d-4154-8af6-afef5c03442e"
           }
         ]
       }
@@ -18516,6 +18530,69 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 535,
+        "main_type": 121,
+        "type": "Component",
+        "name": "gui_marked_set",
+        "description": [
+                ""
+        ],
+        "x_order": -393485223,
+        "y_order": 89180891,
+        "list_order": 89180891,
+        "uuid": "ba3f0d81-fbdf-43d3-a68e-4ef11bfba6b7",
+        "features":
+        [
+          {
+            "id": 143,
+            "main_type": 2,
+            "type": "Port",
+            "key": "glib_signal",
+            "description": [
+                ""
+            ],
+            "list_order": 271862572,
+            "uuid": "f33bdafa-dd07-45b6-ae89-ecd6a9ef14e5"
+          },
+          {
+            "id": 144,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "request_focus",
+            "value": "not-yet-implemented",
+            "description": [
+                ""
+            ],
+            "list_order": 842012974,
+            "uuid": "1d477e7f-c115-40d5-9e17-6d731e64602c"
+          },
+          {
+            "id": 145,
+            "main_type": 4,
+            "type": "Interface",
+            "key": "notify_focus",
+            "description": [
+                ""
+            ],
+            "list_order": 274906812,
+            "uuid": "7ff0732a-ba14-4d03-b9a9-5297ba0a4def"
+          },
+          {
+            "id": 146,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "bb8eae70-ce9b-4053-b6e2-463b155b8453"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -19458,7 +19535,6 @@
         "id": 934,
         "main_type": 221,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
         "name": "7. gui_toolbox_*_btn_callback",
         "description": [
                 ""
@@ -19478,7 +19554,6 @@
         "id": 936,
         "main_type": 222,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
         "name": "9. return",
         "description": [
                 ""
@@ -23574,7 +23649,6 @@
         "id": 931,
         "main_type": 221,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
         "name": "5. gui_toolbox_set_selected_tool_and_focus",
         "description": [
                 ""
@@ -23594,7 +23668,6 @@
         "id": 932,
         "main_type": 221,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
         "name": "6. gtk_toggle_button_set_active",
         "description": [
                 ""
@@ -23614,7 +23687,6 @@
         "id": 935,
         "main_type": 222,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
         "name": "8. return",
         "description": [
                 ""
@@ -23631,31 +23703,10 @@
     },
     {
       "relationship": {
-        "id": 937,
-        "main_type": 221,
-        "type": "Message",
-        "stereotype": "not-yet-implemented",
-        "name": "10. focus",
-        "description": [
-                ""
-        ],
-        "list_order": 1161509704,
-        "from_classifier_name": "gui_toolbox",
-        "from_feature_key": "",
-        "to_classifier_name": "sketch",
-        "to_feature_key": "",
-        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
-        "to_node": "d5002670-8295-4ffc-b4ec-091b02716888",
-        "uuid": "f1dab889-e844-406c-862f-e6b7d38f8044"
-      }
-    },
-    {
-      "relationship": {
         "id": 939,
         "main_type": 222,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
-        "name": "12. return",
+        "name": "13. return",
         "description": [
                 ""
         ],
@@ -23798,6 +23849,26 @@
         "from_node": "6efdf925-5991-4a00-a772-a32e04205a32",
         "to_node": "3ad4ca33-2c6b-45d1-b166-d35f211b5976",
         "uuid": "6197b443-2132-4d7a-958a-0ade80e3cd5f"
+      }
+    },
+    {
+      "relationship": {
+        "id": 966,
+        "main_type": 221,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "10. request_focus",
+        "description": [
+                ""
+        ],
+        "list_order": 1121372545,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_marked_set",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "bb8eae70-ce9b-4053-b6e2-463b155b8453",
+        "uuid": "f5ca729f-5c87-4b57-bff0-b53fb3e36ba3"
       }
     },
     {
@@ -26451,26 +26522,6 @@
         "from_node": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
         "to_node": "235a527e-3f82-4624-92d0-008f6b9122cc",
         "uuid": "a9e0f5aa-c69a-4351-8a28-596ef395d047"
-      }
-    },
-    {
-      "relationship": {
-        "id": 938,
-        "main_type": 222,
-        "type": "Message",
-        "stereotype": "not-yet-implemented",
-        "name": "11. return",
-        "description": [
-                ""
-        ],
-        "list_order": 1255824114,
-        "from_classifier_name": "sketch",
-        "from_feature_key": "",
-        "to_classifier_name": "gui_toolbox",
-        "to_feature_key": "",
-        "from_node": "d5002670-8295-4ffc-b4ec-091b02716888",
-        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
-        "uuid": "f16abbbc-9381-43a6-8237-c7b4ae16dd30"
       }
     },
     {
@@ -32334,6 +32385,84 @@
         "from_node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
         "to_node": "6efdf925-5991-4a00-a772-a32e04205a32",
         "uuid": "e051af1c-40e5-450f-a269-46ce971f26ab"
+      }
+    },
+    {
+      "relationship": {
+        "id": 964,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1549895926,
+        "from_classifier_name": "gui_marked_set",
+        "from_feature_key": "notify_focus",
+        "to_classifier_name": "gui_marked_set",
+        "to_feature_key": "glib_signal",
+        "from_node": "7ff0732a-ba14-4d03-b9a9-5297ba0a4def",
+        "to_node": "f33bdafa-dd07-45b6-ae89-ecd6a9ef14e5",
+        "uuid": "b945f3d1-9982-4b8f-b9a7-8de4de16f666"
+      }
+    },
+    {
+      "relationship": {
+        "id": 965,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 1549928694,
+        "from_classifier_name": "gui_marked_set",
+        "from_feature_key": "request_focus",
+        "to_classifier_name": "gui_marked_set",
+        "to_feature_key": "glib_signal",
+        "from_node": "1d477e7f-c115-40d5-9e17-6d731e64602c",
+        "to_node": "f33bdafa-dd07-45b6-ae89-ecd6a9ef14e5",
+        "uuid": "f04ac4b6-4a6a-4239-9da2-55a8529dd569"
+      }
+    },
+    {
+      "relationship": {
+        "id": 967,
+        "main_type": 220,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "11. request_focus",
+        "description": [
+                ""
+        ],
+        "list_order": 1206138028,
+        "from_classifier_name": "gui_marked_set",
+        "from_feature_key": "",
+        "to_classifier_name": "sketch",
+        "to_feature_key": "",
+        "from_node": "bb8eae70-ce9b-4053-b6e2-463b155b8453",
+        "to_node": "d5002670-8295-4ffc-b4ec-091b02716888",
+        "uuid": "46e598a0-ca8e-4c5b-9ef9-ed1e48529ba1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 968,
+        "main_type": 222,
+        "type": "Message",
+        "stereotype": "not-yet-implemented",
+        "name": "12. return",
+        "description": [
+                ""
+        ],
+        "list_order": 1370682789,
+        "from_classifier_name": "gui_marked_set",
+        "from_feature_key": "",
+        "to_classifier_name": "gui_toolbox",
+        "to_feature_key": "",
+        "from_node": "bb8eae70-ce9b-4053-b6e2-463b155b8453",
+        "to_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "uuid": "b821bfd5-4d5a-4132-aa4a-6d667bd96c68"
       }
     }
   ]
