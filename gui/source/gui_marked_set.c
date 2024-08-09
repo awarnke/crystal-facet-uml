@@ -14,7 +14,7 @@ const char *GUI_MARKED_SET_GLIB_SIGNAL_NAME = "cfu_object_selected";
 void gui_marked_set_init ( gui_marked_set_t *this_,
                            GObject *signal_source,
                            void(*request_focus_call)(struct gui_sketch_area_struct* user_data, data_id_t diagram_wish),
-                           void* request_focus_user_data )
+                           struct gui_sketch_area_struct* request_focus_user_data )
 {
     U8_TRACE_BEGIN();
     assert( NULL != signal_source );
@@ -49,6 +49,7 @@ void gui_marked_set_init ( gui_marked_set_t *this_,
 
     (*this_).signal_source = signal_source;
 
+    /* store a function pointer and parameter for requesting focus later */
     (*this_).request_focus_call = request_focus_call;
     (*this_).request_focus_user_data = request_focus_user_data;
 

@@ -2,8 +2,8 @@ crystal-facet-uml (1.60.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * When pasting a new diagram, navigation view is activated to see the changes
-  * When undoing or redoing changes to diagrams or diagramelements, changes are
-    shown
+  * When undoing or redoing changes on diagrams,diagramelements or classifiers,
+    changes are shown in a suitable view; also maybe features and relationships
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 04 Oct 2024 21:00:00 +0200
 

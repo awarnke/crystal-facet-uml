@@ -13,7 +13,6 @@ ideas for future versions:
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
   [ ] scrolling through search list missing if result list is too long (hint already added to user manual)
-! [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus; Check GtkEventControllerFocus (example in gui_main_window.c)
   [ ] kill -SIGTERM should save the latest changes

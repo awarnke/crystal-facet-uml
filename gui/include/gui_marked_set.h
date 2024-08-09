@@ -43,8 +43,9 @@ struct gui_marked_set_struct {
 
     GObject *signal_source;  /*!<  The source gobject from which the changed-signal shall be emitted */
     void(*request_focus_call)(struct gui_sketch_area_struct* user_data, data_id_t diagram_wish);  /*!<  A function */
-                                                               /*!<  to call for requesting the focus on a diagram */
-    void* request_focus_user_data;  /*!<  The user data for a function to call for requesting the focus on a diagram */
+                                                             /*!<  to call for requesting the focus on a diagram */
+    struct gui_sketch_area_struct* request_focus_user_data;  /*!<  The user data for a function to call for requesting */
+                                                             /*!<  the focus on a diagram */
 };
 
 typedef struct gui_marked_set_struct gui_marked_set_t;
@@ -62,7 +63,7 @@ extern const char *GUI_MARKED_SET_GLIB_SIGNAL_NAME;
 void gui_marked_set_init ( gui_marked_set_t *this_,
                            GObject *signal_source,
                            void(*request_focus_call)(struct gui_sketch_area_struct* user_data, data_id_t diagram_wish),
-                           void* request_focus_user_data
+                           struct gui_sketch_area_struct* request_focus_user_data
                          );
 
 /*!

@@ -71,6 +71,7 @@ static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagram_t *list_entry_old;
+    data_diagram_t *list_entry_new;
 
     /* add and re-initialize the list entry */
     list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
@@ -78,7 +79,9 @@ static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_diagram_before_action_ptr( list_entry );
-    data_diagram_replace( list_entry_old, old_value);
+    data_diagram_replace( list_entry_old, old_value );
+    list_entry_new = ctrl_undo_redo_entry_get_diagram_after_action_ptr( list_entry );
+    data_diagram_init_empty( list_entry_new );
 }
 
 static inline void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value )
@@ -93,14 +96,15 @@ static inline void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_diagram_before_action_ptr( list_entry );
-    data_diagram_replace( list_entry_old, old_value);
+    data_diagram_replace( list_entry_old, old_value );
     list_entry_new = ctrl_undo_redo_entry_get_diagram_after_action_ptr( list_entry );
-    data_diagram_replace( list_entry_new, new_value);
+    data_diagram_replace( list_entry_new, new_value );
 }
 
 static inline void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
+    data_diagram_t *list_entry_old;
     data_diagram_t *list_entry_new;
 
     /* add and re-initialize the list entry */
@@ -108,8 +112,10 @@ static inline void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_
     ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM );
 
     /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_diagram_before_action_ptr( list_entry );
+    data_diagram_init_empty( list_entry_old );
     list_entry_new = ctrl_undo_redo_entry_get_diagram_after_action_ptr( list_entry );
-    data_diagram_replace( list_entry_new, new_value);
+    data_diagram_replace( list_entry_new, new_value );
 }
 
 /* ================================ DIAGRAMELEMENT ================================ */
@@ -118,6 +124,7 @@ static inline void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_red
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagramelement_t *list_entry_old;
+    data_diagramelement_t *list_entry_new;
 
     /* add and re-initialize the list entry */
     list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
@@ -125,7 +132,9 @@ static inline void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_red
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr( list_entry );
-    data_diagramelement_replace( list_entry_old, old_value);
+    data_diagramelement_replace( list_entry_old, old_value );
+    list_entry_new = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr( list_entry );
+    data_diagramelement_init_empty( list_entry_new );
 }
 
 static inline void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value )
@@ -140,14 +149,15 @@ static inline void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_red
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr( list_entry );
-    data_diagramelement_replace( list_entry_old, old_value);
+    data_diagramelement_replace( list_entry_old, old_value );
     list_entry_new = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr( list_entry );
-    data_diagramelement_replace( list_entry_new, new_value);
+    data_diagramelement_replace( list_entry_new, new_value );
 }
 
 static inline void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
+    data_diagramelement_t *list_entry_old;
     data_diagramelement_t *list_entry_new;
 
     /* add and re-initialize the list entry */
@@ -155,8 +165,10 @@ static inline void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_red
     ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT );
 
     /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr( list_entry );
+    data_diagramelement_init_empty( list_entry_old );
     list_entry_new = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr( list_entry );
-    data_diagramelement_replace( list_entry_new, new_value);
+    data_diagramelement_replace( list_entry_new, new_value );
 }
 
 /* ================================ CLASSIFIER ================================ */
@@ -165,6 +177,7 @@ static inline void ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_li
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_classifier_t *list_entry_old;
+    data_classifier_t *list_entry_new;
 
     /* add and re-initialize the list entry */
     list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
@@ -172,7 +185,9 @@ static inline void ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_li
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_classifier_before_action_ptr( list_entry );
-    data_classifier_replace( list_entry_old, old_value);
+    data_classifier_replace( list_entry_old, old_value );
+    list_entry_new = ctrl_undo_redo_entry_get_classifier_after_action_ptr( list_entry );
+    data_classifier_init_empty( list_entry_new );
 }
 
 static inline void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value, data_classifier_t *new_value )
@@ -187,14 +202,15 @@ static inline void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_li
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_classifier_before_action_ptr( list_entry );
-    data_classifier_replace( list_entry_old, old_value);
+    data_classifier_replace( list_entry_old, old_value );
     list_entry_new = ctrl_undo_redo_entry_get_classifier_after_action_ptr( list_entry );
-    data_classifier_replace( list_entry_new, new_value);
+    data_classifier_replace( list_entry_new, new_value );
 }
 
 static inline void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
+    data_classifier_t *list_entry_old;
     data_classifier_t *list_entry_new;
 
     /* add and re-initialize the list entry */
@@ -202,8 +218,10 @@ static inline void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_li
     ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER );
 
     /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_classifier_before_action_ptr( list_entry );
+    data_classifier_init_empty( list_entry_old );
     list_entry_new = ctrl_undo_redo_entry_get_classifier_after_action_ptr( list_entry );
-    data_classifier_replace( list_entry_new, new_value);
+    data_classifier_replace( list_entry_new, new_value );
 }
 
 /* ================================ FEATURE ================================ */
@@ -212,6 +230,7 @@ static inline void ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_feature_t *list_entry_old;
+    data_feature_t *list_entry_new;
 
     /* add and re-initialize the list entry */
     list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
@@ -219,7 +238,9 @@ static inline void ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_feature_before_action_ptr( list_entry );
-    data_feature_replace( list_entry_old, old_value);
+    data_feature_replace( list_entry_old, old_value );
+    list_entry_new = ctrl_undo_redo_entry_get_feature_after_action_ptr( list_entry );
+    data_feature_init_empty( list_entry_new );
 }
 
 static inline void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value, data_feature_t *new_value )
@@ -234,14 +255,15 @@ static inline void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_feature_before_action_ptr( list_entry );
-    data_feature_replace( list_entry_old, old_value);
+    data_feature_replace( list_entry_old, old_value );
     list_entry_new = ctrl_undo_redo_entry_get_feature_after_action_ptr( list_entry );
-    data_feature_replace( list_entry_new, new_value);
+    data_feature_replace( list_entry_new, new_value );
 }
 
 static inline void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
+    data_feature_t *list_entry_old;
     data_feature_t *list_entry_new;
 
     /* add and re-initialize the list entry */
@@ -249,8 +271,10 @@ static inline void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_
     ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE );
 
     /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_feature_before_action_ptr( list_entry );
+    data_feature_init_empty( list_entry_old );
     list_entry_new = ctrl_undo_redo_entry_get_feature_after_action_ptr( list_entry );
-    data_feature_replace( list_entry_new, new_value);
+    data_feature_replace( list_entry_new, new_value );
 }
 
 /* ================================ RELATIONSHIP ================================ */
@@ -259,6 +283,7 @@ static inline void ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_relationship_t *list_entry_old;
+    data_relationship_t *list_entry_new;
 
     /* add and re-initialize the list entry */
     list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
@@ -266,7 +291,9 @@ static inline void ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_relationship_before_action_ptr( list_entry );
-    data_relationship_replace( list_entry_old, old_value);
+    data_relationship_replace( list_entry_old, old_value );
+    list_entry_new = ctrl_undo_redo_entry_get_relationship_after_action_ptr( list_entry );
+    data_relationship_init_empty( list_entry_new );
 }
 
 static inline void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value, data_relationship_t *new_value )
@@ -281,14 +308,15 @@ static inline void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_relationship_before_action_ptr( list_entry );
-    data_relationship_replace( list_entry_old, old_value);
+    data_relationship_replace( list_entry_old, old_value );
     list_entry_new = ctrl_undo_redo_entry_get_relationship_after_action_ptr( list_entry );
-    data_relationship_replace( list_entry_new, new_value);
+    data_relationship_replace( list_entry_new, new_value );
 }
 
 static inline void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
+    data_relationship_t *list_entry_old;
     data_relationship_t *list_entry_new;
 
     /* add and re-initialize the list entry */
@@ -296,8 +324,10 @@ static inline void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_
     ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP );
 
     /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_relationship_before_action_ptr( list_entry );
+    data_relationship_init_empty( list_entry_old );
     list_entry_new = ctrl_undo_redo_entry_get_relationship_after_action_ptr( list_entry );
-    data_relationship_replace( list_entry_new, new_value);
+    data_relationship_replace( list_entry_new, new_value );
 }
 
 /* ================================ private ================================ */
