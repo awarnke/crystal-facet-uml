@@ -457,37 +457,6 @@ void pencil_classifier_composer_draw ( pencil_classifier_composer_t *this_,
             break;
         }
 
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangles */
-        {
-            const geometry_rectangle_t *const classifier_space
-                = layout_visible_classifier_get_space_const( layouted_classifier );
-            const geometry_rectangle_t *const classifier_label_box
-                = layout_visible_classifier_get_label_box_const( layouted_classifier );
-
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( classifier_symbol_box ),
-                              geometry_rectangle_get_top ( classifier_symbol_box ),
-                              geometry_rectangle_get_width ( classifier_symbol_box ),
-                              geometry_rectangle_get_height ( classifier_symbol_box )
-                            );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( classifier_space ),
-                              geometry_rectangle_get_top ( classifier_space ),
-                              geometry_rectangle_get_width ( classifier_space ),
-                              geometry_rectangle_get_height ( classifier_space )
-                            );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( classifier_label_box ),
-                              geometry_rectangle_get_top ( classifier_label_box ),
-                              geometry_rectangle_get_width ( classifier_label_box ),
-                              geometry_rectangle_get_height ( classifier_label_box )
-                            );
-            cairo_stroke (cr);
-        }
-#endif
-
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_row_id(diagramelement) ) )
         {
             pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_symbol_box, cr );

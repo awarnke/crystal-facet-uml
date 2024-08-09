@@ -23,13 +23,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#ifndef NDEBUG
-#if 1
-/* make the layout visible for debugging: */
-#define LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-#endif
-#endif
-
 /*!
  *  \brief constants for maximum values of layout_visible_set_t
  *

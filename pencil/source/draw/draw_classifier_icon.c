@@ -59,21 +59,6 @@ void draw_classifier_icon_draw_component ( const draw_classifier_icon_t *this_,
     cairo_rectangle ( cr, port_left, port2_top, port_width, port_height );
     cairo_stroke (cr);
 
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangle */
-        {
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( &bounds ),
-                              geometry_rectangle_get_top ( &bounds ),
-                              geometry_rectangle_get_width ( &bounds ),
-                              geometry_rectangle_get_height ( &bounds )
-                            );
-            cairo_stroke (cr);
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        }
-#endif
-
     U8_TRACE_END();
 }
 
@@ -110,21 +95,6 @@ void draw_classifier_icon_draw_artifact ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, art_right, art_top + art_corner_edge );
     cairo_line_to ( cr, art_right - art_corner_edge, art_top );
     cairo_stroke (cr);
-
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangle */
-        {
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( &bounds ),
-                              geometry_rectangle_get_top ( &bounds ),
-                              geometry_rectangle_get_width ( &bounds ),
-                              geometry_rectangle_get_height ( &bounds )
-                            );
-            cairo_stroke (cr);
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        }
-#endif
 
     U8_TRACE_END();
 }
@@ -170,21 +140,6 @@ void draw_classifier_icon_draw_actor ( const draw_classifier_icon_t *this_,
     cairo_move_to ( cr, act_right, arm_top );
     cairo_line_to ( cr, act_left, arm_top );
     cairo_stroke (cr);
-
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangle */
-        {
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( &bounds ),
-                              geometry_rectangle_get_top ( &bounds ),
-                              geometry_rectangle_get_width ( &bounds ),
-                              geometry_rectangle_get_height ( &bounds )
-                            );
-            cairo_stroke (cr);
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        }
-#endif
 
     U8_TRACE_END();
 }
@@ -287,21 +242,6 @@ void draw_classifier_icon_draw_circle ( const draw_classifier_icon_t *this_,
         cairo_stroke (cr);
     }
 
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangle */
-        {
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( &bounds ),
-                              geometry_rectangle_get_top ( &bounds ),
-                              geometry_rectangle_get_width ( &bounds ),
-                              geometry_rectangle_get_height ( &bounds )
-                            );
-            cairo_stroke (cr);
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        }
-#endif
-
     U8_TRACE_END();
 }
 
@@ -331,21 +271,6 @@ void draw_classifier_icon_draw_time ( const draw_classifier_icon_t *this_,
     cairo_line_to ( cr, right, bottom );
     cairo_stroke (cr);
 
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangle */
-        {
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( &bounds ),
-                              geometry_rectangle_get_top ( &bounds ),
-                              geometry_rectangle_get_width ( &bounds ),
-                              geometry_rectangle_get_height ( &bounds )
-                            );
-            cairo_stroke (cr);
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        }
-#endif
-
     U8_TRACE_END();
 }
 
@@ -365,21 +290,6 @@ void draw_classifier_icon_draw_sync ( const draw_classifier_icon_t *this_,
 
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
-
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangle */
-        {
-            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-            cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( &bounds ),
-                              geometry_rectangle_get_top ( &bounds ),
-                              geometry_rectangle_get_width ( &bounds ),
-                              geometry_rectangle_get_height ( &bounds )
-                            );
-            cairo_stroke (cr);
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        }
-#endif
 
     U8_TRACE_END();
 }

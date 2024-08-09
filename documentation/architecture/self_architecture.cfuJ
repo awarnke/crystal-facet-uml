@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.59.1"
+    "generator_version": "1.60.0"
   }
   ,
   "views":
@@ -3528,13 +3528,6 @@
             "classifier_name": "gui_clipboard",
             "node": "204e71f9-2b5c-41e1-8f9f-6dc1dc6ed594",
             "uuid": "fc16cfee-3319-4261-97ca-d68c6f9a7b2d"
-          },
-          {
-            "id": 885,
-            "display_flags": 0,
-            "classifier_name": "New Deserializer",
-            "node": "419444f5-f07a-43f0-917e-68a97174d755",
-            "uuid": "cea5d2d4-7fde-4850-b555-ab8764533294"
           }
         ]
       }
@@ -12982,7 +12975,7 @@
         ],
         "x_order": -749155187,
         "y_order": -1026369662,
-        "list_order": 830406764,
+        "list_order": 397474631,
         "uuid": "68e0aff6-2f79-4b8e-9230-841aca0ac135",
         "features":
         [
@@ -18504,35 +18497,6 @@
     },
     {
       "classifier": {
-        "id": 534,
-        "main_type": 125,
-        "type": "Class",
-        "name": "New Deserializer",
-        "description": [
-                ""
-        ],
-        "x_order": 1430085129,
-        "y_order": 0,
-        "list_order": 0,
-        "uuid": "c152aed5-08c9-4074-a5ea-a91fbe0a07b5",
-        "features":
-        [
-          {
-            "id": 142,
-            "main_type": 3,
-            "type": "Lifeline",
-            "key": "",
-            "description": [
-                ""
-            ],
-            "list_order": 0,
-            "uuid": "419444f5-f07a-43f0-917e-68a97174d755"
-          }
-        ]
-      }
-    },
-    {
-      "classifier": {
         "id": 535,
         "main_type": 121,
         "type": "Component",
@@ -19539,7 +19503,7 @@
         "description": [
                 ""
         ],
-        "list_order": 445829765,
+        "list_order": 307132103,
         "from_classifier_name": "gtk4",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -19554,7 +19518,7 @@
         "id": 936,
         "main_type": 222,
         "type": "Message",
-        "name": "9. return",
+        "name": "10. return",
         "description": [
                 ""
         ],
@@ -19611,6 +19575,7 @@
         "id": 956,
         "main_type": 221,
         "type": "Message",
+        "stereotype": "g_async",
         "name": "gui_clipboard_clipboard_text_received_callback",
         "description": [
                 ""
@@ -21263,6 +21228,7 @@
         "id": 361,
         "main_type": 220,
         "type": "Message",
+        "stereotype": "g_signal",
         "name": "search_start_callback",
         "description": [
                 ""
@@ -21356,6 +21322,7 @@
         "id": 963,
         "main_type": 220,
         "type": "Message",
+        "stereotype": "g_signal",
         "name": "2. gui_toolbox_undo_btn_callback",
         "description": [
                 ""
@@ -23653,7 +23620,7 @@
         "description": [
                 ""
         ],
-        "list_order": -201432735,
+        "list_order": -258754360,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gui_toolbox",
@@ -23672,7 +23639,7 @@
         "description": [
                 ""
         ],
-        "list_order": 167006676,
+        "list_order": 118503282,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gtk4",
@@ -23687,11 +23654,11 @@
         "id": 935,
         "main_type": 222,
         "type": "Message",
-        "name": "8. return",
+        "name": "9. return",
         "description": [
                 ""
         ],
-        "list_order": 556787895,
+        "list_order": 656650212,
         "from_classifier_name": "gui_toolbox",
         "from_feature_key": "",
         "to_classifier_name": "gtk4",
@@ -23706,7 +23673,7 @@
         "id": 939,
         "main_type": 222,
         "type": "Message",
-        "name": "13. return",
+        "name": "14. return",
         "description": [
                 ""
         ],
@@ -23837,6 +23804,7 @@
         "id": 962,
         "main_type": 220,
         "type": "Message",
+        "stereotype": "g_signal",
         "name": "cfu_tool_changed",
         "description": [
                 ""
@@ -23856,8 +23824,7 @@
         "id": 966,
         "main_type": 221,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
-        "name": "10. request_focus",
+        "name": "11. gui_marked_set_request_focused_diagram",
         "description": [
                 ""
         ],
@@ -23869,6 +23836,26 @@
         "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
         "to_node": "bb8eae70-ce9b-4053-b6e2-463b155b8453",
         "uuid": "f5ca729f-5c87-4b57-bff0-b53fb3e36ba3"
+      }
+    },
+    {
+      "relationship": {
+        "id": 970,
+        "main_type": 220,
+        "type": "Message",
+        "stereotype": "g_signal",
+        "name": "8. cfu_tool_changed",
+        "description": [
+                ""
+        ],
+        "list_order": 462473485,
+        "from_classifier_name": "gui_toolbox",
+        "from_feature_key": "",
+        "to_classifier_name": "sketch",
+        "to_feature_key": "",
+        "from_node": "6fc5e4e3-7178-49ec-9ff8-7939fccd12eb",
+        "to_node": "d5002670-8295-4ffc-b4ec-091b02716888",
+        "uuid": "332136c0-3664-429a-a3b8-3763177c0767"
       }
     },
     {
@@ -32430,8 +32417,7 @@
         "id": 967,
         "main_type": 220,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
-        "name": "11. request_focus",
+        "name": "12. gui_sketch_area_show_diagram",
         "description": [
                 ""
         ],
@@ -32450,8 +32436,7 @@
         "id": 968,
         "main_type": 222,
         "type": "Message",
-        "stereotype": "not-yet-implemented",
-        "name": "12. return",
+        "name": "13. return",
         "description": [
                 ""
         ],

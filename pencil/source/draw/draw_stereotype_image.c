@@ -79,21 +79,6 @@ u8_error_t draw_stereotype_image_draw ( const draw_stereotype_image_t *this_,
         result = U8_ERROR_NOT_FOUND;
     }
 
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-    /* draw the rectangle */
-    {
-        cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.5 );
-        cairo_rectangle ( cr,
-                          geometry_rectangle_get_left ( bounds ),
-                          geometry_rectangle_get_top ( bounds ),
-                          geometry_rectangle_get_width ( bounds ),
-                          geometry_rectangle_get_height ( bounds )
-                        );
-        cairo_stroke (cr);
-        cairo_set_source_rgba( cr, (*default_color).red, (*default_color).green, (*default_color).blue, (*default_color).alpha );
-    }
-#endif
-
     U8_TRACE_END_ERR(result);
     return result;
 }

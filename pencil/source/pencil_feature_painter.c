@@ -133,29 +133,6 @@ void pencil_feature_painter_draw( pencil_feature_painter_t *this_,
                                                cr
                                              );
 
-#ifdef LAYOUT_VISIBLE_SET_DRAW_FOR_DEBUG
-        /* draw the rectangles */
-        {
-            const geometry_rectangle_t *const feature_label_box
-                = layout_feature_get_label_box_const ( layouted_feature );
-
-            cairo_set_source_rgba( cr, 0.5, 0.7, 1.0, 0.5 );
-            cairo_rectangle( cr,
-                             geometry_rectangle_get_left ( feature_symbol_box ),
-                             geometry_rectangle_get_top ( feature_symbol_box ),
-                             geometry_rectangle_get_width ( feature_symbol_box ),
-                             geometry_rectangle_get_height ( feature_symbol_box )
-                           );
-            cairo_rectangle( cr,
-                             geometry_rectangle_get_left ( feature_label_box ),
-                             geometry_rectangle_get_top ( feature_label_box ),
-                             geometry_rectangle_get_width ( feature_label_box ),
-                             geometry_rectangle_get_height ( feature_label_box )
-                           );
-            cairo_stroke( cr );
-        }
-#endif
-
         if ( mark_selected )
         {
             pencil_marker_mark_selected_rectangle( &((*this_).marker), *feature_symbol_box, cr );

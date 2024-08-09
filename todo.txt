@@ -15,13 +15,14 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long (hint already added to user manual)
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus; Check GtkEventControllerFocus (example in gui_main_window.c)
-  [ ] kill -SIGTERM should save the latest changes
+  [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
 ! [ ] show static texts under the icons of buttons (Note: sadly, gtk_button_set_label replaces the image)
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
+! [ ] while moving features, do not show the classifier ordering lines
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)
@@ -38,13 +39,14 @@ ideas for future versions:
   [ ] export formats: enhance xmi standard compliance
   [ ] xmi export is not spec-compliant for uml:Port, provided and required Interfaces
   [ ] xmi export: improve error message if exported file exists and is read-only
-  [ ] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
+  [?] uuid are preserved at json import. It is not checked if these uuids are unique in _all_ tables.
   [ ] uuids shall be converted to lower case at import
   [ ] json import: check if the input bytes are valid utf8 characters
   [ ] json export declares "type": "ActivityFinalNode" even if type is state-final
   [ ] json export declares "type": "DecisionNode" even if type is ChoiceNode (statemachine)
   [ ] json export: determining if statemachine_context - is a good guess but not 100% correct
   [ ] add test case for opening non-cfuJ files
+  [ ] in json format, types shall be unique and self-explaining instead of uml/sysml compliant
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
       --> use the "display_flags" field of "diagrams"
