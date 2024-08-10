@@ -158,6 +158,10 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     {
         gui_toolbox_set_selected_tool( (*this_).tool_switcher, GUI_TOOL_NAVIGATE );
     }
+    else
+    {
+        gui_toolbox_set_selected_tool( (*this_).tool_switcher, GUI_TOOL_EDIT );
+    }
 
     /* show a message to the user */
     if ( u8_error_info_is_error( &err_info ) )

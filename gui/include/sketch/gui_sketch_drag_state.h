@@ -139,6 +139,14 @@ static inline void gui_sketch_drag_state_set_to ( gui_sketch_drag_state_t *this_
  */
 static inline data_full_id_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui_sketch_drag_state_t *this_ );
 
+/*!
+ *  \brief gets the dragged object as const
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return primary_id is the dragged object or diagramemelent, secondary_id is the classifier
+ */
+static inline const data_full_id_t *gui_sketch_drag_state_get_dragged_object_const ( const gui_sketch_drag_state_t *this_ );
+
 #include "gui_sketch_drag_state.inl"
 
 #endif  /* GUI_SKETCH_DRAG_STATE_H */

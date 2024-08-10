@@ -88,6 +88,11 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
 
     if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
     {
+        const data_full_id_t *const dragged_object
+            = gui_sketch_drag_state_get_dragged_object_const( drag_state );
+        const data_id_t *const dragged_primary = data_full_id_get_primary_id_const( dragged_object );
+        const bool dragging_classifier = ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( dragged_primary ) );
+
         if ( NULL != card_under_mouse )
         {
             const data_diagram_t *diag = gui_sketch_card_get_diagram_const ( card_under_mouse );
@@ -97,7 +102,7 @@ void gui_sketch_card_painter_private_draw_edit_mode( gui_sketch_card_painter_t *
                 && ( diag_type != DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
                 && ( diag_type != DATA_DIAGRAM_TYPE_LIST ));
 
-            if ( draw_2d_diagram )
+            if ( draw_2d_diagram && dragging_classifier )
             {
                 /* draw grid line crossings */
                 gui_sketch_card_painter_private_draw_grid( this_, card_under_mouse, cr );

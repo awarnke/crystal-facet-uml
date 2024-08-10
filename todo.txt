@@ -5,8 +5,6 @@
 
 ideas for future versions:
   @gui
-  [ ] After deselecting all elements, paste does not work. One has to select an element first.
-      (possibly improved in 1.38.0 by nicer error message)
   [ ] performance optimization: redraw only when shown(=visible) items have changed;
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
       do not redraw twice, once for deactivating a tool and again for activating another
@@ -22,7 +20,6 @@ ideas for future versions:
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
 ! [ ] show static texts under the icons of buttons (Note: sadly, gtk_button_set_label replaces the image)
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
-! [ ] while moving features, do not show the classifier ordering lines
   @pencil
   [ ] activity bars on lifelines missing
   [?] more relationship types needed: one-way x--> and no x--x dependency (non-navigateable ends)

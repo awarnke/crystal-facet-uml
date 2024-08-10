@@ -95,6 +95,11 @@ static inline data_full_id_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui
     return ( &((*this_).dragged_object) );
 }
 
+static inline const data_full_id_t *gui_sketch_drag_state_get_dragged_object_const ( const gui_sketch_drag_state_t *this_ )
+{
+    return ( &((*this_).dragged_object) );
+}
+
 
 /*
 Copyright 2016-2024 Andreas Warnke
