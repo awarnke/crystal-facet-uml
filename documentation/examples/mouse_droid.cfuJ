@@ -2164,7 +2164,7 @@
           {
             "id": 26,
             "display_flags": 0,
-            "classifier_name": "Power Modes",
+            "classifier_name": "Power States",
             "node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
             "uuid": "b85f9c77-15e3-4171-b05e-19f85f264b8d"
           },
@@ -3638,7 +3638,7 @@
         "id": 21,
         "main_type": 112,
         "type": "InteractionUse",
-        "name": "Power Modes",
+        "name": "Power States",
         "description": [
                 "refers to D0020#name"
         ],
@@ -4012,8 +4012,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1044323579,
-        "y_order": -1412570674,
+        "x_order": -855793269,
+        "y_order": -1168769568,
         "list_order": -1054051627,
         "uuid": "fb814893-cb03-454a-96aa-6ae8c313096d",
         "features":
@@ -4048,8 +4048,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1130653626,
-        "y_order": -1053978658,
+        "x_order": -855793269,
+        "y_order": -1412570674,
         "list_order": -1053905027,
         "uuid": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
         "features":
@@ -4084,7 +4084,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1044323579,
+        "x_order": 645157058,
         "y_order": -1053978658,
         "list_order": -1053978658,
         "uuid": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
@@ -4140,8 +4140,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1130653626,
-        "y_order": -1081426715,
+        "x_order": -1044323579,
+        "y_order": -1053978658,
         "list_order": -1053973790,
         "uuid": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
         "features":
@@ -4158,8 +4158,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1042125167,
-        "y_order": -1053978658,
+        "x_order": -1130653626,
+        "y_order": -1080714627,
         "list_order": -1054003895,
         "uuid": "4247b2e1-f3da-4356-81c5-160af47f3e11",
         "features":
@@ -4440,7 +4440,7 @@
         "description": [
                 "A tool that allows to grab objects and move them."
         ],
-        "x_order": -1042125167,
+        "x_order": -858822106,
         "y_order": -1168769568,
         "list_order": -1058861716,
         "uuid": "a28d75e1-1447-462b-95f9-9093d65419e7",
@@ -6312,7 +6312,7 @@
                 "The skeleton frame provides stability to the assembly of parts.\n",
                 "Anchorage points latch the assembled parts at their positions."
         ],
-        "x_order": -1042125167,
+        "x_order": -858822106,
         "y_order": -1412570674,
         "list_order": -1427757613,
         "uuid": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",
@@ -11647,7 +11647,7 @@
         "list_order": 98304,
         "from_classifier_name": "orthogonal",
         "from_feature_key": "",
-        "to_classifier_name": "Power Modes",
+        "to_classifier_name": "Power States",
         "to_feature_key": "",
         "from_node": "af9ed5d6-8bb9-4ed2-b2d8-5c55a94644a5",
         "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
@@ -12237,7 +12237,7 @@
         "list_order": 163840,
         "from_classifier_name": "Operation Modes",
         "from_feature_key": "",
-        "to_classifier_name": "Power Modes",
+        "to_classifier_name": "Power States",
         "to_feature_key": "",
         "from_node": "ddd3982e-f20a-41d4-ba8d-b710e4fe2315",
         "to_node": "9813878d-d7a7-4045-ab91-93b2b18e916b",
