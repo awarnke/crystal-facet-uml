@@ -8,8 +8,8 @@
 #include "draw/draw_stereotype_image.h"
 #include "u8/u8_trace.h"
 #include "ctrl_simple_changer.h"
-#include "data_table.h"
-#include "data_id.h"
+#include "entity/data_table.h"
+#include "entity/data_id.h"
 #include "utf8stringbuf/utf8string.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>

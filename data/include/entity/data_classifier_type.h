@@ -81,7 +81,7 @@ extern data_classifier_type_t const DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_
  */
 static inline bool data_classifier_type_is_behavioral( data_classifier_type_t this_ );
 
-#include "data_classifier_type.inl"
+#include "entity/data_classifier_type.inl"
 
 #endif  /* DATA_CLASSIFIER_TYPE_H */
 

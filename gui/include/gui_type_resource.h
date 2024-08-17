@@ -10,12 +10,12 @@
  *  This data object is a gobject to be able to store it in a GListModel like GListStore.
  */
 
-#include "data_table.h"
-#include "data_relationship_type.h"
-#include "data_feature_type.h"
-#include "data_classifier_type.h"
-#include "data_diagram_type.h"
-#include "data_type.h"
+#include "entity/data_table.h"
+#include "entity/data_relationship_type.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_diagram_type.h"
+#include "entity/data_type.h"
 #include <gdk/gdk.h>
 #include <glib-object.h>
 #include <stdint.h>

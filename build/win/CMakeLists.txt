@@ -57,6 +57,7 @@ FILE(GLOB commonSource ../../gui/source/*.c
                        ../../ctrl/source/*.c
                        ../../ctrl/source/consistency/*.c
                        ../../data/source/*.c
+                       ../../data/source/entity/*.c
                        ../../data/source/storage/*.c
                        ../../data/source/set/*.c
                        ../../u8stream/source/utf8stringbuf/*.c

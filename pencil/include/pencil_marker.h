@@ -10,9 +10,9 @@
  */
 
 #include "geometry/geometry_rectangle.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "set/data_small_set.h"
-#include "data_id.h"
+#include "entity/data_id.h"
 #include "set/data_visible_set.h"
 #include <cairo.h>
 #include <stdint.h>

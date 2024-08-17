@@ -9,8 +9,8 @@
  *  \brief Defines a pair of classifier and diagramelement
  */
 
-#include "data_classifier.h"
-#include "data_diagramelement.h"
+#include "entity/data_classifier.h"
+#include "entity/data_diagramelement.h"
 
 /*!
  *  \brief the pair of classifier and diagramelement, which provide all information to display, modify and delete a classifier

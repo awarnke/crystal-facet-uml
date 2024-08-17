@@ -13,10 +13,10 @@
  *  - a relationship is visible or if it is implicitly shown by being contained in an outer classifier.
  */
 
-#include "data_classifier_type.h"
-#include "data_feature_type.h"
-#include "data_relationship_type.h"
-#include "data_diagram_type.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_relationship_type.h"
+#include "entity/data_diagram_type.h"
 #include <stdbool.h>
 
 /*!

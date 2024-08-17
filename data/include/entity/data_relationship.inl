@@ -1,6 +1,6 @@
 /* File: data_relationship.inl; Copyright and License: see below */
 
-#include "data_id.h"
+#include "entity/data_id.h"
 #include <assert.h>
 
 static inline void data_relationship_init_empty ( data_relationship_t *this_ )

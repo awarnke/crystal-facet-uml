@@ -13,7 +13,7 @@
  *                     cut, copy, paste, delete, undo, redo, search, mark, instantiate.
  */
 
-#include "data_table.h"
+#include "entity/data_table.h"
 #include <stdint.h>
 
 /*!

@@ -9,13 +9,13 @@
  *  \brief Loads the direct model environment data of one model-node (classifier) from the database
  */
 
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "set/data_visible_classifier.h"
 #include "storage/data_database_reader.h"
-#include "data_relationship.h"
-#include "data_feature.h"
-#include "data_id.h"
-#include "data_row_id.h"
+#include "entity/data_relationship.h"
+#include "entity/data_feature.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
 #include <cairo.h>
 #include <stdint.h>
 #include <stdbool.h>

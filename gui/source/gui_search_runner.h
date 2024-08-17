@@ -14,9 +14,9 @@
 #include "set/data_small_set.h"
 #include "set/data_search_result.h"
 #include "set/data_search_result_list.h"
-#include "data_diagramelement.h"
-#include "data_feature.h"
-#include "data_relationship.h"
+#include "entity/data_diagramelement.h"
+#include "entity/data_feature.h"
+#include "entity/data_relationship.h"
 #include "gui_simple_message_to_user.h"
 
 /*!

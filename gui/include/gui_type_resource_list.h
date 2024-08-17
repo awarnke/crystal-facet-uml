@@ -11,11 +11,11 @@
 
 #include "gui_resources.h"
 #include "gui_type_resource.h"
-#include "data_table.h"
-#include "data_relationship_type.h"
-#include "data_feature_type.h"
-#include "data_diagram_type.h"
-#include "data_classifier_type.h"
+#include "entity/data_table.h"
+#include "entity/data_relationship_type.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_diagram_type.h"
+#include "entity/data_classifier_type.h"
 
 /*!
  *  \brief enumeration on tools

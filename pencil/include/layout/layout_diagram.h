@@ -10,7 +10,7 @@
  */
 
 #include "geometry/geometry_rectangle.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 
 /*!
  *  \brief dimensions of a diagram

@@ -23,8 +23,8 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
-#include "data_diagram_type.h"
-#include "data_diagram.h"
+#include "entity/data_diagram_type.h"
+#include "entity/data_diagram.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>

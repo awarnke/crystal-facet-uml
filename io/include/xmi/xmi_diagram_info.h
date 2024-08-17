@@ -10,7 +10,7 @@
  */
 
 #include "xmi_spec.h"
-#include "data_diagram_type.h"
+#include "entity/data_diagram_type.h"
 #include <stdbool.h>
 
 /*!

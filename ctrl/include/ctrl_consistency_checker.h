@@ -43,7 +43,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_consistency_checker.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "utf8stream/utf8stream_writer.h"
 #include <stdio.h>
 #include <stdbool.h>

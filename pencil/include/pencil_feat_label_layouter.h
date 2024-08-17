@@ -17,8 +17,8 @@
 #include "set/data_profile_part.h"
 #include "set/data_small_set.h"
 #include "set/data_visible_set.h"
-#include "data_diagram.h"
-#include "data_id.h"
+#include "entity/data_diagram.h"
+#include "entity/data_id.h"
 #include "u8list/universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>

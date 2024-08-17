@@ -18,7 +18,7 @@
 #include "set/data_node_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
-#include "data_table.h"
+#include "entity/data_table.h"
 #include "data_rules.h"
 #include "u8/u8_error.h"
 #include <stdio.h>

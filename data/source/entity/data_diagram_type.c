@@ -1,6 +1,6 @@
 /* File: data_diagram_type.c; Copyright and License: see below */
 
-#include "data_diagram_type.h"
+#include "entity/data_diagram_type.h"
 
 const data_diagram_type_t DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUNT]
     = {

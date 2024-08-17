@@ -2,8 +2,8 @@
 
 #include "draw/draw_classifier_label.h"
 #include "u8/u8_trace.h"
-#include "data_classifier.h"
-#include "data_diagramelement.h"
+#include "entity/data_classifier.h"
+#include "entity/data_diagramelement.h"
 #include "u8/u8_i32.h"
 #include "utf8stream/utf8stream_writer.h"
 #include "utf8stringbuf/utf8stringbuf.h"

@@ -4,8 +4,8 @@
 #include "xmi/xmi_element_info.h"
 #include "xmi/xmi_element_info_map.h"
 #include "u8/u8_trace.h"
-#include "data_diagram.h"
-#include "data_classifier.h"
+#include "entity/data_diagram.h"
+#include "entity/data_classifier.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

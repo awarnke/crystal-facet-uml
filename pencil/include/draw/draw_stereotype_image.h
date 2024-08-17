@@ -14,7 +14,7 @@
 #include "geometry/geometry_v_align.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
-#include "data_classifier_type.h"
+#include "entity/data_classifier_type.h"
 #include "set/data_profile_part.h"
 #include "utf8stringbuf/utf8stringviewtokenizer.h"
 #include "u8/u8_error.h"

@@ -11,13 +11,13 @@
  *  Note: These methods are not thread-safe. Locking is needed by caller.
  */
 
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "u8/u8_error.h"
-#include "data_classifier.h"
-#include "data_diagramelement.h"
-#include "data_feature.h"
-#include "data_relationship.h"
-#include "data_row_id.h"
+#include "entity/data_classifier.h"
+#include "entity/data_diagramelement.h"
+#include "entity/data_feature.h"
+#include "entity/data_relationship.h"
+#include "entity/data_row_id.h"
 #include "u8stream/universal_memory_output_stream.h"
 #include "u8stream/universal_escaping_output_stream.h"
 #include "utf8stream/utf8stream_writer.h"

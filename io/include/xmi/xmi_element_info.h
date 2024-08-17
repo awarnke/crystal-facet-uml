@@ -11,9 +11,9 @@
 
 #include "xmi_spec.h"
 #include "xmi/xmi_element_is_a.h"
-#include "data_classifier_type.h"
-#include "data_feature_type.h"
-#include "data_relationship_type.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_relationship_type.h"
 #include <stdbool.h>
 
 /*!

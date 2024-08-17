@@ -11,7 +11,7 @@
 #include "gui_tool.h"
 #include "gui_search_runner.h"
 #include "gui_marked_set.h"
-#include "data_id.h"
+#include "entity/data_id.h"
 #include "storage/data_change_message.h"
 #include <gtk/gtk.h>
 

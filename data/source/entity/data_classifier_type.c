@@ -1,6 +1,6 @@
 /* File: data_classifier_type.c; Copyright and License: see below */
 
-#include "data_classifier_type.h"
+#include "entity/data_classifier_type.h"
 
 const data_classifier_type_t DATA_CLASSIFIER_TYPE_ARRAY [DATA_CLASSIFIER_TYPE_COUNT]
     = {

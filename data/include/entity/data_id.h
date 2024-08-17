@@ -9,8 +9,8 @@
  *  \brief Defines a record by a table-identifier and a row-identifier
  */
 
-#include "data_table.h"
-#include "data_row_id.h"
+#include "entity/data_table.h"
+#include "entity/data_row_id.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8error.h"
 #include "utf8stream/utf8stream_writer.h"
@@ -197,7 +197,7 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
  */
 static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, utf8stream_writer_t *out_writer );
 
-#include "data_id.inl"
+#include "entity/data_id.inl"
 
 #endif  /* DATA_ID_H */
 

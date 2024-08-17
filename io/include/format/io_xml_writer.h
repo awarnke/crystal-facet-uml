@@ -9,9 +9,9 @@
  *  \brief writes strings to an xml stream
  */
 
-#include "data_diagram.h"
-#include "data_classifier.h"
-#include "data_table.h"
+#include "entity/data_diagram.h"
+#include "entity/data_classifier.h"
+#include "entity/data_table.h"
 #include "utf8stringbuf/utf8string.h"
 #include "utf8stringbuf/utf8stringview.h"
 #include "u8stream/universal_output_stream.h"

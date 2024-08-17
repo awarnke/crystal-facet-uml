@@ -10,9 +10,9 @@
  *         like a file checksum, a path or a process id
  */
 
-#include "data_id.h"
-#include "data_row_id.h"
-#include "data_uuid.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
+#include "entity/data_uuid.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdbool.h>
@@ -170,7 +170,7 @@ static inline bool data_head_is_valid ( const data_head_t *this_ );
  */
 static inline void data_head_trace ( const data_head_t *this_ );
 
-#include "data_head.inl"
+#include "entity/data_head.inl"
 
 #endif  /* DATA_HEAD_H */
 

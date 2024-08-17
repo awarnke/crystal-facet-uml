@@ -9,7 +9,7 @@
  */
 
 #include "gui_attributes_editor.h"
-#include "data_diagram_type.h"
+#include "entity/data_diagram_type.h"
 
 /*!
  *  \brief attributes of the gui_attribute_type_of_diagram_t

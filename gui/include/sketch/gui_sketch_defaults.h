@@ -10,11 +10,11 @@
  */
 
 #include "set/data_visible_set.h"
-#include "data_classifier_type.h"
-#include "data_feature_type.h"
-#include "data_relationship_type.h"
-#include "data_diagram_type.h"
-#include "data_row_id.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_relationship_type.h"
+#include "entity/data_diagram_type.h"
+#include "entity/data_row_id.h"
 #include <stdbool.h>
 
 /*!

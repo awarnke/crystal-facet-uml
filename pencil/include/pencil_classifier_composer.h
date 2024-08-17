@@ -22,11 +22,11 @@
 #include "geometry/geometry_dimensions.h"
 #include "geometry/geometry_h_align.h"
 #include "geometry/geometry_v_align.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "set/data_small_set.h"
 #include "set/data_profile_part.h"
 #include "set/data_visible_set.h"
-#include "data_id.h"
+#include "entity/data_id.h"
 #include "data_rules.h"
 #include <cairo.h>
 #include <stdint.h>

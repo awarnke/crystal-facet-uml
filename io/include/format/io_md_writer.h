@@ -15,7 +15,7 @@
 #include "format/io_xml_writer.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "u8/u8_error.h"
 
 /*!

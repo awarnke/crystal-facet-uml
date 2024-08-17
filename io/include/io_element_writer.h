@@ -11,14 +11,14 @@
  */
 
 #include "io_element_writer_if.h"
-#include "data_classifier.h"
-#include "data_classifier_type.h"
-#include "data_feature.h"
-#include "data_relationship.h"
-#include "data_relationship_type.h"
-#include "data_diagram.h"
-#include "data_diagram_type.h"
-#include "data_diagramelement.h"
+#include "entity/data_classifier.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_feature.h"
+#include "entity/data_relationship.h"
+#include "entity/data_relationship_type.h"
+#include "entity/data_diagram.h"
+#include "entity/data_diagram_type.h"
+#include "entity/data_diagramelement.h"
 #include "u8/u8_error.h"
 
 /*!

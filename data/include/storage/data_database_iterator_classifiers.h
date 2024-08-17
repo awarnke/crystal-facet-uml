@@ -11,7 +11,7 @@
 
 #include "storage/data_database.h"
 #include "u8/u8_error.h"
-#include "data_classifier.h"
+#include "entity/data_classifier.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 

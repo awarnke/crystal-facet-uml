@@ -10,7 +10,7 @@
  */
 
 #include "ctrl_controller.h"
-#include "data_row_id.h"
+#include "entity/data_row_id.h"
 
 /*!
  *  \brief attributes of the test_env_setup_t

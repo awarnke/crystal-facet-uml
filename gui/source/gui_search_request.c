@@ -2,7 +2,7 @@
 
 #include "gui_search_request.h"
 #include "set/data_full_id.h"
-#include "data_id.h"
+#include "entity/data_id.h"
 #include "utf8stringbuf/utf8string.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"

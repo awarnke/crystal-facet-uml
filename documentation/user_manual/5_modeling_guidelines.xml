@@ -60,6 +60,15 @@
                 <itemizedlist>
                 <listitem>
                     <para>
+                        Add an abstraction level, show only the outer elements in one diagram,
+                        show only the contained elements in another diagram.
+                        <mediaobject>
+                            <imageobject><imagedata fileref="5_modeling_hints_export/D0005_add_abstraction_level.svg" width="12cm"/></imageobject>
+                        </mediaobject>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
                         Define a port at a parent
                         to bundle multiple communication paths of children
                         <mediaobject>

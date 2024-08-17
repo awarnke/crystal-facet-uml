@@ -10,13 +10,13 @@
  */
 
 #include "storage/data_database.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "u8/u8_error.h"
-#include "data_classifier.h"
+#include "entity/data_classifier.h"
 #include "set/data_full_id.h"
 #include "set/data_visible_classifier.h"
 #include "set/data_small_set.h"
-#include "data_row_id.h"
+#include "entity/data_row_id.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>

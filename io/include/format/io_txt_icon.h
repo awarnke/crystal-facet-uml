@@ -9,7 +9,7 @@
  *  \brief Provides textual icons for relationship types
  */
 
-#include "data_relationship_type.h"
+#include "entity/data_relationship_type.h"
 
 /*!
  *  \brief attributes of the txt icon provider

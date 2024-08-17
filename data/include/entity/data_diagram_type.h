@@ -59,7 +59,7 @@ extern data_diagram_type_t const DATA_DIAGRAM_TYPE_ARRAY [DATA_DIAGRAM_TYPE_COUN
  */
 static inline bool data_diagram_type_is_interaction( data_diagram_type_t this_ );
 
-#include "data_diagram_type.inl"
+#include "entity/data_diagram_type.inl"
 
 #endif  /* DATA_DIAGRAM_TYPE_H */
 

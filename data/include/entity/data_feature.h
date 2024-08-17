@@ -9,10 +9,10 @@
  *  \brief Defines a feature like a class-attribute or a class-method
  */
 
-#include "data_feature_type.h"
-#include "data_id.h"
-#include "data_row_id.h"
-#include "data_uuid.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
+#include "entity/data_uuid.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdbool.h>
@@ -319,7 +319,7 @@ static inline bool data_feature_is_valid ( const data_feature_t *this_ );
  */
 static inline void data_feature_trace ( const data_feature_t *this_ );
 
-#include "data_feature.inl"
+#include "entity/data_feature.inl"
 
 #endif  /* DATA_FEATURE_H */
 

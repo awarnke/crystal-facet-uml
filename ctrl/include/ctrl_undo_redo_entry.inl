@@ -1,6 +1,6 @@
 /* File: ctrl_undo_redo_entry.inl; Copyright and License: see below */
 
-#include "data_feature_type.h"
+#include "entity/data_feature_type.h"
 #include <assert.h>
 
 static inline void ctrl_undo_redo_entry_init_empty ( ctrl_undo_redo_entry_t *this_ )

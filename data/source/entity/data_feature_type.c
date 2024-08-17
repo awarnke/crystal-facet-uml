@@ -1,6 +1,6 @@
 /* File: data_feature_type.c; Copyright and License: see below */
 
-#include "data_feature_type.h"
+#include "entity/data_feature_type.h"
 
 const data_feature_type_t DATA_FEATURE_TYPE_ARRAY [DATA_FEATURE_TYPE_COUNT]
     = {

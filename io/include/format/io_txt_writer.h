@@ -11,8 +11,8 @@
 
 #include "io_file_format.h"
 #include "format/io_xml_writer.h"
-#include "data_diagram.h"
-#include "data_classifier.h"
+#include "entity/data_diagram.h"
+#include "entity/data_classifier.h"
 #include "set/data_visible_set.h"
 #include "geometry/geometry_rectangle.h"
 #include "utf8stringbuf/utf8stringbuf.h"

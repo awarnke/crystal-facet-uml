@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.58.2"
+    "generator_version": "1.60.0"
   }
   ,
   "views":
@@ -200,6 +200,81 @@
             "classifier_name": "file wrapper interface",
             "node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
             "uuid": "d5098387-f06a-45e7-add8-3c311b23688b"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 5,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "add abstraction level",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "display_flags": 0,
+        "parent_name": "New Overview",
+        "parent": "df073ff6-73eb-4626-80fd-bfb9fc5ca9a4",
+        "uuid": "c390f58f-5f05-44a4-9eec-596bac59fc2f",
+        "diagramelements":
+        [
+          {
+            "id": 18,
+            "display_flags": 0,
+            "classifier_name": "power on",
+            "node": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
+            "uuid": "8f00c1a2-ea34-4f39-abac-6c8f84a2d871"
+          },
+          {
+            "id": 19,
+            "display_flags": 0,
+            "classifier_name": "boot",
+            "node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
+            "uuid": "b9ffc0e5-f153-483e-bc75-9afa280d0f9f"
+          },
+          {
+            "id": 20,
+            "display_flags": 0,
+            "classifier_name": "special mode?",
+            "node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+            "uuid": "b7aa4f2f-c896-46cc-8212-e706ff674972"
+          },
+          {
+            "id": 21,
+            "display_flags": 0,
+            "classifier_name": "run normal",
+            "node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+            "uuid": "3ecc4af8-0bf2-4025-9792-d9e1c6a3b1e3"
+          },
+          {
+            "id": 22,
+            "display_flags": 0,
+            "classifier_name": "run special",
+            "node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+            "uuid": "e6058bba-85bb-4b6a-9003-64688a30d7e3"
+          },
+          {
+            "id": 23,
+            "display_flags": 0,
+            "classifier_name": "shutdown",
+            "node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
+            "uuid": "780c1dc0-95a5-4783-8479-8e34481ecc13"
+          },
+          {
+            "id": 24,
+            "display_flags": 0,
+            "classifier_name": "power off",
+            "node": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
+            "uuid": "ee6faff6-9d24-4753-b548-183ede4dcf4b"
+          },
+          {
+            "id": 25,
+            "display_flags": 0,
+            "classifier_name": "run",
+            "node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+            "uuid": "2e20f690-42e0-49e2-b977-89dcc275a2c4"
           }
         ]
       }
@@ -760,6 +835,172 @@
           }
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 18,
+        "main_type": 151,
+        "type": "InitialNode",
+        "name": "power on",
+        "description": [
+                ""
+        ],
+        "x_order": -1785814246,
+        "y_order": -655963001,
+        "list_order": -806629503,
+        "uuid": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 19,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "boot",
+        "description": [
+                ""
+        ],
+        "x_order": -1785814246,
+        "y_order": -564723830,
+        "list_order": -564723830,
+        "uuid": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 20,
+        "main_type": 157,
+        "type": "DecisionNode",
+        "name": "special mode?",
+        "description": [
+                ""
+        ],
+        "x_order": -1602164196,
+        "y_order": -564723830,
+        "list_order": -564723830,
+        "uuid": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 21,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "run normal",
+        "description": [
+                ""
+        ],
+        "x_order": -1586247241,
+        "y_order": -655963001,
+        "list_order": -655963001,
+        "uuid": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 22,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "run special",
+        "description": [
+                ""
+        ],
+        "x_order": -1586247241,
+        "y_order": -55607899,
+        "list_order": -55607899,
+        "uuid": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 23,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "shutdown",
+        "description": [
+                ""
+        ],
+        "x_order": 157409060,
+        "y_order": -564723830,
+        "list_order": -564723830,
+        "uuid": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 24,
+        "main_type": 152,
+        "type": "ActivityFinalNode",
+        "name": "power off",
+        "description": [
+                ""
+        ],
+        "x_order": 157409060,
+        "y_order": -55607899,
+        "list_order": -564723830,
+        "uuid": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 25,
+        "main_type": 111,
+        "type": "StateMachine",
+        "name": "run",
+        "description": [
+                ""
+        ],
+        "x_order": -1646638250,
+        "y_order": -674927098,
+        "list_order": -674927098,
+        "uuid": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+        "features":
+        [
+          {
+            "id": 23,
+            "main_type": 8,
+            "type": "Pseudostate",
+            "key": "started",
+            "description": [
+                ""
+            ],
+            "list_order": 805467214,
+            "uuid": "81698f78-a5ea-4020-9dbc-99541d9b4821"
+          },
+          {
+            "id": 24,
+            "main_type": 9,
+            "type": "Pseudostate",
+            "key": "stop",
+            "description": [
+                ""
+            ],
+            "list_order": -1479300388,
+            "uuid": "94d1b743-2383-4de4-8f5f-412d2f4692cc"
+          }
+        ]
+      }
     }
   ]
   ,
@@ -1263,6 +1504,215 @@
         "from_node": "040c8834-a428-43d2-8767-76ff800d017a",
         "to_node": "45aec2ee-6660-47d8-9cfe-9b7a60c60fd8",
         "uuid": "315582a4-b65a-4aac-94e6-ed76036bcac2"
+      }
+    },
+    {
+      "relationship": {
+        "id": 35,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "power on",
+        "to_classifier_name": "boot",
+        "from_node": "09a34f93-e898-4ae9-99cb-226e65b37e9f",
+        "to_node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
+        "uuid": "b0644e70-9cb0-45c7-a1f0-6261a4405f02"
+      }
+    },
+    {
+      "relationship": {
+        "id": 47,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 425984,
+        "from_classifier_name": "boot",
+        "to_classifier_name": "run",
+        "to_feature_key": "started",
+        "from_node": "6bbf4368-c1e3-4c2f-a8bb-a1b48d5b15a2",
+        "to_node": "81698f78-a5ea-4020-9dbc-99541d9b4821",
+        "uuid": "8b80b1af-1476-4203-8f20-69538d8c6181"
+      }
+    },
+    {
+      "relationship": {
+        "id": 37,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "special mode?",
+        "to_classifier_name": "run normal",
+        "from_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "to_node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+        "uuid": "396bbcce-60c2-41b6-bef9-38b494b8833d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 38,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "special mode?",
+        "to_classifier_name": "run special",
+        "from_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "to_node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+        "uuid": "f6e0a1e9-49b3-4858-99b0-40dbce6eceb7"
+      }
+    },
+    {
+      "relationship": {
+        "id": 44,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 327680,
+        "from_classifier_name": "run normal",
+        "to_classifier_name": "run",
+        "to_feature_key": "stop",
+        "from_node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+        "to_node": "94d1b743-2383-4de4-8f5f-412d2f4692cc",
+        "uuid": "0a590062-fe8f-4689-928e-8aac365bff37"
+      }
+    },
+    {
+      "relationship": {
+        "id": 45,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 360448,
+        "from_classifier_name": "run special",
+        "to_classifier_name": "run",
+        "to_feature_key": "stop",
+        "from_node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+        "to_node": "94d1b743-2383-4de4-8f5f-412d2f4692cc",
+        "uuid": "c2edb0c7-51f4-4f35-a47b-b0bb044ea80b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 40,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "shutdown",
+        "to_classifier_name": "power off",
+        "from_node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
+        "to_node": "25154b2d-ceca-4ab1-bb87-ff95138d90ec",
+        "uuid": "12e80739-5720-4e4e-b83d-18bc64c9ad0b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 41,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "run",
+        "to_classifier_name": "special mode?",
+        "from_node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+        "to_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "uuid": "00f1b90e-70cf-4cdb-aed4-f7990d761108"
+      }
+    },
+    {
+      "relationship": {
+        "id": 42,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 262144,
+        "from_classifier_name": "run",
+        "to_classifier_name": "run normal",
+        "from_node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+        "to_node": "6870e93d-ab3b-4f90-a60a-80a9bf1a5a32",
+        "uuid": "35dff0db-a02c-4979-8e14-647ab88ee14d"
+      }
+    },
+    {
+      "relationship": {
+        "id": 43,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 294912,
+        "from_classifier_name": "run",
+        "to_classifier_name": "run special",
+        "from_node": "970fb1e2-9933-4423-95e6-688674c7a9c6",
+        "to_node": "1cc3022e-4e1e-4571-b8c0-0861d622da86",
+        "uuid": "2176cc0f-d5d6-4ca0-b3fd-a75e773d1c04"
+      }
+    },
+    {
+      "relationship": {
+        "id": 46,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 393216,
+        "from_classifier_name": "run",
+        "from_feature_key": "stop",
+        "to_classifier_name": "shutdown",
+        "from_node": "94d1b743-2383-4de4-8f5f-412d2f4692cc",
+        "to_node": "a738b092-bc5b-40c1-983e-8aaf98fac50d",
+        "uuid": "8b92477b-fc41-48a1-a085-0f9cfd9b051e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 48,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 458752,
+        "from_classifier_name": "run",
+        "from_feature_key": "started",
+        "to_classifier_name": "special mode?",
+        "from_node": "81698f78-a5ea-4020-9dbc-99541d9b4821",
+        "to_node": "c29df737-480b-4583-8c5b-6c5c1edbb8f9",
+        "uuid": "d05d50c9-16d0-4b13-a54f-613a71395a55"
       }
     }
   ]

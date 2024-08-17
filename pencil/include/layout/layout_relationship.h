@@ -13,7 +13,7 @@
 #include "layout/layout_feature.h"
 #include "filter/pencil_visibility.h"
 #include "geometry/geometry_connector.h"
-#include "data_relationship.h"
+#include "entity/data_relationship.h"
 
 /*!
  *  \brief visibility, shape and location of a relationship

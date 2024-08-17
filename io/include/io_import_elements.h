@@ -11,12 +11,12 @@
  */
 
 #include "io_import_mode.h"
-#include "data_classifier.h"
-#include "data_feature.h"
-#include "data_relationship.h"
-#include "data_diagram.h"
-#include "data_diagramelement.h"
-#include "data_row_id.h"
+#include "entity/data_classifier.h"
+#include "entity/data_feature.h"
+#include "entity/data_relationship.h"
+#include "entity/data_diagram.h"
+#include "entity/data_diagramelement.h"
+#include "entity/data_row_id.h"
 #include "data_rules.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"

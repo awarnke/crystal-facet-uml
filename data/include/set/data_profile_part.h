@@ -9,13 +9,13 @@
  *  \brief Loads the stereotypes needed by the pencil_diagram_maker to render a data_visible_set_t from the database
  */
 
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "set/data_visible_set.h"
 #include "storage/data_database_reader.h"
-#include "data_relationship.h"
-#include "data_feature.h"
-#include "data_id.h"
-#include "data_row_id.h"
+#include "entity/data_relationship.h"
+#include "entity/data_feature.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
 #include "utf8stringbuf/utf8stringview.h"
 #include <cairo.h>
 #include <stdint.h>

@@ -2,7 +2,7 @@
 
 #include "draw_classifier_contour_test.h"
 #include "draw/draw_classifier_contour.h"
-#include "data_classifier_type.h"
+#include "entity/data_classifier_type.h"
 #include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"

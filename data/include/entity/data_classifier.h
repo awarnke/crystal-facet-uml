@@ -9,10 +9,10 @@
  *  \brief Defines a classifier like a class, a state, an activity, an interface
  */
 
-#include "data_classifier_type.h"
-#include "data_id.h"
-#include "data_row_id.h"
-#include "data_uuid.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
+#include "entity/data_uuid.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdint.h>
@@ -364,7 +364,7 @@ static inline u8_error_t data_classifier_set_uuid ( data_classifier_t *this_, co
  */
 static inline bool data_classifier_is_valid ( const data_classifier_t *this_ );
 
-#include "data_classifier.inl"
+#include "entity/data_classifier.inl"
 
 #endif  /* DATA_CLASSIFIER_H */
 

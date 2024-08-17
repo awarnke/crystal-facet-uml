@@ -1,8 +1,8 @@
 /* File: gui_marked_set.c; Copyright and License: see below */
 
 #include "gui_marked_set.h"
-#include "data_table.h"
-#include "data_id.h"
+#include "entity/data_table.h"
+#include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <gdk/gdk.h>

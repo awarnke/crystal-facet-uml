@@ -5,8 +5,8 @@
 #include "gui_tool.h"
 #include "pencil_diagram_maker.h"
 #include "geometry/geometry_rectangle.h"
-#include "data_table.h"
-#include "data_id.h"
+#include "entity/data_table.h"
+#include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <gdk/gdk.h>

@@ -8,11 +8,11 @@
  *  \brief Type of a data object consisting of table and table-specific type
  */
 
-#include "data_table.h"
-#include "data_relationship_type.h"
-#include "data_feature_type.h"
-#include "data_classifier_type.h"
-#include "data_diagram_type.h"
+#include "entity/data_table.h"
+#include "entity/data_relationship_type.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_diagram_type.h"
 #include <stdbool.h>
 
 /*!
@@ -131,7 +131,7 @@ static inline data_relationship_type_t data_type_get_relationship_type ( const d
  */
 static inline bool data_type_equals ( const data_type_t *this_, const data_type_t *that );
 
-#include "data_type.inl"
+#include "entity/data_type.inl"
 
 #endif  /* DATA_TYPE_H */
 

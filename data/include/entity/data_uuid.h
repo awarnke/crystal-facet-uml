@@ -99,7 +99,7 @@ static inline utf8string_t * data_uuid_get_string ( const data_uuid_t *this_ );
  */
 static inline void data_uuid_trace ( const data_uuid_t *this_ );
 
-#include "data_uuid.inl"
+#include "entity/data_uuid.inl"
 
 #endif  /* DATA_UUID_H */
 

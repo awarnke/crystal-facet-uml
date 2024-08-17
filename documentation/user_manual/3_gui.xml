@@ -1,12 +1,15 @@
 <!DOCTYPE section>
 <section id="gui_main">
     <title>Graphical User Interface</title>
+    <para>
+        Start the application by a click on the application icon.
+    </para>
 
     <section>
         <title>Window Area Overview</title>
         <para>
 
-            If started in graphical mode, crystal-facet-uml shows a window with
+            crystal-facet-uml shows a window with
             <itemizedlist>
             <listitem><para>toolbar on top,</para></listitem>
             <listitem><para>drawing area in the center,</para></listitem>
@@ -48,7 +51,7 @@
                             A json-based file structure is used to store your data in a git-friendly format.
                             Only if the file name ends with extension <command>.cfu1</command>,
                             the binary sqlite3-based database format is stored.
-                            This is compatible to older versions of crystal-facet-uml (&lt;1.35.0).
+                            This is compatible to old versions of crystal-facet-uml (&lt;1.35.0).
                         </para>
                     </listitem>
                 </itemizedlist>
@@ -284,10 +287,6 @@
                         <para>
                             If the clipboard contains a diagram, this diagram is pasted below the current diagram.
                             All other elements are pasted into the new diagram.
-                        </para>
-                        <para>
-                            This behavior may be irritating: When accidentially copying a diagram, you may expect to
-                            insert elements into the current diagram and observe that nothing happens there.
                         </para>
                     </listitem>
                     <listitem>

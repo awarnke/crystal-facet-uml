@@ -57,7 +57,7 @@ static inline bool data_feature_type_outside_compartment( data_feature_type_t th
  */
 static inline bool data_feature_type_inside_compartment( data_feature_type_t this_ );
 
-#include "data_feature_type.inl"
+#include "entity/data_feature_type.inl"
 
 #endif  /* DATA_FEATURE_TYPE_H */
 

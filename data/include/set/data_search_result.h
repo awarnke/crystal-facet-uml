@@ -9,8 +9,8 @@
  *  \brief Defines ids of a diagram, classifier, feature and relationship needed to describe a search result
  */
 
-#include "data_id.h"
-#include "data_row_id.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
 
 /*!
  *  \brief constants for max string sizes

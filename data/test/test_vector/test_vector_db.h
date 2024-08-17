@@ -10,7 +10,7 @@
  */
 
 #include "storage/data_database_writer.h"
-#include "data_row_id.h"
+#include "entity/data_row_id.h"
 
 /*!
  *  \brief attributes of the test_vector_db_t

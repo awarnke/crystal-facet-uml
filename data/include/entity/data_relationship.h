@@ -9,10 +9,10 @@
  *  \brief Defines a relationship between two classifiers
  */
 
-#include "data_relationship_type.h"
-#include "data_id.h"
-#include "data_row_id.h"
-#include "data_uuid.h"
+#include "entity/data_relationship_type.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
+#include "entity/data_uuid.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdint.h>
@@ -407,7 +407,7 @@ static inline bool data_relationship_is_valid ( const data_relationship_t *this_
  */
 static inline void data_relationship_trace ( const data_relationship_t *this_ );
 
-#include "data_relationship.inl"
+#include "entity/data_relationship.inl"
 
 #endif  /* DATA_RELATIONSHIP_H */
 

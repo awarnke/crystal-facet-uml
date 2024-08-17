@@ -9,7 +9,7 @@
  */
 
 #include "io_element_writer.h"
-#include "data_feature.h"
+#include "entity/data_feature.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
 #include "utf8stringbuf/utf8stringbuf.h"

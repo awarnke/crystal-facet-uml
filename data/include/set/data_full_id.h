@@ -21,8 +21,8 @@
  *  a relationship also may occur multiple times if the source or destination exists multiple times.
  */
 
-#include "data_id.h"
-#include "data_row_id.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
 
 /*!
  *  \brief the pair of visible object id and secondary object id, e.g. diagramelement and classifier or feature and classifier

@@ -24,12 +24,12 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
-#include "data_classifier.h"
-#include "data_classifier_type.h"
-#include "data_diagram.h"
+#include "entity/data_classifier.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_diagram.h"
 #include "set/data_small_set.h"
-#include "data_feature.h"
-#include "data_relationship.h"
+#include "entity/data_feature.h"
+#include "entity/data_relationship.h"
 #include <stdio.h>
 #include <stdbool.h>
 

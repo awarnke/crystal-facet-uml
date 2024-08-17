@@ -1,6 +1,6 @@
 /* File: data_relationship_type.c; Copyright and License: see below */
 
-#include "data_relationship_type.h"
+#include "entity/data_relationship_type.h"
 
 const data_relationship_type_t DATA_RELATIONSHIP_TYPE_ARRAY [DATA_RELATIONSHIP_TYPE_COUNT]
     = {

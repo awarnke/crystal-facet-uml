@@ -11,8 +11,8 @@
 #include "gui_simple_message_to_user.h"
 #include "gui_sketch_defaults.h"
 #include "storage/data_database_reader.h"
-#include "data_diagram.h"
-#include "data_table.h"
+#include "entity/data_diagram.h"
+#include "entity/data_table.h"
 #include "data_rules.h"
 #include "ctrl_controller.h"
 #include <stdbool.h>

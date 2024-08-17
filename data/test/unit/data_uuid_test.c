@@ -1,7 +1,7 @@
 /* File: data_uuid_test.c; Copyright and License: see below */
 
 #include "data_uuid_test.h"
-#include "data_uuid.h"
+#include "entity/data_uuid.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
 

@@ -11,9 +11,9 @@
  *  The size of this data type is appropriate for usage on stack
  */
 
-#include "data_table.h"
-#include "data_id.h"
-#include "data_row_id.h"
+#include "entity/data_table.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
 #include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>

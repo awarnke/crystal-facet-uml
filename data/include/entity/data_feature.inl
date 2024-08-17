@@ -1,6 +1,6 @@
 /* File: data_feature.inl; Copyright and License: see below */
 
-#include "data_id.h"
+#include "entity/data_id.h"
 #include <assert.h>
 
 static inline void data_feature_init_empty ( data_feature_t *this_ )

@@ -3,8 +3,8 @@
 #include "sketch/gui_sketch_object_creator.h"
 #include "geometry/geometry_rectangle.h"
 #include "ctrl_multi_step_changer.h"
-#include "data_table.h"
-#include "data_id.h"
+#include "entity/data_table.h"
+#include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <stdint.h>

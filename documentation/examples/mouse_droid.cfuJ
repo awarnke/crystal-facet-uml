@@ -763,14 +763,6 @@
             "uuid": "c28e7aec-d085-4a62-a5cc-145585ca16c9"
           },
           {
-            "id": 55,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Energy Cell",
-            "node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
-            "uuid": "7f22546c-f217-4965-a341-7994d3ebcf55"
-          },
-          {
             "id": 56,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
@@ -803,14 +795,6 @@
             "uuid": "2e42a03e-0d60-4af6-9f58-a446c6ca88a3"
           },
           {
-            "id": 60,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Charging Connector",
-            "node": "c066d6a7-1959-4300-9aad-a75cb496da36",
-            "uuid": "33c9d960-ccec-4847-8435-8a2d40a2aae6"
-          },
-          {
             "id": 61,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
@@ -831,13 +815,6 @@
             "classifier_name": "Base Logic Board",
             "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
             "uuid": "2ffceefa-3844-4794-b363-b07f6f31ed2e"
-          },
-          {
-            "id": 64,
-            "display_flags": 0,
-            "classifier_name": "PMIC",
-            "node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
-            "uuid": "c58b7e95-5de1-46ef-9850-4b81ddadeaa4"
           },
           {
             "id": 66,
@@ -953,6 +930,60 @@
             "classifier_name": "Motivator",
             "node": "3d66e55c-081f-43bb-89cd-159e19a83a75",
             "uuid": "b972ce5f-c555-460c-b1c5-06377b228c04"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 54,
+        "diagram_type": 4,
+        "type": "SysMLBlockDefinitionDiagram",
+        "name": "Power Distribution",
+        "description": [
+                "This section shows the electric parts and electronics of the MoD5G system (Solution Space, System Level L2)"
+        ],
+        "list_order": 1073815550,
+        "display_flags": 0,
+        "parent_name": "L2 Electric Parts and Electronics",
+        "parent": "72834205-268a-4b3d-9720-c30d79cc089c",
+        "uuid": "1335970c-2ff7-42a8-b63d-8be79f317405",
+        "diagramelements":
+        [
+          {
+            "id": 340,
+            "display_flags": 0,
+            "classifier_name": "PMIC",
+            "node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
+            "uuid": "67c7af4a-8a31-4641-a50a-c195cbe8cb8a"
+          },
+          {
+            "id": 341,
+            "display_flags": 0,
+            "classifier_name": "Charging Connector",
+            "node": "c066d6a7-1959-4300-9aad-a75cb496da36",
+            "uuid": "b90e8c09-0c12-46f1-b25a-3642f07a2c8c"
+          },
+          {
+            "id": 342,
+            "display_flags": 0,
+            "classifier_name": "Energy Cell",
+            "node": "a4d4ef8c-8379-4048-820d-37c61d72894e",
+            "uuid": "a0fc4220-abcd-4e1f-8f52-8170e4db1ad0"
+          },
+          {
+            "id": 343,
+            "display_flags": 0,
+            "classifier_name": "Main Logic Board",
+            "node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
+            "uuid": "25150695-d103-4939-a1e6-1c03a10a9a34"
+          },
+          {
+            "id": 344,
+            "display_flags": 0,
+            "classifier_name": "Base Logic Board",
+            "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
+            "uuid": "8ddc2762-4e93-43be-93da-bcde436d03a4"
           }
         ]
       }
@@ -4012,8 +4043,8 @@
         "description": [
                 ""
         ],
-        "x_order": -855793269,
-        "y_order": -1168769568,
+        "x_order": 645157058,
+        "y_order": -1080714627,
         "list_order": -1054051627,
         "uuid": "fb814893-cb03-454a-96aa-6ae8c313096d",
         "features":
@@ -4030,8 +4061,8 @@
         "description": [
                 ""
         ],
-        "x_order": -1130653626,
-        "y_order": -1168769568,
+        "x_order": 645157058,
+        "y_order": -1412570674,
         "list_order": -1051609196,
         "uuid": "848376fc-1475-4adc-b35f-200e17103025",
         "features":
@@ -4048,7 +4079,7 @@
         "description": [
                 ""
         ],
-        "x_order": -855793269,
+        "x_order": -203135287,
         "y_order": -1412570674,
         "list_order": -1053905027,
         "uuid": "04cb61e7-d4ba-4d16-b6c2-56e595b238af",
@@ -4066,7 +4097,7 @@
         "description": [
                 "A fan prevents overheating in hot environment conditions."
         ],
-        "x_order": -855507639,
+        "x_order": -203135287,
         "y_order": -1053978658,
         "list_order": -1051813110,
         "uuid": "5e00054a-23a4-4e74-8029-628d165a7c3d",
@@ -4104,7 +4135,7 @@
                 ""
         ],
         "x_order": -1130653626,
-        "y_order": -1137259057,
+        "y_order": -1168769568,
         "list_order": -1053965549,
         "uuid": "fb66c906-d06a-4518-8701-229af4169a30",
         "features":
@@ -4140,7 +4171,7 @@
         "description": [
                 ""
         ],
-        "x_order": -1044323579,
+        "x_order": -920059638,
         "y_order": -1053978658,
         "list_order": -1053973790,
         "uuid": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
@@ -4176,7 +4207,7 @@
         "description": [
                 ""
         ],
-        "x_order": -855793269,
+        "x_order": -858822106,
         "y_order": -1053978658,
         "list_order": -1053968664,
         "uuid": "c066d6a7-1959-4300-9aad-a75cb496da36",
@@ -4194,7 +4225,7 @@
         "description": [
                 ""
         ],
-        "x_order": -858822106,
+        "x_order": -1044323579,
         "y_order": -1053978658,
         "list_order": -1054007896,
         "uuid": "a4d4ef8c-8379-4048-820d-37c61d72894e",
@@ -4239,7 +4270,7 @@
             "description": [
                 ""
             ],
-            "list_order": -534726015,
+            "list_order": -371352641,
             "uuid": "168231f5-4ca5-4ae2-92a1-96da722d4bdd"
           },
           {
@@ -4440,7 +4471,7 @@
         "description": [
                 "A tool that allows to grab objects and move them."
         ],
-        "x_order": -858822106,
+        "x_order": 645157058,
         "y_order": -1168769568,
         "list_order": -1058861716,
         "uuid": "a28d75e1-1447-462b-95f9-9093d65419e7",
@@ -4459,8 +4490,8 @@
                 "A tool window is a flap in the chassis that protects screw driver, gripper and cargo bin when unused.\n",
                 "It can be opened and closed by a motor."
         ],
-        "x_order": -1044323579,
-        "y_order": -1137259057,
+        "x_order": -203135287,
+        "y_order": -1080714627,
         "list_order": -1161718484,
         "uuid": "c9f30cdf-0f70-495f-90b1-567a19600a7c",
         "features":
@@ -5543,7 +5574,7 @@
                 "The enironment model refers to the (limited) knowledge of the software on the real environment."
         ],
         "x_order": 1163634552,
-        "y_order": -1212883541,
+        "y_order": -1289206389,
         "list_order": -314934184,
         "uuid": "708764c9-b3ee-4a12-8aa8-b0071793a47d",
         "features":
@@ -5598,7 +5629,7 @@
                 "The real environment refers to the physical environment of the system."
         ],
         "x_order": 1690871009,
-        "y_order": -1212883541,
+        "y_order": -1289206389,
         "list_order": -100641476,
         "uuid": "59fc1a69-283e-480c-a90c-6567fee4296e",
         "features":
@@ -6312,7 +6343,7 @@
                 "The skeleton frame provides stability to the assembly of parts.\n",
                 "Anchorage points latch the assembled parts at their positions."
         ],
-        "x_order": -858822106,
+        "x_order": -920059638,
         "y_order": -1412570674,
         "list_order": -1427757613,
         "uuid": "ef69ee60-22f1-4c55-9ec2-fed9cef9910a",

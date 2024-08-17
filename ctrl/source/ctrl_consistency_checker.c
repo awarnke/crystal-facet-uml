@@ -2,7 +2,7 @@
 
 #include "ctrl_consistency_checker.h"
 #include "storage/data_database_consistency_checker.h"
-#include "data_id.h"
+#include "entity/data_id.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <assert.h>

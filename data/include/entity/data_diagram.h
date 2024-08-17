@@ -9,11 +9,11 @@
  *  \brief Defines a diagram
  */
 
-#include "data_diagram_type.h"
-#include "data_id.h"
-#include "data_row_id.h"
-#include "data_diagram_flag.h"
-#include "data_uuid.h"
+#include "entity/data_diagram_type.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
+#include "entity/data_diagram_flag.h"
+#include "entity/data_uuid.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdbool.h>
@@ -339,7 +339,7 @@ static inline u8_error_t data_diagram_set_uuid ( data_diagram_t *this_, const ch
  */
 static inline bool data_diagram_is_valid ( const data_diagram_t *this_ );
 
-#include "data_diagram.inl"
+#include "entity/data_diagram.inl"
 
 #endif  /* DATA_DIAGRAM_H */
 

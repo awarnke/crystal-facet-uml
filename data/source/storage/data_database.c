@@ -1,8 +1,8 @@
 /* File: data_database.c; Copyright and License: see below */
 
 #include "storage/data_database.h"
-#include "data_id.h"
-#include "data_table.h"
+#include "entity/data_id.h"
+#include "entity/data_table.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include <assert.h>

@@ -13,7 +13,7 @@
 #include "geometry/geometry_direction.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_point.h"
-#include "data_feature.h"
+#include "entity/data_feature.h"
 
 /*!
  *  \brief visibility, shape and location of a feature

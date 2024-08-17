@@ -4,7 +4,7 @@
 #include "sketch/gui_sketch_nav_tree.h"
 #include "shape/shape_int_rectangle.h"
 #include "gui_resources.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "test_fixture.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"

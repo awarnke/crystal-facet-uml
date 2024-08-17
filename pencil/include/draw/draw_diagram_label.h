@@ -15,7 +15,7 @@
 #include "geometry/geometry_v_align.h"
 #include "geometry/geometry_rectangle.h"
 #include "geometry/geometry_dimensions.h"
-#include "data_diagram.h"
+#include "entity/data_diagram.h"
 #include "set/data_profile_part.h"
 #include <cairo.h>
 #include <stdint.h>

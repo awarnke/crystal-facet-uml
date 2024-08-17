@@ -26,10 +26,10 @@
 #include "io_data_file.h"
 #include "storage/data_change_message.h"
 #include "ctrl_controller.h"
-#include "data_diagram_type.h"
-#include "data_classifier_type.h"
-#include "data_feature_type.h"
-#include "data_relationship_type.h"
+#include "entity/data_diagram_type.h"
+#include "entity/data_classifier_type.h"
+#include "entity/data_feature_type.h"
+#include "entity/data_relationship_type.h"
 #include "observer/observer.h"
 #include <gtk/gtk.h>
 

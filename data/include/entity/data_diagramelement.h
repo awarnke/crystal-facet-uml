@@ -9,10 +9,10 @@
  *  \brief Defines in which diagram which classifier is visible
  */
 
-#include "data_diagramelement_flag.h"
-#include "data_id.h"
-#include "data_row_id.h"
-#include "data_uuid.h"
+#include "entity/data_diagramelement_flag.h"
+#include "entity/data_id.h"
+#include "entity/data_row_id.h"
+#include "entity/data_uuid.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -275,7 +275,7 @@ static inline const char *data_diagramelement_get_uuid_const ( const data_diagra
  */
 static inline u8_error_t data_diagramelement_set_uuid ( data_diagramelement_t *this_, const char *uuid );
 
-#include "data_diagramelement.inl"
+#include "entity/data_diagramelement.inl"
 
 #endif  /* DATA_DIAGRAMELEMENT_H */
 
