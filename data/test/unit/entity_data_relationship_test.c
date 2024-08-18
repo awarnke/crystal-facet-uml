@@ -25,9 +25,20 @@ test_suite_t entity_data_relationship_test_get_suite(void)
     return result;
 }
 
+#define TOO_LONG_100 "too long text ...   too long text ...   too long text ...   too long text ...   too long text ...   "
+#define TOO_LONG_800 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100
+static const char static_too_long[4800] = TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800;
+
+struct test_fixture_struct {
+    const char *too_long;  /*!< a pointer to a string that is too long */
+};
+typedef struct test_fixture_struct test_fixture_t;  /* double declaration as reminder */
+static test_fixture_t test_fixture;
+
 static test_fixture_t * set_up()
 {
-    return NULL;
+    test_fixture.too_long = &(static_too_long[0]);
+    return &test_fixture;
 }
 
 static void tear_down( test_fixture_t *test_env )
