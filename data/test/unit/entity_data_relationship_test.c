@@ -75,7 +75,239 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     data_relationship_destroy( &testee );
 
-    return TEST_CASE_RESULT_ERR;
+    data_relationship_t testee;
+
+    /* sub test case 0 */
+    data_relationship_init_empty( &testee );
+    TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
+    const char* uuid_0 = data_relationship_get_uuid_const( &testee );
+    TEST_EXPECT( uuid_0 != NULL );
+    TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_0 ) );
+    TEST_EXPECT_EQUAL_STRING( "", data_relationship_get_stereotype_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "", data_relationship_get_name_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "", data_relationship_get_description_const( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_relationship_get_x_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_relationship_get_y_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_relationship_get_list_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_BLOCK, data_relationship_get_main_type( &testee ) );
+
+    /* sub test case 1 */
+    const u8_error_t result_1
+        = data_relationship_init_new( &testee,
+                                    DATA_RELATIONSHIP_TYPE_DYN_JOIN_NODE,
+                                    "stereotype",
+                                    "name",
+                                    "description",
+                                    1920,
+                                    1080,
+                                    24
+                                  );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_1 );
+    TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_row_id( &testee ) );
+    const char* uuid_1 = data_relationship_get_uuid_const( &testee );
+    TEST_EXPECT( uuid_1 != NULL );
+    TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
+    TEST_EXPECT_EQUAL_STRING( "stereotype", data_relationship_get_stereotype_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "name", data_relationship_get_name_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "description", data_relationship_get_description_const( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1920, data_relationship_get_x_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1080, data_relationship_get_y_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 24, data_relationship_get_list_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_DYN_JOIN_NODE, data_relationship_get_main_type( &testee ) );
+
+    /* sub test case 2 */
+    const u8_error_t result_2
+        = data_relationship_init_new( &testee,
+                                    DATA_RELATIONSHIP_TYPE_DYN_FORK_NODE,
+                                    (*test_env).too_long,
+                                    (*test_env).too_long,
+                                    (*test_env).too_long,
+                                    16,
+                                    9,
+                                    47
+                                  );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2 );
+    TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_row_id( &testee ) );
+    const char* uuid_2 = data_relationship_get_uuid_const( &testee );
+    TEST_EXPECT( uuid_2 != NULL );
+    TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_name_const( &testee ), "too long text" ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "too long text" ) );
+    TEST_EXPECT_EQUAL_INT( 16, data_relationship_get_x_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 9, data_relationship_get_y_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 47, data_relationship_get_list_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_DYN_FORK_NODE, data_relationship_get_main_type( &testee ) );
+
+    /* sub test case 3 */
+    data_relationship_reinit_empty( &testee );
+    TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
+    const char* uuid_3 = data_relationship_get_uuid_const( &testee );
+    TEST_EXPECT( uuid_3 != NULL );
+    TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_3 ) );
+    TEST_EXPECT_EQUAL_STRING( "", data_relationship_get_stereotype_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "", data_relationship_get_name_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "", data_relationship_get_description_const( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_relationship_get_x_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_relationship_get_y_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 0, data_relationship_get_list_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_BLOCK, data_relationship_get_main_type( &testee ) );
+
+    /* sub test case 4 */
+    const u8_error_t result_4
+        = data_relationship_init( &testee,
+                                1234,
+                                DATA_RELATIONSHIP_TYPE_ARTIFACT,
+                                "stereotype",
+                                "name",
+                                "description",
+                                1920,
+                                1080,
+                                24,
+                                "1ff2be8d-c46a-4777-8017-e073a41cc680"
+                              );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_4 );
+    TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1234, data_relationship_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_relationship_get_uuid_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "stereotype", data_relationship_get_stereotype_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "name", data_relationship_get_name_const( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "description", data_relationship_get_description_const( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1920, data_relationship_get_x_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1080, data_relationship_get_y_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 24, data_relationship_get_list_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_ARTIFACT, data_relationship_get_main_type( &testee ) );
+
+    /* sub test case 5 */
+    const u8_error_t result_5
+        = data_relationship_reinit( &testee,
+                                  54,
+                                  DATA_RELATIONSHIP_TYPE_OBJECT,
+                                  (*test_env).too_long,
+                                  (*test_env).too_long,
+                                  (*test_env).too_long,
+                                  16,
+                                  9,
+                                  47,
+                                  "097498ef-e43b-4b79-b26a-df6f23590165"
+                                );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
+    TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 54, data_relationship_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_relationship_get_uuid_const( &testee ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_name_const( &testee ), "too long text" ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "too long text" ) );
+    TEST_EXPECT_EQUAL_INT( 16, data_relationship_get_x_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 9, data_relationship_get_y_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 47, data_relationship_get_list_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_OBJECT, data_relationship_get_main_type( &testee ) );
+
+    /* sub test case 6 */
+    data_relationship_destroy( &testee );
+    TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
+
+    return TEST_CASE_RESULT_OK;
+}
+
+static test_case_result_t test_set_get( test_fixture_t *test_env )
+{
+    data_relationship_t testee;
+
+    /* sub test case 0 */
+    data_relationship_init_empty( &testee );
+    TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
+
+    /* sub test case 1 */
+    data_relationship_trace( &testee );
+    /* function call is possible, function returns */
+
+    /* sub test case 2 */
+    data_relationship_set_row_id( &testee, 478 );
+    const data_row_id_t row_id = data_relationship_get_row_id( &testee );
+    TEST_EXPECT_EQUAL_INT( 478, row_id );
+    TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
+    const data_id_t data_id = data_relationship_get_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( 478, data_id_get_row_id( &data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &data_id ) );
+
+    /* sub test case 3 */
+    data_relationship_set_main_type( &testee, DATA_RELATIONSHIP_TYPE_STATE );
+    const data_relationship_type_t m_type = data_relationship_get_main_type( &testee );
+    TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_STATE, m_type );
+    TEST_EXPECT_EQUAL_INT( true, data_relationship_type_is_behavioral( m_type ) );
+
+    /* sub test case 4 */
+    TEST_EXPECT_EQUAL_INT( false, data_relationship_has_stereotype( &testee ) );
+    const u8_error_t result_4 = data_relationship_set_stereotype( &testee, "2ch" );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_4 );
+    TEST_EXPECT_EQUAL_STRING( "2ch", data_relationship_get_stereotype_const( &testee ) );
+    TEST_EXPECT_EQUAL_INT( true, data_relationship_has_stereotype( &testee ) );
+
+    /* sub test case 5 */
+    const u8_error_t result_5 = data_relationship_set_stereotype( &testee, (*test_env).too_long );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
+
+    /* sub test case 6 */
+    const u8_error_t result_6 = data_relationship_set_name( &testee, "Amplifier" );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_6 );
+    TEST_EXPECT_EQUAL_STRING( "Amplifier", data_relationship_get_name_const( &testee ) );
+
+    /* sub test case 7 */
+    const u8_error_t result_7 = data_relationship_set_name( &testee, (*test_env).too_long );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_7 );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
+
+    /* sub test case 8 */
+    const u8_error_t result_8 = data_relationship_set_description( &testee, "The " );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_8 );
+    TEST_EXPECT_EQUAL_STRING( "The ", data_relationship_get_description_const( &testee ) );
+
+    /* sub test case 9 */
+    const u8_error_t result_9 = data_relationship_append_description( &testee, "amplifier " );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_9 );
+    TEST_EXPECT_EQUAL_STRING( "The amplifier ", data_relationship_get_description_const( &testee ) );
+
+    /* sub test case 10 */
+    const u8_error_t result_10 = data_relationship_append_description( &testee, (*test_env).too_long );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_10 );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "The amplifier too long" ) );
+
+    /* sub test case 11 */
+    const u8_error_t result_11 = data_relationship_set_description( &testee, (*test_env).too_long );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_11 );
+    TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "too long text" ) );
+
+    /* sub test case 12 */
+    data_relationship_set_x_order( &testee, 16 );
+    TEST_EXPECT_EQUAL_INT( 16, data_relationship_get_x_order( &testee ) );
+
+    /* sub test case 13 */
+    data_relationship_set_y_order( &testee, 9 );
+    TEST_EXPECT_EQUAL_INT( 9, data_relationship_get_y_order( &testee ) );
+
+    /* sub test case 14 */
+    data_relationship_set_list_order( &testee, 3 );
+    TEST_EXPECT_EQUAL_INT( 3, data_relationship_get_list_order( &testee ) );
+
+    /* sub test case 15 */
+    u8_error_t result_15 = data_relationship_set_uuid( &testee, "wrong" );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_VALUE_OUT_OF_RANGE, result_15 );
+
+    /* sub test case 16 */
+    u8_error_t result_16 = data_relationship_set_uuid( &testee, (*test_env).too_long );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_16 );
+
+    /* sub test case 17 */
+    u8_error_t result_17 = data_relationship_set_uuid( &testee, "1652f338-5011-4775-9b56-8c08caaa2663" );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_17 );
+    TEST_EXPECT_EQUAL_STRING( "1652f338-5011-4775-9b56-8c08caaa2663", data_relationship_get_uuid_const( &testee ) );
+
+    data_relationship_destroy( &testee );
+
     return TEST_CASE_RESULT_OK;
 }
 
