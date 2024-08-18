@@ -124,8 +124,8 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     const u8_error_t result_4
         = data_feature_init( &testee,
                              1234,
-                             1004,
                              DATA_FEATURE_TYPE_OUT_PORT_PIN,
+                             1004,
                              "name",
                              "value",
                              "description",
@@ -170,7 +170,7 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( true, data_feature_is_valid( &testee ) );
     const data_id_t data_id = data_feature_get_data_id( &testee );
     TEST_EXPECT_EQUAL_INT( 478, data_id_get_row_id( &data_id ) );
-    TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &data_id ) );
 
     /* sub test case 3 */
     data_feature_set_main_type( &testee, DATA_FEATURE_TYPE_OPERATION );
@@ -247,6 +247,7 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_STRING( "1652f338-5011-4775-9b56-8c08caaa2663", data_feature_get_uuid_const( &testee ) );
 
     data_feature_destroy( &testee );
+    data_feature_destroy( &testee_copy );
 
     return TEST_CASE_RESULT_OK;
 }
