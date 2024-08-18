@@ -15,8 +15,7 @@ static inline bool pencil_rules_feature_is_implicit_proxy ( const pencil_rules_t
                                                             data_diagram_type_t diagram_type )
 {
     const bool classifier_can_have_lifeline
-        = ! (( classifier_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
+        = ! (( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_INTERACTION )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_DIAGRAM_REFERENCE ));

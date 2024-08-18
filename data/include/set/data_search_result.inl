@@ -41,11 +41,6 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_CLASSIFIER, match_id );
-    if ( match_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
-    {
-        match_type = DATA_CLASSIFIER_TYPE_REQUIREMENT;
-        U8_LOG_ANOMALY_INT( "Classifier type FEATURE is deprecated. Converted to REQUIREMENT. See id C", match_id );
-    }
     (*this_).match_type = match_type;
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );

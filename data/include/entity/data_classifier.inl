@@ -98,11 +98,6 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
     u8_error_t result = U8_ERROR_NONE;
 
     (*this_).id = id;
-    if ( main_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
-    {
-        main_type = DATA_CLASSIFIER_TYPE_REQUIREMENT;
-        U8_LOG_ANOMALY_INT( "Classifier type FEATURE is deprecated. Converted to REQUIREMENT. See id C", id );
-    }
     (*this_).main_type = main_type;
 
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );

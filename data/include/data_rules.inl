@@ -141,7 +141,6 @@ static inline bool data_rules_classifier_has_scenario_semantics ( const data_rul
 {
     const bool lifeline_has_no_semantics
         = ( classifier_type == DATA_CLASSIFIER_TYPE_REQUIREMENT )
-        || ( classifier_type == DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_COMMENT )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_IMAGE )
         || ( classifier_type == DATA_CLASSIFIER_TYPE_STEREOTYPE )

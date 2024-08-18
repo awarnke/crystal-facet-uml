@@ -61,8 +61,6 @@ enum data_classifier_type_enum {
     // missing: activity-bars and life-end-cross on lifelines - maybe these can be auto-generated?
     DATA_CLASSIFIER_TYPE_INTERACTION = 190,  /* a uml interaction. Currently this does not exist in the data model but is faked at xmi export */
 };
-#define DATA_CLASSIFIER_TYPE_DEPRECATED_FEATURE (98)
-
 typedef enum data_classifier_type_enum data_classifier_type_t;
 
 #define DATA_CLASSIFIER_TYPE_COUNT (32)
