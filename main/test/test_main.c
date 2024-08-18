@@ -1,9 +1,15 @@
 /* File: test_main.c; Copyright and License: see below */
 
 /* data */
+#include "unit/entity_data_diagram_test.h"
+#include "unit/entity_data_diagramelement_test.h"
+#include "unit/entity_data_classifier_test.h"
+#include "unit/entity_data_feature_test.h"
+#include "unit/entity_data_relationship_test.h"
+#include "unit/entity_data_head_test.h"
+#include "unit/entity_data_uuid_test.h"
 #include "unit/data_change_notifier_test.h"
 #include "unit/data_small_set_test.h"
-#include "unit/data_uuid_test.h"
 #include "unit/data_rules_test.h"
 #include "unit/data_database_listener_test.h"
 #include "unit/data_database_head_test.h"
@@ -193,9 +199,15 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, utf8stream_writer_test_get_suite() );
 
         /* data */
+        test_runner_run_suite( &runner, entity_data_diagram_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_diagramelement_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_classifier_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_feature_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_relationship_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_head_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_uuid_test_get_suite() );
         test_runner_run_suite( &runner, data_small_set_test_get_suite() );
         test_runner_run_suite( &runner, data_rules_test_get_suite() );
-        test_runner_run_suite( &runner, data_uuid_test_get_suite() );
         test_runner_run_suite( &runner, data_change_notifier_test_get_suite() );
         test_runner_run_suite( &runner, data_database_listener_test_get_suite() );
         test_runner_run_suite( &runner, data_database_head_test_get_suite() );

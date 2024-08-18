@@ -1,22 +1,22 @@
-/* File: data_uuid_test.h; Copyright and License: see below */
+/* File: entity_data_feature_test.h; Copyright and License: see below */
 
-#ifndef DATA_UUID_TEST_H
-#define DATA_UUID_TEST_H
+#ifndef ENTITY_DATA_FEATURE_TEST_H
+#define ENTITY_DATA_FEATURE_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for data_uuid_test
+ *  \brief UNITTEST for data_diagram
  */
 
 #include "test_suite.h"
 
-test_suite_t data_uuid_test_get_suite(void);
+test_suite_t entity_data_feature_test_get_suite(void);
 
-#endif  /* DATA_UUID_TEST_H */
+#endif  /* ENTITY_DATA_FEATURE_TEST_H */
 
 
 /*
- * Copyright 2021-2024 Andreas Warnke
+ * Copyright 2024-2024 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

@@ -1,6 +1,6 @@
-/* File: data_uuid_test.c; Copyright and License: see below */
+/* File: entity_data_uuid_test.c; Copyright and License: see below */
 
-#include "data_uuid_test.h"
+#include "entity_data_uuid_test.h"
 #include "entity/data_uuid.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
@@ -10,11 +10,11 @@ static void tear_down( test_fixture_t *test_env );
 static test_case_result_t test_format( test_fixture_t *test_env );
 static test_case_result_t test_unique( test_fixture_t *test_env );
 
-test_suite_t data_uuid_test_get_suite(void)
+test_suite_t entity_data_uuid_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "data_uuid_test",
+                     "entity_data_uuid_test",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
