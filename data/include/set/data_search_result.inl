@@ -12,11 +12,6 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_DIAGRAM, match_id );
-    if ( match_type == DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM )
-    {
-        match_type = DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM;
-        U8_LOG_ANOMALY_INT( "Diagram type INTERACTION_OVERVIEW is re-invented. Old type converted to ACTIVITY. See id D", match_id );
-    }
     (*this_).match_type = match_type;
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );

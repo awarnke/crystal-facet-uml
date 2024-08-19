@@ -155,10 +155,18 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* n/a */
 
     /* sub test case 9 */
-    /* n/a */
+    data_diagramelement_set_focused_feature_row_id( &testee, 1999 );
+    TEST_EXPECT_EQUAL_INT( 1999, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    const data_id_t f_data_id = data_diagramelement_get_focused_feature_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( 1999, data_id_get_row_id( &f_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &f_data_id ) );
 
     /* sub test case 10 */
-    /* n/a */
+    data_diagramelement_set_focused_feature_row_id( &testee, DATA_ROW_ID_VOID );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &testee ) );
+    const data_id_t v_data_id = data_diagramelement_get_focused_feature_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &v_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &v_data_id ) );
 
     /* sub test case 11, work on copy, do not modify original */
     data_diagramelement_copy( &testee_copy, &testee );
@@ -183,11 +191,7 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT, data_diagramelement_get_display_flags( &testee ) );
 
     /* sub test case 14 */
-    data_diagramelement_set_focused_feature_row_id( &testee, 1999 );
-    TEST_EXPECT_EQUAL_INT( 1999, data_diagramelement_get_focused_feature_row_id( &testee ) );
-    const data_id_t f_data_id = data_diagramelement_get_focused_feature_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( 1999, data_id_get_row_id( &f_data_id ) );
-    TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &f_data_id ) );
+    /* n/a */
 
     /* sub test case 15 */
     u8_error_t result_15 = data_diagramelement_set_uuid( &testee, "wrong" );

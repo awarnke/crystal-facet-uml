@@ -39,7 +39,6 @@ enum data_diagram_type_enum {
     /*DATA_DIAGRAM_TYPE_UML_OBJECT_DIAGRAM = 35,*/ /* - obsolete in UML 2.5, use a class diagram instead */
     DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM = 39,
 };
-#define DATA_DIAGRAM_TYPE_DEPRECATED_INTERACTION_OVERVIEW_DIAGRAM (15)
 
 typedef enum data_diagram_type_enum data_diagram_type_t;
 
