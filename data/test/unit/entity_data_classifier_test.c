@@ -207,10 +207,12 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &data_id ) );
 
     /* sub test case 3 */
+    const data_classifier_type_t m_type_0 = data_classifier_get_main_type( &testee );
+    TEST_EXPECT_EQUAL_INT( false, data_classifier_type_is_behavioral( m_type_0 ) );
     data_classifier_set_main_type( &testee, DATA_CLASSIFIER_TYPE_STATE );
-    const data_classifier_type_t m_type = data_classifier_get_main_type( &testee );
-    TEST_EXPECT_EQUAL_INT( DATA_CLASSIFIER_TYPE_STATE, m_type );
-    TEST_EXPECT_EQUAL_INT( true, data_classifier_type_is_behavioral( m_type ) );
+    const data_classifier_type_t m_type_1 = data_classifier_get_main_type( &testee );
+    TEST_EXPECT_EQUAL_INT( DATA_CLASSIFIER_TYPE_STATE, m_type_1 );
+    TEST_EXPECT_EQUAL_INT( true, data_classifier_type_is_behavioral( m_type_1 ) );
 
     /* sub test case 4 */
     TEST_EXPECT_EQUAL_INT( false, data_classifier_has_stereotype( &testee ) );

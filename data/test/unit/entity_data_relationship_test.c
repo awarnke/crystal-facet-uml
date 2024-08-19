@@ -272,14 +272,26 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* sub test case 12 */
     data_relationship_set_from_classifier_row_id( &testee, 1600 );
     TEST_EXPECT_EQUAL_INT( 1600, data_relationship_get_from_classifier_row_id( &testee ) );
+    const data_id_t from_c_data_id = data_relationship_get_from_classifier_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( 1600, data_id_get_row_id( &from_c_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &from_c_data_id ) );
     data_relationship_set_from_feature_row_id( &testee, DATA_ROW_ID_VOID );
     TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
+    const data_id_t from_f_data_id = data_relationship_get_from_feature_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &from_f_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &from_f_data_id ) );
 
     /* sub test case 13 */
     data_relationship_set_to_classifier_row_id( &testee, 1602 );
     TEST_EXPECT_EQUAL_INT( 1602, data_relationship_get_to_classifier_row_id( &testee ) );
+    const data_id_t to_c_data_id = data_relationship_get_to_classifier_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( 1602, data_id_get_row_id( &to_c_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &to_c_data_id ) );
     data_relationship_set_to_feature_row_id( &testee, 1222 );
     TEST_EXPECT_EQUAL_INT( 1222, data_relationship_get_to_feature_row_id( &testee ) );
+    const data_id_t to_f_data_id = data_relationship_get_to_feature_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( 1222, data_id_get_row_id( &to_f_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &to_f_data_id ) );
 
     /* sub test case 14 */
     data_relationship_set_list_order( &testee, 3 );

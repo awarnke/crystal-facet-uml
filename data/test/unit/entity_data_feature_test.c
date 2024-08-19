@@ -143,6 +143,29 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 24, data_feature_get_list_order( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_OUT_PORT_PIN, data_feature_get_main_type( &testee ) );
 
+    /* sub test case 5 */
+    const u8_error_t result_5
+        = data_feature_init( &testee,
+                             12345,
+                             DATA_FEATURE_TYPE_LIFELINE,
+                             1005,
+                             (*test_env).too_long,
+                             (*test_env).too_long,
+                             (*test_env).too_long,
+                             47,
+                             "097498ef-e43b-4b79-b26a-df6f23590165"
+                           );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_5 );
+    TEST_EXPECT_EQUAL_INT( true, data_feature_is_valid( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 12345, data_feature_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 1005, data_feature_get_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_feature_get_uuid_const( &testee ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_feature_get_key_const( &testee ), "too long text" ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_feature_get_value_const( &testee ), "too long text" ) );
+    TEST_EXPECT( utf8string_starts_with_str( data_feature_get_description_const( &testee ), "too long text" ) );
+    TEST_EXPECT_EQUAL_INT( 47, data_feature_get_list_order( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &testee ) );
+
     /* sub test case 6 */
     data_feature_destroy( &testee );
     TEST_EXPECT_EQUAL_INT( false, data_feature_is_valid( &testee ) );
@@ -173,10 +196,12 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &data_id ) );
 
     /* sub test case 3 */
-    data_feature_set_main_type( &testee, DATA_FEATURE_TYPE_OPERATION );
-    const data_feature_type_t m_type = data_feature_get_main_type( &testee );
-    TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, m_type );
-    TEST_EXPECT_EQUAL_INT( true, data_feature_type_inside_compartment( m_type ) );
+    const data_feature_type_t m_type_0 = data_feature_get_main_type( &testee );
+    TEST_EXPECT_EQUAL_INT( true, data_feature_type_inside_compartment( m_type_0 ) );
+    data_feature_set_main_type( &testee, DATA_FEATURE_TYPE_PROVIDED_INTERFACE );
+    const data_feature_type_t m_type_1 = data_feature_get_main_type( &testee );
+    TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_PROVIDED_INTERFACE, m_type_1 );
+    TEST_EXPECT_EQUAL_INT( false, data_feature_type_inside_compartment( m_type_1 ) );
 
     /* sub test case 4 */
     const u8_error_t result_4 = data_feature_set_key( &testee, "2ch" );
@@ -192,9 +217,11 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     /* sub test case 6, work on copy, do not modify original */
     data_feature_replace( &testee_copy, &testee );
+    TEST_EXPECT_EQUAL_INT( false, data_feature_has_value( &testee_copy ) );
     const u8_error_t result_6 = data_feature_set_value( &testee_copy, "Amplifier" );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_6 );
     TEST_EXPECT_EQUAL_STRING( "Amplifier", data_feature_get_value_const( &testee_copy ) );
+    TEST_EXPECT_EQUAL_INT( true, data_feature_has_value( &testee_copy ) );
     TEST_EXPECT_EQUAL_STRING( "", data_feature_get_value_const( &testee ) );
 
     /* sub test case 7 */
@@ -225,6 +252,9 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     /* sub test case 12 */
     data_feature_set_classifier_row_id( &testee, 1006 );
     TEST_EXPECT_EQUAL_INT( 1006, data_feature_get_classifier_row_id( &testee ) );
+    const data_id_t c_data_id = data_feature_get_classifier_data_id( &testee );
+    TEST_EXPECT_EQUAL_INT( 1006, data_id_get_row_id( &c_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &c_data_id ) );
 
     /* sub test case 13 */
     /* n/a */
