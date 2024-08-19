@@ -27,7 +27,7 @@ test_suite_t entity_data_relationship_test_get_suite(void)
 
 #define TOO_LONG_100 "too long text ...   too long text ...   too long text ...   too long text ...   too long text ...   "
 #define TOO_LONG_800 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100 TOO_LONG_100
-static const char static_too_long[4800] = TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800;
+static const char static_too_long[4801] = TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800 TOO_LONG_800;
 
 struct test_fixture_struct {
     const char *too_long;  /*!< a pointer to a string that is too long */
