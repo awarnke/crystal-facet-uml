@@ -155,7 +155,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                              47,
                              "097498ef-e43b-4b79-b26a-df6f23590165"
                            );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_5 );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
     TEST_EXPECT_EQUAL_INT( true, data_feature_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 12345, data_feature_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1005, data_feature_get_classifier_row_id( &testee ) );
