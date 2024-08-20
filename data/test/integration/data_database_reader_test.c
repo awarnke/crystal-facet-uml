@@ -198,15 +198,15 @@ static test_fixture_t * set_up()
     data_relationship_t v_relation;
     data_err = data_relationship_init( &v_relation,
                                        34, /* relationship_id */
-                                       DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                        12, /* from_classifier_id */
+                                       17, /* from_feature_id */
                                        13, /* to_classifier_id */
+                                       18, /* to_feature_id */
+                                       DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                        "st_t",  /* stereotype */
                                        "the composition is more", /* relationship_name */
                                        "than the sum of its parts", /* relationship_description */
                                        -66000, /* list_order */
-                                       17, /* from_feature_id */
-                                       18, /* to_feature_id */
                                        "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113"
                                      );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
@@ -217,15 +217,15 @@ static test_fixture_t * set_up()
     data_relationship_t second_relation;
     data_err = data_relationship_init( &second_relation,
                                        35, /* relationship_id */
-                                       DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, /* relationship_main_type */
                                        13, /* from_classifier_id */
+                                       DATA_ROW_ID_VOID, /* from_feature_id */
                                        13, /* to_classifier_id */
+                                       DATA_ROW_ID_VOID, /* to_feature_id */
+                                       DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, /* relationship_main_type */
                                        "st_t",  /* stereotype */
                                        "the composition is more", /* relationship_name */
                                        "than the sum of its parts", /* relationship_description */
                                        -77000, /* list_order */
-                                       DATA_ROW_ID_VOID, /* from_feature_id */
-                                       DATA_ROW_ID_VOID, /* to_feature_id */
                                        "100f8e76-ef34-4735-b7e1-fe8077b91184"
                                      );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );

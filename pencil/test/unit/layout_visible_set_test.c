@@ -144,15 +144,15 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
 
         data_err = data_relationship_init( current,
                                            r_idx,  /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,  /* relationship_main_type */
                                            r_idx % classifier_mod,  /* from_classifier_id */
+                                           DATA_ROW_ID_VOID,  /* from_feature_id */
                                            (r_idx*r_idx) % classifier_mod,  /* to_classifier_id */
+                                           DATA_ROW_ID_VOID,  /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,  /* relationship_main_type */
                                            "stereo_t",  /* stereotype */
                                            "relationship_name",
                                            "relationship_description",
                                            1500*r_idx,  /* list_order */
-                                           DATA_ROW_ID_VOID,  /* from_feature_id */
-                                           DATA_ROW_ID_VOID,  /* to_feature_id */
                                            "a0feb041-647e-422f-a4ff-2e6647c08f77"
                                          );
         TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );

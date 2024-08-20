@@ -30,15 +30,15 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
 }
 
 static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_,
-                                                      data_relationship_type_t relationship_main_type,
                                                       data_row_id_t from_classifier_id,
+                                                      data_row_id_t from_feature_id,
                                                       data_row_id_t to_classifier_id,
+                                                      data_row_id_t to_feature_id,
+                                                      data_relationship_type_t relationship_main_type,
                                                       const char* stereotype,
                                                       const char* name,
                                                       const char* description,
-                                                      int32_t list_order,
-                                                      data_row_id_t from_feature_id,
-                                                      data_row_id_t to_feature_id )
+                                                      int32_t list_order)
 {
     assert( NULL != stereotype );
     assert( NULL != name );
@@ -85,15 +85,15 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
 
 static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
                                                   data_row_id_t relationship_id,
-                                                  data_relationship_type_t relationship_main_type,
                                                   data_row_id_t from_classifier_id,
+                                                  data_row_id_t from_feature_id,
                                                   data_row_id_t to_classifier_id,
+                                                  data_row_id_t to_feature_id,
+                                                  data_relationship_type_t relationship_main_type,
                                                   const char* stereotype,
                                                   const char* name,
                                                   const char* description,
                                                   int32_t list_order,
-                                                  data_row_id_t from_feature_id,
-                                                  data_row_id_t to_feature_id,
                                                   const char* uuid )
 {
     assert( NULL != stereotype );

@@ -64,15 +64,15 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     /* sub test case 1 */
     const u8_error_t result_1
         = data_relationship_init_new( &testee,
-                                    DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW,
                                     1033,
+                                    812,
                                     1035,
+                                    823,
+                                    DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW,
                                     "stereotype",
                                     "name",
                                     "description",
-                                    24,
-                                    812,
-                                    823
+                                    24
                                   );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_1 );
     TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
@@ -81,27 +81,27 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
     TEST_EXPECT_EQUAL_INT( 1033, data_relationship_get_from_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 812, data_relationship_get_from_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1035, data_relationship_get_to_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 823, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "stereotype", data_relationship_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "name", data_relationship_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "description", data_relationship_get_description_const( &testee ) );
     TEST_EXPECT_EQUAL_INT( 24, data_relationship_get_list_order( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 812, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 823, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, data_relationship_get_main_type( &testee ) );
 
     /* sub test case 2 */
     const u8_error_t result_2
         = data_relationship_init_new( &testee,
-                                    DATA_RELATIONSHIP_TYPE_UML_REALIZATION,
                                     1034,
-                                    1036,
-                                    (*test_env).too_long,
-                                    (*test_env).too_long,
-                                    (*test_env).too_long,
-                                    16,
                                     DATA_ROW_ID_VOID,
-                                    824
+                                    1036,
+                                    824,
+                                    DATA_RELATIONSHIP_TYPE_UML_REALIZATION,
+                                    (*test_env).too_long,
+                                    (*test_env).too_long,
+                                    (*test_env).too_long,
+                                    16
                                   );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2 );
     TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
@@ -110,13 +110,13 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     TEST_EXPECT( uuid_2 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
     TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_name_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "too long text" ) );
     TEST_EXPECT_EQUAL_INT( 16, data_relationship_get_list_order( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_REALIZATION, data_relationship_get_main_type( &testee ) );
 
     /* sub test case 3 */
@@ -135,58 +135,58 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     const u8_error_t result_4
         = data_relationship_init( &testee,
                                   1234,
-                                  DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                   1033,
+                                  813,
                                   1035,
+                                  DATA_ROW_ID_VOID,
+                                  DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                   "stereotype",
                                   "name",
                                   "description",
                                   24,
-                                  813,
-                                  DATA_ROW_ID_VOID,
                                   "1ff2be8d-c46a-4777-8017-e073a41cc680"
                                 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_4 );
     TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1234, data_relationship_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1033, data_relationship_get_from_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 813, data_relationship_get_from_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1035, data_relationship_get_to_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_relationship_get_uuid_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "stereotype", data_relationship_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "name", data_relationship_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "description", data_relationship_get_description_const( &testee ) );
     TEST_EXPECT_EQUAL_INT( 24, data_relationship_get_list_order( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 813, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, data_relationship_get_main_type( &testee ) );
 
     /* sub test case 5 */
     const u8_error_t result_5
         = data_relationship_init( &testee,
                                   54,
-                                  DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
                                   1034,
+                                  DATA_ROW_ID_VOID,
                                   1036,
+                                  824,
+                                  DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
                                   (*test_env).too_long,
                                   (*test_env).too_long,
                                   (*test_env).too_long,
                                   47,
-                                  DATA_ROW_ID_VOID,
-                                  824,
                                   "097498ef-e43b-4b79-b26a-df6f23590165"
                                 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_5 );
     TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 54, data_relationship_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_relationship_get_uuid_const( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_name_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_stereotype_const( &testee ), "too long text" ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_description_const( &testee ), "too long text" ) );
     TEST_EXPECT_EQUAL_INT( 47, data_relationship_get_list_order( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, data_relationship_get_main_type( &testee ) );
 
     /* sub test case 6 */

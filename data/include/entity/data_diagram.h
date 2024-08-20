@@ -1,3 +1,4 @@
+
 /* File: data_diagram.h; Copyright and License: see below */
 
 #ifndef DATA_DIAGRAM_H

@@ -359,15 +359,15 @@ static test_case_result_t relationship_CRURDR( test_fixture_t *fix )
         data_relationship_t probe;
         data_err = data_relationship_init ( &probe,
                                             34, /* relationship_id */
-                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                             86000, /* from_classifier_id */
+                                            DATA_ROW_ID_VOID, /* from_feature_id */
                                             86001, /* to_classifier_id */
+                                            100666, /* to_feature_id */
+                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                             "stereo_t", /* stereotype */
                                             "the composition is more", /* name */
                                             "than the sum of its parts", /* description */
                                             -66000, /* list_order */
-                                            DATA_ROW_ID_VOID, /* from_feature_id */
-                                            100666, /* to_feature_id */
                                             data_uuid_get_string( &uuid )
                                           );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );

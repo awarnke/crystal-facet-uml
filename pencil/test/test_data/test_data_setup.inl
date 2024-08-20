@@ -695,15 +695,15 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         data_relationship_t rel;
         const u8_error_t d1_err = data_relationship_init( &rel,
                                                             index+1,  /* =  relationship_id */
-                                                            rel_type,
                                                             from_classifier_row_id,
+                                                            from_feature_row_id,
                                                             to_classifier_row_id,
+                                                            to_feature_row_id,
+                                                            rel_type,
                                                             "stereo_t",  /* stereotype */
                                                             relationship_name,
                                                             relationship_description,
                                                             list_order,
-                                                            from_feature_row_id,
-                                                            to_feature_row_id,
                                                             data_uuid_get_string( &rel_uuid )
                                                           );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );

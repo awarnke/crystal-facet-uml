@@ -182,15 +182,15 @@ u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_obj
         /* define relationship */
         const u8_error_t d_err
             = data_relationship_init_new( &((*this_).private_temp_relationship),
-                                          DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           parent_classifier_id,
+                                          DATA_ROW_ID_VOID,
                                           *out_classifier_id,
+                                          DATA_ROW_ID_VOID,
+                                          DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           "", /* =stereotype */
                                           "", /* =name */
                                           "", /* =description */
-                                          y_order,  /* =list_order */
-                                          DATA_ROW_ID_VOID,
-                                          DATA_ROW_ID_VOID
+                                          y_order  /* =list_order */
                                         );
         if ( d_err != U8_ERROR_NONE )
         {
@@ -335,15 +335,15 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
     /* define relationship struct */
     const u8_error_t d_err
         = data_relationship_init_new( &((*this_).private_temp_relationship),
-                                      new_rel_type,
                                       from_classifier_id,
+                                      from_feature_id,
                                       to_classifier_id,
+                                      to_feature_id,
+                                      new_rel_type,
                                       "", /* =stereotype */
                                       "", /* =name */
                                       "", /* =description */
-                                      list_order,
-                                      from_feature_id,
-                                      to_feature_id
+                                      list_order
                                     );
     if ( d_err != U8_ERROR_NONE )
     {
@@ -807,4 +807,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-

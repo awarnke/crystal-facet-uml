@@ -75,27 +75,27 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
  *  \brief initializes the data_relationship_t struct with id DATA_ROW_ID_VOID and a fresh uuid
  *
  *  \param this_ pointer to own object attributes
- *  \param relationship_main_type type of the relationship
  *  \param from_classifier_id id of the source classifier
+ *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
  *  \param to_classifier_id id of the destination classifier
+ *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param relationship_main_type type of the relationship
  *  \param stereotype stereotype of the relationship. stereotype must not be NULL.
  *  \param name name of the relationship. name must not be NULL.
  *  \param description description of the relationship. description must not be NULL.
  *  \param list_order list_order of the relationship
- *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
- *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_,
-                                                      data_relationship_type_t relationship_main_type,
                                                       data_row_id_t from_classifier_id,
+                                                      data_row_id_t from_feature_id,
                                                       data_row_id_t to_classifier_id,
+                                                      data_row_id_t to_feature_id,
+                                                      data_relationship_type_t relationship_main_type,
                                                       const char* stereotype,
                                                       const char* name,
                                                       const char* description,
-                                                      int32_t list_order,
-                                                      data_row_id_t from_feature_id,
-                                                      data_row_id_t to_feature_id
+                                                      int32_t list_order
                                                     );
 
 /*!
@@ -103,30 +103,30 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship
- *  \param relationship_main_type type of the relationship
  *  \param from_classifier_id id of the source classifier
+ *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
  *  \param to_classifier_id id of the destination classifier
+ *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param relationship_main_type type of the relationship
  *  \param stereotype stereotype of the relationship. stereotype must not be NULL.
  *  \param name name of the relationship. name must not be NULL.
  *  \param description description of the relationship. description must not be NULL.
  *  \param list_order list_order of the relationship
- *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
- *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
  *  \param uuid a universal unique identifier according to rfc4122
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long,
  *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
                                                   data_row_id_t relationship_id,
-                                                  data_relationship_type_t relationship_main_type,
                                                   data_row_id_t from_classifier_id,
+                                                  data_row_id_t from_feature_id,
                                                   data_row_id_t to_classifier_id,
+                                                  data_row_id_t to_feature_id,
+                                                  data_relationship_type_t relationship_main_type,
                                                   const char* stereotype,
                                                   const char* name,
                                                   const char* description,
                                                   int32_t list_order,
-                                                  data_row_id_t from_feature_id,
-                                                  data_row_id_t to_feature_id,
                                                   const char* uuid
                                                 );
 

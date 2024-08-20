@@ -163,15 +163,15 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
         const bool to_feat = ( 0 == (r_idx & 0x00000002) )||( (r_idx+1) == TEST_FEATURE_ID_GAP );
         data_err = data_relationship_init( current,
                                            TEST_RELATION_ID_OFFSET + r_idx,  /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
                                            TEST_CLASSIFIER_ID_OFFSET + ( r_idx % TEST_CLASSIFIER_REF_MOD ),  /* from_classifier_id */
+                                           from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ROW_ID_VOID,  /* from_feature_id */
                                            TEST_CLASSIFIER_ID_OFFSET + ( (r_idx+1) % TEST_CLASSIFIER_REF_MOD ),  /* to_classifier_id */
+                                           to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_ID_VOID,  /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
                                            "st_t",  /* stereotype */
                                            "relationship_name",
                                            "relationship_description",
                                            1500*r_idx,  /* list_order */
-                                           from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ROW_ID_VOID,  /* from_feature_id */
-                                           to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_ID_VOID,  /* to_feature_id */
                                            "dc1dc264-e50b-4140-bfb7-591977e21a37"
                                          );
         TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );

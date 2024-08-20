@@ -486,15 +486,15 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
     data_relationship_t step3b;
     data_err = data_relationship_init( &step3b,
                                        34, /* relationship_id */
-                                       DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                        86000, /* from_classifier_id */
+                                       DATA_ROW_ID_VOID, /* from_feature_id */
                                        86001, /* to_classifier_id */
+                                       150160, /* to_feature_id */
+                                       DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                        "rel:stereo_t", /* stereotype */
                                        "the composition is more", /* name */
                                        "than the sum of its parts", /* description */
                                        -66000, /* list_order */
-                                       DATA_ROW_ID_VOID, /* from_feature_id */
-                                       150160, /* to_feature_id */
                                        "57d93512-91d6-41eb-860f-0408b79a9aaf"
                                      );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );

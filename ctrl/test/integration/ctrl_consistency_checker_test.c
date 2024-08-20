@@ -686,15 +686,15 @@ static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *fix
         data_relationship_t v_relation;
         data_err = data_relationship_init( &v_relation,
                                            34, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            6, /* from_classifier_id */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
                                            6, /* to_classifier_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "rel_stereo_t", /* stereotype */
                                            "the composition is more", /* relationship_name */
                                            "than the sum of its parts", /* relationship_description */
                                            -66000, /* list_order */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
                                            "8ea7faa0-d01e-4862-903b-f2ab3e3ba40f"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -816,15 +816,15 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_relationship_t v_relation;
         data_err = data_relationship_init( &v_relation,
                                            34, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12, /* from_classifier_id */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
                                            12, /* to_classifier_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "3stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            -66000, /* list_order */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
                                            "04ee369e-f3c9-4ead-9377-280917050bc4"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -838,15 +838,15 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_relationship_t i1_relation;
         data_err = data_relationship_init( &i1_relation,
                                            35, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12, /* from_classifier_id */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
                                            12121212, /* to_classifier_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "4stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            -66000, /* list_order */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
                                            "43da4f41-dede-48f2-bd38-29694d2cb332"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -860,15 +860,15 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_relationship_t i2_relation;
         data_err = data_relationship_init( &i2_relation,
                                            36, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12121212, /* from_classifier_id */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
                                            12, /* to_classifier_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "5stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            -66000, /* list_order */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
                                            "2851e7db-19cc-484c-9cb9-f76562ac3ca5"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -882,15 +882,15 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_relationship_t i3_relation;
         data_err = data_relationship_init( &i3_relation,
                                            37, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            12121212, /* from_classifier_id */
+                                           DATA_ROW_ID_VOID, /* from_feature_id */
                                            12121212, /* to_classifier_id */
+                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "6stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            -66000, /* list_order */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
                                            "40db1fee-8342-4c12-8d2d-60b937c87628"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -1014,15 +1014,15 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
         data_relationship_t first_relation;
         data_err = data_relationship_init( &first_relation,
                                            34, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
+                                           17, /* from_feature_id */
                                            12, /* to_classifier_id */
+                                           18, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "3stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            1600, /* list_order */
-                                           17, /* from_feature_id */
-                                           18, /* to_feature_id */
                                            "e87416fc-c792-4d9d-b267-914517343318"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -1036,15 +1036,15 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
         data_relationship_t second_relation;
         data_err = data_relationship_init( &second_relation,
                                            35, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
+                                           170, /* from_feature_id */
                                            12, /* to_classifier_id */
+                                           18, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "2stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            1700, /* list_order */
-                                           170, /* from_feature_id */
-                                           18, /* to_feature_id */
                                            "213f7bae-c694-420b-9afe-6b6bfa32e638"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -1058,15 +1058,15 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
         data_relationship_t third_relation;
         data_err = data_relationship_init( &third_relation,
                                            36, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
+                                           17, /* from_feature_id */
                                            12, /* to_classifier_id */
+                                           17, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "1stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            1800, /* list_order */
-                                           17, /* from_feature_id */
-                                           17, /* to_feature_id */
                                            "d2d6858e-b670-46b7-8a6e-296b83f87c71"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -1080,15 +1080,15 @@ static test_case_result_t repair_ill_feature_relationship( test_fixture_t *fix )
         data_relationship_t first_relation;
         data_err = data_relationship_init( &first_relation,
                                            37, /* relationship_id */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            11, /* from_classifier_id */
+                                           18, /* from_feature_id */
                                            12, /* to_classifier_id */
+                                           180, /* to_feature_id */
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "0stereo_t", /* stereotype */
                                            "the composition is more", /* name */
                                            "than the sum of its parts", /* description */
                                            1900, /* list_order */
-                                           18, /* from_feature_id */
-                                           180, /* to_feature_id */
                                            "a7ad15b5-5815-46e8-a069-7c8fc49b6f6b"
                                          );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );

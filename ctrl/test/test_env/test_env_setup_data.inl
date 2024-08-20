@@ -188,15 +188,15 @@ static data_row_id_t test_env_setup_data_create_relationship( test_env_setup_t *
         static data_relationship_t new_relationship;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_relationship_init( &new_relationship,
                                            DATA_ROW_ID_VOID, /* relationship_id is ignored */
-                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            from_classifier_id,
+                                           from_feature_id,
                                            to_classifier_id,
+                                           to_feature_id,
+                                           DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "rel:stereo_t", /* stereotype */
                                            name,
                                            "my description", /* description */
                                            -66000, /* list_order */
-                                           from_feature_id,
-                                           to_feature_id,
                                            "a93377a1-1de5-491d-b092-0332636a8fcc"
                                          );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
