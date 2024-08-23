@@ -87,7 +87,7 @@ static test_case_result_t test_write( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer), "t\xE2\x82\xACst: -177210", sizeof( (*fix).out_buffer ) ) );
 
     err = utf8stream_writer_destroy( &test_me );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );  /* because the null termination does not fit */
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );  /* errors are just reported once */
 
     return TEST_CASE_RESULT_OK;
 }

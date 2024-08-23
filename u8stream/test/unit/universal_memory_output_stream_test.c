@@ -167,6 +167,11 @@ static test_case_result_t test_null_termination( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456789" "\0", sizeof((*fix).out_buffer) ) );
 
+    /* double flush shall not repeat an error code: */
+    err = universal_memory_output_stream_flush( &((*fix).mem_out_stream) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
+    TEST_EXPECT_EQUAL_INT( 0, memcmp( &((*fix).out_buffer[0]), "123456789" "\0", sizeof((*fix).out_buffer) ) );
+
     /* reset */
     err = universal_memory_output_stream_reset( &((*fix).mem_out_stream) );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );

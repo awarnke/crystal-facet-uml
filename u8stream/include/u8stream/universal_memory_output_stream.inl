@@ -52,10 +52,14 @@ static inline u8_error_t universal_memory_output_stream_private_write_0term ( un
             if ( cut == UTF8ERROR_SUCCESS )
             {
                 U8_TRACE_INFO( "last byte overwritten by terminating zero" );
+                /* prevent errors on consecutive calls to flush (e.g. at a reset to utf8stream_writer): */
+                (*this_).mem_buf_filled = (*this_).mem_buf_size - 1;
             }
             else
             {
                 U8_TRACE_INFO( "multiple last bytes dropped by terminating zero" );
+                /* prevent errors on consecutive calls to flush (-1 is not accurate here but suits the purpose): */
+                (*this_).mem_buf_filled = (*this_).mem_buf_size - 1;
             }
         }
         else
@@ -63,6 +67,8 @@ static inline u8_error_t universal_memory_output_stream_private_write_0term ( un
             char *const last_char = &(  (*(  (char(*)[])(*this_).mem_buf_start  ))[(*this_).mem_buf_size - 1]  );
             *last_char = '\0';
             U8_TRACE_INFO( "last byte overwritten by terminating zero" );
+            /* prevent errors on consecutive calls to flush: */
+            (*this_).mem_buf_filled = (*this_).mem_buf_size - 1;
         }
         err = U8_ERROR_AT_FILE_WRITE;
     }

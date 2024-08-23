@@ -63,7 +63,7 @@ static test_case_result_t test_normal_use( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_type_get_type_as_int( &my_feature ) );
     TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_type_get_feature_type( &my_feature ) );
 
-    assert( DATA_FEATURE_TYPE_PROPERTY == DATA_DIAGRAM_TYPE_LIST );
+    assert( (int)DATA_FEATURE_TYPE_PROPERTY == (int)DATA_DIAGRAM_TYPE_LIST );
     TEST_EXPECT_EQUAL_INT( false, data_type_equals( &my_feature, &my_diagram ) );
     data_type_t my_feature_2;
     data_type_init_feature( &my_feature_2, DATA_FEATURE_TYPE_LIFELINE );

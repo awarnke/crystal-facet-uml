@@ -128,6 +128,7 @@ static inline u8_error_t utf8stream_writer_write_view ( utf8stream_writer_t *thi
 
 static inline u8_error_t utf8stream_writer_flush ( utf8stream_writer_t *this_ )
 {
+    U8_TRACE_BEGIN();
     assert( (*this_).output_stream != NULL );
     assert( (*this_).buf_fill <= sizeof( (*this_).buffer ) );
     u8_error_t err = U8_ERROR_NONE;
@@ -140,6 +141,7 @@ static inline u8_error_t utf8stream_writer_flush ( utf8stream_writer_t *this_ )
 
     err |= universal_output_stream_flush( (*this_).output_stream );
 
+    U8_TRACE_END_ERR( err );
     return err;
 }
 

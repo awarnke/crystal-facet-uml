@@ -18,6 +18,11 @@ static inline void data_id_init_by_string ( data_id_t *this_, const char* string
     utf8stringview_t ignore_me = UTF8STRINGVIEW_EMPTY;
     utf8stringview_init_str( &parse_me, string_to_parse );
     data_id_init_by_stringview( this_, &parse_me, &ignore_me );
+    if ( utf8stringview_get_length( &ignore_me ) != 0 )
+    {
+        /* error: there are additional characters */
+        data_id_reinit_void( this_ );
+    }
     utf8stringview_destroy( &parse_me );
     utf8stringview_destroy( &ignore_me );
 }
@@ -225,6 +230,7 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
         default:
         {
             U8_LOG_ERROR( "data_id_to_utf8stringbuf has incomplete switch on data_table_t" );
+            assert( false );
         }
         break;
     }
@@ -310,6 +316,7 @@ static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, utf8st
         default:
         {
             U8_LOG_ERROR( "data_id_to_utf8_writer has incomplete switch on data_table_t" );
+            assert( false );
         }
         break;
     }
