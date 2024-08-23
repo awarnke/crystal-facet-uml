@@ -188,9 +188,12 @@ static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t tabl
 
 static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str )
 {
+    assert( (*this_).table >= DATA_TABLE_VOID );
+    assert( (*this_).table <= DATA_TABLE_DIAGRAM );
     utf8error_t result = UTF8ERROR_SUCCESS;
     switch ( (*this_).table )
     {
+        default:
         case DATA_TABLE_VOID:
         {
             result |= utf8stringbuf_append_str( out_str, "void" );
@@ -224,13 +227,6 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
         case DATA_TABLE_DIAGRAM:
         {
             result |= utf8stringbuf_append_str( out_str, "D" );
-        }
-        break;
-
-        default:
-        {
-            U8_LOG_ERROR( "data_id_to_utf8stringbuf has incomplete switch on data_table_t" );
-            assert( false );
         }
         break;
     }
@@ -274,9 +270,12 @@ static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf
 
 static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, utf8stream_writer_t *out_writer )
 {
+    assert( (*this_).table >= DATA_TABLE_VOID );
+    assert( (*this_).table <= DATA_TABLE_DIAGRAM );
     u8_error_t result = U8_ERROR_NONE;
     switch ( (*this_).table )
     {
+        default:
         case DATA_TABLE_VOID:
         {
             result |= utf8stream_writer_write_str( out_writer, "void" );
@@ -310,13 +309,6 @@ static inline u8_error_t data_id_to_utf8_writer ( const data_id_t *this_, utf8st
         case DATA_TABLE_DIAGRAM:
         {
             result |= utf8stream_writer_write_str( out_writer, "D" );
-        }
-        break;
-
-        default:
-        {
-            U8_LOG_ERROR( "data_id_to_utf8_writer has incomplete switch on data_table_t" );
-            assert( false );
         }
         break;
     }
