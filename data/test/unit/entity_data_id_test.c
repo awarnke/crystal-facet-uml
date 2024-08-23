@@ -303,7 +303,7 @@ static test_case_result_t test_to_stream( test_fixture_t *test_env )
     u8err = utf8stream_writemem_reset( &stream );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );
-    /* err |= utf8stream_writer_flush( utf8stream_writemem_get_writer( &stream ) ); */
+    err |= utf8stream_writer_flush( utf8stream_writemem_get_writer( &stream ) ); /* flush now to not get the error later */
     TEST_EXPECT_EQUAL_INT( U8_ERROR_AT_FILE_WRITE, err );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "C123456" ) );
 
