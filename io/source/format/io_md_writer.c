@@ -96,16 +96,24 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
         else if ( current == DATA_TABLE_ALPHANUM_DIAGRAM /* = 'D' */)
         {
             /* try to parse an id */
-            data_id_t probe_id;
-            size_t length;
-            data_id_init_by_string_region ( &probe_id, text, text_current_byte, &length );
+            data_id_t probe_id = DATA_ID_VOID;
+            utf8stringview_t string_to_parse;
+            utf8stringview_t remainder;
+            const utf8error_t region_err
+                = utf8stringview_init_region( &string_to_parse, text, text_current_byte, text_byte_length - text_current_byte );
+            if ( region_err == UTF8ERROR_SUCCESS )
+            {
+                data_id_init_by_stringview( &probe_id, &string_to_parse, &remainder );
+            }
+            const unsigned int id_length = utf8stringview_get_length( &string_to_parse ) - utf8stringview_get_length( &remainder );
+
             if ( data_id_is_valid( &probe_id ) )
             {
-                const bool show_id = utf8string_equals_region_str( text, text_current_byte+length, IO_MD_WRITER_LINK_AS_ID );
+                const bool show_id = utf8stringview_starts_with_str( &remainder, IO_MD_WRITER_LINK_AS_ID );
                 const bool show_name
                     = show_id
                     ? false
-                    : utf8string_equals_region_str( text, text_current_byte+length, IO_MD_WRITER_LINK_AS_NAME );
+                    : utf8stringview_starts_with_str( &remainder, IO_MD_WRITER_LINK_AS_NAME );
 
                 if ( show_id || show_name )
                 {
@@ -116,22 +124,24 @@ u8_error_t io_md_writer_transform ( io_md_writer_t *this_, const char *text )
                         /* write previously parsed characters */
                         const utf8stringview_t str_view = UTF8STRINGVIEW( &(text[text_start_byte]), text_current_byte-text_start_byte );
                         write_err |= io_xml_writer_write_xml_enc_view( (*this_).sink, &str_view );
+                        text_start_byte = text_current_byte;
+
+                        /* write id */
                         char probe_id_str_buf[DATA_ID_MAX_UTF8STRING_SIZE] = "";
                         utf8stringbuf_t probe_id_str = UTF8STRINGBUF( probe_id_str_buf );
                         write_err |= data_id_to_utf8stringbuf ( &probe_id, probe_id_str );
                         write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_start );
                         write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
                         write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_middle );
-                        text_start_byte = text_current_byte;
                         if ( show_id )
                         {
                             write_err |= io_xml_writer_write_xml_enc( (*this_).sink, utf8stringbuf_get_string( probe_id_str ) );
-                            text_current_byte += length + sizeof(IO_MD_WRITER_LINK_AS_ID)-1 - 1;
+                            text_current_byte += id_length + sizeof(IO_MD_WRITER_LINK_AS_ID)-1 - 1;
                         }
                         else /* show_name */
                         {
                             write_err |= io_xml_writer_write_xml_enc( (*this_).sink, data_diagram_get_name_const( &((*this_).temp_diagram) ) );
-                            text_current_byte += length + sizeof(IO_MD_WRITER_LINK_AS_NAME)-1 - 1;
+                            text_current_byte += id_length + sizeof(IO_MD_WRITER_LINK_AS_NAME)-1 - 1;
                         }
                         write_err |= io_xml_writer_write_plain ( (*this_).sink, (*this_).tag_xref_end );
                         text_start_byte = text_current_byte+1;

@@ -375,15 +375,15 @@ static inline void data_relationship_trace ( const data_relationship_t *this_ )
 {
     U8_TRACE_INFO( "data_relationship_t" );
     U8_TRACE_INFO_INT( "- id:", (*this_).id );
-    U8_TRACE_INFO_INT( "- main_type:", (*this_).main_type );
     U8_TRACE_INFO_INT( "- from_classifier_id:", (*this_).from_classifier_id );
+    U8_TRACE_INFO_INT( "- from_feature_id:", (*this_).from_feature_id );
     U8_TRACE_INFO_INT( "- to_classifier_id:", (*this_).to_classifier_id );
+    U8_TRACE_INFO_INT( "- to_feature_id:", (*this_).to_feature_id );
+    U8_TRACE_INFO_INT( "- main_type:", (*this_).main_type );
     U8_TRACE_INFO_STR( "- stereotype:", utf8stringbuf_get_string((*this_).stereotype) );
     U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
     U8_TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
     U8_TRACE_INFO_INT( "- list_order:", (*this_).list_order );
-    U8_TRACE_INFO_INT( "- from_feature_id:", (*this_).from_feature_id );
-    U8_TRACE_INFO_INT( "- to_feature_id:", (*this_).to_feature_id );
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 

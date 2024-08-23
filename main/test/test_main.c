@@ -7,6 +7,8 @@
 #include "unit/entity_data_feature_test.h"
 #include "unit/entity_data_relationship_test.h"
 #include "unit/entity_data_head_test.h"
+#include "unit/entity_data_id_test.h"
+#include "unit/entity_data_type_test.h"
 #include "unit/entity_data_uuid_test.h"
 #include "unit/data_change_notifier_test.h"
 #include "unit/data_small_set_test.h"
@@ -205,6 +207,8 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, entity_data_feature_test_get_suite() );
         test_runner_run_suite( &runner, entity_data_relationship_test_get_suite() );
         test_runner_run_suite( &runner, entity_data_head_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_id_test_get_suite() );
+        test_runner_run_suite( &runner, entity_data_type_test_get_suite() );
         test_runner_run_suite( &runner, entity_data_uuid_test_get_suite() );
         test_runner_run_suite( &runner, data_small_set_test_get_suite() );
         test_runner_run_suite( &runner, data_rules_test_get_suite() );

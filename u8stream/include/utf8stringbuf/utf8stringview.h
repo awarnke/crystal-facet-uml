@@ -303,7 +303,7 @@ static inline utf8error_t utf8stringview_split_at_last_view( const utf8stringvie
  *  \param[out] out_remainder The remaining, unparsed string view behind the number. NULL if value not needed.
  *  \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
  *          UTF8ERROR_NOT_FOUND in case there is no decimal integer.
- *          UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
+ *          UTF8ERROR_NULL_PARAM if this_ or out_number is NULL
  *          UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
  */
 utf8error_t utf8stringview_parse_int( const utf8stringview_t *this_, int64_t *out_number, utf8stringview_t *out_remainder );

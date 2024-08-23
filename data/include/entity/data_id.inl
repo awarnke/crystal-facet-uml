@@ -12,23 +12,36 @@ static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row
 
 static inline void data_id_init_by_string ( data_id_t *this_, const char* string_to_parse )
 {
-    size_t dummy_length;
-    data_id_init_by_string_region ( this_, string_to_parse, 0, &dummy_length );
+    assert( string_to_parse != NULL );
+
+    utf8stringview_t parse_me;
+    utf8stringview_t ignore_me = UTF8STRINGVIEW_EMPTY;
+    utf8stringview_init_str( &parse_me, string_to_parse );
+    data_id_init_by_stringview( this_, &parse_me, &ignore_me );
+    utf8stringview_destroy( &parse_me );
+    utf8stringview_destroy( &ignore_me );
 }
 
-static inline void data_id_init_by_string_region ( data_id_t *this_,
-                                                   const char* string_to_parse,
-                                                   size_t start,
-                                                   size_t *out_length )
+static inline void data_id_init_by_stringview ( data_id_t *this_,
+                                                const utf8stringview_t* string_to_parse,
+                                                utf8stringview_t *out_remainder )
+
+
+
 {
-    if ( string_to_parse == NULL )
+    assert( string_to_parse != NULL );
+    assert( out_remainder != NULL );
+
+    if ( utf8stringview_get_length( string_to_parse ) == 0 )
     {
         (*this_).table = DATA_TABLE_VOID;
         (*this_).row_id = DATA_ROW_ID_VOID;
+        *out_remainder = UTF8STRINGVIEW_EMPTY;
     }
     else
     {
-        switch ( string_to_parse[start] )
+        const char start = *utf8stringview_get_start( string_to_parse );
+        switch ( start )
         {
             case DATA_TABLE_ALPHANUM_CLASSIFIER:
             {
@@ -70,21 +83,22 @@ static inline void data_id_init_by_string_region ( data_id_t *this_,
         if ( (*this_).table == DATA_TABLE_VOID )
         {
             (*this_).row_id = DATA_ROW_ID_VOID;
+            *out_remainder = *string_to_parse;
         }
         else
         {
-            const char* int_to_parse = string_to_parse+start+1;
-            unsigned int byte_length;
+            const utf8stringview_t int_to_parse
+                = UTF8STRINGVIEW( utf8stringview_get_start( string_to_parse )+1, utf8stringview_get_length( string_to_parse )-1 );
             int64_t number;
-            utf8error_t u8err = utf8string_parse_int( int_to_parse, &byte_length, &number );
-            if (( u8err == UTF8ERROR_SUCCESS )&&( byte_length >= 4 )) {
+            const utf8error_t int_err = utf8stringview_parse_int( &int_to_parse, &number, out_remainder );
+            const size_t byte_length = utf8stringview_get_length( &int_to_parse ) - utf8stringview_get_length( out_remainder );
+            if (( int_err == UTF8ERROR_SUCCESS )&&( byte_length >= 4 )) {
                 (*this_).row_id = number;
-                *out_length = byte_length+1;
             }
             else {
                 (*this_).table = DATA_TABLE_VOID;
                 (*this_).row_id = DATA_ROW_ID_VOID;
-                *out_length = 0;
+                *out_remainder = *string_to_parse;
             }
         }
     }
