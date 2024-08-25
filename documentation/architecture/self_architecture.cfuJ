@@ -2182,874 +2182,40 @@
     },
     {
       "diagram": {
-        "id": 54,
+        "id": 97,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "pencil: Black Box View",
+        "name": "main: Black Box View",
         "description": [
                 ""
         ],
-        "list_order": 8192,
+        "list_order": 14336,
         "display_flags": 0,
         "parent_name": "Building Block View",
         "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
-        "uuid": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
+        "uuid": "bb8fdc7b-9447-4d43-b0fd-cc1b2c509cf6",
         "diagramelements":
         [
           {
-            "id": 332,
+            "id": 635,
             "display_flags": 0,
-            "classifier_name": "pencil",
-            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
-            "uuid": "801fc618-d4c1-415a-b789-05e49c754e61"
+            "classifier_name": "main.c",
+            "node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
+            "uuid": "d4678368-6d6d-4600-b6d9-457a88c9d8b1"
           },
           {
-            "id": 624,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "data",
-            "node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
-            "uuid": "71509794-7218-4a68-bdca-3aaf632d3aab"
-          },
-          {
-            "id": 625,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "data/storage",
-            "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
-            "uuid": "34937626-e474-46d1-b7f4-1b8657b4aadb"
-          },
-          {
-            "id": 869,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "pencil/layout",
-            "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
-            "uuid": "c7691fd9-ffc3-4391-906e-a6dc2fec8dd7"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 8,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "pencil: White Box View",
-        "description": [
-                "This diagram shows the main classes in the pencil package."
-        ],
-        "list_order": 0,
-        "display_flags": 0,
-        "parent_name": "pencil: Black Box View",
-        "parent": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
-        "uuid": "7d61eb8f-2f4c-4d9e-a4d2-77062df53926",
-        "diagramelements":
-        [
-          {
-            "id": 32,
-            "display_flags": 0,
-            "classifier_name": "pencil_diagram_maker",
-            "node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
-            "uuid": "4099df12-db5d-468d-a7cf-1f8f7d310e01"
-          },
-          {
-            "id": 33,
-            "display_flags": 0,
-            "classifier_name": "pencil_xxx_layouter",
-            "node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
-            "uuid": "33bdcdff-b02c-4235-bfa8-d1bf9843c352"
-          },
-          {
-            "id": 34,
-            "display_flags": 0,
-            "classifier_name": "pencil_xxx_painter",
-            "node": "a49bd993-9c84-44a1-8eef-457a2986a266",
-            "uuid": "f39be626-6dde-44a4-83f6-25b8adf19956"
-          },
-          {
-            "id": 35,
-            "display_flags": 0,
-            "classifier_name": "data_visible_set_t",
-            "node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
-            "uuid": "8cffd841-ecef-42ae-9ea2-4ed321310e39"
-          },
-          {
-            "id": 36,
-            "display_flags": 0,
-            "classifier_name": "layout_visible_set_t",
-            "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
-            "uuid": "b9a24b09-ca12-4658-a023-a9600430958b"
-          },
-          {
-            "id": 54,
-            "display_flags": 0,
-            "classifier_name": "pencil",
-            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
-            "uuid": "2d656415-d181-4ab0-985d-a3e7c26201b9"
-          },
-          {
-            "id": 295,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "pencil/layout",
-            "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
-            "uuid": "45bd84ea-34a5-449c-9cde-e0ec7743c992"
-          },
-          {
-            "id": 304,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "pencil/draw",
-            "node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
-            "uuid": "bd82ccd1-5a46-4225-a635-77b676b3755f"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 22,
-        "diagram_type": 34,
-        "type": "UMLClassDiagram",
-        "name": "pencil detailed structure",
-        "description": [
-                ""
-        ],
-        "list_order": 0,
-        "display_flags": 0,
-        "parent_name": "pencil: White Box View",
-        "parent": "7d61eb8f-2f4c-4d9e-a4d2-77062df53926",
-        "uuid": "191fed1b-7cd5-4cbd-b9e7-69e36793de19",
-        "diagramelements":
-        [
-          {
-            "id": 132,
-            "display_flags": 0,
-            "classifier_name": "pencil_xxx_painter",
-            "node": "a49bd993-9c84-44a1-8eef-457a2986a266",
-            "uuid": "07eff8fb-ab6f-4977-92a3-f7d69e2f24e8"
-          },
-          {
-            "id": 133,
-            "display_flags": 0,
-            "classifier_name": "pencil_xxx_layouter",
-            "node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
-            "uuid": "347e78d7-17c8-45c7-9480-d240c6dded99"
-          },
-          {
-            "id": 134,
-            "display_flags": 0,
-            "classifier_name": "layout_visible_set_t",
-            "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
-            "uuid": "498389aa-7a0e-4462-a979-9987509ff90c"
-          },
-          {
-            "id": 135,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "data_visible_set_t",
-            "node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
-            "uuid": "c552b182-be84-4b4a-93ae-7d964e632a6b"
-          },
-          {
-            "id": 136,
-            "display_flags": 0,
-            "classifier_name": "pencil_layouter",
-            "node": "b3e1329f-0687-494b-9acc-7d9b13bb168c",
-            "uuid": "735be989-0900-4c42-abae-682645fd2d54"
-          },
-          {
-            "id": 137,
-            "display_flags": 0,
-            "classifier_name": "pencil_classifier_layouter",
-            "node": "0a1294ac-8fc1-418e-9acd-b045eb172a69",
-            "uuid": "a43b072b-6642-4c18-97de-c086e7d68f55"
-          },
-          {
-            "id": 138,
-            "display_flags": 0,
-            "classifier_name": "pencil_feature_layouter",
-            "node": "1a89461e-cb24-4aed-98cb-2f1cf29f69dd",
-            "uuid": "0bc42d1e-fdbf-419d-bfcb-986cdbda7690"
-          },
-          {
-            "id": 139,
-            "display_flags": 0,
-            "classifier_name": "pencil_relationship_layouter",
-            "node": "5789ff9c-1f3c-43b2-900a-e459100c0f0f",
-            "uuid": "055f2a8e-b985-405a-8806-1d1862eb6bff"
-          },
-          {
-            "id": 140,
-            "display_flags": 0,
-            "classifier_name": "pencil_classifier_composer",
-            "node": "1e3eaa2d-a9ea-4d97-80f4-82b7936b508c",
-            "uuid": "2c9b5d00-1d8a-4182-bc51-cb8b5f69de6d"
-          },
-          {
-            "id": 141,
-            "display_flags": 0,
-            "classifier_name": "pencil_diagram_painter",
-            "node": "29139478-14ea-49f3-8fce-b203fa789b4a",
-            "uuid": "eab11581-44f8-49f6-b03d-dbefcc3efc9d"
-          },
-          {
-            "id": 142,
-            "display_flags": 0,
-            "classifier_name": "pencil_feature_painter",
-            "node": "02fc8bda-71bb-4575-8584-8c42378c5b9d",
-            "uuid": "7c03a6ef-002e-4f90-98a1-a00e7f4d4bcd"
-          },
-          {
-            "id": 143,
-            "display_flags": 0,
-            "classifier_name": "pencil_relationship_painter",
-            "node": "fb944ba8-299f-45b3-83ab-dc12c5d5a3b1",
-            "uuid": "7d49b1ab-6cd7-422e-97fd-0c514a6db2f8"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 47,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "pencil.layout package",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "pencil: White Box View",
-        "parent": "7d61eb8f-2f4c-4d9e-a4d2-77062df53926",
-        "uuid": "fa9e0025-7987-4167-849f-299b9153dafe",
-        "diagramelements":
-        [
-          {
-            "id": 287,
-            "display_flags": 0,
-            "classifier_name": "pencil/layout",
-            "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
-            "uuid": "75a99553-46a5-43f7-a895-1403d70503d7"
-          },
-          {
-            "id": 291,
-            "display_flags": 0,
-            "classifier_name": "layout_diagram",
-            "node": "a17e7252-9d30-44b4-96a4-4c46278cf393",
-            "uuid": "6acab614-e9fd-4be9-be9a-d7e78becac38"
-          },
-          {
-            "id": 292,
-            "display_flags": 0,
-            "classifier_name": "layout_feature",
-            "node": "e0ce0921-4c9e-4b11-bbbd-5e2209715115",
-            "uuid": "b8076ec4-eb1a-4b73-994c-986994d38069"
-          },
-          {
-            "id": 293,
-            "display_flags": 0,
-            "classifier_name": "layout _visible_classifier",
-            "node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
-            "uuid": "245a8c37-27d7-4ba3-b664-e322ec3761d4"
-          },
-          {
-            "id": 294,
-            "display_flags": 0,
-            "classifier_name": "layout _relationship",
-            "node": "a372226d-373f-4bca-b48c-d5a9f6480050",
-            "uuid": "fe1e7b2f-91b1-4ba8-a4cf-15e90a8b741b"
-          },
-          {
-            "id": 300,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "classifiers",
-            "node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
-            "uuid": "f6718e34-bb8e-484f-b63b-549a530e7a4b"
-          },
-          {
-            "id": 301,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "features",
-            "node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
-            "uuid": "e3bb19e2-7855-4766-974c-1783b1acf068"
-          },
-          {
-            "id": 302,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "relationships",
-            "node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
-            "uuid": "307674fe-27ff-42bc-b360-1b17c047f464"
-          },
-          {
-            "id": 303,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "visible_classifier",
-            "node": "73338600-d624-43f6-9d30-55cb003e1f56",
-            "uuid": "a05fc5ef-7c2c-45d7-97ca-aaee406fb815"
-          },
-          {
-            "id": 859,
-            "display_flags": 0,
-            "classifier_name": "layout_visible_set_t",
-            "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
-            "uuid": "8da431c6-5781-46b2-ba47-a6414b94363b"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 64,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
-        "name": "pencil: Runtime View",
-        "description": [
-                "This diagram shows the different entry points for layouting and rendering a diagram."
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "pencil: Black Box View",
-        "parent": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
-        "uuid": "a2f918c1-8bd8-4f9a-9d3e-3026a52c3b55",
-        "diagramelements":
-        [
-          {
-            "id": 396,
-            "display_flags": 0,
-            "classifier_name": "pencil::start",
-            "node": "dd61e5b5-efad-4f64-8f77-b3b6bf90ad82",
-            "uuid": "8d46e2c7-42a1-4c8a-9487-d9ea70f8278e"
-          },
-          {
-            "id": 397,
-            "display_flags": 0,
-            "classifier_name": "pencil::draw",
-            "node": "d1d820be-87bb-4521-b622-14870b06500d",
-            "uuid": "4c0c4e42-7228-4130-b1cf-635e42558ae8"
-          },
-          {
-            "id": 398,
-            "display_flags": 0,
-            "classifier_name": "pencil::define grid",
-            "node": "55e2fdc9-716c-4822-8e81-aa32d8dc5c05",
-            "uuid": "fa6daef4-72e8-4e69-8cda-ef824975991b"
-          },
-          {
-            "id": 399,
-            "display_flags": 0,
-            "classifier_name": "pencil::layout elements",
-            "node": "33cc2efd-592e-4ab2-b54e-14ace3c245db",
-            "uuid": "bdd94c16-10af-47ff-8b5a-07477eb08864"
-          },
-          {
-            "id": 400,
-            "display_flags": 0,
-            "classifier_name": "gui/io select operations",
-            "node": "573662cd-6bb8-4c11-ac26-d5e7e6c751e5",
-            "uuid": "ed48d711-20f8-41a8-9da8-430b7665c629"
-          },
-          {
-            "id": 401,
-            "display_flags": 0,
-            "classifier_name": "pencil::finish",
-            "node": "3fd34e00-857d-4102-ab89-69afd3cac1cf",
-            "uuid": "37f27e9c-6e02-4a44-ac5a-30e7dbdef775"
-          },
-          {
-            "id": 459,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "pencil::activities",
-            "node": "cb465a20-f803-409c-8ba7-ca4a2d11563f",
-            "uuid": "ec7b1655-0b5f-49d7-9d59-82078bec51fa"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 65,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
-        "name": "Layouting Steps",
-        "description": [
-                ""
-        ],
-        "list_order": 0,
-        "display_flags": 0,
-        "parent_name": "pencil: Runtime View",
-        "parent": "a2f918c1-8bd8-4f9a-9d3e-3026a52c3b55",
-        "uuid": "0bf50c19-6908-41d5-ab3d-bc1f56cb0eb5",
-        "diagramelements":
-        [
-          {
-            "id": 402,
-            "display_flags": 0,
-            "classifier_name": "pencil::layout elements",
-            "node": "33cc2efd-592e-4ab2-b54e-14ace3c245db",
-            "uuid": "e6e322f5-b165-45ff-96e9-2bd5b266d3fd"
-          },
-          {
-            "id": 403,
-            "display_flags": 0,
-            "classifier_name": "pencil::define grid",
-            "node": "55e2fdc9-716c-4822-8e81-aa32d8dc5c05",
-            "uuid": "00524a56-13d8-4cc1-a816-7aca94add654"
-          },
-          {
-            "id": 404,
-            "display_flags": 0,
-            "classifier_name": "pencil::classifier_layouter layout_*",
-            "node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
-            "uuid": "41eb3da2-c6ab-4a37-972c-48b1d6dc653f"
-          },
-          {
-            "id": 405,
-            "display_flags": 0,
-            "classifier_name": "pencil::feature_layouter do_layout",
-            "node": "8f63e9af-5744-4f8a-9d07-dd19359f4e23",
-            "uuid": "03de52d0-3301-450d-9fdc-9bac02449bbd"
-          },
-          {
-            "id": 406,
-            "display_flags": 0,
-            "classifier_name": "pencil::relationship_layouter layout_*",
-            "node": "8872f06c-e059-49d5-b58a-2eef13044458",
-            "uuid": "7191b9a8-bae2-46bb-9c5e-ca966ff6e326"
-          },
-          {
-            "id": 407,
-            "display_flags": 0,
-            "classifier_name": "pencil::begin",
-            "node": "a7a5cc9a-fa22-437d-ba75-5e7cef2c4b46",
-            "uuid": "e99349f6-dd5f-4b4c-b7f4-d078fd0154e4"
-          },
-          {
-            "id": 408,
-            "display_flags": 0,
-            "classifier_name": "pencil::end",
-            "node": "1626a838-e9d4-4f8e-ab3b-20e59b72bd0e",
-            "uuid": "6d8ef3d8-33a0-4520-9fe0-9d73c11b7361"
-          },
-          {
-            "id": 409,
-            "display_flags": 0,
-            "classifier_name": "pencil::rel_label_layouter do_layout",
-            "node": "1d425581-9a8a-47ff-bf3d-7d4578c45889",
-            "uuid": "044a082d-b99a-45a5-84c7-9c9ce7c1b1d0"
-          },
-          {
-            "id": 410,
-            "display_flags": 0,
-            "classifier_name": "pencil::feat_label_layouter do_layout",
-            "node": "28192b4c-1328-441e-80ad-6eeb236ee4b5",
-            "uuid": "e1154300-103e-41e9-8e7e-6e25e585863b"
-          },
-          {
-            "id": 544,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Layouting Algorithm",
-            "node": "c298116d-781a-4e45-a87e-e24be984fbfa",
-            "uuid": "17a2f987-1000-4d36-82b8-f600674f1d9c"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 88,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
-        "name": "pencil: Crosscutting Concepts",
-        "description": [
-                "Whenever one of several layouting solutions shall be selected, the following algorithm applies.\n",
-                "\n",
-                "This algorithm is a greedy algorithm which is efficient and finds a local maximum but may miss the overall optimum layout solution."
-        ],
-        "list_order": 65536,
-        "display_flags": 0,
-        "parent_name": "pencil: Black Box View",
-        "parent": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
-        "uuid": "5d1cd0c8-fa3a-47f1-9f39-ff1740a4a074",
-        "diagramelements":
-        [
-          {
-            "id": 538,
-            "display_flags": 0,
-            "classifier_name": "layouting:start",
-            "node": "b61ef4cc-717b-4113-9ae7-ecf5f0e594ff",
-            "uuid": "d716c2c3-28d3-426d-bcd0-b9ddae66468d"
-          },
-          {
-            "id": 539,
-            "display_flags": 0,
-            "classifier_name": "layouting:finish",
-            "node": "180d3987-cafc-4293-8757-a01046aa11e0",
-            "uuid": "6474b48f-1d08-47d3-a839-e53d013077e1"
-          },
-          {
-            "id": 540,
-            "display_flags": 0,
-            "classifier_name": "propose processing order",
-            "node": "a2fc4ae1-af84-4ee6-a10e-db6e918c6237",
-            "uuid": "ca58acdc-f1fe-42f7-be56-528bcfc5b7e5"
-          },
-          {
-            "id": 541,
-            "display_flags": 0,
-            "classifier_name": "propose solutions",
-            "node": "ada01cf2-9948-4467-a97f-7be8413a7ff8",
-            "uuid": "d03e4457-2a9b-4bf7-9fe6-6d2a0d9fd1a1"
-          },
-          {
-            "id": 542,
-            "display_flags": 0,
-            "classifier_name": "select solution",
-            "node": "a488c58d-781d-4848-96d3-0c03284ddae5",
-            "uuid": "0450e72b-94ea-4a09-a87b-a50f83963f29"
-          },
-          {
-            "id": 543,
-            "display_flags": 0,
-            "classifier_name": "Layouting Algorithm",
-            "node": "c298116d-781a-4e45-a87e-e24be984fbfa",
-            "uuid": "dd9f7ee1-87ea-4910-b877-624de7a388a3"
-          },
-          {
-            "id": 545,
-            "display_flags": 0,
-            "classifier_name": "end of list?",
-            "node": "85264a07-34e5-4810-a3a8-e9b3e0393671",
-            "uuid": "de9d99a9-7ffb-4f13-93a9-78ca9caae46d"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 53,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "io: Black Box View",
-        "description": [
-                "The io module imports and exports data and diagrams.\n",
-                "Either the filesystem or the clipboard are source and destination.\n",
-                "\n",
-                "With the io_data_file_t class, this module provides a wrapper around a database of the data module that can import/export json files when opening/closing the database."
-        ],
-        "list_order": 18432,
-        "display_flags": 0,
-        "parent_name": "Building Block View",
-        "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
-        "uuid": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
-        "diagramelements":
-        [
-          {
-            "id": 333,
-            "display_flags": 0,
-            "classifier_name": "io",
-            "node": "9a93182d-56f8-4865-a642-24d997264063",
-            "uuid": "0fbc6792-ffde-4ace-aa63-97a63d05ae71"
-          },
-          {
-            "id": 626,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "pencil",
-            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
-            "uuid": "30eade03-9a07-4546-a883-81429b53fe6f"
-          },
-          {
-            "id": 627,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "data",
-            "node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
-            "uuid": "744a79c4-dac6-454e-80ba-3189a44ffac8"
-          },
-          {
-            "id": 628,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "data/storage",
-            "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
-            "uuid": "62094f71-d89e-4069-b7b7-1566c15d9d1e"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 46,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "io: White Box View",
-        "description": [
-                "This component implements input output functionality, currently:\n",
-                "- Export of diagram images"
-        ],
-        "list_order": 0,
-        "display_flags": 0,
-        "parent_name": "io: Black Box View",
-        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
-        "uuid": "e4a25d23-ba14-4306-8c80-a5eea2434497",
-        "diagramelements":
-        [
-          {
-            "id": 285,
-            "display_flags": 0,
-            "classifier_name": "io",
-            "node": "9a93182d-56f8-4865-a642-24d997264063",
-            "uuid": "9960eb20-0069-428c-ad18-d8cfd51bc835"
-          },
-          {
-            "id": 305,
-            "display_flags": 0,
-            "classifier_name": "image_format_writer",
-            "node": "9762ae37-4a86-46ab-9bc0-e4184c208c8a",
-            "uuid": "4824e752-9035-48b4-ad3f-cfd8fcb8d3b9"
-          },
-          {
-            "id": 307,
-            "display_flags": 0,
-            "classifier_name": "io_exporter",
-            "node": "eb2b04c7-1958-4787-a9fe-68696880ccf3",
-            "uuid": "723102b5-0d9a-40fc-9318-0ab0515dd381"
-          },
-          {
-            "id": 395,
-            "display_flags": 0,
-            "classifier_name": "io_importer",
-            "node": "fcfb422f-51e0-442f-ad0b-92ba43fe0776",
-            "uuid": "05909ffd-0145-424b-854a-e90553572689"
-          },
-          {
-            "id": 447,
+            "id": 636,
             "display_flags": 0,
-            "classifier_name": "io_export_xxx_traversal",
-            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
-            "uuid": "9cf0b6ed-c782-4759-93c4-3c7a0ff0979a"
-          },
-          {
-            "id": 650,
-            "display_flags": 0,
-            "classifier_name": "io_data_file",
-            "node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
-            "uuid": "bcf8a8ea-659e-4dd5-85c4-f27d42ea3aef"
-          },
-          {
-            "id": 797,
-            "display_flags": 0,
-            "classifier_name": "io_element_writer",
-            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
-            "uuid": "557df7d7-ebcb-4b62-97f7-1ce2f35fb572"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 73,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "io_export writers",
-        "description": [
-                ""
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "io: White Box View",
-        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
-        "uuid": "e7eda656-ea48-4f05-97ff-6266c7aebdb5",
-        "diagramelements":
-        [
-          {
-            "id": 450,
-            "display_flags": 0,
-            "classifier_name": "io_export_xxx_traversal",
-            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
-            "uuid": "cebf084c-33a6-4330-9742-e8f2a020e74a"
-          },
-          {
-            "id": 452,
-            "display_flags": 0,
-            "classifier_name": "document_element_writer",
-            "node": "28d24517-4348-455a-a70e-a548fa63589b",
-            "uuid": "b7b069d3-ec08-43f0-86cd-68fae37760f3"
-          },
-          {
-            "id": 454,
-            "display_flags": 0,
-            "classifier_name": "xmi_element_writer",
-            "node": "26dcb480-f664-470d-8295-6c5e2a62fdb9",
-            "uuid": "da17d740-9126-4e97-8225-e7b8ccffa98e"
-          },
-          {
-            "id": 455,
-            "display_flags": 0,
-            "classifier_name": "io_txt_writer",
-            "node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
-            "uuid": "07ff49a8-c994-42cf-a912-ff32d1867a57"
-          },
-          {
-            "id": 456,
-            "display_flags": 0,
-            "classifier_name": "io_xml_writer",
-            "node": "b5960f34-5328-438f-a755-418e58dee838",
-            "uuid": "7924c4a7-6d01-405e-800a-eca381c359f5"
-          },
-          {
-            "id": 457,
-            "display_flags": 0,
-            "classifier_name": "io_md_writer",
-            "node": "ef415086-85ec-446b-8a84-deb484e8393e",
-            "uuid": "7bf11274-cbcd-4907-977e-b8e28b72f756"
-          },
-          {
-            "id": 561,
-            "display_flags": 0,
-            "classifier_name": "io_element_writer",
-            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
-            "uuid": "4db58daf-112d-4e08-b546-14b599ff7327"
-          },
-          {
-            "id": 664,
-            "display_flags": 0,
-            "classifier_name": "json_element_writer",
-            "node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
-            "uuid": "41abf9c7-5fed-4392-9273-597bc18e8d85"
-          },
-          {
-            "id": 798,
-            "display_flags": 0,
-            "classifier_name": "format",
-            "node": "cffdbd1b-8427-4508-a891-a668907e394f",
-            "uuid": "94f7920e-7334-4a1c-adce-b947066fedf7"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 99,
-        "diagram_type": 31,
-        "type": "UMLComponentDiagram",
-        "name": "data_model_traversal",
-        "description": [
-                ""
-        ],
-        "list_order": 1073758207,
-        "display_flags": 0,
-        "parent_name": "io: White Box View",
-        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
-        "uuid": "2b20a75a-336f-4a01-b709-6a5b15957f2f",
-        "diagramelements":
-        [
-          {
-            "id": 657,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "Constant order for unchanged parts",
-            "node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
-            "uuid": "4eb7ef51-0aa7-41ad-b3db-c6c4e268b02c"
-          },
-          {
-            "id": 658,
-            "display_flags": 0,
-            "classifier_name": "io_export_flat_traversal",
-            "node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
-            "uuid": "f8986760-e951-496a-9990-31c5ee1e5f64"
-          },
-          {
-            "id": 659,
-            "display_flags": 0,
-            "classifier_name": "io_export_xxx_traversal",
-            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
-            "uuid": "a36d4f0b-8f70-41ce-b4c2-30cf6bdfb2d1"
-          },
-          {
-            "id": 660,
-            "display_flags": 0,
-            "classifier_name": "io_export_model_traversal",
-            "node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
-            "uuid": "64cf8ba9-3d64-466a-be2a-35a68e365616"
-          },
-          {
-            "id": 661,
-            "display_flags": 0,
-            "classifier_name": "io_export_diagram_traversal",
-            "node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
-            "uuid": "8ee5000f-8a72-44be-915a-81fcfdb929b9"
-          },
-          {
-            "id": 662,
-            "display_flags": 0,
-            "classifier_name": "io_element_writer",
-            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
-            "uuid": "995f142c-abf2-40ed-86c9-1cb436108af3"
-          }
-        ]
-      }
-    },
-    {
-      "diagram": {
-        "id": 71,
-        "diagram_type": 14,
-        "type": "UMLInteractionDiagram/communication",
-        "name": "io: Runtime View",
-        "description": [
-                "The io_exporter sets up the data pipe"
-        ],
-        "list_order": 32768,
-        "display_flags": 0,
-        "parent_name": "io: Black Box View",
-        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
-        "uuid": "55e179de-6342-443a-a830-1befe0620e8d",
-        "diagramelements":
-        [
-          {
-            "id": 433,
-            "display_flags": 0,
-            "classifier_name": "document_element_writer",
-            "node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
-            "uuid": "925cbe6b-886f-4e4b-b496-7526ec0c4065"
-          },
-          {
-            "id": 444,
-            "display_flags": 0,
-            "classifier_name": "Output Stream",
-            "node": "e24ebbb4-2e68-4390-9414-b5601178cbc6",
-            "uuid": "d93ac678-31dd-4d7e-944d-8df33c2117dd"
-          },
-          {
-            "id": 445,
-            "display_flags": 0,
-            "classifier_name": "data_database _reader",
-            "node": "ef1ca5dc-361c-4ee8-a299-9c975d60610d",
-            "uuid": "a31a16a4-3b08-4d38-bb6c-9114f7f3f2ce"
-          },
-          {
-            "id": 446,
-            "display_flags": 33554432,
-            "display_tags": "GrayOut",
-            "classifier_name": "io_exporter",
-            "node": "46eac473-636d-490a-a4a5-102c984e3a02",
-            "uuid": "44163c01-c7bc-4358-a768-e27586ee7df7"
+            "classifier_name": "main",
+            "node": "b5818e0b-68af-4241-a1ea-346fd8266164",
+            "uuid": "f7905834-f0bf-4a45-b9d3-85d272516c82"
           },
           {
-            "id": 458,
+            "id": 649,
             "display_flags": 0,
-            "classifier_name": "io_export_diagram_traversal",
-            "node": "1d5d8c36-04c2-40c3-a724-38bf291c9e79",
-            "uuid": "f52f6e2c-1846-4a0a-bfcb-47cd579e94b4"
+            "classifier_name": "main_commands",
+            "node": "bd63c68a-2524-41ba-bfeb-742b345667ec",
+            "uuid": "b1587f2a-66d5-4b6b-a02b-fb81712c3f18"
           }
         ]
       }
@@ -3608,40 +2774,874 @@
     },
     {
       "diagram": {
-        "id": 97,
+        "id": 54,
         "diagram_type": 31,
         "type": "UMLComponentDiagram",
-        "name": "main: Black Box View",
+        "name": "pencil: Black Box View",
         "description": [
                 ""
         ],
-        "list_order": 25600,
+        "list_order": 24320,
         "display_flags": 0,
         "parent_name": "Building Block View",
         "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
-        "uuid": "bb8fdc7b-9447-4d43-b0fd-cc1b2c509cf6",
+        "uuid": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
         "diagramelements":
         [
           {
-            "id": 635,
+            "id": 332,
             "display_flags": 0,
-            "classifier_name": "main.c",
-            "node": "13c52421-6a05-42c7-82b0-a7575a4061ac",
-            "uuid": "d4678368-6d6d-4600-b6d9-457a88c9d8b1"
+            "classifier_name": "pencil",
+            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
+            "uuid": "801fc618-d4c1-415a-b789-05e49c754e61"
           },
           {
-            "id": 636,
-            "display_flags": 0,
-            "classifier_name": "main",
-            "node": "b5818e0b-68af-4241-a1ea-346fd8266164",
-            "uuid": "f7905834-f0bf-4a45-b9d3-85d272516c82"
+            "id": 624,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "data",
+            "node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
+            "uuid": "71509794-7218-4a68-bdca-3aaf632d3aab"
           },
           {
-            "id": 649,
+            "id": 625,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "data/storage",
+            "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
+            "uuid": "34937626-e474-46d1-b7f4-1b8657b4aadb"
+          },
+          {
+            "id": 869,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "pencil/layout",
+            "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
+            "uuid": "c7691fd9-ffc3-4391-906e-a6dc2fec8dd7"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 8,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "pencil: White Box View",
+        "description": [
+                "This diagram shows the main classes in the pencil package."
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "parent_name": "pencil: Black Box View",
+        "parent": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
+        "uuid": "7d61eb8f-2f4c-4d9e-a4d2-77062df53926",
+        "diagramelements":
+        [
+          {
+            "id": 32,
             "display_flags": 0,
-            "classifier_name": "main_commands",
-            "node": "bd63c68a-2524-41ba-bfeb-742b345667ec",
-            "uuid": "b1587f2a-66d5-4b6b-a02b-fb81712c3f18"
+            "classifier_name": "pencil_diagram_maker",
+            "node": "3aee0e6f-157d-4694-9db0-1a965a0b4cf9",
+            "uuid": "4099df12-db5d-468d-a7cf-1f8f7d310e01"
+          },
+          {
+            "id": 33,
+            "display_flags": 0,
+            "classifier_name": "pencil_xxx_layouter",
+            "node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
+            "uuid": "33bdcdff-b02c-4235-bfa8-d1bf9843c352"
+          },
+          {
+            "id": 34,
+            "display_flags": 0,
+            "classifier_name": "pencil_xxx_painter",
+            "node": "a49bd993-9c84-44a1-8eef-457a2986a266",
+            "uuid": "f39be626-6dde-44a4-83f6-25b8adf19956"
+          },
+          {
+            "id": 35,
+            "display_flags": 0,
+            "classifier_name": "data_visible_set_t",
+            "node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
+            "uuid": "8cffd841-ecef-42ae-9ea2-4ed321310e39"
+          },
+          {
+            "id": 36,
+            "display_flags": 0,
+            "classifier_name": "layout_visible_set_t",
+            "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
+            "uuid": "b9a24b09-ca12-4658-a023-a9600430958b"
+          },
+          {
+            "id": 54,
+            "display_flags": 0,
+            "classifier_name": "pencil",
+            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
+            "uuid": "2d656415-d181-4ab0-985d-a3e7c26201b9"
+          },
+          {
+            "id": 295,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "pencil/layout",
+            "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
+            "uuid": "45bd84ea-34a5-449c-9cde-e0ec7743c992"
+          },
+          {
+            "id": 304,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "pencil/draw",
+            "node": "69e149fc-cee2-4251-a589-8e7d9904a1cd",
+            "uuid": "bd82ccd1-5a46-4225-a635-77b676b3755f"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 22,
+        "diagram_type": 34,
+        "type": "UMLClassDiagram",
+        "name": "pencil detailed structure",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "parent_name": "pencil: White Box View",
+        "parent": "7d61eb8f-2f4c-4d9e-a4d2-77062df53926",
+        "uuid": "191fed1b-7cd5-4cbd-b9e7-69e36793de19",
+        "diagramelements":
+        [
+          {
+            "id": 132,
+            "display_flags": 0,
+            "classifier_name": "pencil_xxx_painter",
+            "node": "a49bd993-9c84-44a1-8eef-457a2986a266",
+            "uuid": "07eff8fb-ab6f-4977-92a3-f7d69e2f24e8"
+          },
+          {
+            "id": 133,
+            "display_flags": 0,
+            "classifier_name": "pencil_xxx_layouter",
+            "node": "ea96c81c-b70e-4b57-95b7-982ef79af8dc",
+            "uuid": "347e78d7-17c8-45c7-9480-d240c6dded99"
+          },
+          {
+            "id": 134,
+            "display_flags": 0,
+            "classifier_name": "layout_visible_set_t",
+            "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
+            "uuid": "498389aa-7a0e-4462-a979-9987509ff90c"
+          },
+          {
+            "id": 135,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "data_visible_set_t",
+            "node": "c1eed88d-16ed-4b44-a4e9-e5aa5b085a31",
+            "uuid": "c552b182-be84-4b4a-93ae-7d964e632a6b"
+          },
+          {
+            "id": 136,
+            "display_flags": 0,
+            "classifier_name": "pencil_layouter",
+            "node": "b3e1329f-0687-494b-9acc-7d9b13bb168c",
+            "uuid": "735be989-0900-4c42-abae-682645fd2d54"
+          },
+          {
+            "id": 137,
+            "display_flags": 0,
+            "classifier_name": "pencil_classifier_layouter",
+            "node": "0a1294ac-8fc1-418e-9acd-b045eb172a69",
+            "uuid": "a43b072b-6642-4c18-97de-c086e7d68f55"
+          },
+          {
+            "id": 138,
+            "display_flags": 0,
+            "classifier_name": "pencil_feature_layouter",
+            "node": "1a89461e-cb24-4aed-98cb-2f1cf29f69dd",
+            "uuid": "0bc42d1e-fdbf-419d-bfcb-986cdbda7690"
+          },
+          {
+            "id": 139,
+            "display_flags": 0,
+            "classifier_name": "pencil_relationship_layouter",
+            "node": "5789ff9c-1f3c-43b2-900a-e459100c0f0f",
+            "uuid": "055f2a8e-b985-405a-8806-1d1862eb6bff"
+          },
+          {
+            "id": 140,
+            "display_flags": 0,
+            "classifier_name": "pencil_classifier_composer",
+            "node": "1e3eaa2d-a9ea-4d97-80f4-82b7936b508c",
+            "uuid": "2c9b5d00-1d8a-4182-bc51-cb8b5f69de6d"
+          },
+          {
+            "id": 141,
+            "display_flags": 0,
+            "classifier_name": "pencil_diagram_painter",
+            "node": "29139478-14ea-49f3-8fce-b203fa789b4a",
+            "uuid": "eab11581-44f8-49f6-b03d-dbefcc3efc9d"
+          },
+          {
+            "id": 142,
+            "display_flags": 0,
+            "classifier_name": "pencil_feature_painter",
+            "node": "02fc8bda-71bb-4575-8584-8c42378c5b9d",
+            "uuid": "7c03a6ef-002e-4f90-98a1-a00e7f4d4bcd"
+          },
+          {
+            "id": 143,
+            "display_flags": 0,
+            "classifier_name": "pencil_relationship_painter",
+            "node": "fb944ba8-299f-45b3-83ab-dc12c5d5a3b1",
+            "uuid": "7d49b1ab-6cd7-422e-97fd-0c514a6db2f8"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 47,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "pencil.layout package",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "pencil: White Box View",
+        "parent": "7d61eb8f-2f4c-4d9e-a4d2-77062df53926",
+        "uuid": "fa9e0025-7987-4167-849f-299b9153dafe",
+        "diagramelements":
+        [
+          {
+            "id": 287,
+            "display_flags": 0,
+            "classifier_name": "pencil/layout",
+            "node": "07d75be7-fc42-4f61-87b5-c1861aa79bd8",
+            "uuid": "75a99553-46a5-43f7-a895-1403d70503d7"
+          },
+          {
+            "id": 291,
+            "display_flags": 0,
+            "classifier_name": "layout_diagram",
+            "node": "a17e7252-9d30-44b4-96a4-4c46278cf393",
+            "uuid": "6acab614-e9fd-4be9-be9a-d7e78becac38"
+          },
+          {
+            "id": 292,
+            "display_flags": 0,
+            "classifier_name": "layout_feature",
+            "node": "e0ce0921-4c9e-4b11-bbbd-5e2209715115",
+            "uuid": "b8076ec4-eb1a-4b73-994c-986994d38069"
+          },
+          {
+            "id": 293,
+            "display_flags": 0,
+            "classifier_name": "layout _visible_classifier",
+            "node": "b36f603f-b3dd-4b56-8554-e957b6af7253",
+            "uuid": "245a8c37-27d7-4ba3-b664-e322ec3761d4"
+          },
+          {
+            "id": 294,
+            "display_flags": 0,
+            "classifier_name": "layout _relationship",
+            "node": "a372226d-373f-4bca-b48c-d5a9f6480050",
+            "uuid": "fe1e7b2f-91b1-4ba8-a4cf-15e90a8b741b"
+          },
+          {
+            "id": 300,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "classifiers",
+            "node": "2b5d830c-bb05-41b2-85f2-3917fbce9339",
+            "uuid": "f6718e34-bb8e-484f-b63b-549a530e7a4b"
+          },
+          {
+            "id": 301,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "features",
+            "node": "ee054f9f-24f3-4f07-a0cd-b181c9e1f6fc",
+            "uuid": "e3bb19e2-7855-4766-974c-1783b1acf068"
+          },
+          {
+            "id": 302,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "relationships",
+            "node": "e339bf98-9123-4d61-bee7-82df8a043c0f",
+            "uuid": "307674fe-27ff-42bc-b360-1b17c047f464"
+          },
+          {
+            "id": 303,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "visible_classifier",
+            "node": "73338600-d624-43f6-9d30-55cb003e1f56",
+            "uuid": "a05fc5ef-7c2c-45d7-97ca-aaee406fb815"
+          },
+          {
+            "id": 859,
+            "display_flags": 0,
+            "classifier_name": "layout_visible_set_t",
+            "node": "16c48ca2-f721-454c-874d-0547ee6f1ace",
+            "uuid": "8da431c6-5781-46b2-ba47-a6414b94363b"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 64,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "pencil: Runtime View",
+        "description": [
+                "This diagram shows the different entry points for layouting and rendering a diagram."
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "pencil: Black Box View",
+        "parent": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
+        "uuid": "a2f918c1-8bd8-4f9a-9d3e-3026a52c3b55",
+        "diagramelements":
+        [
+          {
+            "id": 396,
+            "display_flags": 0,
+            "classifier_name": "pencil::start",
+            "node": "dd61e5b5-efad-4f64-8f77-b3b6bf90ad82",
+            "uuid": "8d46e2c7-42a1-4c8a-9487-d9ea70f8278e"
+          },
+          {
+            "id": 397,
+            "display_flags": 0,
+            "classifier_name": "pencil::draw",
+            "node": "d1d820be-87bb-4521-b622-14870b06500d",
+            "uuid": "4c0c4e42-7228-4130-b1cf-635e42558ae8"
+          },
+          {
+            "id": 398,
+            "display_flags": 0,
+            "classifier_name": "pencil::define grid",
+            "node": "55e2fdc9-716c-4822-8e81-aa32d8dc5c05",
+            "uuid": "fa6daef4-72e8-4e69-8cda-ef824975991b"
+          },
+          {
+            "id": 399,
+            "display_flags": 0,
+            "classifier_name": "pencil::layout elements",
+            "node": "33cc2efd-592e-4ab2-b54e-14ace3c245db",
+            "uuid": "bdd94c16-10af-47ff-8b5a-07477eb08864"
+          },
+          {
+            "id": 400,
+            "display_flags": 0,
+            "classifier_name": "gui/io select operations",
+            "node": "573662cd-6bb8-4c11-ac26-d5e7e6c751e5",
+            "uuid": "ed48d711-20f8-41a8-9da8-430b7665c629"
+          },
+          {
+            "id": 401,
+            "display_flags": 0,
+            "classifier_name": "pencil::finish",
+            "node": "3fd34e00-857d-4102-ab89-69afd3cac1cf",
+            "uuid": "37f27e9c-6e02-4a44-ac5a-30e7dbdef775"
+          },
+          {
+            "id": 459,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "pencil::activities",
+            "node": "cb465a20-f803-409c-8ba7-ca4a2d11563f",
+            "uuid": "ec7b1655-0b5f-49d7-9d59-82078bec51fa"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 65,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "Layouting Steps",
+        "description": [
+                ""
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "parent_name": "pencil: Runtime View",
+        "parent": "a2f918c1-8bd8-4f9a-9d3e-3026a52c3b55",
+        "uuid": "0bf50c19-6908-41d5-ab3d-bc1f56cb0eb5",
+        "diagramelements":
+        [
+          {
+            "id": 402,
+            "display_flags": 0,
+            "classifier_name": "pencil::layout elements",
+            "node": "33cc2efd-592e-4ab2-b54e-14ace3c245db",
+            "uuid": "e6e322f5-b165-45ff-96e9-2bd5b266d3fd"
+          },
+          {
+            "id": 403,
+            "display_flags": 0,
+            "classifier_name": "pencil::define grid",
+            "node": "55e2fdc9-716c-4822-8e81-aa32d8dc5c05",
+            "uuid": "00524a56-13d8-4cc1-a816-7aca94add654"
+          },
+          {
+            "id": 404,
+            "display_flags": 0,
+            "classifier_name": "pencil::classifier_layouter layout_*",
+            "node": "c45c0b81-44e6-451a-baf1-54ad5be08e86",
+            "uuid": "41eb3da2-c6ab-4a37-972c-48b1d6dc653f"
+          },
+          {
+            "id": 405,
+            "display_flags": 0,
+            "classifier_name": "pencil::feature_layouter do_layout",
+            "node": "8f63e9af-5744-4f8a-9d07-dd19359f4e23",
+            "uuid": "03de52d0-3301-450d-9fdc-9bac02449bbd"
+          },
+          {
+            "id": 406,
+            "display_flags": 0,
+            "classifier_name": "pencil::relationship_layouter layout_*",
+            "node": "8872f06c-e059-49d5-b58a-2eef13044458",
+            "uuid": "7191b9a8-bae2-46bb-9c5e-ca966ff6e326"
+          },
+          {
+            "id": 407,
+            "display_flags": 0,
+            "classifier_name": "pencil::begin",
+            "node": "a7a5cc9a-fa22-437d-ba75-5e7cef2c4b46",
+            "uuid": "e99349f6-dd5f-4b4c-b7f4-d078fd0154e4"
+          },
+          {
+            "id": 408,
+            "display_flags": 0,
+            "classifier_name": "pencil::end",
+            "node": "1626a838-e9d4-4f8e-ab3b-20e59b72bd0e",
+            "uuid": "6d8ef3d8-33a0-4520-9fe0-9d73c11b7361"
+          },
+          {
+            "id": 409,
+            "display_flags": 0,
+            "classifier_name": "pencil::rel_label_layouter do_layout",
+            "node": "1d425581-9a8a-47ff-bf3d-7d4578c45889",
+            "uuid": "044a082d-b99a-45a5-84c7-9c9ce7c1b1d0"
+          },
+          {
+            "id": 410,
+            "display_flags": 0,
+            "classifier_name": "pencil::feat_label_layouter do_layout",
+            "node": "28192b4c-1328-441e-80ad-6eeb236ee4b5",
+            "uuid": "e1154300-103e-41e9-8e7e-6e25e585863b"
+          },
+          {
+            "id": 544,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Layouting Algorithm",
+            "node": "c298116d-781a-4e45-a87e-e24be984fbfa",
+            "uuid": "17a2f987-1000-4d36-82b8-f600674f1d9c"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 88,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "pencil: Crosscutting Concepts",
+        "description": [
+                "Whenever one of several layouting solutions shall be selected, the following algorithm applies.\n",
+                "\n",
+                "This algorithm is a greedy algorithm which is efficient and finds a local maximum but may miss the overall optimum layout solution."
+        ],
+        "list_order": 65536,
+        "display_flags": 0,
+        "parent_name": "pencil: Black Box View",
+        "parent": "3cacdd57-770f-42fd-926a-b54e9f7839b9",
+        "uuid": "5d1cd0c8-fa3a-47f1-9f39-ff1740a4a074",
+        "diagramelements":
+        [
+          {
+            "id": 538,
+            "display_flags": 0,
+            "classifier_name": "layouting:start",
+            "node": "b61ef4cc-717b-4113-9ae7-ecf5f0e594ff",
+            "uuid": "d716c2c3-28d3-426d-bcd0-b9ddae66468d"
+          },
+          {
+            "id": 539,
+            "display_flags": 0,
+            "classifier_name": "layouting:finish",
+            "node": "180d3987-cafc-4293-8757-a01046aa11e0",
+            "uuid": "6474b48f-1d08-47d3-a839-e53d013077e1"
+          },
+          {
+            "id": 540,
+            "display_flags": 0,
+            "classifier_name": "propose processing order",
+            "node": "a2fc4ae1-af84-4ee6-a10e-db6e918c6237",
+            "uuid": "ca58acdc-f1fe-42f7-be56-528bcfc5b7e5"
+          },
+          {
+            "id": 541,
+            "display_flags": 0,
+            "classifier_name": "propose solutions",
+            "node": "ada01cf2-9948-4467-a97f-7be8413a7ff8",
+            "uuid": "d03e4457-2a9b-4bf7-9fe6-6d2a0d9fd1a1"
+          },
+          {
+            "id": 542,
+            "display_flags": 0,
+            "classifier_name": "select solution",
+            "node": "a488c58d-781d-4848-96d3-0c03284ddae5",
+            "uuid": "0450e72b-94ea-4a09-a87b-a50f83963f29"
+          },
+          {
+            "id": 543,
+            "display_flags": 0,
+            "classifier_name": "Layouting Algorithm",
+            "node": "c298116d-781a-4e45-a87e-e24be984fbfa",
+            "uuid": "dd9f7ee1-87ea-4910-b877-624de7a388a3"
+          },
+          {
+            "id": 545,
+            "display_flags": 0,
+            "classifier_name": "end of list?",
+            "node": "85264a07-34e5-4810-a3a8-e9b3e0393671",
+            "uuid": "de9d99a9-7ffb-4f13-93a9-78ca9caae46d"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 53,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "io: Black Box View",
+        "description": [
+                "The io module imports and exports data and diagrams.\n",
+                "Either the filesystem or the clipboard are source and destination.\n",
+                "\n",
+                "With the io_data_file_t class, this module provides a wrapper around a database of the data module that can import/export json files when opening/closing the database."
+        ],
+        "list_order": 28160,
+        "display_flags": 0,
+        "parent_name": "Building Block View",
+        "parent": "07d64a06-b201-4ea8-8c7b-c43f69186e0b",
+        "uuid": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
+        "diagramelements":
+        [
+          {
+            "id": 333,
+            "display_flags": 0,
+            "classifier_name": "io",
+            "node": "9a93182d-56f8-4865-a642-24d997264063",
+            "uuid": "0fbc6792-ffde-4ace-aa63-97a63d05ae71"
+          },
+          {
+            "id": 626,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "pencil",
+            "node": "0849c4fd-bf4c-475a-8b87-599cb051b9d1",
+            "uuid": "30eade03-9a07-4546-a883-81429b53fe6f"
+          },
+          {
+            "id": 627,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "data",
+            "node": "53d80bf4-cf98-4739-95d5-80372a2001e7",
+            "uuid": "744a79c4-dac6-454e-80ba-3189a44ffac8"
+          },
+          {
+            "id": 628,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "data/storage",
+            "node": "e7fae2ab-8508-49fd-8d5b-f02d853776cf",
+            "uuid": "62094f71-d89e-4069-b7b7-1566c15d9d1e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 46,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "io: White Box View",
+        "description": [
+                "This component implements input output functionality, currently:\n",
+                "- Export of diagram images"
+        ],
+        "list_order": 0,
+        "display_flags": 0,
+        "parent_name": "io: Black Box View",
+        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
+        "uuid": "e4a25d23-ba14-4306-8c80-a5eea2434497",
+        "diagramelements":
+        [
+          {
+            "id": 285,
+            "display_flags": 0,
+            "classifier_name": "io",
+            "node": "9a93182d-56f8-4865-a642-24d997264063",
+            "uuid": "9960eb20-0069-428c-ad18-d8cfd51bc835"
+          },
+          {
+            "id": 305,
+            "display_flags": 0,
+            "classifier_name": "image_format_writer",
+            "node": "9762ae37-4a86-46ab-9bc0-e4184c208c8a",
+            "uuid": "4824e752-9035-48b4-ad3f-cfd8fcb8d3b9"
+          },
+          {
+            "id": 307,
+            "display_flags": 0,
+            "classifier_name": "io_exporter",
+            "node": "eb2b04c7-1958-4787-a9fe-68696880ccf3",
+            "uuid": "723102b5-0d9a-40fc-9318-0ab0515dd381"
+          },
+          {
+            "id": 395,
+            "display_flags": 0,
+            "classifier_name": "io_importer",
+            "node": "fcfb422f-51e0-442f-ad0b-92ba43fe0776",
+            "uuid": "05909ffd-0145-424b-854a-e90553572689"
+          },
+          {
+            "id": 447,
+            "display_flags": 0,
+            "classifier_name": "io_export_xxx_traversal",
+            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+            "uuid": "9cf0b6ed-c782-4759-93c4-3c7a0ff0979a"
+          },
+          {
+            "id": 650,
+            "display_flags": 0,
+            "classifier_name": "io_data_file",
+            "node": "b55e8e09-2444-4b2d-8b35-362427467d4e",
+            "uuid": "bcf8a8ea-659e-4dd5-85c4-f27d42ea3aef"
+          },
+          {
+            "id": 797,
+            "display_flags": 0,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "557df7d7-ebcb-4b62-97f7-1ce2f35fb572"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 73,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "io_export writers",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "io: White Box View",
+        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
+        "uuid": "e7eda656-ea48-4f05-97ff-6266c7aebdb5",
+        "diagramelements":
+        [
+          {
+            "id": 450,
+            "display_flags": 0,
+            "classifier_name": "io_export_xxx_traversal",
+            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+            "uuid": "cebf084c-33a6-4330-9742-e8f2a020e74a"
+          },
+          {
+            "id": 452,
+            "display_flags": 0,
+            "classifier_name": "document_element_writer",
+            "node": "28d24517-4348-455a-a70e-a548fa63589b",
+            "uuid": "b7b069d3-ec08-43f0-86cd-68fae37760f3"
+          },
+          {
+            "id": 454,
+            "display_flags": 0,
+            "classifier_name": "xmi_element_writer",
+            "node": "26dcb480-f664-470d-8295-6c5e2a62fdb9",
+            "uuid": "da17d740-9126-4e97-8225-e7b8ccffa98e"
+          },
+          {
+            "id": 455,
+            "display_flags": 0,
+            "classifier_name": "io_txt_writer",
+            "node": "5d2dae5c-4cd3-4d91-9b9e-a889920affd1",
+            "uuid": "07ff49a8-c994-42cf-a912-ff32d1867a57"
+          },
+          {
+            "id": 456,
+            "display_flags": 0,
+            "classifier_name": "io_xml_writer",
+            "node": "b5960f34-5328-438f-a755-418e58dee838",
+            "uuid": "7924c4a7-6d01-405e-800a-eca381c359f5"
+          },
+          {
+            "id": 457,
+            "display_flags": 0,
+            "classifier_name": "io_md_writer",
+            "node": "ef415086-85ec-446b-8a84-deb484e8393e",
+            "uuid": "7bf11274-cbcd-4907-977e-b8e28b72f756"
+          },
+          {
+            "id": 561,
+            "display_flags": 0,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "4db58daf-112d-4e08-b546-14b599ff7327"
+          },
+          {
+            "id": 664,
+            "display_flags": 0,
+            "classifier_name": "json_element_writer",
+            "node": "bf7560f9-2ac4-4cab-839d-93e17bf63328",
+            "uuid": "41abf9c7-5fed-4392-9273-597bc18e8d85"
+          },
+          {
+            "id": 798,
+            "display_flags": 0,
+            "classifier_name": "format",
+            "node": "cffdbd1b-8427-4508-a891-a668907e394f",
+            "uuid": "94f7920e-7334-4a1c-adce-b947066fedf7"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 99,
+        "diagram_type": 31,
+        "type": "UMLComponentDiagram",
+        "name": "data_model_traversal",
+        "description": [
+                ""
+        ],
+        "list_order": 1073758207,
+        "display_flags": 0,
+        "parent_name": "io: White Box View",
+        "parent": "e4a25d23-ba14-4306-8c80-a5eea2434497",
+        "uuid": "2b20a75a-336f-4a01-b709-6a5b15957f2f",
+        "diagramelements":
+        [
+          {
+            "id": 657,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Constant order for unchanged parts",
+            "node": "be6a385a-b80a-4ea1-bda2-33593d99d334",
+            "uuid": "4eb7ef51-0aa7-41ad-b3db-c6c4e268b02c"
+          },
+          {
+            "id": 658,
+            "display_flags": 0,
+            "classifier_name": "io_export_flat_traversal",
+            "node": "3e9162c8-99b2-4bc6-ba07-b09aad0063ad",
+            "uuid": "f8986760-e951-496a-9990-31c5ee1e5f64"
+          },
+          {
+            "id": 659,
+            "display_flags": 0,
+            "classifier_name": "io_export_xxx_traversal",
+            "node": "c86fdef5-cb67-4564-80dc-501c5ebc0035",
+            "uuid": "a36d4f0b-8f70-41ce-b4c2-30cf6bdfb2d1"
+          },
+          {
+            "id": 660,
+            "display_flags": 0,
+            "classifier_name": "io_export_model_traversal",
+            "node": "88b1f017-7729-4687-9bea-66de19c6b9b8",
+            "uuid": "64cf8ba9-3d64-466a-be2a-35a68e365616"
+          },
+          {
+            "id": 661,
+            "display_flags": 0,
+            "classifier_name": "io_export_diagram_traversal",
+            "node": "5d65a7bb-a999-4b8c-822e-6b57bd71ef7f",
+            "uuid": "8ee5000f-8a72-44be-915a-81fcfdb929b9"
+          },
+          {
+            "id": 662,
+            "display_flags": 0,
+            "classifier_name": "io_element_writer",
+            "node": "b34ed24f-5b72-498f-b48a-24276e340253",
+            "uuid": "995f142c-abf2-40ed-86c9-1cb436108af3"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 71,
+        "diagram_type": 14,
+        "type": "UMLInteractionDiagram/communication",
+        "name": "io: Runtime View",
+        "description": [
+                "The io_exporter sets up the data pipe"
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "io: Black Box View",
+        "parent": "17db0a4f-717f-4b58-b3d5-a9b1a50bfdf4",
+        "uuid": "55e179de-6342-443a-a830-1befe0620e8d",
+        "diagramelements":
+        [
+          {
+            "id": 433,
+            "display_flags": 0,
+            "classifier_name": "document_element_writer",
+            "node": "8011e15e-717f-4b81-88fe-7b15d1e59097",
+            "uuid": "925cbe6b-886f-4e4b-b496-7526ec0c4065"
+          },
+          {
+            "id": 444,
+            "display_flags": 0,
+            "classifier_name": "Output Stream",
+            "node": "e24ebbb4-2e68-4390-9414-b5601178cbc6",
+            "uuid": "d93ac678-31dd-4d7e-944d-8df33c2117dd"
+          },
+          {
+            "id": 445,
+            "display_flags": 0,
+            "classifier_name": "data_database _reader",
+            "node": "ef1ca5dc-361c-4ee8-a299-9c975d60610d",
+            "uuid": "a31a16a4-3b08-4d38-bb6c-9114f7f3f2ce"
+          },
+          {
+            "id": 446,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "io_exporter",
+            "node": "46eac473-636d-490a-a4a5-102c984e3a02",
+            "uuid": "44163c01-c7bc-4358-a768-e27586ee7df7"
+          },
+          {
+            "id": 458,
+            "display_flags": 0,
+            "classifier_name": "io_export_diagram_traversal",
+            "node": "1d5d8c36-04c2-40c3-a724-38bf291c9e79",
+            "uuid": "f52f6e2c-1846-4a0a-bfcb-47cd579e94b4"
           }
         ]
       }
@@ -4785,7 +4785,7 @@
           {
             "id": 838,
             "display_flags": 0,
-            "classifier_name": "more actual?",
+            "classifier_name": "newer?",
             "node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
             "uuid": "f20dbad2-e495-4716-9e9a-191ea5ee5e39"
           },
@@ -4799,7 +4799,7 @@
           {
             "id": 840,
             "display_flags": 0,
-            "classifier_name": "interrupt work",
+            "classifier_name": "stop work",
             "node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
             "uuid": "77d69085-d71f-4c02-9f8f-0466264c7221"
           },
@@ -5482,7 +5482,7 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on persistent Data Storage",
         "description": [
-                "This diagram shows fundamental design decisions of the crystal-facet-uml architecture."
+                "This diagram shows the design decision on the storage format of crystal-facet-uml."
         ],
         "list_order": -1610612736,
         "display_flags": 0,
@@ -5553,7 +5553,8 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on data structure of UML-Model",
         "description": [
-                ""
+                "crystal-facet--uml uses a rather simple data structure to store te elements of the model.\n",
+                "Alternatives have been considered; this diagram shows the rationale for this decision."
         ],
         "list_order": -1073741824,
         "display_flags": 0,
@@ -5649,7 +5650,10 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on UML-Model selection for Diagram",
         "description": [
-                ""
+                "crystal-facet-uml automatically and invisibly manages a lifeline object for each element in an interaction diagram.\n",
+                "Note: interaction diagrams are timing, sequence, collaboration and interaction overview diagrams.\n",
+                "\n",
+                "There are many alternatives to this approach; this diagram shows the rational for this decision."
         ],
         "list_order": 1073872895,
         "display_flags": 0,
@@ -6085,7 +6089,9 @@
         "stereotype": "reason_decision",
         "name": "Alternatives on XMI export/model traverse",
         "description": [
-                ""
+                "In order to export the data model to xmi format, all model elements in the database need to be processed - one after the other.\n",
+                "\n",
+                "This diagram shows the considered alternatives on the traversal order."
         ],
         "list_order": 1073872895,
         "display_flags": 0,
@@ -6776,7 +6782,7 @@
         "type": "CFUBoxDiagram",
         "name": "Glossary",
         "description": [
-                ""
+                "The glossary explains used terms, abbreviations, and defines used stereotype icons."
         ],
         "list_order": 360448,
         "display_flags": 0,
@@ -12680,6 +12686,7 @@
         "id": 242,
         "main_type": 100,
         "type": "Actor",
+        "stereotype": "not-yet-implemented",
         "name": "thread-2",
         "description": [
                 ""
@@ -18047,9 +18054,9 @@
         "main_type": 157,
         "type": "DecisionNode",
         "stereotype": "not-yet-implemented",
-        "name": "more actual?",
+        "name": "newer?",
         "description": [
-                "If the .tmp-cfu file has the right checksum of the data file stored, then the .tmp-cfu file is more actual.\n",
+                "If the .tmp-cfu file has the right checksum of the data file stored, then the .tmp-cfu file is more actual (newer).\n",
                 "Otherwise the .cfuJ file is modified and shall not be overwritten."
         ],
         "x_order": -1091257349,
@@ -18084,7 +18091,7 @@
         "id": 512,
         "main_type": 152,
         "type": "ActivityFinalNode",
-        "name": "interrupt work",
+        "name": "stop work",
         "description": [
                 ""
         ],
@@ -31639,7 +31646,7 @@
         ],
         "list_order": -988493427,
         "from_classifier_name": "DATA FILE EXISTS",
-        "to_classifier_name": "more actual?",
+        "to_classifier_name": "newer?",
         "from_node": "92b311f2-a941-4130-80b5-2d999f0174cd",
         "to_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
         "uuid": "94e36c33-a7ae-4abd-ada2-9031fd3377f8"
@@ -31809,7 +31816,7 @@
         ],
         "list_order": -503685151,
         "from_classifier_name": "work on model",
-        "to_classifier_name": "interrupt work",
+        "to_classifier_name": "stop work",
         "from_node": "6931c08c-2fb1-4532-b5e0-f669a30698c8",
         "to_node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
         "uuid": "25e5feca-3e00-4b68-9e64-445f9195b75b"
@@ -31826,7 +31833,7 @@
         ],
         "list_order": 229376,
         "from_classifier_name": "open data file",
-        "to_classifier_name": "more actual?",
+        "to_classifier_name": "newer?",
         "from_node": "150d8d95-85eb-4934-a681-93525de34562",
         "to_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
         "uuid": "4cf20427-8fbf-4282-80e1-814115c240ae"
@@ -31927,7 +31934,7 @@
                 ""
         ],
         "list_order": 262144,
-        "from_classifier_name": "more actual?",
+        "from_classifier_name": "newer?",
         "to_classifier_name": "do work",
         "from_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
         "to_node": "e1017eea-e174-47e4-8d48-0a02a904991d",
@@ -31944,7 +31951,7 @@
                 ""
         ],
         "list_order": 294912,
-        "from_classifier_name": "more actual?",
+        "from_classifier_name": "newer?",
         "to_classifier_name": "parse data file",
         "from_node": "0cd07688-17cb-440f-a2e2-6450e3a108a7",
         "to_node": "548bcddf-c562-4cf7-be97-9d99e64a3637",
@@ -31962,7 +31969,7 @@
         ],
         "list_order": 327680,
         "from_classifier_name": "unexpected termination",
-        "to_classifier_name": "interrupt work",
+        "to_classifier_name": "stop work",
         "from_node": "e7459312-e57b-4eea-8542-3e66661fa0a1",
         "to_node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
         "uuid": "2097ee2c-7cbe-49c6-8e3b-fe0802350e20"
@@ -31979,7 +31986,7 @@
         ],
         "list_order": 393216,
         "from_classifier_name": "delete temp db file",
-        "to_classifier_name": "interrupt work",
+        "to_classifier_name": "stop work",
         "from_node": "d7dab2e9-a9d9-436b-a4c8-9ace3bc2b07d",
         "to_node": "f3c2887f-e11c-4e5a-b863-1f77d1924615",
         "uuid": "9c930c5f-3c9a-4328-b8b0-4a333543e0fe"

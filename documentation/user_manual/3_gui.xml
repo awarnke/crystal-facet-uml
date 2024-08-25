@@ -612,10 +612,11 @@
             The notification bar appears automatically when there is a new message.
         </para>
         <para>
-            Such a message may show statistics on performed actions like created, exported, modified, deleted for the elements
+            Such a message may show statistics on performed actions like created, exported, modified, deleted for the following
+            elements
             <itemizedlist>
             <listitem>
-                <para>diagrams (when created or deleted, the navigation tree visualizes changes),</para>
+                <para>diagrams,</para>
             </listitem>
             <listitem>
                 <para>classifiers refer to the model-nodes,</para>

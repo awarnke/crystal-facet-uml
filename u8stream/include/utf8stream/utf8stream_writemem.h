@@ -23,7 +23,7 @@
 struct utf8stream_writemem_struct {
     utf8stream_writer_t writer;  /*!< own \c utf8stream_writer_t */
     universal_memory_output_stream_t mem_output;  /*!< own \c universal_memory_output_stream_t */
-    u8_error_t lazy_err;  /*!< if a getter function produces an error, this is reported at destroy */
+    u8_error_t lazy_err;  /*!< if a getter function produces an error, this is reported at reset or destroy */
 };
 
 typedef struct utf8stream_writemem_struct utf8stream_writemem_t;
@@ -63,6 +63,8 @@ static inline u8_error_t utf8stream_writemem_reset ( utf8stream_writemem_t *this
 /*!
  *  \brief gets a pointer to the own writer
  *
+ *  Consider to call utf8stream_writer_flush when finished writing before using the result.
+ *
  *  \param this_ pointer to own object attributes
  *  \return pointer to the own writer
  */
@@ -71,6 +73,9 @@ static inline utf8stream_writer_t * utf8stream_writemem_get_writer ( utf8stream_
 /*!
  *  \brief gets an utf8stringview_t
  *
+ *  Consider to call utf8stream_writer_flush on the writer before retrieving an utf8stringview_t.
+ *  This allows to check for error codes before using the result.
+ *
  *  \param this_ pointer to own object attributes
  *  \return utf8stringview_t of the written utf8 codepoints
  */
@@ -78,6 +83,9 @@ static inline utf8stringview_t utf8stream_writemem_get_view ( utf8stream_writeme
 
 /*!
  *  \brief gets a const pointer to the c-string
+ *
+ *  Consider to call utf8stream_writer_flush on the writer before retrieving a c-string.
+ *  This allows to check for error codes before using the result.
  *
  *  \param this_ pointer to own object attributes
  *  \return utf8string_t of the written utf8 codepoints
