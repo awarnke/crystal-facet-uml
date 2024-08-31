@@ -1,7 +1,7 @@
-/* File: data_small_set_test.h; Copyright and License: see below */
+/* File: set_data_small_set_test.h; Copyright and License: see below */
 
-#ifndef DATA_SMALL_SET_TEST_H
-#define DATA_SMALL_SET_TEST_H
+#ifndef SET_DATA_SMALL_SET_TEST_H
+#define SET_DATA_SMALL_SET_TEST_H
 
 /*!
  *  \file
@@ -10,9 +10,9 @@
 
 #include "test_suite.h"
 
-test_suite_t data_small_set_test_get_suite(void);
+test_suite_t set_data_small_set_test_get_suite(void);
 
-#endif  /* DATA_SMALL_SET_TEST_H */
+#endif  /* SET_DATA_SMALL_SET_TEST_H */
 
 
 /*

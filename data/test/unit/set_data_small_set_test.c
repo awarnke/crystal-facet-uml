@@ -1,6 +1,6 @@
-/* File: data_small_set_test.c; Copyright and License: see below */
+/* File: set_data_small_set_test.c; Copyright and License: see below */
 
-#include "data_small_set_test.h"
+#include "set_data_small_set_test.h"
 #include "set/data_small_set.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
@@ -11,11 +11,11 @@ static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_en
 static test_case_result_t test_small_set_full( test_fixture_t *test_env );
 static test_case_result_t test_small_set_clear( test_fixture_t *test_env );
 
-test_suite_t data_small_set_test_get_suite(void)
+test_suite_t set_data_small_set_test_get_suite(void)
 {
     test_suite_t result;
     test_suite_init( &result,
-                     "data_small_set_test",
+                     "set_data_small_set_test",
                      TEST_CATEGORY_UNIT | TEST_CATEGORY_CONTINUOUS | TEST_CATEGORY_COVERAGE,
                      &set_up,
                      &tear_down
