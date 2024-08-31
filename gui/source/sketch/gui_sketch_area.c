@@ -876,7 +876,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             {
                 /* update drag state */
                 data_full_id_t dragged_object;
-                data_full_id_init_solo ( &dragged_object, clicked_diagram_id );
+                data_full_id_init_solo ( &dragged_object, &clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
             }
             else
@@ -962,7 +962,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
                         /* update marked set */
                         data_full_id_t focused_full_id;
-                        data_full_id_init_solo( &focused_full_id, focused_id );
+                        data_full_id_init_solo( &focused_full_id, &focused_id );
 
                         gui_marked_set_set_focused( (*this_).marker, focused_full_id, focused_id );
                         gui_marked_set_clear_selected_set( (*this_).marker );
@@ -1015,7 +1015,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
             {
                 /* update drag state */
                 data_full_id_t dragged_object;
-                data_full_id_init_solo ( &dragged_object, clicked_diagram_id );
+                data_full_id_init_solo ( &dragged_object, &clicked_diagram_id );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
             }
 
@@ -1031,7 +1031,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 /* set focused object */
                 assert( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &clicked_object_id ) );
                 data_full_id_t focused_object;
-                data_full_id_init_solo ( &focused_object, clicked_object_id );
+                data_full_id_init_solo ( &focused_object, &clicked_object_id );
 
                 gui_marked_set_set_focused( (*this_).marker, focused_object, clicked_diagram_id );
             }

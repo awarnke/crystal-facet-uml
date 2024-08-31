@@ -61,7 +61,7 @@ static inline void data_full_id_reinit_void ( data_full_id_t *this_ );
  *  \param primary_id primary object id
  *  \param secondary_id secondary object id
  */
-static inline void data_full_id_init ( data_full_id_t *this_, data_id_t primary_id, data_id_t secondary_id );
+static inline void data_full_id_init ( data_full_id_t *this_, const data_id_t *primary_id, const data_id_t *secondary_id );
 
 /*!
  *  \brief re-initializes the data_full_id_t struct.
@@ -70,7 +70,7 @@ static inline void data_full_id_init ( data_full_id_t *this_, data_id_t primary_
  *  \param primary_id primary object id
  *  \param secondary_id secondary object id
  */
-static inline void data_full_id_reinit ( data_full_id_t *this_, data_id_t primary_id, data_id_t secondary_id );
+static inline void data_full_id_reinit ( data_full_id_t *this_, const data_id_t *primary_id, const data_id_t *secondary_id );
 
 /*!
  *  \brief initializes the data_full_id_t struct, the secondary_id is initialized to VOID.
@@ -78,7 +78,7 @@ static inline void data_full_id_reinit ( data_full_id_t *this_, data_id_t primar
  *  \param this_ pointer to own object attributes
  *  \param primary_id primary object id
  */
-static inline void data_full_id_init_solo ( data_full_id_t *this_, data_id_t primary_id );
+static inline void data_full_id_init_solo ( data_full_id_t *this_, const data_id_t *primary_id );
 
 /*!
  *  \brief re-initializes the data_full_id_t struct, the secondary_id is re-initialized to VOID.
@@ -86,7 +86,7 @@ static inline void data_full_id_init_solo ( data_full_id_t *this_, data_id_t pri
  *  \param this_ pointer to own object attributes
  *  \param primary_id primary object id
  */
-static inline void data_full_id_reinit_solo ( data_full_id_t *this_, data_id_t primary_id );
+static inline void data_full_id_reinit_solo ( data_full_id_t *this_, const data_id_t *primary_id );
 
 /*!
  *  \brief initializes the data_full_id_t struct by table and row ids.

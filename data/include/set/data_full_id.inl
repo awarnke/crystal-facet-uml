@@ -14,35 +14,35 @@ static inline void data_full_id_reinit_void ( data_full_id_t *this_ )
     data_id_reinit_void( &((*this_).secondary_id) );
 }
 
-static inline void data_full_id_init ( data_full_id_t *this_, data_id_t primary_id, data_id_t secondary_id )
+static inline void data_full_id_init ( data_full_id_t *this_, const data_id_t *primary_id, const data_id_t *secondary_id )
 {
-    assert ( ( DATA_TABLE_VOID == data_id_get_table( &secondary_id ) )
-             || ( DATA_TABLE_CLASSIFIER == data_id_get_table( &secondary_id ) )
+    assert ( ( DATA_TABLE_VOID == data_id_get_table( secondary_id ) )
+             || ( DATA_TABLE_CLASSIFIER == data_id_get_table( secondary_id ) )
            );
 
-    (*this_).primary_id = primary_id;
-    (*this_).secondary_id = secondary_id;
+    (*this_).primary_id = *primary_id;
+    (*this_).secondary_id = *secondary_id;
 }
 
-static inline void data_full_id_reinit ( data_full_id_t *this_, data_id_t primary_id, data_id_t secondary_id )
+static inline void data_full_id_reinit ( data_full_id_t *this_, const data_id_t *primary_id, const data_id_t *secondary_id )
 {
-    assert ( ( DATA_TABLE_VOID == data_id_get_table( &secondary_id ) )
-             || ( DATA_TABLE_CLASSIFIER == data_id_get_table( &secondary_id ) )
+    assert ( ( DATA_TABLE_VOID == data_id_get_table( secondary_id ) )
+             || ( DATA_TABLE_CLASSIFIER == data_id_get_table( secondary_id ) )
            );
 
-    (*this_).primary_id = primary_id;
-    (*this_).secondary_id = secondary_id;
+    (*this_).primary_id = *primary_id;
+    (*this_).secondary_id = *secondary_id;
 }
 
-static inline void data_full_id_init_solo ( data_full_id_t *this_, data_id_t primary_id )
+static inline void data_full_id_init_solo ( data_full_id_t *this_, const data_id_t *primary_id )
 {
-    (*this_).primary_id = primary_id;
+    (*this_).primary_id = *primary_id;
     data_id_init_void( &((*this_).secondary_id) );
 }
 
-static inline void data_full_id_reinit_solo ( data_full_id_t *this_, data_id_t primary_id )
+static inline void data_full_id_reinit_solo ( data_full_id_t *this_, const data_id_t *primary_id )
 {
-    (*this_).primary_id = primary_id;
+    (*this_).primary_id = *primary_id;
     data_id_reinit_void( &((*this_).secondary_id) );
 }
 

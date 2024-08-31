@@ -7,9 +7,7 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env );
-static test_case_result_t test_small_set_full( test_fixture_t *test_env );
-static test_case_result_t test_small_set_clear( test_fixture_t *test_env );
+static test_case_result_t test_init_and_read( test_fixture_t *test_env );
 
 test_suite_t set_data_full_id_test_get_suite(void)
 {
@@ -20,9 +18,7 @@ test_suite_t set_data_full_id_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
-    test_suite_add_test_case( &result, "test_small_set_add_and_remove", &test_small_set_add_and_remove );
-    test_suite_add_test_case( &result, "test_small_set_full", &test_small_set_full );
-    test_suite_add_test_case( &result, "test_small_set_clear", &test_small_set_clear );
+    test_suite_add_test_case( &result, "test_init_and_read", &test_init_and_read );
     return result;
 }
 
@@ -35,29 +31,66 @@ static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env )
+static test_case_result_t test_init_and_read( test_fixture_t *test_env )
 {
-    u8_error_t d_err;
+    data_full_id_t test_me;
+    data_id_t classifier;
+    data_id_init( &classifier, DATA_TABLE_CLASSIFIER, 67432 );
+    data_id_t feature;
+    data_id_init( &feature, DATA_TABLE_FEATURE, 10000 );
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    /* sub test case 1 */
+    data_full_id_init_solo( &test_me, &classifier );
+    const data_id_t *const read_out = data_full_id_get_primary_id_const( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, read_out ) );
 
-    return TEST_CASE_RESULT_ERR;
-}
+    /* sub test case 2, no expected outcome */
+    data_full_id_destroy( &test_me );
 
-static test_case_result_t test_small_set_full( test_fixture_t *test_env )
-{
-    u8_error_t d_err;
+    /* sub test case 3 */
+    data_full_id_init( &test_me, &feature, &classifier );
+    data_id_t sensor_value1 = data_full_id_get_primary_id( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &feature, &sensor_value1 ) );
+    data_id_t sensor_value2 = data_full_id_get_secondary_id( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, &sensor_value2 ) );
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    /* sub test case 4 */
+    data_full_id_reinit_void( &test_me );
+    TEST_EXPECT_EQUAL_INT( false, data_full_id_is_valid( &test_me ) );
+    data_full_id_destroy( &test_me );
 
-    return TEST_CASE_RESULT_ERR;
-}
+    /* sub test case 5 */
+    data_full_id_init_void ( &test_me );
+    TEST_EXPECT_EQUAL_INT( false, data_full_id_is_valid( &test_me ) );
+    data_full_id_destroy( &test_me );
 
-static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
-{
-    u8_error_t d_err;
+    /* sub test case 6 */
+    data_full_id_init_by_table_and_id( &test_me, DATA_TABLE_FEATURE, 200, DATA_TABLE_CLASSIFIER, 689 );
+    TEST_EXPECT_EQUAL_INT( true, data_full_id_is_valid( &test_me ) );
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    /* sub test case 7 */
+    data_full_id_t mirrored;
+    data_full_id_copy( &mirrored, &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_full_id_equals( &test_me, &mirrored ) );
+
+    /* sub test case 8 */
+    data_full_id_reinit_by_table_and_id( &test_me, DATA_TABLE_FEATURE, 10000, DATA_TABLE_CLASSIFIER, 67432 );
+    TEST_EXPECT_EQUAL_INT( false, data_full_id_equals( &test_me, &mirrored ) );
+
+    /* sub test case 8 */
+    data_full_id_replace( &mirrored, &test_me );
+    data_id_t sensor_value1b = data_full_id_get_primary_id( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &feature, &sensor_value1b ) );
+    data_id_t sensor_value2b = data_full_id_get_secondary_id( &mirrored );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, &sensor_value2b ) );
+
+    /* sub test case 9, no expected outcome other than program continues */
+    data_full_id_trace( &mirrored );
+
+    data_full_id_destroy( &test_me );
+
+    data_id_destroy( &feature );
+    data_id_destroy( &classifier );
 
     return TEST_CASE_RESULT_ERR;
 }

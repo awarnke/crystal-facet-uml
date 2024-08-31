@@ -47,9 +47,6 @@ static test_case_result_t test_type_convertion_wrapper( test_fixture_t *test_env
     data_search_result_list_t unit_under_test;
     data_search_result_list_init( &unit_under_test, 1, &buffer );
 
-    /* check that trace an be called and that it returns */
-    data_search_result_list_trace( &unit_under_test );
-
     const bool empty1 = data_search_result_list_is_empty( &unit_under_test );
     TEST_EXPECT_EQUAL_INT( true, empty1 );
 
@@ -67,6 +64,9 @@ static test_case_result_t test_type_convertion_wrapper( test_fixture_t *test_env
 
     const unsigned int len = data_search_result_list_get_length( &unit_under_test );
     TEST_EXPECT_EQUAL_INT( 1, len );
+
+    /* check that trace an be called and that it returns */
+    data_search_result_list_trace( &unit_under_test );
 
     data_search_result_list_clear( &unit_under_test );
     const unsigned int len2 = data_search_result_list_get_length( &unit_under_test );

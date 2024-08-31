@@ -30,7 +30,7 @@ static inline void layout_subelement_id_init_solo( layout_subelement_id_t *this_
                                                    const data_id_t *id )
 {
     (*this_).kind = kind;
-    data_full_id_init_solo( &((*this_).id ), *id );
+    data_full_id_init_solo( &((*this_).id ), id );
 }
 
 static inline void layout_subelement_id_reinit_solo( layout_subelement_id_t *this_,
@@ -38,7 +38,7 @@ static inline void layout_subelement_id_reinit_solo( layout_subelement_id_t *thi
                                                      const data_id_t *id )
 {
     (*this_).kind = kind;
-    data_full_id_reinit_solo( &((*this_).id ), *id );
+    data_full_id_reinit_solo( &((*this_).id ), id );
 }
 
 static inline void layout_subelement_id_copy( layout_subelement_id_t *this_, const layout_subelement_id_t *that )
