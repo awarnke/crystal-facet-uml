@@ -490,7 +490,8 @@ u8_error_t data_database_text_search_private_get_features_by_textfragment( data_
                                                  sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
                                                  sqlite3_column_int64( prepared_statement, RESULT_FEATURE_DIAGRAM_ID_COLUMN )
                                                );
-                const data_feature_type_t f_type = data_search_result_get_match_type( &current_result );
+                const data_type_t current_type = data_search_result_get_match_type( &current_result );
+                const data_feature_type_t f_type = data_type_get_feature_type( &current_type );
                 const data_classifier_type_t c_type = sqlite3_column_int( prepared_statement, RESULT_FEATURE_CLASSIFIER_MAIN_TYPE_COLUMN );
                 const data_diagram_type_t d_type = sqlite3_column_int( prepared_statement, RESULT_FEATURE_DIAGRAM_TYPE_COLUMN );
                 U8_TRACE_INFO_INT( "- c_type:", c_type );

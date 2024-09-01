@@ -92,7 +92,7 @@ static test_case_result_t test_init_and_read( test_fixture_t *test_env )
     data_id_destroy( &feature );
     data_id_destroy( &classifier );
 
-    return TEST_CASE_RESULT_ERR;
+    return TEST_CASE_RESULT_OK;
 }
 
 

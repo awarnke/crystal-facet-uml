@@ -81,14 +81,10 @@ void gui_type_resource_list_destroy ( gui_type_resource_list_t *this_ );
  *  \brief gets the icon for the specified element type
  *
  *  \param this_ pointer to own object attributes
- *  \param table identifier for the table
  *  \param type the element type for which to retrieve the icon
  *  \return pointer to the requested gui_type_resource_t struct or &type_undef if unknown table or type
  */
-gui_type_resource_t * gui_type_resource_list_get_type ( gui_type_resource_list_t *this_,
-                                                        data_table_t table,
-                                                        int type
-                                                      );
+gui_type_resource_t * gui_type_resource_list_get_type ( gui_type_resource_list_t *this_, data_type_t type );
 
 /*!
  *  \brief gets the icon for the specified diagram type

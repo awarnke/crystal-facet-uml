@@ -11,6 +11,7 @@
 
 #include "entity/data_id.h"
 #include "entity/data_row_id.h"
+#include "entity/data_type.h"
 
 /*!
  *  \brief constants for max string sizes
@@ -25,7 +26,7 @@ enum data_search_result_max_enum {
  */
 struct data_search_result_struct {
     data_id_t match_object_id;  /*!< the object id of the found object */
-    int  match_type;  /*!< the type of the found object, stored as int */
+    data_type_t  match_type;  /*!< the type of the found object, stored as int */
     utf8stringbuf_t match_object_name;  /*!< name of the found object */
     char private_match_name_buffer[DATA_SEARCH_RESULT_MAX_NAME_SIZE];
     data_id_t src_classifier_id;  /*!< in case of feature or relationship, the source classifier id */
@@ -143,20 +144,12 @@ static inline data_id_t *data_search_result_get_match_id_ptr ( data_search_resul
 static inline const data_id_t *data_search_result_get_match_id_const ( const data_search_result_t *this_ );
 
 /*!
- *  \brief gets the table of the match object from its id
- *
- *  \param this_ pointer to own object attributes
- *  \return the table of the match object
- */
-static inline data_table_t data_search_result_get_match_table ( const data_search_result_t *this_ );
-
-/*!
  *  \brief gets the match object type
  *
  *  \param this_ pointer to own object attributes
  *  \return the type of the match object
  */
-static inline int data_search_result_get_match_type ( const data_search_result_t *this_ );
+static inline data_type_t data_search_result_get_match_type ( const data_search_result_t *this_ );
 
 /*!
  *  \brief gets the match object name

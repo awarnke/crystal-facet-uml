@@ -12,7 +12,7 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_DIAGRAM, match_id );
-    (*this_).match_type = match_type;
+    data_type_init_diagram( &((*this_).match_type), (data_diagram_type_t) match_type );
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -36,7 +36,7 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_CLASSIFIER, match_id );
-    (*this_).match_type = match_type;
+    data_type_init_classifier( &((*this_).match_type), (data_classifier_type_t) match_type );
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -61,7 +61,7 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_FEATURE, match_id );
-    (*this_).match_type = match_type;
+    data_type_init_feature( &((*this_).match_type), (data_feature_type_t) match_type );
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -87,7 +87,7 @@ static inline void data_search_result_init_relationship ( data_search_result_t *
     utf8error_t strerr;
 
     data_id_init( &((*this_).match_object_id), DATA_TABLE_RELATIONSHIP, match_id );
-    (*this_).match_type = match_type;
+    data_type_init_relationship( &((*this_).match_type), (data_relationship_type_t) match_type );
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -133,13 +133,7 @@ static inline const data_id_t *data_search_result_get_match_id_const ( const dat
     return &((*this_).match_object_id);
 }
 
-static inline data_table_t data_search_result_get_match_table ( const data_search_result_t *this_ )
-{
-    const data_table_t match_table = data_id_get_table( &((*this_).match_object_id) );
-    return match_table;
-}
-
-static inline int data_search_result_get_match_type ( const data_search_result_t *this_ )
+static inline data_type_t data_search_result_get_match_type ( const data_search_result_t *this_ )
 {
     return (*this_).match_type;
 }
@@ -196,8 +190,8 @@ static inline const data_id_t *data_search_result_get_diagram_id_const ( const d
 
 static inline void data_search_result_trace ( const data_search_result_t *this_ )
 {
-    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).match_object_name) );
-    U8_TRACE_INFO_INT( "- type:", (*this_).match_type );
+    U8_TRACE_INFO_STR( "- name:", utf8stringbuf_get_string( (*this_).match_object_name ) );
+    U8_TRACE_INFO_INT( "- type:", data_type_get_type_as_int( &((*this_).match_type) ) );
     data_id_trace( &((*this_).match_object_id) );
     data_id_trace( &((*this_).src_classifier_id) );
     data_id_trace( &((*this_).dst_classifier_id) );

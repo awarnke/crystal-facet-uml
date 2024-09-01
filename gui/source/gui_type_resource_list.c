@@ -404,13 +404,13 @@ void gui_type_resource_list_destroy ( gui_type_resource_list_t *this_ )
     U8_TRACE_END();
 }
 
-gui_type_resource_t * gui_type_resource_list_get_type ( gui_type_resource_list_t *this_, data_table_t table, int type )
+gui_type_resource_t * gui_type_resource_list_get_type ( gui_type_resource_list_t *this_, data_type_t type )
 {
     U8_TRACE_BEGIN();
 
     gui_type_resource_t *result;
 
-    switch (table) {
+    switch ( data_type_get_context( &type ) ) {
         case DATA_TABLE_VOID:
         {
             result = &((*this_).type_undef);
@@ -420,19 +420,19 @@ gui_type_resource_t * gui_type_resource_list_get_type ( gui_type_resource_list_t
 
         case DATA_TABLE_CLASSIFIER:
         {
-            result = gui_type_resource_list_get_classifier_type( this_, (data_classifier_type_t) type );
+            result = gui_type_resource_list_get_classifier_type( this_, data_type_get_classifier_type( &type ) );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            result = gui_type_resource_list_get_feature_type( this_, (data_feature_type_t) type );
+            result = gui_type_resource_list_get_feature_type( this_, data_type_get_feature_type( &type ) );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            result = gui_type_resource_list_get_relationship_type( this_, (data_relationship_type_t) type );
+            result = gui_type_resource_list_get_relationship_type( this_, data_type_get_relationship_type( &type ) );
         }
         break;
 
@@ -445,7 +445,7 @@ gui_type_resource_t * gui_type_resource_list_get_type ( gui_type_resource_list_t
 
         case DATA_TABLE_DIAGRAM:
         {
-            result = gui_type_resource_list_get_diagram_type( this_, (data_diagram_type_t) type );
+            result = gui_type_resource_list_get_diagram_type( this_, data_type_get_diagram_type( &type ) );
         }
         break;
 

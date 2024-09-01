@@ -1,7 +1,7 @@
-/* File: set_data_visible_set_test.h; Copyright and License: see below */
+/* File: data_visible_set_test.h; Copyright and License: see below */
 
-#ifndef SET_DATA_VISIBLE_SET_TEST_H
-#define SET_DATA_VISIBLE_SET_TEST_H
+#ifndef DATA_VISIBLE_SET_TEST_H
+#define DATA_VISIBLE_SET_TEST_H
 
 /*!
  *  \file
@@ -10,9 +10,9 @@
 
 #include "test_suite.h"
 
-test_suite_t set_data_visible_set_test_get_suite(void);
+test_suite_t data_visible_set_test_get_suite(void);
 
-#endif  /* SET_DATA_VISIBLE_SET_TEST_H */
+#endif  /* DATA_VISIBLE_SET_TEST_H */
 
 
 /*
