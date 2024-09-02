@@ -7,9 +7,7 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env );
-static test_case_result_t test_small_set_full( test_fixture_t *test_env );
-static test_case_result_t test_small_set_clear( test_fixture_t *test_env );
+static test_case_result_t test_init_copy_get( test_fixture_t *test_env );
 
 test_suite_t set_data_visible_classifier_test_get_suite(void)
 {
@@ -20,9 +18,7 @@ test_suite_t set_data_visible_classifier_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
-    test_suite_add_test_case( &result, "test_small_set_add_and_remove", &test_small_set_add_and_remove );
-    test_suite_add_test_case( &result, "test_small_set_full", &test_small_set_full );
-    test_suite_add_test_case( &result, "test_small_set_clear", &test_small_set_clear );
+    test_suite_add_test_case( &result, "test_init_copy_get", &test_init_copy_get );
     return result;
 }
 
@@ -35,31 +31,65 @@ static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env )
+static test_case_result_t test_init_copy_get( test_fixture_t *test_env )
 {
-    u8_error_t d_err;
+    data_visible_classifier_t my_vis_classifier;
+    data_classifier_t classifier;
+    data_diagramelement_t diagramelement;
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    data_classifier_init_empty( &classifier );
+    data_diagramelement_init_empty( &diagramelement );
+    data_visible_classifier_init( &my_vis_classifier, &classifier, &diagramelement );
+    const data_classifier_t *const class_c1 = data_visible_classifier_get_classifier_const( &my_vis_classifier);
+    const data_diagramelement_t *const diagele_c1 = data_visible_classifier_get_diagramelement_const( &my_vis_classifier );
+    TEST_EXPECT_EQUAL_STRING( data_classifier_get_uuid_const( &classifier ), data_classifier_get_uuid_const( class_c1 ) );
+    TEST_EXPECT_EQUAL_STRING( data_diagramelement_get_uuid_const( &diagramelement ), data_diagramelement_get_uuid_const( diagele_c1 ) );
 
-    return TEST_CASE_RESULT_ERR;
-}
+    data_visible_classifier_t my_twin;
+    data_visible_classifier_copy( &my_twin, &my_vis_classifier );
+    const data_classifier_t *const class_c2 = data_visible_classifier_get_classifier_const( &my_vis_classifier);
+    const data_diagramelement_t *const diagele_c2 = data_visible_classifier_get_diagramelement_const( &my_vis_classifier );
+    TEST_EXPECT_EQUAL_STRING( data_classifier_get_uuid_const( &classifier ), data_classifier_get_uuid_const( class_c2 ) );
+    TEST_EXPECT_EQUAL_STRING( data_diagramelement_get_uuid_const( &diagramelement ), data_diagramelement_get_uuid_const( diagele_c2 ) );
+    TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_is_valid( &my_twin ) );
 
-static test_case_result_t test_small_set_full( test_fixture_t *test_env )
-{
-    u8_error_t d_err;
+    data_visible_classifier_destroy( &my_vis_classifier );
+    data_visible_classifier_init_empty( &my_vis_classifier );
+    TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_is_valid( &my_vis_classifier ) );
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    data_classifier_t *const class_mod = data_visible_classifier_get_classifier_ptr( &my_vis_classifier);
+    data_diagramelement_t *const diagele_mod = data_visible_classifier_get_diagramelement_ptr( &my_vis_classifier );
+    const u8_error_t reinit_result
+        = data_classifier_reinit( class_mod,
+                                  54,
+                                  DATA_CLASSIFIER_TYPE_OBJECT,
+                                  "stereotype",
+                                  "name",
+                                  "description",
+                                  16,
+                                  9,
+                                  47,
+                                  "097498ef-e43b-4b79-b26a-df6f23590165"
+                                );     
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, reinit_result );
+    data_diagramelement_reinit( diagele_mod,
+                                12345,
+                                103,
+                                555,
+                                DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT,
+                                100,
+                                "111498ef-e43b-4b79-b26a-df6f23590165"
+                              );
+    TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_is_valid( &my_vis_classifier ) );
+   
+    data_visible_classifier_replace( &my_twin, &my_vis_classifier );
+    TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_is_valid( &my_twin ) );
 
-    return TEST_CASE_RESULT_ERR;
-}
+    data_visible_classifier_destroy( &my_vis_classifier );
+    data_diagramelement_destroy( &diagramelement );
+    data_classifier_destroy( &classifier );
 
-static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
-{
-    u8_error_t d_err;
-
-    TEST_EXPECT_EQUAL_INT( true, d_err );
-
-    return TEST_CASE_RESULT_ERR;
+    return TEST_CASE_RESULT_OK;
 }
 
 
