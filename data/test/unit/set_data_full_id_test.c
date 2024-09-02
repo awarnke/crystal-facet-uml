@@ -79,13 +79,18 @@ static test_case_result_t test_init_and_read( test_fixture_t *test_env )
 
     /* sub test case 8 */
     data_full_id_replace( &mirrored, &test_me );
-    data_id_t sensor_value1b = data_full_id_get_primary_id( &test_me );
-    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &feature, &sensor_value1b ) );
-    data_id_t sensor_value2b = data_full_id_get_secondary_id( &mirrored );
-    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, &sensor_value2b ) );
+    const data_id_t *const sensor_value1b = data_full_id_get_primary_id_const( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &feature, sensor_value1b ) );
+    const data_id_t *const sensor_value2b = data_full_id_get_secondary_id_const( &mirrored );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, sensor_value2b ) );
 
     /* sub test case 9, no expected outcome other than program continues */
     data_full_id_trace( &mirrored );
+
+    /* sub test case 10 */
+    data_full_id_reinit_solo( &test_me, &classifier );
+    const data_id_t *const read_out_c = data_full_id_get_primary_id_const( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, read_out_c ) );
 
     data_full_id_destroy( &test_me );
 

@@ -26,7 +26,7 @@ enum data_search_result_max_enum {
  */
 struct data_search_result_struct {
     data_id_t match_object_id;  /*!< the object id of the found object */
-    data_type_t  match_type;  /*!< the type of the found object, stored as int */
+    data_type_t  match_object_type;  /*!< the type of the found object */
     utf8stringbuf_t match_object_name;  /*!< name of the found object */
     char private_match_name_buffer[DATA_SEARCH_RESULT_MAX_NAME_SIZE];
     data_id_t src_classifier_id;  /*!< in case of feature or relationship, the source classifier id */
