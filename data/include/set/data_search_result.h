@@ -26,7 +26,7 @@ enum data_search_result_max_enum {
  */
 struct data_search_result_struct {
     data_id_t match_object_id;  /*!< the object id of the found object */
-    data_type_t  match_object_type;  /*!< the type of the found object */
+    data_type_t match_object_type;  /*!< the type of the found object */
     utf8stringbuf_t match_object_name;  /*!< name of the found object */
     char private_match_name_buffer[DATA_SEARCH_RESULT_MAX_NAME_SIZE];
     data_id_t src_classifier_id;  /*!< in case of feature or relationship, the source classifier id */
@@ -41,12 +41,12 @@ typedef struct data_search_result_struct data_search_result_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching diagram id
- *  \param match_type matching objects type, data_diagram_type_t stored as int
+ *  \param match_type matching objects type, data_diagram_type_t
  *  \param match_name matching object name, must not be NULL
  */
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
                                                      data_row_id_t match_id,
-                                                     int match_type,
+                                                     data_diagram_type_t match_type,
                                                      const char* match_name
                                                    );
 
@@ -55,13 +55,13 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching classifier id
- *  \param match_type matching objects type, data_classifier_type_t stored as int
+ *  \param match_type matching objects type, data_classifier_type_t 
  *  \param match_name matching object name, must not be NULL
  *  \param diagram_id diagram id where the matching object is visible
  */
 static inline void data_search_result_init_classifier ( data_search_result_t *this_,
                                                         data_row_id_t match_id,
-                                                        int match_type,
+                                                        data_classifier_type_t match_type,
                                                         const char* match_name,
                                                         data_row_id_t diagram_id
                                                       );
@@ -71,14 +71,14 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching feature id
- *  \param match_type matching objects type, data_feature_type_t stored as int
+ *  \param match_type matching objects type, data_feature_type_t
  *  \param match_name matching object name, must not be NULL
  *  \param classifier_id classifier of matching feature
  *  \param diagram_id diagram id where the matching feature is visible
  */
 static inline void data_search_result_init_feature ( data_search_result_t *this_,
                                                      data_row_id_t match_id,
-                                                     int match_type,
+                                                     data_feature_type_t match_type,
                                                      const char* match_name,
                                                      data_row_id_t classifier_id,
                                                      data_row_id_t diagram_id
@@ -89,7 +89,7 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param match_id matching relationship id
- *  \param match_type matching objects type, data_relationship_type_t stored as int
+ *  \param match_type matching objects type, data_relationship_type_t
  *  \param match_name matching object name, must not be NULL
  *  \param from_classifier_id from classifier of matching relationship
  *  \param to_classifier_id to classifier of matching relationship
@@ -97,7 +97,7 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
  */
 static inline void data_search_result_init_relationship ( data_search_result_t *this_,
                                                           data_row_id_t match_id,
-                                                          int match_type,
+                                                          data_relationship_type_t match_type,
                                                           const char* match_name,
                                                           data_row_id_t from_classifier_id,
                                                           data_row_id_t to_classifier_id,

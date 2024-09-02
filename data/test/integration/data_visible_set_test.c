@@ -37,27 +37,16 @@ static void tear_down( test_fixture_t *test_env )
 
 static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env )
 {
-    u8_error_t d_err;
-
-    TEST_EXPECT_EQUAL_INT( true, d_err );
-
     return TEST_CASE_RESULT_ERR;
 }
 
 static test_case_result_t test_small_set_full( test_fixture_t *test_env )
 {
-    u8_error_t d_err;
-
-    TEST_EXPECT_EQUAL_INT( true, d_err );
-
     return TEST_CASE_RESULT_ERR;
 }
 
 static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
 {
-    u8_error_t d_err;
-
-    TEST_EXPECT_EQUAL_INT( true, d_err );
 
     return TEST_CASE_RESULT_ERR;
 }

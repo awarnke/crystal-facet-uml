@@ -7,9 +7,7 @@
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
-static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env );
-static test_case_result_t test_small_set_full( test_fixture_t *test_env );
-static test_case_result_t test_small_set_clear( test_fixture_t *test_env );
+static test_case_result_t test_init_add_get( test_fixture_t *test_env );
 
 test_suite_t set_data_stat_test_get_suite(void)
 {
@@ -20,9 +18,7 @@ test_suite_t set_data_stat_test_get_suite(void)
                      &set_up,
                      &tear_down
                    );
-    test_suite_add_test_case( &result, "test_small_set_add_and_remove", &test_small_set_add_and_remove );
-    test_suite_add_test_case( &result, "test_small_set_full", &test_small_set_full );
-    test_suite_add_test_case( &result, "test_small_set_clear", &test_small_set_clear );
+    test_suite_add_test_case( &result, "test_init_add_get", &test_init_add_get );
     return result;
 }
 
@@ -35,31 +31,34 @@ static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static test_case_result_t test_small_set_add_and_remove( test_fixture_t *test_env )
+static test_case_result_t test_init_add_get( test_fixture_t *test_env )
 {
-    u8_error_t d_err;
+    data_stat_t my_stat;
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    data_stat_init( &my_stat );
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_count( &my_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED ) );
 
-    return TEST_CASE_RESULT_ERR;
-}
+    data_stat_inc_count( &my_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED );
+    TEST_EXPECT_EQUAL_INT( 1, data_stat_get_count( &my_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED ) );
 
-static test_case_result_t test_small_set_full( test_fixture_t *test_env )
-{
-    u8_error_t d_err;
+    data_stat_add_count( &my_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED, 99 );
+    TEST_EXPECT_EQUAL_INT( 100, data_stat_get_count( &my_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED ) );
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    data_stat_add( &my_stat, &my_stat );
+    TEST_EXPECT_EQUAL_INT( 200, data_stat_get_count( &my_stat, DATA_TABLE_DIAGRAM, DATA_STAT_SERIES_IGNORED ) );
 
-    return TEST_CASE_RESULT_ERR;
-}
+    TEST_EXPECT_EQUAL_INT( 200, data_stat_get_series_count( &my_stat, DATA_STAT_SERIES_IGNORED ) );
+    TEST_EXPECT_EQUAL_INT( 200, data_stat_get_table_count( &my_stat, DATA_TABLE_DIAGRAM ) );
+    TEST_EXPECT_EQUAL_INT( 200, data_stat_get_total_count( &my_stat ) );
 
-static test_case_result_t test_small_set_clear( test_fixture_t *test_env )
-{
-    u8_error_t d_err;
+    data_stat_reset_series(  &my_stat, DATA_STAT_SERIES_IGNORED );
+    TEST_EXPECT_EQUAL_INT( 0, data_stat_get_series_count( &my_stat, DATA_STAT_SERIES_IGNORED ) );
 
-    TEST_EXPECT_EQUAL_INT( true, d_err );
+    data_stat_trace( &my_stat );
 
-    return TEST_CASE_RESULT_ERR;
+    data_stat_destroy( &my_stat );
+
+    return TEST_CASE_RESULT_OK;
 }
 
 
