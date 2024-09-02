@@ -92,6 +92,13 @@ static test_case_result_t test_init_and_read( test_fixture_t *test_env )
     const data_id_t *const read_out_c = data_full_id_get_primary_id_const( &test_me );
     TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, read_out_c ) );
 
+    /* sub test case 11 */
+    data_full_id_reinit( &test_me, &feature, &classifier );
+    const data_id_t *const sensor_value1c = data_full_id_get_primary_id_const( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &feature, sensor_value1c ) );
+    const data_id_t *const sensor_value2c = data_full_id_get_secondary_id_const( &test_me );
+    TEST_EXPECT_EQUAL_INT( true, data_id_equals( &classifier, sensor_value2c ) );
+
     data_full_id_destroy( &test_me );
 
     data_id_destroy( &feature );

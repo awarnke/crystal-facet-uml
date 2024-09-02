@@ -44,7 +44,7 @@ static test_case_result_t test_data_search_result_classifier( test_fixture_t *te
     data_search_result_init_classifier( &search_result, 
                                         (data_row_id_t) 130,  /* match_id */
                                         DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE,
-                                        "Power on",
+                                        "Power on   234567890 234567890 234567890 234567890",
                                         (data_row_id_t) 7  /* diagram_id */
                                       );
     data_id_t match_id = data_search_result_get_match_id( &search_result );
@@ -60,6 +60,8 @@ static test_case_result_t test_data_search_result_classifier( test_fixture_t *te
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &src_id ) );
     data_id_t dst_id = data_search_result_get_dst_classifier_id( &search_result );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &dst_id ) );
+    const char *const name = data_search_result_get_match_name_const( &search_result );
+    TEST_EXPECT_EQUAL_STRING( "Power on   234567890 234567890 234567890 234567", name );
 
     data_search_result_trace( &search_result );
 
@@ -112,7 +114,7 @@ static test_case_result_t test_data_search_result_relationship( test_fixture_t *
     data_search_result_init_relationship( &search_result, 
                                           (data_row_id_t) 444,  /* match_id */
                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
-                                          "aggregates self as part",
+                                          "aggregates self as part        234567890 234567890",
                                           (data_row_id_t) 100,  /* from_classifier_id */
                                           (data_row_id_t) 101,  /* to_classifier_id */
                                           (data_row_id_t) 4  /* diagram_id */
@@ -133,6 +135,8 @@ static test_case_result_t test_data_search_result_relationship( test_fixture_t *
     const data_id_t *const dst_id = data_search_result_get_dst_classifier_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( dst_id ) );
     TEST_EXPECT_EQUAL_INT( 101, data_id_get_row_id( dst_id ) );
+    const char *const name = data_search_result_get_match_name_const( &search_result );
+    TEST_EXPECT_EQUAL_STRING( "aggregates self as part        234567890 234567", name );
 
     data_search_result_destroy( &search_result );
 
@@ -146,7 +150,7 @@ static test_case_result_t test_data_search_result_diagram( test_fixture_t *test_
     data_search_result_init_diagram( &search_result, 
                                      (data_row_id_t) 31,  /* match_id */
                                      DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM,
-                                     "power off condition"
+                                     "power off condition  234567890 234567890 234567890"
                                    );
 
     const data_id_t *const match_id = data_search_result_get_match_id_const( &search_result );
@@ -162,6 +166,8 @@ static test_case_result_t test_data_search_result_diagram( test_fixture_t *test_
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( src_id ) );
     const data_id_t *const dst_id = data_search_result_get_dst_classifier_id_const( &search_result );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( dst_id ) );
+    const char *const name = data_search_result_get_match_name_const( &search_result );
+    TEST_EXPECT_EQUAL_STRING( "power off condition  234567890 234567890 234567", name );
 
     data_search_result_destroy( &search_result );
 
