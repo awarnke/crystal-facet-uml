@@ -37,6 +37,7 @@ static test_case_result_t test_init_copy_get( test_fixture_t *test_env )
     data_classifier_t classifier;
     data_diagramelement_t diagramelement;
 
+    /* sub test case: init */
     data_classifier_init_empty( &classifier );
     data_diagramelement_init_empty( &diagramelement );
     data_visible_classifier_init( &my_vis_classifier, &classifier, &diagramelement );
@@ -45,6 +46,7 @@ static test_case_result_t test_init_copy_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_STRING( data_classifier_get_uuid_const( &classifier ), data_classifier_get_uuid_const( class_c1 ) );
     TEST_EXPECT_EQUAL_STRING( data_diagramelement_get_uuid_const( &diagramelement ), data_diagramelement_get_uuid_const( diagele_c1 ) );
 
+    /* sub test case: copy */
     data_visible_classifier_t my_twin;
     data_visible_classifier_copy( &my_twin, &my_vis_classifier );
     const data_classifier_t *const class_c2 = data_visible_classifier_get_classifier_const( &my_vis_classifier);
@@ -53,10 +55,12 @@ static test_case_result_t test_init_copy_get( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_STRING( data_diagramelement_get_uuid_const( &diagramelement ), data_diagramelement_get_uuid_const( diagele_c2 ) );
     TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_is_valid( &my_twin ) );
 
+    /* sub test case: init_empty */
     data_visible_classifier_destroy( &my_vis_classifier );
     data_visible_classifier_init_empty( &my_vis_classifier );
     TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_is_valid( &my_vis_classifier ) );
 
+    /* sub test case: get modifiable ptr to members */
     data_classifier_t *const class_mod = data_visible_classifier_get_classifier_ptr( &my_vis_classifier);
     data_diagramelement_t *const diagele_mod = data_visible_classifier_get_diagramelement_ptr( &my_vis_classifier );
     const u8_error_t reinit_result
@@ -82,9 +86,11 @@ static test_case_result_t test_init_copy_get( test_fixture_t *test_env )
                               );
     TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_is_valid( &my_vis_classifier ) );
    
+    /* sub test case: replace */
     data_visible_classifier_replace( &my_twin, &my_vis_classifier );
     TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_is_valid( &my_twin ) );
 
+    data_visible_classifier_destroy( &my_twin );
     data_visible_classifier_destroy( &my_vis_classifier );
     data_diagramelement_destroy( &diagramelement );
     data_classifier_destroy( &classifier );

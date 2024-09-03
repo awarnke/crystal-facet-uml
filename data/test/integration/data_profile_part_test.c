@@ -37,7 +37,7 @@ struct test_fixture_struct {
     data_database_t database;  /*!< database instance on which the tests are performed */
     data_database_reader_t db_reader;  /*!< database reader to access the database */
     data_database_writer_t db_writer;  /*!< database writer to access the database */
-    data_visible_set_t loaded_elements;  /*!< database writer to access the database containing all elements visible in a diagram*/
+    data_visible_set_t loaded_elements;  /*!< database loader to fetch all elements visible in a diagram */
 };
 typedef struct test_fixture_struct test_fixture_t;  /* big data structure */
 static test_fixture_t test_fixture;

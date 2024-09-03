@@ -2237,7 +2237,7 @@
         "type": "UMLStateMachineDiagram",
         "name": "Operation Modes",
         "description": [
-                ""
+                "Operation modes list all modes of the system that provide an intended subset of functionality."
         ],
         "list_order": -1073758208,
         "display_flags": 0,
@@ -2300,12 +2300,110 @@
     },
     {
       "diagram": {
+        "id": 55,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Functionality per movement-related mode",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "display_flags": 0,
+        "parent_name": "Operation Modes",
+        "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
+        "uuid": "c9f1778f-63e7-4bca-941f-8d71f10646ee",
+        "diagramelements":
+        [
+          {
+            "id": 346,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan movement strategy (L1-Fct)",
+            "node": "55b579a4-2727-4027-b366-a74a871c92b9",
+            "uuid": "dd40536e-6df0-4903-9917-d68d3d6cb4b5"
+          },
+          {
+            "id": 347,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform movement tactic (L1-Fct)",
+            "node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+            "uuid": "131a9353-41dd-4ccd-975a-68f2bfb70909"
+          },
+          {
+            "id": 352,
+            "display_flags": 0,
+            "classifier_name": "Moving",
+            "node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+            "uuid": "a9a78690-1f83-4b89-86b8-c8ed83774a8e"
+          },
+          {
+            "id": 353,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "e83dc1e5-e5fa-4333-b4ec-d66ea8fb833e"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 56,
+        "diagram_type": 12,
+        "type": "UMLStateMachineDiagram",
+        "name": "Functionality per tool-related mode",
+        "description": [
+                ""
+        ],
+        "list_order": 1073758207,
+        "display_flags": 0,
+        "parent_name": "Operation Modes",
+        "parent": "6aadfd8e-92ab-49cb-818e-00f2b71dee41",
+        "uuid": "91474ebb-491f-4d79-886a-47f9e0b34079",
+        "diagramelements":
+        [
+          {
+            "id": 349,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Plan repair strategy (L1-Fct)",
+            "node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+            "uuid": "fb8c0326-b302-455a-8c2a-35f2f91ab26b"
+          },
+          {
+            "id": 350,
+            "display_flags": 33554432,
+            "display_tags": "GrayOut",
+            "classifier_name": "Perform repair tactic (L1-Fct)",
+            "node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+            "uuid": "c158b8c8-6655-470b-ac29-010d10e57c6f"
+          },
+          {
+            "id": 351,
+            "display_flags": 0,
+            "classifier_name": "Using Tools",
+            "node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+            "uuid": "47db1401-cc13-4a8a-9879-e72cb6571645"
+          },
+          {
+            "id": 354,
+            "display_flags": 0,
+            "classifier_name": "Waiting",
+            "node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+            "uuid": "92359c33-2264-4a26-8235-e7f91fedf989"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
         "id": 20,
         "diagram_type": 11,
         "type": "UMLActivityDiagram",
         "name": "Power States",
         "description": [
-                "This diagram shows the power states that are globally valid to all parts of the system."
+                "This diagram shows the power states that are globally valid synchronized to all parts of the system."
         ],
         "list_order": -32768,
         "display_flags": 0,
@@ -6141,7 +6239,7 @@
         "type": "Activity",
         "name": "power::all",
         "description": [
-                "The statemachine of all power states"
+                "The statemachine of power states shows the triggers and transitions between states that enable or disable hardware parts."
         ],
         "x_order": 1139012495,
         "y_order": -1583691534,
@@ -7309,7 +7407,7 @@
         "type": "StateMachine",
         "name": "Op::Modes",
         "description": [
-                ""
+                "The operation modes list all modes in which different, intended subsets of functionality are available."
         ],
         "x_order": 108823998,
         "y_order": -804409521,
@@ -7327,7 +7425,7 @@
         "type": "StateMachine",
         "name": "Charging",
         "description": [
-                ""
+                "The charging mode allows to perform charging the batteries."
         ],
         "x_order": -248945384,
         "y_order": -938783025,
@@ -7345,7 +7443,7 @@
         "type": "StateMachine",
         "name": "Programming",
         "description": [
-                ""
+                "The Programming mode allows an operator to program a mission."
         ],
         "x_order": -248945384,
         "y_order": -1090115455,
@@ -7363,7 +7461,7 @@
         "type": "StateMachine",
         "name": "Moving",
         "description": [
-                ""
+                "The moving mode allows to move the MoD5G."
         ],
         "x_order": 542369004,
         "y_order": -938783025,
@@ -7381,7 +7479,7 @@
         "type": "StateMachine",
         "name": "Using Tools",
         "description": [
-                ""
+                "The using tools mode allows to repair or clean an object at the target location of the programmed mission."
         ],
         "x_order": 542369004,
         "y_order": -688698802,
@@ -7399,7 +7497,7 @@
         "type": "StateMachine",
         "name": "Waiting",
         "description": [
-                ""
+                "The waiting mode allows to perform nothing till an outside trigger changes the mode."
         ],
         "x_order": 542369004,
         "y_order": -1090115455,
@@ -7446,7 +7544,7 @@
         "type": "StateMachine",
         "name": "Being Repaired",
         "description": [
-                ""
+                "The being repaired mode allows an mechanic to read out log data and to replace hardware parts."
         ],
         "x_order": -248945384,
         "y_order": -688698802,
@@ -12254,6 +12352,210 @@
         "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
         "to_node": "580f3aaa-a590-43f1-bd18-0b608951290d",
         "uuid": "0cb5ee39-c596-40f5-9d44-462017bdfef8"
+      }
+    },
+    {
+      "relationship": {
+        "id": 315,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "@Base Station AND all functions finished",
+        "description": [
+                ""
+        ],
+        "list_order": 32768,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Waiting",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+        "uuid": "bcdd8078-515d-4f11-9ca0-77f0d2d3ff5a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 316,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "@Maintenance Booth && damaged",
+        "description": [
+                ""
+        ],
+        "list_order": 65536,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Being Repaired",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "580f3aaa-a590-43f1-bd18-0b608951290d",
+        "uuid": "71333758-5a6a-43ee-884e-c41166835b53"
+      }
+    },
+    {
+      "relationship": {
+        "id": 317,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "@Base Station && not fully charged",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Charging",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "53562cf7-31db-4120-9eae-82666d6b8435",
+        "uuid": "1202ad34-b668-434a-8b91-8ebdfb47d575"
+      }
+    },
+    {
+      "relationship": {
+        "id": 318,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "@Base Station && operator initiates programming",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Programming",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "baacb7c2-779d-435c-a8db-a488d079c75f",
+        "uuid": "7e9447e0-9e9e-4344-a91b-0e91e830efe1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 319,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "Mission not completed OR not @Base Station",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Moving",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "uuid": "361b62a1-a45d-41b4-909f-708d96e6e84a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 320,
+        "main_type": 240,
+        "type": "Transition",
+        "name": "Mission not completed AND @Target Location",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Op::Modes",
+        "to_classifier_name": "Using Tools",
+        "from_node": "a98027db-e0a3-43f8-a4b4-48b96e2f1b56",
+        "to_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "uuid": "9c0cd8c5-f4f5-4159-ad9a-881202dc0ced"
+      }
+    },
+    {
+      "relationship": {
+        "id": 311,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "allows to",
+        "description": [
+                ""
+        ],
+        "list_order": 131072,
+        "from_classifier_name": "Moving",
+        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
+        "uuid": "346d8022-7d2c-4f79-bab2-082bf88b3fc6"
+      }
+    },
+    {
+      "relationship": {
+        "id": 312,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "allows to",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Moving",
+        "to_classifier_name": "Perform movement tactic (L1-Fct)",
+        "from_node": "7f230c83-15a6-47c7-bb1f-eb3dc84014e0",
+        "to_node": "26e48efc-70f7-48f6-b4f1-22ff5ad426c7",
+        "uuid": "ce2d2f5c-ee0a-4efb-97b2-260d59cbab37"
+      }
+    },
+    {
+      "relationship": {
+        "id": 309,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "allows to",
+        "description": [
+                ""
+        ],
+        "list_order": 163840,
+        "from_classifier_name": "Using Tools",
+        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+        "uuid": "8007e303-b941-467d-b8fb-9036d94ad236"
+      }
+    },
+    {
+      "relationship": {
+        "id": 310,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "allows to",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Using Tools",
+        "to_classifier_name": "Perform repair tactic (L1-Fct)",
+        "from_node": "48a685a4-071a-45a1-ab86-8c26e8c41f9f",
+        "to_node": "bdc515da-734e-4336-81d9-510aaf8d8b27",
+        "uuid": "d1682e0e-347b-4259-a6d5-12799258d3ad"
+      }
+    },
+    {
+      "relationship": {
+        "id": 313,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "allows to",
+        "description": [
+                ""
+        ],
+        "list_order": 229376,
+        "from_classifier_name": "Waiting",
+        "to_classifier_name": "Plan repair strategy (L1-Fct)",
+        "from_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+        "to_node": "f47f0b5c-e051-4af3-9216-2029caf42c4a",
+        "uuid": "23324a67-267a-41d9-b731-6a6dff866947"
+      }
+    },
+    {
+      "relationship": {
+        "id": 314,
+        "main_type": 0,
+        "type": "Dependency",
+        "name": "allows to",
+        "description": [
+                ""
+        ],
+        "list_order": 196608,
+        "from_classifier_name": "Waiting",
+        "to_classifier_name": "Plan movement strategy (L1-Fct)",
+        "from_node": "dead5ee9-caf6-47fd-a067-6939dd5cd44f",
+        "to_node": "55b579a4-2727-4027-b366-a74a871c92b9",
+        "uuid": "9e76cbbd-7c42-4fc7-9a69-9276fa32983f"
       }
     },
     {
