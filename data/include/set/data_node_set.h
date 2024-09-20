@@ -61,7 +61,8 @@ void data_node_set_destroy( data_node_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier for which the data shall be loaded
  *  \param db_reader database reader to use when acquiring data
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success, in case of error 
+ *          e.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_node_set_load( data_node_set_t *this_, data_row_id_t classifier_id, data_database_reader_t *db_reader );
 

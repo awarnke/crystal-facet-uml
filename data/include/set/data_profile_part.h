@@ -65,7 +65,8 @@ void data_profile_part_destroy( data_profile_part_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param diagram_elements set of elements in the diagram for which the stereotypes shall be loaded
  *  \param db_reader database reader to use when acquiring data
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success, in case of error 
+ *          e.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_profile_part_load( data_profile_part_t *this_,
                                    const data_visible_set_t * diagram_elements,

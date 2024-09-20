@@ -73,7 +73,8 @@ void data_visible_set_destroy( data_visible_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram for which the data shall be loaded
  *  \param db_reader database reader to use when acquiring data
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success, in case of error 
+ *          e.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
 
@@ -83,7 +84,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
  *  \brief gets the diagram within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to current diagram cache
+ *  \return pointer to current diagram cache (if not initialized, this is a valid pointer to an invalid object )
  */
 static inline const data_diagram_t *data_visible_set_get_diagram_const ( const data_visible_set_t *this_ );
 

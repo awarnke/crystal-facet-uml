@@ -21,10 +21,10 @@ static inline void test_vector_db_destroy( test_vector_db_t *this_ )
     (*this_).db_writer = NULL;
 }
 
-static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
-                                                    data_row_id_t parent_diagram_id,
-                                                    const char* name,
-                                                    const char* stereotype )
+static inline data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
+                                                           data_row_id_t parent_diagram_id,
+                                                           const char* name,
+                                                           const char* stereotype )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );
@@ -62,10 +62,10 @@ static data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
     return root_diag_id;
 }
 
-static data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
-                                                       const char* name,
-                                                       data_classifier_type_t classifier_type,
-                                                       const char* stereotype )
+static inline data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
+                                                              const char* name,
+                                                              data_classifier_type_t classifier_type,
+                                                              const char* stereotype )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );
@@ -101,9 +101,9 @@ static data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
     return classifier_id;
 }
 
-static data_row_id_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
-                                                           data_row_id_t diagram_id,
-                                                           data_row_id_t classifier_id )
+static inline data_row_id_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
+                                                                  data_row_id_t diagram_id,
+                                                                  data_row_id_t classifier_id )
 {
     U8_TRACE_BEGIN();
     u8_error_t data_err;

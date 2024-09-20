@@ -64,6 +64,8 @@ static void tear_down( test_fixture_t *fix )
 static test_case_result_t no_results( test_fixture_t *fix )
 {
     assert( fix != NULL );
+
+    /* v--- creating the test vector */
     test_vector_db_t setup_env;
     test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
@@ -103,7 +105,7 @@ static test_case_result_t no_results( test_fixture_t *fix )
                                                );
 
     test_vector_db_destroy( &setup_env );
-    /* ^^^^ creating the test vector / input data finished here. */
+    /* ^--- creating the test vector / input data finished here. */
 
     /* load a visible set of elements */
     {
@@ -137,6 +139,8 @@ static test_case_result_t no_results( test_fixture_t *fix )
 static test_case_result_t search_and_filter( test_fixture_t *fix )
 {
     assert( fix != NULL );
+
+    /* v--- creating the test vector */
     test_vector_db_t setup_env;
     test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
@@ -176,7 +180,7 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
                                                );
 
     test_vector_db_destroy( &setup_env );
-    /* ^^^^ creating the test vector / input data finished here. */
+    /* ^--- creating the test vector / input data finished here. */
 
     /* load a visible set of elements */
     {
@@ -215,6 +219,8 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
 static test_case_result_t too_much_input( test_fixture_t *fix )
 {
     assert( fix != NULL );
+
+    /* v--- creating the test vector */
     test_vector_db_t setup_env;
     test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
@@ -249,7 +255,7 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
     }
 
     test_vector_db_destroy( &setup_env );
-    /* ^^^^ creating the test vector / input data finished here. */
+    /* ^--- creating the test vector / input data finished here. */
 
     /* load a visible set of elements */
     {
