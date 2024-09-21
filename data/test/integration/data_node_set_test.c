@@ -70,7 +70,7 @@ static test_case_result_t no_results( test_fixture_t *fix )
     {
         data_node_set_init( &((*fix).test_me) );
 
-        const data_classifier_t *const no_classifier = data_node_set_get_classifier_const( &((*fix).test_me) );    
+        data_classifier_t *const no_classifier = data_node_set_get_classifier_ptr( &((*fix).test_me) );    
         TEST_EXPECT( NULL != no_classifier );    
         TEST_EXPECT_EQUAL_INT( false, data_classifier_is_valid( no_classifier ) );    
         TEST_EXPECT_EQUAL_INT( false, data_node_set_is_valid(  &((*fix).test_me) ) );    
@@ -107,7 +107,7 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
                                        );
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
 
-    /* create a classifier with stereotype which name exists but is no stereotype */
+    /* create a classifier */
     const data_row_id_t classifier_1_id
         = test_vector_db_create_classifier( &setup_env,
                                             "The-Blue-Stone",  /* name */
@@ -115,12 +115,19 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
                                             "stereotype"  
                                           );
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_1_id );
+    const data_row_id_t feature_1_id
+        = test_vector_db_create_feature( &setup_env,
+                                         classifier_1_id,
+                                         "The-Blue-Stone Feature",  /* name */
+                                         "stereotype"  
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_1_id );
     (void) test_vector_db_create_diagramelement( &setup_env,
                                                  root_diag_id,
                                                  classifier_1_id
                                                );
 
-    /* create a classifier with stereotype which does not exist: "ThE" is not "The" */
+    /* create another classifier */
     const data_row_id_t classifier_2_id
         = test_vector_db_create_classifier( &setup_env,
                                             "The-Green-Stone",  /* name */
@@ -128,16 +135,104 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
                                             "stereotype"  
                                           );
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_2_id );
+    const data_row_id_t feature_2_id
+        = test_vector_db_create_feature( &setup_env,
+                                         classifier_2_id,
+                                         "The-Green-Stone Feature",  /* name */
+                                         "stereotype"  
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_2_id );
     (void) test_vector_db_create_diagramelement( &setup_env,
                                                  root_diag_id,
                                                  classifier_2_id
                                                );
 
+    /* create 2 relationships */
+    const data_row_id_t relationship_1_id
+        = test_vector_db_create_relationship( &setup_env,
+                                              classifier_1_id,
+                                              DATA_ROW_ID_VOID,
+                                              classifier_2_id,
+                                              DATA_ROW_ID_VOID,
+                                              "blue-to-green",  /* name */
+                                              "stereotype"  
+                                            );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != relationship_1_id );
+    const data_row_id_t relationship_2_id
+        = test_vector_db_create_relationship( &setup_env,
+                                              classifier_2_id,
+                                              feature_2_id,
+                                              classifier_1_id,
+                                              feature_1_id,
+                                              "GREEN_TO_BLUE",  /* name */
+                                              "stereotype"  
+                                            );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != relationship_2_id );
+
     test_vector_db_destroy( &setup_env );
     /* ^--- creating the test vector / input data finished here. */
 
+    /* load a node set of elements */
+    {
+        data_node_set_init( &((*fix).test_me) );
 
-    return TEST_CASE_RESULT_ERR;
+        const u8_error_t init_err = data_node_set_load( &((*fix).test_me), classifier_1_id, &((*fix).db_reader) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
+
+        const data_classifier_t *const the_classifier = data_node_set_get_classifier_const( &((*fix).test_me) );    
+        TEST_EXPECT( NULL != the_classifier );    
+        TEST_EXPECT_EQUAL_INT( true, data_classifier_is_valid( the_classifier ) );    
+        TEST_EXPECT_EQUAL_INT( true, data_node_set_is_valid(  &((*fix).test_me) ) );    
+
+        /* test features */
+
+        const uint32_t feat_count = data_node_set_get_feature_count( &((*fix).test_me) ); 
+        TEST_EXPECT_EQUAL_INT( 1, feat_count );
+
+        const data_feature_t *const f0_c_by_idx = data_node_set_get_feature_const( &((*fix).test_me), 0 /* index */ );
+        const data_feature_t *const f0_c_by_id = data_node_set_get_feature_by_id_const( &((*fix).test_me), feature_1_id );
+        TEST_EXPECT_EQUAL_PTR( f0_c_by_idx, f0_c_by_id );
+        TEST_EXPECT_EQUAL_INT( feature_1_id, data_feature_get_row_id( f0_c_by_idx ) );
+
+        data_feature_t *const f0_by_idx = data_node_set_get_feature_ptr( &((*fix).test_me), 0 /* index */ );
+        data_feature_t *const f0_by_id = data_node_set_get_feature_by_id_ptr( &((*fix).test_me), feature_1_id );
+        TEST_EXPECT_EQUAL_PTR( f0_by_idx, f0_by_id );
+        TEST_EXPECT_EQUAL_INT( feature_1_id, data_feature_get_row_id( f0_by_idx ) );
+
+        data_feature_t *const f_list = data_node_set_get_feature_list_ptr( &((*fix).test_me) ); 
+        TEST_EXPECT_EQUAL_PTR( f0_by_id, f_list );
+
+        /* test relationships */
+
+        const uint32_t rel_count = data_node_set_get_relationship_count( &((*fix).test_me) ); 
+        TEST_EXPECT_EQUAL_INT( 2, rel_count );
+
+        const data_relationship_t *const rel0_c_by_idx = data_node_set_get_relationship_const( &((*fix).test_me), 0 /* index */ );
+        data_row_id_t rel_0_c_id = data_relationship_get_row_id( rel0_c_by_idx );
+        const data_relationship_t *const rel0_c_by_id = data_node_set_get_relationship_by_id_const( &((*fix).test_me), rel_0_c_id );
+        TEST_EXPECT_EQUAL_PTR( rel0_c_by_idx, rel0_c_by_id );
+
+        data_relationship_t *const rel0_by_idx = data_node_set_get_relationship_ptr( &((*fix).test_me), 0 /* index */ );
+        data_row_id_t rel_0_id = data_relationship_get_row_id( rel0_c_by_idx );
+        data_relationship_t *const rel0_by_id = data_node_set_get_relationship_by_id_ptr( &((*fix).test_me), rel_0_id );
+        TEST_EXPECT_EQUAL_PTR( rel0_by_idx, rel0_by_id );
+
+        const data_relationship_t *const rel1_c_by_idx = data_node_set_get_relationship_const( &((*fix).test_me), 1 /* index */ );
+        data_row_id_t rel_1_c_id = data_relationship_get_row_id( rel1_c_by_idx );
+        if ( rel_0_c_id == relationship_1_id )
+        {
+            TEST_EXPECT_EQUAL_INT( rel_1_c_id, relationship_2_id );
+        }
+        else
+        {
+            TEST_EXPECT_EQUAL_INT( rel_0_c_id, relationship_2_id );
+            TEST_EXPECT_EQUAL_INT( rel_1_c_id, relationship_1_id );
+        }
+
+        data_node_set_destroy( &((*fix).test_me) );
+    }
+
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t too_much_input( test_fixture_t *fix )

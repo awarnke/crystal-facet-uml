@@ -174,10 +174,29 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
                                             "Any-Blue-Item"  /* stereotype */
                                           );
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
+    const data_row_id_t feature_id
+        = test_vector_db_create_feature( &setup_env,
+                                         classifier_id,
+                                         "The-Blue-Stone Feature",  /* name */
+                                         "stereotype-2"  
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_id );
     (void) test_vector_db_create_diagramelement( &setup_env,
                                                  root_diag_id,
                                                  classifier_id
                                                );
+
+    /* create 1 relationship */
+    const data_row_id_t relation_id
+        = test_vector_db_create_relationship( &setup_env,
+                                              classifier_id,
+                                              feature_id,
+                                              classifier_id,
+                                              DATA_ROW_ID_VOID,
+                                              "feature-to-classifier",  /* name */
+                                              "stereotype-3"  
+                                            );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != relation_id );
 
     test_vector_db_destroy( &setup_env );
     /* ^--- creating the test vector / input data finished here. */

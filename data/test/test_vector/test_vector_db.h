@@ -37,7 +37,7 @@ static inline void test_vector_db_init( test_vector_db_t *this_, data_database_w
 static inline void test_vector_db_destroy( test_vector_db_t *this_ );
 
 /*!
- *  \brief helper function to initialize the database
+ *  \brief helper function to initialize the database by adding a diagram
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram or DATA_ROW_ID_VOID to create a root diagram
@@ -52,7 +52,20 @@ static inline data_row_id_t test_vector_db_create_diagram( test_vector_db_t *thi
                                                          );
 
 /*!
- *  \brief helper function to initialize the database
+ *  \brief helper function to initialize the database by adding a diagramelement
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the parent diagram to which to attach the classifier
+ *  \param classifier_id id of the classifier which to show in the diagram
+ *  \return id of newly created diagramelement
+ */
+static inline data_row_id_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
+                                                                  data_row_id_t diagram_id,
+                                                                  data_row_id_t classifier_id
+                                                                );
+
+/*!
+ *  \brief helper function to initialize the database by adding a classifier
  *
  *  \param this_ pointer to own object attributes
  *  \param name name of the newly created element
@@ -67,17 +80,40 @@ static inline data_row_id_t test_vector_db_create_classifier( test_vector_db_t *
                                                             );
 
 /*!
- *  \brief helper function to initialize the database
+ *  \brief helper function to initialize the database by adding a feature
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the parent diagram to which to attach the classifier
- *  \param classifier_id id of the classifier which to attach to the diagram
- *  \return id of newly created diagramelement
+ *  \param classifier_id id of the classifier to which to attach the feature
+ *  \param name name of the newly created element
+ *  \param stereotype stereotype name of the new element
+ *  \return id of newly created feature
  */
-static inline data_row_id_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  data_row_id_t classifier_id
-                                                                );
+static inline data_row_id_t test_vector_db_create_feature( test_vector_db_t *this_,
+                                                           data_row_id_t classifier_id,
+                                                           const char* name,
+                                                           const char* stereotype
+                                                         );
+
+/*!
+ *  \brief helper function to initialize the database by adding a relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param from_classifier_id id of the classifier from which to start the relationship
+ *  \param from_feature_id id of the feature from which to start the relationship
+ *  \param to_classifier_id id of the classifier to which to link the relationship
+ *  \param to_feature_id id of the feature to which to link the relationship
+ *  \param name name of the newly created element
+ *  \param stereotype stereotype name of the new element
+ *  \return id of newly created relationship
+ */
+static inline data_row_id_t test_vector_db_create_relationship( test_vector_db_t *this_,
+                                                                data_row_id_t from_classifier_id,
+                                                                data_row_id_t from_feature_id,
+                                                                data_row_id_t to_classifier_id,
+                                                                data_row_id_t to_feature_id,
+                                                                const char* name,
+                                                                const char* stereotype
+                                                              );
 
 #include "test_vector_db.inl"
 
