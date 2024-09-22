@@ -56,6 +56,8 @@ void data_visible_set_init( data_visible_set_t *this_ );
 /*!
  *  \brief re-initializes the painter input data
  *
+ *  The data_visible_set_t must have been initialized before.
+ *
  *  \param this_ pointer to own object attributes
  */
 void data_visible_set_reinit( data_visible_set_t *this_ );
@@ -103,7 +105,7 @@ static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_se
  *  \param new_diagram pointer to diagram record that shall be copied
  *  \return U8_ERROR_NONE in case of success
  */
-static inline u8_error_t data_visible_set_set_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram );
+static inline u8_error_t data_visible_set_replace_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram );
 
 /* ================================ classifiers ================================ */
 
@@ -171,6 +173,8 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
 /*!
  *  \brief gets the classifier index within the painter input data
  *
+ *  Remember that a classifier may occur multiple times in a visible set. This function returns only one occurrence.
+ *
  *  \param this_ pointer to own object attributes
  *  \param row_id id of the classifier to retrieve
  *  \return -1 if row_id not in cache; index of data_classifier_t otherwise.
@@ -185,7 +189,7 @@ static inline int32_t data_visible_set_get_classifier_index ( const data_visible
  *  \return index of data_classifier_t.
  */
 static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( const data_visible_set_t *this_,
-                                                                            const data_visible_classifier_t *classifier_ptr
+                                                                            const data_visible_classifier_t *vis_classifier_ptr
                                                                           );
 
 /*!

@@ -327,17 +327,17 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
 
         const data_row_id_t classifier_id = ((pseudo_random_1 % 5)==0) ? (index+2) : (index+1); /* some classifiers exist twice */
         const u8_error_t d1_err = data_classifier_init( classifier,
-                                                          classifier_id,
-                                                          class_type,
-                                                          stereotype,
-                                                          name,
-                                                          description,
-                                                          x_order,
-                                                          y_order,
-                                                          list_order,
-                                                          data_uuid_get_string( &clsfr_uuid )
-                                                        );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
+                                                        classifier_id,
+                                                        class_type,
+                                                        stereotype,
+                                                        name,
+                                                        description,
+                                                        x_order,
+                                                        y_order,
+                                                        list_order,
+                                                        data_uuid_get_string( &clsfr_uuid )
+                                                      );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
         const data_row_id_t diagram_id = data_diagram_get_row_id( data_visible_set_get_diagram_const( io_data_set ) );
         const data_diagramelement_flag_t flag_inst
@@ -353,19 +353,19 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
             ? DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT
             : DATA_DIAGRAMELEMENT_FLAG_NONE;
         const u8_error_t d2_err = data_diagramelement_init( diagramelement,
-                                                              index+1,  /* = id */
-                                                              diagram_id,
-                                                              classifier_id,
-                                                              flag_inst|flag_emph,
-                                                              index+10001,  /* = focused_feature_id */
-                                                              data_uuid_get_string( &diagele_uuid )
-                                                            );
-        TEST_ENVIRONMENT_ASSERT ( d2_err == U8_ERROR_NONE );
+                                                            index+1,  /* = id */
+                                                            diagram_id,
+                                                            classifier_id,
+                                                            flag_inst|flag_emph,
+                                                            index+10001,  /* = focused_feature_id */
+                                                            data_uuid_get_string( &diagele_uuid )
+                                                          );
+        TEST_ENVIRONMENT_ASSERT( d2_err == U8_ERROR_NONE );
 
         const u8_error_t d3_err = data_visible_set_append_classifier( io_data_set, &vis_classfy );
-        TEST_ENVIRONMENT_ASSERT ( d3_err == U8_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( d3_err == U8_ERROR_NONE );
 
-        data_visible_classifier_destroy ( &vis_classfy );
+        data_visible_classifier_destroy( &vis_classfy );
         data_uuid_destroy( &clsfr_uuid );
         data_uuid_destroy( &diagele_uuid );
     }
@@ -390,21 +390,21 @@ static inline void test_data_setup_private_add_lifelines( const test_data_setup_
 
         data_feature_t feat;
         const u8_error_t d1_err = data_feature_init( &feat,
-                                                       data_diagramelement_get_focused_feature_row_id( diagele ),  /* = feature_id */
-                                                       feat_type,
-                                                       data_diagramelement_get_classifier_row_id( diagele ),  /* = classifier_id */
-                                                       feature_key,
-                                                       feature_value,
-                                                       feature_description,
-                                                       list_order,
-                                                       data_uuid_get_string( &feat_uuid )
-                                                     );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err );
+                                                     data_diagramelement_get_focused_feature_row_id( diagele ),  /* = feature_id */
+                                                     feat_type,
+                                                     data_diagramelement_get_classifier_row_id( diagele ),  /* = classifier_id */
+                                                     feature_key,
+                                                     feature_value,
+                                                     feature_description,
+                                                     list_order,
+                                                     data_uuid_get_string( &feat_uuid )
+                                                   );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, d1_err );
 
         const u8_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d2_err );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, d2_err );
 
-        data_feature_destroy ( &feat );
+        data_feature_destroy( &feat );
         data_uuid_destroy( &feat_uuid );
     }
 }
@@ -508,22 +508,22 @@ static inline void test_data_setup_private_add_features( const test_data_setup_t
 
         data_feature_t feat;
         const u8_error_t d1_err = data_feature_init( &feat,
-                                                       index+1,  /* = feature_id */
-                                                       feat_type,
-                                                       index+1,  /* = classifier_id */
-                                                       feature_key,
-                                                       feature_value,
-                                                       feature_description,
-                                                       list_order,
-                                                       data_uuid_get_string( &feat_uuid )
-                                                     );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
+                                                     index+1,  /* = feature_id */
+                                                     feat_type,
+                                                     index+1,  /* = classifier_id */
+                                                     feature_key,
+                                                     feature_value,
+                                                     feature_description,
+                                                     list_order,
+                                                     data_uuid_get_string( &feat_uuid )
+                                                   );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
         const u8_error_t d2_err = data_visible_set_append_feature( io_data_set, &feat );
-        TEST_ENVIRONMENT_ASSERT ( d2_err == U8_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( d2_err == U8_ERROR_NONE );
 
-        data_feature_destroy ( &feat );
-        data_uuid_destroy ( &feat_uuid );
+        data_feature_destroy( &feat );
+        data_uuid_destroy( &feat_uuid );
     }
 }
 
@@ -694,25 +694,25 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
 
         data_relationship_t rel;
         const u8_error_t d1_err = data_relationship_init( &rel,
-                                                            index+1,  /* =  relationship_id */
-                                                            from_classifier_row_id,
-                                                            from_feature_row_id,
-                                                            to_classifier_row_id,
-                                                            to_feature_row_id,
-                                                            rel_type,
-                                                            "stereo_t",  /* stereotype */
-                                                            relationship_name,
-                                                            relationship_description,
-                                                            list_order,
-                                                            data_uuid_get_string( &rel_uuid )
-                                                          );
-        TEST_ENVIRONMENT_ASSERT_EQUAL_INT ( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
+                                                          index+1,  /* =  relationship_id */
+                                                          from_classifier_row_id,
+                                                          from_feature_row_id,
+                                                          to_classifier_row_id,
+                                                          to_feature_row_id,
+                                                          rel_type,
+                                                          "stereo_t",  /* stereotype */
+                                                          relationship_name,
+                                                          relationship_description,
+                                                          list_order,
+                                                          data_uuid_get_string( &rel_uuid )
+                                                        );
+        TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
         const u8_error_t d2_err = data_visible_set_append_relationship( io_data_set, &rel );
-        TEST_ENVIRONMENT_ASSERT ( d2_err == U8_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( d2_err == U8_ERROR_NONE );
 
-        data_relationship_destroy ( &rel );
-        data_uuid_destroy ( &rel_uuid );
+        data_relationship_destroy( &rel );
+        data_uuid_destroy( &rel_uuid );
     }
 }
 

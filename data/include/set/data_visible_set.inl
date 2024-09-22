@@ -15,7 +15,7 @@ static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_se
     return &((*this_).diagram);
 }
 
-static inline u8_error_t data_visible_set_set_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram )
+static inline u8_error_t data_visible_set_replace_diagram( data_visible_set_t *this_, const data_diagram_t *new_diagram )
 {
     assert( NULL != new_diagram );
     data_diagram_replace( &((*this_).diagram), new_diagram );
@@ -179,13 +179,13 @@ static inline int32_t data_visible_set_get_classifier_index ( const data_visible
 }
 
 static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( const data_visible_set_t *this_,
-                                                                             const data_visible_classifier_t *classifier_ptr )
+                                                                             const data_visible_classifier_t *vis_classifier_ptr )
 {
-    assert ( NULL != classifier_ptr );  /* input parameters test */
-    assert ( classifier_ptr >= &((*this_).visible_classifiers[0]) );  /* input parameters test */
-    assert ( classifier_ptr < &((*this_).visible_classifiers[DATA_VISIBLE_SET_MAX_CLASSIFIERS]) );  /* input parameters test */
+    assert ( NULL != vis_classifier_ptr );  /* input parameters test */
+    assert ( vis_classifier_ptr >= &((*this_).visible_classifiers[0]) );  /* input parameters test */
+    assert ( vis_classifier_ptr < &((*this_).visible_classifiers[DATA_VISIBLE_SET_MAX_CLASSIFIERS]) );  /* input parameters test */
     assert ( 3 == &((*this_).visible_classifiers[3]) - (*this_).visible_classifiers );  /* compiler test */
-    return ( classifier_ptr - (*this_).visible_classifiers );
+    return ( vis_classifier_ptr - (*this_).visible_classifiers );
 }
 
 static inline u8_error_t data_visible_set_append_classifier( data_visible_set_t *this_, const data_visible_classifier_t *new_classifier )
@@ -470,7 +470,7 @@ static inline bool data_visible_set_is_valid ( const data_visible_set_t *this_ )
 
 static inline void data_visible_set_invalidate ( data_visible_set_t *this_ )
 {
-    data_diagram_reinit_empty( &((*this_).diagram) );
+    data_visible_set_reinit( this_ );
 }
 
 static inline void data_visible_set_private_destroy_visible_classifiers( data_visible_set_t *this_ )
