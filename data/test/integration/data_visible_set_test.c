@@ -12,9 +12,7 @@
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t no_results( test_fixture_t *test_env );
-#if 0
 static test_case_result_t modify_visible_set( test_fixture_t *test_env );
-#endif
 static test_case_result_t regular_visible_set( test_fixture_t *test_env );
 static test_case_result_t too_much_input( test_fixture_t *test_env );
 
@@ -28,9 +26,7 @@ test_suite_t data_visible_set_test_get_suite(void)
                      &tear_down
                    );
     test_suite_add_test_case( &result, "no_results", &no_results );
-#if 0
     test_suite_add_test_case( &result, "modify_visible_set", &modify_visible_set );
-#endif
     test_suite_add_test_case( &result, "regular_visible_set", &regular_visible_set );
     test_suite_add_test_case( &result, "too_much_input", &too_much_input );
     return result;
@@ -132,8 +128,8 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             const u8_error_t modify_err
                 = data_visible_set_replace_diagram( &((*fix).test_me), &diag );
             TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, modify_err );
-            TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( data_visible_set_get_diagram_const( &((*fix).test_me) ) ) );    
-            TEST_EXPECT_EQUAL_INT( false, data_visible_set_is_valid(  &((*fix).test_me) ) );    
+            TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( data_visible_set_get_diagram_const( &((*fix).test_me) ) ) );    
+            TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_valid(  &((*fix).test_me) ) );    
 
             data_diagram_destroy( &diag );
         }
@@ -232,7 +228,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
                                           10000, /* from_feature_row_id */
                                           1001,  /* to_classifier_row_id */
                                           DATA_ROW_ID_VOID, /* to_feature_row_id */
-                                          DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
+                                          DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           "stereotype", 
                                           "name",
                                           "description",
@@ -242,7 +238,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
             TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, rel_err );
 
             const u8_error_t append_err = data_visible_set_append_relationship(  &((*fix).test_me), &rel );
-            if ( index < DATA_VISIBLE_SET_MAX_FEATURES )
+            if ( index < DATA_VISIBLE_SET_MAX_RELATIONSHIPS )
             {
                 TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, append_err );
                 const data_relationship_t *readback = data_visible_set_get_relationship_const( &((*fix).test_me), index );
@@ -256,6 +252,10 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
 
             data_relationship_destroy ( &rel );
         }
+
+        data_visible_set_update_containment_cache( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_ancestor_by_index( &((*fix).test_me), 0 /* ancestor_index */, 1 /* descendant_index */ ) );
+        TEST_EXPECT_EQUAL_INT( false, data_visible_set_is_ancestor_by_index( &((*fix).test_me), 1 /* ancestor_index */, 0 /* descendant_index */ ) );
 
         data_visible_set_invalidate( &((*fix).test_me) );
 
@@ -272,7 +272,7 @@ static test_case_result_t modify_visible_set( test_fixture_t *fix )
         data_visible_set_destroy( &((*fix).test_me) );
     }
 
-    return TEST_CASE_RESULT_ERR;
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t regular_visible_set( test_fixture_t *fix )
@@ -293,66 +293,92 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
     TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
 
     /* create a classifier */
-    const data_row_id_t classifier_1_id
+    const data_row_id_t classifier_blue_id
         = test_vector_db_create_classifier( &setup_env,
                                             "The-Blue-Stone",  /* name */
                                             DATA_CLASSIFIER_TYPE_COMPONENT,
                                             "stereotype"  
                                           );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_1_id );
-    const data_row_id_t feature_1_id
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_blue_id );
+    const data_row_id_t feature_blue_id
         = test_vector_db_create_feature( &setup_env,
-                                         classifier_1_id,
+                                         classifier_blue_id,
                                          "The-Blue-Stone Feature",  /* name */
                                          "stereotype"  
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_1_id );
-    (void) test_vector_db_create_diagramelement( &setup_env,
-                                                 root_diag_id,
-                                                 classifier_1_id
-                                               );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_blue_id );
+    const data_row_id_t diagele_blue_id
+        = test_vector_db_create_diagramelement( &setup_env,
+                                                root_diag_id,
+                                                classifier_blue_id
+                                              );
 
     /* create another classifier */
-    const data_row_id_t classifier_2_id
+    const data_row_id_t classifier_green_id
         = test_vector_db_create_classifier( &setup_env,
                                             "The-Green-Stone",  /* name */
                                             DATA_CLASSIFIER_TYPE_COMPONENT,
                                             "stereotype"  
                                           );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_2_id );
-    const data_row_id_t feature_2_id
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_green_id );
+    const data_row_id_t feature_green_id
         = test_vector_db_create_feature( &setup_env,
-                                         classifier_2_id,
+                                         classifier_green_id,
                                          "The-Green-Stone Feature",  /* name */
                                          "stereotype"  
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_2_id );
-    (void) test_vector_db_create_diagramelement( &setup_env,
-                                                 root_diag_id,
-                                                 classifier_2_id
-                                               );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_green_id );
+    const data_row_id_t diagele_green_id
+        = test_vector_db_create_diagramelement( &setup_env,
+                                                root_diag_id,
+                                                classifier_green_id
+                                              );
 
-    /* create 2 relationships */
-    const data_row_id_t rel_1_id
+    /* create 4 relationships */
+    const data_row_id_t rel_a_id
         = test_vector_db_create_relationship( &setup_env,
-                                              classifier_1_id,
+                                              classifier_blue_id,
                                               DATA_ROW_ID_VOID,
-                                              classifier_2_id,
+                                              classifier_green_id,
                                               DATA_ROW_ID_VOID,
+                                              DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                               "blue-to-green",  /* name */
                                               "stereotype"  
                                             );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != rel_1_id );
-    const data_row_id_t rel_2_id
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != rel_a_id );
+    const data_row_id_t rel_b_id
         = test_vector_db_create_relationship( &setup_env,
-                                              classifier_2_id,
-                                              feature_2_id,
-                                              classifier_1_id,
-                                              feature_1_id,
+                                              classifier_green_id,
+                                              feature_green_id,
+                                              classifier_blue_id,
+                                              feature_blue_id,
+                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
                                               "GREEN_TO_BLUE",  /* name */
                                               "stereotype"  
                                             );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != rel_2_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != rel_b_id );
+    const data_row_id_t rel_c_id
+        = test_vector_db_create_relationship( &setup_env,
+                                              10000,
+                                              99999,
+                                              classifier_blue_id,
+                                              feature_blue_id,
+                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                              "SOME_TO_BLUE",  /* name */
+                                              "stereotype"  
+                                            );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != rel_c_id );
+    const data_row_id_t rel_d_id
+        = test_vector_db_create_relationship( &setup_env,
+                                              classifier_green_id,
+                                              feature_green_id,
+                                              10000,
+                                              99999,
+                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                              "GREEN_TO_SOME",  /* name */
+                                              "stereotype"  
+                                            );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != rel_d_id );
 
     test_vector_db_destroy( &setup_env );
     /* ^--- creating the test vector / input data finished here. */
@@ -364,22 +390,35 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
         const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), root_diag_id, &((*fix).db_reader) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
 
+        /* test diagram */
 
+        const data_diagram_t *const the_diag = data_visible_set_get_diagram_const( &((*fix).test_me) );    
+        TEST_EXPECT( NULL != the_diag );    
+        TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( the_diag ) );    
+        TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_valid(  &((*fix).test_me) ) );    
 
-        const data_diagram_t *const no_diag = data_visible_set_get_diagram_const( &((*fix).test_me) );    
-        TEST_EXPECT( NULL != no_diag );    
-        TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( no_diag ) );    
-        TEST_EXPECT_EQUAL_INT( false, data_visible_set_is_valid(  &((*fix).test_me) ) );    
+        /* test classifiers */
 
+        const uint32_t classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) ); 
+        TEST_EXPECT_EQUAL_INT( 2, classifier_count );
 
-        const uint32_t no_classifier = data_visible_set_get_visible_classifier_count( &((*fix).test_me) ); 
-        TEST_EXPECT_EQUAL_INT( 0, no_classifier );
-
-        const data_visible_classifier_t *const vis_clas_1 = data_visible_set_get_visible_classifier_const( &((*fix).test_me), 0 /* index */ );
-
-        data_visible_classifier_t *const vis_clas_1_mod = data_visible_set_get_visible_classifier_ptr( &((*fix).test_me), 0 /* index */ );
+        const data_visible_classifier_t *const vis_clas_0 = data_visible_set_get_visible_classifier_const( &((*fix).test_me), 0 /* index */ );
+        const data_diagramelement_t *const diagele_0 = data_visible_classifier_get_diagramelement_const( vis_clas_0 );
+        data_visible_classifier_t *const vis_clas_1_mod = data_visible_set_get_visible_classifier_ptr( &((*fix).test_me), 1 /* index */ );
+        const data_diagramelement_t *const diagele_1 = data_visible_classifier_get_diagramelement_const( vis_clas_1_mod );
+        if ( data_diagramelement_get_row_id( diagele_0 ) == diagele_blue_id )
+        {
+            TEST_EXPECT_EQUAL_INT( diagele_green_id, data_diagramelement_get_row_id( diagele_1 ) );
+        }
+        else
+        {
+            TEST_EXPECT_EQUAL_INT( diagele_green_id, data_diagramelement_get_row_id( diagele_0 ) );
+            TEST_EXPECT_EQUAL_INT( diagele_blue_id, data_diagramelement_get_row_id( diagele_1 ) );
+        }
 
         const data_visible_classifier_t *const vis_clas_2 = data_visible_set_get_visible_classifier_by_id_const( &((*fix).test_me), 0 /* diagramelement_id */ );
+
+
 
         data_visible_classifier_t *const vis_clas_2_mod = data_visible_set_get_visible_classifier_by_id_ptr( &((*fix).test_me), 0 /* diagramelement_id */ );
 
@@ -389,11 +428,12 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
 
         int32_t clas_idx_1 = data_visible_set_get_classifier_index( &((*fix).test_me), 100 /* row_id */ );
 
-        uint32_t clas_idx_2 = data_visible_set_get_classifier_index_from_pointer( &((*fix).test_me), vis_clas_1 /* vis_classifier_ptr */ );
+        uint32_t clas_idx_2 = data_visible_set_get_classifier_index_from_pointer( &((*fix).test_me), vis_clas_0 /* vis_classifier_ptr */ );
 
+        /* test features */
 
-        const uint32_t no_feature = data_visible_set_get_feature_count( &((*fix).test_me) ); 
-        TEST_EXPECT_EQUAL_INT( 0, no_feature );
+        const uint32_t feature_count = data_visible_set_get_feature_count( &((*fix).test_me) ); 
+        TEST_EXPECT_EQUAL_INT( 2, feature_count );
 
 
         const data_feature_t *const feat_1 = data_visible_set_get_feature_const( &((*fix).test_me), 0 /* index */ );
@@ -406,10 +446,10 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
 
         data_feature_t *const feat_list = data_visible_set_get_feature_list_ptr( &((*fix).test_me) );
 
+        /* test relationships */
 
-        const uint32_t no_relationship = data_visible_set_get_relationship_count( &((*fix).test_me) ); 
-        TEST_EXPECT_EQUAL_INT( 0, no_relationship );
-
+        const uint32_t relationship_count = data_visible_set_get_relationship_count( &((*fix).test_me) ); 
+        TEST_EXPECT_EQUAL_INT( 2, relationship_count );
 
         const data_relationship_t *const rel_1 = data_visible_set_get_relationship_const( &((*fix).test_me), 0 /* index */ );
 

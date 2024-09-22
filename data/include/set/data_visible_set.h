@@ -339,6 +339,9 @@ static inline uint32_t data_visible_set_count_descendants_of_index ( const data_
 /*!
  *  \brief appends a relationship
  *
+ *  Note that after adding relationships of type DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, one has to manually call
+ *  data_visible_set_update_containment_cache() to update the containment cache.
+ *
  *  \param this_ pointer to own object attributes
  *  \param new_relationship pointer to relationship record that shall be copied
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_ARRAY_BUFFER_EXCEEDED if array is full
@@ -367,7 +370,7 @@ static inline void data_visible_set_invalidate ( data_visible_set_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-void data_visible_set_private_update_containment_cache ( data_visible_set_t *this_ );
+void data_visible_set_update_containment_cache ( data_visible_set_t *this_ );
 
 /*!
  *  \brief destroys all contained visible classifiers

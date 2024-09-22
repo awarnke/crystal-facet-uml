@@ -177,6 +177,7 @@ static inline data_row_id_t test_vector_db_create_relationship( test_vector_db_t
                                                                 data_row_id_t from_feature_id,
                                                                 data_row_id_t to_classifier_id,
                                                                 data_row_id_t to_feature_id,
+                                                                data_relationship_type_t rel_type,
                                                                 const char* name,
                                                                 const char* stereotype )
 {
@@ -195,7 +196,7 @@ static inline data_row_id_t test_vector_db_create_relationship( test_vector_db_t
                                            from_feature_id,
                                            to_classifier_id,
                                            to_feature_id,
-                                           DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                           rel_type,
                                            stereotype,
                                            name,
                                            "",  /* description */

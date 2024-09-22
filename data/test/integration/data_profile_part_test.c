@@ -193,6 +193,7 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
                                               feature_id,
                                               classifier_id,
                                               DATA_ROW_ID_VOID,
+                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
                                               "feature-to-classifier",  /* name */
                                               "stereotype-3"  
                                             );

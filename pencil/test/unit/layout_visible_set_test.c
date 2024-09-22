@@ -46,7 +46,7 @@ static data_visible_set_t* init_empty_input_data()
 {
     static data_visible_set_t empty_input_data;
     data_visible_set_init( &empty_input_data );
-    data_visible_set_private_update_containment_cache ( &empty_input_data );
+    data_visible_set_update_containment_cache ( &empty_input_data );
     TEST_ENVIRONMENT_ASSERT ( ! data_visible_set_is_valid ( &empty_input_data ) );
     return &empty_input_data;
     return TEST_CASE_RESULT_OK;
@@ -160,7 +160,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
         TEST_ENVIRONMENT_ASSERT( data_relationship_is_valid( current ) );
     }
 
-    data_visible_set_private_update_containment_cache ( &fake_input_data );
+    data_visible_set_update_containment_cache ( &fake_input_data );
 
     TEST_ENVIRONMENT_ASSERT ( data_visible_set_is_valid ( &fake_input_data ) );
     return &fake_input_data;

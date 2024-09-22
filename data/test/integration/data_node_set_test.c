@@ -154,6 +154,7 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
                                               DATA_ROW_ID_VOID,
                                               classifier_2_id,
                                               DATA_ROW_ID_VOID,
+                                              DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                               "blue-to-green",  /* name */
                                               "stereotype"  
                                             );
@@ -164,6 +165,7 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
                                               feature_2_id,
                                               classifier_1_id,
                                               feature_1_id,
+                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
                                               "GREEN_TO_BLUE",  /* name */
                                               "stereotype"  
                                             );
@@ -184,7 +186,7 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_INT( true, data_classifier_is_valid( the_classifier ) );    
         TEST_EXPECT_EQUAL_INT( true, data_node_set_is_valid(  &((*fix).test_me) ) );    
 
-        /* test features */
+        /* test features (there is only 1) */
 
         const uint32_t feat_count = data_node_set_get_feature_count( &((*fix).test_me) ); 
         TEST_EXPECT_EQUAL_INT( 1, feat_count );
@@ -208,17 +210,17 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_INT( 2, rel_count );
 
         const data_relationship_t *const rel0_c_by_idx = data_node_set_get_relationship_const( &((*fix).test_me), 0 /* index */ );
-        data_row_id_t rel_0_c_id = data_relationship_get_row_id( rel0_c_by_idx );
+        const data_row_id_t rel_0_c_id = data_relationship_get_row_id( rel0_c_by_idx );
         const data_relationship_t *const rel0_c_by_id = data_node_set_get_relationship_by_id_const( &((*fix).test_me), rel_0_c_id );
         TEST_EXPECT_EQUAL_PTR( rel0_c_by_idx, rel0_c_by_id );
 
         data_relationship_t *const rel0_by_idx = data_node_set_get_relationship_ptr( &((*fix).test_me), 0 /* index */ );
-        data_row_id_t rel_0_id = data_relationship_get_row_id( rel0_c_by_idx );
+        const data_row_id_t rel_0_id = data_relationship_get_row_id( rel0_c_by_idx );
         data_relationship_t *const rel0_by_id = data_node_set_get_relationship_by_id_ptr( &((*fix).test_me), rel_0_id );
         TEST_EXPECT_EQUAL_PTR( rel0_by_idx, rel0_by_id );
 
         const data_relationship_t *const rel1_c_by_idx = data_node_set_get_relationship_const( &((*fix).test_me), 1 /* index */ );
-        data_row_id_t rel_1_c_id = data_relationship_get_row_id( rel1_c_by_idx );
+        const data_row_id_t rel_1_c_id = data_relationship_get_row_id( rel1_c_by_idx );
         if ( rel_0_c_id == relationship_1_id )
         {
             TEST_EXPECT_EQUAL_INT( rel_1_c_id, relationship_2_id );

@@ -157,13 +157,13 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
     }
 
     /* update the containment cache */
-    data_visible_set_private_update_containment_cache( this_ );
+    data_visible_set_update_containment_cache( this_ );
 
     U8_TRACE_END_ERR(result);
     return result;
 }
 
-void data_visible_set_private_update_containment_cache ( data_visible_set_t *this_ )
+void data_visible_set_update_containment_cache ( data_visible_set_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );

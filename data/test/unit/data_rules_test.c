@@ -179,7 +179,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
         TEST_ENVIRONMENT_ASSERT( data_relationship_is_valid( current ) );
     }
 
-    data_visible_set_private_update_containment_cache ( &test_input_data );
+    data_visible_set_update_containment_cache ( &test_input_data );
 
     TEST_ENVIRONMENT_ASSERT ( data_visible_set_is_valid ( &test_input_data ) );
     return &test_input_data;

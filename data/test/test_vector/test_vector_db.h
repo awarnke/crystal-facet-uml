@@ -102,6 +102,7 @@ static inline data_row_id_t test_vector_db_create_feature( test_vector_db_t *thi
  *  \param from_feature_id id of the feature from which to start the relationship
  *  \param to_classifier_id id of the classifier to which to link the relationship
  *  \param to_feature_id id of the feature to which to link the relationship
+ *  \param rel_type type of the newly created element
  *  \param name name of the newly created element
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created relationship
@@ -111,6 +112,7 @@ static inline data_row_id_t test_vector_db_create_relationship( test_vector_db_t
                                                                 data_row_id_t from_feature_id,
                                                                 data_row_id_t to_classifier_id,
                                                                 data_row_id_t to_feature_id,
+                                                                data_relationship_type_t rel_type,
                                                                 const char* name,
                                                                 const char* stereotype
                                                               );

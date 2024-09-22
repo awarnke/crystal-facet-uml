@@ -66,6 +66,7 @@ static inline test_data_setup_mode_t test_data_setup_get_mode( const test_data_s
 static inline void test_data_setup_get_variant_data( const test_data_setup_t *this_, data_visible_set_t *io_data_set )
 {
     data_visible_set_reinit( io_data_set );
+
     test_data_setup_private_set_diagram( this_, io_data_set );
     test_data_setup_private_add_classifiers( this_, io_data_set );
     const data_diagram_type_t diag_type = data_diagram_get_diagram_type( data_visible_set_get_diagram_const( io_data_set ) );
@@ -75,6 +76,8 @@ static inline void test_data_setup_get_variant_data( const test_data_setup_t *th
     }
     test_data_setup_private_add_features( this_, io_data_set );
     test_data_setup_private_add_relationships( this_, io_data_set );
+
+    data_visible_set_update_containment_cache( io_data_set );
 }
 
 static const char *const EMPTY_STR = "";
