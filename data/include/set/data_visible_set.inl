@@ -179,7 +179,7 @@ static inline int32_t data_visible_set_get_classifier_index ( const data_visible
 }
 
 static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( const data_visible_set_t *this_,
-                                                                             const data_visible_classifier_t *vis_classifier_ptr )
+                                                                            const data_visible_classifier_t *vis_classifier_ptr )
 {
     assert ( NULL != vis_classifier_ptr );  /* input parameters test */
     assert ( vis_classifier_ptr >= &((*this_).visible_classifiers[0]) );  /* input parameters test */

@@ -402,70 +402,81 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
         const uint32_t classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) ); 
         TEST_EXPECT_EQUAL_INT( 2, classifier_count );
 
-        const data_visible_classifier_t *const vis_clas_0 = data_visible_set_get_visible_classifier_const( &((*fix).test_me), 0 /* index */ );
+        const data_visible_classifier_t *const vis_clas_2
+            = data_visible_set_get_visible_classifier_by_id_const( &((*fix).test_me), diagele_green_id /* diagramelement_id */ );
+        const data_classifier_t *const clas
+            = data_visible_set_get_classifier_by_id_const( &((*fix).test_me), classifier_green_id /* row_id */ );
+        TEST_EXPECT_EQUAL_PTR( clas, data_visible_classifier_get_classifier_const( vis_clas_2 ) );
+
+        data_visible_classifier_t *const vis_clas_2_mod
+            = data_visible_set_get_visible_classifier_by_id_ptr( &((*fix).test_me), diagele_blue_id /* diagramelement_id */ );
+        data_classifier_t *const clas_mod
+            = data_visible_set_get_classifier_by_id_ptr( &((*fix).test_me), classifier_blue_id /* row_id */ );
+        TEST_EXPECT_EQUAL_PTR( clas_mod, data_visible_classifier_get_classifier_const( vis_clas_2_mod ) );
+
+        const int32_t clas_green_idx = data_visible_set_get_classifier_index( &((*fix).test_me), classifier_green_id /* row_id */ );
+        const data_visible_classifier_t *const vis_clas_0 = data_visible_set_get_visible_classifier_const( &((*fix).test_me), clas_green_idx /* index */ );
         const data_diagramelement_t *const diagele_0 = data_visible_classifier_get_diagramelement_const( vis_clas_0 );
-        data_visible_classifier_t *const vis_clas_1_mod = data_visible_set_get_visible_classifier_ptr( &((*fix).test_me), 1 /* index */ );
-        const data_diagramelement_t *const diagele_1 = data_visible_classifier_get_diagramelement_const( vis_clas_1_mod );
-        if ( data_diagramelement_get_row_id( diagele_0 ) == diagele_blue_id )
-        {
-            TEST_EXPECT_EQUAL_INT( diagele_green_id, data_diagramelement_get_row_id( diagele_1 ) );
-        }
-        else
-        {
-            TEST_EXPECT_EQUAL_INT( diagele_green_id, data_diagramelement_get_row_id( diagele_0 ) );
-            TEST_EXPECT_EQUAL_INT( diagele_blue_id, data_diagramelement_get_row_id( diagele_1 ) );
-        }
+        TEST_EXPECT_EQUAL_INT( diagele_green_id, data_diagramelement_get_row_id( diagele_0 ) );
 
-        const data_visible_classifier_t *const vis_clas_2 = data_visible_set_get_visible_classifier_by_id_const( &((*fix).test_me), 0 /* diagramelement_id */ );
+        const uint32_t clas_idx_2 = data_visible_set_get_classifier_index_from_pointer( &((*fix).test_me), vis_clas_0 /* vis_classifier_ptr */ );
+        TEST_EXPECT_EQUAL_INT( clas_green_idx, clas_idx_2 );
 
+        /* test containments */
 
+        const int32_t clas_blue_idx = data_visible_set_get_classifier_index( &((*fix).test_me), classifier_blue_id /* row_id */ );
+        const bool is_anc_1 = data_visible_set_is_ancestor_by_index( &((*fix).test_me), clas_green_idx /* ancestor_index */, clas_blue_idx /* descendant_index */ );
+        TEST_EXPECT_EQUAL_INT( false, is_anc_1 );
+        const bool is_anc_2 = data_visible_set_is_ancestor_by_index( &((*fix).test_me), clas_blue_idx /* ancestor_index */, clas_green_idx /* descendant_index */ );
+        TEST_EXPECT_EQUAL_INT( true, is_anc_2 );
 
-        data_visible_classifier_t *const vis_clas_2_mod = data_visible_set_get_visible_classifier_by_id_ptr( &((*fix).test_me), 0 /* diagramelement_id */ );
+        const uint32_t anc = data_visible_set_count_ancestors_of_index( &((*fix).test_me), clas_green_idx /* classifier_index */ );
+        TEST_EXPECT_EQUAL_INT( 1, anc );
 
-        const data_classifier_t *const clas = data_visible_set_get_classifier_by_id_const( &((*fix).test_me), 1000 /* row_id */ );
-
-        data_classifier_t *const clas_mod = data_visible_set_get_classifier_by_id_ptr( &((*fix).test_me), 1000 /* row_id */ );
-
-        int32_t clas_idx_1 = data_visible_set_get_classifier_index( &((*fix).test_me), 100 /* row_id */ );
-
-        uint32_t clas_idx_2 = data_visible_set_get_classifier_index_from_pointer( &((*fix).test_me), vis_clas_0 /* vis_classifier_ptr */ );
+        const uint32_t desc = data_visible_set_count_descendants_of_index( &((*fix).test_me), clas_blue_idx /* classifier_index */ );
+        TEST_EXPECT_EQUAL_INT( 1, desc );
 
         /* test features */
 
         const uint32_t feature_count = data_visible_set_get_feature_count( &((*fix).test_me) ); 
         TEST_EXPECT_EQUAL_INT( 2, feature_count );
 
-
         const data_feature_t *const feat_1 = data_visible_set_get_feature_const( &((*fix).test_me), 0 /* index */ );
-
         data_feature_t *const feat_1_mod = data_visible_set_get_feature_ptr( &((*fix).test_me), 0 /* index */ );
+        TEST_EXPECT_EQUAL_PTR( feat_1, feat_1_mod );
 
-        const data_feature_t *const feat_2 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), 1000 /* row_id */ );
+        const data_feature_t *const feat_2 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), feature_blue_id /* row_id */ );
+        TEST_EXPECT_EQUAL_INT( feature_blue_id, data_feature_get_row_id( feat_2 ) );
 
-        data_feature_t *const feat_2_mod = data_visible_set_get_feature_by_id_ptr( &((*fix).test_me), 1000 /* row_id */ );
+        data_feature_t *const feat_2_mod = data_visible_set_get_feature_by_id_ptr( &((*fix).test_me), feature_blue_id /* row_id */ );
+        TEST_EXPECT_EQUAL_INT( feature_blue_id, data_feature_get_row_id( feat_2_mod ) );
 
         data_feature_t *const feat_list = data_visible_set_get_feature_list_ptr( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_PTR( feat_1_mod, feat_list );
 
         /* test relationships */
 
         const uint32_t relationship_count = data_visible_set_get_relationship_count( &((*fix).test_me) ); 
         TEST_EXPECT_EQUAL_INT( 2, relationship_count );
+        /* the other 2 are not loaded because only one end of the relation is in this visible set */
 
         const data_relationship_t *const rel_1 = data_visible_set_get_relationship_const( &((*fix).test_me), 0 /* index */ );
+        data_relationship_t *const rel_2_mod = data_visible_set_get_relationship_ptr( &((*fix).test_me), 1 /* index */ );
+        if ( data_relationship_get_row_id(rel_1) == rel_a_id )
+        {
+            TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row_id( rel_2_mod ) );
+        }
+        else
+        {
+            TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row_id( rel_1 ) );
+            TEST_EXPECT_EQUAL_INT( rel_a_id, data_relationship_get_row_id( rel_2_mod ) );
+        }
 
-        data_relationship_t *const rel_1_mod = data_visible_set_get_relationship_ptr( &((*fix).test_me), 0 /* index */ );
+        const data_relationship_t *const rel_3 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_a_id /* row_id */ );
+        TEST_EXPECT_EQUAL_INT( rel_a_id, data_relationship_get_row_id( rel_3 ) );
 
-        const data_relationship_t *const rel_2 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), 1000 /* row_id */ );
-
-        data_relationship_t *const rel_2_mod = data_visible_set_get_relationship_by_id_ptr( &((*fix).test_me), 1000 /* row_id */ );
-
-        const bool is_anc = data_visible_set_is_ancestor_by_index( &((*fix).test_me), 0 /* ancestor_index */, 0 /* descendant_index */ );
-
-        const uint32_t anc = data_visible_set_count_ancestors_of_index( &((*fix).test_me), 0 /* classifier_index */ );
-
-        const uint32_t desc = data_visible_set_count_descendants_of_index( &((*fix).test_me), 0 /* classifier_index */ );
-
-
+        data_relationship_t *const rel_4_mod = data_visible_set_get_relationship_by_id_ptr( &((*fix).test_me), rel_b_id /* row_id */ );
+        TEST_EXPECT_EQUAL_INT( rel_b_id, data_relationship_get_row_id( rel_4_mod ) );
 
         data_visible_set_destroy( &((*fix).test_me) );
     }
