@@ -487,7 +487,96 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
 static test_case_result_t too_much_input( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    return TEST_CASE_RESULT_ERR;
+    /* v--- creating the test vector */
+    test_vector_db_t setup_env;
+    test_vector_db_init( &setup_env, &((*fix).db_writer) );
+
+    /* create the root diagram */
+    const data_row_id_t root_diag_id
+        = test_vector_db_create_diagram( &setup_env,
+                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         "root_diagram",  /* name */
+                                         "stereotype"
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+
+    /* create many classifiers with 2 features each */
+    data_row_id_t classifier_last_id = DATA_ROW_ID_VOID;
+    for ( int_fast32_t idx_c = 0; idx_c <= DATA_VISIBLE_SET_MAX_CLASSIFIERS; idx_c ++ )
+    {
+        char name_buf[8];
+        utf8stringbuf_t name_str = UTF8STRINGBUF(name_buf);
+        utf8stringbuf_clear( name_str );
+        utf8stringbuf_append_str( name_str, "NM_" );
+        utf8stringbuf_append_int( name_str, idx_c );
+        const data_row_id_t classifier_blue_id
+            = test_vector_db_create_classifier( &setup_env,
+                                                utf8stringbuf_get_string( name_str ),
+                                                DATA_CLASSIFIER_TYPE_COMPONENT,
+                                                "stereotype"
+                                              );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_blue_id );
+        classifier_last_id = classifier_blue_id;
+        const data_row_id_t feature_blue_id
+            = test_vector_db_create_feature( &setup_env,
+                                             classifier_blue_id,
+                                             "The Blue Feature",  /* name */
+                                             "stereotype"
+                                           );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_blue_id );
+        const data_row_id_t feature_green_id
+            = test_vector_db_create_feature( &setup_env,
+                                             classifier_blue_id,
+                                             "The Green Feature",  /* name */
+                                             "stereotype"
+                                           );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_green_id );
+        (void) test_vector_db_create_diagramelement( &setup_env,
+                                                     root_diag_id,
+                                                     classifier_blue_id
+                                                   );
+    }
+    TEST_ENVIRONMENT_ASSERT( DATA_VISIBLE_SET_MAX_FEATURES == 2 * DATA_VISIBLE_SET_MAX_CLASSIFIERS );
+
+    /* create many relationships */
+    for ( int_fast32_t r_idx = 0; r_idx <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS; r_idx ++ )
+    {
+        const data_row_id_t rel_a_id
+            = test_vector_db_create_relationship( &setup_env,
+                                                  classifier_last_id,
+                                                  DATA_ROW_ID_VOID,
+                                                  classifier_last_id,
+                                                  DATA_ROW_ID_VOID,
+                                                  DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                                  "blue-to-green",  /* name */
+                                                  "stereotype"
+                                                );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != rel_a_id );
+    }
+
+    test_vector_db_destroy( &setup_env );
+    /* ^--- creating the test vector / input data finished here. */
+
+    /* load a visible set of elements */
+    {
+        data_visible_set_init( &((*fix).test_me) );
+
+        const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), root_diag_id, &((*fix).db_reader) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, init_err );
+
+        TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_valid(  &((*fix).test_me) ) );
+
+        const uint32_t classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, classifier_count );
+
+        const uint32_t feature_count = data_visible_set_get_feature_count( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_FEATURES, feature_count );
+
+        const uint32_t relationship_count = data_visible_set_get_relationship_count( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_INT( DATA_VISIBLE_SET_MAX_RELATIONSHIPS, relationship_count );
+    }
+
+    return TEST_CASE_RESULT_OK;
 }
 
 

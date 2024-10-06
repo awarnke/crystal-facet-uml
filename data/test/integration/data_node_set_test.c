@@ -184,7 +184,7 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
         const data_classifier_t *const the_classifier = data_node_set_get_classifier_const( &((*fix).test_me) );    
         TEST_EXPECT( NULL != the_classifier );    
         TEST_EXPECT_EQUAL_INT( true, data_classifier_is_valid( the_classifier ) );    
-        TEST_EXPECT_EQUAL_INT( true, data_node_set_is_valid(  &((*fix).test_me) ) );    
+        TEST_EXPECT_EQUAL_INT( true, data_node_set_is_valid( &((*fix).test_me) ) );
 
         /* test features (there is only 1) */
 
@@ -240,7 +240,80 @@ static test_case_result_t regular_node_set( test_fixture_t *fix )
 static test_case_result_t too_much_input( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    return TEST_CASE_RESULT_ERR;
+    /* v--- creating the test vector */
+    test_vector_db_t setup_env;
+    test_vector_db_init( &setup_env, &((*fix).db_writer) );
+
+    /* create the root diagram */
+    const data_row_id_t root_diag_id
+        = test_vector_db_create_diagram( &setup_env,
+                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         "root_diagram",  /* name */
+                                         "stereotype"
+                                       );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+
+    /* create 1 classifier */
+    const data_row_id_t classifier_1_id
+        = test_vector_db_create_classifier( &setup_env,
+                                            "The-Blue-Stone",  /* name */
+                                            DATA_CLASSIFIER_TYPE_COMPONENT,
+                                            "stereotype"
+                                        );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_1_id );
+    (void) test_vector_db_create_diagramelement( &setup_env,
+                                                 root_diag_id,
+                                                 classifier_1_id
+                                               );
+
+    /* create many features */
+    for ( int_fast32_t f_idx = 0; f_idx <= DATA_NODE_SET_MAX_FEATURES; f_idx ++ )
+    {
+        const data_row_id_t feature_n_id
+            = test_vector_db_create_feature( &setup_env,
+                                             classifier_1_id,
+                                             "The-Blue-Stone Feature",  /* name */
+                                             "stereotype"
+                                           );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_n_id );
+    }
+
+    /* create many relationships */
+    for ( int_fast32_t r_idx = 0; r_idx <= DATA_NODE_SET_MAX_RELATIONSHIPS; r_idx ++ )
+    {
+        const data_row_id_t relationship_n_id
+            = test_vector_db_create_relationship( &setup_env,
+                                                  classifier_1_id,
+                                                  DATA_ROW_ID_VOID,
+                                                  classifier_1_id,
+                                                  DATA_ROW_ID_VOID,
+                                                  DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                                  "blue-to-green",  /* name */
+                                                  "stereotype"
+                                                );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != relationship_n_id );
+    }
+
+    test_vector_db_destroy( &setup_env );
+    /* ^--- creating the test vector / input data finished here. */
+
+    /* load a node set of elements */
+    {
+        data_node_set_init( &((*fix).test_me) );
+
+        const u8_error_t init_err = data_node_set_load( &((*fix).test_me), classifier_1_id, &((*fix).db_reader) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, init_err );
+
+        TEST_EXPECT_EQUAL_INT( true, data_node_set_is_valid( &((*fix).test_me) ) );
+
+        const uint32_t feat_count = data_node_set_get_feature_count( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_INT( DATA_NODE_SET_MAX_FEATURES, feat_count );
+
+        const uint32_t rel_count = data_node_set_get_relationship_count( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_INT( DATA_NODE_SET_MAX_RELATIONSHIPS, rel_count );
+    }
+
+    return TEST_CASE_RESULT_OK;
 }
 
 
