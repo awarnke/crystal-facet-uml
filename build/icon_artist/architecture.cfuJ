@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.50.2"
+    "generator_version": "1.47.0"
   }
   ,
   "views":
@@ -52,6 +52,13 @@
             "classifier_name": "generate docbook showing the svg-paths as text",
             "node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
             "uuid": "e5d2b36f-51be-4c96-889b-c39951ada969"
+          },
+          {
+            "id": 24,
+            "display_flags": 0,
+            "classifier_name": "generate GdkPixBuf images",
+            "node": "7853ef51-4d9e-4ecc-9c64-31f73676c0a3",
+            "uuid": "1274937b-2a2a-4b9c-bab9-07a75bfaf081"
           }
         ]
       }
@@ -641,6 +648,24 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 16,
+        "main_type": 101,
+        "type": "UseCase",
+        "name": "generate GdkPixBuf images",
+        "description": [
+                ""
+        ],
+        "x_order": -289748453,
+        "y_order": -755233055,
+        "list_order": -755233055,
+        "uuid": "7853ef51-4d9e-4ecc-9c64-31f73676c0a3",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -790,6 +815,23 @@
     },
     {
       "relationship": {
+        "id": 30,
+        "main_type": 300,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": -755233055,
+        "from_classifier_name": "icon-artist",
+        "to_classifier_name": "generate GdkPixBuf images",
+        "from_node": "31707716-bf0d-44e2-94a3-1305d5c5315e",
+        "to_node": "7853ef51-4d9e-4ecc-9c64-31f73676c0a3",
+        "uuid": "f7e89b0f-c851-47f5-b647-b34f6e8ee065"
+      }
+    },
+    {
+      "relationship": {
         "id": 3,
         "main_type": 200,
         "type": "Association",
@@ -839,6 +881,23 @@
         "from_node": "1436c2c7-73fd-402e-b44c-a36f3bcc32fa",
         "to_node": "893cc0c5-0b2c-4e33-bc81-60ae17132ffa",
         "uuid": "307a03aa-abde-484c-80e3-0d10564b916a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 31,
+        "main_type": 200,
+        "type": "Association",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 98304,
+        "from_classifier_name": "documentation editor",
+        "to_classifier_name": "generate GdkPixBuf images",
+        "from_node": "1436c2c7-73fd-402e-b44c-a36f3bcc32fa",
+        "to_node": "7853ef51-4d9e-4ecc-9c64-31f73676c0a3",
+        "uuid": "8dc93418-30ae-4bdb-b3a1-b9b3b83a2311"
       }
     },
     {

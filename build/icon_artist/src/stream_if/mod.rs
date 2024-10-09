@@ -1,13 +1,11 @@
-//! This module provides a static data model to be rendered.
+//! This module provides interfaces that allow
+//! a drawing source to stream multiple drawing paths to a drawing sink.
 
-pub mod gui_file_icon;
-pub mod gui_view_icon;
-pub mod icon;
-pub mod stereotype_icon;
-pub mod type_icon;
+pub mod geometry;
+pub mod path_renderer;
 
 /*
-Copyright 2023-2024 Andreas Warnke
+Copyright 2024-2024 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,8 +1,9 @@
 //! The module provides functions to generate svg files.
 
-use crate::model::geometry::Color;
-use crate::model::geometry::DrawDirective;
-use crate::model::geometry::Rect;
+use crate::stream_if::geometry::Color;
+use crate::stream_if::geometry::DrawDirective;
+use crate::stream_if::geometry::Rect;
+use crate::stream_if::path_renderer::PathRenderer;
 use std::fs::File;
 use std::io::Write;
 
@@ -23,7 +24,7 @@ pub struct VecRenderer<'my_lifespan> {
     pub force_colors: bool,
 }
 
-/// The Rect struct provides some methods
+/// The VecRenderer struct provides some methods
 impl<'my_lifespan> VecRenderer<'my_lifespan> {
     /// The function header converts the vector graphics drawing directive header to svg format
     ///
@@ -64,7 +65,10 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     pub(super) fn footer(self: &mut Self) -> () {
         write!(self.output_file, "\n</svg>\n").expect("Error at writing file");
     }
+}
 
+/// The VecRenderer struct provides some methods that implement
+impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
     /// The function path converts the vector graphics drawing directive path to svg format
     /// # Arguments
     ///
@@ -76,7 +80,7 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     ///
     /// This function panics if the vector graphics cannot be written to a file.
     ///
-    pub fn path(
+    fn render_path(
         self: &mut Self,
         segs: &[DrawDirective],
         fg_col: &Option<Color>,

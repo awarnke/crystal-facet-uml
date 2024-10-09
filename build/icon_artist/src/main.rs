@@ -4,6 +4,7 @@
 
 pub mod model;
 pub mod render;
+pub mod stream_if;
 use model::gui_file_icon;
 use model::gui_view_icon;
 use model::icon::IconSource;

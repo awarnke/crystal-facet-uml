@@ -1,20 +1,20 @@
 //! The module provides functions to render an icon to vector graphics.
 
-use super::geometry;
-use super::geometry::get_circle_abs;
-use super::geometry::Color;
-use super::geometry::DrawDirective::Close;
-use super::geometry::DrawDirective::Curve;
-use super::geometry::DrawDirective::CurveRel;
-use super::geometry::DrawDirective::Line;
-use super::geometry::DrawDirective::LineRel;
-use super::geometry::DrawDirective::Move;
-use super::geometry::DrawDirective::MoveRel;
-use super::geometry::Offset;
-use super::geometry::Point;
-use super::geometry::Rect;
 use super::icon::IconSource;
-use crate::render::render_svg::VecRenderer;
+use crate::stream_if::geometry;
+use crate::stream_if::geometry::get_circle_abs;
+use crate::stream_if::geometry::Color;
+use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::Curve;
+use crate::stream_if::geometry::DrawDirective::CurveRel;
+use crate::stream_if::geometry::DrawDirective::Line;
+use crate::stream_if::geometry::DrawDirective::LineRel;
+use crate::stream_if::geometry::DrawDirective::Move;
+use crate::stream_if::geometry::DrawDirective::MoveRel;
+use crate::stream_if::geometry::Offset;
+use crate::stream_if::geometry::Point;
+use crate::stream_if::geometry::Rect;
+use crate::stream_if::path_renderer::PathRenderer;
 
 /// The view rectangle of each icon
 const ICON_VIEW_RECT: Rect = Rect {
@@ -81,16 +81,16 @@ fn get_view_ground(pos: i32) -> [geometry::DrawDirective; 5] {
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_view_search(out: &mut VecRenderer) -> () {
+pub fn generate_view_search(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 5] = get_view_ground(0);
-    out.path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(WHITE));
 
     /* circle */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(19.25, 12.0, 7.5, 7.5);
-    out.path(&icon_segs, &Some(BLACK), &Some(GREEN));
+    out.render_path(&icon_segs, &Some(BLACK), &Some(GREEN));
 
     let icon_segs: [geometry::DrawDirective; 4] = [
         MoveRel(Offset { dx: 16.0, dy: 19.0 }),
@@ -98,19 +98,19 @@ pub fn generate_view_search(out: &mut VecRenderer) -> () {
         LineRel(Offset { dx: 2.0, dy: 0.6 }),
         LineRel(Offset { dx: 3.0, dy: -10.0 }),
     ];
-    out.path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK), &None);
 }
 
 /// The function generates a steering wheel of ship navigation to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_view_navigate(out: &mut VecRenderer) -> () {
+pub fn generate_view_navigate(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 5] = get_view_ground(1);
-    out.path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(WHITE));
 
     /* spoke of wheel */
     let r2: f32 = 15.0;
@@ -139,23 +139,23 @@ pub fn generate_view_navigate(out: &mut VecRenderer) -> () {
             dy: (-r1) * dy + r1 * n_dy,
         });
     }
-    out.path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK), &None);
 
     /* rim of wheel */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 11.0, 11.0);
-    out.path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK), &None);
 }
 
 /// The function generates a hand icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_view_edit(out: &mut VecRenderer) -> () {
+pub fn generate_view_edit(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 5] = get_view_ground(2);
-    out.path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(WHITE));
 
     let icon_segs: [geometry::DrawDirective; 16] = [
         MoveRel(Offset {
@@ -345,19 +345,19 @@ pub fn generate_view_edit(out: &mut VecRenderer) -> () {
         ),
         Close,
     ];
-    out.path(&icon_segs, &Some(BLACK), &Some(GREEN));
+    out.render_path(&icon_segs, &Some(BLACK), &Some(GREEN));
 }
 
 /// The function generates a growing plant icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_view_create(out: &mut VecRenderer) -> () {
+pub fn generate_view_create(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 5] = get_view_ground(3);
-    out.path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(WHITE));
 
     let icon_segs: [geometry::DrawDirective; 15] = [
         MoveRel(Offset {
@@ -529,7 +529,7 @@ pub fn generate_view_create(out: &mut VecRenderer) -> () {
             },
         ),
     ];
-    out.path(&icon_segs, &Some(BLACK), &Some(GREEN));
+    out.render_path(&icon_segs, &Some(BLACK), &Some(GREEN));
 }
 
 /// The function returns an array of IconSource

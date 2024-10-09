@@ -149,7 +149,7 @@ impl Color {
 /// * `rx` - The radius in x-direction
 /// * `ry` - The radius in y-direction
 ///
-pub(super) fn get_circle_abs(cx: f32, cy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
+pub fn get_circle_abs(cx: f32, cy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
     let ctrlpnt_dx: f32 = rx * 0.552284749831; /* control point distance x */
     let ctrlpnt_dy: f32 = ry * 0.552284749831; /* control point distance y */
     [
@@ -198,7 +198,7 @@ pub(super) fn get_circle_abs(cx: f32, cy: f32, rx: f32, ry: f32) -> [DrawDirecti
 /// * `rx` - The radius in x-direction
 /// * `ry` - The radius in y-direction
 ///
-pub(super) fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
+pub fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
     let ctrlpnt_dx: f32 = rx * 0.552284749831; /* control point distance x */
     let ctrlpnt_dy: f32 = ry * 0.552284749831; /* control point distance y */
     [

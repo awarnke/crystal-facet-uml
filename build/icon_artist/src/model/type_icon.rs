@@ -1,17 +1,17 @@
 //! The module provides functions to render an icon to vector graphics.
 
-use super::geometry;
-use super::geometry::get_circle_abs;
-use super::geometry::Color;
-use super::geometry::DrawDirective::Close;
-use super::geometry::DrawDirective::CurveRel;
-use super::geometry::DrawDirective::LineRel;
-use super::geometry::DrawDirective::Move;
-use super::geometry::Offset;
-use super::geometry::Point;
-use super::geometry::Rect;
 use super::icon::IconSource;
-use crate::render::render_svg::VecRenderer;
+use crate::stream_if::geometry;
+use crate::stream_if::geometry::get_circle_abs;
+use crate::stream_if::geometry::Color;
+use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::CurveRel;
+use crate::stream_if::geometry::DrawDirective::LineRel;
+use crate::stream_if::geometry::DrawDirective::Move;
+use crate::stream_if::geometry::Offset;
+use crate::stream_if::geometry::Point;
+use crate::stream_if::geometry::Rect;
+use crate::stream_if::path_renderer::PathRenderer;
 
 /// The view rectangle of each icon
 const ICON_VIEW_RECT: Rect = Rect {
@@ -32,9 +32,9 @@ static GRAY: Color = Color {
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_type_clas_stereotype(out: &mut VecRenderer) -> () {
+pub fn generate_type_clas_stereotype(out: &mut dyn PathRenderer) -> () {
     /* spoke of wheel */
     let r3: f32 = 11.0;
     let r2: f32 = 10.0;
@@ -90,20 +90,20 @@ pub fn generate_type_clas_stereotype(out: &mut VecRenderer) -> () {
             dy: (-r3) * z_dy + r2 * o_dy,
         });
     }
-    out.path(&icon_segs, &Some(GRAY), &None);
+    out.render_path(&icon_segs, &Some(GRAY), &None);
 
     /* rim of wheel */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 2.0, 2.0);
-    out.path(&icon_segs, &Some(GRAY), &None);
+    out.render_path(&icon_segs, &Some(GRAY), &None);
 }
 
 /// The function generates a flower image to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_type_clas_image(out: &mut VecRenderer) -> () {
+pub fn generate_type_clas_image(out: &mut dyn PathRenderer) -> () {
     /* flower leaves */
     let r3: f32 = 11.0;
     let r2: f32 = 9.0;
@@ -157,11 +157,11 @@ pub fn generate_type_clas_image(out: &mut VecRenderer) -> () {
             },
         );
     }
-    out.path(&icon_segs, &Some(GRAY), &None);
+    out.render_path(&icon_segs, &Some(GRAY), &None);
 
     /* flower center */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 3.25, 3.25);
-    out.path(&icon_segs, &Some(GRAY), &None);
+    out.render_path(&icon_segs, &Some(GRAY), &None);
 }
 
 /// The function returns an array of IconSource

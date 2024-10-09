@@ -3,6 +3,7 @@
 // Many thanks to the author of the inspiring web page https://cetra3.github.io/blog/drawing-svg-graphs-rust/
 
 pub mod icon_writer;
+pub mod render_c;
 pub mod render_svg;
 
 /*

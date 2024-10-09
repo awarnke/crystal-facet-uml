@@ -1,25 +1,25 @@
 //! The module provides functions to render an icon to vector graphics.
 
-use super::geometry;
-use super::geometry::get_circle_abs;
-use super::geometry::get_circle_rel;
-use super::geometry::Color;
-use super::geometry::DrawDirective::Close;
-use super::geometry::DrawDirective::CloseRel;
-use super::geometry::DrawDirective::Continue;
-use super::geometry::DrawDirective::ContinueRel;
-use super::geometry::DrawDirective::Curve;
-use super::geometry::DrawDirective::CurveRel;
-use super::geometry::DrawDirective::Line;
-use super::geometry::DrawDirective::LineRel;
-use super::geometry::DrawDirective::Move;
-use super::geometry::DrawDirective::MoveRel;
-use super::geometry::DrawDirective::SymmetricRel;
-use super::geometry::Offset;
-use super::geometry::Point;
-use super::geometry::Rect;
 use super::icon::IconSource;
-use crate::render::render_svg::VecRenderer;
+use crate::stream_if::geometry;
+use crate::stream_if::geometry::get_circle_abs;
+use crate::stream_if::geometry::get_circle_rel;
+use crate::stream_if::geometry::Color;
+use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::CloseRel;
+use crate::stream_if::geometry::DrawDirective::Continue;
+use crate::stream_if::geometry::DrawDirective::ContinueRel;
+use crate::stream_if::geometry::DrawDirective::Curve;
+use crate::stream_if::geometry::DrawDirective::CurveRel;
+use crate::stream_if::geometry::DrawDirective::Line;
+use crate::stream_if::geometry::DrawDirective::LineRel;
+use crate::stream_if::geometry::DrawDirective::Move;
+use crate::stream_if::geometry::DrawDirective::MoveRel;
+use crate::stream_if::geometry::DrawDirective::SymmetricRel;
+use crate::stream_if::geometry::Offset;
+use crate::stream_if::geometry::Point;
+use crate::stream_if::geometry::Rect;
+use crate::stream_if::path_renderer::PathRenderer;
 
 /// The view rectangle of each icon
 const ICON_VIEW_RECT: Rect = Rect {
@@ -54,9 +54,9 @@ static GREEN: Color = Color {
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_deploy_database(out: &mut VecRenderer) -> () {
+pub fn generate_deploy_database(out: &mut dyn PathRenderer) -> () {
     let rx: f32 = 12.0; /* radius x-direction */
     let ry: f32 = 4.0; /* radius y-direction */
     let ctrlpnt_dx: f32 = rx * 0.5625; /* control point distance x */
@@ -95,20 +95,20 @@ pub fn generate_deploy_database(out: &mut VecRenderer) -> () {
             dy: (-30.0) + (2.0 * ry),
         }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* top circle */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 1.0 + ry, rx, ry);
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates a local-pc icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_deploy_local(out: &mut VecRenderer) -> () {
+pub fn generate_deploy_local(out: &mut dyn PathRenderer) -> () {
     /* border line */
     let icon_segs: [geometry::DrawDirective; 7] = [
         MoveRel(Offset { dx: 1.0, dy: 23.0 }),
@@ -122,7 +122,7 @@ pub fn generate_deploy_local(out: &mut VecRenderer) -> () {
         LineRel(Offset { dx: -2.0, dy: 11.0 }),
         CloseRel,
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* keyboard */
     let icon_segs: [geometry::DrawDirective; 5] = [
@@ -140,7 +140,7 @@ pub fn generate_deploy_local(out: &mut VecRenderer) -> () {
         green: 0xcc,
         blue: 0xcc,
     };
-    out.path(&icon_segs, &None, &Some(gray));
+    out.render_path(&icon_segs, &None, &Some(gray));
 
     /* screen */
     let icon_segs: [geometry::DrawDirective; 5] = [
@@ -158,16 +158,16 @@ pub fn generate_deploy_local(out: &mut VecRenderer) -> () {
         green: 0x0,
         blue: 0xdd,
     };
-    out.path(&icon_segs, &None, &Some(blue));
+    out.render_path(&icon_segs, &None, &Some(blue));
 }
 
 /// The function generates a cloud icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_deploy_cloud(out: &mut VecRenderer) -> () {
+pub fn generate_deploy_cloud(out: &mut dyn PathRenderer) -> () {
     /* bottom cylinder */
     let icon_segs: [geometry::DrawDirective; 5] = [
         MoveRel(Offset { dx: 3.0, dy: 22.0 }),
@@ -188,38 +188,38 @@ pub fn generate_deploy_cloud(out: &mut VecRenderer) -> () {
         ),
         CloseRel,
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates ECB entity icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_ecb_entity(out: &mut VecRenderer) -> () {
+pub fn generate_ecb_entity(out: &mut dyn PathRenderer) -> () {
     /* circle */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
     let icon_segs: [geometry::DrawDirective; 2] = [
         Move(Point { x: 7.0, y: 30.5 }),
         Line(Point { x: 29.0, y: 30.5 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates ECB control icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_ecb_control(out: &mut VecRenderer) -> () {
+pub fn generate_ecb_control(out: &mut dyn PathRenderer) -> () {
     /* circle */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
     let icon_segs: [geometry::DrawDirective; 3] = [
@@ -227,19 +227,19 @@ pub fn generate_ecb_control(out: &mut VecRenderer) -> () {
         Line(Point { x: 17.0, y: 6.0 }),
         Line(Point { x: 22.0, y: 11.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates ECB boundary icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_ecb_boundary(out: &mut VecRenderer) -> () {
+pub fn generate_ecb_boundary(out: &mut dyn PathRenderer) -> () {
     /* circle */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
     let icon_segs: [geometry::DrawDirective; 4] = [
@@ -248,16 +248,16 @@ pub fn generate_ecb_boundary(out: &mut VecRenderer) -> () {
         Move(Point { x: 1.0, y: 18.0 }),
         Line(Point { x: 6.0, y: 18.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates a GSN goal icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_gsn_goal(out: &mut VecRenderer) -> () {
+pub fn generate_gsn_goal(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = [
         Move(Point { x: 1.0, y: 7.0 }),
         Line(Point { x: 31.0, y: 7.0 }),
@@ -265,16 +265,16 @@ pub fn generate_gsn_goal(out: &mut VecRenderer) -> () {
         Line(Point { x: 1.0, y: 25.0 }),
         Close,
     ];
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 }
 
 /// The function generates a GSN context icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_gsn_context(out: &mut VecRenderer) -> () {
+pub fn generate_gsn_context(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = [
         Move(Point { x: 8.0, y: 25.0 }),
         Curve(
@@ -290,16 +290,16 @@ pub fn generate_gsn_context(out: &mut VecRenderer) -> () {
         ),
         Close,
     ];
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 }
 
 /// The function generates a GSN strategy icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_gsn_strategy(out: &mut VecRenderer) -> () {
+pub fn generate_gsn_strategy(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = [
         Move(Point { x: 7.0, y: 7.0 }),
         Line(Point { x: 31.0, y: 7.0 }),
@@ -307,19 +307,19 @@ pub fn generate_gsn_strategy(out: &mut VecRenderer) -> () {
         Line(Point { x: 1.0, y: 25.0 }),
         Close,
     ];
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 }
 
 /// The function generates a GSN assumption icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_gsn_assumption(out: &mut VecRenderer) -> () {
+pub fn generate_gsn_assumption(out: &mut dyn PathRenderer) -> () {
     /* ellipsis */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 10.0, 15.0, 8.0);
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 
     /* A-character */
     let icon_segs: [geometry::DrawDirective; 5] = [
@@ -329,18 +329,18 @@ pub fn generate_gsn_assumption(out: &mut VecRenderer) -> () {
         Move(Point { x: 24.75, y: 23.5 }),
         Line(Point { x: 28.25, y: 23.5 }),
     ];
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 }
 
 /// The function generates a GSN justification icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_gsn_justification(out: &mut VecRenderer) -> () {
+pub fn generate_gsn_justification(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 10.0, 15.0, 8.0);
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 
     /* J-character */
     let icon_segs: [geometry::DrawDirective; 4] = [
@@ -353,27 +353,27 @@ pub fn generate_gsn_justification(out: &mut VecRenderer) -> () {
         Line(Point { x: 29.0, y: 19.0 }),
         Line(Point { x: 25.0, y: 19.0 }),
     ];
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 }
 
 /// The function generates a GSN solution icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_gsn_solution(out: &mut VecRenderer) -> () {
+pub fn generate_gsn_solution(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 16.0, 15.0, 15.0);
-    out.path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE), &None);
 }
 
 /// The function generates a buffer icon of queueing theory to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_queue_buffer(out: &mut VecRenderer) -> () {
+pub fn generate_queue_buffer(out: &mut dyn PathRenderer) -> () {
     /* box */
     let icon_segs: [geometry::DrawDirective; 4] = [
         Move(Point { x: 1.0, y: 8.0 }),
@@ -381,7 +381,7 @@ pub fn generate_queue_buffer(out: &mut VecRenderer) -> () {
         Line(Point { x: 31.0, y: 24.0 }),
         Line(Point { x: 1.0, y: 24.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* 3 elements */
     let icon_segs: [geometry::DrawDirective; 6] = [
@@ -392,27 +392,27 @@ pub fn generate_queue_buffer(out: &mut VecRenderer) -> () {
         Move(Point { x: 25.0, y: 8.0 }),
         Line(Point { x: 25.0, y: 24.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates a server icon of queueing theory to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_queue_server(out: &mut VecRenderer) -> () {
+pub fn generate_queue_server(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 16.0, 15.0, 15.0);
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates a queue icon of queueing theory to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_queue_queue(out: &mut VecRenderer) -> () {
+pub fn generate_queue_queue(out: &mut dyn PathRenderer) -> () {
     /* box */
     let icon_segs: [geometry::DrawDirective; 4] = [
         Move(Point { x: 1.0, y: 11.0 }),
@@ -420,7 +420,7 @@ pub fn generate_queue_queue(out: &mut VecRenderer) -> () {
         Line(Point { x: 18.5, y: 21.0 }),
         Line(Point { x: 1.0, y: 21.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* 3 elements */
     let icon_segs: [geometry::DrawDirective; 6] = [
@@ -431,20 +431,20 @@ pub fn generate_queue_queue(out: &mut VecRenderer) -> () {
         Move(Point { x: 15.0, y: 11.0 }),
         Line(Point { x: 15.0, y: 21.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* circle */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(26.0, 16.0, 5.0, 5.0);
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates a rationale/decision icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_reason_decision(out: &mut VecRenderer) -> () {
+pub fn generate_reason_decision(out: &mut dyn PathRenderer) -> () {
     /* two trays */
     let icon_segs: [geometry::DrawDirective; 13] = [
         MoveRel(Offset { dx: 8.0, dy: 12.0 }),
@@ -461,7 +461,7 @@ pub fn generate_reason_decision(out: &mut VecRenderer) -> () {
         ContinueRel(Offset { dx: 1.0, dy: -1.0 }),
         ContinueRel(Offset { dx: -4.0, dy: -7.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* stand and scale */
     let icon_segs: [geometry::DrawDirective; 4] = [
@@ -470,16 +470,16 @@ pub fn generate_reason_decision(out: &mut VecRenderer) -> () {
         MoveRel(Offset { dx: 0.0, dy: 2.0 }),
         LineRel(Offset { dx: 0.0, dy: 17.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates a rationale/chosen icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_reason_chosen(out: &mut VecRenderer) -> () {
+pub fn generate_reason_chosen(out: &mut dyn PathRenderer) -> () {
     /* rejected tray */
     let icon_segs: [geometry::DrawDirective; 4] = [
         MoveRel(Offset { dx: 1.0, dy: 24.0 }),
@@ -487,27 +487,27 @@ pub fn generate_reason_chosen(out: &mut VecRenderer) -> () {
         ContinueRel(Offset { dx: 22.0, dy: 0.0 }),
         ContinueRel(Offset { dx: 4.0, dy: -4.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* minus */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 17.0, 8.0, 8.0);
-    out.path(&icon_segs, &Some(GREEN), &None);
+    out.render_path(&icon_segs, &Some(GREEN), &None);
     let icon_segs: [geometry::DrawDirective; 4] = [
         MoveRel(Offset { dx: 11.0, dy: 17.0 }),
         LineRel(Offset { dx: 10.0, dy: 0.0 }),
         MoveRel(Offset { dx: -5.0, dy: -5.0 }),
         LineRel(Offset { dx: 0.0, dy: 10.0 }),
     ];
-    out.path(&icon_segs, &Some(GREEN), &None);
+    out.render_path(&icon_segs, &Some(GREEN), &None);
 }
 
 /// The function generates a rationale/rejected icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_reason_rejected(out: &mut VecRenderer) -> () {
+pub fn generate_reason_rejected(out: &mut dyn PathRenderer) -> () {
     /* rejected tray */
     let icon_segs: [geometry::DrawDirective; 4] = [
         MoveRel(Offset { dx: 1.0, dy: 24.0 }),
@@ -515,25 +515,25 @@ pub fn generate_reason_rejected(out: &mut VecRenderer) -> () {
         ContinueRel(Offset { dx: 22.0, dy: 0.0 }),
         ContinueRel(Offset { dx: 4.0, dy: -4.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 
     /* minus */
     let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 17.0, 8.0, 8.0);
-    out.path(&icon_segs, &Some(RED), &None);
+    out.render_path(&icon_segs, &Some(RED), &None);
     let icon_segs: [geometry::DrawDirective; 2] = [
         MoveRel(Offset { dx: 11.0, dy: 17.0 }),
         LineRel(Offset { dx: 10.0, dy: 0.0 }),
     ];
-    out.path(&icon_segs, &Some(RED), &None);
+    out.render_path(&icon_segs, &Some(RED), &None);
 }
 
 /// The function generates a object flow icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_flow_object(out: &mut VecRenderer) -> () {
+pub fn generate_flow_object(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 7] = [
         Move(Point { x: 32.0, y: 32.0 }),
         Move(Point { x: 0.0, y: 0.0 }),
@@ -543,16 +543,16 @@ pub fn generate_flow_object(out: &mut VecRenderer) -> () {
         Continue(Point { x: 5.0, y: 27.0 }),
         Close,
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates an control flow icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_flow_control(out: &mut VecRenderer) -> () {
+pub fn generate_flow_control(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 15] = [
         Move(Point { x: 1.0, y: 16.0 }),
         LineRel(Offset { dx: 2.0, dy: 0.0 }),
@@ -570,16 +570,16 @@ pub fn generate_flow_control(out: &mut VecRenderer) -> () {
         LineRel(Offset { dx: 5.0, dy: 3.0 }),
         LineRel(Offset { dx: -5.0, dy: 3.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function generates an error flow icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_flow_exception(out: &mut VecRenderer) -> () {
+pub fn generate_flow_exception(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 7] = [
         Move(Point { x: 1.0, y: 9.0 }),
         Continue(Point { x: 27.0, y: 9.0 }),
@@ -589,7 +589,7 @@ pub fn generate_flow_exception(out: &mut VecRenderer) -> () {
         Continue(Point { x: 31.0, y: 23.0 }),
         Continue(Point { x: 26.0, y: 26.0 }),
     ];
-    out.path(&icon_segs, &None, &None);
+    out.render_path(&icon_segs, &None, &None);
 }
 
 /// The function returns an array of IconSource

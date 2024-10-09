@@ -1,19 +1,19 @@
 //! The module provides functions to render an icon to vector graphics.
 
-use super::geometry;
-use super::geometry::Color;
-use super::geometry::DrawDirective::Close;
-use super::geometry::DrawDirective::CloseRel;
-use super::geometry::DrawDirective::CurveRel;
-use super::geometry::DrawDirective::Line;
-use super::geometry::DrawDirective::LineRel;
-use super::geometry::DrawDirective::Move;
-use super::geometry::DrawDirective::MoveRel;
-use super::geometry::Offset;
-use super::geometry::Point;
-use super::geometry::Rect;
 use super::icon::IconSource;
-use crate::render::render_svg::VecRenderer;
+use crate::stream_if::geometry;
+use crate::stream_if::geometry::Color;
+use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::CloseRel;
+use crate::stream_if::geometry::DrawDirective::CurveRel;
+use crate::stream_if::geometry::DrawDirective::Line;
+use crate::stream_if::geometry::DrawDirective::LineRel;
+use crate::stream_if::geometry::DrawDirective::Move;
+use crate::stream_if::geometry::DrawDirective::MoveRel;
+use crate::stream_if::geometry::Offset;
+use crate::stream_if::geometry::Point;
+use crate::stream_if::geometry::Rect;
+use crate::stream_if::path_renderer::PathRenderer;
 
 /// The view rectangle of each icon
 const ICON_VIEW_RECT: Rect = Rect {
@@ -260,12 +260,12 @@ fn get_db_storage_reflection() -> [geometry::DrawDirective; 5] {
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_file_new_db(out: &mut VecRenderer) -> () {
+pub fn generate_file_new_db(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK), &None);
 
     /* plus symbol */
     let plus_sym: [geometry::DrawDirective; 4] = [
@@ -274,45 +274,45 @@ pub fn generate_file_new_db(out: &mut VecRenderer) -> () {
         Move(Point { x: 16.0, y: 15.5 }),
         Line(Point { x: 16.0, y: 22.5 }),
     ];
-    out.path(&plus_sym, &Some(BLACK), &None);
+    out.render_path(&plus_sym, &Some(BLACK), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_file_use_db(out: &mut VecRenderer) -> () {
+pub fn generate_file_use_db(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
-    out.path(&icon_segs, &None, &Some(GRAY));
+    out.render_path(&icon_segs, &None, &Some(GRAY));
 
     let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
-    out.path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(WHITE));
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_file_save(out: &mut VecRenderer) -> () {
+pub fn generate_file_save(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
-    out.path(&icon_segs, &None, &Some(GRAY));
+    out.render_path(&icon_segs, &None, &Some(GRAY));
 
     let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
-    out.path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(WHITE));
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK), &None);
 
     /* ok symbol */
     let ok_sym: [geometry::DrawDirective; 8] = [
@@ -325,26 +325,26 @@ pub fn generate_file_save(out: &mut VecRenderer) -> () {
         Line(Point { x: 16.0, y: 27.0 }),
         Close,
     ];
-    out.path(&ok_sym, &Some(BLACK), &Some(GREEN));
+    out.render_path(&ok_sym, &Some(BLACK), &Some(GREEN));
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
 ///
 /// # Panics
 ///
-/// This function panics if VecRenderer cannot write to the output sink.
+/// This function panics if PathRenderer cannot write to the output sink.
 ///
-pub fn generate_file_export(out: &mut VecRenderer) -> () {
+pub fn generate_file_export(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
-    out.path(&icon_segs, &None, &Some(GRAY));
+    out.render_path(&icon_segs, &None, &Some(GRAY));
 
     let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
-    out.path(&icon_segs, &None, &Some(WHITE));
+    out.render_path(&icon_segs, &None, &Some(WHITE));
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK), &None);
 
     /* out symbol */
     let out_sym: [geometry::DrawDirective; 8] = [
@@ -357,7 +357,7 @@ pub fn generate_file_export(out: &mut VecRenderer) -> () {
         LineRel(Offset { dx: -10.0, dy: 0.0 }),
         CloseRel,
     ];
-    out.path(&out_sym, &Some(BLACK), &Some(GREEN));
+    out.render_path(&out_sym, &Some(BLACK), &Some(GREEN));
 }
 
 /// The function returns an array of IconSource
