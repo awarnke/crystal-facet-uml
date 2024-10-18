@@ -1,6 +1,6 @@
 #![warn(missing_docs)]
 
-//! This crate renders two svg files for each icon in icon_data.
+//! This crate renders svg files for the icons in icon_data.
 
 pub mod model;
 pub mod render;

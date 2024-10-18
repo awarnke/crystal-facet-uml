@@ -12,6 +12,8 @@ wine on debian/raspbian/ubuntu:
 > sudo apt install wine
 >
 > sudo apt install gcc-mingw-w64-x86-64 mingw-w64-tools
+>
+> sudo apt install wget
 
 wine on opensuse:
 

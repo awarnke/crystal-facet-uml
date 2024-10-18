@@ -28,8 +28,8 @@ debian/ubuntu/raspberry-os:
 >
 > sudo apt install lcov        # for reporting test coverage
 >
-> curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-> # for running qualification tests or icon_artist resource generator
+> curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \\
+> | sh # for running qualification tests or icon_artist resource generator
 
 
 > mkdir my_build && cd my_build
@@ -63,8 +63,8 @@ openSuSE:
 >
 > sudo zypper install lcov        # for reporting test coverage
 >
-> curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-> # for running qualification tests or icon_artist resource generator
+> curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \\
+> | sh # for running qualification tests or icon_artist resource generator
 
 
 > mkdir my_build && cd my_build

@@ -24,7 +24,7 @@ pub struct VecRenderer<'my_lifespan> {
     pub force_colors: bool,
 }
 
-/// The VecRenderer struct provides some methods
+/// The VecRenderer struct provides some methods to write svg header and footer
 impl<'my_lifespan> VecRenderer<'my_lifespan> {
     /// The function header converts the vector graphics drawing directive header to svg format
     ///
@@ -67,9 +67,10 @@ impl<'my_lifespan> VecRenderer<'my_lifespan> {
     }
 }
 
-/// The VecRenderer struct provides some methods that implement
+/// The VecRenderer struct provides some methods that implement a PathRenderer
 impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
-    /// The function path converts the vector graphics drawing directive path to svg format
+    /// The function render_path converts the vector graphics drawing directive path
+    /// to svg format
     /// # Arguments
     ///
     /// * `segs` - The segments of the path

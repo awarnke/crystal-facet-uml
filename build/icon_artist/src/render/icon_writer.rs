@@ -1,6 +1,7 @@
 //! The module creates a VecRenderer per icon
 //! and passes it to icon_data for rendering.
 
+use super::render_c::CRenderer;
 use super::render_svg::VecRenderer;
 use crate::model::icon::IconSource;
 use std::fs;
@@ -117,4 +118,14 @@ pub fn generate_files(icons: &[IconSource], out_dir: &str) -> () {
     }
 
     write_db_footer(&mut db_file);
+
+    /* write some c files */
+    for icon in icons {
+        /* render a c file */
+        let file_name: String = icon.name.to_owned() + ".c_test";
+        let mut c_file = open_file_to_write(out_dir, &file_name);
+        let mut c_render = CRenderer::new(&mut c_file, &icon.name, &icon.viewport);
+        (icon.generate)(&mut c_render);
+        c_render.write_cimpl();
+    }
 }
