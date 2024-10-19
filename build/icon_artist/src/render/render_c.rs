@@ -67,12 +67,14 @@ static const struct {{
     guint  width;
     guint  height;
     guint  bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
-    guint8 pixel_data[{1}*4];
+    guint8 pixel_data[{3}*4];
 }} {0} = {{
-     32, 32,  4,
+     {1}, {2},  4, {{
     \
             ",
             self.icon_name,
+            self.dt.width(),
+            self.dt.height(),
             buf.len()
         )
         .expect("Error at writing file");
@@ -92,7 +94,13 @@ static const struct {{
             }
         }
 
-        write!(self.output_file, "\n}};\n",).expect("Error at writing file");
+        write!(self.output_file, "}}\n}};\n",).expect("Error at writing file");
+
+        /* debug */
+        /*
+         * let filename = self.icon_name.to_owned() + ".png";
+         * self.dt.write_png(filename).unwrap();
+         */
     }
 }
 
@@ -116,6 +124,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
         fg_col: &Option<geometry::Color>,
         bg_col: &Option<geometry::Color>,
     ) -> () {
+        let mut section_start = Point { x: 0.0, y: 0.0 };
         let mut cursor = Point { x: 0.0, y: 0.0 };
         let mut direction = Offset { dx: 0.0, dy: 0.0 };
         let mut pb = raqote::PathBuilder::new();
@@ -126,6 +135,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                     /* update cursor and direction */
                     direction = Offset::delta(cursor, *target);
                     cursor = *target;
+                    section_start = *target;
                 }
                 DrawDirective::MoveRel(offset) => {
                     let target = Point::add(cursor, *offset);
@@ -133,6 +143,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                     /* update cursor and direction */
                     direction = *offset;
                     cursor = target;
+                    section_start = target;
                 }
                 DrawDirective::Line(target) => {
                     pb.line_to(target.x, target.y);
@@ -172,7 +183,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                     let p1 = Point::add(cursor, *o_p1);
                     let p2 = Point::add(cursor, *o_p2);
                     let target = Point::add(cursor, *offset);
-                    pb.cubic_to(p1.x, p1.y, p2.x, p2.y, cursor.x, cursor.y);
+                    pb.cubic_to(p1.x, p1.y, p2.x, p2.y, target.x, target.y);
                     /* update cursor and direction */
                     direction = Offset::delta(p2, target);
                     cursor = target;
@@ -194,18 +205,16 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                     direction = Offset::delta(p2, target);
                 }
                 DrawDirective::Close => {
-                    let target = Point { x: 0.0, y: 0.0 };
                     pb.close();
                     /* update cursor and direction */
-                    direction = Offset::delta(cursor, target);
-                    cursor = target;
+                    direction = Offset::delta(cursor, section_start);
+                    cursor = section_start;
                 }
                 DrawDirective::CloseRel => {
-                    let target = Point { x: 0.0, y: 0.0 };
                     pb.close();
                     /* update cursor and direction */
-                    direction = Offset::delta(cursor, target);
-                    cursor = target;
+                    direction = Offset::delta(cursor, section_start);
+                    cursor = section_start;
                 }
             }
         }
@@ -239,10 +248,10 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                     &raqote::StrokeStyle {
                         cap: raqote::LineCap::Round,
                         join: raqote::LineJoin::Round,
-                        width: 1.,
-                        miter_limit: 0.,
+                        width: 1.0,
+                        miter_limit: 0.0,
                         dash_array: vec![],
-                        dash_offset: 0.,
+                        dash_offset: 0.0,
                     },
                     &raqote::DrawOptions::new(),
                 );
