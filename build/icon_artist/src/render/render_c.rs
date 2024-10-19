@@ -219,9 +219,13 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
             }
         }
         let path = pb.finish();
-
         match bg_col {
             Some(ground_color) => {
+                let options = raqote::DrawOptions {
+                    blend_mode: raqote::BlendMode::SrcOver,
+                    alpha: 1.0,
+                    antialias: raqote::AntialiasMode::None,
+                };
                 self.dt.fill(
                     &path,
                     &raqote::Source::Solid(raqote::SolidSource {
@@ -230,13 +234,18 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                         b: ground_color.blue,
                         a: 0xff,
                     }),
-                    &raqote::DrawOptions::new(),
+                    &options,
                 );
             }
             None => {}
         }
         match fg_col {
             Some(pen_color) => {
+                let options = raqote::DrawOptions {
+                    blend_mode: raqote::BlendMode::SrcOver,
+                    alpha: 1.0,
+                    antialias: raqote::AntialiasMode::Gray,
+                };
                 self.dt.stroke(
                     &path,
                     &raqote::Source::Solid(raqote::SolidSource {
@@ -253,7 +262,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                         dash_array: vec![],
                         dash_offset: 0.0,
                     },
-                    &raqote::DrawOptions::new(),
+                    &options,
                 );
             }
             None => {}
