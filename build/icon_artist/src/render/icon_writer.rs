@@ -122,7 +122,7 @@ pub fn generate_files(icons: &[IconSource], out_dir: &str) -> () {
     /* write some c files */
     for icon in icons {
         /* render a c file */
-        let file_name: String = icon.name.to_owned() + ".c_test";
+        let file_name: String = icon.name.to_owned() + ".c";
         let mut c_file = open_file_to_write(out_dir, &file_name);
         let mut c_render = CRenderer::new(&mut c_file, &icon.name, &icon.viewport);
         (icon.generate)(&mut c_render);

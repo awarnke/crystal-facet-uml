@@ -9,6 +9,15 @@ pub struct Point {
     pub y: f32,
 }
 
+/// Defines an delta offset
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct Offset {
+    /// The x-coordinate offset
+    pub dx: f32,
+    /// The y-coordinate offset
+    pub dy: f32,
+}
+
 /// The Point struct provides some methods
 impl Point {
     /// rounds the x coordinate to a multiple of unit
@@ -20,15 +29,14 @@ impl Point {
     pub fn round_y(self: &Self, unit: f32) -> f32 {
         (self.y / unit).round() * unit
     }
-}
 
-/// Defines an delta offset
-#[derive(Debug, Copy, Clone, PartialEq)]
-pub struct Offset {
-    /// The x-coordinate offset
-    pub dx: f32,
-    /// The y-coordinate offset
-    pub dy: f32,
+    /// adds an offset to a point, returns a new point
+    pub fn add(position: Point, delta: Offset) -> Point {
+        Point {
+            x: position.x + delta.dx,
+            y: position.y + delta.dy,
+        }
+    }
 }
 
 /// The Offset struct provides some methods
@@ -41,6 +49,14 @@ impl Offset {
     /// rounds the y coordinate to a multiple of unit
     pub fn round_dy(self: &Self, unit: f32) -> f32 {
         (self.dy / unit).round() * unit
+    }
+
+    /// determines the offset between two points, returns an offset
+    pub fn delta(from: Point, to: Point) -> Offset {
+        Offset {
+            dx: to.x - from.x,
+            dy: to.y - from.y,
+        }
     }
 }
 
@@ -55,9 +71,9 @@ pub enum DrawDirective {
     Line(Point),
     /// A line draws a straight line and moves the cursor.
     LineRel(Offset),
-    /// A continuation of the previous command with a single point as parameter.
+    /// A continuation of the previous line with a single point as parameter.
     Continue(Point),
-    /// A continuation of the previous command with a single offset as parameter.
+    /// A continuation of the previous line with a single offset as parameter.
     ContinueRel(Offset),
     /// A curve draws a curved line and moves the cursor.
     Curve(Point, Point, Point),
@@ -74,6 +90,8 @@ pub enum DrawDirective {
     /// Close the subpath by drawing a straight line and moving the cursor.
     Close,
     /// Close the subpath by drawing a straight line and moving the cursor.
+    /// CloseRel is identical to Close, it may be a matter of style to close a path
+    /// in a similar way as drawing it.
     CloseRel,
 }
 
