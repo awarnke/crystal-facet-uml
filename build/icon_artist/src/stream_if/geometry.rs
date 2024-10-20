@@ -64,8 +64,10 @@ impl Offset {
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum DrawDirective {
     /// A move moves the actual cursor without drawing a line.
+    /// A move separates subpaths.
     Move(Point),
     /// A move moves the actual cursor without drawing a line.
+    /// A move separates subpaths.
     MoveRel(Offset),
     /// A line draws a straight line and moves the cursor.
     Line(Point),
@@ -158,108 +160,13 @@ impl Color {
     }
 }
 
-/// The function defines the control points for a circle in absolute coordinates
-///
-/// # Arguments
-///
-/// * `cx` - The absolute x-coordinate of the center
-/// * `cy` - The absolute y-coordinate of the center
-/// * `rx` - The radius in x-direction
-/// * `ry` - The radius in y-direction
-///
-pub fn get_circle_abs(cx: f32, cy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
-    let ctrlpnt_dx: f32 = rx * 0.552284749831; /* control point distance x */
-    let ctrlpnt_dy: f32 = ry * 0.552284749831; /* control point distance y */
-    [
-        DrawDirective::Move(Point { x: cx - rx, y: cy }),
-        DrawDirective::Curve(
-            Point {
-                x: cx - rx,
-                y: cy - ctrlpnt_dy,
-            },
-            Point {
-                x: cx - ctrlpnt_dx,
-                y: cy - ry,
-            },
-            Point { x: cx, y: cy - ry },
-        ),
-        DrawDirective::Symmetric(
-            Point {
-                x: cx + rx,
-                y: cy - ctrlpnt_dy,
-            },
-            Point { x: cx + rx, y: cy },
-        ),
-        DrawDirective::Symmetric(
-            Point {
-                x: cx + ctrlpnt_dx,
-                y: cy + ry,
-            },
-            Point { x: cx, y: cy + ry },
-        ),
-        DrawDirective::Symmetric(
-            Point {
-                x: cx - rx,
-                y: cy + ctrlpnt_dy,
-            },
-            Point { x: cx - rx, y: cy },
-        ),
-    ]
-}
-
-/// The function defines the control points for a circle in relative offsets
-///
-/// # Arguments
-///
-/// * `c_dx` - The relative x-offset of the center
-/// * `c_dy` - The relative y-offset of the center
-/// * `rx` - The radius in x-direction
-/// * `ry` - The radius in y-direction
-///
-pub fn get_circle_rel(c_dx: f32, c_dy: f32, rx: f32, ry: f32) -> [DrawDirective; 5] {
-    let ctrlpnt_dx: f32 = rx * 0.552284749831; /* control point distance x */
-    let ctrlpnt_dy: f32 = ry * 0.552284749831; /* control point distance y */
-    [
-        DrawDirective::MoveRel(Offset {
-            dx: c_dx - rx,
-            dy: c_dy,
-        }),
-        DrawDirective::CurveRel(
-            Offset {
-                dx: 0.0,
-                dy: (-ctrlpnt_dy),
-            },
-            Offset {
-                dx: rx - ctrlpnt_dx,
-                dy: (-ry),
-            },
-            Offset { dx: rx, dy: (-ry) },
-        ),
-        DrawDirective::SymmetricRel(
-            Offset {
-                dx: rx,
-                dy: ry - ctrlpnt_dy,
-            },
-            Offset { dx: rx, dy: ry },
-        ),
-        DrawDirective::SymmetricRel(
-            Offset {
-                dx: (-rx) + ctrlpnt_dx,
-                dy: ry,
-            },
-            Offset { dx: (-rx), dy: ry },
-        ),
-        DrawDirective::SymmetricRel(
-            Offset {
-                dx: (-rx),
-                dy: (-ry) + ctrlpnt_dy,
-            },
-            Offset {
-                dx: (-rx),
-                dy: (-ry),
-            },
-        ),
-    ]
+/// Defines an stroke color and width
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub struct Pen {
+    /// The color of the stroke
+    pub color: Color,
+    /// The width of the stroke
+    pub width: f32,
 }
 
 /*

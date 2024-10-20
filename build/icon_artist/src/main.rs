@@ -9,8 +9,10 @@ use model::gui_file_icon;
 use model::gui_view_icon;
 use model::icon::IconSource;
 use model::stereotype_icon;
-use model::type_icon;
+use model::type_class_icon;
+use model::type_diag_icon;
 use render::icon_writer;
+use render::icon_writer::FileType;
 
 static OUT_DIR_STEREO: &'static str = "../../documentation/user_manual/4_stereotypes";
 static OUT_DIR_GUI: &'static str = "../../gui/source/resources";
@@ -18,14 +20,25 @@ static OUT_DIR_GUI: &'static str = "../../gui/source/resources";
 /// The main function defines parameters and starts the icon_writer.
 fn main() {
     let stereo_icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
-    icon_writer::generate_files(stereo_icons, OUT_DIR_STEREO);
+    icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_STEREO);
+    icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREO);
     println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
+
     let gui_file_icons: &'static [IconSource<'static>] = gui_file_icon::get_icons();
-    icon_writer::generate_files(gui_file_icons, OUT_DIR_GUI);
+    icon_writer::generate_files(gui_file_icons, FileType::Svg, OUT_DIR_GUI);
+    icon_writer::generate_files(gui_file_icons, FileType::PixBuf, OUT_DIR_GUI);
+
     let gui_view_icons: &'static [IconSource<'static>] = gui_view_icon::get_icons();
-    icon_writer::generate_files(gui_view_icons, OUT_DIR_GUI);
-    let type_icons: &'static [IconSource<'static>] = type_icon::get_icons();
-    icon_writer::generate_files(type_icons, OUT_DIR_GUI);
+    icon_writer::generate_files(gui_view_icons, FileType::Svg, OUT_DIR_GUI);
+    icon_writer::generate_files(gui_view_icons, FileType::PixBuf, OUT_DIR_GUI);
+
+    let type_class_icons: &'static [IconSource<'static>] = type_class_icon::get_icons();
+    icon_writer::generate_files(type_class_icons, FileType::Svg, OUT_DIR_GUI);
+    icon_writer::generate_files(type_class_icons, FileType::PixBuf, OUT_DIR_GUI);
+
+    let type_diag_icons: &'static [IconSource<'static>] = type_diag_icon::get_icons();
+    icon_writer::generate_files(type_diag_icons, FileType::Svg, OUT_DIR_GUI);
+    icon_writer::generate_files(type_diag_icons, FileType::PixBuf, OUT_DIR_GUI);
     println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
 }
 

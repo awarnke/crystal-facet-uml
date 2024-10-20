@@ -2,6 +2,7 @@
 
 use crate::stream_if::geometry::Color;
 use crate::stream_if::geometry::DrawDirective;
+use crate::stream_if::geometry::Pen;
 use crate::stream_if::geometry::Rect;
 use crate::stream_if::path_renderer::PathRenderer;
 use std::fs::File;
@@ -74,8 +75,8 @@ impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
     /// # Arguments
     ///
     /// * `segs` - The segments of the path
-    /// * `fg_col` - The foreground color by which the path is stroked
-    /// * `bg_col` - The background color by which the path is filled
+    /// * `stroke` - The foreground color and width by which the path is stroked
+    /// * `fill` - The background color by which the path is filled
     ///
     /// # Panics
     ///
@@ -84,13 +85,15 @@ impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
     fn render_path(
         self: &mut Self,
         segs: &[DrawDirective],
-        fg_col: &Option<Color>,
-        bg_col: &Option<Color>,
+        stroke: &Option<Pen>,
+        fill: &Option<Color>,
     ) -> () {
         write!(self.output_file, "<path ").expect("Error at writing file");
-        match (fg_col, bg_col, self.force_colors) {
-            (Some(color), _, _) => {
-                write!(self.output_file, "stroke=\"#{}\" ", color.to_svg())
+        match (stroke, fill, self.force_colors) {
+            (Some(pen), _, _) => {
+                write!(self.output_file, "stroke=\"#{}\" ", pen.color.to_svg())
+                    .expect("Error at writing file");
+                write!(self.output_file, "stroke-width=\"{}\" ", pen.width)
                     .expect("Error at writing file");
             }
             (None, Some(_), _) => {
@@ -101,7 +104,7 @@ impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
             }
             (None, None, false) => {}
         }
-        match (bg_col, self.force_colors) {
+        match (fill, self.force_colors) {
             (Some(color), _) => {
                 write!(self.output_file, "fill=\"#{}\" ", color.to_svg())
                     .expect("Error at writing file");
@@ -111,6 +114,7 @@ impl<'my_lifespan> PathRenderer for VecRenderer<'my_lifespan> {
             }
             (None, false) => {}
         }
+
         write!(self.output_file, "d=\"").expect("Error at writing file");
         for seg in segs {
             match seg {

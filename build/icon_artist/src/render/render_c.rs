@@ -111,8 +111,8 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
     /// # Arguments
     ///
     /// * `segs` - The segments of the path
-    /// * `fg_col` - The foreground color by which the path is stroked
-    /// * `bg_col` - The background color by which the path is filled
+    /// * `stroke` - The foreground color and width by which the path is stroked
+    /// * `fill` - The background color by which the path is filled
     ///
     /// # Panics
     ///
@@ -121,8 +121,8 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
     fn render_path(
         self: &mut Self,
         segs: &[DrawDirective],
-        fg_col: &Option<geometry::Color>,
-        bg_col: &Option<geometry::Color>,
+        stroke: &Option<geometry::Pen>,
+        fill: &Option<geometry::Color>,
     ) -> () {
         let mut section_start = Point { x: 0.0, y: 0.0 };
         let mut cursor = Point { x: 0.0, y: 0.0 };
@@ -219,7 +219,7 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
             }
         }
         let path = pb.finish();
-        match bg_col {
+        match fill {
             Some(ground_color) => {
                 let options = raqote::DrawOptions {
                     blend_mode: raqote::BlendMode::SrcOver,
@@ -239,8 +239,8 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
             }
             None => {}
         }
-        match fg_col {
-            Some(pen_color) => {
+        match stroke {
+            Some(pen) => {
                 let options = raqote::DrawOptions {
                     blend_mode: raqote::BlendMode::SrcOver,
                     alpha: 1.0,
@@ -249,15 +249,15 @@ impl<'my_lifespan> PathRenderer for CRenderer<'my_lifespan> {
                 self.dt.stroke(
                     &path,
                     &raqote::Source::Solid(raqote::SolidSource {
-                        r: pen_color.red,
-                        g: pen_color.green,
-                        b: pen_color.blue,
+                        r: pen.color.red,
+                        g: pen.color.green,
+                        b: pen.color.blue,
                         a: 0xff,
                     }),
                     &raqote::StrokeStyle {
                         cap: raqote::LineCap::Round,
                         join: raqote::LineJoin::Round,
-                        width: 1.0,
+                        width: pen.width,
                         miter_limit: 0.0,
                         dash_array: vec![],
                         dash_offset: 0.0,

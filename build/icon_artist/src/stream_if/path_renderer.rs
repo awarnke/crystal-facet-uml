@@ -2,6 +2,7 @@
 
 use crate::stream_if::geometry::Color;
 use crate::stream_if::geometry::DrawDirective;
+use crate::stream_if::geometry::Pen;
 
 /// A path renderer is an object that provides a function to
 /// draw a path.
@@ -18,13 +19,13 @@ pub trait PathRenderer {
     /// # Arguments
     ///
     /// * `segs` - A list of drawing directives which is a path
-    /// * `fg_col` - A stroke color
-    /// * `bg_col` - A fill color
+    /// * `stroke_color_width` - A stroke color and width
+    /// * `fill_color` - A fill color
     fn render_path(
         self: &mut Self,
         segs: &[DrawDirective],
-        fg_col: &Option<Color>,
-        bg_col: &Option<Color>,
+        stroke: &Option<Pen>,
+        fill: &Option<Color>,
     ) -> ();
 }
 

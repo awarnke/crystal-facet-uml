@@ -1,9 +1,8 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::icon::IconSource;
+use super::shape::get_circle_abs;
 use crate::stream_if::geometry;
-use crate::stream_if::geometry::get_circle_abs;
-use crate::stream_if::geometry::Color;
 use crate::stream_if::geometry::DrawDirective::Close;
 use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::CurveRel;
@@ -25,24 +24,30 @@ const ICON_VIEW_RECT: Rect = Rect {
 };
 
 /// green fill color
-static GREEN: Color = Color {
+static GREEN: geometry::Color = geometry::Color {
     red: 0x0,
     green: 0xff,
     blue: 0x99,
 };
 
 /// black color
-static BLACK: Color = Color {
+static BLACK: geometry::Color = geometry::Color {
     red: 0x0,
     green: 0x0,
     blue: 0x0,
 };
 
 /// white color
-static WHITE: Color = Color {
+static WHITE: geometry::Color = geometry::Color {
     red: 0xff,
     green: 0xff,
     blue: 0xff,
+};
+
+/// black pen
+static BLACK_PEN: geometry::Pen = geometry::Pen {
+    color: BLACK,
+    width: 1.0,
 };
 
 /// The function defines the draw directives for the view mode background
@@ -89,8 +94,9 @@ pub fn generate_view_search(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &None, &Some(WHITE));
 
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(19.25, 12.0, 7.5, 7.5);
-    out.render_path(&icon_segs, &Some(BLACK), &Some(GREEN));
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 19.25, y: 12.0 }, 7.5, 7.5);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(GREEN));
 
     let icon_segs: [geometry::DrawDirective; 4] = [
         MoveRel(Offset { dx: 16.0, dy: 19.0 }),
@@ -98,7 +104,7 @@ pub fn generate_view_search(out: &mut dyn PathRenderer) -> () {
         LineRel(Offset { dx: 2.0, dy: 0.6 }),
         LineRel(Offset { dx: 3.0, dy: -10.0 }),
     ];
-    out.render_path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 }
 
 /// The function generates a steering wheel of ship navigation to vector graphics drawing directives
@@ -139,11 +145,12 @@ pub fn generate_view_navigate(out: &mut dyn PathRenderer) -> () {
             dy: (-r1) * dy + r1 * n_dy,
         });
     }
-    out.render_path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 
     /* rim of wheel */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 11.0, 11.0);
-    out.render_path(&icon_segs, &Some(BLACK), &None);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: cx, y: cy }, 11.0, 11.0);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 }
 
 /// The function generates a hand icon to vector graphics drawing directives
@@ -345,7 +352,7 @@ pub fn generate_view_edit(out: &mut dyn PathRenderer) -> () {
         ),
         Close,
     ];
-    out.render_path(&icon_segs, &Some(BLACK), &Some(GREEN));
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(GREEN));
 }
 
 /// The function generates a growing plant icon to vector graphics drawing directives
@@ -529,7 +536,7 @@ pub fn generate_view_create(out: &mut dyn PathRenderer) -> () {
             },
         ),
     ];
-    out.render_path(&icon_segs, &Some(BLACK), &Some(GREEN));
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &Some(GREEN));
 }
 
 /// The function returns an array of IconSource

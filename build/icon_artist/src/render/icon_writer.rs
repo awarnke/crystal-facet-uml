@@ -85,47 +85,67 @@ fn write_db_icon_entry(icon: &IconSource, out: &mut File) -> () {
     write!(out, "    </varlistentry>\n").expect("Error at writing file");
 }
 
+/// Defines the possible filetypes to generate
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub enum FileType {
+    /// A set of standalone svg images.
+    Svg,
+    /// An index file in docbook format.
+    IndexOfSvg,
+    /// A c struct coontainnig pixbuf data.
+    PixBuf,
+}
+
 /// The function creates a file for each icon and triggers the rendering
 /// of the icon as vector graphics drawing directives to the file.
 ///
 /// # Arguments
 ///
 /// * `icons` - The list of images to be rendered
+/// * `out_type` - The output format
 /// * `out_dir` - The output directory where to export the generated images to
 ///
 /// # Panics
 ///
 /// This function panics if the vector graphics cannot be written to a file.
 ///
-pub fn generate_files(icons: &[IconSource], out_dir: &str) -> () {
-    let mut db_file = open_file_to_write(out_dir, &"stereotype_images.xml");
-    write_db_header(&mut db_file);
+pub fn generate_files(icons: &[IconSource], out_type: FileType, out_dir: &str) -> () {
+    if out_type == FileType::IndexOfSvg {
+        let mut db_file = open_file_to_write(out_dir, &"stereotype_images.xml");
+        write_db_header(&mut db_file);
 
-    for icon in icons {
-        /* render an svg file */
-        let file_name: String = icon.name.to_owned() + ".svg";
-        let mut svg_file = open_file_to_write(out_dir, &file_name);
-        let mut v_render = VecRenderer {
-            output_file: &mut svg_file,
-            force_colors: true,
-        };
-        v_render.header(&icon.viewport);
-        (icon.generate)(&mut v_render);
-        v_render.footer();
+        for icon in icons {
+            /* write an image reference to a docbook file */
+            write_db_icon_entry(icon, &mut db_file);
+        }
 
-        /* write an image reference to a docbook file */
-        write_db_icon_entry(icon, &mut db_file);
+        write_db_footer(&mut db_file);
     }
 
-    write_db_footer(&mut db_file);
+    if out_type == FileType::Svg {
+        for icon in icons {
+            /* render an svg file */
+            let file_name: String = icon.name.to_owned() + ".svg";
+            let mut svg_file = open_file_to_write(out_dir, &file_name);
+            let mut v_render = VecRenderer {
+                output_file: &mut svg_file,
+                force_colors: true,
+            };
+            v_render.header(&icon.viewport);
+            (icon.generate)(&mut v_render);
+            v_render.footer();
+        }
+    }
 
-    /* write some c files */
-    for icon in icons {
-        /* render a c file */
-        let file_name: String = icon.name.to_owned() + ".c";
-        let mut c_file = open_file_to_write(out_dir, &file_name);
-        let mut c_render = CRenderer::new(&mut c_file, &icon.name, &icon.viewport);
-        (icon.generate)(&mut c_render);
-        c_render.write_cimpl();
+    if out_type == FileType::PixBuf {
+        /* write some c files */
+        for icon in icons {
+            /* render a c file */
+            let file_name: String = icon.name.to_owned() + ".c";
+            let mut c_file = open_file_to_write(out_dir, &file_name);
+            let mut c_render = CRenderer::new(&mut c_file, &icon.name, &icon.viewport);
+            (icon.generate)(&mut c_render);
+            c_render.write_cimpl();
+        }
     }
 }

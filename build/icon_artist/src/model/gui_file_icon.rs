@@ -2,7 +2,6 @@
 
 use super::icon::IconSource;
 use crate::stream_if::geometry;
-use crate::stream_if::geometry::Color;
 use crate::stream_if::geometry::DrawDirective::Close;
 use crate::stream_if::geometry::DrawDirective::CloseRel;
 use crate::stream_if::geometry::DrawDirective::CurveRel;
@@ -24,31 +23,37 @@ const ICON_VIEW_RECT: Rect = Rect {
 };
 
 /// green fill color
-static GREEN: Color = Color {
+static GREEN: geometry::Color = geometry::Color {
     red: 0x0,
     green: 0xff,
     blue: 0x99,
 };
 
 /// black color
-static BLACK: Color = Color {
+static BLACK: geometry::Color = geometry::Color {
     red: 0x0,
     green: 0x0,
     blue: 0x0,
 };
 
 /// white color
-static WHITE: Color = Color {
+static WHITE: geometry::Color = geometry::Color {
     red: 0xff,
     green: 0xff,
     blue: 0xff,
 };
 
 /// gray color
-static GRAY: Color = Color {
+static GRAY: geometry::Color = geometry::Color {
     red: 0x7f,
     green: 0x7f,
     blue: 0x7f,
+};
+
+/// black pen
+static BLACK_PEN: geometry::Pen = geometry::Pen {
+    color: BLACK,
+    width: 1.0,
 };
 
 const BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE: f32 = 0.552284749831;
@@ -265,7 +270,7 @@ fn get_db_storage_reflection() -> [geometry::DrawDirective; 5] {
 pub fn generate_file_new_db(out: &mut dyn PathRenderer) -> () {
     /* background */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.render_path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 
     /* plus symbol */
     let plus_sym: [geometry::DrawDirective; 4] = [
@@ -274,7 +279,7 @@ pub fn generate_file_new_db(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 16.0, y: 15.5 }),
         Line(Point { x: 16.0, y: 22.5 }),
     ];
-    out.render_path(&plus_sym, &Some(BLACK), &None);
+    out.render_path(&plus_sym, &Some(BLACK_PEN), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -293,7 +298,7 @@ pub fn generate_file_use_db(out: &mut dyn PathRenderer) -> () {
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.render_path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -312,7 +317,7 @@ pub fn generate_file_save(out: &mut dyn PathRenderer) -> () {
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.render_path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 
     /* ok symbol */
     let ok_sym: [geometry::DrawDirective; 8] = [
@@ -325,7 +330,7 @@ pub fn generate_file_save(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 16.0, y: 27.0 }),
         Close,
     ];
-    out.render_path(&ok_sym, &Some(BLACK), &Some(GREEN));
+    out.render_path(&ok_sym, &Some(BLACK_PEN), &Some(GREEN));
 }
 
 /// The function generates a magnifying glass icon to vector graphics drawing directives
@@ -344,7 +349,7 @@ pub fn generate_file_export(out: &mut dyn PathRenderer) -> () {
 
     /* contour */
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
-    out.render_path(&icon_segs, &Some(BLACK), &None);
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 
     /* out symbol */
     let out_sym: [geometry::DrawDirective; 8] = [
@@ -357,7 +362,7 @@ pub fn generate_file_export(out: &mut dyn PathRenderer) -> () {
         LineRel(Offset { dx: -10.0, dy: 0.0 }),
         CloseRel,
     ];
-    out.render_path(&out_sym, &Some(BLACK), &Some(GREEN));
+    out.render_path(&out_sym, &Some(BLACK_PEN), &Some(GREEN));
 }
 
 /// The function returns an array of IconSource

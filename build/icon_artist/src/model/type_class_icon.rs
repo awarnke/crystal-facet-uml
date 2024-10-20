@@ -1,9 +1,8 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::icon::IconSource;
+use super::shape::get_circle_abs;
 use crate::stream_if::geometry;
-use crate::stream_if::geometry::get_circle_abs;
-use crate::stream_if::geometry::Color;
 use crate::stream_if::geometry::DrawDirective::Close;
 use crate::stream_if::geometry::DrawDirective::CurveRel;
 use crate::stream_if::geometry::DrawDirective::LineRel;
@@ -22,17 +21,19 @@ const ICON_VIEW_RECT: Rect = Rect {
 };
 
 /// gray line color
-static GRAY: Color = Color {
+static GRAY: geometry::Color = geometry::Color {
     red: 0x7f,
     green: 0x7f,
     blue: 0x7f,
 };
 
+/// gray pen
+static GRAY_PEN: geometry::Pen = geometry::Pen {
+    color: GRAY,
+    width: 1.0,
+};
+
 /// The function generates a gear wheel to vector graphics drawing directives
-///
-/// # Panics
-///
-/// This function panics if PathRenderer cannot write to the output sink.
 ///
 pub fn generate_type_clas_stereotype(out: &mut dyn PathRenderer) -> () {
     /* spoke of wheel */
@@ -90,11 +91,11 @@ pub fn generate_type_clas_stereotype(out: &mut dyn PathRenderer) -> () {
             dy: (-r3) * z_dy + r2 * o_dy,
         });
     }
-    out.render_path(&icon_segs, &Some(GRAY), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* rim of wheel */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 2.0, 2.0);
-    out.render_path(&icon_segs, &Some(GRAY), &None);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(Point { x: cx, y: cy }, 2.0, 2.0);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 }
 
 /// The function generates a flower image to vector graphics drawing directives
@@ -157,11 +158,12 @@ pub fn generate_type_clas_image(out: &mut dyn PathRenderer) -> () {
             },
         );
     }
-    out.render_path(&icon_segs, &Some(GRAY), &None);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 
     /* flower center */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(cx, cy, 3.25, 3.25);
-    out.render_path(&icon_segs, &Some(GRAY), &None);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: cx, y: cy }, 3.25, 3.25);
+    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
 }
 
 /// The function returns an array of IconSource

@@ -1,10 +1,9 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::icon::IconSource;
+use super::shape::get_circle_abs;
+use super::shape::get_circle_rel;
 use crate::stream_if::geometry;
-use crate::stream_if::geometry::get_circle_abs;
-use crate::stream_if::geometry::get_circle_rel;
-use crate::stream_if::geometry::Color;
 use crate::stream_if::geometry::DrawDirective::Close;
 use crate::stream_if::geometry::DrawDirective::CloseRel;
 use crate::stream_if::geometry::DrawDirective::Continue;
@@ -30,24 +29,56 @@ const ICON_VIEW_RECT: Rect = Rect {
 };
 
 /// blue color
-static BLUE: Color = Color {
+static BLUE: geometry::Color = geometry::Color {
     red: 0x0,
     green: 0x0,
     blue: 0x99,
 };
 
 /// red color
-static RED: Color = Color {
+static RED: geometry::Color = geometry::Color {
     red: 0xcc,
     green: 0x0,
     blue: 0x0,
 };
 
-/// gren color
-static GREEN: Color = Color {
+/// green color
+static GREEN: geometry::Color = geometry::Color {
     red: 0x0,
     green: 0xaa,
     blue: 0x0,
+};
+
+/// light gray color
+static LIGHT_GRAY: geometry::Color = geometry::Color {
+    red: 0xcc,
+    green: 0xcc,
+    blue: 0xcc,
+};
+
+/// light blue color
+static LIGHT_BLUE: geometry::Color = geometry::Color {
+    red: 0x0,
+    green: 0x0,
+    blue: 0xdd,
+};
+
+/// blue pen
+static BLUE_PEN: geometry::Pen = geometry::Pen {
+    color: BLUE,
+    width: 1.0,
+};
+
+/// green pen
+static GREEN_PEN: geometry::Pen = geometry::Pen {
+    color: GREEN,
+    width: 1.0,
+};
+
+/// red pen
+static RED_PEN: geometry::Pen = geometry::Pen {
+    color: RED,
+    width: 1.0,
 };
 
 /// The function generates a database icon to vector graphics drawing directives
@@ -98,7 +129,14 @@ pub fn generate_deploy_database(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &None, &None);
 
     /* top circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 1.0 + ry, rx, ry);
+    let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(
+        Offset {
+            dx: 16.0,
+            dy: 1.0 + ry,
+        },
+        rx,
+        ry,
+    );
     out.render_path(&icon_segs, &None, &None);
 }
 
@@ -135,12 +173,7 @@ pub fn generate_deploy_local(out: &mut dyn PathRenderer) -> () {
         }),
         CloseRel,
     ];
-    let gray: Color = Color {
-        red: 0xcc,
-        green: 0xcc,
-        blue: 0xcc,
-    };
-    out.render_path(&icon_segs, &None, &Some(gray));
+    out.render_path(&icon_segs, &None, &Some(LIGHT_GRAY));
 
     /* screen */
     let icon_segs: [geometry::DrawDirective; 5] = [
@@ -153,12 +186,7 @@ pub fn generate_deploy_local(out: &mut dyn PathRenderer) -> () {
         }),
         CloseRel,
     ];
-    let blue: Color = Color {
-        red: 0x0,
-        green: 0x0,
-        blue: 0xdd,
-    };
-    out.render_path(&icon_segs, &None, &Some(blue));
+    out.render_path(&icon_segs, &None, &Some(LIGHT_BLUE));
 }
 
 /// The function generates a cloud icon to vector graphics drawing directives
@@ -199,7 +227,8 @@ pub fn generate_deploy_cloud(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_ecb_entity(out: &mut dyn PathRenderer) -> () {
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 18.0, y: 18.0 }, 12.0, 12.0);
     out.render_path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
@@ -218,7 +247,8 @@ pub fn generate_ecb_entity(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_ecb_control(out: &mut dyn PathRenderer) -> () {
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 18.0, y: 18.0 }, 12.0, 12.0);
     out.render_path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
@@ -238,7 +268,8 @@ pub fn generate_ecb_control(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_ecb_boundary(out: &mut dyn PathRenderer) -> () {
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(18.0, 18.0, 12.0, 12.0);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 18.0, y: 18.0 }, 12.0, 12.0);
     out.render_path(&icon_segs, &None, &None);
 
     /* bottom cylinder */
@@ -265,7 +296,7 @@ pub fn generate_gsn_goal(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 1.0, y: 25.0 }),
         Close,
     ];
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 }
 
 /// The function generates a GSN context icon to vector graphics drawing directives
@@ -290,7 +321,7 @@ pub fn generate_gsn_context(out: &mut dyn PathRenderer) -> () {
         ),
         Close,
     ];
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 }
 
 /// The function generates a GSN strategy icon to vector graphics drawing directives
@@ -307,7 +338,7 @@ pub fn generate_gsn_strategy(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 1.0, y: 25.0 }),
         Close,
     ];
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 }
 
 /// The function generates a GSN assumption icon to vector graphics drawing directives
@@ -318,8 +349,9 @@ pub fn generate_gsn_strategy(out: &mut dyn PathRenderer) -> () {
 ///
 pub fn generate_gsn_assumption(out: &mut dyn PathRenderer) -> () {
     /* ellipsis */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 10.0, 15.0, 8.0);
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 16.0, y: 10.0 }, 15.0, 8.0);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 
     /* A-character */
     let icon_segs: [geometry::DrawDirective; 5] = [
@@ -329,7 +361,7 @@ pub fn generate_gsn_assumption(out: &mut dyn PathRenderer) -> () {
         Move(Point { x: 24.75, y: 23.5 }),
         Line(Point { x: 28.25, y: 23.5 }),
     ];
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 }
 
 /// The function generates a GSN justification icon to vector graphics drawing directives
@@ -339,8 +371,9 @@ pub fn generate_gsn_assumption(out: &mut dyn PathRenderer) -> () {
 /// This function panics if PathRenderer cannot write to the output sink.
 ///
 pub fn generate_gsn_justification(out: &mut dyn PathRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 10.0, 15.0, 8.0);
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 16.0, y: 10.0 }, 15.0, 8.0);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 
     /* J-character */
     let icon_segs: [geometry::DrawDirective; 4] = [
@@ -353,7 +386,7 @@ pub fn generate_gsn_justification(out: &mut dyn PathRenderer) -> () {
         Line(Point { x: 29.0, y: 19.0 }),
         Line(Point { x: 25.0, y: 19.0 }),
     ];
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 }
 
 /// The function generates a GSN solution icon to vector graphics drawing directives
@@ -363,8 +396,9 @@ pub fn generate_gsn_justification(out: &mut dyn PathRenderer) -> () {
 /// This function panics if PathRenderer cannot write to the output sink.
 ///
 pub fn generate_gsn_solution(out: &mut dyn PathRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 16.0, 15.0, 15.0);
-    out.render_path(&icon_segs, &Some(BLUE), &None);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 16.0, y: 16.0 }, 15.0, 15.0);
+    out.render_path(&icon_segs, &Some(BLUE_PEN), &None);
 }
 
 /// The function generates a buffer icon of queueing theory to vector graphics drawing directives
@@ -402,7 +436,8 @@ pub fn generate_queue_buffer(out: &mut dyn PathRenderer) -> () {
 /// This function panics if PathRenderer cannot write to the output sink.
 ///
 pub fn generate_queue_server(out: &mut dyn PathRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(16.0, 16.0, 15.0, 15.0);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 16.0, y: 16.0 }, 15.0, 15.0);
     out.render_path(&icon_segs, &None, &None);
 }
 
@@ -434,7 +469,8 @@ pub fn generate_queue_queue(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &None, &None);
 
     /* circle */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_abs(26.0, 16.0, 5.0, 5.0);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 26.0, y: 16.0 }, 5.0, 5.0);
     out.render_path(&icon_segs, &None, &None);
 }
 
@@ -490,15 +526,16 @@ pub fn generate_reason_chosen(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &None, &None);
 
     /* minus */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 17.0, 8.0, 8.0);
-    out.render_path(&icon_segs, &Some(GREEN), &None);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_rel(Offset { dx: 16.0, dy: 17.0 }, 8.0, 8.0);
+    out.render_path(&icon_segs, &Some(GREEN_PEN), &None);
     let icon_segs: [geometry::DrawDirective; 4] = [
         MoveRel(Offset { dx: 11.0, dy: 17.0 }),
         LineRel(Offset { dx: 10.0, dy: 0.0 }),
         MoveRel(Offset { dx: -5.0, dy: -5.0 }),
         LineRel(Offset { dx: 0.0, dy: 10.0 }),
     ];
-    out.render_path(&icon_segs, &Some(GREEN), &None);
+    out.render_path(&icon_segs, &Some(GREEN_PEN), &None);
 }
 
 /// The function generates a rationale/rejected icon to vector graphics drawing directives
@@ -518,13 +555,14 @@ pub fn generate_reason_rejected(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs, &None, &None);
 
     /* minus */
-    let icon_segs: [geometry::DrawDirective; 5] = get_circle_rel(16.0, 17.0, 8.0, 8.0);
-    out.render_path(&icon_segs, &Some(RED), &None);
+    let icon_segs: [geometry::DrawDirective; 5] =
+        get_circle_rel(Offset { dx: 16.0, dy: 17.0 }, 8.0, 8.0);
+    out.render_path(&icon_segs, &Some(RED_PEN), &None);
     let icon_segs: [geometry::DrawDirective; 2] = [
         MoveRel(Offset { dx: 11.0, dy: 17.0 }),
         LineRel(Offset { dx: 10.0, dy: 0.0 }),
     ];
-    out.render_path(&icon_segs, &Some(RED), &None);
+    out.render_path(&icon_segs, &Some(RED_PEN), &None);
 }
 
 /// The function generates a object flow icon to vector graphics drawing directives
