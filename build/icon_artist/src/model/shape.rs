@@ -133,9 +133,20 @@ pub fn get_rounded_rect_rel(
     let ctrlpnt_dy: f32 = r * ARC_APPROX; /* control point distance y */
     [
         DrawDirective::MoveRel(Offset {
-            dx: top_left.dx + r,
-            dy: top_left.dy,
+            dx: top_left.dx,
+            dy: top_left.dy + r,
         }),
+        DrawDirective::CurveRel(
+            Offset {
+                dx: 0.0,
+                dy: -ctrlpnt_dy,
+            },
+            Offset {
+                dx: r - ctrlpnt_dx,
+                dy: -r,
+            },
+            Offset { dx: r, dy: -r },
+        ),
         DrawDirective::LineRel(Offset {
             dx: width - 2.0 * r,
             dy: 0.0,
@@ -181,21 +192,7 @@ pub fn get_rounded_rect_rel(
             },
             Offset { dx: -r, dy: -r },
         ),
-        DrawDirective::LineRel(Offset {
-            dx: 0.0,
-            dy: 2.0 * r - height,
-        }),
-        DrawDirective::CurveRel(
-            Offset {
-                dx: 0.0,
-                dy: -ctrlpnt_dy,
-            },
-            Offset {
-                dx: r - ctrlpnt_dx,
-                dy: -r,
-            },
-            Offset { dx: r, dy: -r },
-        ),
+        DrawDirective::CloseRel,
     ]
 }
 
@@ -215,9 +212,23 @@ pub fn get_rounded_rect_abs(bounds: Rect, r: f32) -> [DrawDirective; 9] {
     let bottom = bounds.bottom();
     [
         DrawDirective::Move(Point {
-            x: left + r,
-            y: top,
+            x: left,
+            y: top + r,
         }),
+        DrawDirective::Curve(
+            Point {
+                x: left,
+                y: top + r - ctrlpnt_dy,
+            },
+            Point {
+                x: left + r - ctrlpnt_dx,
+                y: top,
+            },
+            Point {
+                x: left + r,
+                y: top,
+            },
+        ),
         DrawDirective::Line(Point {
             x: right - r,
             y: top,
@@ -272,24 +283,57 @@ pub fn get_rounded_rect_abs(bounds: Rect, r: f32) -> [DrawDirective; 9] {
                 y: bottom - r,
             },
         ),
-        DrawDirective::Line(Point {
-            x: left,
-            y: top + r,
+        DrawDirective::Close,
+    ]
+}
+
+/// The function defines the path  points for a rectangle in relative offsets
+///
+/// # Arguments
+///
+/// * `top_left` - The relative offset of the top left corner
+/// * `width` - The width of the rectangle
+/// * `height` - The height of the rectangle
+///
+pub fn get_rect_rel(top_left: Offset, width: f32, height: f32) -> [DrawDirective; 5] {
+    [
+        DrawDirective::MoveRel(Offset {
+            dx: top_left.dx,
+            dy: top_left.dy,
         }),
-        DrawDirective::Curve(
-            Point {
-                x: left,
-                y: top + r - ctrlpnt_dy,
-            },
-            Point {
-                x: left + r - ctrlpnt_dx,
-                y: top,
-            },
-            Point {
-                x: left + r,
-                y: top,
-            },
-        ),
+        DrawDirective::LineRel(Offset { dx: width, dy: 0.0 }),
+        DrawDirective::LineRel(Offset {
+            dx: 0.0,
+            dy: height,
+        }),
+        DrawDirective::LineRel(Offset {
+            dx: -width,
+            dy: 0.0,
+        }),
+        DrawDirective::CloseRel,
+    ]
+}
+
+/// The function defines the path points for a rectangle in absolute offsets
+///
+/// # Arguments
+///
+/// * `bounds` - The absolute coordinates of the rectangle
+///
+pub fn get_rect_abs(bounds: Rect) -> [DrawDirective; 5] {
+    let left = bounds.left;
+    let top = bounds.top;
+    let right = bounds.right();
+    let bottom = bounds.bottom();
+    [
+        DrawDirective::Move(Point { x: left, y: top }),
+        DrawDirective::Line(Point { x: right, y: top }),
+        DrawDirective::Line(Point {
+            x: right,
+            y: bottom,
+        }),
+        DrawDirective::Line(Point { x: left, y: bottom }),
+        DrawDirective::Close,
     ]
 }
 

@@ -1,12 +1,13 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::icon::IconSource;
+use super::shape::get_rect_abs;
 use super::shape::get_rounded_rect_abs;
 use crate::stream_if::geometry;
-use crate::stream_if::geometry::DrawDirective::Close;
+use crate::stream_if::geometry::DrawDirective::CloseRel;
+use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::LineRel;
 use crate::stream_if::geometry::DrawDirective::Move;
-use crate::stream_if::geometry::DrawDirective::MoveRel;
 use crate::stream_if::geometry::Offset;
 use crate::stream_if::geometry::Point;
 use crate::stream_if::geometry::Rect;
@@ -95,8 +96,8 @@ pub fn generate_type_diag_activity(out: &mut dyn PathRenderer) -> () {
         },
         3.0,
     );
-
     out.render_path(&icon_segs_act1, &Some(GRAY_PEN), &None);
+
     let icon_segs_act2: [geometry::DrawDirective; 9] = get_rounded_rect_abs(
         Rect {
             left: CX - 6.0 - HALFLINE,
@@ -112,28 +113,100 @@ pub fn generate_type_diag_activity(out: &mut dyn PathRenderer) -> () {
 /// The function generates a type_diag_block
 ///
 pub fn generate_type_diag_block(out: &mut dyn PathRenderer) -> () {
-    let icon_segs: [geometry::DrawDirective; 4] = [
-        MoveRel(Offset { dx: 16.0, dy: 19.0 }),
-        LineRel(Offset { dx: -3.0, dy: 10.0 }),
-        LineRel(Offset { dx: 2.0, dy: 0.6 }),
-        LineRel(Offset { dx: 3.0, dy: -10.0 }),
-    ];
+    let icon_segs_left: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 2.0,
+        top: 2.0,
+        width: 10.0,
+        height: 20.0,
+    });
+    out.render_path(&icon_segs_left, &Some(GRAY_THICK_PEN), &None);
 
-    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
+    let icon_segs_right: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 20.0,
+        top: 2.0,
+        width: 10.0,
+        height: 20.0,
+    });
+    out.render_path(&icon_segs_right, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_link: [geometry::DrawDirective; 2] = [
+        Move(Point {
+            x: 14.0,
+            y: CY + HALFLINE,
+        }),
+        Line(Point {
+            x: 18.0,
+            y: CY + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_link, &Some(GRAY_PEN), &None);
 }
 
 /// The function generates a type_diag_box
 ///
 pub fn generate_type_diag_box(out: &mut dyn PathRenderer) -> () {
-    let mut icon_segs: [geometry::DrawDirective; 7] = [Close; 7];
-    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
+    let icon_segs_left: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 2.0,
+        top: 8.0,
+        width: 7.0,
+        height: 7.0,
+    });
+    out.render_path(&icon_segs_left, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_mid: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 13.0,
+        top: 15.0,
+        width: 7.0,
+        height: 7.0,
+    });
+    out.render_path(&icon_segs_mid, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_right: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 24.0,
+        top: 2.0,
+        width: 7.0,
+        height: 7.0,
+    });
+    out.render_path(&icon_segs_right, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a type_diag_class
 ///
 pub fn generate_type_diag_class(out: &mut dyn PathRenderer) -> () {
-    let mut icon_segs: [geometry::DrawDirective; 7] = [Close; 7];
-    out.render_path(&icon_segs, &Some(GRAY_PEN), &None);
+    let icon_segs_left: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 2.0 - HALFLINE,
+        top: 16.0 - HALFLINE,
+        width: 6.0,
+        height: 6.0,
+    });
+    out.render_path(&icon_segs_left, &Some(GRAY_PEN), &None);
+
+    let icon_segs_mid: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 13.0 - HALFLINE,
+        top: 2.0 - HALFLINE,
+        width: 6.0,
+        height: 6.0,
+    });
+    out.render_path(&icon_segs_mid, &Some(GRAY_PEN), &None);
+
+    let icon_segs_right: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 24.0 - HALFLINE,
+        top: 16.0 - HALFLINE,
+        width: 6.0,
+        height: 6.0,
+    });
+    out.render_path(&icon_segs_right, &Some(GRAY_PEN), &None);
+
+    let icon_segs_link: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - HALFLINE,
+            y: 11.0,
+        }),
+        LineRel(Offset { dx: 4.5, dy: 6.0 }),
+        LineRel(Offset { dx: -9.0, dy: 0.0 }),
+        CloseRel,
+    ];
+    out.render_path(&icon_segs_link, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function returns an array of IconSource
