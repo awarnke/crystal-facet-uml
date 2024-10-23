@@ -13,33 +13,56 @@ use model::type_class_icon;
 use model::type_diag_icon;
 use render::icon_writer;
 use render::icon_writer::FileType;
+use std::env;
 
 static OUT_DIR_STEREO: &'static str = "../../documentation/user_manual/4_stereotypes";
 static OUT_DIR_GUI: &'static str = "../../gui/source/resources";
 
 /// The main function defines parameters and starts the icon_writer.
 fn main() {
-    let stereo_icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
-    icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_STEREO);
-    icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREO);
-    println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
+    let args: Vec<String> = env::args().collect();
 
-    let gui_file_icons: &'static [IconSource<'static>] = gui_file_icon::get_icons();
-    icon_writer::generate_files(gui_file_icons, FileType::Svg, OUT_DIR_GUI);
-    icon_writer::generate_files(gui_file_icons, FileType::PixBuf, OUT_DIR_GUI);
-
-    let gui_view_icons: &'static [IconSource<'static>] = gui_view_icon::get_icons();
-    icon_writer::generate_files(gui_view_icons, FileType::Svg, OUT_DIR_GUI);
-    icon_writer::generate_files(gui_view_icons, FileType::PixBuf, OUT_DIR_GUI);
-
-    let type_class_icons: &'static [IconSource<'static>] = type_class_icon::get_icons();
-    icon_writer::generate_files(type_class_icons, FileType::Svg, OUT_DIR_GUI);
-    icon_writer::generate_files(type_class_icons, FileType::PixBuf, OUT_DIR_GUI);
-
-    let type_diag_icons: &'static [IconSource<'static>] = type_diag_icon::get_icons();
-    icon_writer::generate_files(type_diag_icons, FileType::Svg, OUT_DIR_GUI);
-    icon_writer::generate_files(type_diag_icons, FileType::PixBuf, OUT_DIR_GUI);
-    println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+    for argument in args {
+        let arg = argument.as_str();
+        if arg == "-f" {
+            let gui_file_icons: &'static [IconSource<'static>] = gui_file_icon::get_icons();
+            icon_writer::generate_files(gui_file_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(gui_file_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
+        if arg == "-v" {
+            let gui_view_icons: &'static [IconSource<'static>] = gui_view_icon::get_icons();
+            icon_writer::generate_files(gui_view_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(gui_view_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
+        if arg == "-d" {
+            let type_diag_icons: &'static [IconSource<'static>] = type_diag_icon::get_icons();
+            icon_writer::generate_files(type_diag_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(type_diag_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
+        if arg == "-c" {
+            let type_class_icons: &'static [IconSource<'static>] = type_class_icon::get_icons();
+            icon_writer::generate_files(type_class_icons, FileType::Svg, OUT_DIR_GUI);
+            icon_writer::generate_files(type_class_icons, FileType::PixBuf, OUT_DIR_GUI);
+            println!("Generated files have been written to '{}'.", OUT_DIR_GUI);
+        }
+        if arg == "-s" {
+            let stereo_icons: &'static [IconSource<'static>] = stereotype_icon::get_icons();
+            icon_writer::generate_files(stereo_icons, FileType::Svg, OUT_DIR_STEREO);
+            icon_writer::generate_files(stereo_icons, FileType::IndexOfSvg, OUT_DIR_STEREO);
+            println!("Generated files have been written to '{}'.", OUT_DIR_STEREO);
+        }
+        if arg == "-h" {
+            println!("options are");
+            println!("-f file icons");
+            println!("-v view icons");
+            println!("-d diagram icons");
+            println!("-c classifier icons");
+            println!("-s stereotype");
+        }
+    }
 }
 
 /*

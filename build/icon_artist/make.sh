@@ -1,8 +1,9 @@
 #!/bin/sh
 find . -name '*.rs' | xargs rustfmt
-cargo run ; echo "ERROR: $?"
+cargo build ; echo "ERROR: $?"
 echo "consider running rustup update"
 echo "view source documentation using cargo doc && chromium-browser target/doc/icon_artist/index.html"
+echo "run program by e.g. cargo run -- -d"
 
 # Copyright 2023-2024 Andreas Warnke
 #

@@ -5,6 +5,7 @@ use super::shape::get_rect_abs;
 use super::shape::get_rounded_rect_abs;
 use crate::stream_if::geometry;
 use crate::stream_if::geometry::DrawDirective::CloseRel;
+use crate::stream_if::geometry::DrawDirective::CurveRel;
 use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::LineRel;
 use crate::stream_if::geometry::DrawDirective::Move;
@@ -209,27 +210,113 @@ pub fn generate_type_diag_class(out: &mut dyn PathRenderer) -> () {
     out.render_path(&icon_segs_link, &Some(GRAY_THICK_PEN), &None);
 }
 
+/// The function generates a type_diag_communication
+///
+pub fn generate_type_diag_communication(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_top: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 4.0 - HALFLINE,
+        top: 2.0 - HALFLINE,
+        width: 9.0,
+        height: 6.0,
+    });
+    out.render_path(&icon_segs_top, &Some(GRAY_PEN), &None);
+
+    let icon_segs_bottom: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 4.0 - HALFLINE,
+        top: 16.0 + HALFLINE,
+        width: 9.0,
+        height: 6.0,
+    });
+    out.render_path(&icon_segs_bottom, &Some(GRAY_PEN), &None);
+
+    let icon_segs_right: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX + 6.0,
+            y: 5.0,
+        }),
+        CurveRel(
+            Offset { dx: 6.0, dy: 1.0 },
+            Offset { dx: 6.0, dy: 12.0 },
+            Offset { dx: 1.0, dy: 14.0 },
+        ),
+        LineRel(Offset { dx: 3.0, dy: 1.0 }),
+    ];
+    out.render_path(&icon_segs_right, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_left: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX - 6.0,
+            y: 19.0,
+        }),
+        CurveRel(
+            Offset { dx: -6.0, dy: -1.0 },
+            Offset { dx: -6.0, dy: -12.0 },
+            Offset { dx: -1.0, dy: -14.0 },
+        ),
+        LineRel(Offset { dx: -3.0, dy: -1.0 }),
+    ];
+    out.render_path(&icon_segs_left, &Some(GRAY_THICK_PEN), &None);
+}
+
+/// The function generates a type_diag_component
+///
+pub fn generate_type_diag_component(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_composite
+///
+pub fn generate_type_diag_composite(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_deployment
+///
+pub fn generate_type_diag_deployment(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_internal
+///
+pub fn generate_type_diag_internal(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_list
+///
+pub fn generate_type_diag_list(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_overview
+///
+pub fn generate_type_diag_overview(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_package
+///
+pub fn generate_type_diag_package(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_parametric
+///
+pub fn generate_type_diag_parametric(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_profile
+///
+pub fn generate_type_diag_profile(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_requirement
+///
+pub fn generate_type_diag_requirement(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_sequence
+///
+pub fn generate_type_diag_sequence(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_state
+///
+pub fn generate_type_diag_state(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_timing
+///
+pub fn generate_type_diag_timing(out: &mut dyn PathRenderer) -> () {}
+
+/// The function generates a type_diag_usecase
+///
+pub fn generate_type_diag_usecase(out: &mut dyn PathRenderer) -> () {}
+
 /// The function returns an array of IconSource
 ///
 pub fn get_icons() -> &'static [IconSource<'static>] {
-    /*
-    ../../gui/source/resources/type_diag_communication.c
-    ../../gui/source/resources/type_diag_component.c
-    ../../gui/source/resources/type_diag_composite.c
-    ../../gui/source/resources/type_diag_deployment.c
-    ../../gui/source/resources/type_diag_internal.c
-    ../../gui/source/resources/type_diag_list.c
-    ../../gui/source/resources/type_diag_overview.c
-    ../../gui/source/resources/type_diag_package.c
-    ../../gui/source/resources/type_diag_parametric.c
-    ../../gui/source/resources/type_diag_profile.c
-    ../../gui/source/resources/type_diag_requirement.c
-    ../../gui/source/resources/type_diag_sequence.c
-    ../../gui/source/resources/type_diag_state.c
-    ../../gui/source/resources/type_diag_timing.c
-    ../../gui/source/resources/type_diag_usecase.c
-    */
-
     &[
         IconSource {
             name: "type_diag_activity",
@@ -251,5 +338,82 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             viewport: ICON_VIEW_RECT,
             generate: generate_type_diag_class,
         },
+        IconSource {
+            name: "type_diag_communication",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_communication,
+        },
+        /*
+        IconSource {
+            name: "type_diag_component",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_component,
+        },
+        IconSource {
+            name: "type_diag_composite",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_composite,
+        },
+        IconSource {
+            name: "type_diag_deployment",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_deployment,
+        },
+        IconSource {
+            name: "type_diag_internal",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_internal,
+        },
+        IconSource {
+            name: "type_diag_list",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_list,
+        },
+        IconSource {
+            name: "type_diag_overview",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_overview,
+        },
+        IconSource {
+            name: "type_diag_package",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_package,
+        },
+        IconSource {
+            name: "type_diag_parametric",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_parametric,
+        },
+        IconSource {
+            name: "type_diag_profile",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_profile,
+        },
+        IconSource {
+            name: "type_diag_requirement",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_requirement,
+        },
+        IconSource {
+            name: "type_diag_sequence",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_sequence,
+        },
+        IconSource {
+            name: "type_diag_state",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_state,
+        },
+        IconSource {
+            name: "type_diag_timing",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_timing,
+        },
+        IconSource {
+            name: "type_diag_usecase",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_type_diag_usecase,
+        },
+        */
     ]
 }
