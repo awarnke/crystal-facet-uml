@@ -3,7 +3,7 @@ Upstream-Name: crystal-facet-uml
 Source: https://github.com/awarnke/crystal-facet-uml
 
 Files: *
-Copyright: 2016-2023, Andreas Warnke <cfu@andreaswarnke.de>
+Copyright: 2016-2024, Andreas Warnke <cfu@andreaswarnke.de>
 License: Apache-2.0
 
 Files: debian/*
