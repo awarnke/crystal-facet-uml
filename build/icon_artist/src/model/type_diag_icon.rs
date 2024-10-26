@@ -1,10 +1,13 @@
 //! The module provides functions to render an icon to vector graphics.
 
 use super::icon::IconSource;
+use super::shape::get_circle_abs;
 use super::shape::get_rect_abs;
 use super::shape::get_rounded_rect_abs;
 use crate::stream_if::geometry;
+use crate::stream_if::geometry::DrawDirective::Close;
 use crate::stream_if::geometry::DrawDirective::CloseRel;
+use crate::stream_if::geometry::DrawDirective::Curve;
 use crate::stream_if::geometry::DrawDirective::CurveRel;
 use crate::stream_if::geometry::DrawDirective::Line;
 use crate::stream_if::geometry::DrawDirective::LineRel;
@@ -130,14 +133,22 @@ pub fn generate_type_diag_block(out: &mut dyn PathRenderer) -> () {
     });
     out.render_path(&icon_segs_right, &Some(GRAY_THICK_PEN), &None);
 
-    let icon_segs_link: [geometry::DrawDirective; 2] = [
+    let icon_segs_link: [geometry::DrawDirective; 4] = [
         Move(Point {
             x: 14.0,
-            y: CY + HALFLINE,
+            y: CY + 3.0 + HALFLINE,
         }),
         Line(Point {
             x: 18.0,
-            y: CY + HALFLINE,
+            y: CY + 3.0 + HALFLINE,
+        }),
+        Move(Point {
+            x: 14.0,
+            y: CY - 3.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: 18.0,
+            y: CY - 3.0 - HALFLINE,
         }),
     ];
     out.render_path(&icon_segs_link, &Some(GRAY_PEN), &None);
@@ -231,88 +242,663 @@ pub fn generate_type_diag_communication(out: &mut dyn PathRenderer) -> () {
 
     let icon_segs_right: [geometry::DrawDirective; 3] = [
         Move(Point {
-            x: CX + 6.0,
+            x: CX + 9.0,
             y: 5.0,
         }),
         CurveRel(
             Offset { dx: 6.0, dy: 1.0 },
-            Offset { dx: 6.0, dy: 12.0 },
+            Offset { dx: 6.0, dy: 11.0 },
             Offset { dx: 1.0, dy: 14.0 },
         ),
-        LineRel(Offset { dx: 3.0, dy: 1.0 }),
+        LineRel(Offset { dx: 4.0, dy: 0.0 }),
     ];
     out.render_path(&icon_segs_right, &Some(GRAY_THICK_PEN), &None);
 
     let icon_segs_left: [geometry::DrawDirective; 3] = [
         Move(Point {
-            x: CX - 6.0,
+            x: CX - 9.0,
             y: 19.0,
         }),
         CurveRel(
             Offset { dx: -6.0, dy: -1.0 },
-            Offset { dx: -6.0, dy: -12.0 },
-            Offset { dx: -1.0, dy: -14.0 },
+            Offset {
+                dx: -6.0,
+                dy: -11.0,
+            },
+            Offset {
+                dx: -1.0,
+                dy: -14.0,
+            },
         ),
-        LineRel(Offset { dx: -3.0, dy: -1.0 }),
+        LineRel(Offset { dx: -4.0, dy: 0.0 }),
     ];
     out.render_path(&icon_segs_left, &Some(GRAY_THICK_PEN), &None);
 }
 
 /// The function generates a type_diag_component
 ///
-pub fn generate_type_diag_component(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_component(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_left_port: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 8.0,
+        top: CY - 3.0,
+        width: 5.0,
+        height: 5.0,
+    });
+    out.render_path(&icon_segs_left_port, &Some(GRAY_THICK_PEN), &None);
+    let icon_segs_right_port: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX + 3.0,
+        top: CY - 3.0,
+        width: 5.0,
+        height: 5.0,
+    });
+    out.render_path(&icon_segs_right_port, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_mid: [geometry::DrawDirective; 2] = [
+        Move(Point {
+            x: CX - 1.0,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 1.0,
+            y: CY - HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_mid, &Some(GRAY_PEN), &None);
+
+    let icon_segs_left: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 6.0 + HALFLINE,
+            y: CY + 4.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 2.0 + HALFLINE,
+        }),
+        LineRel(Offset { dx: -9.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: -14.0 }),
+        LineRel(Offset { dx: 9.0, dy: 0.0 }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 2.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_left, &Some(GRAY_PEN), &None);
+    let icon_segs_right: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX + 6.0 - HALFLINE,
+            y: CY + 4.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 2.0 + HALFLINE,
+        }),
+        LineRel(Offset { dx: 9.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: -14.0 }),
+        LineRel(Offset { dx: -9.0, dy: 0.0 }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 2.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_right, &Some(GRAY_PEN), &None);
+}
 
 /// The function generates a type_diag_composite
 ///
-pub fn generate_type_diag_composite(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_composite(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_outer_port: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: 2.0,
+        top: CY - 3.0,
+        width: 5.0,
+        height: 5.0,
+    });
+    out.render_path(&icon_segs_outer_port, &Some(GRAY_THICK_PEN), &None);
+    let icon_segs_inner_port: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 3.0,
+        top: CY - 3.0,
+        width: 5.0,
+        height: 5.0,
+    });
+    out.render_path(&icon_segs_inner_port, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_conn: [geometry::DrawDirective; 2] = [
+        Move(Point {
+            x: 9.0,
+            y: CY - HALFLINE,
+        }),
+        Line(Point {
+            x: 11.0,
+            y: CY - HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_conn, &Some(GRAY_PEN), &None);
+
+    let icon_segs_outer: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: 4.0 + HALFLINE,
+            y: CY + 4.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 5.0 + HALFLINE,
+        }),
+        LineRel(Offset { dx: 26.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: -20.0 }),
+        LineRel(Offset { dx: -26.0, dy: 0.0 }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 5.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_outer, &Some(GRAY_PEN), &None);
+    let icon_segs_inner: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX + 0.0 - HALFLINE,
+            y: CY + 4.0,
+        }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 2.0 + HALFLINE,
+        }),
+        LineRel(Offset { dx: 12.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: -14.0 }),
+        LineRel(Offset { dx: -12.0, dy: 0.0 }),
+        LineRel(Offset {
+            dx: 0.0,
+            dy: 2.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_inner, &Some(GRAY_PEN), &None);
+}
 
 /// The function generates a type_diag_deployment
 ///
-pub fn generate_type_diag_deployment(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_deployment(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_component: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 5.0 - HALFLINE,
+        top: 1.0 + HALFLINE,
+        width: 11.0,
+        height: 4.0,
+    });
+    out.render_path(&icon_segs_component, &Some(GRAY_PEN), &None);
+
+    let icon_segs_device: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 13.0,
+        top: 12.0,
+        width: 23.0,
+        height: 10.0,
+    });
+    out.render_path(&icon_segs_device, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_inner: [geometry::DrawDirective; 5] = [
+        Move(Point {
+            x: CX - 13.0,
+            y: 12.0,
+        }),
+        LineRel(Offset {
+            dx: 3.0 + HALFLINE,
+            dy: -3.0 - HALFLINE,
+        }),
+        LineRel(Offset { dx: 23.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: 10.0 }),
+        LineRel(Offset {
+            dx: -3.0 - HALFLINE,
+            dy: 3.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_inner, &Some(GRAY_PEN), &None);
+}
 
 /// The function generates a type_diag_internal
 ///
-pub fn generate_type_diag_internal(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_internal(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_outer: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 11.0,
+        top: 2.0,
+        width: 22.0,
+        height: 20.0,
+    });
+    out.render_path(&icon_segs_outer, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_inner: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 5.0,
+        top: 5.0,
+        width: 10.0,
+        height: 14.0,
+    });
+    out.render_path(&icon_segs_inner, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_diag_list
 ///
-pub fn generate_type_diag_list(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_list(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_inner: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 11.0,
+            y: CY - 7.0,
+        }),
+        Line(Point {
+            x: CX + 11.0,
+            y: CY - 7.0,
+        }),
+        Move(Point {
+            x: CX - 11.0,
+            y: CY,
+        }),
+        Line(Point {
+            x: CX + 11.0,
+            y: CY,
+        }),
+        Move(Point {
+            x: CX - 11.0,
+            y: CY + 7.0,
+        }),
+        Line(Point {
+            x: CX + 11.0,
+            y: CY + 7.0,
+        }),
+    ];
+    out.render_path(&icon_segs_inner, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_diag_overview
 ///
-pub fn generate_type_diag_overview(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_overview(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_left_circle: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - 5.5,
+            y: CY - 1.5,
+        }),
+        CurveRel(
+            Offset { dx: -1.0, dy: -3.0 },
+            Offset { dx: -5.5, dy: -3.0 },
+            Offset { dx: -5.5, dy: 1.5 },
+        ),
+        CurveRel(
+            Offset { dx: 0.0, dy: 4.5 },
+            Offset { dx: 6.0, dy: 4.5 },
+            Offset { dx: 6.0, dy: 0.0 },
+        ),
+        LineRel(Offset { dx: 2.0, dy: 2.0 }),
+    ];
+    out.render_path(&icon_segs_left_circle, &Some(GRAY_PEN), &None);
+
+    let icon_segs_right_circle: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX + 5.5,
+            y: CY + 1.5,
+        }),
+        CurveRel(
+            Offset { dx: 1.0, dy: 3.0 },
+            Offset { dx: 5.5, dy: 3.0 },
+            Offset { dx: 5.5, dy: -1.5 },
+        ),
+        CurveRel(
+            Offset { dx: 0.0, dy: -4.5 },
+            Offset { dx: -6.0, dy: -4.5 },
+            Offset { dx: -6.0, dy: 0.0 },
+        ),
+        LineRel(Offset { dx: -2.0, dy: -2.0 }),
+    ];
+    out.render_path(&icon_segs_right_circle, &Some(GRAY_PEN), &None);
+
+    let icon_segs_top: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX + 8.0,
+            y: CY - 7.0,
+        }),
+        Curve(
+            Point {
+                x: CX + 3.5,
+                y: CY - 7.0 - 4.5,
+            },
+            Point {
+                x: CX - 2.5,
+                y: CY - 7.0 - 4.5,
+            },
+            Point {
+                x: CX - 7.0,
+                y: CY - 7.0,
+            },
+        ),
+        Line(Point {
+            x: CX - 6.0,
+            y: CY - 11.0,
+        }),
+    ];
+    out.render_path(&icon_segs_top, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_bottom: [geometry::DrawDirective; 3] = [
+        Move(Point {
+            x: CX - 8.0,
+            y: CY + 7.0,
+        }),
+        Curve(
+            Point {
+                x: CX - 3.5,
+                y: CY + 7.0 + 4.5,
+            },
+            Point {
+                x: CX + 2.5,
+                y: CY + 7.0 + 4.5,
+            },
+            Point {
+                x: CX + 7.0,
+                y: CY + 7.0,
+            },
+        ),
+        Line(Point {
+            x: CX + 6.0,
+            y: CY + 11.0,
+        }),
+    ];
+    out.render_path(&icon_segs_bottom, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_diag_package
 ///
-pub fn generate_type_diag_package(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_package(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_box: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 10.0 + 8.0,
+            y: 3.0,
+        }),
+        Line(Point {
+            x: CX - 10.0,
+            y: 9.0,
+        }),
+        Line(Point {
+            x: CX - 10.0,
+            y: 22.0,
+        }),
+        Line(Point {
+            x: CX + 10.0,
+            y: 22.0,
+        }),
+        Line(Point {
+            x: CX + 10.0,
+            y: 9.0,
+        }),
+        Line(Point {
+            x: CX + 10.0 - 6.0,
+            y: 1.0,
+        }),
+    ];
+    out.render_path(&icon_segs_box, &Some(GRAY_THICK_PEN), &None);
+    let icon_segs_border: [geometry::DrawDirective; 2] = [
+        Move(Point {
+            x: CX - 10.0 + 2.0,
+            y: 9.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: CX + 10.0 - 2.0,
+            y: 9.0 + HALFLINE,
+        }),
+    ];
+    out.render_path(&icon_segs_border, &Some(GRAY_PEN), &None);
+}
 
 /// The function generates a type_diag_parametric
 ///
-pub fn generate_type_diag_parametric(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_parametric(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_equation: [geometry::DrawDirective; 9] = get_rounded_rect_abs(
+        Rect {
+            left: CX - 6.0 - HALFLINE,
+            top: CY - 6.0 - HALFLINE,
+            width: 13.0,
+            height: 13.0,
+        },
+        3.0,
+    );
+    out.render_path(&icon_segs_equation, &Some(GRAY_PEN), &None);
+
+    let icon_segs_in1: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 6.0 - HALFLINE,
+        top: CY - 4.0 - HALFLINE,
+        width: 3.0,
+        height: 3.0,
+    });
+    out.render_path(&icon_segs_in1, &Some(GRAY_PEN), &None);
+
+    let icon_segs_in2: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX - 6.0 - HALFLINE,
+        top: CY + 1.0 + HALFLINE,
+        width: 3.0,
+        height: 3.0,
+    });
+    out.render_path(&icon_segs_in2, &Some(GRAY_PEN), &None);
+
+    let icon_segs_out: [geometry::DrawDirective; 5] = get_rect_abs(Rect {
+        left: CX + 4.0 - HALFLINE,
+        top: CY - 1.0 - HALFLINE,
+        width: 3.0,
+        height: 3.0,
+    });
+    out.render_path(&icon_segs_out, &Some(GRAY_PEN), &None);
+
+    let icon_segs_lines: [geometry::DrawDirective; 6] = [
+        Move(Point {
+            x: CX - 15.0,
+            y: CY - 3.0,
+        }),
+        Line(Point {
+            x: CX - 8.0,
+            y: CY - 3.0,
+        }),
+        Move(Point {
+            x: CX - 15.0,
+            y: CY + 3.0,
+        }),
+        Line(Point {
+            x: CX - 8.0,
+            y: CY + 3.0,
+        }),
+        Move(Point { x: CX + 8.0, y: CY }),
+        Line(Point {
+            x: CX + 15.0,
+            y: CY,
+        }),
+    ];
+    out.render_path(&icon_segs_lines, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_diag_profile
 ///
-pub fn generate_type_diag_profile(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_profile(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_left_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 9.0, y: 15.0 }, 6.0, 6.0);
+    out.render_path(&icon_segs_left_circle, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_right_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 25.0, y: 6.0 }, 4.0, 4.0);
+    out.render_path(&icon_segs_right_circle, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_lines: [geometry::DrawDirective; 4] = [
+        Move(Point { x: 11.0, y: 7.5 }),
+        Line(Point { x: 20.0, y: 3.0 }),
+        Move(Point { x: 24.0, y: 12.0 }),
+        Line(Point { x: 16.0, y: 18.0 }),
+    ];
+    out.render_path(&icon_segs_lines, &Some(GRAY_PEN), &None);
+}
 
 /// The function generates a type_diag_requirement
 ///
-pub fn generate_type_diag_requirement(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_requirement(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_goal: [geometry::DrawDirective; 6] = [
+        Move(Point { x: 10.0, y: 23.0 }),
+        Line(Point { x: 10.0, y: 1.0 }),
+        Move(Point { x: 13.0, y: 3.0 }),
+        Line(Point {
+            x: 23.0,
+            y: 6.0 + HALFLINE,
+        }),
+        Line(Point { x: 13.0, y: 10.0 }),
+        Close,
+    ];
+    out.render_path(&icon_segs_goal, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_diag_sequence
 ///
-pub fn generate_type_diag_sequence(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_sequence(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_arrows: [geometry::DrawDirective; 9] = [
+        Move(Point {
+            x: CX - 10.0,
+            y: 3.0,
+        }),
+        Line(Point {
+            x: CX + 9.0,
+            y: 6.0,
+        }),
+        Line(Point {
+            x: CX + 6.0,
+            y: 3.0,
+        }),
+        Move(Point {
+            x: CX + 10.0,
+            y: 10.0,
+        }),
+        Line(Point {
+            x: CX - 9.0,
+            y: 13.0,
+        }),
+        Line(Point {
+            x: CX - 6.0,
+            y: 10.0,
+        }),
+        Move(Point {
+            x: CX - 10.0,
+            y: 17.0,
+        }),
+        Line(Point {
+            x: CX + 9.0,
+            y: 20.0,
+        }),
+        Line(Point {
+            x: CX + 6.0,
+            y: 17.0,
+        }),
+    ];
+    out.render_path(&icon_segs_arrows, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_lifelines: [geometry::DrawDirective; 4] = [
+        Move(Point {
+            x: CX - 13.0 - HALFLINE,
+            y: 1.0,
+        }),
+        Line(Point {
+            x: CX - 13.0 - HALFLINE,
+            y: 23.0,
+        }),
+        Move(Point {
+            x: CX + 13.0 + HALFLINE,
+            y: 1.0,
+        }),
+        Line(Point {
+            x: CX + 13.0 + HALFLINE,
+            y: 23.0,
+        }),
+    ];
+    out.render_path(&icon_segs_lifelines, &Some(GRAY_PEN), &None);
+}
 
 /// The function generates a type_diag_state
 ///
-pub fn generate_type_diag_state(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_state(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_left_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 5.0, y: CY }, 3.0, 3.0);
+    out.render_path(&icon_segs_left_circle, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_right_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 21.0, y: CY }, 9.0, 9.0);
+    out.render_path(&icon_segs_right_circle, &Some(GRAY_THICK_PEN), &None);
+
+    let icon_segs_inner_circle: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 19.0, y: CY }, 3.0, 3.0);
+    out.render_path(&icon_segs_inner_circle, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_diag_timing
 ///
-pub fn generate_type_diag_timing(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_timing(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_arrows: [geometry::DrawDirective; 10] = [
+        Move(Point { x: 1.0, y: 20.0 }),
+        Line(Point { x: 6.0, y: 20.0 }),
+        Line(Point { x: 6.0, y: 15.0 }),
+        Line(Point { x: 11.0, y: 15.0 }),
+        Line(Point { x: 11.0, y: 10.0 }),
+        Line(Point { x: 16.0, y: 10.0 }),
+        Line(Point { x: 16.0, y: 5.0 }),
+        Line(Point { x: 26.0, y: 5.0 }),
+        Line(Point { x: 26.0, y: 20.0 }),
+        Line(Point { x: 31.0, y: 20.0 }),
+    ];
+    out.render_path(&icon_segs_arrows, &Some(GRAY_THICK_PEN), &None);
+}
 
 /// The function generates a type_diag_usecase
 ///
-pub fn generate_type_diag_usecase(out: &mut dyn PathRenderer) -> () {}
+pub fn generate_type_diag_usecase(out: &mut dyn PathRenderer) -> () {
+    let icon_segs_body: [geometry::DrawDirective; 20] = [
+        Move(Point {
+            x: 8.0,
+            y: 22.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: 3.0,
+            y: 22.0 + HALFLINE,
+        }),
+        Line(Point { x: 4.0, y: 18.0 }),
+        Line(Point { x: 3.0, y: 13.0 }),
+        Line(Point { x: 4.0, y: 11.0 }),
+        Line(Point { x: 2.0, y: 10.0 }),
+        Line(Point { x: 2.0, y: 6.0 }),
+        Line(Point { x: 4.0, y: 5.0 }),
+        Line(Point {
+            x: 3.0,
+            y: 3.0 - HALFLINE,
+        }),
+        Line(Point {
+            x: 5.0,
+            y: 2.0 - HALFLINE,
+        }),
+        Line(Point { x: 6.0, y: 3.0 }),
+        Line(Point { x: 5.5, y: 5.0 }),
+        Line(Point { x: 6.0, y: 6.0 }),
+        Line(Point {
+            x: 6.0,
+            y: 8.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: 7.0 + HALFLINE,
+            y: 8.0 + HALFLINE,
+        }),
+        Line(Point {
+            x: 7.0 + HALFLINE,
+            y: 11.0,
+        }),
+        Line(Point { x: 6.0, y: 13.0 }),
+        Line(Point { x: 6.5, y: 17.0 }),
+        Line(Point { x: 6.0, y: 21.0 }),
+        Close,
+    ];
+    out.render_path(&icon_segs_body, &Some(GRAY_PEN), &None);
+    let icon_segs_use_case: [geometry::DrawDirective; 5] = get_circle_abs(
+        Point {
+            x: 21.0,
+            y: CY - 6.0,
+        },
+        9.0,
+        4.0,
+    );
+    out.render_path(&icon_segs_use_case, &Some(GRAY_THICK_PEN), &None);
+    /*
+    let icon_segs_use_case2: [geometry::DrawDirective; 5] =
+        get_circle_abs(Point { x: 21.0, y: CY + 6.0 }, 9.0, 4.0);
+    out.render_path(&icon_segs_use_case2, &Some(GRAY_THICK_PEN), &None);
+    */
+}
 
 /// The function returns an array of IconSource
 ///
@@ -343,7 +929,6 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             viewport: ICON_VIEW_RECT,
             generate: generate_type_diag_communication,
         },
-        /*
         IconSource {
             name: "type_diag_component",
             viewport: ICON_VIEW_RECT,
@@ -414,6 +999,5 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             viewport: ICON_VIEW_RECT,
             generate: generate_type_diag_usecase,
         },
-        */
     ]
 }

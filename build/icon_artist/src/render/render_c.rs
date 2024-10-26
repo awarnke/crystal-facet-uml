@@ -69,7 +69,8 @@ static const struct {{
     guint  bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
     guint8 pixel_data[{3}*4];
 }} {0} = {{
-     {1}, {2},  4, {{
+    {1}, {2}, 4,
+    {{
     \
             ",
             self.icon_name,
@@ -85,12 +86,18 @@ static const struct {{
             let r = (pixel >> 16) & 0xffu32;
             let g = (pixel >> 8) & 0xffu32;
             let b = (pixel >> 0) & 0xffu32;
-            write!(self.output_file, "{:>3},{:>3},{:>3},{:>3}, ", r, g, b, a)
+            write!(self.output_file, "{:>3},{:>3},{:>3},{:>3},", r, g, b, a)
                 .expect("Error at writing file");
             pix_in_line += 1;
-            if pix_in_line > 8 {
+            if pix_in_line > 7 {
+                /* lines are 140 characters wide */
                 pix_in_line = 0;
                 write!(self.output_file, "\n    ",).expect("Error at writing file");
+            }
+            else
+            {
+                /* only a sigle space*/
+                write!(self.output_file, " ",).expect("Error at writing file");
             }
         }
 

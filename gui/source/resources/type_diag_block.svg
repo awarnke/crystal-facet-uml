@@ -7,5 +7,5 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     >
-    <path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 2,2 L 12,2 L 12,22 L 2,22 Z " /><path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 20,2 L 30,2 L 30,22 L 20,22 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 14,12.5 L 18,12.5 " />
+    <path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 2,2 L 12,2 L 12,22 L 2,22 Z " /><path stroke="#7f7f7f" stroke-width="2" fill="none" d="M 20,2 L 30,2 L 30,22 L 20,22 Z " /><path stroke="#7f7f7f" stroke-width="1" fill="none" d="M 14,15.5 L 18,15.5 M 14,8.5 L 18,8.5 " />
 </svg>
