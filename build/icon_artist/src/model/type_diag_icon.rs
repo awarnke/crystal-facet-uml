@@ -840,7 +840,7 @@ pub fn generate_type_diag_timing(out: &mut dyn PathRenderer) -> () {
 /// The function generates a type_diag_usecase
 ///
 pub fn generate_type_diag_usecase(out: &mut dyn PathRenderer) -> () {
-    let icon_segs_body: [geometry::DrawDirective; 20] = [
+    let icon_segs_body: [geometry::DrawDirective; 21] = [
         Move(Point {
             x: 8.0,
             y: 22.0 + HALFLINE,
@@ -851,7 +851,7 @@ pub fn generate_type_diag_usecase(out: &mut dyn PathRenderer) -> () {
         }),
         Line(Point { x: 4.0, y: 18.0 }),
         Line(Point { x: 3.0, y: 13.0 }),
-        Line(Point { x: 4.0, y: 11.0 }),
+        Line(Point { x: 4.0, y: 10.5 }),
         Line(Point { x: 2.0, y: 10.0 }),
         Line(Point { x: 2.0, y: 6.0 }),
         Line(Point { x: 4.0, y: 5.0 }),
@@ -878,6 +878,7 @@ pub fn generate_type_diag_usecase(out: &mut dyn PathRenderer) -> () {
             x: 7.0 + HALFLINE,
             y: 11.0,
         }),
+        Line(Point { x: 6.5, y: 10.8 }),
         Line(Point { x: 6.0, y: 13.0 }),
         Line(Point { x: 6.5, y: 17.0 }),
         Line(Point { x: 6.0, y: 21.0 }),
