@@ -1,10 +1,11 @@
 crystal-facet-uml (1.61.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * Compatibility to version 1.25.0 and earlier dropped.
+  * Compatibility to version 1.25.0 and earlier dropped to increase test
+    coverage.
   * Icons of diagram types are less similar to each other.
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Oct 2024 08:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Oct 2024 08:00:00 +0200
 
 crystal-facet-uml (1.60.0) UNRELEASED; urgency=medium
 

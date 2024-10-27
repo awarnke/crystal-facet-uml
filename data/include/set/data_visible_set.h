@@ -185,7 +185,8 @@ static inline int32_t data_visible_set_get_classifier_index ( const data_visible
  *  \brief gets the classifier index within the painter input data from a pointer
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_ptr pointer to the classifier of which to retrieve the index. must be a valid pointer to (*this_).visible_classifiers.
+ *  \param vis_classifier_ptr pointer to the classifier of which to retrieve the index.
+ *                            must be a valid pointer to (*this_).visible_classifiers.
  *  \return index of data_classifier_t.
  */
 static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( const data_visible_set_t *this_,

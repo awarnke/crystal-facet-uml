@@ -102,7 +102,7 @@ static inline const ctrl_undo_redo_entry_t * ctrl_undo_redo_iterator_next ( ctrl
  *
  *  \param this_ pointer to own object attributes
  *  \param undo true if the action shall be counted as undone, false if it shall be counted as redone
- *  \param io_stat[in,out] *io_stat shall be initialized by caller, statistics are added to initial values
+ *  \param[in,out] io_stat *io_stat shall be initialized by caller, statistics are added to initial values
  */
 static inline void ctrl_undo_redo_iterator_collect_statistics ( ctrl_undo_redo_iterator_t *this_,
                                                                 bool undo,
