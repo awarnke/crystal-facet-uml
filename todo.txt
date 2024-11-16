@@ -62,12 +62,13 @@ ideas for future versions:
       - data_database_diagram_reader_get_diagrams_by_classifier_id
       - data_database_diagram_reader_get_diagram_ids_by_classifier_id
       - data_database_diagram_reader_get_diagramelements_by_classifier_id
-      instead, ask for list-windows or provide an iterator like:
+      instead provide an iterator like:
       data_database_classifier_reader_get_all_classifiers_iterator
       or simply check if truncated result lists are acceptable - e.g. in searches, export-links-generator, ...
   [ ] questionable data access methods: Unbounded lifelines may be included:
       - data_database_classifier_reader_get_features_by_classifier_id --> LIFELINES are a problem
       - data_database_classifier_reader_get_relationships_by_classifier_id --> LIFELINES are a problem
+      instead provide an iterator
   [ ] just a missing filter for NON-LIFELINES or diagram-LIFELINES:
       - data_database_classifier_reader_get_features_by_diagram_id
       - data_database_classifier_reader_get_relationships_by_diagram_id

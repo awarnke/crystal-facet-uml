@@ -10,6 +10,7 @@
  */
 
 #include "storage/data_database.h"
+#include "storage/data_database_borrowed_stmt.h"
 #include "u8/u8_error.h"
 #include "entity/data_classifier.h"
 #include <sqlite3.h>
@@ -20,6 +21,13 @@
  *
  *  The iterator works similar to the J2SE-ListIterator, hibernate-query-Iterator and QT-QListIterator:
  *  while ( hasNext() ) { element = next() };
+ *
+ *  The user of the iterator owns the object, which means that
+ *  the function that performs the iteration also provides the memory for the iterator,
+ *  initializes the struct before usage and deytroys it afterwards.
+ *
+ *  Note that (in future) the SQL statement shall live much longer and is just borrowed from
+ *  data_database_classifier_reader.
  */
 struct data_classifier_iterator_struct {
     bool is_valid;  /*!< database and/or statement_all_classifiers are invalid (NULL) */
@@ -47,9 +55,9 @@ u8_error_t data_classifier_iterator_init_empty ( data_classifier_iterator_t *thi
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,
-                                                       data_database_t *database,
-                                                       bool hierarchical
-                                                     );
+                                             data_database_t *database,
+                                             bool hierarchical
+                                           );
 
 /*!
  *  \brief destroys the data_classifier_iterator_t struct

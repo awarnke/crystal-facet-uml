@@ -97,8 +97,8 @@ u8_error_t data_classifier_iterator_init_empty ( data_classifier_iterator_t *thi
 }
 
 u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,
-                                                       data_database_t *database,
-                                                       bool hierarchical )
+                                             data_database_t *database,
+                                             bool hierarchical )
 {
     U8_TRACE_BEGIN();
     assert( NULL != database );
