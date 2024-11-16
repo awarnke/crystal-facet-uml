@@ -263,7 +263,7 @@ static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( da
 
 static inline u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
                                                                              bool hierarchical,
-                                                                             data_database_iterator_classifiers_t *io_classifier_iterator )
+                                                                             data_classifier_iterator_t *io_classifier_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

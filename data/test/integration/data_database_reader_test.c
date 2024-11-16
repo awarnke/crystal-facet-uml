@@ -515,37 +515,37 @@ static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix )
 {
     assert( fix != NULL );
     u8_error_t data_err;
-    data_database_iterator_classifiers_t classifier_iterator;
+    data_classifier_iterator_t classifier_iterator;
     data_classifier_t out_classifier;
     bool has_next;
 
     /* test the iterator, init */
-    data_database_iterator_classifiers_init_empty( &classifier_iterator );
+    data_classifier_iterator_init_empty( &classifier_iterator );
     data_err = data_database_reader_get_all_classifiers_iterator ( &((*fix).db_reader), true, &classifier_iterator );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test the iterator, step 1 */
-    has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
+    has_next = data_classifier_iterator_has_next( &classifier_iterator );
     TEST_EXPECT( has_next );
-    data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
+    data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 2 */
-    has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
+    has_next = data_classifier_iterator_has_next( &classifier_iterator );
     TEST_EXPECT( has_next );
-    data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
+    data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test the iterator, step 3 */
-    has_next = data_database_iterator_classifiers_has_next( &classifier_iterator );
+    has_next = data_classifier_iterator_has_next( &classifier_iterator );
     TEST_EXPECT( ! has_next );
-    data_err = data_database_iterator_classifiers_next( &classifier_iterator, &out_classifier );
+    data_err = data_classifier_iterator_next( &classifier_iterator, &out_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
 
     /* test the iterator, destroy */
-    data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
+    data_err = data_classifier_iterator_destroy( &classifier_iterator );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     return TEST_CASE_RESULT_OK;
 }

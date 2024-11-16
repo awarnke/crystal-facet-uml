@@ -1,4 +1,4 @@
-/* File: data_database_iterator_classifiers.c; Copyright and License: see below */
+/* File: data_classifier_iterator.c; Copyright and License: see below */
 
 #include "storage/data_classifier_iterator.h"
 #include "u8/u8_trace.h"
@@ -82,7 +82,7 @@ static const int RESULT_CLASSIFIER_UUID_COLUMN = 8;
  */
 static const int RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN = 9;
 
-u8_error_t data_database_iterator_classifiers_init_empty ( data_database_iterator_classifiers_t *this_ )
+u8_error_t data_classifier_iterator_init_empty ( data_classifier_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -96,7 +96,7 @@ u8_error_t data_database_iterator_classifiers_init_empty ( data_database_iterato
     return result;
 }
 
-u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_classifiers_t *this_,
+u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,
                                                        data_database_t *database,
                                                        bool hierarchical )
 {
@@ -105,7 +105,7 @@ u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_cl
     u8_error_t result = U8_ERROR_NONE;
 
     /* destroy old state */
-    result = data_database_iterator_classifiers_destroy( this_ );
+    result = data_classifier_iterator_destroy( this_ );
     (*this_).statement_all_classifiers = NULL;
 
     /* init new state */
@@ -144,7 +144,7 @@ u8_error_t data_database_iterator_classifiers_reinit ( data_database_iterator_cl
     return result;
 }
 
-u8_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_classifiers_t *this_ )
+u8_error_t data_classifier_iterator_destroy ( data_classifier_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -171,12 +171,12 @@ u8_error_t data_database_iterator_classifiers_destroy ( data_database_iterator_c
     return result;
 }
 
-bool data_database_iterator_classifiers_has_next ( const data_database_iterator_classifiers_t *this_ )
+bool data_classifier_iterator_has_next ( const data_classifier_iterator_t *this_ )
 {
     return ( ! (*this_).is_at_end );
 }
 
-u8_error_t data_database_iterator_classifiers_next ( data_database_iterator_classifiers_t *this_, data_classifier_t *out_classifier )
+u8_error_t data_classifier_iterator_next ( data_classifier_iterator_t *this_, data_classifier_t *out_classifier )
 {
     U8_TRACE_BEGIN();
     assert( NULL != out_classifier );
@@ -222,7 +222,7 @@ u8_error_t data_database_iterator_classifiers_next ( data_database_iterator_clas
     return result;
 }
 
-u8_error_t data_database_iterator_private_step_to_next ( data_database_iterator_classifiers_t *this_ )
+u8_error_t data_database_iterator_private_step_to_next ( data_classifier_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert( (*this_).is_valid );
@@ -247,7 +247,7 @@ u8_error_t data_database_iterator_private_step_to_next ( data_database_iterator_
         {
             U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             (*this_).is_at_end = true;
-            result |= data_database_iterator_classifiers_destroy( this_ );
+            result |= data_classifier_iterator_destroy( this_ );
             result |= U8_ERROR_AT_DB;
         }
     }

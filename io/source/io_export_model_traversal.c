@@ -65,11 +65,11 @@ u8_error_t io_export_model_traversal_walk_model_nodes ( io_export_model_traversa
 
     {
         u8_error_t data_err;
-        data_database_iterator_classifiers_t classifier_iterator;
+        data_classifier_iterator_t classifier_iterator;
         universal_array_list_clear( &((*this_).written_id_set) );
 
         /* init the iterator */
-        data_database_iterator_classifiers_init_empty( &classifier_iterator );
+        data_classifier_iterator_init_empty( &classifier_iterator );
         data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, true, &classifier_iterator );
         if ( data_err != U8_ERROR_NONE )
         {
@@ -77,9 +77,9 @@ u8_error_t io_export_model_traversal_walk_model_nodes ( io_export_model_traversa
         }
         else
         {
-            while( data_database_iterator_classifiers_has_next( &classifier_iterator ) && ( write_err==0 ) )
+            while( data_classifier_iterator_has_next( &classifier_iterator ) && ( write_err==0 ) )
             {
-                data_err = data_database_iterator_classifiers_next( &classifier_iterator, &((*this_).temp_classifier) );
+                data_err = data_classifier_iterator_next( &classifier_iterator, &((*this_).temp_classifier) );
                 if ( data_err != U8_ERROR_NONE )
                 {
                     write_err = -1;
@@ -98,7 +98,7 @@ u8_error_t io_export_model_traversal_walk_model_nodes ( io_export_model_traversa
                 }
             }
         }
-        data_err = data_database_iterator_classifiers_destroy( &classifier_iterator );
+        data_err = data_classifier_iterator_destroy( &classifier_iterator );
         if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;
