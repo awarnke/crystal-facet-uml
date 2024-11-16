@@ -13,6 +13,7 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long (hint already added to user manual)
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus; Check GtkEventControllerFocus enter and leave (example in gui_main_window.c)
+  [ ] modify the save icon when there are unsaved changes
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
@@ -57,6 +58,19 @@ ideas for future versions:
   [?] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
+  [ ] questionable data access methods: There is no guarantee for an upper limit of returned elements:
+      - data_database_diagram_reader_get_diagrams_by_classifier_id
+      - data_database_diagram_reader_get_diagram_ids_by_classifier_id
+      - data_database_diagram_reader_get_diagramelements_by_classifier_id
+      instead, ask for list-windows or provide an iterator like:
+      data_database_classifier_reader_get_all_classifiers_iterator
+      or simply check if truncated result lists are acceptable - e.g. in searches, export-links-generator, ...
+  [ ] questionable data access methods: Unbounded lifelines may be included:
+      - data_database_classifier_reader_get_features_by_classifier_id --> LIFELINES are a problem
+      - data_database_classifier_reader_get_relationships_by_classifier_id --> LIFELINES are a problem
+  [ ] just a missing filter for NON-LIFELINES or diagram-LIFELINES:
+      - data_database_classifier_reader_get_features_by_diagram_id
+      - data_database_classifier_reader_get_relationships_by_diagram_id
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)

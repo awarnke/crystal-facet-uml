@@ -32,7 +32,7 @@
  *  \brief constants of gui_sketch_nav_tree_t
  */
 enum gui_sketch_nav_tree_const_enum {
-    GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS = 16,  /*!< maximum number of parents/grand-partents/grand-grand-parents */
+    GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS = 16,  /*!< maximum number of parents/grand-parents/grand-grand-parents */
     GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS = 96,  /*!< maximum number of sisters/brothers */
     GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN = 96,  /*!< maximum number of daughters/sons */
     GUI_SKETCH_NAV_TREE_CONST_MAX_NODES = ( GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS

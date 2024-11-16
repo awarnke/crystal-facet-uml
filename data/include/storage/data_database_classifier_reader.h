@@ -11,7 +11,7 @@
 
 #include "storage/data_database_listener.h"
 #include "storage/data_database_listener_signal.h"
-#include "storage/data_database_iterator_classifiers.h"
+#include "storage/data_classifier_iterator.h"
 #include "storage/data_database.h"
 #include "entity/data_diagram.h"
 #include "u8/u8_error.h"

@@ -430,7 +430,7 @@ u8_error_t io_export_model_traversal_private_end_node ( io_export_model_traversa
 }
 
 u8_error_t io_export_model_traversal_private_iterate_node_features ( io_export_model_traversal_t *this_,
-                                                              const data_node_set_t *node_data )
+                                                                     const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
@@ -474,9 +474,9 @@ u8_error_t io_export_model_traversal_private_iterate_node_features ( io_export_m
 }
 
 u8_error_t io_export_model_traversal_private_iterate_node_relationships ( io_export_model_traversal_t *this_,
-                                                                   bool nested_to_foreign_node,
-                                                                   const data_classifier_t *host,
-                                                                   const data_node_set_t *node_data )
+                                                                          bool nested_to_foreign_node,
+                                                                          const data_classifier_t *host,
+                                                                          const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
@@ -707,8 +707,8 @@ u8_error_t io_export_model_traversal_private_get_relationship_ends( io_export_mo
 }
 
 u8_error_t io_export_model_traversal_private_fake_interactions_of_node ( io_export_model_traversal_t *this_,
-                                                                  data_classifier_type_t nesting_type,
-                                                                  const data_node_set_t *node_data )
+                                                                         data_classifier_type_t nesting_type,
+                                                                         const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );
