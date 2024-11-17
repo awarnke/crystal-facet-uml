@@ -106,6 +106,7 @@ u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,
 
     /* init new state */
     (*this_).statement = statement;
+    (*this_).is_at_end = false;
 #if 0
     {
         const char *const string_statement
@@ -134,8 +135,8 @@ u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,
             result |= U8_ERROR_AT_DB;
         }
     }
-    result |= data_database_iterator_private_step_to_next( this_ );
 #endif
+    result |= data_database_iterator_private_step_to_next( this_ );
 
     U8_TRACE_END_ERR(result);
     return result;

@@ -1256,14 +1256,14 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL,
-                                                   -1,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_classifiers_all)
                                                  );
         (*this_).statement_classifiers_all_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL_HIERARCHICAL,
-                                                   -1,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_classifiers_all_hierarchical)
                                                  );
         (*this_).statement_classifiers_all_hierarchical_borrowed = false;

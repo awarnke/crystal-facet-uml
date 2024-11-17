@@ -23,12 +23,19 @@
 extern const char DATA_DATABASE_SQLITE3_MAGIC[16];
 
 /*!
- *  \brief constants of data_database_t
+ *  \brief MAX constants of data_database_t
  */
 enum data_database_max_enum {
     DATA_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum size of filepath */
     DATA_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 3 Windows and max 3 readers and 2 writers */
                                        /*!< and 1 controller = 16 -> 20 is sufficient */
+};
+
+/*!
+ *  \brief SQL constants of data_database_t
+ */
+enum data_database_sql_enum {
+    DATA_DATABASE_SQL_LENGTH_AUTO_DETECT = -1,  /*!< auto detect string length of sql statement */
 };
 
 /*!
