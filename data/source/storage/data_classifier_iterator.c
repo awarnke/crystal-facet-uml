@@ -8,13 +8,11 @@
 #include <assert.h>
 #include <stdint.h>
 
-/*!
- *  \brief search statement to iterate over all classifiers sorted by number of parent-containers
- *
+/*
  *  The "order by cnt" is important to ensure parent objects are iterated first, e.g. for xmi export
  *  The "order by id" is important to get reproducable results
  */
-const char DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL_HIERARCHICAL[] =
+const char DATA_CLASSIFIER_ITERATOR_SELECT_ALL_HIERARCHICAL[] =
     "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order,uuid,"
         "(SELECT count(*) FROM relationships "
         "WHERE (relationships.to_classifier_id=classifiers.id) AND (relationships.to_feature_id IS NULL) "
@@ -22,12 +20,10 @@ const char DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL_HIERARCHICAL[] =
     "FROM classifiers "
     "ORDER BY cnt ASC,id ASC;";
 
-/*!
- *  \brief search statement to iterate over all classifiers
- *
+/*
  *  The "order by id" is important to get reproducable results, e.g. for json export
  */
-const char DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL[] =
+const char DATA_CLASSIFIER_ITERATOR_SELECT_ALL[] =
     "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order,uuid,-1 "
     "FROM classifiers "
     "ORDER BY id ASC;";
@@ -107,36 +103,7 @@ u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,
     /* init new state */
     (*this_).statement = statement;
     (*this_).is_at_end = false;
-#if 0
-    {
-        const char *const string_statement
-            = hierarchical
-            ? DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL_HIERARCHICAL
-            : DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL;
-        const size_t string_size
-            = hierarchical
-            ? sizeof( DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL_HIERARCHICAL )
-            : sizeof( DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL );
-        sqlite3 *db = data_database_get_database_ptr ( (*this_).database );
-        const char *first_unused_statement_char;
-        U8_TRACE_INFO_STR( "sqlite3_prepare_v2():", string_statement );
-        const int sqlite_err = sqlite3_prepare_v2( db,
-                                                   string_statement,
-                                                   string_size,
-                                                   &((*this_).statement_all_classifiers),
-                                                   &first_unused_statement_char
-                                                 );
-        if (( SQLITE_OK != sqlite_err )
-            || ( first_unused_statement_char != &(string_statement[string_size-1]) ))
-        {
-            U8_LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
-            U8_LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-            U8_LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
-            result |= U8_ERROR_AT_DB;
-        }
-    }
-#endif
-    result |= data_database_iterator_private_step_to_next( this_ );
+    result |= data_classifier_iterator_private_step_to_next( this_ );
 
     U8_TRACE_END_ERR(result);
     return result;
@@ -146,20 +113,7 @@ u8_error_t data_classifier_iterator_destroy ( data_classifier_iterator_t *this_ 
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-#if 0
-    if ( (*this_).is_valid )
-    {
-        assert( NULL != (*this_).statement_all_classifiers );
-        U8_TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql( (*this_).statement_all_classifiers ) );
-        const int sqlite_err = sqlite3_finalize( (*this_).statement_all_classifiers );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            U8_LOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql( (*this_).statement_all_classifiers ) );
-            U8_LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-            result = U8_ERROR_AT_DB;
-        }
-    }
-#endif
+
     data_database_borrowed_stmt_destroy( &((*this_).statement) );
     (*this_).is_at_end = true;
 
@@ -198,7 +152,7 @@ u8_error_t data_classifier_iterator_next ( data_classifier_iterator_t *this_, da
         U8_TRACE_INFO_INT( "count of containment parents:", sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_CONTAINMENT_PARENTS_COLUMN ));
 
         /* step to next */
-        result |= data_database_iterator_private_step_to_next( this_ );
+        result |= data_classifier_iterator_private_step_to_next( this_ );
     }
     else
     {
@@ -211,7 +165,7 @@ u8_error_t data_classifier_iterator_next ( data_classifier_iterator_t *this_, da
     return result;
 }
 
-u8_error_t data_database_iterator_private_step_to_next ( data_classifier_iterator_t *this_ )
+u8_error_t data_classifier_iterator_private_step_to_next ( data_classifier_iterator_t *this_ )
 {
     U8_TRACE_BEGIN();
     assert( data_database_borrowed_stmt_is_valid( &((*this_).statement) ) );

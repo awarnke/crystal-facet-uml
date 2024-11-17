@@ -80,8 +80,8 @@ ideas for future versions:
       (rationale: the search+xmi+json export find them)
   @u8stream
   @main
-  [ ] prevent slow start; This is a general problem for gtk applications.
-      Possibly crystal-facet-uml searches and waits for a non-existing accessability service.
+  [ ] prevent slow start (>20sec); This is a general problem for gtk applications.
+      Possibly crystal-facet-uml searches and waits for a non-existing accessability service?
   @test_fw
 
 ideas for a version 2

@@ -117,7 +117,7 @@ static inline u8_error_t data_database_prepare_statement ( data_database_t *this
     if (( string_size != DATA_DATABASE_SQL_LENGTH_AUTO_DETECT )
         && ( first_unused_statement_char != &(string_statement[string_size-1]) ))
     {
-        U8_LOG_ERROR_INT( "sqlite3_prepare_v2() consumed wrong amount of characters, expected:", string_size );
+        U8_LOG_ERROR_INT( "sqlite3_prepare_v2() consumed wrong amount of characters, expected:", string_size-1 );
         result |= U8_ERROR_AT_DB;
     }
     if ( SQLITE_OK != sqlite_err )
