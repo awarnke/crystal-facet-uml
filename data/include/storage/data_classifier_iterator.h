@@ -26,17 +26,19 @@
  *  the function that performs the iteration also provides the memory for the iterator,
  *  initializes the struct before usage and deytroys it afterwards.
  *
- *  Note that (in future) the SQL statement shall live much longer and is just borrowed from
+ *  Note that the SQL statement lives much longer and is just borrowed from
  *  data_database_classifier_reader.
  */
 struct data_classifier_iterator_struct {
-    bool is_valid;  /*!< database and/or statement_all_classifiers are invalid (NULL) */
-    data_database_t *database;  /*!< pointer to external database. Currently unused, but in future, e.g. is_open could be queried */
-    sqlite3_stmt *statement_all_classifiers;  /*!< own instance of a pointer to the sql query object */
+    data_database_borrowed_stmt_t statement;  /*!< borrowed statement to access the sql query results */
     bool is_at_end;  /*!< true if is_invalid or if at the end of the sql query result */
 };
 
 typedef struct data_classifier_iterator_struct data_classifier_iterator_t;
+
+extern const char DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL_HIERARCHICAL[];
+
+extern const char DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL[];
 
 /*!
  *  \brief initializes the data_classifier_iterator_t struct to an empty set
@@ -50,13 +52,11 @@ u8_error_t data_classifier_iterator_init_empty ( data_classifier_iterator_t *thi
  *  \brief re-initializes the data_classifier_iterator_t struct to iterate over a db-result-set of classifiers
  *
  *  \param this_ pointer to own object attributes
- *  \param database database which this iterator uses
- *  \param hierarchical true if the iterator shall start with classifiers without parent
+ *  \param statement borrowed statement to access the sql query results
  *  \return U8_ERROR_NONE in case of success
  */
 u8_error_t data_classifier_iterator_reinit ( data_classifier_iterator_t *this_,
-                                             data_database_t *database,
-                                             bool hierarchical
+                                             data_database_borrowed_stmt_t statement
                                            );
 
 /*!

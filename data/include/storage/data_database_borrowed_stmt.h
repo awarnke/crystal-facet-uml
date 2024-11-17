@@ -27,6 +27,13 @@ struct data_database_borrowed_stmt_struct {
 typedef struct data_database_borrowed_stmt_struct data_database_borrowed_stmt_t;
 
 /*!
+ *  \brief initializes the data_database_borrowed_stmt_t struct to void
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_database_borrowed_stmt_init_void ( data_database_borrowed_stmt_t *this_ );
+
+/*!
  *  \brief initializes the data_database_borrowed_stmt_t struct
  *
  *  \param this_ pointer to own object attributes
@@ -48,6 +55,14 @@ static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrow
  *  \return U8_ERROR_NONE in case of success
  */
 static inline u8_error_t data_database_borrowed_stmt_destroy ( data_database_borrowed_stmt_t *this_ );
+
+/*!
+ *  \brief returns if this object was initialized with valid data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if valid
+ */
+static inline bool data_database_borrowed_stmt_is_valid ( const data_database_borrowed_stmt_t *this_ );
 
 /*!
  *  \brief gets the sql statement

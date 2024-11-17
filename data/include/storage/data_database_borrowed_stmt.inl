@@ -4,6 +4,13 @@
 #include "u8/u8_trace.h"
 #include <assert.h>
 
+static inline void data_database_borrowed_stmt_init_void ( data_database_borrowed_stmt_t *this_ )
+{
+    (*this_).database = NULL;
+    (*this_).db_statement = NULL;
+    (*this_).borrow_flag = NULL;
+}
+
 static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrowed_stmt_t *this_,
                                                             data_database_t *database,
                                                             sqlite3_stmt *db_statement,
@@ -32,20 +39,31 @@ static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrow
 static inline u8_error_t data_database_borrowed_stmt_destroy ( data_database_borrowed_stmt_t *this_ )
 {
     U8_TRACE_BEGIN();
-    assert( *((*this_).borrow_flag) == true ); /* noone interfered with the status */
-    *((*this_).borrow_flag) = false;
+    if ( (*this_).borrow_flag != NULL )
+    {
+        assert( *((*this_).borrow_flag) == true ); /* noone interfered with the status */
+        *((*this_).borrow_flag) = false;
+        (*this_).borrow_flag = NULL;
+    }
     u8_error_t result = U8_ERROR_NONE;
     U8_TRACE_END_ERR( result );
     return result;
 }
 
+static inline bool data_database_borrowed_stmt_is_valid ( const data_database_borrowed_stmt_t *this_ )
+{
+    return ((*this_).database != NULL ) && ((*this_).db_statement != NULL ) && ((*this_).borrow_flag != NULL );
+}
+
 static inline sqlite3_stmt * data_database_borrowed_stmt_get_statement ( const data_database_borrowed_stmt_t *this_ )
 {
+    assert( (*this_).db_statement != NULL );
     return (*this_).db_statement;
 }
 
 static inline data_database_t * data_database_borrowed_stmt_get_database ( data_database_borrowed_stmt_t *this_ )
 {
+    assert( (*this_).database != NULL );
     return (*this_).database;
 }
 

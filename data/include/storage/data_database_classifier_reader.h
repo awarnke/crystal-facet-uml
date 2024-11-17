@@ -36,6 +36,8 @@ struct data_database_classifier_reader_struct {
     sqlite3_stmt *statement_classifier_by_name;
     sqlite3_stmt *statement_classifier_by_uuid;
     sqlite3_stmt *statement_classifiers_by_diagram_id;
+    sqlite3_stmt *statement_classifiers_all;
+    sqlite3_stmt *statement_classifiers_all_hierarchical;
     sqlite3_stmt *statement_feature_by_id;
     sqlite3_stmt *statement_feature_by_uuid;
     sqlite3_stmt *statement_features_by_classifier_id;
@@ -45,6 +47,9 @@ struct data_database_classifier_reader_struct {
     sqlite3_stmt *statement_relationships_by_classifier_id;
     sqlite3_stmt *statement_relationships_by_feature_id;
     sqlite3_stmt *statement_relationships_by_diagram_id;
+
+    bool statement_classifiers_all_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+    bool statement_classifiers_all_hierarchical_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
 };
 
 typedef struct data_database_classifier_reader_struct data_database_classifier_reader_t;

@@ -1,6 +1,7 @@
 /* File: data_database_classifier_reader.c; Copyright and License: see below */
 
 #include "storage/data_database_classifier_reader.h"
+#include "storage/data_database_borrowed_stmt.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include "utf8stringbuf/utf8stringbuf.h"
@@ -19,6 +20,8 @@ u8_error_t data_database_classifier_reader_init ( data_database_classifier_reade
     (*this_).statement_classifier_by_name = NULL;
     (*this_).statement_classifier_by_uuid = NULL;
     (*this_).statement_classifiers_by_diagram_id = NULL;
+    (*this_).statement_classifiers_all = NULL;
+    (*this_).statement_classifiers_all_hierarchical = NULL;
     (*this_).statement_feature_by_id = NULL;
     (*this_).statement_feature_by_uuid = NULL;
     (*this_).statement_features_by_classifier_id = NULL;
@@ -407,7 +410,25 @@ u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_da
     assert( NULL != io_classifier_iterator );
     u8_error_t result = U8_ERROR_NONE;
 
-    result |= data_classifier_iterator_reinit( io_classifier_iterator, (*this_).database, hierarchical );
+    sqlite3_stmt *const db_statement
+        = hierarchical
+        ? (*this_).statement_classifiers_all_hierarchical
+        : (*this_).statement_classifiers_all;
+    const int sqlite_err = sqlite3_reset( db_statement );
+    if ( sqlite_err != SQLITE_OK )
+    {
+        U8_LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        result |= U8_ERROR_AT_DB;
+    }
+    bool *const borrow_flag
+        = hierarchical
+        ? &((*this_).statement_classifiers_all_hierarchical_borrowed)
+        : &((*this_).statement_classifiers_all_borrowed);
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement, (*this_).database, db_statement, borrow_flag );
+
+    result |= data_classifier_iterator_reinit( io_classifier_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -1234,6 +1255,20 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
                                                  );
 
         result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL,
+                                                   -1,
+                                                   &((*this_).statement_classifiers_all)
+                                                 );
+        (*this_).statement_classifiers_all_borrowed = false;
+
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_DATABASE_ITERATOR_CLASSIFIERS_SELECT_ALL_HIERARCHICAL,
+                                                   -1,
+                                                   &((*this_).statement_classifiers_all_hierarchical)
+                                                 );
+        (*this_).statement_classifiers_all_hierarchical_borrowed = false;
+
+        result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
                                                    sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
                                                    &((*this_).statement_feature_by_id)
@@ -1314,6 +1349,14 @@ u8_error_t data_database_classifier_reader_private_close ( data_database_classif
 
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifiers_by_diagram_id );
         (*this_).statement_classifiers_by_diagram_id = NULL;
+
+        assert( (*this_).statement_classifiers_all_borrowed == false );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifiers_all );
+        (*this_).statement_classifiers_all = NULL;
+
+        assert( (*this_).statement_classifiers_all_hierarchical_borrowed == false );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifiers_all_hierarchical );
+        (*this_).statement_classifiers_all_hierarchical = NULL;
 
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_feature_by_id );
         (*this_).statement_feature_by_id = NULL;
