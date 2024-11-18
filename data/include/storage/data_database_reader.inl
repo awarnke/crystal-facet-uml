@@ -261,19 +261,19 @@ static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( da
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
-                                                                             bool hierarchical,
-                                                                             data_classifier_iterator_t *io_classifier_iterator )
+static inline u8_error_t data_database_reader_get_all_classifiers ( data_database_reader_t *this_,
+                                                                    bool hierarchical,
+                                                                    data_classifier_iterator_t *io_classifier_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
-        result = data_database_classifier_reader_get_all_classifiers_iterator( &((*this_).temp_classifier_reader),
-                                                                               hierarchical,
-                                                                               io_classifier_iterator
-                                                                             );
+        result = data_database_classifier_reader_get_all_classifiers( &((*this_).temp_classifier_reader),
+                                                                      hierarchical,
+                                                                      io_classifier_iterator
+                                                                    );
     }
     else
     {

@@ -521,7 +521,7 @@ static test_case_result_t test_iterate_over_classifiers( test_fixture_t *fix )
 
     /* test the iterator, init */
     data_classifier_iterator_init_empty( &classifier_iterator );
-    data_err = data_database_reader_get_all_classifiers_iterator ( &((*fix).db_reader), true, &classifier_iterator );
+    data_err = data_database_reader_get_all_classifiers ( &((*fix).db_reader), true, &classifier_iterator );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test the iterator, step 1 */

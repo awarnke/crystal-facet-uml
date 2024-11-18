@@ -255,10 +255,10 @@ static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( da
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
-static inline u8_error_t data_database_reader_get_all_classifiers_iterator ( data_database_reader_t *this_,
-                                                                             bool hierarchical,
-                                                                             data_classifier_iterator_t *io_classifier_iterator
-                                                                           );
+static inline u8_error_t data_database_reader_get_all_classifiers ( data_database_reader_t *this_,
+                                                                    bool hierarchical,
+                                                                    data_classifier_iterator_t *io_classifier_iterator
+                                                                  );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 

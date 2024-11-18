@@ -401,10 +401,10 @@ u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data_d
     return result;
 }
 
-u8_error_t data_database_classifier_reader_get_all_classifiers_iterator( data_database_classifier_reader_t *this_,
-                                                                         bool hierarchical,
-                                                                         data_classifier_iterator_t *io_classifier_iterator
-                                                                       )
+u8_error_t data_database_classifier_reader_get_all_classifiers( data_database_classifier_reader_t *this_,
+                                                                bool hierarchical,
+                                                                data_classifier_iterator_t *io_classifier_iterator
+                                                              )
 {
     U8_TRACE_BEGIN();
     assert( NULL != io_classifier_iterator );

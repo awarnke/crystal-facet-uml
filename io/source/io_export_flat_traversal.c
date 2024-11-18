@@ -47,7 +47,7 @@ u8_error_t io_export_flat_traversal_iterate_classifiers ( io_export_flat_travers
 
         /* init the iterator */
         data_classifier_iterator_init_empty( &classifier_iterator );
-        data_err = data_database_reader_get_all_classifiers_iterator ( (*this_).db_reader, hierarchical, &classifier_iterator );
+        data_err = data_database_reader_get_all_classifiers ( (*this_).db_reader, hierarchical, &classifier_iterator );
         if ( data_err != U8_ERROR_NONE )
         {
             write_err = -1;
