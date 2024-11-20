@@ -844,7 +844,7 @@ u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( 
     u8_error_t result = U8_ERROR_NONE;
 
     sqlite3_stmt *const prepared_statement = (*this_).statement_relationships_by_classifier_id;
-    result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
+    result |= data_database_classifier_reader_private_bind_two_ids_to_statement( this_, prepared_statement, classifier_id, classifier_id );
 
     data_database_borrowed_stmt_t sql_statement;
     data_database_borrowed_stmt_init( &sql_statement,

@@ -106,7 +106,7 @@ u8_error_t data_diagram_iterator_destroy ( data_diagram_iterator_t *this_ )
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
 
-    data_database_borrowed_stmt_destroy( &((*this_).statement) );
+    result |= data_database_borrowed_stmt_destroy( &((*this_).statement) );
     (*this_).is_at_end = true;
 
     U8_TRACE_END_ERR(result);

@@ -148,22 +148,26 @@ static test_case_result_t lifeline_to_diagramelement_consistency( test_fixture_t
     }
 
     /* check that the classifier now has a feature of type DATA_FEATURE_TYPE_LIFELINE */
-    static const uint32_t max_featues_size=2;
-    data_feature_t features[2];
-    uint32_t feature_count;
     data_row_id_t lifeline_id;
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
-                                                                        classifier_id,
-                                                                        max_featues_size,
-                                                                        &features,
-                                                                        &feature_count
-                                                                      );
+        data_feature_t the_feature;
+        data_feature_iterator_t feature_iterator;
+        data_err = data_feature_iterator_init_empty( &feature_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 1, feature_count );
-        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
-        lifeline_id = data_feature_get_row_id( &(features[0]) );
+        data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
+                                                                       classifier_id,
+                                                                       &feature_iterator
+                                                                     );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &the_feature ) );
+        lifeline_id = data_feature_get_row_id( &the_feature );
         TEST_EXPECT( DATA_ROW_ID_VOID != lifeline_id );
+        const bool others = data_feature_iterator_has_next( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( false, others );
+        data_err |= data_feature_iterator_destroy( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
 
     /* delete the feature (lifeline) */
@@ -409,19 +413,23 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
     }
 
     /* check that the classifier now has one feature of type DATA_FEATURE_TYPE_LIFELINE */
-    static const uint32_t max_featues_size=2;
-    data_feature_t features[2];
-    uint32_t feature_count;
+    data_feature_t the_feature;
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
-                                                                        classifier_id,
-                                                                        max_featues_size,
-                                                                        &features,
-                                                                        &feature_count
-                                                                      );
+        data_feature_iterator_t feature_iterator;
+        data_err = data_feature_iterator_init_empty( &feature_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 1, feature_count );
-        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
+        data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
+                                                                       classifier_id,
+                                                                       &feature_iterator
+                                                                     );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &the_feature ) );
+        const bool others = data_feature_iterator_has_next( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( false, others );
+        data_err |= data_feature_iterator_destroy( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
 
     /* check that this is referenced */
@@ -430,7 +438,7 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), child_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
-        TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &(features[0])), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
+        TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &the_feature ), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
 
         data_diagramelement_destroy ( &check_diagele2 );
     }
@@ -452,14 +460,18 @@ static test_case_result_t diagram_to_lifeline_consistency( test_fixture_t *fix )
 
     /* check that the feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
-                                                                        classifier_id,
-                                                                        max_featues_size,
-                                                                        &features,
-                                                                        &feature_count
-                                                                      );
+        data_feature_iterator_t feature_iterator;
+        data_err = data_feature_iterator_init_empty( &feature_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 0, feature_count );
+        data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
+                                                                       classifier_id,
+                                                                       &feature_iterator
+                                                                     );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        const bool any = data_feature_iterator_has_next( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( false, any );
+        data_err |= data_feature_iterator_destroy( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
     return TEST_CASE_RESULT_OK;
 }
@@ -574,20 +586,26 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
     }
 
     /* check that the classifier now has two features of type DATA_FEATURE_TYPE_LIFELINE */
-    static const uint32_t max_featues_size=3;
-    data_feature_t features[3];
-    uint32_t feature_count;
+    data_feature_t the_feature;
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
-                                                                        classifier_id,
-                                                                        max_featues_size,
-                                                                        &features,
-                                                                        &feature_count
-                                                                      );
+        data_feature_iterator_t feature_iterator;
+        data_err = data_feature_iterator_init_empty( &feature_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 2, feature_count );
-        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
-        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[1]) ) );
+        data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
+                                                                       classifier_id,
+                                                                       &feature_iterator
+                                                                     );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &the_feature ) );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &the_feature ) );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+        data_err = data_feature_iterator_destroy( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
 
     /* delete the first diagramelement (but not the classifier) */
@@ -601,15 +619,21 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
 
     /* check that one feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
     {
-        data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
-                                                                        classifier_id,
-                                                                        max_featues_size,
-                                                                        &features,
-                                                                        &feature_count
-                                                                      );
+        data_feature_iterator_t feature_iterator;
+        data_err = data_feature_iterator_init_empty( &feature_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 1, feature_count );
-        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
+        data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
+                                                                       classifier_id,
+                                                                       &feature_iterator
+                                                                     );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &the_feature ) );
+        const bool another = data_feature_iterator_has_next( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( false, another );
+        data_err |= data_feature_iterator_destroy( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
 
     /* check that this is referenced */
@@ -618,7 +642,7 @@ static test_case_result_t diagramelement_to_lifeline_consistency( test_fixture_t
         data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), second_diag_element_id, &check_diagele2 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
-        TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &(features[0])), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
+        TEST_EXPECT_EQUAL_INT( data_feature_get_row_id( &the_feature ), data_diagramelement_get_focused_feature_row_id( &check_diagele2 ) );
 
         data_diagramelement_destroy ( &check_diagele2 );
     }

@@ -52,7 +52,7 @@ static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrow
  *  \brief destroys the data_database_borrowed_stmt_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \return U8_ERROR_NONE in case of success
+ *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_DB in case of an error - also in case of a previous error
  */
 static inline u8_error_t data_database_borrowed_stmt_destroy ( data_database_borrowed_stmt_t *this_ );
 

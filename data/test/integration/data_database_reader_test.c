@@ -431,41 +431,64 @@ static test_case_result_t test_search_features( test_fixture_t *fix )
 {
     assert( fix != NULL );
     u8_error_t data_err;
-    data_feature_t feature_list[4];
-    static const int MAX_ARRAY_SIZE = 4;
-    uint32_t out_feature_count;
 
     /* test 1 */
-    data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), 19, &(feature_list[0]) );
+    data_feature_t feature_0;
+    data_err = data_database_reader_get_feature_by_id ( &((*fix).db_reader), 19, &feature_0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_feature_by_uuid ( &((*fix).db_reader),
                                                           "17d8377a-cf84-402c-b4d8-0dbfc8f8222e",
-                                                          &(feature_list[0])
+                                                          &feature_0
                                                         );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 18, data_feature_get_row_id( &(feature_list[0]) ) );
+    TEST_EXPECT_EQUAL_INT( 18, data_feature_get_row_id( &feature_0 ) );
 
     /* test 2 */
-    data_err = data_database_reader_get_features_by_classifier_id ( &((*fix).db_reader),
-                                                                    13, /* classifier_id*/
-                                                                    MAX_ARRAY_SIZE,
-                                                                    &(feature_list),
-                                                                    &out_feature_count
-                                                                  );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 2, out_feature_count );
+    {
+        data_feature_t the_feature;
+        data_feature_iterator_t feature_iterator;
+        data_err = data_feature_iterator_init_empty( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_database_reader_get_features_by_classifier_id( &((*fix).db_reader),
+                                                                       13, /* classifier_id*/
+                                                                       &feature_iterator
+                                                                     );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        const bool others = data_feature_iterator_has_next( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( false, others );
+        data_err = data_feature_iterator_destroy( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    }
 
     /* test 3 */
-    data_err = data_database_reader_get_features_by_diagram_id ( &((*fix).db_reader),
-                                                                 7, /* diagram_id */
-                                                                 MAX_ARRAY_SIZE,
-                                                                 &(feature_list),
-                                                                 &out_feature_count
-                                                               );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 3, out_feature_count );
+    {
+        data_feature_t the_feature;
+        data_feature_iterator_t feature_iterator;
+        data_err = data_feature_iterator_init_empty( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_database_reader_get_features_by_diagram_id( &((*fix).db_reader),
+                                                                    7, /* diagram_id */
+                                                                    &feature_iterator
+                                                                  );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_feature_iterator_next( &feature_iterator, &the_feature );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+        data_err = data_feature_iterator_destroy( &feature_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    }
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -473,41 +496,62 @@ static test_case_result_t test_search_relationships( test_fixture_t *fix )
 {
     assert( fix != NULL );
     u8_error_t data_err;
-    data_relationship_t relation_list[3];
-    static const int MAX_ARRAY_SIZE = 3;
-    uint32_t out_relationship_count;
 
     /* test 1 */
-    data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), 34, &(relation_list[0]) );
+    data_relationship_t relationship_0;
+    data_err = data_database_reader_get_relationship_by_id ( &((*fix).db_reader), 34, &relationship_0 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_relationship_by_uuid ( &((*fix).db_reader),
                                                                "ef90ab9d-6da4-4f3c-b8b8-50d9c955f113",
-                                                               &(relation_list[0])
+                                                               &relationship_0
                                                              );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 34, data_relationship_get_row_id( &(relation_list[0]) ) );
+    TEST_EXPECT_EQUAL_INT( 34, data_relationship_get_row_id( &relationship_0 ) );
 
     /* test 2 */
-    data_err = data_database_reader_get_relationships_by_classifier_id ( &((*fix).db_reader),
-                                                                         13, /*classifier_id*/
-                                                                         MAX_ARRAY_SIZE,
-                                                                         &(relation_list),
-                                                                         &out_relationship_count
-                                                                       );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 2, out_relationship_count );
+    {
+        data_relationship_t the_relationship;
+        data_relationship_iterator_t relationship_iterator;
+        data_err = data_relationship_iterator_init_empty( &relationship_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_database_reader_get_relationships_by_classifier_id( &((*fix).db_reader),
+                                                                            13, /*classifier_id*/
+                                                                            &relationship_iterator
+                                                                          );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+        data_err = data_relationship_iterator_destroy( &relationship_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    }
 
     /* test 3 */
-    data_err = data_database_reader_get_relationships_by_diagram_id ( &((*fix).db_reader),
-                                                                      7, /* diagram_id */
-                                                                      MAX_ARRAY_SIZE,
-                                                                      &(relation_list),
-                                                                      &out_relationship_count
-                                                                    );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 2, out_relationship_count );
+    {
+        data_relationship_t the_relationship;
+        data_relationship_iterator_t relationship_iterator;
+        data_err = data_relationship_iterator_init_empty( &relationship_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_database_reader_get_relationships_by_diagram_id( &((*fix).db_reader),
+                                                                         7, /* diagram_id */
+                                                                         &relationship_iterator
+                                                                       );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        data_err = data_relationship_iterator_next( &relationship_iterator, &the_relationship );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        const bool another = data_relationship_iterator_has_next( &relationship_iterator );
+        TEST_EXPECT_EQUAL_INT( false, another );
+        data_err = data_relationship_iterator_destroy( &relationship_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    }
+
     return TEST_CASE_RESULT_OK;
 }
 
