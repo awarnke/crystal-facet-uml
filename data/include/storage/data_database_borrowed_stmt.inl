@@ -21,6 +21,7 @@ static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrow
     assert( db_statement != NULL );
     assert( borrow_flag != NULL );
     u8_error_t result = U8_ERROR_NONE;
+
     (*this_).database = database;
     (*this_).db_statement = db_statement;
     (*this_).borrow_flag = borrow_flag;
@@ -32,6 +33,7 @@ static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrow
     {
         *((*this_).borrow_flag) = true;
     }
+
     U8_TRACE_END_ERR( result );
     return result;
 }
@@ -39,13 +41,24 @@ static inline u8_error_t data_database_borrowed_stmt_init ( data_database_borrow
 static inline u8_error_t data_database_borrowed_stmt_destroy ( data_database_borrowed_stmt_t *this_ )
 {
     U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
     if ( (*this_).borrow_flag != NULL )
     {
         assert( *((*this_).borrow_flag) == true ); /* noone interfered with the status */
+        assert( (*this_).db_statement != NULL );
+
+        const int sqlite_err = sqlite3_reset( (*this_).db_statement );
+        if ( sqlite_err != SQLITE_OK )
+        {
+            U8_LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+            result |= U8_ERROR_AT_DB;
+        }
+
         *((*this_).borrow_flag) = false;
         (*this_).borrow_flag = NULL;
     }
-    u8_error_t result = U8_ERROR_NONE;
+
     U8_TRACE_END_ERR( result );
     return result;
 }

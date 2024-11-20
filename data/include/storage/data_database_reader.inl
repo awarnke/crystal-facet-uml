@@ -443,9 +443,7 @@ static inline u8_error_t data_database_reader_get_feature_by_uuid ( data_databas
 
 static inline u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
                                                                               data_row_id_t classifier_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_feature_t (*out_feature)[],
-                                                                              uint32_t *out_feature_count )
+                                                                              data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -454,9 +452,7 @@ static inline u8_error_t data_database_reader_get_features_by_classifier_id ( da
     {
         result = data_database_classifier_reader_get_features_by_classifier_id( &((*this_).temp_classifier_reader),
                                                                                 classifier_id,
-                                                                                max_out_array_size,
-                                                                                out_feature,
-                                                                                out_feature_count
+                                                                                io_feature_iterator
                                                                               );
     }
     else
@@ -471,9 +467,7 @@ static inline u8_error_t data_database_reader_get_features_by_classifier_id ( da
 
 static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
                                                                            data_row_id_t diagram_id,
-                                                                           uint32_t max_out_array_size,
-                                                                           data_feature_t (*out_feature)[],
-                                                                           uint32_t *out_feature_count )
+                                                                           data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -482,9 +476,7 @@ static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_
     {
         result = data_database_classifier_reader_get_features_by_diagram_id( &((*this_).temp_classifier_reader),
                                                                              diagram_id,
-                                                                             max_out_array_size,
-                                                                             out_feature,
-                                                                             out_feature_count
+                                                                             io_feature_iterator
                                                                            );
     }
     else
@@ -549,9 +541,7 @@ static inline u8_error_t data_database_reader_get_relationship_by_uuid ( data_da
 
 static inline u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
                                                                                    data_row_id_t classifier_id,
-                                                                                   uint32_t max_out_array_size,
-                                                                                   data_relationship_t (*out_relationship)[],
-                                                                                   uint32_t *out_relationship_count )
+                                                                                   data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -560,9 +550,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_classifier_id
     {
         result = data_database_classifier_reader_get_relationships_by_classifier_id( &((*this_).temp_classifier_reader),
                                                                                      classifier_id,
-                                                                                     max_out_array_size,
-                                                                                     out_relationship,
-                                                                                     out_relationship_count
+                                                                                     io_relationship_iterator
                                                                                    );
     }
     else
@@ -577,9 +565,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_classifier_id
 
 static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
                                                                                 data_row_id_t feature_id,
-                                                                                uint32_t max_out_array_size,
-                                                                                data_relationship_t (*out_relationship)[],
-                                                                                uint32_t *out_relationship_count )
+                                                                                data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -588,9 +574,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( 
     {
         result = data_database_classifier_reader_get_relationships_by_feature_id( &((*this_).temp_classifier_reader),
                                                                                   feature_id,
-                                                                                  max_out_array_size,
-                                                                                  out_relationship,
-                                                                                  out_relationship_count
+                                                                                  io_relationship_iterator
                                                                                 );
     }
     else
@@ -605,9 +589,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( 
 
 static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
                                                                                 data_row_id_t diagram_id,
-                                                                                uint32_t max_out_array_size,
-                                                                                data_relationship_t (*out_relationship)[],
-                                                                                uint32_t *out_relationship_count )
+                                                                                data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -616,9 +598,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( 
     {
         result = data_database_classifier_reader_get_relationships_by_diagram_id( &((*this_).temp_classifier_reader),
                                                                                   diagram_id,
-                                                                                  max_out_array_size,
-                                                                                  out_relationship,
-                                                                                  out_relationship_count
+                                                                                  io_relationship_iterator
                                                                                 );
     }
     else

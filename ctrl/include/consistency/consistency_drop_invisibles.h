@@ -29,8 +29,6 @@ struct ctrl_diagram_controller_struct;
  */
 enum consistency_drop_invisibles_const_enum {
     CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements of a classifier */
-    CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_RELATIONS = DATA_NODE_SET_MAX_RELATIONSHIPS,  /*!< maximum number of */
-                                                                        /*!< relationships attached to a classifier */
 };
 
 /*!
@@ -46,8 +44,7 @@ struct consistency_drop_invisibles_struct {
 
     data_diagramelement_t private_temp_diagele_buf[CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES];  /*!< be aware */
                                                                                        /*!< of reentrancy by recursion! */
-    data_relationship_t private_temp_rel_buf[CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_RELATIONS];  /*!< be aware of */
-                                                                                        /*!< reentrancy by recursion! */
+    data_relationship_t temp_relationship_buf;
 };
 
 typedef struct consistency_drop_invisibles_struct consistency_drop_invisibles_t;

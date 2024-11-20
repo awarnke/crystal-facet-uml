@@ -15,12 +15,6 @@
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "u8/u8_error.h"
 
-/*!
- *  \brief constants for maximum values of io_export_set_traversal_t
- */
-enum io_export_set_traversal_max_enum {
-    IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
-};
 
 /*!
  *  \brief attributes of the export traversal object
@@ -33,7 +27,8 @@ struct io_export_set_traversal_struct {
     data_stat_t *export_stat;  /*!< pointer to external statistics object where export statistics are collected */
     io_element_writer_t *element_writer;  /*!< pointer to external io_element_writer_t which is the output sink */
 
-    data_feature_t temp_features[IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES];  /*!< temporary memory for feature list */
+    data_feature_t temp_feature_0;  /*!< temporary memory for a feature */
+    data_feature_t temp_feature_1;  /*!< temporary memory for a feature */
 };
 
 typedef struct io_export_set_traversal_struct io_export_set_traversal_t;

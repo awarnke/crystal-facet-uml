@@ -79,48 +79,30 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
     data_small_set_init( &relations_to_delete );
 
     /* load relationships to be checked */
-    uint32_t relationship_count = 0;
-    const u8_error_t d_err
-        = data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
-                                                                   classifier_id,
-                                                                   CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_RELATIONS,
-                                                                   &((*this_).private_temp_rel_buf),
-                                                                   &relationship_count
-                                                                 );
-    if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
-    {
-        U8_LOG_ANOMALY( "The dereferenced classifier has more relationships than can be checked for being superfluous now." );
-        U8_TRACE_INFO_INT( "classifier has too many relationships:", classifier_id );
-        /* no further error propagation. */
-    }
-    else
-    {
-        result |= d_err;
-    }
-
+    data_relationship_iterator_t relationship_iterator;
+    result |= data_relationship_iterator_init_empty( &relationship_iterator );
+    result |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
+                                                                       classifier_id,
+                                                                       &relationship_iterator
+                                                                     );
     if ( result == U8_ERROR_NONE )
     {
-        for ( uint_fast32_t rel_idx = 0; rel_idx < relationship_count; rel_idx ++ )
+        while( data_relationship_iterator_has_next( &relationship_iterator ) )
         {
-            const data_relationship_t *relation = &((*this_).private_temp_rel_buf[rel_idx]);
+            result |= data_relationship_iterator_next( &relationship_iterator, &((*this_).temp_relationship_buf) );
 
             bool visible = true;
             const u8_error_t vis_err
-                = consistency_drop_invisibles_private_has_relationship_a_diagram( this_, relation, &visible );
+                = consistency_drop_invisibles_private_has_relationship_a_diagram( this_, &((*this_).temp_relationship_buf), &visible );
 
-            if ( vis_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
-            {
-                U8_LOG_ANOMALY( "A relationship is connected to a classifier that is too often referenced to check for being superfluous now." );
-                U8_TRACE_INFO_INT( "classifier or related classifier has too many diagramelements:", classifier_id );
-                /* no further error propagation. */
-            }
-            else if ( vis_err == U8_ERROR_NONE )
+            if ( vis_err == U8_ERROR_NONE )
             {
                 if ( ! visible )
                 {
                     /* invisible relationship found */
                     /* this must be copied into a local data set to make this class re-entrant for recursive calls */
-                    result |= data_small_set_add_obj( &relations_to_delete, data_relationship_get_data_id( relation ) );
+                    const data_id_t relation_to_delete = data_relationship_get_data_id( &((*this_).temp_relationship_buf) );
+                    result |= data_small_set_add_obj( &relations_to_delete, relation_to_delete );
                 }
             }
             else
@@ -129,9 +111,15 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
             }
         }
     }
+    else
+    {
+        U8_LOG_WARNING( "Relationships of the deleted classifier cannot be checked for being superfluous now." );
+        U8_TRACE_INFO_INT( "classifier has unckecked relationships:", classifier_id );
+    }
+    result |= data_relationship_iterator_destroy( &relationship_iterator );
+    /* note that relationship_iterator cannot be used here any longer due to re-entrancy by recursion */
 
     /* delete all found relationship */
-    /* note that (*this_).private_temp_rel_buf cannot be used here any longer due to re-entrancy by recursion */
     const uint32_t relations_count = data_small_set_get_count( &relations_to_delete );
     for ( uint32_t index2 = 0; index2 < relations_count; index2 ++ )
     {

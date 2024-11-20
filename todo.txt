@@ -63,15 +63,8 @@ ideas for future versions:
       - data_database_diagram_reader_get_diagram_ids_by_classifier_id
       - data_database_diagram_reader_get_diagramelements_by_classifier_id
       instead provide an iterator like:
-      data_database_classifier_reader_get_all_classifiers_iterator
+      data_database_classifier_reader_get_all_classifiers
       or simply check if truncated result lists are acceptable - e.g. in searches, export-links-generator, ...
-  [ ] questionable data access methods: Unbounded lifelines may be included:
-      - data_database_classifier_reader_get_features_by_classifier_id --> LIFELINES are a problem
-      - data_database_classifier_reader_get_relationships_by_classifier_id --> LIFELINES are a problem
-      instead provide an iterator
-  [ ] just a missing filter for NON-LIFELINES or diagram-LIFELINES:
-      - data_database_classifier_reader_get_features_by_diagram_id
-      - data_database_classifier_reader_get_relationships_by_diagram_id
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)

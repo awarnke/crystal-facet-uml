@@ -210,14 +210,9 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
             */
         }
 
-        uint32_t feature_count;
-        read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
-                                                                         classifier_id,
-                                                                         IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES,
-                                                                         &((*this_).temp_features),
-                                                                         &feature_count
-                                                                       );
-
+        data_feature_iterator_t feature_iterator;
+        read_error |= data_feature_iterator_init_empty( &feature_iterator );
+        read_error |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, classifier_id, &feature_iterator );
         if ( read_error == U8_ERROR_NONE )
         {
             /* write classifier */
@@ -231,23 +226,23 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
                                                                     );
 
             /* write classifier-features */
-            for ( uint32_t index = 0; index < feature_count; index ++ )
+            while ( data_feature_iterator_has_next( &feature_iterator ) )
             {
+                read_error |= data_feature_iterator_next( &feature_iterator, &((*this_).temp_feature_0) );
                 const data_classifier_type_t parent_type = data_classifier_get_main_type( &out_classifier );
-                const data_feature_t *const feature_ptr = &(((*this_).temp_features)[index]);
                 serialize_error |= io_element_writer_start_feature( (*this_).element_writer,
                                                                     parent_type,
-                                                                    feature_ptr
+                                                                    &((*this_).temp_feature_0)
                                                                   );
 
                 serialize_error |= io_element_writer_assemble_feature( (*this_).element_writer,
                                                                        &out_classifier,
-                                                                       feature_ptr
+                                                                       &((*this_).temp_feature_0)
                                                                      );
 
                 serialize_error |= io_element_writer_end_feature( (*this_).element_writer,
                                                                   parent_type,
-                                                                  feature_ptr
+                                                                  &((*this_).temp_feature_0)
                                                                 );
             }
 
@@ -262,6 +257,7 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
             U8_LOG_ERROR( "io_export_set_traversal_export_set could not read referenced data of the set." );
             data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
         }
+        read_error |= data_feature_iterator_destroy( &feature_iterator );
     }
     else
     {
@@ -288,14 +284,9 @@ u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_trav
                                                             &out_classifier
                                                           );
 
-    uint32_t feature_count;
-    read_error = data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
-                                                                     data_id_get_row_id( &id ),
-                                                                     IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES,
-                                                                     &((*this_).temp_features),
-                                                                     &feature_count
-                                                                   );
-
+    data_feature_iterator_t feature_iterator;
+    read_error |= data_feature_iterator_init_empty( &feature_iterator );
+    read_error |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, data_id_get_row_id( &id ), &feature_iterator );
     if ( read_error == U8_ERROR_NONE )
     {
         /* write classifier */
@@ -309,23 +300,23 @@ u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_trav
                                                                 );
 
         /* write classifier-features */
-        for ( uint32_t index = 0; index < feature_count; index ++ )
+        while ( data_feature_iterator_has_next( &feature_iterator ) )
         {
+            read_error |= data_feature_iterator_next( &feature_iterator, &((*this_).temp_feature_0) );
             const data_classifier_type_t parent_type = data_classifier_get_main_type( &out_classifier );
-            const data_feature_t *const feature_ptr = &(((*this_).temp_features)[index]);
             serialize_error |= io_element_writer_start_feature( (*this_).element_writer,
                                                                 parent_type,
-                                                                feature_ptr
+                                                                &((*this_).temp_feature_0)
                                                               );
 
             serialize_error |= io_element_writer_assemble_feature( (*this_).element_writer,
                                                                    &out_classifier,
-                                                                   feature_ptr
+                                                                   &((*this_).temp_feature_0)
                                                                  );
 
             serialize_error |= io_element_writer_end_feature( (*this_).element_writer,
                                                               parent_type,
-                                                              feature_ptr
+                                                              &((*this_).temp_feature_0)
                                                             );
         }
 
@@ -340,6 +331,7 @@ u8_error_t io_export_set_traversal_private_export_classifier( io_export_set_trav
         U8_LOG_ERROR( "io_export_set_traversal_export_set could not read all data of the set." );
         data_stat_inc_count ( (*this_).export_stat, DATA_STAT_TABLE_CLASSIFIER, DATA_STAT_SERIES_ERROR );
     }
+    read_error |= data_feature_iterator_destroy( &feature_iterator );
 
     U8_TRACE_END_ERR(serialize_error);
     return serialize_error;
@@ -398,7 +390,6 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
     {
         data_classifier_t from_classifier;
         data_classifier_t to_classifier;
-        assert ( IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES >= 2 );
 
         /* get source */
         read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
@@ -407,13 +398,13 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
                                                                 );
         if ( DATA_ROW_ID_VOID == data_relationship_get_from_feature_row_id( &out_relation ) )
         {
-            data_feature_init_empty( &((*this_).temp_features[0]) );
+            data_feature_init_empty( &((*this_).temp_feature_0) );
         }
         else
         {
             read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
                                                                    data_relationship_get_from_feature_row_id( &out_relation ),
-                                                                   &((*this_).temp_features[0])
+                                                                   &((*this_).temp_feature_0)
                                                                  );
         }
 
@@ -424,13 +415,13 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
                                                                 );
         if ( DATA_ROW_ID_VOID == data_relationship_get_to_feature_row_id( &out_relation ) )
         {
-            data_feature_init_empty( &((*this_).temp_features[1]) );
+            data_feature_init_empty( &((*this_).temp_feature_1) );
         }
         else
         {
             read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
                                                                    data_relationship_get_to_feature_row_id( &out_relation ),
-                                                                   &((*this_).temp_features[1])
+                                                                   &((*this_).temp_feature_1)
                                                                  );
         }
 
@@ -446,9 +437,9 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
                                                                         NULL,  /* host */
                                                                         &out_relation,
                                                                         &from_classifier,
-                                                                        &((*this_).temp_features[0]),
+                                                                        &((*this_).temp_feature_0),
                                                                         &to_classifier,
-                                                                        &((*this_).temp_features[1])
+                                                                        &((*this_).temp_feature_1)
                                                                       );
             serialize_error |= io_element_writer_end_relationship( (*this_).element_writer,
                                                                    DATA_CLASSIFIER_TYPE_VOID,  /* host_type */

@@ -12,6 +12,8 @@
 #include "storage/data_database_listener.h"
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_classifier_iterator.h"
+#include "storage/data_feature_iterator.h"
+#include "storage/data_relationship_iterator.h"
 #include "storage/data_database.h"
 #include "storage/data_database_classifier_reader.h"
 #include "storage/data_database_diagram_reader.h"
@@ -363,18 +365,14 @@ static inline u8_error_t data_database_reader_get_feature_by_uuid ( data_databas
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the parent classifier
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_feature array of features read from the database (in case of success)
- *  \param[out] out_feature_count number of feature records stored in out_feature
+ *  \param[in,out] io_feature_iterator iterator over features of selected classifier. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
                                                                               data_row_id_t classifier_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_feature_t (*out_feature)[],
-                                                                              uint32_t *out_feature_count
+                                                                              data_feature_iterator_t *io_feature_iterator
                                                                             );
 
 /*!
@@ -384,18 +382,14 @@ static inline u8_error_t data_database_reader_get_features_by_classifier_id ( da
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_feature array of features read from the database (in case of success)
- *  \param[out] out_feature_count number of feature records stored in out_feature
+ *  \param[in,out] io_feature_iterator iterator over features of selected diagrams. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
                                                                            data_row_id_t diagram_id,
-                                                                           uint32_t max_out_array_size,
-                                                                           data_feature_t (*out_feature)[],
-                                                                           uint32_t *out_feature_count
+                                                                           data_feature_iterator_t *io_feature_iterator
                                                                          );
 
 /* ================================ RELATIONSHIP ================================ */
@@ -435,18 +429,14 @@ static inline u8_error_t data_database_reader_get_relationship_by_uuid ( data_da
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the source(from) or destination(to) classifier
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_relationship array of relationships read from the database (in case of success)
- *  \param[out] out_relationship_count number of relationship records stored in out_relationship
+ *  \param[in,out] io_relationship_iterator iterator over relationships of selected classifier. The caller is responsible
+ *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
                                                                                    data_row_id_t classifier_id,
-                                                                                   uint32_t max_out_array_size,
-                                                                                   data_relationship_t (*out_relationship)[],
-                                                                                   uint32_t *out_relationship_count
+                                                                                   data_relationship_iterator_t *io_relationship_iterator
                                                                                  );
 
 /*!
@@ -456,18 +446,14 @@ static inline u8_error_t data_database_reader_get_relationships_by_classifier_id
  *
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_ID_VOID.
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_relationship array of relationships read from the database (in case of success)
- *  \param[out] out_relationship_count number of relationship records stored in out_relationship
+ *  \param[in,out] io_relationship_iterator iterator over relationships of selected feature. The caller is responsible
+ *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
                                                                                 data_row_id_t feature_id,
-                                                                                uint32_t max_out_array_size,
-                                                                                data_relationship_t (*out_relationship)[],
-                                                                                uint32_t *out_relationship_count
+                                                                                data_relationship_iterator_t *io_relationship_iterator
                                                                               );
 
 /*!
@@ -477,18 +463,14 @@ static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( 
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_relationship array of relationships read from the database (in case of success)
- *  \param[out] out_relationship_count number of relationship records stored in out_relationship
+ *  \param[in,out] io_relationship_iterator iterator over relationships of selected diagram. The caller is responsible
+ *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
                                                                                 data_row_id_t diagram_id,
-                                                                                uint32_t max_out_array_size,
-                                                                                data_relationship_t (*out_relationship)[],
-                                                                                uint32_t *out_relationship_count
+                                                                                data_relationship_iterator_t *io_relationship_iterator
                                                                               );
 
 /* ================================ private ================================ */

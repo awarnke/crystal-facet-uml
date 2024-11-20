@@ -12,6 +12,8 @@
 #include "storage/data_database_listener.h"
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_classifier_iterator.h"
+#include "storage/data_feature_iterator.h"
+#include "storage/data_relationship_iterator.h"
 #include "storage/data_database.h"
 #include "entity/data_diagram.h"
 #include "u8/u8_error.h"
@@ -37,19 +39,25 @@ struct data_database_classifier_reader_struct {
     sqlite3_stmt *statement_classifier_by_uuid;
     sqlite3_stmt *statement_classifiers_by_diagram_id;
     sqlite3_stmt *statement_classifiers_all;
+    bool statement_classifiers_all_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_classifiers_all_hierarchical;
+    bool statement_classifiers_all_hierarchical_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+
     sqlite3_stmt *statement_feature_by_id;
     sqlite3_stmt *statement_feature_by_uuid;
     sqlite3_stmt *statement_features_by_classifier_id;
+    bool statement_features_by_classifier_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_features_by_diagram_id;
+    bool statement_features_by_diagram_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+
     sqlite3_stmt *statement_relationship_by_id;
     sqlite3_stmt *statement_relationship_by_uuid;
     sqlite3_stmt *statement_relationships_by_classifier_id;
+    bool statement_relationships_by_classifier_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_relationships_by_feature_id;
+    bool statement_relationships_by_feature_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_relationships_by_diagram_id;
-
-    bool statement_classifiers_all_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
-    bool statement_classifiers_all_hierarchical_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+    bool statement_relationships_by_diagram_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
 };
 
 typedef struct data_database_classifier_reader_struct data_database_classifier_reader_t;
@@ -191,18 +199,14 @@ u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_c
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the parent classifier
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_feature array of features read from the database (in case of success)
- *  \param[out] out_feature_count number of feature records stored in out_feature
+ *  \param[in,out] io_feature_iterator iterator over features of selected classifier. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
                                                                            data_row_id_t classifier_id,
-                                                                           uint32_t max_out_array_size,
-                                                                           data_feature_t (*out_feature)[],
-                                                                           uint32_t *out_feature_count
+                                                                           data_feature_iterator_t *io_feature_iterator
                                                                          );
 
 /*!
@@ -212,18 +216,14 @@ u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_feature array of features read from the database (in case of success)
- *  \param[out] out_feature_count number of feature records stored in out_feature
+ *  \param[in,out] io_feature_iterator iterator over features of selected classifier. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
                                                                         data_row_id_t diagram_id,
-                                                                        uint32_t max_out_array_size,
-                                                                        data_feature_t (*out_feature)[],
-                                                                        uint32_t *out_feature_count
+                                                                        data_feature_iterator_t *io_feature_iterator
                                                                       );
 
 /* ================================ RELATIONSHIP ================================ */
@@ -263,18 +263,14 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the source(from) or destination(to) classifier
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_relationship array of relationships read from the database (in case of success)
- *  \param[out] out_relationship_count number of relationship records stored in out_relationship
+ *  \param[in,out] io_relationship_iterator iterator over relationships of selected classifier. The caller is responsible
+ *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
                                                                                 data_row_id_t classifier_id,
-                                                                                uint32_t max_out_array_size,
-                                                                                data_relationship_t (*out_relationship)[],
-                                                                                uint32_t *out_relationship_count
+                                                                                data_relationship_iterator_t *io_relationship_iterator
                                                                               );
 
 /*!
@@ -284,18 +280,14 @@ u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( 
  *
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_ID_VOID.
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_relationship array of relationships read from the database (in case of success)
- *  \param[out] out_relationship_count number of relationship records stored in out_relationship
+ *  \param[in,out] io_relationship_iterator iterator over relationships of selected feature. The caller is responsible
+ *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
                                                                              data_row_id_t feature_id,
-                                                                             uint32_t max_out_array_size,
-                                                                             data_relationship_t (*out_relationship)[],
-                                                                             uint32_t *out_relationship_count
+                                                                             data_relationship_iterator_t *io_relationship_iterator
                                                                            );
 
 /*!
@@ -305,18 +297,14 @@ u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( dat
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_relationship array of relationships read from the database (in case of success)
- *  \param[out] out_relationship_count number of relationship records stored in out_relationship
+ *  \param[in,out] io_relationship_iterator iterator over relationships of selected diagram. The caller is responsible
+ *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
                                                                              data_row_id_t diagram_id,
-                                                                             uint32_t max_out_array_size,
-                                                                             data_relationship_t (*out_relationship)[],
-                                                                             uint32_t *out_relationship_count
+                                                                             data_relationship_iterator_t *io_relationship_iterator
                                                                            );
 
 /* ================================ private ================================ */

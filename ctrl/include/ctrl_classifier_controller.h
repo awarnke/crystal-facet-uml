@@ -43,6 +43,9 @@ struct ctrl_classifier_controller_struct {
     ctrl_consistency_checker_t consistency_checker;  /*!< own instance of a consistency checker */
     ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
     ctrl_classifier_trigger_t *policy_enforcer;  /*!< pointer to external ctrl_classifier_trigger_t */
+
+    data_feature_t temp_feature;
+    data_relationship_t temp_relationship;
 };
 
 typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;

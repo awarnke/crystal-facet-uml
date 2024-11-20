@@ -80,7 +80,7 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
             *out_new_id = new_id;
         }
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     data_classifier_destroy( &to_be_created );
 
@@ -119,7 +119,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
         else
         {
             /* some other error */
-            result |= (u8_error_t) data_result;
+            result |= data_result;
         }
     }
 
@@ -143,75 +143,58 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
 
         /* delete all features */
         {
-            bool no_more_features = false;
-            static const uint32_t MAX_FEATURES_PER_CLASSIFIER = 10000;
-            for ( uint32_t feature_count = 0; ( feature_count < MAX_FEATURES_PER_CLASSIFIER ) && ( no_more_features == false ); feature_count ++ )
+            data_feature_iterator_t feature_iterator;
+            result |= data_feature_iterator_init_empty( &feature_iterator );
+            result |= data_database_reader_get_features_by_classifier_id( (*this_).db_reader,
+                                                                          obj_id,
+                                                                          &feature_iterator
+                                                                        );
+            while ( data_feature_iterator_has_next( &feature_iterator ) )
             {
-                data_feature_t out_feature[1];
-                uint32_t out_feature_count;
-                data_result = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                   obj_id,
-                                                                                   1,
-                                                                                   &out_feature,
-                                                                                   &out_feature_count
-                                                                                 );
-
-                if (( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_feature_count == 1 ))
+                result |= data_feature_iterator_next( &feature_iterator, &((*this_).temp_feature) );
+                const data_row_id_t feat_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                data_result = data_database_writer_delete_feature( (*this_).db_writer, feat_id, NULL );
+                if ( data_result == U8_ERROR_NONE )
                 {
-                    data_result = data_database_writer_delete_feature( (*this_).db_writer, data_feature_get_row_id( &(out_feature[0]) ), NULL );
-
-                    result |= (u8_error_t) data_result;
-                    if ( U8_ERROR_NONE == data_result )
-                    {
-                        /* store the deleted feature to the undo redo list */
-                        ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &(out_feature[0]) );
-                    }
-                    data_feature_destroy( &(out_feature[0]) );
+                    /* store the deleted feature to the undo redo list */
+                    ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &((*this_).temp_feature) );
                 }
                 else
                 {
-                    result |= (u8_error_t) data_result;
-                    no_more_features = true;
+                    /* report this unexpected error */
+                    result |= data_result;
                 }
+                data_feature_destroy( &((*this_).temp_feature) );
             }
-
+            result |= data_feature_iterator_destroy( &feature_iterator );
         }
 
         /* delete all relationships */
         {
-            bool no_more_relationships = false;
-            static const uint32_t MAX_RELATIONSHIPS_PER_CLASSIFIER = 10000;
-            for ( uint32_t relationship_count = 0; ( relationship_count < MAX_RELATIONSHIPS_PER_CLASSIFIER ) && ( no_more_relationships == false ); relationship_count ++ )
+            data_relationship_iterator_t relationship_iterator;
+            result |= data_relationship_iterator_init_empty( &relationship_iterator );
+            result |= data_database_reader_get_relationships_by_classifier_id( (*this_).db_reader,
+                                                                               obj_id,
+                                                                               &relationship_iterator
+                                                                             );
+            while ( data_relationship_iterator_has_next( &relationship_iterator ) )
             {
-
-                data_relationship_t out_relationship[1];
-                uint32_t out_relationship_count;
-                data_result = data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader,
-                                                                                        obj_id,
-                                                                                        1,
-                                                                                        &out_relationship,
-                                                                                        &out_relationship_count
-                                                                                      );
-
-                if (( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
+                result |= data_relationship_iterator_next( &relationship_iterator, &((*this_).temp_relationship) );
+                const data_row_id_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
+                data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
+                if ( data_result == U8_ERROR_NONE )
                 {
-                    data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_row_id( &(out_relationship[0]) ), NULL );
-
-                    result |= (u8_error_t) data_result;
-
-                    if ( U8_ERROR_NONE == data_result )
-                    {
-                        /* store the deleted relationship to the undo redo list */
-                        ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &(out_relationship[0]) );
-                    }
-                    data_relationship_destroy( &(out_relationship[0]) );
+                    /* store the deleted relationship to the undo redo list */
+                    ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &((*this_).temp_relationship) );
                 }
                 else
                 {
-                    result |= (u8_error_t) data_result;
-                    no_more_relationships = true;
+                    /* report this unexpected error */
+                    result |= data_result;
                 }
+                data_relationship_destroy( &((*this_).temp_relationship) );
             }
+            result |= data_relationship_iterator_destroy( &relationship_iterator );
         }
 
         /* delete the classifier */
@@ -233,12 +216,12 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             {
                 /* report this unexpected error */
                 U8_LOG_ERROR( "The classifier cannot be deleted because it is still referenced." );
-                result |= (u8_error_t) data_result;
+                result |= data_result;
             }
             else
             {
                 /* report this unexpected error */
-                result |= (u8_error_t) data_result;
+                result |= data_result;
             }
         }
 
@@ -273,7 +256,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classif
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -302,7 +285,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -331,7 +314,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -360,7 +343,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_class
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -389,7 +372,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifie
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -418,7 +401,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifie
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -453,7 +436,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_c
         }
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -482,7 +465,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classi
         data_classifier_destroy( &new_classifier );
         data_classifier_destroy( &old_classifier );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -531,7 +514,7 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
             *out_new_id = new_id;
         }
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     data_feature_destroy( &to_be_created );
 
@@ -560,38 +543,30 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
 
     /* delete all relationships to and/or from this feature */
     {
-        bool no_more_relationships = false;
-        static const uint32_t MAX_RELATIONSHIPS_PER_CLASSIFIER = 10000;
-        for ( uint32_t relationship_count = 0; ( relationship_count < MAX_RELATIONSHIPS_PER_CLASSIFIER ) && ( no_more_relationships == false ); relationship_count ++ )
+        data_relationship_iterator_t relationship_iterator;
+        result |= data_relationship_iterator_init_empty( &relationship_iterator );
+        result |= data_database_reader_get_relationships_by_feature_id( (*this_).db_reader,
+                                                                        obj_id,
+                                                                        &relationship_iterator
+                                                                      );
+        while ( data_relationship_iterator_has_next( &relationship_iterator ) )
         {
-            data_relationship_t out_relationship[1];
-            uint32_t out_relationship_count;
-            data_result = data_database_reader_get_relationships_by_feature_id ( (*this_).db_reader,
-                                                                                 obj_id,
-                                                                                 1,
-                                                                                 &out_relationship,
-                                                                                 &out_relationship_count
-                                                                               );
-
-            if (( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
+            result |= data_relationship_iterator_next( &relationship_iterator, &((*this_).temp_relationship) );
+            const data_row_id_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
+            data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
+            if ( U8_ERROR_NONE == data_result )
             {
-                data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_row_id( &(out_relationship[0]) ), NULL );
-
-                result |= (u8_error_t) data_result;
-
-                if ( U8_ERROR_NONE == data_result )
-                {
-                    /* store the deleted relationship to the undo redo list */
-                    ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &(out_relationship[0]) );
-                }
-                data_relationship_destroy( &(out_relationship[0]) );
+                /* store the deleted relationship to the undo redo list */
+                ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &((*this_).temp_relationship) );
             }
             else
             {
-                result |= (u8_error_t) data_result;
-                no_more_relationships = true;
+                /* report this unexpected error */
+                result |= data_result;
             }
+            data_relationship_destroy( &((*this_).temp_relationship) );
         }
+        result |= data_relationship_iterator_destroy( &relationship_iterator );
     }
 
     /* delete the feature */
@@ -607,7 +582,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
             ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feature );
         }
 
-        result |= (u8_error_t) feature_result;
+        result |= feature_result;
     }
 
     /* add boundary to undo-redo-list */
@@ -647,7 +622,7 @@ u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -676,7 +651,7 @@ u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_contr
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -705,7 +680,7 @@ u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_con
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -734,7 +709,7 @@ u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifi
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -763,7 +738,7 @@ u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifie
         data_feature_destroy( &new_feature );
         data_feature_destroy( &old_feature );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -812,7 +787,7 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
             *out_new_id = new_id;
         }
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     data_relationship_destroy( &to_be_created );
 
@@ -852,7 +827,7 @@ u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_cont
         data_relationship_destroy( &old_relation );
     }
 
-    result |= (u8_error_t) current_result5;
+    result |= current_result5;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -881,7 +856,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -910,7 +885,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_stereotype ( ctrl_clas
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -939,7 +914,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -968,7 +943,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_cla
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -997,7 +972,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_clas
         data_relationship_destroy( &new_relation );
         data_relationship_destroy( &old_relation );
     }
-    result = (u8_error_t) data_result;
+    result = data_result;
 
     U8_TRACE_END_ERR( result );
     return result;

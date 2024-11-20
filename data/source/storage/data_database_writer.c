@@ -431,10 +431,6 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
     bool object_still_referenced;
     data_diagram_t referencing_diagram[1];
     uint32_t referencing_diagram_count;
-    data_feature_t referencing_feature[1];
-    uint32_t referencing_feature_count;
-    data_relationship_t referencing_relationship[1];
-    uint32_t referencing_relationship_count;
     u8_error_t reference_check_err;
 
     result |= data_database_transaction_begin ( (*this_).database );
@@ -453,15 +449,23 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
     }
     else
     {
-        reference_check_err = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_feature, &referencing_feature_count );
-        if ( ( 0 != referencing_feature_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
+        data_feature_iterator_t feature_iterator;
+        result |= data_feature_iterator_init_empty( &feature_iterator );
+        result |= data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, obj_id, &feature_iterator );
+        const bool has_next_feature = data_feature_iterator_has_next( &feature_iterator );
+        result |= data_feature_iterator_destroy( &feature_iterator );
+        if ( has_next_feature )
         {
             object_still_referenced = true;
         }
         else
         {
-            reference_check_err = data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_relationship, &referencing_relationship_count );
-            if ( ( 0 != referencing_relationship_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
+            data_relationship_iterator_t rel_iterator;
+            result |= data_relationship_iterator_init_empty( &rel_iterator );
+            result |= data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader, obj_id, &rel_iterator );
+            const bool has_next_rel = data_relationship_iterator_has_next( &rel_iterator );
+            result |= data_relationship_iterator_destroy( &rel_iterator );
+            if ( has_next_rel )
             {
                 object_still_referenced = true;
             }

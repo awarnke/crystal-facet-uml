@@ -24,8 +24,8 @@
  *  \brief constants for maximum values of data_node_set_t
  */
 enum data_node_set_max_enum {
-    DATA_NODE_SET_MAX_FEATURES = 64,  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */
-    DATA_NODE_SET_MAX_RELATIONSHIPS = 256,  /*!< maximum number of relationships linked to all visible classifiers, even these of other diagrams */
+    DATA_NODE_SET_MAX_FEATURES = 128,  /*!< maximum number of features linked to a classifier, even invisible lifelines */
+    DATA_NODE_SET_MAX_RELATIONSHIPS = 1024,  /*!< maximum number of relationships linked to a classifier, even these of other diagrams */
 };
 
 /*!

@@ -110,50 +110,42 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
         result |= db_err;  /* collect error flags */
 
         /* load features */
-        db_err = data_database_reader_get_features_by_diagram_id ( db_reader,
+        data_feature_iterator_t feature_iterator;
+        result |= data_feature_iterator_init_empty( &feature_iterator );
+        result |= data_database_reader_get_features_by_diagram_id( db_reader,
                                                                    diagram_id,
-                                                                   DATA_VISIBLE_SET_MAX_FEATURES,
-                                                                   &((*this_).features),
-                                                                   &((*this_).feature_count)
+                                                                   &feature_iterator
                                                                  );
-
-        if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
+        for ( int_fast32_t f_idx = 0; (f_idx < DATA_VISIBLE_SET_MAX_FEATURES) && data_feature_iterator_has_next( &feature_iterator ); f_idx ++ )
         {
-            U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
+            result |= data_feature_iterator_next( &feature_iterator, &((*this_).features[f_idx]) );
+            (*this_).feature_count = f_idx+1;
         }
-        if ( u8_error_contains( db_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
+        if ( data_feature_iterator_has_next( &feature_iterator ) )
         {
+            result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
         }
-        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
-        {
-            /* error at loading */
-            (*this_).feature_count = 0;
-        }
-        result |= db_err;  /* collect error flags */
+        result |= data_feature_iterator_destroy( &feature_iterator );
 
         /* load relationships */
-        db_err = data_database_reader_get_relationships_by_diagram_id ( db_reader,
+        data_relationship_iterator_t rel_iterator;
+        result |= data_relationship_iterator_init_empty( &rel_iterator );
+        result |= data_database_reader_get_relationships_by_diagram_id( db_reader,
                                                                         diagram_id,
-                                                                        DATA_VISIBLE_SET_MAX_RELATIONSHIPS,
-                                                                        &((*this_).relationships),
-                                                                        &((*this_).relationship_count)
+                                                                        &rel_iterator
                                                                       );
-
-        if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
+        for ( int_fast32_t r_idx = 0; (r_idx < DATA_VISIBLE_SET_MAX_RELATIONSHIPS) && data_relationship_iterator_has_next( &rel_iterator ); r_idx ++ )
         {
-            U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
+            result |= data_relationship_iterator_next( &rel_iterator, &((*this_).relationships[r_idx]) );
+            (*this_).relationship_count = r_idx+1;
         }
-        if ( u8_error_contains( db_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
+        if ( data_feature_iterator_has_next( &feature_iterator ) )
         {
+            result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
-        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
-        {
-            /* error at loading */
-            (*this_).relationship_count = 0;
-        }
-        result |= db_err;  /* collect error flags */
+        result |= data_relationship_iterator_destroy( &rel_iterator );
     }
 
     /* update the containment cache */

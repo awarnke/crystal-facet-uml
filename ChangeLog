@@ -1,7 +1,7 @@
 crystal-facet-uml (1.61.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * ...
+  * database iterator allows to handle unexpected many lifelines and messages
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 27 Oct 2024 09:00:00 +0200
 

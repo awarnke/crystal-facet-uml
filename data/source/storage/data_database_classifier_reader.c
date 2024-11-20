@@ -414,12 +414,6 @@ u8_error_t data_database_classifier_reader_get_all_classifiers( data_database_cl
         = hierarchical
         ? (*this_).statement_classifiers_all_hierarchical
         : (*this_).statement_classifiers_all;
-    const int sqlite_err = sqlite3_reset( db_statement );
-    if ( sqlite_err != SQLITE_OK )
-    {
-        U8_LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
-        result |= U8_ERROR_AT_DB;
-    }
     bool *const borrow_flag
         = hierarchical
         ? &((*this_).statement_classifiers_all_hierarchical_borrowed)
@@ -449,26 +443,6 @@ static const char DATA_DATABASE_READER_SELECT_FEATURE_BY_ID[] =
 static const char DATA_DATABASE_READER_SELECT_FEATURE_BY_UUID[] =
     "SELECT id,main_type,classifier_id,key,value,description,list_order,uuid "
     "FROM features WHERE uuid=?;";
-
-/*!
- *  \brief predefined search statement to find features by diagram-id
- */
-static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID[] =
-    "SELECT features.id,features.main_type,features.classifier_id,"
-    "features.key,features.value,features.description,features.list_order,features.uuid,"
-    "diagramelements.id " /* diagramelements.id needed only for debugging */
-    "FROM features INNER JOIN diagramelements ON diagramelements.classifier_id=features.classifier_id "
-    "WHERE diagramelements.diagram_id=? GROUP BY features.id ORDER BY features.list_order ASC;";
-
-/*!
- *  \brief predefined search statement to find features by classifier-id
- *
- *  Order by id to ensure a defined, non-changeing order of relationships in json export
- */
-static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID[] =
-    "SELECT id,main_type,classifier_id,key,value,description,list_order,uuid "
-    "FROM features "
-    "WHERE classifier_id=? ORDER BY id ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -509,11 +483,6 @@ static const int RESULT_FEATURE_LIST_ORDER_COLUMN = 6;
  *  \brief the column id of the result where this parameter is stored: uuid
  */
 static const int RESULT_FEATURE_LIST_UUID_COLUMN = 7;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagramelements.id
- */
-static const int RESULT_FEATURE_DIAGRAMELEMENTS_ID_COLUMN = 8;
 
 u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
                                                                data_row_id_t id,
@@ -621,63 +590,23 @@ u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_c
 
 u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
                                                                            data_row_id_t classifier_id,
-                                                                           uint32_t max_out_array_size,
-                                                                           data_feature_t (*out_feature)[],
-                                                                           uint32_t *out_feature_count )
+                                                                           data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_feature_count );
-    assert( NULL != out_feature );
+    assert( NULL != io_feature_iterator );
     u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    sqlite3_stmt *prepared_statement;
 
-    {
-        prepared_statement = (*this_).statement_features_by_classifier_id;
+    sqlite3_stmt *const prepared_statement = (*this_).statement_features_by_classifier_id;
+    result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
 
-        result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
-
-        *out_feature_count = 0;
-        sqlite_err = SQLITE_ROW;
-        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
-        {
-            U8_TRACE_INFO( "sqlite3_step()" );
-            sqlite_err = sqlite3_step( prepared_statement );
-            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
-            {
-                *out_feature_count = row_index+1;
-                data_feature_t *current_feature;
-                current_feature = &((*out_feature)[row_index]);
-
-                result |= data_feature_init( current_feature,
-                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
-                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
-                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_VALUE_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_DESCRIPTION_COLUMN ),
-                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_LIST_ORDER_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_LIST_UUID_COLUMN )
-                                           );
-
-                data_feature_trace( current_feature );
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
-            {
-                U8_LOG_ANOMALY_INT( "out_feature[] full:", (row_index+1) );
-                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-            }
-            if ( SQLITE_DONE == sqlite_err )
-            {
-                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
-            }
-        }
-    }
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement,
+                                      (*this_).database,
+                                      prepared_statement,
+                                      &((*this_).statement_features_by_classifier_id_borrowed)
+                                    );
+    result |= data_feature_iterator_reinit( io_feature_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -685,64 +614,23 @@ u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_
 
 u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
                                                                         data_row_id_t diagram_id,
-                                                                        uint32_t max_out_array_size,
-                                                                        data_feature_t (*out_feature)[],
-                                                                        uint32_t *out_feature_count )
+                                                                        data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_feature_count );
-    assert( NULL != out_feature );
+    assert( NULL != io_feature_iterator );
     u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    sqlite3_stmt *prepared_statement;
 
-    {
-        prepared_statement = (*this_).statement_features_by_diagram_id;
+    sqlite3_stmt *const prepared_statement = (*this_).statement_features_by_diagram_id;
+    result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
-        result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
-
-        *out_feature_count = 0;
-        sqlite_err = SQLITE_ROW;
-        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
-        {
-            U8_TRACE_INFO( "sqlite3_step()" );
-            sqlite_err = sqlite3_step( prepared_statement );
-            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
-            {
-                *out_feature_count = row_index+1;
-                data_feature_t *current_feature;
-                current_feature = &((*out_feature)[row_index]);
-
-                result |= data_feature_init( current_feature,
-                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
-                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
-                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_VALUE_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_DESCRIPTION_COLUMN ),
-                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_LIST_ORDER_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_LIST_UUID_COLUMN )
-                                           );
-
-                U8_TRACE_INFO_INT( "diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_FEATURE_DIAGRAMELEMENTS_ID_COLUMN ) );
-                data_feature_trace( current_feature );
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
-            {
-                U8_LOG_ANOMALY_INT( "out_feature[] full:", (row_index+1) );
-                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-            }
-            if ( SQLITE_DONE == sqlite_err )
-            {
-                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
-            }
-        }
-    }
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement,
+                                      (*this_).database,
+                                      prepared_statement,
+                                      &((*this_).statement_features_by_diagram_id_borrowed)
+                                    );
+    result |= data_feature_iterator_reinit( io_feature_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -765,44 +653,6 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_UUID[] =
     "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid "
     "FROM relationships WHERE uuid=?;";
-
-/*!
- *  \brief predefined search statement to find relationships by diagram-id
- */
-static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
-    "SELECT relationships.id,relationships.main_type,relationships.from_classifier_id,relationships.to_classifier_id,"
-    "relationships.stereotype,relationships.name,relationships.description,relationships.list_order,"
-    "relationships.from_feature_id,relationships.to_feature_id,relationships.uuid,"
-    "source.id, dest.id " /* source.id, dest.id needed only for debugging */
-    "FROM relationships "
-    "INNER JOIN diagramelements AS source "
-    "ON source.classifier_id=relationships.from_classifier_id "
-    "INNER JOIN diagramelements AS dest "
-    "ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id=source.diagram_id) "
-    "WHERE source.diagram_id=? "
-    "GROUP BY relationships.id "
-    "ORDER BY relationships.list_order ASC;";
-
-/*!
- *  \brief predefined search statement to find relationships by classifier-id
- *
- *  Order by id to ensure a defined, non-changeing order of relationships in json export
- */
-static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
-    "from_feature_id,to_feature_id,uuid "
-    "FROM relationships "
-    "WHERE from_classifier_id=? OR to_classifier_id=? "
-    "ORDER BY id ASC;";
-
-/*!
- *  \brief predefined search statement to find relationships by feature-id
- */
-static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
-    "from_feature_id,to_feature_id,uuid "
-    "FROM relationships "
-    "WHERE from_feature_id=? OR to_feature_id=?;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -858,16 +708,6 @@ static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 9;
  *  \brief the column id of the result where this parameter is stored: uuid
  */
 static const int RESULT_RELATIONSHIP_UUID_COLUMN = 10;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: source diagramelements.id
- */
-static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 11;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: dest diagramelements.id
- */
-static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 12;
 
 u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_,
                                                                     data_row_id_t id,
@@ -997,74 +837,23 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
 
 u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
                                                                                 data_row_id_t classifier_id,
-                                                                                uint32_t max_out_array_size,
-                                                                                data_relationship_t (*out_relationship)[],
-                                                                                uint32_t *out_relationship_count )
+                                                                                data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_relationship_count );
-    assert( NULL != out_relationship );
+    assert( NULL != io_relationship_iterator );
     u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    sqlite3_stmt *prepared_statement;
 
-    {
-        prepared_statement = (*this_).statement_relationships_by_classifier_id;
+    sqlite3_stmt *const prepared_statement = (*this_).statement_relationships_by_classifier_id;
+    result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
 
-        result |= data_database_classifier_reader_private_bind_two_ids_to_statement( this_, prepared_statement, classifier_id, classifier_id );
-
-        *out_relationship_count = 0;
-        sqlite_err = SQLITE_ROW;
-        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
-        {
-            U8_TRACE_INFO( "sqlite3_step()" );
-            sqlite_err = sqlite3_step( prepared_statement );
-            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
-            {
-                *out_relationship_count = row_index+1;
-                data_relationship_t *current_relation;
-                current_relation = &((*out_relationship)[row_index]);
-
-                result |= data_relationship_init( current_relation,
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_UUID_COLUMN )
-                                                );
-                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
-                {
-                    data_relationship_set_from_feature_row_id ( current_relation, DATA_ROW_ID_VOID );
-                }
-                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
-                {
-                    data_relationship_set_to_feature_row_id ( current_relation, DATA_ROW_ID_VOID );
-                }
-
-                data_relationship_trace( current_relation );
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
-            {
-                U8_LOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
-                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-            }
-            if ( SQLITE_DONE == sqlite_err )
-            {
-                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
-            }
-        }
-    }
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement,
+                                      (*this_).database,
+                                      prepared_statement,
+                                      &((*this_).statement_relationships_by_classifier_id_borrowed)
+                                    );
+    result |= data_relationship_iterator_reinit( io_relationship_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -1072,74 +861,23 @@ u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( 
 
 u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
                                                                              data_row_id_t feature_id,
-                                                                             uint32_t max_out_array_size,
-                                                                             data_relationship_t (*out_relationship)[],
-                                                                             uint32_t *out_relationship_count )
+                                                                             data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_relationship_count );
-    assert( NULL != out_relationship );
+    assert( NULL != io_relationship_iterator );
     u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    sqlite3_stmt *prepared_statement;
 
-    {
-        prepared_statement = (*this_).statement_relationships_by_feature_id;
+    sqlite3_stmt *const prepared_statement = (*this_).statement_relationships_by_feature_id;
+    result |= data_database_classifier_reader_private_bind_two_ids_to_statement( this_, prepared_statement, feature_id, feature_id );
 
-        result |= data_database_classifier_reader_private_bind_two_ids_to_statement( this_, prepared_statement, feature_id, feature_id );
-
-        *out_relationship_count = 0;
-        sqlite_err = SQLITE_ROW;
-        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
-        {
-            U8_TRACE_INFO( "sqlite3_step()" );
-            sqlite_err = sqlite3_step( prepared_statement );
-            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
-            {
-                *out_relationship_count = row_index+1;
-                data_relationship_t *current_relation;
-                current_relation = &((*out_relationship)[row_index]);
-
-                result |= data_relationship_init( current_relation,
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_UUID_COLUMN )
-                                                );
-                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
-                {
-                    data_relationship_set_from_feature_row_id ( current_relation, DATA_ROW_ID_VOID );
-                }
-                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
-                {
-                    data_relationship_set_to_feature_row_id ( current_relation, DATA_ROW_ID_VOID );
-                }
-
-                data_relationship_trace( current_relation );
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
-            {
-                U8_LOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
-                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-            }
-            if ( SQLITE_DONE == sqlite_err )
-            {
-                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
-            }
-        }
-    }
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement,
+                                      (*this_).database,
+                                      prepared_statement,
+                                      &((*this_).statement_relationships_by_feature_id_borrowed)
+                                    );
+    result |= data_relationship_iterator_reinit( io_relationship_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -1147,76 +885,23 @@ u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( dat
 
 u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
                                                                              data_row_id_t diagram_id,
-                                                                             uint32_t max_out_array_size,
-                                                                             data_relationship_t (*out_relationship)[],
-                                                                             uint32_t *out_relationship_count )
+                                                                             data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
-    assert( NULL != out_relationship_count );
-    assert( NULL != out_relationship );
+    assert( NULL != io_relationship_iterator );
     u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    sqlite3_stmt *prepared_statement;
 
-    {
-        prepared_statement = (*this_).statement_relationships_by_diagram_id;
+    sqlite3_stmt *const prepared_statement = (*this_).statement_relationships_by_diagram_id;
+    result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
-        result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
-
-        *out_relationship_count = 0;
-        sqlite_err = SQLITE_ROW;
-        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
-        {
-            U8_TRACE_INFO( "sqlite3_step()" );
-            sqlite_err = sqlite3_step( prepared_statement );
-            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
-            {
-                *out_relationship_count = row_index+1;
-                data_relationship_t *current_relation;
-                current_relation = &((*out_relationship)[row_index]);
-
-                result |= data_relationship_init( current_relation,
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
-                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_STEREOTYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_UUID_COLUMN )
-                                                );
-                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
-                {
-                    data_relationship_set_from_feature_row_id ( current_relation, DATA_ROW_ID_VOID );
-                }
-                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
-                {
-                    data_relationship_set_to_feature_row_id ( current_relation, DATA_ROW_ID_VOID );
-                }
-
-                U8_TRACE_INFO_INT( "(source)diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN ) );
-                U8_TRACE_INFO_INT( "(dest)diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN ) );
-                data_relationship_trace( current_relation );
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
-            {
-                U8_LOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
-                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-            }
-            if ( SQLITE_DONE == sqlite_err )
-            {
-                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
-            }
-        }
-    }
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement,
+                                      (*this_).database,
+                                      prepared_statement,
+                                      &((*this_).statement_relationships_by_diagram_id_borrowed)
+                                    );
+    result |= data_relationship_iterator_reinit( io_relationship_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
 
     U8_TRACE_END_ERR( result );
     return result;
@@ -1281,16 +966,18 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
                                                  );
 
         result |= data_database_prepare_statement( (*this_).database,
-                                                   DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID,
-                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID ),
+                                                   DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_features_by_classifier_id)
                                                  );
+        (*this_).statement_features_by_classifier_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
-                                                   DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID,
-                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID ),
+                                                   DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_features_by_diagram_id)
                                                  );
+        (*this_).statement_features_by_diagram_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
@@ -1305,22 +992,25 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
                                                  );
 
         result |= data_database_prepare_statement( (*this_).database,
-                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID,
-                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID ),
+                                                   DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_relationships_by_classifier_id)
                                                  );
+        (*this_).statement_relationships_by_classifier_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
-                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID,
-                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID ),
+                                                   DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_FEATURE_ID,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_relationships_by_feature_id)
                                                  );
+        (*this_).statement_relationships_by_feature_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
-                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
-                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID ),
+                                                   DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_relationships_by_diagram_id)
                                                  );
+        (*this_).statement_relationships_by_diagram_id_borrowed = false;
 
         if ( result != U8_ERROR_NONE )
         {
@@ -1364,9 +1054,11 @@ u8_error_t data_database_classifier_reader_private_close ( data_database_classif
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_feature_by_uuid );
         (*this_).statement_feature_by_uuid = NULL;
 
+        assert( (*this_).statement_features_by_classifier_id_borrowed == false );
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_features_by_classifier_id );
         (*this_).statement_features_by_classifier_id = NULL;
 
+        assert( (*this_).statement_features_by_diagram_id_borrowed == false );
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_features_by_diagram_id );
         (*this_).statement_features_by_diagram_id = NULL;
 
@@ -1376,12 +1068,15 @@ u8_error_t data_database_classifier_reader_private_close ( data_database_classif
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationship_by_uuid );
         (*this_).statement_relationship_by_uuid = NULL;
 
+        assert( (*this_).statement_relationships_by_classifier_id_borrowed == false );
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationships_by_classifier_id );
         (*this_).statement_relationships_by_classifier_id = NULL;
 
+        assert( (*this_).statement_relationships_by_feature_id_borrowed == false );
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationships_by_feature_id );
         (*this_).statement_relationships_by_feature_id = NULL;
 
+        assert( (*this_).statement_relationships_by_diagram_id_borrowed == false );
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_relationships_by_diagram_id );
         (*this_).statement_relationships_by_diagram_id = NULL;
     }
