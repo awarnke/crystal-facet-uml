@@ -299,8 +299,8 @@ u8_error_t io_export_model_traversal_private_walk_node ( io_export_model_travers
 }
 
 u8_error_t io_export_model_traversal_private_begin_node ( io_export_model_traversal_t *this_,
-                                                   data_classifier_type_t host_type,
-                                                   const data_node_set_t *node_data )
+                                                          data_classifier_type_t host_type,
+                                                          const data_node_set_t *node_data )
 {
     U8_TRACE_BEGIN();
     assert( node_data != NULL );

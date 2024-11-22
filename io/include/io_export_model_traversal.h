@@ -18,6 +18,8 @@
 #include "set/data_node_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_feature_iterator.h"
+#include "storage/data_relationship_iterator.h"
 #include "entity/data_table.h"
 #include "u8list/universal_array_list.h"
 #include "u8/u8_error.h"
