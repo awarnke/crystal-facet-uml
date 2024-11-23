@@ -521,7 +521,7 @@ void gui_simple_message_to_user_show_message_with_names_and_stat( gui_simple_mes
         gui_simple_message_to_user_private_append_stat( this_, stat, true, (*this_).private_temp_str );
         if ( 0 != data_stat_get_series_count ( stat, DATA_STAT_SERIES_WARNING ) )
         {
-            utf8stringbuf_append_str( (*this_).private_temp_str, "\nFor details see comments in exported files." );
+            utf8stringbuf_append_str( (*this_).private_temp_str, "\nFor details see comments in exported xmi file." );
         }
     }
     else

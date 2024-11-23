@@ -110,6 +110,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
         result |= db_err;  /* collect error flags */
 
         /* load features */
+        (*this_).feature_count = 0;
         data_feature_iterator_t feature_iterator;
         result |= data_feature_iterator_init_empty( &feature_iterator );
         result |= data_database_reader_get_features_by_diagram_id( db_reader,
@@ -129,6 +130,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
         result |= data_feature_iterator_destroy( &feature_iterator );
 
         /* load relationships */
+        (*this_).relationship_count = 0;
         data_relationship_iterator_t rel_iterator;
         result |= data_relationship_iterator_init_empty( &rel_iterator );
         result |= data_database_reader_get_relationships_by_diagram_id( db_reader,
