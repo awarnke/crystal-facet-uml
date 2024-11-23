@@ -23,7 +23,6 @@
 #include "unit/data_database_head_test.h"
 #include "integration/data_database_reader_test.h"
 #include "integration/data_profile_part_test.h"
-#include "integration/data_node_set_test.h"
 #include "integration/data_visible_set_test.h"
 /* ctrl */
 #include "integration/ctrl_diagram_controller_test.h"
@@ -232,7 +231,6 @@ int main (int argc, char *argv[]) {
 
         test_runner_run_suite( &runner, data_database_reader_test_get_suite() );
         test_runner_run_suite( &runner, data_profile_part_test_get_suite() );
-        test_runner_run_suite( &runner, data_node_set_test_get_suite() );
         test_runner_run_suite( &runner, data_visible_set_test_get_suite() );
 
         /* ctrl */

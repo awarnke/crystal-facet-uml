@@ -16,7 +16,6 @@
 #include "io_element_writer.h"
 #include "xmi/xmi_interaction_writer.h"
 #include "set/data_visible_set.h"
-#include "set/data_node_set.h"
 #include "set/data_stat.h"
 #include "storage/data_database_reader.h"
 #include "entity/data_table.h"

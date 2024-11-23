@@ -28,7 +28,7 @@
  *  \brief constants for maximum values of io_export_model_traversal_t
  */
 enum io_export_model_traversal_max_enum {
-    IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS = 32768,  /*!< maximum number of total classifiers and relationships to be exported */
+    IO_EXPORT_MODEL_TRAVERSAL_MAX_TOTAL_ELEMENTS = 65536,  /*!< maximum number of total classifiers and relationships to be exported */
     IO_EXPORT_MODEL_TRAVERSAL_MAX_TREE_DEPTH = 32,  /*!< maximum number of recursive descend into containment children */
 };
 
