@@ -31,7 +31,7 @@ pub(super) fn testcase_version(environment: &mut FixtureCli) -> Result<(), ()> {
     };
 
     /* check if the returned string looks valid */
-    let expected_pattern = Regex::new(r"^\s*\d+\.\d+\.\d+\s*$").unwrap();
+    let expected_pattern = Regex::new(r"^\s*\d+\.\d+\.\d+-?\w*\s*$").unwrap();
     let success = expected_pattern.is_match(&stdout);
 
     /* check that the exit code is 0 */

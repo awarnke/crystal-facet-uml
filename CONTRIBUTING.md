@@ -7,7 +7,7 @@ Please file each bug fix, code adaption or new feature in a separate pull reques
 Links to external documentation, mailing lists, or a code of conduct
 ====================================================================
 
-Please check the [programming guidelines.txt](documentation/architecture/programming_guidelines.txt)
+Please check the [coding_guidelines.txt](documentation/architecture/coding_guidelines.txt)
 
 Community and behavioral expectations
 =====================================
