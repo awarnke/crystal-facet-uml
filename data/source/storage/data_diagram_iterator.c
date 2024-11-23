@@ -8,15 +8,15 @@
 #include <assert.h>
 #include <stdint.h>
 
-const char DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID[] =
+const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID =
     "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
-const char DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
+const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID_NULL =
     "SELECT id,parent_id,diagram_type,stereotype,name,description,list_order,display_flags,uuid "
     "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
-const char DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
+const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID =
     "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,diagrams.stereotype,"
     "diagrams.name,diagrams.description,diagrams.list_order,diagrams.display_flags,diagrams.uuid "
     "FROM diagrams "

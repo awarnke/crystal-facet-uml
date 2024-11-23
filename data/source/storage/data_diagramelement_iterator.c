@@ -11,14 +11,14 @@
 /*
  *  The "order by id" is important to get reproducable results, e.g. for json export
  */
-const char DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID[] =
+const char *const DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID =
     "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id,uuid FROM diagramelements "
     "WHERE diagram_id=? ORDER BY id ASC;";
 
 /*
  *  The "order by id" is important to get reproducable results, e.g. for json export
  */
-const char DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID[] =
+const char *const DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID =
     "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id,uuid FROM diagramelements "
     "WHERE classifier_id=? ORDER BY id ASC;";
 

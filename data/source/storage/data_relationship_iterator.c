@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <stdint.h>
 
-const char DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
+const char *const DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID =
     "SELECT relationships.id,relationships.main_type,relationships.from_classifier_id,relationships.to_classifier_id,"
     "relationships.stereotype,relationships.name,relationships.description,relationships.list_order,"
     "relationships.from_feature_id,relationships.to_feature_id,relationships.uuid,"
@@ -25,14 +25,14 @@ const char DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
 /*
  *  Order by id to ensure a defined, non-changeing order of relationships in json export
  */
-const char DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
+const char *const DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID =
     "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid,-1,-1 "
     "FROM relationships "
     "WHERE from_classifier_id=? OR to_classifier_id=? "
     "ORDER BY id ASC;";
 
-const char DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_FEATURE_ID[] =
+const char *const DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_FEATURE_ID =
     "SELECT id,main_type,from_classifier_id,to_classifier_id,stereotype,name,description,list_order,"
     "from_feature_id,to_feature_id,uuid,-1,-1 "
     "FROM relationships "

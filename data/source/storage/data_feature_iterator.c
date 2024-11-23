@@ -11,7 +11,7 @@
 /*!
  *  \brief predefined search statement to find features by diagram-id
  */
-const char DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID[] =
+const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID =
     "SELECT features.id,features.main_type,features.classifier_id,"
     "features.key,features.value,features.description,features.list_order,features.uuid,"
     "diagramelements.id " /* diagramelements.id needed only for debugging */
@@ -23,7 +23,7 @@ const char DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID[] =
  *
  *  Order by id to ensure a defined, non-changeing order of relationships in json export
  */
-const char DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID[] =
+const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID =
     "SELECT id,main_type,classifier_id,key,value,description,list_order,uuid,-1 "
     "FROM features "
     "WHERE classifier_id=? ORDER BY id ASC;";

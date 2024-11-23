@@ -39,17 +39,17 @@ typedef struct data_relationship_iterator_struct data_relationship_iterator_t;
 /*!
  *  \brief predefined search statement to find relationships by diagram-id
  */
-extern const char DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[];
+extern const char *const DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID;
 
 /*!
  *  \brief predefined search statement to find relationships by classifier-id
  */
-extern const char DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[];
+extern const char *const DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID;
 
 /*!
  *  \brief predefined search statement to find relationships by feature-id
  */
-extern const char DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_FEATURE_ID[];
+extern const char *const DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_FEATURE_ID;
 
 /*!
  *  \brief initializes the data_relationship_iterator_t struct to an empty set

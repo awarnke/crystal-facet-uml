@@ -39,12 +39,12 @@ typedef struct data_diagramelement_iterator_struct data_diagramelement_iterator_
 /*!
  *  \brief predefined search statement to find diagramelements by diagram id
  */
-extern const char DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID[];
+extern const char *const DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID;
 
 /*!
  *  \brief predefined search statement to find diagramelements by classifier id
  */
-extern const char DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID[];
+extern const char *const DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID;
 
 /*!
  *  \brief initializes the data_diagramelement_iterator_t struct to an empty set

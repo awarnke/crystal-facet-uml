@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.61.1"
+    "generator_version": "1.61.1-rc1"
   }
   ,
   "views":
@@ -1424,6 +1424,27 @@
             "classifier_name": "deb, rpm",
             "node": "2843fd78-c568-46e8-ae0d-1a212b87a42f",
             "uuid": "e7485e2c-da7a-479d-bc2d-29e18611ecb2"
+          },
+          {
+            "id": 907,
+            "display_flags": 0,
+            "classifier_name": "exe/zip",
+            "node": "8ddd6014-09f1-45cf-8a20-c582a0a29342",
+            "uuid": "e5d1a4f8-dd9e-4ed3-82c4-683122732b2a"
+          },
+          {
+            "id": 908,
+            "display_flags": 0,
+            "classifier_name": "Development Tools",
+            "node": "09845331-dec8-4dfe-ae18-7107480df724",
+            "uuid": "2fa4554f-1b9a-4c79-925c-c8a7c1e80f35"
+          },
+          {
+            "id": 909,
+            "display_flags": 0,
+            "classifier_name": "icon_artist",
+            "node": "a0cf9e76-52b9-4270-877d-c9418bf7395d",
+            "uuid": "2b283885-2b27-40d2-bb33-f073c4d71e9a"
           }
         ]
       }
@@ -19065,6 +19086,73 @@
         [
         ]
       }
+    },
+    {
+      "classifier": {
+        "id": 551,
+        "main_type": 110,
+        "type": "Activity",
+        "stereotype": "package",
+        "name": "exe/zip",
+        "description": [
+                ""
+        ],
+        "x_order": 1926353862,
+        "y_order": -1059688457,
+        "list_order": -1059688457,
+        "uuid": "8ddd6014-09f1-45cf-8a20-c582a0a29342",
+        "features":
+        [
+          {
+            "id": 147,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "test-env",
+            "value": "wine",
+            "description": [
+                ""
+            ],
+            "list_order": -1491173673,
+            "uuid": "6b7b1d28-3b59-49fc-a192-dc5784c146c0"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 552,
+        "main_type": 130,
+        "type": "Comment",
+        "name": "Development Tools",
+        "description": [
+                "for development of crystal-facet-uml"
+        ],
+        "x_order": 1926353862,
+        "y_order": 1338813496,
+        "list_order": 1338813496,
+        "uuid": "09845331-dec8-4dfe-ae18-7107480df724",
+        "features":
+        [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 553,
+        "main_type": 110,
+        "type": "Activity",
+        "name": "icon_artist",
+        "description": [
+                "The icon artist is a rust programm that generates icons in various formats."
+        ],
+        "x_order": -788439225,
+        "y_order": -1092644639,
+        "list_order": -1092644639,
+        "uuid": "a0cf9e76-52b9-4270-877d-c9418bf7395d",
+        "features":
+        [
+        ]
+      }
     }
   ]
   ,
@@ -20606,6 +20694,23 @@
         "from_node": "50139969-a782-4b59-a8a3-67ff27892afa",
         "to_node": "2843fd78-c568-46e8-ae0d-1a212b87a42f",
         "uuid": "f8d71cea-58bd-4091-8201-abab653b4d41"
+      }
+    },
+    {
+      "relationship": {
+        "id": 994,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "pack for windows",
+        "description": [
+                ""
+        ],
+        "list_order": 66560,
+        "from_classifier_name": "cmake",
+        "to_classifier_name": "exe/zip",
+        "from_node": "50139969-a782-4b59-a8a3-67ff27892afa",
+        "to_node": "8ddd6014-09f1-45cf-8a20-c582a0a29342",
+        "uuid": "f6819460-3134-4ecd-b032-be54992a136d"
       }
     },
     {
@@ -33245,6 +33350,23 @@
         "from_node": "b2615244-b91d-4dc7-8527-645ee30af9a0",
         "to_node": "c3d5da3e-0227-4d08-a5e3-d1812b46bc87",
         "uuid": "5b1ad943-4f69-4e9b-8385-68b9994c5b1a"
+      }
+    },
+    {
+      "relationship": {
+        "id": 995,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "generated code",
+        "description": [
+                ""
+        ],
+        "list_order": 99328,
+        "from_classifier_name": "icon_artist",
+        "to_classifier_name": "c + doxygen + docbook",
+        "from_node": "a0cf9e76-52b9-4270-877d-c9418bf7395d",
+        "to_node": "73518f23-8ab4-4889-87a8-b74032072d85",
+        "uuid": "4daca06c-4202-4c9a-9df9-56ae6d2ed360"
       }
     }
   ]

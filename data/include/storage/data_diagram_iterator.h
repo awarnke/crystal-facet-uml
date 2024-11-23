@@ -39,17 +39,17 @@ typedef struct data_diagram_iterator_struct data_diagram_iterator_t;
 /*!
  *  \brief predefined search statement to find diagrams by parent-id
  */
-extern const char DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID[];
+extern const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID;
 
 /*!
  *  \brief predefined search statement to find diagrams by NULL parent-id
  */
-extern const char DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[];
+extern const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID_NULL;
 
 /*!
  *  \brief predefined search statement to find diagrams by classifier-id
  */
-extern const char DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[];
+extern const char *const DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID;
 
 /*!
  *  \brief initializes the data_diagram_iterator_t struct to an empty set

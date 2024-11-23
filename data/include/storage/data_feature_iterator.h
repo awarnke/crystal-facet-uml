@@ -39,14 +39,14 @@ typedef struct data_feature_iterator_struct data_feature_iterator_t;
 /*!
  *  \brief predefined search statement to find features by diagram-id
  */
-extern const char DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID[];
+extern const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID;
 
 /*!
  *  \brief predefined search statement to find features by classifier-id
  *
  *  Order by id to ensure a defined, non-changeing order of relationships in json export
  */
-extern const char DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID[];
+extern const char *const DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID;
 
 /*!
  *  \brief initializes the data_feature_iterator_t struct to an empty set

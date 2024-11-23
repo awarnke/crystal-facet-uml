@@ -12,7 +12,7 @@
  *  The "order by cnt" is important to ensure parent objects are iterated first, e.g. for xmi export
  *  The "order by id" is important to get reproducable results
  */
-const char DATA_CLASSIFIER_ITERATOR_SELECT_ALL_HIERARCHICAL[] =
+const char *const DATA_CLASSIFIER_ITERATOR_SELECT_ALL_HIERARCHICAL =
     "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order,uuid,"
         "(SELECT count(*) FROM relationships "
         "WHERE (relationships.to_classifier_id=classifiers.id) AND (relationships.to_feature_id IS NULL) "
@@ -23,7 +23,7 @@ const char DATA_CLASSIFIER_ITERATOR_SELECT_ALL_HIERARCHICAL[] =
 /*
  *  The "order by id" is important to get reproducable results, e.g. for json export
  */
-const char DATA_CLASSIFIER_ITERATOR_SELECT_ALL[] =
+const char *const DATA_CLASSIFIER_ITERATOR_SELECT_ALL =
     "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order,uuid,-1 "
     "FROM classifiers "
     "ORDER BY id ASC;";

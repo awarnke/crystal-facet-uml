@@ -41,12 +41,12 @@ typedef struct data_classifier_iterator_struct data_classifier_iterator_t;
  *
  *  Objects that have no parents are iterated first.
  */
-extern const char DATA_CLASSIFIER_ITERATOR_SELECT_ALL_HIERARCHICAL[];
+extern const char *const DATA_CLASSIFIER_ITERATOR_SELECT_ALL_HIERARCHICAL;
 
 /*!
  *  \brief search statement to iterate over all classifiers
  */
-extern const char DATA_CLASSIFIER_ITERATOR_SELECT_ALL[];
+extern const char *const DATA_CLASSIFIER_ITERATOR_SELECT_ALL;
 
 /*!
  *  \brief initializes the data_classifier_iterator_t struct to an empty set
