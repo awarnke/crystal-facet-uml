@@ -1,3 +1,11 @@
+crystal-facet-uml (1.61.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Database iterator allows the model export to handle unexpected many life-
+    lines and messages
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 24 Nov 2024 18:30:00 +0100
+
 crystal-facet-uml (1.61.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
