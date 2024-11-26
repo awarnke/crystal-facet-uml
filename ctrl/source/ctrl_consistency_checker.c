@@ -133,84 +133,93 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     assert ( NULL != out_english_report );
-    u8_error_t err_result = U8_ERROR_NONE;
-    u8_error_t data_err;
+    u8_error_t result = U8_ERROR_NONE;
 
     /* write report title */
     utf8stream_writer_write_str( out_english_report, "STEP: Ensure a single root diagram\n" );
 
     /* get all root diagrams */
-    uint32_t out_diagram_count;
-    data_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader,
-                                                                DATA_ROW_ID_VOID,
-                                                                CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER,
-                                                                &((*this_).temp_diagram_buffer),
-                                                                &out_diagram_count
-                                                              );
+    data_small_set_t all_roots;
+    data_small_set_init( &all_roots );
+    data_diagram_iterator_t diagram_iterator;
+    result |= data_diagram_iterator_init_empty( &diagram_iterator );
 
-    if ( U8_ERROR_NONE == data_err )
+    result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
+                                                              DATA_ROW_ID_VOID,
+                                                              &diagram_iterator
+                                                            );
+
+    if ( U8_ERROR_NONE != result )
     {
-        utf8stream_writer_write_str( out_english_report, "    ROOT DIAGRAM COUNT: " );
-        utf8stream_writer_write_int( out_english_report, out_diagram_count );
+        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
+    }
+
+    while ( data_diagram_iterator_has_next( &diagram_iterator ) )
+    {
+        result |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
+        result |= data_small_set_add_obj( &all_roots, data_diagram_get_data_id( &((*this_).temp_diagram) ) );
+
+        utf8stream_writer_write_str( out_english_report, "    INFO: Root diagram: " );
+        utf8stream_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram) ) );
+        utf8stream_writer_write_str( out_english_report, ": " );
+        utf8stream_writer_write_str( out_english_report, data_diagram_get_name_const( &((*this_).temp_diagram) ) );
         utf8stream_writer_write_str( out_english_report, "\n" );
-        for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
+    }
+    const uint_fast32_t root_diagram_count = data_small_set_get_count( &all_roots );
+    utf8stream_writer_write_str( out_english_report, "    ROOT DIAGRAM COUNT: " );
+    utf8stream_writer_write_int( out_english_report, root_diagram_count );
+    utf8stream_writer_write_str( out_english_report, "\n" );
+    result |= data_diagram_iterator_destroy( &diagram_iterator );
+
+    if ( root_diagram_count == 0 )
+    {
+        (*io_err) ++;
+        utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Create a diagram via the GUI.\n" );
+    }
+    else if ( root_diagram_count > 1 )
+    {
+        (*io_err) += (root_diagram_count-1) ;
+        const data_id_t proposed_root_diagram = data_small_set_get_id( &all_roots, 0 );
+        const data_row_id_t proposed_root_diagram_id = data_id_get_row_id( &proposed_root_diagram );
+        if ( ! modify_db )
         {
-            utf8stream_writer_write_str( out_english_report, "    INFO: Root diagram: " );
-            utf8stream_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
-            utf8stream_writer_write_str( out_english_report, ": " );
-            utf8stream_writer_write_str( out_english_report, data_diagram_get_name_const( &((*this_).temp_diagram_buffer[list_pos]) ) );
+            utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Attach additional root diagrams below the first: " );
+            utf8stream_writer_write_int( out_english_report, proposed_root_diagram_id );
             utf8stream_writer_write_str( out_english_report, "\n" );
         }
-        if ( out_diagram_count == 0 )
+        else
         {
-            (*io_err) ++;
-            utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Create a diagram via the GUI.\n" );
-        }
-        else if ( out_diagram_count > 1 )
-        {
-            (*io_err) += (out_diagram_count-1) ;
-            data_row_id_t proposed_root_diagram_id = data_diagram_get_row_id( &((*this_).temp_diagram_buffer[0]) );
-            if ( ! modify_db )
+            for ( int list_pos = 1; list_pos < root_diagram_count; list_pos ++ )
             {
-                utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Attach additional root diagrams below the first: " );
-                utf8stream_writer_write_int( out_english_report, proposed_root_diagram_id );
-                utf8stream_writer_write_str( out_english_report, "\n" );
-            }
-            else
-            {
-                for ( int list_pos = 1; list_pos < out_diagram_count; list_pos ++ )
+                const data_id_t proposed_child_diagram = data_small_set_get_id( &all_roots, list_pos );
+                const data_row_id_t proposed_child_diagram_id = data_id_get_row_id( &proposed_child_diagram );
+                const u8_error_t data_err
+                    = data_database_writer_update_diagram_parent_id( (*this_).db_writer,
+                                                                     proposed_child_diagram_id,
+                                                                     proposed_root_diagram_id,
+                                                                     NULL
+                                                                   );
+                if ( U8_ERROR_NONE == data_err )
                 {
-                    data_err = data_database_writer_update_diagram_parent_id ( (*this_).db_writer,
-                                                                               data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ),
-                                                                               proposed_root_diagram_id,
-                                                                               NULL
-                                                                             );
-                    if ( U8_ERROR_NONE == data_err )
-                    {
-                        utf8stream_writer_write_str( out_english_report, "    FIX: Diagram " );
-                        utf8stream_writer_write_int( out_english_report, data_diagram_get_row_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
-                        utf8stream_writer_write_str( out_english_report, " attached to " );
-                        utf8stream_writer_write_int( out_english_report, proposed_root_diagram_id);
-                        utf8stream_writer_write_str( out_english_report, "\n" );
-                        (*io_fix) ++;
-                    }
-                    else
-                    {
-                        utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= data_err;
-                    }
+                    utf8stream_writer_write_str( out_english_report, "    FIX: Diagram " );
+                    utf8stream_writer_write_int( out_english_report, proposed_child_diagram_id );
+                    utf8stream_writer_write_str( out_english_report, " attached to " );
+                    utf8stream_writer_write_int( out_english_report, proposed_root_diagram_id);
+                    utf8stream_writer_write_str( out_english_report, "\n" );
+                    (*io_fix) ++;
+                }
+                else
+                {
+                    utf8stream_writer_write_str( out_english_report, "ERROR WRITING DATABASE.\n" );
+                    result |= data_err;
                 }
             }
         }
     }
-    else
-    {
-        utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
-        err_result |= data_err;
-    }
+    data_small_set_destroy( &all_roots );
 
-    U8_TRACE_END_ERR( err_result );
-    return err_result;
+    U8_TRACE_END_ERR( result );
+    return result;
 }
 
 u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
@@ -246,17 +255,18 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
             /* get the root diagram */
             data_row_id_t root_diag_id = DATA_ROW_ID_VOID;
             {
-                uint32_t out_diagram_count;
-                data_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader,
-                                                                            DATA_ROW_ID_VOID,
-                                                                            CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER,
-                                                                            &((*this_).temp_diagram_buffer),
-                                                                            &out_diagram_count
-                                                                          );
-                if (( U8_ERROR_NONE == data_err )&&( out_diagram_count > 0 ))
+                data_diagram_iterator_t diagram_iterator;
+                err_result |= data_diagram_iterator_init_empty( &diagram_iterator );
+                err_result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
+                                                                              DATA_ROW_ID_VOID,
+                                                                              &diagram_iterator
+                                                                            );
+                if (( U8_ERROR_NONE == err_result )&& data_diagram_iterator_has_next( &diagram_iterator ) )
                 {
-                    root_diag_id = data_diagram_get_row_id( &((*this_).temp_diagram_buffer[0]) );
+                    err_result |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
+                    root_diag_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
                 }
+                err_result |= data_diagram_iterator_destroy( &diagram_iterator );
             }
 
             if ( ! modify_db )
@@ -302,6 +312,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
         utf8stream_writer_write_str( out_english_report, "ERROR READING DATABASE.\n" );
         err_result |= data_err;
     }
+    data_small_set_destroy( &circ_ref );
 
     U8_TRACE_END_ERR( err_result );
     return err_result;

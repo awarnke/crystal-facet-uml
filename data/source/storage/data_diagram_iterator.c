@@ -83,7 +83,7 @@ u8_error_t data_diagram_iterator_init_empty ( data_diagram_iterator_t *this_ )
 }
 
 u8_error_t data_diagram_iterator_reinit ( data_diagram_iterator_t *this_,
-                                             data_database_borrowed_stmt_t statement )
+                                          data_database_borrowed_stmt_t statement )
 {
     U8_TRACE_BEGIN();
     assert( data_database_borrowed_stmt_is_valid( &statement ) );

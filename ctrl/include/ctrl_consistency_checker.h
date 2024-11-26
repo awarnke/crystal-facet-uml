@@ -50,13 +50,6 @@
 #include <stdint.h>
 
 /*!
- *  \brief constants to define maximum array sizes
- */
-enum ctrl_consistency_checker_max_enum {
-    CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER = 16,  /*!< maximum size of diagram buffer */
-};
-
-/*!
  *  \brief data attributes needed for the consistency functions
  */
 struct ctrl_consistency_checker_struct {
@@ -65,7 +58,7 @@ struct ctrl_consistency_checker_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_database_consistency_checker_t db_checker;  /*!< own instance of a db_checker */
 
-    data_diagram_t temp_diagram_buffer[CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER];  /*!< buffer for reading diagrams, e.g. root diagrams */
+    data_diagram_t temp_diagram;  /*!< buffer for reading one diagram after another */
 };
 
 typedef struct ctrl_consistency_checker_struct ctrl_consistency_checker_t;

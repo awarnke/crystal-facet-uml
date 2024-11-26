@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.61.1"
+    "generator_version": "1.61.2"
   }
   ,
   "views":
@@ -8324,6 +8324,10 @@
         "stereotype": "concept",
         "name": "term: Goal",
         "description": [
+                "What to achieve? A goal should be\n",
+                "- a desired result\n",
+                "- realistic\n",
+                "- measurable\n",
                 ""
         ],
         "x_order": -729493205,
@@ -8343,7 +8347,11 @@
         "stereotype": "concept",
         "name": "term: Objective",
         "description": [
-                ""
+                "An objective is a step towards a goal.\n",
+                "It may be a goal broken down to\n",
+                "- short-term objectives\n",
+                "- responsible team\n",
+                "- partial results"
         ],
         "x_order": -1702941968,
         "y_order": -741844390,
@@ -8426,6 +8434,17 @@
         "uuid": "863c7cb4-94f2-476d-85b0-111bc76853ec",
         "features":
         [
+          {
+            "id": 92,
+            "main_type": 1,
+            "type": "Operation",
+            "key": "new_pause",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "9d25a03f-f8f6-4b31-a952-3908f0ad8eea"
+          }
         ]
       }
     },
@@ -8462,6 +8481,17 @@
         "uuid": "7785b0b3-1d1b-4bc9-b31d-1d418f3753cf",
         "features":
         [
+          {
+            "id": 91,
+            "main_type": 0,
+            "type": "Property",
+            "key": "RASIC",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "b539ef8e-83cd-4bd7-986e-499da7028399"
+          }
         ]
       }
     },
@@ -9690,6 +9720,23 @@
         "from_node": "23fe63a6-03df-423a-bc3d-2389308c6423",
         "to_node": "d79de9a5-bc92-4359-889f-d22771927c0c",
         "uuid": "26bceebb-df30-44a6-9ee6-6bd6c83f50da"
+      }
+    },
+    {
+      "relationship": {
+        "id": 322,
+        "main_type": 240,
+        "type": "ControlFlow",
+        "name": "is basis for",
+        "description": [
+                ""
+        ],
+        "list_order": 1024336,
+        "from_classifier_name": "Requirements Definition",
+        "to_classifier_name": "Requirements Refinement",
+        "from_node": "23fe63a6-03df-423a-bc3d-2389308c6423",
+        "to_node": "c555c670-19dd-4a2b-8039-eb1e047893d4",
+        "uuid": "5a0b4a9e-12ec-48fb-8298-ca4b68dd6370"
       }
     },
     {
@@ -12654,23 +12701,6 @@
     },
     {
       "relationship": {
-        "id": 299,
-        "main_type": 401,
-        "type": "Trace",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 196608,
-        "from_classifier_name": "term: Strategy",
-        "to_classifier_name": "term: Objective",
-        "from_node": "6978f09b-e18d-4136-8ae4-10bca296608d",
-        "to_node": "db67a1be-6b99-4296-b178-824d954e3c5a",
-        "uuid": "136658fa-6a3a-49ef-948e-8b280b22686c"
-      }
-    },
-    {
-      "relationship": {
         "id": 300,
         "main_type": 400,
         "type": "Refine",
@@ -12752,6 +12782,23 @@
         "from_node": "863c7cb4-94f2-476d-85b0-111bc76853ec",
         "to_node": "01b769f0-5c37-45e0-8120-f77f6ac82188",
         "uuid": "c0e42481-e161-4fed-b83b-f7e95384a1f1"
+      }
+    },
+    {
+      "relationship": {
+        "id": 321,
+        "main_type": 401,
+        "type": "Trace",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 786432,
+        "from_classifier_name": "term: How",
+        "to_classifier_name": "term: What",
+        "from_node": "863c7cb4-94f2-476d-85b0-111bc76853ec",
+        "to_node": "d9e70403-a9e3-44b3-befa-1a579e507db8",
+        "uuid": "db46937d-9ff9-4104-8f6d-7c80147e2e33"
       }
     },
     {

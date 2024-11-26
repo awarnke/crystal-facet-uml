@@ -12,6 +12,8 @@
 #include "storage/data_database_listener.h"
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_classifier_iterator.h"
+#include "storage/data_diagram_iterator.h"
+#include "storage/data_diagramelement_iterator.h"
 #include "storage/data_database.h"
 #include "entity/data_diagram.h"
 #include "u8/u8_error.h"
@@ -35,15 +37,20 @@ struct data_database_diagram_reader_struct {
     sqlite3_stmt *statement_diagram_by_id;
     sqlite3_stmt *statement_diagram_by_uuid;
     sqlite3_stmt *statement_diagrams_by_parent_id;
+    bool statement_diagrams_by_parent_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_diagrams_by_parent_id_null;
+    bool statement_diagrams_by_parent_id_null_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_diagrams_by_classifier_id;
+    bool statement_diagrams_by_classifier_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_diagram_ids_by_parent_id;
     sqlite3_stmt *statement_diagram_ids_by_parent_id_null;
     sqlite3_stmt *statement_diagram_ids_by_classifier_id;
     sqlite3_stmt *statement_diagramelement_by_id;
     sqlite3_stmt *statement_diagramelement_by_uuid;
     sqlite3_stmt *statement_diagramelements_by_diagram_id;
+    bool statement_diagramelements_by_diagram_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_diagramelements_by_classifier_id;
+    bool statement_diagramelements_by_classifier_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
 };
 
 typedef struct data_database_diagram_reader_struct data_database_diagram_reader_t;
@@ -104,18 +111,14 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagrams
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagram array of diagrams read from the database (in case of success)
- *  \param[out] out_diagram_count number of diagram records stored in out_diagram
+ *  \param[in,out] io_diagram_iterator iterator over diagrams of selected parent diagram. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_database_diagram_reader_t *this_,
                                                                     data_row_id_t parent_id,
-                                                                    uint32_t max_out_array_size,
-                                                                    data_diagram_t (*out_diagram)[],
-                                                                    uint32_t *out_diagram_count
+                                                                    data_diagram_iterator_t *io_diagram_iterator
                                                                   );
 
 /*!
@@ -125,18 +128,14 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagram array of diagrams read from the database (in case of success or exceeded buffer)
- *  \param[out] out_diagram_count number of diagram records stored in out_diagram
+ *  \param[in,out] io_diagram_iterator iterator over diagrams of selected classifier. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
                                                                         data_row_id_t classifier_id,
-                                                                        uint32_t max_out_array_size,
-                                                                        data_diagram_t (*out_diagram)[],
-                                                                        uint32_t *out_diagram_count
+                                                                        data_diagram_iterator_t *io_diagram_iterator
                                                                       );
 
 /*!
@@ -204,18 +203,14 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
- *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
+ *  \param[in,out] io_diagramelement_iterator iterator over diagramelements of selected diagram. The caller is responsible
+ *                                            for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data_database_diagram_reader_t *this_,
                                                                             data_row_id_t diagram_id,
-                                                                            uint32_t max_out_array_size,
-                                                                            data_diagramelement_t (*out_diagramelement)[],
-                                                                            uint32_t *out_diagramelement_count
+                                                                            data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                           );
 
 /*!
@@ -223,18 +218,14 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
- *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
+ *  \param[in,out] io_diagramelement_iterator iterator over diagramelements of selected classifier. The caller is responsible
+ *                                            for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id ( data_database_diagram_reader_t *this_,
                                                                                data_row_id_t classifier_id,
-                                                                               uint32_t max_out_array_size,
-                                                                               data_diagramelement_t (*out_diagramelement)[],
-                                                                               uint32_t *out_diagramelement_count
+                                                                               data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                              );
 
 /* ================================ private ================================ */

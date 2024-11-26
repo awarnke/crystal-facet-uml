@@ -23,7 +23,6 @@
  *  \brief constants for maximum values of gui_search_runner_t
  */
 enum gui_search_runner_max_enum {
-    GUI_SEARCH_RUNNER_MAX_DIAGRAMS = 64,  /*!< maximum number of diagrams which may contain a classifier */
     GUI_SEARCH_RUNNER_MAX_RESULTS = GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE,  /*!< maximum number of search results */
 };
 
@@ -38,7 +37,7 @@ struct gui_search_runner_struct {
 
     data_search_result_t temp_result_list_buf[GUI_SEARCH_RUNNER_MAX_RESULTS];  /*!< memory for the result list */
     data_search_result_list_t temp_result_list;
-    data_diagram_t temp_diagrams[GUI_SEARCH_RUNNER_MAX_DIAGRAMS];  /*!< memory to read a set of diagrams */
+    data_diagram_t temp_diagram;  /*!< memory to read a diagram */
     data_diagramelement_t temp_diagramelement;  /*!< memory to read a diagram element */
     data_feature_t temp_feature;  /*!< memory to read a feature */
     data_relationship_t temp_relationship;  /*!< memory to read a relationship */

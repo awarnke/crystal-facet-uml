@@ -132,6 +132,8 @@ u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_databas
  *
  *  If a classifier is contained multiple times in a diagram, it is returned multiple times in the out_visible_classifier result list.
  *
+ *  Note: A visible_classifier iterator does not yet exist. And this function is used just 2 times data-internally. Therefore keep this old interface.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.

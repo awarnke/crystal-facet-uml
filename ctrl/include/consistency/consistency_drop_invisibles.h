@@ -24,13 +24,6 @@ struct ctrl_classifier_controller_struct;
 struct ctrl_diagram_controller_struct;
 
 /*!
- *  \brief constants of consistency_drop_invisibles_t
- */
-enum consistency_drop_invisibles_const_enum {
-    CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements of a classifier */
-};
-
-/*!
  *  \brief all data attributes needed for the policy enforcer
  *
  *  The policy enforcer works on a similar abstraction level as the gui module.
@@ -41,8 +34,7 @@ struct consistency_drop_invisibles_struct {
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
 
-    data_diagramelement_t private_temp_diagele_buf[CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES];  /*!< be aware */
-                                                                                       /*!< of reentrancy by recursion! */
+    data_diagramelement_t temp_diagelement_buf;  /*!< be aware of reentrancy by recursion! */
     data_relationship_t temp_relationship_buf;
 };
 
@@ -110,14 +102,14 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships ( consiste
  *
  *  \param this_ pointer to own object attributes
  *  \param relation relationship to be checked for visibility.
- *  \param[out] out_result true if the relatinoship end classifiers are visible in the same diagram
+ *  \param[out] out_result true if both relationship end classifiers are visible in the same diagram
  *                         (except diagram-type-specific filtering).
  *  \return error id in case of an error, e.g. U8_ERROR_ARRAY_BUFFER_EXCEEDED; U8_ERROR_NONE in case of success
  */
 u8_error_t consistency_drop_invisibles_private_has_relationship_a_diagram ( consistency_drop_invisibles_t *this_,
-                                                                             const data_relationship_t *relation,
-                                                                             bool *out_result
-                                                                           );
+                                                                            const data_relationship_t *relation,
+                                                                            bool *out_result
+                                                                          );
 
 #endif  /* CONSISTENCY_DROP_INVISIBLES_H */
 

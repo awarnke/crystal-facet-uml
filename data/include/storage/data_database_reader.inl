@@ -57,9 +57,7 @@ static inline u8_error_t data_database_reader_get_diagram_by_uuid ( data_databas
 
 static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
                                                                           data_row_id_t parent_id,
-                                                                          uint32_t max_out_array_size,
-                                                                          data_diagram_t (*out_diagram)[],
-                                                                          uint32_t *out_diagram_count )
+                                                                          data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -68,9 +66,7 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
     {
         result = data_database_diagram_reader_get_diagrams_by_parent_id( &((*this_).temp_diagram_reader),
                                                                          parent_id,
-                                                                         max_out_array_size,
-                                                                         out_diagram,
-                                                                         out_diagram_count
+                                                                         io_diagram_iterator
                                                                        );
     }
     else
@@ -85,9 +81,7 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
 
 static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
                                                                               data_row_id_t classifier_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_diagram_t (*out_diagram)[],
-                                                                              uint32_t *out_diagram_count )
+                                                                              data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -96,9 +90,7 @@ static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( da
     {
         result = data_database_diagram_reader_get_diagrams_by_classifier_id( &((*this_).temp_diagram_reader),
                                                                              classifier_id,
-                                                                             max_out_array_size,
-                                                                             out_diagram,
-                                                                             out_diagram_count
+                                                                             io_diagram_iterator
                                                                            );
     }
     else
@@ -337,9 +329,7 @@ static inline u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_
 
 static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
                                                                                   data_row_id_t diagram_id,
-                                                                                  uint32_t max_out_array_size,
-                                                                                  data_diagramelement_t (*out_diagramelement)[],
-                                                                                  uint32_t *out_diagramelement_count )
+                                                                                  data_diagramelement_iterator_t *io_diagramelement_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -348,9 +338,7 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id 
     {
         result = data_database_diagram_reader_get_diagramelements_by_diagram_id( &((*this_).temp_diagram_reader),
                                                                                  diagram_id,
-                                                                                 max_out_array_size,
-                                                                                 out_diagramelement,
-                                                                                 out_diagramelement_count
+                                                                                 io_diagramelement_iterator
                                                                                );
     }
     else
@@ -365,9 +353,7 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id 
 
 static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
                                                                                      data_row_id_t classifier_id,
-                                                                                     uint32_t max_out_array_size,
-                                                                                     data_diagramelement_t (*out_diagramelement)[],
-                                                                                     uint32_t *out_diagramelement_count )
+                                                                                     data_diagramelement_iterator_t *io_diagramelement_iterator )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -376,9 +362,7 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_
     {
         result = data_database_diagram_reader_get_diagramelements_by_classifier_id( &((*this_).temp_diagram_reader),
                                                                                     classifier_id,
-                                                                                    max_out_array_size,
-                                                                                    out_diagramelement,
-                                                                                    out_diagramelement_count
+                                                                                    io_diagramelement_iterator
                                                                                   );
     }
     else

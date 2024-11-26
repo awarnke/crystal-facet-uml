@@ -187,15 +187,14 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
 
                 case DATA_TABLE_DIAGRAM:
                 {
-                    assert( GUI_SEARCH_RUNNER_MAX_DIAGRAMS > 0 );
-                    d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, search_row_id, &((*this_).temp_diagrams[0]) );
+                    d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, search_row_id, &((*this_).temp_diagram) );
                     if ( d_err == U8_ERROR_NONE )
                     {
                         data_search_result_t half_initialized;
                         data_search_result_init_diagram( &half_initialized,
                                                          search_row_id,
-                                                         data_diagram_get_diagram_type( &((*this_).temp_diagrams[0]) ),
-                                                         data_diagram_get_name_const( &((*this_).temp_diagrams[0]) )
+                                                         data_diagram_get_diagram_type( &((*this_).temp_diagram) ),
+                                                         data_diagram_get_name_const( &((*this_).temp_diagram) )
                                                        );
                         const u8_error_t err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != U8_ERROR_NONE )
@@ -204,7 +203,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                             U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
                         }
 
-                        data_diagram_destroy( &((*this_).temp_diagrams[0]) );
+                        data_diagram_destroy( &((*this_).temp_diagram) );
                         data_search_result_destroy( &half_initialized );
                     }
                     else
@@ -266,24 +265,20 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
     {
         classifier_row_id = data_id_get_row_id( data_search_result_get_src_classifier_id_const( classifier_template ));
     }
-    uint32_t diagram_count;
-    d_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader,
-                                                                 classifier_row_id,
-                                                                 GUI_SEARCH_RUNNER_MAX_DIAGRAMS,
-                                                                 &((*this_).temp_diagrams),
-                                                                 &diagram_count
-                                                               );
-    if ( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED )
-    {
-        U8_LOG_WARNING( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at searching diagrams" );
-    }
 
-    if (( d_err == U8_ERROR_NONE )||( d_err == U8_ERROR_ARRAY_BUFFER_EXCEEDED ))
+    data_diagram_iterator_t diagram_iterator;
+    d_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+    d_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
+                                                                classifier_row_id,
+                                                                &diagram_iterator
+                                                              );
+
+    if ( d_err == U8_ERROR_NONE )
     {
-        assert ( diagram_count <= GUI_SEARCH_RUNNER_MAX_DIAGRAMS );
-        for ( uint32_t idx = 0; idx < diagram_count; idx ++ )
+        while ( data_diagram_iterator_has_next( &diagram_iterator ) )
         {
-            const data_row_id_t diagram_row_id = data_diagram_get_row_id ( &((*this_).temp_diagrams[idx]) );
+            d_err |= data_diagram_iterator_next( &diagram_iterator, &((*this_).temp_diagram) );
+            const data_row_id_t diagram_row_id = data_diagram_get_row_id( &((*this_).temp_diagram) );
             data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
 
             bool filter = false;
@@ -320,13 +315,14 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
                 }
             }
 
-            data_diagram_destroy( &((*this_).temp_diagrams[idx]) );
+            data_diagram_destroy( &((*this_).temp_diagram) );
         }
     }
     else
     {
         U8_TRACE_INFO( "diagram does not exist or database not open." );
     }
+    d_err |= data_diagram_iterator_destroy( &diagram_iterator );
 
     U8_TRACE_END();
 }

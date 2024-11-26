@@ -156,27 +156,25 @@ u8_error_t consistency_drop_invisibles_private_has_relationship_a_diagram( consi
     }
     else
     {
+        bool same_diag = false;
         data_small_set_t from_diagrams;
         data_small_set_init( &from_diagrams );
-        u8_error_t from_err;
 
         /* load diagramelements that are referenced by the relationships from end */
         {
-            uint32_t from_diagramelement_count = 0;
-            from_err
-                = data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
-                                                                             from_classifier_id,
-                                                                             CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES,
-                                                                             &((*this_).private_temp_diagele_buf),
-                                                                             &from_diagramelement_count
-                                                                           );
-            if ( from_err == U8_ERROR_NONE )
+            data_diagramelement_iterator_t diagramelement_iterator;
+            result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+            result |= data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
+                                                                                 from_classifier_id,
+                                                                                 &diagramelement_iterator
+                                                                               );
+            if ( result == U8_ERROR_NONE )
             {
-                /* copy diagram ids to id-set */
-                for ( uint_fast32_t from_idx = 0; from_idx < from_diagramelement_count; from_idx ++ )
+                while ( data_diagramelement_iterator_has_next( &diagramelement_iterator ) )
                 {
+                    result |= data_diagramelement_iterator_next( &diagramelement_iterator, &((*this_).temp_diagelement_buf) );
                     const data_id_t from_diag_id
-                        = data_diagramelement_get_diagram_data_id ( &((*this_).private_temp_diagele_buf[from_idx]) );
+                        = data_diagramelement_get_diagram_data_id ( &((*this_).temp_diagelement_buf) );
                     const u8_error_t ins_err
                         = data_small_set_add_obj( &from_diagrams, from_diag_id );
                     if ( ins_err == U8_ERROR_DUPLICATE_ID )
@@ -185,44 +183,39 @@ u8_error_t consistency_drop_invisibles_private_has_relationship_a_diagram( consi
                     }
                     else
                     {
-                        from_err |= ins_err;
+                        result |= ins_err;
                     }
                 }
             }
+            result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
         }
 
         /* load diagramelements that are referenced by the relationships to end */
-        uint32_t to_diagramelement_count = 0;
-        const u8_error_t to_err
-            = data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
-                                                                         to_classifier_id,
-                                                                         CONSISTENCY_DROP_INVISIBLES_CONST_MAX_TEMP_DIAGELES,
-                                                                         &((*this_).private_temp_diagele_buf),
-                                                                         &to_diagramelement_count
-                                                                       );
+        data_diagramelement_iterator_t diagramelement_iterator2;
+        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator2 );
+        result |= data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
+                                                                             to_classifier_id,
+                                                                             &diagramelement_iterator2
+                                                                           );
 
         /* check for same diagram */
-        if (( from_err == U8_ERROR_NONE )&&( to_err == U8_ERROR_NONE ))
+        if ( result == U8_ERROR_NONE )
         {
-            bool same_diag = false;
-            for ( uint_fast32_t to_idx = 0; to_idx < to_diagramelement_count; to_idx ++ )
+            while ( data_diagramelement_iterator_has_next( &diagramelement_iterator2 ) )
             {
+                result |= data_diagramelement_iterator_next( &diagramelement_iterator2, &((*this_).temp_diagelement_buf) );
                 const data_id_t to_diag_id
-                    = data_diagramelement_get_diagram_data_id ( &((*this_).private_temp_diagele_buf[to_idx]) );
+                    = data_diagramelement_get_diagram_data_id ( &((*this_).temp_diagelement_buf) );
                 if ( data_small_set_contains( &from_diagrams, to_diag_id ) )
                 {
                     same_diag = true;
                 }
             }
-            *out_result = same_diag;
         }
-        else
-        {
-            result |= from_err;
-            result |= to_err;
-        }
-
+        result |= data_diagramelement_iterator_destroy( &diagramelement_iterator2 );
         data_small_set_destroy( &from_diagrams );
+
+        *out_result = same_diag;
     }
 
     U8_TRACE_END_ERR( result );

@@ -4,8 +4,16 @@
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
 #include "set/data_full_id_list.h"
+#include "set/data_visible_set.h"
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
+
+/*!
+ *  \brief constants of consistency_lifeline_t
+ */
+enum consistency_lifeline_const_enum {
+    CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES = DATA_VISIBLE_SET_MAX_CLASSIFIERS,  /*!< maximum number of diagramelements in a diagram */
+};
 
 void consistency_lifeline_init( consistency_lifeline_t *this_,
                                 data_database_reader_t *db_reader,
@@ -54,21 +62,20 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
 
         /* search all contained diagramelements */
         const data_row_id_t diagram_id = data_diagram_get_row_id ( updated_diagram );
-        uint32_t diagramelement_count = 0;
+        data_diagramelement_iterator_t diagramelement_iterator;
+        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
                                                                           diagram_id,
-                                                                          CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES,
-                                                                          &((*this_).private_temp_diagele_buf),
-                                                                          &diagramelement_count
+                                                                          &diagramelement_iterator
                                                                         );
         if ( U8_ERROR_NONE == result )
         {
             /* search the diagramelements */
-            for ( uint32_t index = 0; index < diagramelement_count; index ++ )
+            while ( data_diagramelement_iterator_has_next( &diagramelement_iterator ) )
             {
-                data_diagramelement_t *const current_diagele
-                    = &((*this_).private_temp_diagele_buf[index]);
-                const data_id_t feat_to_delete = data_diagramelement_get_focused_feature_data_id( current_diagele );
+                result |= data_diagramelement_iterator_next( &diagramelement_iterator, &((*this_).temp_diagelement_buf) );
+                const data_id_t feat_to_delete
+                    = data_diagramelement_get_focused_feature_data_id( &((*this_).temp_diagelement_buf) );
                 if ( data_id_is_valid( &feat_to_delete ) )
                 {
                     /* diagramelement with a focused feature found */
@@ -81,9 +88,10 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
         {
             U8_LOG_ANOMALY( "consistency_lifeline_delete_lifelines could not load all diagram_elements of a diagram." );
         }
+        result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
 
         /* delete all found lifelines */
-        /* note that (*this_).private_temp_diagele_buf cannot be used here any longer due to re-entrancy by recursion */
+        /* note that (*this_).temp_diagelement_buf cannot be used here any longer due to re-entrancy by recursion */
         const uint32_t lifelines_count = data_small_set_get_count( &lifelines_to_delete );
         for ( uint32_t index2 = 0; index2 < lifelines_count; index2 ++ )
         {
@@ -123,21 +131,23 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
 
         /* search all contained diagramelements */
         const data_row_id_t diagram_id = data_diagram_get_row_id ( updated_diagram );
-        uint32_t diagramelement_count = 0;
+        data_diagramelement_iterator_t diagramelement_iterator;
+        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
                                                                           diagram_id,
-                                                                          CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES,
-                                                                          &((*this_).private_temp_diagele_buf),
-                                                                          &diagramelement_count
+                                                                          &diagramelement_iterator
                                                                         );
 
         if ( U8_ERROR_NONE == result )
         {
             /* search the diagramelements */
-            for ( uint32_t index = 0; index < diagramelement_count; index ++ )
+            while ( data_diagramelement_iterator_has_next( &diagramelement_iterator ) )
             {
+                result |= data_diagramelement_iterator_next( &diagramelement_iterator,
+                                                             &((*this_).temp_diagelement_buf)
+                                                           );
                 data_diagramelement_t *const current_diagele
-                    = &((*this_).private_temp_diagele_buf[index]);
+                    = &((*this_).temp_diagelement_buf);
                 const data_row_id_t focused_feature
                     = data_diagramelement_get_focused_feature_row_id( current_diagele );
 
@@ -157,6 +167,8 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
         {
             U8_LOG_ANOMALY( "consistency_lifeline_create_lifelines could not load all diagram_elements of a diagram." );
         }
+        result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
+
 
         /* create all missing lifelines */
         /* note that (*this_).private_temp_diagele_buf cannot be used here any longer due to re-entrancy by recursion */
@@ -286,21 +298,21 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
         data_small_set_init( &diag_ele_to_unlink );
 
         /* search all diagramelements of the classifier */
-        uint32_t diagramelement_count;
+        data_diagramelement_iterator_t diagramelement_iterator;
+        result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_classifier_id( (*this_).db_reader,
                                                                              classifier_id,
-                                                                             CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES,
-                                                                             &((*this_).private_temp_diagele_buf),
-                                                                             &diagramelement_count
+                                                                             &diagramelement_iterator
                                                                            );
 
         if ( U8_ERROR_NONE == result )
         {
             /* search the diagramelements */
-            for ( uint32_t index = 0; index < diagramelement_count; index ++ )
+            while ( data_diagramelement_iterator_has_next( &diagramelement_iterator ) )
             {
+                result |= data_diagramelement_iterator_next( &diagramelement_iterator, &((*this_).temp_diagelement_buf) );
                 data_diagramelement_t *const current_diagele
-                    = &((*this_).private_temp_diagele_buf[index]);
+                    = &((*this_).temp_diagelement_buf);
                 const data_row_id_t focused_feature
                     = data_diagramelement_get_focused_feature_row_id( current_diagele );
 
@@ -317,6 +329,7 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
         {
             U8_LOG_ANOMALY( "consistency_lifeline_unlink_lifeline could not load all lifelines of a classifier." );
         }
+        result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
 
         /* unlink all found diagram elements (there should be exactly one) */
         /* note that (*this_).private_temp_diagele_buf cannot be used here any longer due to re-entrancy by recursion */

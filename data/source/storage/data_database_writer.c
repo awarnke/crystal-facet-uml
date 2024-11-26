@@ -105,19 +105,12 @@ u8_error_t data_database_writer_create_diagram ( data_database_writer_t *this_,
     return result;
 }
 
-u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
-                                                 data_row_id_t obj_id,
-                                                 data_diagram_t *out_old_diagram )
+u8_error_t data_database_writer_delete_diagram( data_database_writer_t *this_,
+                                                data_row_id_t obj_id,
+                                                data_diagram_t *out_old_diagram )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
-    bool object_still_referenced;
-    data_diagram_t referencing_diagram[1];
-    uint32_t referencing_diagram_count;
-    data_visible_classifier_t referencing_classifier[1];
-    uint32_t referencing_classifier_count;
-    u8_error_t reference_check_err;
-
     result |= data_database_transaction_begin ( (*this_).database );
 
     /* Note: out_old_diagram is NULL if old data shall not be returned */
@@ -127,25 +120,22 @@ u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
     }
 
     /* Note: This function fails if the diagram is still referenced. */
-    reference_check_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
-    if ( ( 0 != referencing_diagram_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
-    {
-        object_still_referenced = true;
-    }
-    else
-    {
-        reference_check_err = data_database_reader_get_classifiers_by_diagram_id ( (*this_).db_reader, obj_id, 1, &referencing_classifier, &referencing_classifier_count );
-        if ( ( 0 != referencing_classifier_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
-        {
-            object_still_referenced = true;
-        }
-        else
-        {
-            object_still_referenced = false;
-        }
-    }
+    data_diagram_iterator_t diagram_iterator;
+    result |= data_diagram_iterator_init_empty( &diagram_iterator );
+    result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader, obj_id, &diagram_iterator );
+    const bool has_child_diagrams = data_diagram_iterator_has_next( &diagram_iterator );
+    result |= data_diagram_iterator_destroy( &diagram_iterator );
 
-    if ( object_still_referenced )
+    data_diagramelement_iterator_t diagramelement_iterator;
+    result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
+    result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
+                                                                      obj_id,
+                                                                      &diagramelement_iterator
+                                                                    );
+    const bool has_elements = data_diagramelement_iterator_has_next( &diagramelement_iterator );
+    result |= data_diagramelement_iterator_destroy( &diagramelement_iterator );
+
+    if ( has_child_diagrams || has_elements )
     {
         result |= U8_ERROR_OBJECT_STILL_REFERENCED;
     }
@@ -429,9 +419,6 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
     bool object_still_referenced;
-    data_diagram_t referencing_diagram[1];
-    uint32_t referencing_diagram_count;
-    u8_error_t reference_check_err;
 
     result |= data_database_transaction_begin ( (*this_).database );
 
@@ -442,8 +429,13 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
     }
 
     /* Note: This function fails if the classifier is still referenced. */
-    reference_check_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
-    if ( ( 0 != referencing_diagram_count ) || u8_error_contains( reference_check_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
+    data_diagram_iterator_t diagram_iterator;
+    result |= data_diagram_iterator_init_empty( &diagram_iterator );
+    result |= data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader, obj_id, &diagram_iterator );
+    const bool has_occurrences = data_diagram_iterator_has_next( &diagram_iterator );
+    result |= data_diagram_iterator_destroy( &diagram_iterator );
+
+    if ( has_occurrences )
     {
         object_still_referenced = true;
     }

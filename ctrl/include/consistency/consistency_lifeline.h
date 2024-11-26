@@ -26,13 +26,6 @@ struct ctrl_classifier_controller_struct;
 struct ctrl_diagram_controller_struct;
 
 /*!
- *  \brief constants of consistency_lifeline_t
- */
-enum consistency_lifeline_const_enum {
-    CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements in a diagram */
-};
-
-/*!
  *  \brief all data attributes needed for the policy enforcer
  *
  *  The policy enforcer works on a similar abstraction level as the gui module.
@@ -44,8 +37,7 @@ struct consistency_lifeline_struct {
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
     data_rules_t rules;  /*!< own instance of a rules object */
 
-    data_diagramelement_t private_temp_diagele_buf[CONSISTENCY_LIFELINE_CONST_MAX_TEMP_DIAGELES];  /*!< be aware of */
-                                                                                      /*!< reentrancy by recursion! */
+    data_diagramelement_t temp_diagelement_buf;  /*!< be aware of reentrancy by recursion! */
 };
 
 typedef struct consistency_lifeline_struct consistency_lifeline_t;

@@ -14,6 +14,8 @@
 #include "storage/data_classifier_iterator.h"
 #include "storage/data_feature_iterator.h"
 #include "storage/data_relationship_iterator.h"
+#include "storage/data_diagram_iterator.h"
+#include "storage/data_diagramelement_iterator.h"
 #include "storage/data_database.h"
 #include "storage/data_database_classifier_reader.h"
 #include "storage/data_database_diagram_reader.h"
@@ -115,18 +117,14 @@ static inline u8_error_t data_database_reader_get_diagram_by_uuid ( data_databas
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagrams
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagram array of diagrams read from the database (in case of success)
- *  \param[out] out_diagram_count number of diagram records stored in out_diagram
+ *  \param[in,out] io_diagram_iterator iterator over diagrams of selected parent diagram. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
                                                                           data_row_id_t parent_id,
-                                                                          uint32_t max_out_array_size,
-                                                                          data_diagram_t (*out_diagram)[],
-                                                                          uint32_t *out_diagram_count
+                                                                          data_diagram_iterator_t *io_diagram_iterator
                                                                         );
 
 /*!
@@ -136,18 +134,14 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagram array of diagrams read from the database (in case of success or exceeded buffer)
- *  \param[out] out_diagram_count number of diagram records stored in out_diagram
+ *  \param[in,out] io_diagram_iterator iterator over diagrams of selected classifier. The caller is responsible
+ *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
                                                                               data_row_id_t classifier_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_diagram_t (*out_diagram)[],
-                                                                              uint32_t *out_diagram_count
+                                                                              data_diagram_iterator_t *io_diagram_iterator
                                                                             );
 
 /*!
@@ -297,18 +291,14 @@ static inline u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
- *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
+ *  \param[in,out] io_diagramelement_iterator iterator over diagramelements of selected diagram. The caller is responsible
+ *                                            for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
                                                                                   data_row_id_t diagram_id,
-                                                                                  uint32_t max_out_array_size,
-                                                                                  data_diagramelement_t (*out_diagramelement)[],
-                                                                                  uint32_t *out_diagramelement_count
+                                                                                  data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                                 );
 
 /*!
@@ -316,18 +306,14 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id 
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_diagramelement array of diagramelements read from the database (in case of success)
- *  \param[out] out_diagramelement_count number of diagramelement records stored in out_diagramelement
+ *  \param[in,out] io_diagramelement_iterator iterator over diagramelements of selected classifier. The caller is responsible
+ *                                            for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
+ *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
                                                                                      data_row_id_t classifier_id,
-                                                                                     uint32_t max_out_array_size,
-                                                                                     data_diagramelement_t (*out_diagramelement)[],
-                                                                                     uint32_t *out_diagramelement_count
+                                                                                     data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                                    );
 
 /* ================================ FEATURE ================================ */

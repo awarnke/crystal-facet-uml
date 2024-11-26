@@ -99,28 +99,22 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
     /* check if the classifier is still referenced by diagramelements */
     bool is_still_referenced = true;
     {
-        data_diagram_t out_diagram[1];
-        uint32_t out_diagram_count;
-        data_result = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader,
-                                                                           obj_id,
-                                                                           1,
-                                                                           &out_diagram,
-                                                                           &out_diagram_count
-                                                                         );
+        data_diagram_iterator_t diagram_iterator;
+        result |= data_diagram_iterator_init_empty( &diagram_iterator );
+        result |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
+                                                                      obj_id,
+                                                                      &diagram_iterator
+                                                                    );
 
-        if ( U8_ERROR_ARRAY_BUFFER_EXCEEDED == data_result )
+        if (( data_diagram_iterator_has_next( &diagram_iterator ) )||( result != U8_ERROR_NONE ))
         {
             is_still_referenced = true;
         }
-        else if ( U8_ERROR_NONE == data_result )
-        {
-            is_still_referenced = ( out_diagram_count == 0 ) ? false : true;
-        }
         else
         {
-            /* some other error */
-            result |= data_result;
+            is_still_referenced = false;
         }
+        result |= data_diagram_iterator_destroy( &diagram_iterator );
     }
 
     /* if the classifier is still referenced by diagramelements, do not do anything, report an error */
