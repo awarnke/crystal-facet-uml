@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.61.1"
+    "generator_version": "1.61.2"
   }
   ,
   "views":
@@ -5359,7 +5359,7 @@
           {
             "id": 611,
             "display_flags": 0,
-            "classifier_name": "DATA_CORRUPT",
+            "classifier_name": "LOGIC_CORRUPT",
             "node": "a9107a8d-a8f8-458c-9b93-9ae44debe746",
             "uuid": "0d4e3363-d102-4c93-bfc4-176980759b20"
           },
@@ -15829,7 +15829,7 @@
         "stereotype": "external",
         "name": "INPUT /SOURCE",
         "description": [
-                ""
+                "U8_ERROR_CAT_USE_INPUT     = 0x00400000"
         ],
         "x_order": -2009561229,
         "y_order": 1622452754,
@@ -15848,7 +15848,7 @@
         "stereotype": "external",
         "name": "OUTPUT /SINK",
         "description": [
-                ""
+                "U8_ERROR_CAT_USE_OUTPUT    = 0x00200000"
         ],
         "x_order": -1788295410,
         "y_order": 1622452754,
@@ -15867,7 +15867,7 @@
         "stereotype": "external",
         "name": "USER_ACCESS (r/w/x)",
         "description": [
-                ""
+                "U8_ERROR_CAT_USE_ACCESS    = 0x00100000"
         ],
         "x_order": -1768432175,
         "y_order": 1622452754,
@@ -15886,7 +15886,8 @@
         "stereotype": "external",
         "name": "WRONG_MODE",
         "description": [
-                "The request is not valid in the current situation."
+                "The request is not valid in the current situation.\n",
+                "U8_ERROR_CAT_USE_MODE      = 0x00800000"
         ],
         "x_order": -1768233441,
         "y_order": 1622452754,
@@ -15923,7 +15924,7 @@
         "stereotype": "internal",
         "name": "STATE",
         "description": [
-                ""
+                "U8_ERROR_CAT_LOGIC_STATE   = 0x40000000"
         ],
         "x_order": -1353364416,
         "y_order": 1735992184,
@@ -15942,7 +15943,7 @@
         "stereotype": "internal",
         "name": "PARAMS",
         "description": [
-                ""
+                "U8_ERROR_CAT_LOGIC_PARAMS  = 0x20000000"
         ],
         "x_order": -1298038588,
         "y_order": 1735992184,
@@ -15959,9 +15960,9 @@
         "main_type": 125,
         "type": "Class",
         "stereotype": "internal",
-        "name": "DATA_CORRUPT",
+        "name": "LOGIC_CORRUPT",
         "description": [
-                ""
+                "U8_ERROR_CAT_LOGIC_CORRUPT"
         ],
         "x_order": 394755311,
         "y_order": 1735992184,
@@ -15980,7 +15981,8 @@
         "stereotype": "external",
         "name": "TIME/SYNC",
         "description": [
-                "Timeout of remote calls or cyclic events"
+                "Timeout of remote calls or cyclic events.\n",
+                "U8_ERROR_CAT_OP_TIMEOUT    = 0x02000000"
         ],
         "x_order": -1722254593,
         "y_order": 1629538065,
@@ -15999,7 +16001,7 @@
         "stereotype": "external",
         "name": "SYSTEM_ACCESS",
         "description": [
-                ""
+                "U8_ERROR_CAT_OP_SYS_ACCESS = 0x01000000"
         ],
         "x_order": -1717942030,
         "y_order": 1629538065,
@@ -16018,7 +16020,8 @@
         "stereotype": "external",
         "name": "ENV_RUN",
         "description": [
-                "Runtime Envionment"
+                "Runtime Envionment is in unexpected condition.\n",
+                "U8_ERROR_CAT_OP_ENV_RUN    = 0x04000000"
         ],
         "x_order": -1678844810,
         "y_order": 1629538065,
@@ -16037,7 +16040,8 @@
         "stereotype": "external",
         "name": "ENV_START",
         "description": [
-                "Startup Envionment"
+                "Unexpected environment at system start.\n",
+                "U8_ERROR_CAT_OP_ENV_START  = 0x08000000"
         ],
         "x_order": -1593322654,
         "y_order": 1629538065,
@@ -29849,7 +29853,7 @@
         ],
         "list_order": 1788016571,
         "from_classifier_name": "Error-Categories by Cause",
-        "to_classifier_name": "DATA_CORRUPT",
+        "to_classifier_name": "LOGIC_CORRUPT",
         "from_node": "8ab9f023-a800-439c-8e1b-e360e9ac9452",
         "to_node": "a9107a8d-a8f8-458c-9b93-9ae44debe746",
         "uuid": "b0eba730-9e1a-4677-aa50-c2fc85f5a494"
@@ -29967,7 +29971,7 @@
                 ""
         ],
         "list_order": 1788049339,
-        "from_classifier_name": "DATA_CORRUPT",
+        "from_classifier_name": "LOGIC_CORRUPT",
         "to_classifier_name": "LOGIC_ERROR",
         "from_node": "a9107a8d-a8f8-458c-9b93-9ae44debe746",
         "to_node": "d0ccd3c9-1bd8-4d3c-9607-8beae216a62b",

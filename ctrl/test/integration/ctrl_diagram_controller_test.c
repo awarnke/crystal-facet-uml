@@ -66,8 +66,7 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
     u8_error_t data_err;
     const static data_row_id_t PARENT_ID = 17;
     data_row_id_t diagram_id;
-    uint32_t read_diagrams_count;
-    data_diagram_t read_diagrams[2];
+    data_diagram_t read_diagram;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
 
@@ -81,15 +80,15 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
 
     /* read this record */
     {
-        data_diagram_init_empty( &(read_diagrams[0]) );
-        data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), diagram_id, &(read_diagrams[0]) );
+        data_diagram_init_empty( &(read_diagram) );
+        data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), diagram_id, &(read_diagram) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagram) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagram) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagram) ) );
     }
 
     /* modify this record */
@@ -116,32 +115,27 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
-    /* search several records, result array too small */
+    /* search several records */
     {
-        data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader), PARENT_ID, 0, &read_diagrams, &read_diagrams_count );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
-        TEST_EXPECT_EQUAL_INT( 0, read_diagrams_count );
-        /* check that old data is not overwritten: */
-        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
-    }
-
-    /* search several records, result array sufficient */
-    {
-        data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader), PARENT_ID, 2, &read_diagrams, &read_diagrams_count );
+        data_diagram_iterator_t diagram_iterator;
+        data_err = data_diagram_iterator_init_empty( &diagram_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 1, read_diagrams_count );
+        data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader), PARENT_ID, &diagram_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( true, data_diagram_iterator_has_next( &diagram_iterator ) );
         /* check that new data is available */
-        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_const( &(read_diagrams[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_const( &(read_diagrams[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( -4321, data_diagram_get_list_order( &(read_diagrams[0]) ) );
+        data_err = data_diagram_iterator_next( &diagram_iterator, &(read_diagram) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(read_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_row_id( &(read_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_const( &(read_diagram) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_const( &(read_diagram) ) ) );
+        TEST_EXPECT_EQUAL_INT( -4321, data_diagram_get_list_order( &(read_diagram) ) );
+        /* check for end */
+        TEST_EXPECT_EQUAL_INT( false, data_diagram_iterator_has_next( &diagram_iterator ) );
+        data_err = data_diagram_iterator_destroy( &diagram_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
 
     /* search several record ids to a result set */
@@ -176,8 +170,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
     data_diagramelement_t *diag_element_ptr;
     data_row_id_t diag_element_id;
     data_diagramelement_t diag_element;
-    uint32_t out_diagram_count;
-    data_diagram_t out_diagram[2];
+    data_diagram_t out_diagram;
 
     /* create the root diagram */
     {
@@ -261,20 +254,29 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
 
     /* get all diagrams by classifier id */
     {
+        data_diagram_iterator_t diagram_iterator;
+        data_err = data_diagram_iterator_init_empty( &diagram_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+
         data_err = data_database_reader_get_diagrams_by_classifier_id( &((*fix).db_reader),
                                                                        classifier_id,
-                                                                       2,
-                                                                       &out_diagram,
-                                                                       &out_diagram_count
+                                                                       &diagram_iterator
                                                                      );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 1, out_diagram_count );
-        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram[0]) ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &(out_diagram[0]) ) );
-        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram[0]) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_const( &(out_diagram[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(out_diagram[0]) ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(out_diagram[0]) ) );
+        TEST_EXPECT_EQUAL_INT( true, data_diagram_iterator_has_next( &diagram_iterator ) );
+
+        data_err = data_diagram_iterator_next( &diagram_iterator, &(out_diagram) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &(out_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_const( &(out_diagram) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(out_diagram) ) ) );
+        TEST_EXPECT_EQUAL_INT( 0, data_diagram_get_list_order( &(out_diagram) ) );
+
+        TEST_EXPECT_EQUAL_INT( false, data_diagram_iterator_has_next( &diagram_iterator ) );
+        data_err = data_diagram_iterator_destroy( &diagram_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
 
     /* delete the diagramelement */
@@ -294,9 +296,16 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
 
     /* get all diagrams by classifier id */
     {
-        data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader), classifier_id, 2, &out_diagram, &out_diagram_count );
+        data_diagram_iterator_t diagram_iterator;
+        data_err = data_diagram_iterator_init_empty( &diagram_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 0, out_diagram_count );
+
+        data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader), classifier_id, &diagram_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( false, data_diagram_iterator_has_next( &diagram_iterator ) );
+
+        data_err = data_diagram_iterator_destroy( &diagram_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
     return TEST_CASE_RESULT_OK;
 }

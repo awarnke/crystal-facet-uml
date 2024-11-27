@@ -301,31 +301,35 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
 {
     assert( fix != NULL );
     u8_error_t data_err;
-    data_diagram_t diagram_list[3];
-    static const int MAX_ARRAY_SIZE = 3;
-    uint32_t out_diagram_count;
+    data_diagram_t diagram;
 
     /* test 1 */
-    data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), 7, &(diagram_list[0]) );
+    data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), 7, &diagram );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
     data_err = data_database_reader_get_diagram_by_uuid ( &((*fix).db_reader),
                                                           "f6d0084a-5d5b-4c26-8c64-782c150feec8",
-                                                          &(diagram_list[0])
+                                                          &diagram
                                                         );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 7, data_diagram_get_row_id( &(diagram_list[0]) ) );
+    TEST_EXPECT_EQUAL_INT( 7, data_diagram_get_row_id( &diagram ) );
 
     /* test 2 */
+    data_diagram_iterator_t diagram_iterator;
+    data_err = data_diagram_iterator_init_empty( &diagram_iterator );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     data_err = data_database_reader_get_diagrams_by_parent_id ( &((*fix).db_reader),
                                                                 6,
-                                                                MAX_ARRAY_SIZE,
-                                                                &(diagram_list),
-                                                                &out_diagram_count
+                                                                &diagram_iterator
                                                               );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 1, out_diagram_count );
+    data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    data_err = data_diagram_iterator_destroy( &diagram_iterator );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 3 */
     data_small_set_t out_diagram_ids;
@@ -338,14 +342,21 @@ static test_case_result_t test_search_diagrams( test_fixture_t *fix )
     TEST_EXPECT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
 
     /* test 4 */
+    data_err = data_diagram_iterator_init_empty( &diagram_iterator );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     data_err = data_database_reader_get_diagrams_by_classifier_id ( &((*fix).db_reader),
                                                                     12,
-                                                                    MAX_ARRAY_SIZE,
-                                                                    &(diagram_list),
-                                                                    &out_diagram_count
+                                                                    &diagram_iterator
                                                                   );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 2, out_diagram_count );
+    data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_err = data_diagram_iterator_next( &diagram_iterator, &diagram );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    data_err = data_diagram_iterator_destroy( &diagram_iterator );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 5 */
     data_small_set_t out_showing_diagram_ids;

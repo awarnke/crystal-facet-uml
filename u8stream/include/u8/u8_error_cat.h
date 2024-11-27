@@ -51,7 +51,7 @@ enum u8_error_cat_enum {
                                               /*!< REACTION: CANCEL START, notify operator */
                                               /*!< EXAMPLE:  Not enough memory available; */
                                               /*!<           network unreachable. */
-    U8_ERROR_CAT_OP_ENV_RUN    = 0x04000000,  /*!< CAUSE:    Unexpected environment: */
+    U8_ERROR_CAT_OP_ENV_RUN    = 0x04000000,  /*!< CAUSE:    Unexpected environment during runtime: */
                                               /*!<           The execution environment reacts unexpectedly, */
                                               /*!<           possibly not reproducible. */
                                               /*!< REACTION: CONTINUE, notify operator */

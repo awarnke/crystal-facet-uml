@@ -33,7 +33,7 @@ enum document_link_provider_max_enum {
 struct document_link_provider_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
 
-    data_diagram_t temp_diagram[ DOCUMENT_LINK_PROVIDER_MAX_LINKS ];  /*!< memory for temporary diagram storage */
+    data_diagram_t temp_diagrams[ DOCUMENT_LINK_PROVIDER_MAX_LINKS ];  /*!< memory for temporary diagram storage */
 };
 
 typedef struct document_link_provider_struct document_link_provider_t;

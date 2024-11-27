@@ -38,21 +38,31 @@ u8_error_t document_link_provider_get_occurrences( document_link_provider_t *thi
     assert ( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
     assert ( NULL != out_diagram );
     assert ( NULL != out_diagram_count );
-    u8_error_t write_err = U8_ERROR_NONE;
+    u8_error_t db_err = U8_ERROR_NONE;
 
-    uint32_t diagram_count;
-    write_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
-                                                                     data_id_get_row_id( &classifier_id ),
-                                                                     DOCUMENT_LINK_PROVIDER_MAX_LINKS,
-                                                                     &((*this_).temp_diagram),
-                                                                     &diagram_count
-                                                                   );
+    data_diagram_iterator_t diagram_iterator;
+    db_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+    db_err |= data_database_reader_get_diagrams_by_classifier_id( (*this_).db_reader,
+                                                                  data_id_get_row_id( &classifier_id ),
+                                                                  &diagram_iterator
+                                                                );
+    uint_fast32_t next_idx = 0;
+    for ( ; (next_idx < DOCUMENT_LINK_PROVIDER_MAX_LINKS) && data_diagram_iterator_has_next( &diagram_iterator ); next_idx++ )
+    {
+        db_err |= data_diagram_iterator_next( &diagram_iterator, &( (*this_).temp_diagrams[next_idx] ) );
+    }
+    if ( data_diagram_iterator_has_next( &diagram_iterator ) )
+    {
+        /* This is not an error - rather expected - shuold only be traced...*/
+        U8_TRACE_INFO_INT( "document_link_provider_get_occurrences finds too many classifier occurrences", DOCUMENT_LINK_PROVIDER_MAX_LINKS );
+    }
+    db_err |= data_diagram_iterator_destroy( &diagram_iterator );
 
-    *out_diagram = &((*this_).temp_diagram);
-    *out_diagram_count = diagram_count;
+    *out_diagram = &((*this_).temp_diagrams);
+    *out_diagram_count = next_idx;
 
-    U8_TRACE_END_ERR( write_err );
-    return write_err;
+    U8_TRACE_END_ERR( db_err );
+    return db_err;
 }
 
 

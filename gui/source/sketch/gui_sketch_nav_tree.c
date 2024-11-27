@@ -108,37 +108,53 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
             = ( (*this_).ancestors_count == 0 )
             ? DATA_ROW_ID_VOID
             : data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
-        db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,
+
+        data_diagram_iterator_t diagram_iterator;
+        db_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+        db_err |= data_database_reader_get_diagrams_by_parent_id( db_reader,
                                                                   parent_id,
-                                                                  GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS,
-                                                                  &( (*this_).sibling_diagrams ),
-                                                                  &( (*this_).siblings_count )
+                                                                  &diagram_iterator
                                                                 );
-
-        /* search self in list of siblings */
+        uint_fast32_t next_idx = 0;
+        for ( ; (next_idx < GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS) && data_diagram_iterator_has_next( &diagram_iterator ); next_idx++ )
         {
-            assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
-
-            (*this_).siblings_self_index = -1;
-            for ( int sib_index = 0; sib_index < (*this_).siblings_count; sib_index ++ )
+            db_err |= data_diagram_iterator_next( &diagram_iterator, &( (*this_).sibling_diagrams[next_idx] ) );
+            /* search self in list of siblings */
+            if ( diagram_id == data_diagram_get_row_id( &((*this_).sibling_diagrams[next_idx]) ) )
             {
-                if ( diagram_id == data_diagram_get_row_id( &((*this_).sibling_diagrams[sib_index]) ) )
-                {
-                    (*this_).siblings_self_index = sib_index;
-                }
+                (*this_).siblings_self_index = next_idx;
             }
         }
+        (*this_).siblings_count = next_idx;
+        if ( data_diagram_iterator_has_next( &diagram_iterator ) )
+        {
+            db_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+            U8_LOG_WARNING_INT( "gui_sketch_nav_tree_load_data finds too many sibling diagrams", GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
+        }
+        db_err |= data_diagram_iterator_destroy( &diagram_iterator );
     }
 
     /* get children */
     if ( db_err == U8_ERROR_NONE )
     {
-        db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,
+        data_diagram_iterator_t diagram_iterator;
+        db_err |= data_diagram_iterator_init_empty( &diagram_iterator );
+        db_err |= data_database_reader_get_diagrams_by_parent_id( db_reader,
                                                                   diagram_id,
-                                                                  GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN,
-                                                                  &( (*this_).child_diagrams ),
-                                                                  &( (*this_).children_count )
+                                                                  &diagram_iterator
                                                                 );
+        uint_fast32_t next_idx = 0;
+        for ( ; (next_idx < GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN) && data_diagram_iterator_has_next( &diagram_iterator ); next_idx++ )
+        {
+            db_err |= data_diagram_iterator_next( &diagram_iterator, &( (*this_).child_diagrams[next_idx] ) );
+        }
+        (*this_).children_count = next_idx;
+        if ( data_diagram_iterator_has_next( &diagram_iterator ) )
+        {
+            db_err |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
+            U8_LOG_WARNING_INT( "gui_sketch_nav_tree_load_data finds too many children diagrams", GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
+        }
+        db_err |= data_diagram_iterator_destroy( &diagram_iterator );
     }
 
     /* invalidate layout positions */
