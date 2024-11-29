@@ -61,25 +61,19 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
     }
     else
     {
-        u8_error_t db_err;
-
         data_diagram_destroy( &((*this_).diagram) );
         data_visible_set_private_destroy_visible_classifiers( this_ );
         data_visible_set_private_destroy_features( this_ );
         data_visible_set_private_destroy_relationships( this_ );
 
         /* load diagram */
-        db_err = data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
+        const u8_error_t db_err = data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
 
         if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
         {
             U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
         }
-        if ( u8_error_contains( db_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
-        {
-            U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
-        }
-        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
+        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
         {
             /* error at loading */
             data_diagram_reinit_empty( &((*this_).diagram) );
@@ -87,27 +81,24 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
         result |= db_err;  /* collect error flags */
 
         /* load classifiers */
-        db_err = data_database_reader_get_classifiers_by_diagram_id ( db_reader,
-                                                                      diagram_id,
-                                                                      DATA_VISIBLE_SET_MAX_CLASSIFIERS,
-                                                                      &((*this_).visible_classifiers),
-                                                                      &((*this_).visible_classifier_count)
-                                                                    );
-
-        if ( u8_error_contains( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
+        (*this_).visible_classifier_count = 0;
+        data_visible_classifier_iterator_t visible_classifier_iterator;
+        result |= data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
+        result |= data_database_reader_get_visible_classifiers_by_diagram_id( db_reader,
+                                                                              diagram_id,
+                                                                              &visible_classifier_iterator
+                                                                            );
+        for ( int_fast32_t vc_idx = 0; (vc_idx < DATA_VISIBLE_SET_MAX_CLASSIFIERS) && data_visible_classifier_iterator_has_next( &visible_classifier_iterator ); vc_idx ++ )
         {
-            U8_LOG_ERROR( "U8_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
+            result |= data_visible_classifier_iterator_next( &visible_classifier_iterator, &((*this_).visible_classifiers[vc_idx]) );
+            (*this_).visible_classifier_count = vc_idx+1;
         }
-        if ( u8_error_contains( db_err, U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
+        if ( data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) )
         {
+            result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
             U8_LOG_ERROR( "U8_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
-        if ( u8_error_more_than( db_err, U8_ERROR_STRING_BUFFER_EXCEEDED|U8_ERROR_ARRAY_BUFFER_EXCEEDED ) )
-        {
-            /* error at loading */
-            (*this_).visible_classifier_count = 0;
-        }
-        result |= db_err;  /* collect error flags */
+        result |= data_visible_classifier_iterator_destroy( &visible_classifier_iterator );
 
         /* load features */
         (*this_).feature_count = 0;

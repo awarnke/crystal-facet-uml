@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.61.1"
+    "generator_version": "1.61.2"
   }
   ,
   "views":
@@ -4408,7 +4408,7 @@
             "description": [
                 ""
             ],
-            "list_order": 282260930,
+            "list_order": 108538057,
             "uuid": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b"
           }
         ]
@@ -4524,7 +4524,7 @@
             "description": [
                 ""
             ],
-            "list_order": 401944096,
+            "list_order": -91007386,
             "uuid": "b2533db8-6881-4300-a224-3f8a5724481a"
           },
           {
@@ -6151,6 +6151,18 @@
         "uuid": "74903d54-6d51-4e5f-984a-539cb62006a6",
         "features":
         [
+          {
+            "id": 48,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "cause",
+            "value": "logic board damaged",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "d0363950-f55d-455f-8405-796df0726eb7"
+          }
         ]
       }
     },
@@ -6467,6 +6479,18 @@
         "uuid": "6426627d-418a-4ba5-822c-ded2cb4c18dd",
         "features":
         [
+          {
+            "id": 47,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "cause",
+            "value": "energy cell damaged",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "f0bf1eac-9d06-4871-ba5c-1720ce360c63"
+          }
         ]
       }
     },
@@ -6487,6 +6511,18 @@
         "uuid": "7bc7017a-47a5-416e-a079-3b58bc03747c",
         "features":
         [
+          {
+            "id": 46,
+            "main_type": 10,
+            "type": "Tag",
+            "key": "cause",
+            "value": "motors defect",
+            "description": [
+                ""
+            ],
+            "list_order": 32768,
+            "uuid": "c1af5919-c1fc-4e81-a28f-45e16ec927db"
+          }
         ]
       }
     },

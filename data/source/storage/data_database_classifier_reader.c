@@ -19,13 +19,14 @@ u8_error_t data_database_classifier_reader_init ( data_database_classifier_reade
     (*this_).statement_classifier_by_id = NULL;
     (*this_).statement_classifier_by_name = NULL;
     (*this_).statement_classifier_by_uuid = NULL;
-    (*this_).statement_classifiers_by_diagram_id = NULL;
     (*this_).statement_classifiers_all = NULL;
     (*this_).statement_classifiers_all_hierarchical = NULL;
+
     (*this_).statement_feature_by_id = NULL;
     (*this_).statement_feature_by_uuid = NULL;
     (*this_).statement_features_by_classifier_id = NULL;
     (*this_).statement_features_by_diagram_id = NULL;
+
     (*this_).statement_relationship_by_id = NULL;
     (*this_).statement_relationship_by_uuid = NULL;
     (*this_).statement_relationships_by_classifier_id = NULL;
@@ -75,23 +76,6 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME[] =
     "FROM classifiers WHERE name=?;";
 
 /*!
- *  \brief predefined search statement to find classifier by diagram-id
- */
-static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
-    "SELECT classifiers.id,classifiers.main_type,classifiers.stereotype,"
-    "classifiers.name,classifiers.description,classifiers.x_order,classifiers.y_order,classifiers.list_order,"
-    "classifiers.uuid,"
-    "diagramelements.id,diagramelements.display_flags,diagramelements.focused_feature_id,diagramelements.uuid "
-    "FROM classifiers "
-    "INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? "
-    "ORDER BY diagramelements.id ASC;";
-    /* To ensure reporducible results of json esports, ordering by a unique key is required here. */
-    /* Ordering by 2 keys did not produce the expected results with sqlite3 3.34.1 */
-    /* "ORDER BY classifiers.list_order ASC,diagramelements.id ASC;"; */
-    /* see also https://sqlite.org/forum/forumpost/e1033dab18c262ac4b36cdf7c65bf87a5aaaecab3b3ba100e4588fc30e50f9fb */
-
-/*!
  *  \brief the column id of the result where this parameter is stored: id
  */
 static const int RESULT_CLASSIFIER_ID_COLUMN = 0;
@@ -135,26 +119,6 @@ static const int RESULT_CLASSIFIER_LIST_ORDER_COLUMN = 7;
  *  \brief the column id of the result where this parameter is stored: uuid
  */
 static const int RESULT_CLASSIFIER_UUID_COLUMN = 8;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagramelements.id
- */
-static const int RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN = 9;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagramelements.display_flags
- */
-static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 10;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagramelements.focused_feature_id
- */
-static const int RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN = 11;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagramelements.uuid
- */
-static const int RESULT_CLASSIFIER_DIAGELE_UUID_COLUMN = 12;
 
 u8_error_t data_database_classifier_reader_get_classifier_by_id( data_database_classifier_reader_t *this_,
                                                                  data_row_id_t id,
@@ -308,91 +272,6 @@ u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_databas
             {
                 U8_LOG_ERROR_INT( "sqlite3_step not done yet:", sqlite_err );
                 result |= U8_ERROR_DB_STRUCTURE;
-            }
-        }
-    }
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
-u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id( data_database_classifier_reader_t *this_,
-                                                                          data_row_id_t diagram_id,
-                                                                          uint32_t max_out_array_size,
-                                                                          data_visible_classifier_t (*out_visible_classifier)[],
-                                                                          uint32_t *out_visible_classifier_count )
-{
-    U8_TRACE_BEGIN();
-    assert( NULL != out_visible_classifier_count );
-    assert( NULL != out_visible_classifier );
-    u8_error_t result = U8_ERROR_NONE;
-    int sqlite_err;
-    sqlite3_stmt *prepared_statement;
-
-    {
-        prepared_statement = (*this_).statement_classifiers_by_diagram_id;
-
-        result |= data_database_classifier_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
-
-        *out_visible_classifier_count = 0;
-        sqlite_err = SQLITE_ROW;
-        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
-        {
-            U8_TRACE_INFO( "sqlite3_step()" );
-            sqlite_err = sqlite3_step( prepared_statement );
-            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
-            {
-                U8_LOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                result |= U8_ERROR_AT_DB;
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
-            {
-                *out_visible_classifier_count = row_index+1;
-                data_visible_classifier_t *current_vis_classifier;
-                current_vis_classifier = &((*out_visible_classifier)[row_index]);
-                data_visible_classifier_init_empty( current_vis_classifier );
-
-                data_classifier_t *current_classifier;
-                current_classifier = data_visible_classifier_get_classifier_ptr( current_vis_classifier );
-                data_row_id_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN );
-                result |= data_classifier_reinit( current_classifier,
-                                                  classifier_id,
-                                                  sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_STEREOTYPE_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN ),
-                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_UUID_COLUMN )
-                                                );
-
-                data_diagramelement_t *current_diag_element;
-                current_diag_element = data_visible_classifier_get_diagramelement_ptr( current_vis_classifier );
-                result |= data_diagramelement_reinit( current_diag_element,
-                                                      sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN ),
-                                                      diagram_id,
-                                                      classifier_id,
-                                                      sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN ),
-                                                      sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN ),
-                                                      (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DIAGELE_UUID_COLUMN )
-                                                    );
-                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN ) )
-                {
-                    data_diagramelement_set_focused_feature_row_id ( current_diag_element, DATA_ROW_ID_VOID );
-                }
-
-                data_classifier_trace( current_classifier );
-                data_diagramelement_trace( current_diag_element );
-            }
-            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
-            {
-                U8_LOG_ANOMALY_INT( "out_visible_classifier[] full:", (row_index+1) );
-                result |= U8_ERROR_ARRAY_BUFFER_EXCEEDED;
-            }
-            if ( SQLITE_DONE == sqlite_err )
-            {
-                U8_TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
@@ -934,12 +813,6 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
                                                  );
 
         result |= data_database_prepare_statement( (*this_).database,
-                                                   DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
-                                                   sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
-                                                   &((*this_).statement_classifiers_by_diagram_id)
-                                                 );
-
-        result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_CLASSIFIER_ITERATOR_SELECT_ALL,
                                                    (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_classifiers_all)
@@ -1036,9 +909,6 @@ u8_error_t data_database_classifier_reader_private_close ( data_database_classif
 
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifier_by_uuid );
         (*this_).statement_classifier_by_uuid = NULL;
-
-        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifiers_by_diagram_id );
-        (*this_).statement_classifiers_by_diagram_id = NULL;
 
         assert( (*this_).statement_classifiers_all_borrowed == false );
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_classifiers_all );

@@ -16,6 +16,7 @@
 #include "storage/data_relationship_iterator.h"
 #include "storage/data_diagram_iterator.h"
 #include "storage/data_diagramelement_iterator.h"
+#include "storage/data_visible_classifier_iterator.h"
 #include "storage/data_database.h"
 #include "storage/data_database_classifier_reader.h"
 #include "storage/data_database_diagram_reader.h"
@@ -219,27 +220,6 @@ static inline u8_error_t data_database_reader_get_classifier_by_uuid ( data_data
                                                                      );
 
 /*!
- *  \brief reads all classifiers of a diagram from the database.
- *
- *  If a classifier is contained multiple times in a diagram, it is returned multiple times in the out_visible_classifier result list.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the containing diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_visible_classifier array of classifiers (and diagramelements) read from the database (in case of success)
- *  \param[out] out_visible_classifier_count number of classifier records stored in out_visible_classifier
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
- */
-static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
-                                                                              data_row_id_t diagram_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_visible_classifier_t (*out_visible_classifier)[],
-                                                                              uint32_t *out_visible_classifier_count
-                                                                            );
-
-/*!
  *  \brief iterates over all classifiers from the database.
  *
  *  classifiers are sorted by number of containment-parents, ascending.
@@ -255,6 +235,25 @@ static inline u8_error_t data_database_reader_get_all_classifiers ( data_databas
                                                                     bool hierarchical,
                                                                     data_classifier_iterator_t *io_classifier_iterator
                                                                   );
+
+/* ================================ VISIBLE_CLASSIFIER ================================ */
+
+/*!
+ *  \brief reads all visible classifiers of a diagram from the database.
+ *
+ *  If a classifier is contained multiple times in a diagram, it is returned multiple times in the io_visible_classifier_iterator.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the containing diagram
+ *  \param[in,out] io_visible_classifier_iterator iterator over visible classifiers of selected diagram. The caller is responsible
+ *                                                for initializing before and destroying this object afterwards.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open.
+ */
+static inline u8_error_t data_database_reader_get_visible_classifiers_by_diagram_id ( data_database_reader_t *this_,
+                                                                                      data_row_id_t diagram_id,
+                                                                                      data_visible_classifier_iterator_t *io_visible_classifier_iterator
+                                                                                    );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 

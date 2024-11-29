@@ -377,14 +377,14 @@ static test_case_result_t test_search_diagramelements( test_fixture_t *fix )
     data_diagramelement_t out_diagramelement;
 
     /* test 1 */
-    data_err = data_database_reader_get_diagramelement_by_id ( &((*fix).db_reader), 130, &out_diagramelement );
+    data_err = data_database_reader_get_diagramelement_by_id( &((*fix).db_reader), 130, &out_diagramelement );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
-    data_err = data_database_reader_get_diagramelement_by_uuid ( &((*fix).db_reader),
-                                                                 "02088b41-e71d-466d-a413-2551ba3bf10a",
-                                                                 &out_diagramelement
-                                                               );
+    data_err = data_database_reader_get_diagramelement_by_uuid( &((*fix).db_reader),
+                                                                "02088b41-e71d-466d-a413-2551ba3bf10a",
+                                                                &out_diagramelement
+                                                              );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 133, data_diagramelement_get_row_id( &out_diagramelement ) );
     return TEST_CASE_RESULT_OK;
@@ -395,45 +395,53 @@ static test_case_result_t test_search_classifiers( test_fixture_t *fix )
     assert( fix != NULL );
     u8_error_t data_err;
     data_classifier_t out_classifier;
-    data_visible_classifier_t visible_classifier_list[3];
-    static const int MAX_ARRAY_SIZE = 3;
-    uint32_t out_classifier_count;
+    data_visible_classifier_t visible_classifier;
 
     /* test 1 */
-    data_err = data_database_reader_get_classifier_by_id ( &((*fix).db_reader), 13, &out_classifier );
+    data_err = data_database_reader_get_classifier_by_id( &((*fix).db_reader), 13, &out_classifier );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 1b */
-    data_err = data_database_reader_get_classifier_by_uuid ( &((*fix).db_reader),
-                                                             "b9495b71-99c3-406d-88d5-1aa233b09e2d",
-                                                             &out_classifier
-                                                           );
+    data_err = data_database_reader_get_classifier_by_uuid( &((*fix).db_reader),
+                                                            "b9495b71-99c3-406d-88d5-1aa233b09e2d",
+                                                            &out_classifier
+                                                          );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 13, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 2 */
-    data_err = data_database_reader_get_classifiers_by_diagram_id ( &((*fix).db_reader),
-                                                                    7,
-                                                                    MAX_ARRAY_SIZE,
-                                                                    &(visible_classifier_list),
-                                                                    &out_classifier_count
-                                                                  );
+    data_visible_classifier_iterator_t visible_classifier_iterator;
+    data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    TEST_EXPECT_EQUAL_INT( 3, out_classifier_count );
+    data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
+                                                                           7,
+                                                                           &visible_classifier_iterator
+                                                                         );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+    data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &visible_classifier );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_INVALID_REQUEST, data_err );
+    data_err = data_visible_classifier_iterator_destroy( &visible_classifier_iterator );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* test 3 */
-    data_err = data_database_reader_get_classifier_by_name ( &((*fix).db_reader),
-                                                             "name-12",
-                                                             &out_classifier
-                                                           );
+    data_err = data_database_reader_get_classifier_by_name( &((*fix).db_reader),
+                                                            "name-12",
+                                                            &out_classifier
+                                                          );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     TEST_EXPECT_EQUAL_INT( 12, data_classifier_get_row_id( &out_classifier ) );
 
     /* test 4 */
-    data_err = data_database_reader_get_classifier_by_name ( &((*fix).db_reader),
-                                                             "does not exist",
-                                                             &out_classifier
-                                                           );
+    data_err = data_database_reader_get_classifier_by_name( &((*fix).db_reader),
+                                                            "does not exist",
+                                                            &out_classifier
+                                                          );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NOT_FOUND, data_err );
     return TEST_CASE_RESULT_OK;
 }

@@ -23,10 +23,13 @@ u8_error_t data_database_diagram_reader_init( data_database_diagram_reader_t *th
     (*this_).statement_diagram_ids_by_parent_id = NULL;
     (*this_).statement_diagram_ids_by_parent_id_null = NULL;
     (*this_).statement_diagram_ids_by_classifier_id = NULL;
+
     (*this_).statement_diagramelement_by_id = NULL;
     (*this_).statement_diagramelement_by_uuid = NULL;
     (*this_).statement_diagramelements_by_diagram_id = NULL;
     (*this_).statement_diagramelements_by_classifier_id = NULL;
+
+    (*this_).statement_visible_classifiers_by_diagram_id = NULL;
 
     result |= data_database_diagram_reader_private_open( this_ );
 
@@ -599,6 +602,29 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( da
     return result;
 }
 
+/* ================================ VISIBLE_CLASSIFIER ================================ */
+
+u8_error_t data_database_diagram_reader_get_visible_classifiers_by_diagram_id( data_database_diagram_reader_t *this_,
+                                                                               data_row_id_t diagram_id,
+                                                                               data_visible_classifier_iterator_t *io_visible_classifier_iterator )
+{
+    U8_TRACE_BEGIN();
+    assert( NULL != io_visible_classifier_iterator );
+    u8_error_t result = U8_ERROR_NONE;
+
+    sqlite3_stmt *const sqlite3_stmt = (*this_).statement_visible_classifiers_by_diagram_id;
+    result |= data_database_diagram_reader_private_bind_id_to_statement( this_, sqlite3_stmt, diagram_id );
+    bool *const borrow_flag = &((*this_).statement_visible_classifiers_by_diagram_id_borrowed);
+
+    data_database_borrowed_stmt_t sql_statement;
+    data_database_borrowed_stmt_init( &sql_statement, (*this_).database, sqlite3_stmt, borrow_flag );
+    result |= data_visible_classifier_iterator_reinit( io_visible_classifier_iterator, sql_statement );
+    /* do not destroy sql_statement; the object is transferred to the iterator and consumed there. */
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
 /* ================================ private ================================ */
 
 u8_error_t data_database_diagram_reader_private_open( data_database_diagram_reader_t *this_ )
@@ -684,6 +710,13 @@ u8_error_t data_database_diagram_reader_private_open( data_database_diagram_read
                                                  );
         (*this_).statement_diagramelements_by_classifier_id_borrowed = false;
 
+        result |= data_database_prepare_statement( (*this_).database,
+                                                   DATA_VISIBLE_CLASSIFIER_ITERATOR_SELECT_BY_DIAGRAM_ID,
+                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   &((*this_).statement_visible_classifiers_by_diagram_id)
+                                                 );
+        (*this_).statement_visible_classifiers_by_diagram_id_borrowed = false;
+
         if ( result != U8_ERROR_NONE )
         {
             U8_LOG_ERROR( "A prepared statement could not be prepared." );
@@ -741,6 +774,9 @@ u8_error_t data_database_diagram_reader_private_close( data_database_diagram_rea
         result |= data_database_finalize_statement( (*this_).database, (*this_).statement_diagramelements_by_classifier_id );
         (*this_).statement_diagramelements_by_classifier_id = NULL;
 
+        assert( (*this_).statement_visible_classifiers_by_diagram_id_borrowed == false );
+        result |= data_database_finalize_statement( (*this_).database, (*this_).statement_visible_classifiers_by_diagram_id );
+        (*this_).statement_visible_classifiers_by_diagram_id = NULL;
     }
 
     U8_TRACE_END_ERR(result);

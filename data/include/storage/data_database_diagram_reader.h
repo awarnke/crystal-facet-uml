@@ -14,6 +14,7 @@
 #include "storage/data_classifier_iterator.h"
 #include "storage/data_diagram_iterator.h"
 #include "storage/data_diagramelement_iterator.h"
+#include "storage/data_visible_classifier_iterator.h"
 #include "storage/data_database.h"
 #include "entity/data_diagram.h"
 #include "u8/u8_error.h"
@@ -45,12 +46,16 @@ struct data_database_diagram_reader_struct {
     sqlite3_stmt *statement_diagram_ids_by_parent_id;
     sqlite3_stmt *statement_diagram_ids_by_parent_id_null;
     sqlite3_stmt *statement_diagram_ids_by_classifier_id;
+
     sqlite3_stmt *statement_diagramelement_by_id;
     sqlite3_stmt *statement_diagramelement_by_uuid;
     sqlite3_stmt *statement_diagramelements_by_diagram_id;
     bool statement_diagramelements_by_diagram_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_diagramelements_by_classifier_id;
     bool statement_diagramelements_by_classifier_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
+
+    sqlite3_stmt *statement_visible_classifiers_by_diagram_id;
+    bool statement_visible_classifiers_by_diagram_id_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
 };
 
 typedef struct data_database_diagram_reader_struct data_database_diagram_reader_t;
@@ -227,6 +232,25 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id ( d
                                                                                data_row_id_t classifier_id,
                                                                                data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                              );
+
+/* ================================ VISIBLE_CLASSIFIER ================================ */
+
+/*!
+ *  \brief reads all visible classifiers of a diagram from the database.
+ *
+ *  If a visible classifier is contained multiple times in a diagram, it is returned multiple times in the io_visible_classifier_iterator.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the containing diagram
+ *  \param[in,out] io_visible_classifier_iterator iterator over visible classifiers of selected diagram. The caller is responsible
+ *                                                for initializing before and destroying this object afterwards.
+ *  \return U8_ERROR_NONE in case of success, an error code in case of error.
+ *          U8_ERROR_NO_DB if the database is not open.
+ */
+u8_error_t data_database_diagram_reader_get_visible_classifiers_by_diagram_id ( data_database_diagram_reader_t *this_,
+                                                                                data_row_id_t diagram_id,
+                                                                                data_visible_classifier_iterator_t *io_visible_classifier_iterator
+                                                                              );
 
 /* ================================ private ================================ */
 

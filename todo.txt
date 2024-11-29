@@ -58,13 +58,6 @@ ideas for future versions:
   [?] DATA_CLASSIFIER_TYPE_INTERACTION should exist as element, not be faked from a diagram
   [?] relationship ends don't have roles nor multiplicities nor dot-notation
   [ ] introduce a TABLE diagram type showing tagged values to do resource and risk calculations
-  [ ] questionable data access methods: There is no guarantee for an upper limit of returned elements:
-      - data_database_diagram_reader_get_diagrams_by_classifier_id
-      - data_database_diagram_reader_get_diagram_ids_by_classifier_id
-      - data_database_diagram_reader_get_diagramelements_by_classifier_id
-      instead provide an iterator like:
-      data_database_classifier_reader_get_all_classifiers
-      or simply check if truncated result lists are acceptable - e.g. in searches, export-links-generator, ...
   @ctrl
       Note: There must not be model elements that are not visible. a) One cannot review, b) unclear significance.
   [ ] delete features immediately when they become invisible in all diagrams (lifelines work since 1.52.0)

@@ -225,34 +225,6 @@ static inline u8_error_t data_database_reader_get_classifier_by_uuid ( data_data
     return result;
 }
 
-static inline u8_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
-                                                                              data_row_id_t diagram_id,
-                                                                              uint32_t max_out_array_size,
-                                                                              data_visible_classifier_t (*out_visible_classifier)[],
-                                                                              uint32_t *out_visible_classifier_count )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-
-    if ( (*this_).is_open )
-    {
-        result = data_database_classifier_reader_get_classifiers_by_diagram_id( &((*this_).temp_classifier_reader),
-                                                                                diagram_id,
-                                                                                max_out_array_size,
-                                                                                out_visible_classifier,
-                                                                                out_visible_classifier_count
-                                                                              );
-    }
-    else
-    {
-        result |= U8_ERROR_NO_DB;
-        U8_TRACE_INFO( "Database not open, cannot request data." );
-    }
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
 static inline u8_error_t data_database_reader_get_all_classifiers ( data_database_reader_t *this_,
                                                                     bool hierarchical,
                                                                     data_classifier_iterator_t *io_classifier_iterator )
@@ -266,6 +238,32 @@ static inline u8_error_t data_database_reader_get_all_classifiers ( data_databas
                                                                       hierarchical,
                                                                       io_classifier_iterator
                                                                     );
+    }
+    else
+    {
+        result |= U8_ERROR_NO_DB;
+        U8_TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    U8_TRACE_END_ERR( result );
+    return result;
+}
+
+/* ================================ VISIBLE_CLASSIFIER ================================ */
+
+static inline u8_error_t data_database_reader_get_visible_classifiers_by_diagram_id( data_database_reader_t *this_,
+                                                                                     data_row_id_t diagram_id,
+                                                                                      data_visible_classifier_iterator_t *io_visible_classifier_iterator )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t result = U8_ERROR_NONE;
+
+    if ( (*this_).is_open )
+    {
+        result = data_database_diagram_reader_get_visible_classifiers_by_diagram_id( &((*this_).temp_diagram_reader),
+                                                                                     diagram_id,
+                                                                                     io_visible_classifier_iterator
+                                                                                   );
     }
     else
     {

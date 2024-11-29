@@ -37,7 +37,6 @@ struct data_database_classifier_reader_struct {
     sqlite3_stmt *statement_classifier_by_id;
     sqlite3_stmt *statement_classifier_by_name;
     sqlite3_stmt *statement_classifier_by_uuid;
-    sqlite3_stmt *statement_classifiers_by_diagram_id;
     sqlite3_stmt *statement_classifiers_all;
     bool statement_classifiers_all_borrowed;  /*!< flag that indicates if the statement is borrowed by an iterator */
     sqlite3_stmt *statement_classifiers_all_hierarchical;
@@ -126,29 +125,6 @@ u8_error_t data_database_classifier_reader_get_classifier_by_uuid ( data_databas
                                                                     const char *uuid,
                                                                     data_classifier_t *out_classifier
                                                                   );
-
-/*!
- *  \brief reads all classifiers of a diagram from the database.
- *
- *  If a classifier is contained multiple times in a diagram, it is returned multiple times in the out_visible_classifier result list.
- *
- *  Note: A visible_classifier iterator does not yet exist. And this function is used just 2 times data-internally. Therefore keep this old interface.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the containing diagram
- *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param[out] out_visible_classifier array of classifiers (and diagramelements) read from the database (in case of success)
- *  \param[out] out_visible_classifier_count number of classifier records stored in out_visible_classifier
- *  \return U8_ERROR_NONE in case of success, an error code in case of error.
- *          U8_ERROR_NO_DB if the database is not open,
- *          U8_ERROR_ARRAY_BUFFER_EXCEEDED if the provided out buffers are too small.
- */
-u8_error_t data_database_classifier_reader_get_classifiers_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                           data_row_id_t diagram_id,
-                                                                           uint32_t max_out_array_size,
-                                                                           data_visible_classifier_t (*out_visible_classifier)[],
-                                                                           uint32_t *out_visible_classifier_count
-                                                                         );
 
 /*!
  *  \brief iterates over all classifiers from the database.

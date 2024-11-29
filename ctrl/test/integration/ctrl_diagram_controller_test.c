@@ -165,8 +165,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
     data_row_id_t classifier_id;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
-    uint32_t read_vis_classifiers_count;
-    data_visible_classifier_t read_vis_classifiers[2];
+    data_visible_classifier_t read_vis_classifier;
     data_diagramelement_t *diag_element_ptr;
     data_row_id_t diag_element_id;
     data_diagramelement_t diag_element;
@@ -228,18 +227,26 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
 
     /* get the id of the diagramelement */
     {
-        data_err = data_database_reader_get_classifiers_by_diagram_id( &((*fix).db_reader),
-                                                                       diagram_id,
-                                                                       2,
-                                                                       &read_vis_classifiers,
-                                                                       &read_vis_classifiers_count
-                                                                     );
+        data_visible_classifier_iterator_t visible_classifier_iterator;
+        data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 1, read_vis_classifiers_count );
-        diag_element_ptr = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );
+        data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
+                                                                               diagram_id,
+                                                                               &visible_classifier_iterator
+                                                                             );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
+
+        data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &read_vis_classifier );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
+        diag_element_ptr = data_visible_classifier_get_diagramelement_ptr( &read_vis_classifier );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( diag_element_ptr ) );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( diag_element_ptr ) );
         diag_element_id = data_diagramelement_get_row_id( diag_element_ptr );
+
+        TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
+        data_err = data_visible_classifier_iterator_destroy( &visible_classifier_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
 
     /* get the data_diagramelement_t by id */

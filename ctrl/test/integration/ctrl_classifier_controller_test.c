@@ -74,8 +74,7 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
     data_classifier_t read_classifier;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
-    uint32_t read_vis_classifiers_count;
-    data_visible_classifier_t read_vis_classifiers[2];
+    data_visible_classifier_t read_vis_classifier;
     data_classifier_t *first_classifier;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr ( &((*fix).controller) );
@@ -170,11 +169,10 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     }
 
-    /* search several records, result array too small */
+    /* search a record */
     {
-        data_visible_classifier_init_empty( &(read_vis_classifiers[0]) );
-        data_visible_classifier_init_empty( &(read_vis_classifiers[1]) );
-        first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
+        data_visible_classifier_init_empty( &(read_vis_classifier) );
+        first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifier) );
         data_uuid_t uuid;
         data_uuid_init_new( &uuid );
 
@@ -190,29 +188,19 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
                                 data_uuid_get_string( &uuid )
                               );
 
-        data_err = data_database_reader_get_classifiers_by_diagram_id ( &((*fix).db_reader), diagram_id, 0, &read_vis_classifiers, &read_vis_classifiers_count );
-        TEST_EXPECT_EQUAL_INT( U8_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
-        TEST_EXPECT_EQUAL_INT( 0, read_vis_classifiers_count );
-        /* check that old data is not overwritten: */
-        TEST_EXPECT_EQUAL_INT( 0x1234, data_classifier_get_row_id( first_classifier ) );
-        TEST_EXPECT_EQUAL_INT( DATA_CLASSIFIER_TYPE_COMPONENT, data_classifier_get_main_type( first_classifier ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "stereo", data_classifier_get_stereotype_const( first_classifier ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "my_name", data_classifier_get_name_const( first_classifier ) ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( "descr", data_classifier_get_description_const( first_classifier ) ) );
-        TEST_EXPECT_EQUAL_INT( 1000, data_classifier_get_x_order( first_classifier ) );
-        TEST_EXPECT_EQUAL_INT( 400, data_classifier_get_y_order( first_classifier ) );
-        TEST_EXPECT_EQUAL_INT( 398, data_classifier_get_list_order( first_classifier ) );
-        TEST_EXPECT_EQUAL_INT( 0, strcmp( data_uuid_get_string( &uuid ), data_classifier_get_uuid_const( first_classifier ) ) );
-
-        data_uuid_destroy( &uuid );
-    }
-
-    /* search several records, result array sufficient */
-    {
-        data_err = data_database_reader_get_classifiers_by_diagram_id ( &((*fix).db_reader), diagram_id, 2, &read_vis_classifiers, &read_vis_classifiers_count );
+        data_visible_classifier_iterator_t visible_classifier_iterator;
+        data_err = data_visible_classifier_iterator_init_empty( &visible_classifier_iterator );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-        TEST_EXPECT_EQUAL_INT( 1, read_vis_classifiers_count );
+        data_err = data_database_reader_get_visible_classifiers_by_diagram_id( &((*fix).db_reader),
+                                                                               diagram_id,
+                                                                               &visible_classifier_iterator
+                                                                             );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err )
+        ;
+        TEST_EXPECT_EQUAL_INT( true, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
         /* check that new data is available */
+        data_err = data_visible_classifier_iterator_next( &visible_classifier_iterator, &read_vis_classifier );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_classifier_get_row_id( first_classifier ) );
         TEST_EXPECT_EQUAL_INT( DATA_CLASSIFIER_TYPE_NODE, data_classifier_get_main_type( first_classifier ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "my_new_stereotype", data_classifier_get_stereotype_const( first_classifier ) ) );
@@ -220,6 +208,10 @@ static test_case_result_t classifier_create_read_modify_read( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "my_new_classifier_description", data_classifier_get_description_const( first_classifier ) ) );
         TEST_EXPECT_EQUAL_INT( 6789, data_classifier_get_x_order( first_classifier ) );
         TEST_EXPECT_EQUAL_INT( 789, data_classifier_get_y_order( first_classifier ) );
+
+        TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
+        data_err = data_visible_classifier_iterator_destroy( &visible_classifier_iterator );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
     }
     return TEST_CASE_RESULT_OK;
 }
