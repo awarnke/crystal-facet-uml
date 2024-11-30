@@ -196,19 +196,19 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
                     if ( ! u8_error_more_than( r_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                     {
                         /* Ignore relationships that have not both ends in current diagram - e.g. messages between foreign lifelines */
-                        const data_row_id_t from_row_id = data_relationship_get_from_classifier_row_id( current_relationship );
-                        const data_row_id_t to_row_id = data_relationship_get_to_classifier_row_id( current_relationship );
-                        bool from_known = ( from_row_id == DATA_ROW_ID_VOID );
-                        bool to_known = ( to_row_id == DATA_ROW_ID_VOID );
+                        const data_row_id_t from_feat_row_id = data_relationship_get_from_feature_row_id( current_relationship );
+                        const data_row_id_t to_feat_row_id = data_relationship_get_to_feature_row_id( current_relationship );
+                        bool from_known = ( from_feat_row_id == DATA_ROW_ID_VOID );
+                        bool to_known = ( to_feat_row_id == DATA_ROW_ID_VOID );
                         for( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
                         {
                             const data_feature_t *const probe_feature = &((*this_).features[f_idx]);
                             const data_row_id_t probe_feat_id = data_feature_get_row_id( probe_feature );
-                            if ( probe_feat_id == from_row_id )
+                            if ( probe_feat_id == from_feat_row_id )
                             {
                                 from_known = true;
                             }
-                            if ( probe_feat_id == to_known )
+                            if ( probe_feat_id == to_feat_row_id )
                             {
                                 to_known = true;
                             }
