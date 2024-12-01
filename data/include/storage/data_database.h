@@ -249,7 +249,7 @@ static inline u8_error_t data_database_private_exec_sql ( data_database_t *this_
  */
 static inline u8_error_t data_database_prepare_statement ( data_database_t *this_,
                                                            const char *string_statement,
-                                                           unsigned int string_size,
+                                                           int string_size,
                                                            sqlite3_stmt **out_statement_ptr
                                                          );
 

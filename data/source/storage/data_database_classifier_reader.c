@@ -814,14 +814,14 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_CLASSIFIER_ITERATOR_SELECT_ALL,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_classifiers_all)
                                                  );
         (*this_).statement_classifiers_all_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_CLASSIFIER_ITERATOR_SELECT_ALL_HIERARCHICAL,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_classifiers_all_hierarchical)
                                                  );
         (*this_).statement_classifiers_all_hierarchical_borrowed = false;
@@ -840,14 +840,14 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_CLASSIFIER_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_features_by_classifier_id)
                                                  );
         (*this_).statement_features_by_classifier_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_FEATURE_ITERATOR_SELECT_FEATURES_BY_DIAGRAM_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_features_by_diagram_id)
                                                  );
         (*this_).statement_features_by_diagram_id_borrowed = false;
@@ -866,21 +866,21 @@ u8_error_t data_database_classifier_reader_private_open ( data_database_classifi
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_relationships_by_classifier_id)
                                                  );
         (*this_).statement_relationships_by_classifier_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_FEATURE_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_relationships_by_feature_id)
                                                  );
         (*this_).statement_relationships_by_feature_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_RELATIONSHIP_ITERATOR_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_relationships_by_diagram_id)
                                                  );
         (*this_).statement_relationships_by_diagram_id_borrowed = false;

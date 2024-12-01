@@ -647,21 +647,21 @@ u8_error_t data_database_diagram_reader_private_open( data_database_diagram_read
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_diagrams_by_parent_id)
                                                  );
         (*this_).statement_diagrams_by_parent_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_PARENT_ID_NULL,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_diagrams_by_parent_id_null)
                                                  );
         (*this_).statement_diagrams_by_parent_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DIAGRAM_ITERATOR_SELECT_DIAGRAMS_BY_CLASSIFIER_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_diagrams_by_classifier_id)
                                                  );
         (*this_).statement_diagrams_by_classifier_id_borrowed = false;
@@ -698,21 +698,21 @@ u8_error_t data_database_diagram_reader_private_open( data_database_diagram_read
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_diagramelements_by_diagram_id)
                                                  );
         (*this_).statement_diagramelements_by_diagram_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_DIAGRAMELEMENT_ITERATOR_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_diagramelements_by_classifier_id)
                                                  );
         (*this_).statement_diagramelements_by_classifier_id_borrowed = false;
 
         result |= data_database_prepare_statement( (*this_).database,
                                                    DATA_VISIBLE_CLASSIFIER_ITERATOR_SELECT_BY_DIAGRAM_ID,
-                                                   (signed) DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
+                                                   DATA_DATABASE_SQL_LENGTH_AUTO_DETECT,
                                                    &((*this_).statement_visible_classifiers_by_diagram_id)
                                                  );
         (*this_).statement_visible_classifiers_by_diagram_id_borrowed = false;
