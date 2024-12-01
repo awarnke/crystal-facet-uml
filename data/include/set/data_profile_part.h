@@ -25,7 +25,8 @@
  *  \brief constants for maximum values of data_profile_part_t
  */
 enum data_profile_part_max_enum {
-    DATA_PROFILE_PART_MAX_STEREOTYPES = 24,  /*!< maximum number of stereotypes to be used in one single diagram */
+    DATA_PROFILE_PART_MAX_STEREOTYPES = 48,  /*!< maximum number of stereotypes to be used in one single diagram. */
+                                             /*!< Note that a single profile diagram may contain all custom stereotypes. */
 };
 
 /*!
@@ -43,21 +44,21 @@ typedef struct data_profile_part_struct data_profile_part_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void data_profile_part_init( data_profile_part_t *this_ );
+void data_profile_part_init ( data_profile_part_t *this_ );
 
 /*!
  *  \brief re-initializes the painter input data
  *
  *  \param this_ pointer to own object attributes
  */
-void data_profile_part_reinit( data_profile_part_t *this_ );
+void data_profile_part_reinit ( data_profile_part_t *this_ );
 
 /*!
  *  \brief destroys the painter input data
  *
  *  \param this_ pointer to own object attributes
  */
-void data_profile_part_destroy( data_profile_part_t *this_ );
+void data_profile_part_destroy ( data_profile_part_t *this_ );
 
 /*!
  *  \brief fetches the painter input data from the database
@@ -68,10 +69,10 @@ void data_profile_part_destroy( data_profile_part_t *this_ );
  *  \return U8_ERROR_NONE in case of success, in case of error 
  *          e.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_profile_part_load( data_profile_part_t *this_,
-                                   const data_visible_set_t * diagram_elements,
-                                   data_database_reader_t *db_reader
-                                 );
+u8_error_t data_profile_part_load ( data_profile_part_t *this_,
+                                    const data_visible_set_t * diagram_elements,
+                                    data_database_reader_t *db_reader
+                                  );
 
 /*!
  *  \brief gets the number of stereotype classifiers within the painter input data

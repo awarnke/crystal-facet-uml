@@ -25,8 +25,10 @@
  */
 enum data_visible_set_max_enum {
     DATA_VISIBLE_SET_MAX_CLASSIFIERS = 128,  /*!< maximum number of visible classifiers to be shown in one single diagram */
-    DATA_VISIBLE_SET_MAX_FEATURES = 256,  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */
-    DATA_VISIBLE_SET_MAX_RELATIONSHIPS = 1024,  /*!< maximum number of relationships linked to all visible classifiers, even some of other diagrams */
+    DATA_VISIBLE_SET_MAX_FEATURES = 256,  /*!< maximum number of features linked to all visible classifiers, */
+                                          /*!< lifelines of foreign diagrams are excluded/filtered. */
+    DATA_VISIBLE_SET_MAX_RELATIONSHIPS = 384,  /*!< maximum number of relationships linked to all visible classifiers, */
+                                               /*!< excluded/filtered are relationships between lifelines of foreign diagrams. */
 };
 
 /*!
