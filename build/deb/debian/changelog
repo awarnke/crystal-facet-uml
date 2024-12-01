@@ -1,3 +1,11 @@
+crystal-facet-uml (1.61.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Diagrams can show the defined maximum number of features and relationships
+    independant of their occurrences in other diagrams
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 01 Dec 2024 08:30:00 +0100
+
 crystal-facet-uml (1.61.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
