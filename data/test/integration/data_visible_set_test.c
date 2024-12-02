@@ -83,10 +83,20 @@ static test_case_result_t no_results( test_fixture_t *fix )
         const uint32_t no_relationship = data_visible_set_get_relationship_count( &((*fix).test_me) ); 
         TEST_EXPECT_EQUAL_INT( 0, no_relationship );
 
+        /* load #13 */
         const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), 13 /* = diagram_id */, &((*fix).db_reader) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_DB_STRUCTURE, init_err );
         const uint32_t diag_classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) );
         TEST_EXPECT_EQUAL_INT( 0, diag_classifier_count );
+
+        /* load void */
+        const u8_error_t init_void_err = data_visible_set_load( &((*fix).test_me),
+                                                                DATA_ROW_ID_VOID /* = diagram_id */,
+                                                                &((*fix).db_reader)
+                                                              );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_void_err );
+        const uint32_t diag_void_classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) );
+        TEST_EXPECT_EQUAL_INT( 0, diag_void_classifier_count );
 
         data_visible_set_destroy( &((*fix).test_me) );
     }

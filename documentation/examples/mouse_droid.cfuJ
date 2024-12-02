@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.61.2"
+    "generator_version": "1.61.3"
   }
   ,
   "views":
@@ -2305,7 +2305,7 @@
         "type": "UMLStateMachineDiagram",
         "name": "Functionality per movement-related mode",
         "description": [
-                ""
+                "This diagram shows the functionalities that area available in the operation modes related to moving."
         ],
         "list_order": 32768,
         "display_flags": 0,
@@ -2354,7 +2354,7 @@
         "type": "UMLStateMachineDiagram",
         "name": "Functionality per tool-related mode",
         "description": [
-                ""
+                "This diagram shows the functionalities that area available in the operation modes related to using tools."
         ],
         "list_order": 1073758207,
         "display_flags": 0,
@@ -3827,7 +3827,7 @@
         "type": "InitialNode",
         "name": "power::startup",
         "description": [
-                ""
+                "The startup pseudo-state indicates where the transitions start when powered on."
         ],
         "x_order": -1435114084,
         "y_order": -1789882235,
@@ -3943,7 +3943,7 @@
         "type": "ActivityFinalNode",
         "name": "power::off",
         "description": [
-                ""
+                "The off pseudo-state indicates where the transition logic ends when powered off."
         ],
         "x_order": -1435114084,
         "y_order": -1194731099,
