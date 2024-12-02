@@ -11,7 +11,7 @@
 
 #include "entity/data_relationship_type.h"
 #include "entity/data_id.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "entity/data_uuid.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
@@ -36,11 +36,11 @@ enum data_relationship_max_enum {
  *  \see http://www.uml-diagrams.org/uml-core.html#relationship
  */
 struct data_relationship_struct {
-    data_row_id_t id;
-    data_row_id_t from_classifier_id;
-    data_row_id_t from_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_ID_VOID if not used */
-    data_row_id_t to_classifier_id;
-    data_row_id_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_ID_VOID if not used */
+    data_row_t id;
+    data_row_t from_classifier_id;
+    data_row_t from_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_VOID if not used */
+    data_row_t to_classifier_id;
+    data_row_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ROW_VOID if not used */
     data_relationship_type_t main_type;
     utf8stringbuf_t stereotype;
     char private_stereotype_buffer[DATA_RELATIONSHIP_MAX_STEREOTYPE_SIZE];
@@ -55,7 +55,7 @@ struct data_relationship_struct {
 typedef struct data_relationship_struct data_relationship_t;
 
 /*!
- *  \brief initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ROW_ID_VOID;
+ *  \brief initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ROW_VOID;
  *         a fresh uuid and all other values are zero.
  *
  *  \param this_ pointer to own object attributes
@@ -63,7 +63,7 @@ typedef struct data_relationship_struct data_relationship_t;
 static inline void data_relationship_init_empty ( data_relationship_t *this_ );
 
 /*!
- *  \brief re-initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ROW_ID_VOID;
+ *  \brief re-initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ROW_VOID;
  *         a fresh uuid and all other values are zero.
  *
  *  \param this_ pointer to own object attributes
@@ -72,13 +72,13 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
 
 
 /*!
- *  \brief initializes the data_relationship_t struct with id DATA_ROW_ID_VOID and a fresh uuid
+ *  \brief initializes the data_relationship_t struct with id DATA_ROW_VOID and a fresh uuid
  *
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_id id of the source classifier
- *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_VOID otherwise
  *  \param to_classifier_id id of the destination classifier
- *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_VOID otherwise
  *  \param relationship_main_type type of the relationship
  *  \param stereotype stereotype of the relationship. stereotype must not be NULL.
  *  \param name name of the relationship. name must not be NULL.
@@ -87,10 +87,10 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
  *  \return U8_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_,
-                                                      data_row_id_t from_classifier_id,
-                                                      data_row_id_t from_feature_id,
-                                                      data_row_id_t to_classifier_id,
-                                                      data_row_id_t to_feature_id,
+                                                      data_row_t from_classifier_id,
+                                                      data_row_t from_feature_id,
+                                                      data_row_t to_classifier_id,
+                                                      data_row_t to_feature_id,
                                                       data_relationship_type_t relationship_main_type,
                                                       const char* stereotype,
                                                       const char* name,
@@ -104,9 +104,9 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship
  *  \param from_classifier_id id of the source classifier
- *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ROW_VOID otherwise
  *  \param to_classifier_id id of the destination classifier
- *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_ID_VOID otherwise
+ *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ROW_VOID otherwise
  *  \param relationship_main_type type of the relationship
  *  \param stereotype stereotype of the relationship. stereotype must not be NULL.
  *  \param name name of the relationship. name must not be NULL.
@@ -117,11 +117,11 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
  *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
-                                                  data_row_id_t relationship_id,
-                                                  data_row_id_t from_classifier_id,
-                                                  data_row_id_t from_feature_id,
-                                                  data_row_id_t to_classifier_id,
-                                                  data_row_id_t to_feature_id,
+                                                  data_row_t relationship_id,
+                                                  data_row_t from_classifier_id,
+                                                  data_row_t from_feature_id,
+                                                  data_row_t to_classifier_id,
+                                                  data_row_t to_feature_id,
                                                   data_relationship_type_t relationship_main_type,
                                                   const char* stereotype,
                                                   const char* name,
@@ -159,7 +159,7 @@ static inline void data_relationship_destroy ( data_relationship_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_row_id ( const data_relationship_t *this_ );
+static inline data_row_t data_relationship_get_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -167,7 +167,7 @@ static inline data_row_id_t data_relationship_get_row_id ( const data_relationsh
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_relationship_set_row_id ( data_relationship_t *this_, data_row_id_t id );
+static inline void data_relationship_set_row_id ( data_relationship_t *this_, data_row_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -183,7 +183,7 @@ static inline data_id_t data_relationship_get_data_id ( const data_relationship_
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_from_classifier_row_id ( const data_relationship_t *this_ );
+static inline data_row_t data_relationship_get_from_classifier_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute from_classifier_id
@@ -191,7 +191,7 @@ static inline data_row_id_t data_relationship_get_from_classifier_row_id ( const
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_id new from_classifier_id of this object
  */
-static inline void data_relationship_set_from_classifier_row_id ( data_relationship_t *this_, data_row_id_t from_classifier_id );
+static inline void data_relationship_set_from_classifier_row_id ( data_relationship_t *this_, data_row_t from_classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the from_classifier_id attribute
@@ -207,7 +207,7 @@ static inline data_id_t data_relationship_get_from_classifier_data_id ( const da
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_from_feature_row_id ( const data_relationship_t *this_ );
+static inline data_row_t data_relationship_get_from_feature_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute from_feature_id
@@ -215,7 +215,7 @@ static inline data_row_id_t data_relationship_get_from_feature_row_id ( const da
  *  \param this_ pointer to own object attributes
  *  \param from_feature_id new from_feature_id of this object
  */
-static inline void data_relationship_set_from_feature_row_id ( data_relationship_t *this_, data_row_id_t from_feature_id );
+static inline void data_relationship_set_from_feature_row_id ( data_relationship_t *this_, data_row_t from_feature_id );
 
 /*!
  *  \brief gets the data_id derived from the from_feature_id attribute
@@ -231,7 +231,7 @@ static inline data_id_t data_relationship_get_from_feature_data_id ( const data_
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_to_classifier_row_id ( const data_relationship_t *this_ );
+static inline data_row_t data_relationship_get_to_classifier_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute to_classifier_id
@@ -239,7 +239,7 @@ static inline data_row_id_t data_relationship_get_to_classifier_row_id ( const d
  *  \param this_ pointer to own object attributes
  *  \param to_classifier_id new to_classifier_id of this object
  */
-static inline void data_relationship_set_to_classifier_row_id ( data_relationship_t *this_, data_row_id_t to_classifier_id );
+static inline void data_relationship_set_to_classifier_row_id ( data_relationship_t *this_, data_row_t to_classifier_id );
 
 /*!
  *  \brief gets the data_id derived from the to_classifier_id attribute
@@ -255,7 +255,7 @@ static inline data_id_t data_relationship_get_to_classifier_data_id ( const data
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_relationship_get_to_feature_row_id ( const data_relationship_t *this_ );
+static inline data_row_t data_relationship_get_to_feature_row_id ( const data_relationship_t *this_ );
 
 /*!
  *  \brief sets the attribute to_feature_id
@@ -263,7 +263,7 @@ static inline data_row_id_t data_relationship_get_to_feature_row_id ( const data
  *  \param this_ pointer to own object attributes
  *  \param to_feature_id new to_feature_id of this object
  */
-static inline void data_relationship_set_to_feature_row_id ( data_relationship_t *this_, data_row_id_t to_feature_id );
+static inline void data_relationship_set_to_feature_row_id ( data_relationship_t *this_, data_row_t to_feature_id );
 
 /*!
  *  \brief gets the data_id derived from the to_feature_id attribute
@@ -393,10 +393,10 @@ static inline const char *data_relationship_get_uuid_const ( const data_relation
 static inline u8_error_t data_relationship_set_uuid ( data_relationship_t *this_, const char *uuid );
 
 /*!
- *  \brief checks if attribute id is not DATA_ROW_ID_VOID
+ *  \brief checks if attribute id is not DATA_ROW_VOID
  *
  *  \param this_ pointer to own object attributes
- *  \return true if the id of the relationship is not DATA_ROW_ID_VOID
+ *  \return true if the id of the relationship is not DATA_ROW_VOID
  */
 static inline bool data_relationship_is_valid ( const data_relationship_t *this_ );
 

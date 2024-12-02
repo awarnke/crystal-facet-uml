@@ -2,14 +2,14 @@
 
 #include "u8/u8_log.h"
 
-static inline data_row_id_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ )
+static inline data_row_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ )
 {
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
-    data_row_id_t result;
+    data_row_t result;
 
     if ( (*this_).ancestors_count == 0 )
     {
-        result = DATA_ROW_ID_VOID;
+        result = DATA_ROW_VOID;
     }
     else
     {
@@ -55,8 +55,8 @@ static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( const gui
 }
 
 static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_nav_tree_t *this_,
-                                                              data_row_id_t probe_ancestor_id,
-                                                              data_row_id_t probe_descendant_id,
+                                                              data_row_t probe_ancestor_id,
+                                                              data_row_t probe_descendant_id,
                                                               bool *out_is_descendant )
 {
     assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );

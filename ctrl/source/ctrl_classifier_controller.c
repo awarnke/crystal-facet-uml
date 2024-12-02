@@ -42,14 +42,14 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
                                                           const data_classifier_t *new_classifier,
                                                           ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                          data_row_id_t* out_new_id )
+                                                          data_row_t* out_new_id )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_classifier );
     data_classifier_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
-    data_row_id_t new_id;
+    data_row_t new_id;
 
     data_classifier_copy( &to_be_created, new_classifier );
 
@@ -89,7 +89,7 @@ u8_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_contro
 }
 
 u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_controller_t *this_,
-                                                         data_row_id_t obj_id,
+                                                         data_row_t obj_id,
                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     U8_TRACE_BEGIN();
@@ -146,7 +146,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             while ( data_feature_iterator_has_next( &feature_iterator ) )
             {
                 result |= data_feature_iterator_next( &feature_iterator, &((*this_).temp_feature) );
-                const data_row_id_t feat_id = data_feature_get_row_id( &((*this_).temp_feature) );
+                const data_row_t feat_id = data_feature_get_row_id( &((*this_).temp_feature) );
                 data_result = data_database_writer_delete_feature( (*this_).db_writer, feat_id, NULL );
                 if ( data_result == U8_ERROR_NONE )
                 {
@@ -174,7 +174,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
             while ( data_relationship_iterator_has_next( &relationship_iterator ) )
             {
                 result |= data_relationship_iterator_next( &relationship_iterator, &((*this_).temp_relationship) );
-                const data_row_id_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
+                const data_row_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
                 data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
                 if ( data_result == U8_ERROR_NONE )
                 {
@@ -228,7 +228,7 @@ u8_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_control
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
-                                                                    data_row_id_t classifier_id,
+                                                                    data_row_t classifier_id,
                                                                     data_classifier_type_t new_classifier_main_type )
 {
     U8_TRACE_BEGIN();
@@ -257,7 +257,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classif
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
-                                                                     data_row_id_t classifier_id,
+                                                                     data_row_t classifier_id,
                                                                      const char* new_classifier_stereotype )
 {
     U8_TRACE_BEGIN();
@@ -286,7 +286,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classi
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
-                                                               data_row_id_t classifier_id,
+                                                               data_row_t classifier_id,
                                                                const char* new_classifier_name )
 {
     U8_TRACE_BEGIN();
@@ -315,7 +315,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_c
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
-                                                                      data_row_id_t classifier_id,
+                                                                      data_row_t classifier_id,
                                                                       const char* new_classifier_description )
 {
     U8_TRACE_BEGIN();
@@ -344,7 +344,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_class
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
-                                                                  data_row_id_t classifier_id,
+                                                                  data_row_t classifier_id,
                                                                   int32_t new_classifier_x_order )
 {
     U8_TRACE_BEGIN();
@@ -373,7 +373,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifie
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
-                                                                  data_row_id_t classifier_id,
+                                                                  data_row_t classifier_id,
                                                                   int32_t new_classifier_y_order )
 {
     U8_TRACE_BEGIN();
@@ -402,7 +402,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifie
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
-                                                                          data_row_id_t classifier_id,
+                                                                          data_row_t classifier_id,
                                                                           int32_t new_classifier_x_order,
                                                                           int32_t new_classifier_y_order )
 {
@@ -437,7 +437,7 @@ u8_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_c
 }
 
 u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
-                                                                     data_row_id_t classifier_id,
+                                                                     data_row_t classifier_id,
                                                                      int32_t new_classifier_list_order )
 {
     U8_TRACE_BEGIN();
@@ -470,14 +470,14 @@ u8_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classi
 u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
                                                        const data_feature_t *new_feature,
                                                        ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                       data_row_id_t* out_new_id )
+                                                       data_row_t* out_new_id )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_feature );
     data_feature_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
-    data_row_id_t new_id;
+    data_row_t new_id;
 
     data_feature_copy( &to_be_created, new_feature );
 
@@ -517,7 +517,7 @@ u8_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controlle
 }
 
 u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
-                                                       data_row_id_t obj_id,
+                                                       data_row_t obj_id,
                                                        ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     U8_TRACE_BEGIN();
@@ -546,7 +546,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
         while ( data_relationship_iterator_has_next( &relationship_iterator ) )
         {
             result |= data_relationship_iterator_next( &relationship_iterator, &((*this_).temp_relationship) );
-            const data_row_id_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
+            const data_row_t rel_id = data_relationship_get_row_id( &((*this_).temp_relationship) );
             data_result = data_database_writer_delete_relationship( (*this_).db_writer, rel_id, NULL );
             if ( U8_ERROR_NONE == data_result )
             {
@@ -594,7 +594,7 @@ u8_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controlle
 }
 
 u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
-                                                                 data_row_id_t feature_id,
+                                                                 data_row_t feature_id,
                                                                  data_feature_type_t new_feature_type )
 {
     U8_TRACE_BEGIN();
@@ -623,7 +623,7 @@ u8_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier
 }
 
 u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
-                                                           data_row_id_t feature_id,
+                                                           data_row_t feature_id,
                                                            const char* new_feature_key )
 {
     U8_TRACE_BEGIN();
@@ -652,7 +652,7 @@ u8_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_contr
 }
 
 u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
-                                                             data_row_id_t feature_id,
+                                                             data_row_t feature_id,
                                                              const char* new_feature_value )
 {
     U8_TRACE_BEGIN();
@@ -681,7 +681,7 @@ u8_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_con
 }
 
 u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
-                                                                   data_row_id_t feature_id,
+                                                                   data_row_t feature_id,
                                                                    const char* new_feature_description )
 {
     U8_TRACE_BEGIN();
@@ -710,7 +710,7 @@ u8_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifi
 }
 
 u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
-                                                                  data_row_id_t feature_id,
+                                                                  data_row_t feature_id,
                                                                   int32_t new_feature_list_order )
 {
     U8_TRACE_BEGIN();
@@ -743,14 +743,14 @@ u8_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifie
 u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
                                                             const data_relationship_t *new_relationship,
                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                            data_row_id_t* out_new_id )
+                                                            data_row_t* out_new_id )
 {
     U8_TRACE_BEGIN();
     assert( NULL != new_relationship );
     data_relationship_t to_be_created;
     u8_error_t result = U8_ERROR_NONE;
     u8_error_t data_result;
-    data_row_id_t new_id;
+    data_row_t new_id;
 
     data_relationship_copy( &to_be_created, new_relationship );
 
@@ -790,7 +790,7 @@ u8_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_cont
 }
 
 u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
-                                                            data_row_id_t obj_id,
+                                                            data_row_t obj_id,
                                                             ctrl_undo_redo_action_boundary_t add_to_latest_undo_set )
 {
     U8_TRACE_BEGIN();
@@ -828,7 +828,7 @@ u8_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_cont
 }
 
 u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
-                                                                      data_row_id_t relationship_id,
+                                                                      data_row_t relationship_id,
                                                                       data_relationship_type_t new_relationship_type )
 {
     U8_TRACE_BEGIN();
@@ -857,7 +857,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_class
 }
 
 u8_error_t ctrl_classifier_controller_update_relationship_stereotype ( ctrl_classifier_controller_t *this_,
-                                                                       data_row_id_t relationship_id,
+                                                                       data_row_t relationship_id,
                                                                        const char* new_relationship_stereotype )
 {
     U8_TRACE_BEGIN();
@@ -886,7 +886,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_stereotype ( ctrl_clas
 }
 
 u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
-                                                                 data_row_id_t relationship_id,
+                                                                 data_row_t relationship_id,
                                                                  const char* new_relationship_name )
 {
     U8_TRACE_BEGIN();
@@ -915,7 +915,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier
 }
 
 u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
-                                                                        data_row_id_t relationship_id,
+                                                                        data_row_t relationship_id,
                                                                         const char* new_relationship_description )
 {
     U8_TRACE_BEGIN();
@@ -944,7 +944,7 @@ u8_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_cla
 }
 
 u8_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
-                                                                       data_row_id_t relationship_id,
+                                                                       data_row_t relationship_id,
                                                                        int32_t new_relationship_list_order )
 {
     U8_TRACE_BEGIN();

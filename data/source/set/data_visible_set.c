@@ -45,13 +45,13 @@ void data_visible_set_destroy( data_visible_set_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
+u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_id, data_database_reader_t *db_reader )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
     u8_error_t result = U8_ERROR_NONE;
 
-    if ( DATA_ROW_ID_VOID == diagram_id )
+    if ( DATA_ROW_VOID == diagram_id )
     {
         /* re-init */
         data_diagram_reinit_empty( &((*this_).diagram) );
@@ -148,7 +148,7 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
                         {
                             const data_diagramelement_t *const diag_ele
                                 = data_visible_classifier_get_diagramelement_const( &((*this_).visible_classifiers[vc_idx]) );
-                            const data_row_id_t focus_id = data_diagramelement_get_focused_feature_row_id( diag_ele );
+                            const data_row_t focus_id = data_diagramelement_get_focused_feature_row_id( diag_ele );
                             if ( data_feature_get_row_id( current_feature ) == focus_id )
                             {
                                 is_foreign_scenario = false;
@@ -196,14 +196,14 @@ u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagr
                     if ( ! u8_error_more_than( r_err, U8_ERROR_STRING_BUFFER_EXCEEDED ) )
                     {
                         /* Ignore relationships that have not both ends in current diagram - e.g. messages between foreign lifelines */
-                        const data_row_id_t from_feat_row_id = data_relationship_get_from_feature_row_id( current_relationship );
-                        const data_row_id_t to_feat_row_id = data_relationship_get_to_feature_row_id( current_relationship );
-                        bool from_known = ( from_feat_row_id == DATA_ROW_ID_VOID );
-                        bool to_known = ( to_feat_row_id == DATA_ROW_ID_VOID );
+                        const data_row_t from_feat_row_id = data_relationship_get_from_feature_row_id( current_relationship );
+                        const data_row_t to_feat_row_id = data_relationship_get_to_feature_row_id( current_relationship );
+                        bool from_known = ( from_feat_row_id == DATA_ROW_VOID );
+                        bool to_known = ( to_feat_row_id == DATA_ROW_VOID );
                         for( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count; f_idx ++ )
                         {
                             const data_feature_t *const probe_feature = &((*this_).features[f_idx]);
-                            const data_row_id_t probe_feat_id = data_feature_get_row_id( probe_feature );
+                            const data_row_t probe_feat_id = data_feature_get_row_id( probe_feature );
                             if ( probe_feat_id == from_feat_row_id )
                             {
                                 from_known = true;
@@ -271,8 +271,8 @@ void data_visible_set_update_containment_cache ( data_visible_set_t *this_ )
 
             if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
             {
-                data_row_id_t parent_id;
-                data_row_id_t child_id;
+                data_row_t parent_id;
+                data_row_t child_id;
                 parent_id = data_relationship_get_from_classifier_row_id ( the_relationship );
                 child_id = data_relationship_get_to_classifier_row_id ( the_relationship );
                 int32_t parent_index;

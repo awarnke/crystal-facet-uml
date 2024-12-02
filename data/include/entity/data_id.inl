@@ -4,7 +4,7 @@
 #include "u8/u8_log.h"
 #include "utf8stringbuf/utf8string.h"
 
-static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_id_t row_id )
+static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_t row_id )
 {
     (*this_).table = table;
     (*this_).row_id = row_id;
@@ -40,7 +40,7 @@ static inline void data_id_init_by_stringview ( data_id_t *this_,
     if ( utf8stringview_get_length( string_to_parse ) == 0 )
     {
         (*this_).table = DATA_TABLE_VOID;
-        (*this_).row_id = DATA_ROW_ID_VOID;
+        (*this_).row_id = DATA_ROW_VOID;
         *out_remainder = UTF8STRINGVIEW_EMPTY;
     }
     else
@@ -87,7 +87,7 @@ static inline void data_id_init_by_stringview ( data_id_t *this_,
 
         if ( (*this_).table == DATA_TABLE_VOID )
         {
-            (*this_).row_id = DATA_ROW_ID_VOID;
+            (*this_).row_id = DATA_ROW_VOID;
             *out_remainder = *string_to_parse;
         }
         else
@@ -102,14 +102,14 @@ static inline void data_id_init_by_stringview ( data_id_t *this_,
             }
             else {
                 (*this_).table = DATA_TABLE_VOID;
-                (*this_).row_id = DATA_ROW_ID_VOID;
+                (*this_).row_id = DATA_ROW_VOID;
                 *out_remainder = *string_to_parse;
             }
         }
     }
 }
 
-static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_row_id_t row_id )
+static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_row_t row_id )
 {
     (*this_).table = table;
     (*this_).row_id = row_id;
@@ -118,13 +118,13 @@ static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_r
 static inline void data_id_init_void ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
-    (*this_).row_id = DATA_ROW_ID_VOID;
+    (*this_).row_id = DATA_ROW_VOID;
 }
 
 static inline void data_id_reinit_void ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
-    (*this_).row_id = DATA_ROW_ID_VOID;
+    (*this_).row_id = DATA_ROW_VOID;
 }
 
 static inline void data_id_copy ( data_id_t *this_, const data_id_t *that )
@@ -140,7 +140,7 @@ static inline void data_id_replace ( data_id_t *this_, const data_id_t *that )
 static inline void data_id_destroy ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
-    (*this_).row_id = DATA_ROW_ID_VOID;
+    (*this_).row_id = DATA_ROW_VOID;
 }
 
 static inline data_table_t data_id_get_table ( const data_id_t *this_ )
@@ -148,7 +148,7 @@ static inline data_table_t data_id_get_table ( const data_id_t *this_ )
     return (*this_).table;
 }
 
-static inline data_row_id_t data_id_get_row_id ( const data_id_t *this_ )
+static inline data_row_t data_id_get_row_id ( const data_id_t *this_ )
 {
     return (*this_).row_id;
 }
@@ -165,7 +165,7 @@ static inline void data_id_trace ( const data_id_t *this_ )
 
 static inline bool data_id_equals ( const data_id_t *this_, const data_id_t *that )
 {
-    return ( ( DATA_ROW_ID_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
+    return ( ( DATA_ROW_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
              &&( (*this_).row_id == (*that).row_id )&&( (*this_).table == (*that).table ) );
 }
 
@@ -177,12 +177,12 @@ static inline bool data_id_equals_or_both_void ( const data_id_t *this_, const d
 
 static inline bool data_id_is_valid ( const data_id_t *this_ )
 {
-    return (( DATA_ROW_ID_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
+    return (( DATA_ROW_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
 }
 
-static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_id_t row_id )
+static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_t row_id )
 {
-    return ( ( DATA_ROW_ID_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
+    return ( ( DATA_ROW_VOID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
     &&( (*this_).row_id == row_id )&&( (*this_).table == table ) );
 }
 

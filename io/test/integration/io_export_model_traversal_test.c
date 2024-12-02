@@ -25,17 +25,17 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix );
  *  \brief helper function to initialize the database
  */
 static void create_mini_model( ctrl_controller_t *controller,
-                               data_row_id_t * out_root_diagram,
-                               data_row_id_t * out_from_classifier_parent,
-                               data_row_id_t * out_from_classifier,
-                               data_row_id_t * out_from_feature,
-                               data_row_id_t * out_to_classifier_parent,
-                               data_row_id_t * out_to_classifier,
-                               data_row_id_t * out_to_feature,
-                               data_row_id_t * out_relation_clas_clas,
-                               data_row_id_t * out_relation_clas_feat,
-                               data_row_id_t * out_relation_feat_clas,
-                               data_row_id_t * out_relation_feat_feat
+                               data_row_t * out_root_diagram,
+                               data_row_t * out_from_classifier_parent,
+                               data_row_t * out_from_classifier,
+                               data_row_t * out_from_feature,
+                               data_row_t * out_to_classifier_parent,
+                               data_row_t * out_to_classifier,
+                               data_row_t * out_to_feature,
+                               data_row_t * out_relation_clas_clas,
+                               data_row_t * out_relation_clas_feat,
+                               data_row_t * out_relation_feat_clas,
+                               data_row_t * out_relation_feat_feat
                              );
 
 test_suite_t io_export_model_traversal_test_get_suite(void)
@@ -89,17 +89,17 @@ static void tear_down( test_fixture_t *fix )
 }
 
 static void create_mini_model( ctrl_controller_t *controller,
-                               data_row_id_t * out_root_diagram,
-                               data_row_id_t * out_from_classifier_parent,
-                               data_row_id_t * out_from_classifier,
-                               data_row_id_t * out_from_feature,
-                               data_row_id_t * out_to_classifier_parent,
-                               data_row_id_t * out_to_classifier,
-                               data_row_id_t * out_to_feature,
-                               data_row_id_t * out_relation_clas_clas,
-                               data_row_id_t * out_relation_clas_feat,
-                               data_row_id_t * out_relation_feat_clas,
-                               data_row_id_t * out_relation_feat_feat )
+                               data_row_t * out_root_diagram,
+                               data_row_t * out_from_classifier_parent,
+                               data_row_t * out_from_classifier,
+                               data_row_t * out_from_feature,
+                               data_row_t * out_to_classifier_parent,
+                               data_row_t * out_to_classifier,
+                               data_row_t * out_to_feature,
+                               data_row_t * out_relation_clas_clas,
+                               data_row_t * out_relation_clas_feat,
+                               data_row_t * out_relation_feat_clas,
+                               data_row_t * out_relation_feat_feat )
 {
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
@@ -107,17 +107,17 @@ static void create_mini_model( ctrl_controller_t *controller,
     test_env_setup_t test_env;
     test_env_setup_init( &test_env, controller );
 
-    *out_root_diagram = test_env_setup_data_create_diagram( &test_env, DATA_ROW_ID_VOID, "root diag" );
+    *out_root_diagram = test_env_setup_data_create_diagram( &test_env, DATA_ROW_VOID, "root diag" );
 
     *out_from_classifier_parent = test_env_setup_data_create_classifier( &test_env, "from parent" );
-    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_from_classifier_parent, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_from_classifier_parent, DATA_ROW_VOID );
 
     *out_from_classifier = test_env_setup_data_create_classifier( &test_env, "from classifier" );
     *out_from_feature = test_env_setup_data_create_feature( &test_env, *out_from_classifier, "from feature" );
     test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_from_classifier, *out_from_feature );
 
     *out_to_classifier_parent = test_env_setup_data_create_classifier( &test_env, "to parent" );
-    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_to_classifier_parent, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_to_classifier_parent, DATA_ROW_VOID );
 
     *out_to_classifier = test_env_setup_data_create_classifier( &test_env, "to classifier" );
     *out_to_feature = test_env_setup_data_create_feature( &test_env, *out_to_classifier, "to feature" );
@@ -125,11 +125,11 @@ static void create_mini_model( ctrl_controller_t *controller,
 
     /* from child has parent */
     {
-        data_row_id_t from_parent_rel_id = test_env_setup_data_create_relationship( &test_env,
+        data_row_t from_parent_rel_id = test_env_setup_data_create_relationship( &test_env,
                                                                                     *out_from_classifier_parent,
-                                                                                    DATA_ROW_ID_VOID,
+                                                                                    DATA_ROW_VOID,
                                                                                     *out_from_classifier,
-                                                                                    DATA_ROW_ID_VOID,
+                                                                                    DATA_ROW_VOID,
                                                                                     "from child rel"
                                                                                   );
         c_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
@@ -141,11 +141,11 @@ static void create_mini_model( ctrl_controller_t *controller,
 
     /* to child has parent */
     {
-        data_row_id_t to_parent_rel_id = test_env_setup_data_create_relationship( &test_env,
+        data_row_t to_parent_rel_id = test_env_setup_data_create_relationship( &test_env,
                                                                                   *out_to_classifier_parent,
-                                                                                  DATA_ROW_ID_VOID,
+                                                                                  DATA_ROW_VOID,
                                                                                   *out_to_classifier,
-                                                                                  DATA_ROW_ID_VOID,
+                                                                                  DATA_ROW_VOID,
                                                                                   "to child rel"
                                                                                 );
         c_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
@@ -157,14 +157,14 @@ static void create_mini_model( ctrl_controller_t *controller,
 
     *out_relation_clas_clas = test_env_setup_data_create_relationship( &test_env,
                                                                        *out_from_classifier_parent,
-                                                                       DATA_ROW_ID_VOID,
+                                                                       DATA_ROW_VOID,
                                                                        *out_to_classifier,
-                                                                       DATA_ROW_ID_VOID,
+                                                                       DATA_ROW_VOID,
                                                                        "from classifier to classifier"
                                                                      );
     *out_relation_clas_feat = test_env_setup_data_create_relationship( &test_env,
                                                                        *out_from_classifier_parent,
-                                                                       DATA_ROW_ID_VOID,
+                                                                       DATA_ROW_VOID,
                                                                        *out_to_classifier,
                                                                        *out_to_feature,
                                                                        "from classifier to feature"
@@ -173,7 +173,7 @@ static void create_mini_model( ctrl_controller_t *controller,
                                                                        *out_from_classifier_parent,
                                                                        *out_from_feature,
                                                                        *out_to_classifier,
-                                                                       DATA_ROW_ID_VOID,
+                                                                       DATA_ROW_VOID,
                                                                        "from feature to classifier"
                                                                      );
     *out_relation_feat_feat = test_env_setup_data_create_relationship( &test_env,
@@ -262,17 +262,17 @@ static test_case_result_t iterate_types_on_mini_model( test_fixture_t *fix )
 {
     assert( fix != NULL );
     /* fill database with mini model */
-    data_row_id_t from_classifier_parent;
-    data_row_id_t from_classifier;
-    data_row_id_t from_feature;
-    data_row_id_t to_classifier_parent;
-    data_row_id_t to_classifier;
-    data_row_id_t to_feature;
-    data_row_id_t relation_clas_clas;
-    data_row_id_t relation_clas_feat;
-    data_row_id_t relation_feat_clas;
-    data_row_id_t relation_feat_feat;
-    data_row_id_t root_diag_id;
+    data_row_t from_classifier_parent;
+    data_row_t from_classifier;
+    data_row_t from_feature;
+    data_row_t to_classifier_parent;
+    data_row_t to_classifier;
+    data_row_t to_feature;
+    data_row_t relation_clas_clas;
+    data_row_t relation_clas_feat;
+    data_row_t relation_feat_clas;
+    data_row_t relation_feat_feat;
+    data_row_t root_diag_id;
     create_mini_model( &((*fix).controller),
                        &root_diag_id,
                        &from_classifier_parent,

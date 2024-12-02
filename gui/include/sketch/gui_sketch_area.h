@@ -124,7 +124,7 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_sea
  *  \brief loads the cards, nav_tree and result_list data to be shown
  *
  *  \param this_ pointer to own object attributes
- *  \param main_diagram_id id of the main diagram to be shown or DATA_ROW_ID_VOID for root diagram
+ *  \param main_diagram_id id of the main diagram to be shown or DATA_ROW_VOID for root diagram
  */
 void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_diagram_id );
 
@@ -179,7 +179,7 @@ static inline data_diagram_t *gui_sketch_area_private_get_focused_diagram_ptr ( 
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_row_id_t gui_sketch_area_private_get_focused_diagram_id ( gui_sketch_area_t *this_ );
+static inline data_row_t gui_sketch_area_private_get_focused_diagram_id ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief callback that redraws the sketch_area widget

@@ -137,7 +137,7 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_CLASSIFIER_ID[] =
     "ORDER BY diagrams.list_order ASC;";
 
 u8_error_t data_database_diagram_reader_get_diagram_by_id( data_database_diagram_reader_t *this_,
-                                                           data_row_id_t id,
+                                                           data_row_t id,
                                                            data_diagram_t *out_diagram )
 {
     U8_TRACE_BEGIN();
@@ -175,7 +175,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_id( data_database_diagram
                                        );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
             {
-                (*out_diagram).parent_id = DATA_ROW_ID_VOID;
+                (*out_diagram).parent_id = DATA_ROW_VOID;
             }
 
             data_diagram_trace( out_diagram );
@@ -233,7 +233,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid( data_database_diagr
                                        );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
             {
-                (*out_diagram).parent_id = DATA_ROW_ID_VOID;
+                (*out_diagram).parent_id = DATA_ROW_VOID;
             }
 
             data_diagram_trace( out_diagram );
@@ -252,7 +252,7 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid( data_database_diagr
 }
 
 u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id( data_database_diagram_reader_t *this_,
-                                                                   data_row_id_t parent_id,
+                                                                   data_row_t parent_id,
                                                                    data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
@@ -261,7 +261,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id( data_database
     sqlite3_stmt *sqlite3_stmt;
     bool * borrow_flag;
 
-    if ( DATA_ROW_ID_VOID == parent_id )
+    if ( DATA_ROW_VOID == parent_id )
     {
         sqlite3_stmt = (*this_).statement_diagrams_by_parent_id_null;
         result |= data_database_diagram_reader_private_bind_void_to_statement( this_, sqlite3_stmt );
@@ -284,7 +284,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id( data_database
 }
 
 u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                        data_row_id_t classifier_id,
+                                                                        data_row_t classifier_id,
                                                                         data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
@@ -305,7 +305,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
 }
 
 u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id( data_database_diagram_reader_t *this_,
-                                                                      data_row_id_t parent_id,
+                                                                      data_row_t parent_id,
                                                                       data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
@@ -315,7 +315,7 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id( data_datab
     sqlite3_stmt *prepared_statement;
 
     {
-        if ( DATA_ROW_ID_VOID == parent_id )
+        if ( DATA_ROW_VOID == parent_id )
         {
             prepared_statement = (*this_).statement_diagram_ids_by_parent_id_null;
             result |= data_database_diagram_reader_private_bind_void_to_statement( this_, prepared_statement );
@@ -361,7 +361,7 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id( data_datab
 }
 
 u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id( data_database_diagram_reader_t *this_,
-                                                                          data_row_id_t classifier_id,
+                                                                          data_row_t classifier_id,
                                                                           data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
@@ -453,7 +453,7 @@ static const int RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN = 4;
 static const int RESULT_DIAGRAMELEMENT_UUID_COLUMN = 5;
 
 u8_error_t data_database_diagram_reader_get_diagramelement_by_id( data_database_diagram_reader_t *this_,
-                                                                  data_row_id_t id,
+                                                                  data_row_t id,
                                                                   data_diagramelement_t *out_diagramelement )
 {
     U8_TRACE_BEGIN();
@@ -487,7 +487,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_id( data_database_
                                               );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
             {
-                data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_ID_VOID );
+                data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_VOID );
             }
 
             data_diagramelement_trace( out_diagramelement );
@@ -542,7 +542,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid( data_databas
                                               );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
             {
-                data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_ID_VOID );
+                data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_VOID );
             }
 
             data_diagramelement_trace( out_diagramelement );
@@ -561,7 +561,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid( data_databas
 }
 
 u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id( data_database_diagram_reader_t *this_,
-                                                                           data_row_id_t diagram_id,
+                                                                           data_row_t diagram_id,
                                                                            data_diagramelement_iterator_t *io_diagramelement_iterator )
 {
     U8_TRACE_BEGIN();
@@ -582,7 +582,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id( data_
 }
 
 u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( data_database_diagram_reader_t *this_,
-                                                                              data_row_id_t classifier_id,
+                                                                              data_row_t classifier_id,
                                                                               data_diagramelement_iterator_t *io_diagramelement_iterator )
 {
     U8_TRACE_BEGIN();
@@ -605,7 +605,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id( da
 /* ================================ VISIBLE_CLASSIFIER ================================ */
 
 u8_error_t data_database_diagram_reader_get_visible_classifiers_by_diagram_id( data_database_diagram_reader_t *this_,
-                                                                               data_row_id_t diagram_id,
+                                                                               data_row_t diagram_id,
                                                                                data_visible_classifier_iterator_t *io_visible_classifier_iterator )
 {
     U8_TRACE_BEGIN();

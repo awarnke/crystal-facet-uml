@@ -61,7 +61,7 @@ u8_error_t consistency_lifeline_delete_lifelines ( consistency_lifeline_t *this_
         data_small_set_init( &lifelines_to_delete );
 
         /* search all contained diagramelements */
-        const data_row_id_t diagram_id = data_diagram_get_row_id ( updated_diagram );
+        const data_row_t diagram_id = data_diagram_get_row_id ( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
         result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
@@ -130,7 +130,7 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
                               );
 
         /* search all contained diagramelements */
-        const data_row_id_t diagram_id = data_diagram_get_row_id ( updated_diagram );
+        const data_row_t diagram_id = data_diagram_get_row_id ( updated_diagram );
         data_diagramelement_iterator_t diagramelement_iterator;
         result |= data_diagramelement_iterator_init_empty( &diagramelement_iterator );
         result |= data_database_reader_get_diagramelements_by_diagram_id( (*this_).db_reader,
@@ -148,10 +148,10 @@ u8_error_t consistency_lifeline_create_lifelines( consistency_lifeline_t *this_,
                                                            );
                 data_diagramelement_t *const current_diagele
                     = &((*this_).temp_diagelement_buf);
-                const data_row_id_t focused_feature
+                const data_row_t focused_feature
                     = data_diagramelement_get_focused_feature_row_id( current_diagele );
 
-                if ( DATA_ROW_ID_VOID == focused_feature )
+                if ( DATA_ROW_VOID == focused_feature )
                 {
                     /* diagramelement without focused feature found */
                     /* this must be copied into a local data set to make this class re-entrant for recursive calls */
@@ -240,7 +240,7 @@ u8_error_t consistency_lifeline_private_create_one_lifeline( consistency_lifelin
                                    );
 
     /* create the lifeline */
-    data_row_id_t new_feature_id = DATA_ROW_ID_VOID;
+    data_row_t new_feature_id = DATA_ROW_VOID;
     result |= ctrl_classifier_controller_create_feature( (*this_).clfy_ctrl,
                                                          &new_lifeline,
                                                          CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
@@ -269,9 +269,9 @@ u8_error_t consistency_lifeline_delete_a_lifeline( consistency_lifeline_t *this_
     u8_error_t result = U8_ERROR_NONE;
 
     /* delete the lifeline of the already deleted data_diagramelement_t */
-    const data_row_id_t focused_feature_id
+    const data_row_t focused_feature_id
         = data_diagramelement_get_focused_feature_row_id( deleted_diagramelement );
-    if ( DATA_ROW_ID_VOID != focused_feature_id )
+    if ( DATA_ROW_VOID != focused_feature_id )
     {
         result |= ctrl_classifier_controller_delete_feature( (*this_).clfy_ctrl,
                                                              focused_feature_id,
@@ -292,8 +292,8 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
 
     if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type ( deleted_feature ) )
     {
-        const data_row_id_t classifier_id = data_feature_get_classifier_row_id ( deleted_feature );
-        const data_row_id_t deleted_feature_id = data_feature_get_row_id( deleted_feature );
+        const data_row_t classifier_id = data_feature_get_classifier_row_id ( deleted_feature );
+        const data_row_t deleted_feature_id = data_feature_get_row_id( deleted_feature );
         data_small_set_t diag_ele_to_unlink;
         data_small_set_init( &diag_ele_to_unlink );
 
@@ -313,7 +313,7 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
                 result |= data_diagramelement_iterator_next( &diagramelement_iterator, &((*this_).temp_diagelement_buf) );
                 data_diagramelement_t *const current_diagele
                     = &((*this_).temp_diagelement_buf);
-                const data_row_id_t focused_feature
+                const data_row_t focused_feature
                     = data_diagramelement_get_focused_feature_row_id( current_diagele );
 
                 if ( focused_feature == deleted_feature_id )
@@ -346,7 +346,7 @@ u8_error_t consistency_lifeline_unlink_lifeline( consistency_lifeline_t *this_,
             assert( data_id_get_table( &diagele_to_unlink ) == DATA_TABLE_DIAGRAMELEMENT );
             result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id( (*this_).diag_ctrl,
                                                                                         data_id_get_row_id( &diagele_to_unlink ),
-                                                                                        DATA_ROW_ID_VOID,
+                                                                                        DATA_ROW_VOID,
                                                                                         CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                       );
         }

@@ -121,7 +121,7 @@ static const int RESULT_CLASSIFIER_LIST_ORDER_COLUMN = 7;
 static const int RESULT_CLASSIFIER_UUID_COLUMN = 8;
 
 u8_error_t data_database_classifier_reader_get_classifier_by_id( data_database_classifier_reader_t *this_,
-                                                                 data_row_id_t id,
+                                                                 data_row_t id,
                                                                  data_classifier_t *out_classifier )
 {
     U8_TRACE_BEGIN();
@@ -364,7 +364,7 @@ static const int RESULT_FEATURE_LIST_ORDER_COLUMN = 6;
 static const int RESULT_FEATURE_LIST_UUID_COLUMN = 7;
 
 u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
-                                                               data_row_id_t id,
+                                                               data_row_t id,
                                                                data_feature_t *out_feature )
 {
     U8_TRACE_BEGIN();
@@ -468,7 +468,7 @@ u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_c
 }
 
 u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                           data_row_id_t classifier_id,
+                                                                           data_row_t classifier_id,
                                                                            data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
@@ -492,7 +492,7 @@ u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_
 }
 
 u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                        data_row_id_t diagram_id,
+                                                                        data_row_t diagram_id,
                                                                         data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
@@ -589,7 +589,7 @@ static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 9;
 static const int RESULT_RELATIONSHIP_UUID_COLUMN = 10;
 
 u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_,
-                                                                    data_row_id_t id,
+                                                                    data_row_t id,
                                                                     data_relationship_t *out_relationship )
 {
     U8_TRACE_BEGIN();
@@ -628,11 +628,11 @@ u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_databas
                                             );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_ID_VOID );
+                data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_VOID );
             }
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_ID_VOID );
+                data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_VOID );
             }
 
             data_relationship_trace( out_relationship );
@@ -692,11 +692,11 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
                                             );
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_ID_VOID );
+                data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_VOID );
             }
             if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
             {
-                data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_ID_VOID );
+                data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_VOID );
             }
 
             data_relationship_trace( out_relationship );
@@ -715,7 +715,7 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
 }
 
 u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                                data_row_id_t classifier_id,
+                                                                                data_row_t classifier_id,
                                                                                 data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
@@ -739,7 +739,7 @@ u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( 
 }
 
 u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
-                                                                             data_row_id_t feature_id,
+                                                                             data_row_t feature_id,
                                                                              data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
@@ -763,7 +763,7 @@ u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( dat
 }
 
 u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                             data_row_id_t diagram_id,
+                                                                             data_row_t diagram_id,
                                                                              data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();

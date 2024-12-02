@@ -11,7 +11,7 @@
  */
 
 #include "entity/data_id.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "entity/data_uuid.h"
 #include "u8/u8_error.h"
 #include "utf8stringbuf/utf8stringbuf.h"
@@ -36,7 +36,7 @@ enum data_head_max_enum {
  *  of objects created on different branches and merged later.
  */
 struct data_head_struct {
-    data_row_id_t id;
+    data_row_t id;
     utf8stringbuf_t key;  /*!< name of the head value */
     char private_key_buffer[DATA_HEAD_MAX_KEY_SIZE];
     utf8stringbuf_t value;
@@ -46,7 +46,7 @@ struct data_head_struct {
 typedef struct data_head_struct data_head_t;
 
 /*!
- *  \brief initializes the data_head_t struct with id DATA_ROW_ID_VOID and a fresh uuid
+ *  \brief initializes the data_head_t struct with id DATA_ROW_VOID and a fresh uuid
  *
  *  \param this_ pointer to own object attributes
  *  \param head_key key/name of the head value. head_key must not be NULL.
@@ -69,7 +69,7 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
  *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_head_init ( data_head_t *this_,
-                                          data_row_id_t head_id,
+                                          data_row_t head_id,
                                           const char* head_key,
                                           const char* head_value
                                         );
@@ -103,7 +103,7 @@ static inline void data_head_destroy ( data_head_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_head_get_row_id ( const data_head_t *this_ );
+static inline data_row_t data_head_get_row_id ( const data_head_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -111,7 +111,7 @@ static inline data_row_id_t data_head_get_row_id ( const data_head_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_head_set_row_id ( data_head_t *this_, data_row_id_t id );
+static inline void data_head_set_row_id ( data_head_t *this_, data_row_t id );
 
 /*!
  *  \brief gets the attribute key
@@ -156,10 +156,10 @@ static inline bool data_head_has_value ( const data_head_t *this_ );
 static inline u8_error_t data_head_set_value ( data_head_t *this_, const char *value );
 
 /*!
- *  \brief checks if attribute id is not DATA_ROW_ID_VOID
+ *  \brief checks if attribute id is not DATA_ROW_VOID
  *
  *  \param this_ pointer to own object attributes
- *  \return true if the id of the head value is not DATA_ROW_ID_VOID
+ *  \return true if the id of the head value is not DATA_ROW_VOID
  */
 static inline bool data_head_is_valid ( const data_head_t *this_ );
 

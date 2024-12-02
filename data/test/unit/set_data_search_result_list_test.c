@@ -38,7 +38,7 @@ static test_case_result_t test_type_convertion_wrapper( test_fixture_t *test_env
 
     data_search_result_t my_found_diagram;
     data_search_result_init_diagram( &my_found_diagram,
-                                     (data_row_id_t) 123,
+                                     (data_row_t) 123,
                                      (int) DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM,
                                      "root diag"
                                    );

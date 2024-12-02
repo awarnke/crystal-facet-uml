@@ -14,7 +14,7 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
 /* ================================ DIAGRAM ================================ */
 
 static inline u8_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t id,
+                                                                  data_row_t id,
                                                                   data_diagram_t *out_diagram )
 {
     U8_TRACE_BEGIN();
@@ -56,7 +56,7 @@ static inline u8_error_t data_database_reader_get_diagram_by_uuid ( data_databas
 }
 
 static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
-                                                                          data_row_id_t parent_id,
+                                                                          data_row_t parent_id,
                                                                           data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
@@ -80,7 +80,7 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
 }
 
 static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
-                                                                              data_row_id_t classifier_id,
+                                                                              data_row_t classifier_id,
                                                                               data_diagram_iterator_t *io_diagram_iterator )
 {
     U8_TRACE_BEGIN();
@@ -104,7 +104,7 @@ static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( da
 }
 
 static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
-                                                                             data_row_id_t parent_id,
+                                                                             data_row_t parent_id,
                                                                              data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
@@ -128,7 +128,7 @@ static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( dat
 }
 
 static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
-                                                                                 data_row_id_t classifier_id,
+                                                                                 data_row_t classifier_id,
                                                                                  data_small_set_t *out_diagram_ids )
 {
     U8_TRACE_BEGIN();
@@ -154,7 +154,7 @@ static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id (
 /* ================================ CLASSIFIER ================================ */
 
 static inline u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_,
-                                                                     data_row_id_t id,
+                                                                     data_row_t id,
                                                                      data_classifier_t *out_classifier )
 {
     U8_TRACE_BEGIN();
@@ -252,7 +252,7 @@ static inline u8_error_t data_database_reader_get_all_classifiers ( data_databas
 /* ================================ VISIBLE_CLASSIFIER ================================ */
 
 static inline u8_error_t data_database_reader_get_visible_classifiers_by_diagram_id( data_database_reader_t *this_,
-                                                                                     data_row_id_t diagram_id,
+                                                                                     data_row_t diagram_id,
                                                                                       data_visible_classifier_iterator_t *io_visible_classifier_iterator )
 {
     U8_TRACE_BEGIN();
@@ -278,7 +278,7 @@ static inline u8_error_t data_database_reader_get_visible_classifiers_by_diagram
 /* ================================ DIAGRAMELEMENT ================================ */
 
 static inline u8_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
-                                                                         data_row_id_t id,
+                                                                         data_row_t id,
                                                                          data_diagramelement_t *out_diagramelement )
 {
     U8_TRACE_BEGIN();
@@ -326,7 +326,7 @@ static inline u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_
 }
 
 static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
-                                                                                  data_row_id_t diagram_id,
+                                                                                  data_row_t diagram_id,
                                                                                   data_diagramelement_iterator_t *io_diagramelement_iterator )
 {
     U8_TRACE_BEGIN();
@@ -350,7 +350,7 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id 
 }
 
 static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
-                                                                                     data_row_id_t classifier_id,
+                                                                                     data_row_t classifier_id,
                                                                                      data_diagramelement_iterator_t *io_diagramelement_iterator )
 {
     U8_TRACE_BEGIN();
@@ -376,7 +376,7 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_
 /* ================================ FEATURE ================================ */
 
 static inline u8_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t id,
+                                                                  data_row_t id,
                                                                   data_feature_t *out_feature )
 {
     U8_TRACE_BEGIN();
@@ -424,7 +424,7 @@ static inline u8_error_t data_database_reader_get_feature_by_uuid ( data_databas
 }
 
 static inline u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
-                                                                              data_row_id_t classifier_id,
+                                                                              data_row_t classifier_id,
                                                                               data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
@@ -448,7 +448,7 @@ static inline u8_error_t data_database_reader_get_features_by_classifier_id ( da
 }
 
 static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
-                                                                           data_row_id_t diagram_id,
+                                                                           data_row_t diagram_id,
                                                                            data_feature_iterator_t *io_feature_iterator )
 {
     U8_TRACE_BEGIN();
@@ -474,7 +474,7 @@ static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_
 /* ================================ RELATIONSHIP ================================ */
 
 static inline u8_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
-                                                                       data_row_id_t id,
+                                                                       data_row_t id,
                                                                        data_relationship_t *out_relationship )
 {
     U8_TRACE_BEGIN();
@@ -522,7 +522,7 @@ static inline u8_error_t data_database_reader_get_relationship_by_uuid ( data_da
 }
 
 static inline u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
-                                                                                   data_row_id_t classifier_id,
+                                                                                   data_row_t classifier_id,
                                                                                    data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
@@ -546,7 +546,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_classifier_id
 }
 
 static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
-                                                                                data_row_id_t feature_id,
+                                                                                data_row_t feature_id,
                                                                                 data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();
@@ -570,7 +570,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( 
 }
 
 static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
-                                                                                data_row_id_t diagram_id,
+                                                                                data_row_t diagram_id,
                                                                                 data_relationship_iterator_t *io_relationship_iterator )
 {
     U8_TRACE_BEGIN();

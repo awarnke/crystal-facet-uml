@@ -964,7 +964,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
     const geometry_rectangle_t *const classifier_space
         = layout_visible_classifier_get_space_const( layouted_classifier );
     const double gap = pencil_size_get_standard_object_border( pencil_size );
-    const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
+    const data_row_t diagele_id = layout_visible_classifier_get_diagramelement_id ( layouted_classifier );
 
     /* determine number of properties and operations */
     double compartment1_y = geometry_rectangle_get_top( classifier_space ) + gap;

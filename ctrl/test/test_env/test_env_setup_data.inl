@@ -22,7 +22,7 @@ static inline void test_env_setup_destroy( test_env_setup_t *this_ )
     (*this_).controller = NULL;
 }
 
-static data_row_id_t test_env_setup_data_create_diagram( test_env_setup_t *this_, data_row_id_t parent_diagram_id, const char* name )
+static data_row_t test_env_setup_data_create_diagram( test_env_setup_t *this_, data_row_t parent_diagram_id, const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -30,11 +30,11 @@ static data_row_id_t test_env_setup_data_create_diagram( test_env_setup_t *this_
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
     /* create a diagram */
-    data_row_id_t root_diag_id;
+    data_row_t root_diag_id;
     {
         static data_diagram_t new_diagram;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_diagram_init( &new_diagram,
-                                      DATA_ROW_ID_VOID, /* diagram_id is ignored */
+                                      DATA_ROW_VOID, /* diagram_id is ignored */
                                       parent_diagram_id,
                                       DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM,  /* default is an interaction diagram */
                                       "diag:stereo_t", /* stereotype */
@@ -46,7 +46,7 @@ static data_row_id_t test_env_setup_data_create_diagram( test_env_setup_t *this_
                                     );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
 
-        root_diag_id = DATA_ROW_ID_VOID;
+        root_diag_id = DATA_ROW_VOID;
         ctrl_err = ctrl_diagram_controller_create_diagram ( diagram_ctrl,
                                                             &new_diagram,
                                                             CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
@@ -55,12 +55,12 @@ static data_row_id_t test_env_setup_data_create_diagram( test_env_setup_t *this_
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
         data_diagram_destroy ( &new_diagram );
     }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != root_diag_id );
 
     return root_diag_id;
 }
 
-static data_row_id_t test_env_setup_data_create_classifier( test_env_setup_t *this_, const char* name )
+static data_row_t test_env_setup_data_create_classifier( test_env_setup_t *this_, const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -68,11 +68,11 @@ static data_row_id_t test_env_setup_data_create_classifier( test_env_setup_t *th
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
     /* create a classifier */
-    data_row_id_t classifier_id;
+    data_row_t classifier_id;
     {
         static data_classifier_t new_classifier;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_classifier_init( &new_classifier,
-                                         DATA_ROW_ID_VOID /* classifier_id is ignored */,
+                                         DATA_ROW_VOID /* classifier_id is ignored */,
                                          DATA_CLASSIFIER_TYPE_COMPONENT,
                                          "",  /* stereotype */
                                          name,
@@ -91,15 +91,15 @@ static data_row_id_t test_env_setup_data_create_classifier( test_env_setup_t *th
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
         data_classifier_destroy ( &new_classifier );
     }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != classifier_id );
 
     return classifier_id;
 }
 
-static data_row_id_t test_env_setup_data_create_diagramelement( test_env_setup_t *this_,
-                                                                data_row_id_t diagram_id,
-                                                                data_row_id_t classifier_id,
-                                                                data_row_id_t focused_feature_id )
+static data_row_t test_env_setup_data_create_diagramelement( test_env_setup_t *this_,
+                                                                data_row_t diagram_id,
+                                                                data_row_t classifier_id,
+                                                                data_row_t focused_feature_id )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -107,15 +107,15 @@ static data_row_id_t test_env_setup_data_create_diagramelement( test_env_setup_t
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
     /* create a diagramelement */
-    data_row_id_t diagele_id;
+    data_row_t diagele_id;
     {
         static data_diagramelement_t new_diagele;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_diagramelement_init( &new_diagele,
-                                             DATA_ROW_ID_VOID /* diagramelement_id is ignored */,
+                                             DATA_ROW_VOID /* diagramelement_id is ignored */,
                                              diagram_id,
                                              classifier_id,
                                              DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                             DATA_ROW_ID_VOID,
+                                             DATA_ROW_VOID,
                                              "0fea7d08-3888-4186-9ba1-7af85edf383e"
                                            );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
@@ -127,13 +127,13 @@ static data_row_id_t test_env_setup_data_create_diagramelement( test_env_setup_t
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
     }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != diagele_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != diagele_id );
 
     return diagele_id;
 }
 
-static data_row_id_t test_env_setup_data_create_feature( test_env_setup_t *this_,
-                                                         data_row_id_t parent_classifier_id,
+static data_row_t test_env_setup_data_create_feature( test_env_setup_t *this_,
+                                                         data_row_t parent_classifier_id,
                                                          const char* name )
 {
     u8_error_t ctrl_err;
@@ -142,11 +142,11 @@ static data_row_id_t test_env_setup_data_create_feature( test_env_setup_t *this_
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
     /* create a feature */
-    data_row_id_t new_feature_id;
+    data_row_t new_feature_id;
     {
         static data_feature_t new_feature;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_feature_init( &new_feature,
-                                      DATA_ROW_ID_VOID, /* feature_id is ignored*/
+                                      DATA_ROW_VOID, /* feature_id is ignored*/
                                       DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
                                       parent_classifier_id,
                                       name, /* feature_key */
@@ -165,16 +165,16 @@ static data_row_id_t test_env_setup_data_create_feature( test_env_setup_t *this_
                                                             );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
     }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != new_feature_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != new_feature_id );
 
     return new_feature_id;
 }
 
-static data_row_id_t test_env_setup_data_create_relationship( test_env_setup_t *this_,
-                                                              data_row_id_t from_classifier_id,
-                                                              data_row_id_t from_feature_id,
-                                                              data_row_id_t to_classifier_id,
-                                                              data_row_id_t to_feature_id,
+static data_row_t test_env_setup_data_create_relationship( test_env_setup_t *this_,
+                                                              data_row_t from_classifier_id,
+                                                              data_row_t from_feature_id,
+                                                              data_row_t to_classifier_id,
+                                                              data_row_t to_feature_id,
                                                               const char* name )
 {
     u8_error_t ctrl_err;
@@ -183,11 +183,11 @@ static data_row_id_t test_env_setup_data_create_relationship( test_env_setup_t *
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
 
     /* create a relationship */
-    data_row_id_t new_relationship_id;
+    data_row_t new_relationship_id;
     {
         static data_relationship_t new_relationship;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
         data_err = data_relationship_init( &new_relationship,
-                                           DATA_ROW_ID_VOID, /* relationship_id is ignored */
+                                           DATA_ROW_VOID, /* relationship_id is ignored */
                                            from_classifier_id,
                                            from_feature_id,
                                            to_classifier_id,
@@ -209,7 +209,7 @@ static data_row_id_t test_env_setup_data_create_relationship( test_env_setup_t *
                                                                  );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
     }
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != new_relationship_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != new_relationship_id );
 
     return new_relationship_id;
 }

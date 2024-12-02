@@ -16,7 +16,7 @@
 #include "entity/data_relationship.h"
 #include "entity/data_diagram.h"
 #include "entity/data_diagramelement.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "data_rules.h"
 #include "storage/data_database_reader.h"
 #include "set/data_stat.h"
@@ -38,8 +38,8 @@ struct io_import_elements_struct {
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
     io_import_mode_t mode;  /*!< the import mode */
-    data_row_id_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
-    data_row_id_t root_diagram;  /*!< the root diagram */
+    data_row_t paste_to_diagram;  /*!< the diagram where pasted objects shall be attached to if IO_IMPORT_MODE_PASTE */
+    data_row_t root_diagram;  /*!< the root diagram */
     ctrl_multi_step_changer_t multi_step_changer;  /*!< own instance of a controller */
                                                    /*!< that can handle preferred ids and proposed names */
     data_stat_t *stat;  /*!< pointer to import statistics */
@@ -85,7 +85,7 @@ void io_import_elements_init( io_import_elements_t *this_,
  *  \param out_english_report utf8stream_writer_t where to write a non-translated report to
  */
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
-                                        data_row_id_t paste_to_diagram,
+                                        data_row_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
                                         data_stat_t *io_stat,
@@ -143,7 +143,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
  *  \param classifier_id id of the classifier for which a diagramelement shall be created
  *  \return U8_ERROR_NONE in case of success
  */
-u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id );
+u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_t classifier_id );
 
 /*!
  *  \brief synchronizes a classifier with the database

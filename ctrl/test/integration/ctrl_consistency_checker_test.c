@@ -92,7 +92,7 @@ static test_fixture_t * set_up()
 
         data_err_d = data_diagram_init ( &current_diagram,
                                          6 /*=diagram_id*/,
-                                         DATA_ROW_ID_VOID /*=parent_diagram_id*/,
+                                         DATA_ROW_VOID /*=parent_diagram_id*/,
                                          DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                          "diag_stereo_t", /* stereotype */
                                          "diagram_name-6",
@@ -139,7 +139,7 @@ static test_fixture_t * set_up()
                                                  6 /*=diagram_id*/,
                                                  12 /*=classifier_id*/,
                                                  DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                                 DATA_ROW_ID_VOID,
+                                                 DATA_ROW_VOID,
                                                  "db14f3a4-ce9c-43ea-8787-50094377fa5f"
                                                );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err_de );
@@ -193,7 +193,7 @@ static test_case_result_t diagram_two_roots_consistency( test_fixture_t *fix )
         data_diagram_t current_diagram;
         data_err = data_diagram_init( &current_diagram,
                                       2, /*=diagram_id*/
-                                      DATA_ROW_ID_VOID, /*=parent_diagram_id*/
+                                      DATA_ROW_VOID, /*=parent_diagram_id*/
                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                       "stereo_t", /* stereotype */
                                       "diagram_name",
@@ -401,7 +401,7 @@ static test_case_result_t diagram_nonreferencing_diagramelements_consistency( te
                                              6 /*=diagram_id*/,
                                              18 /*=classifier_id*/,
                                              DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                             DATA_ROW_ID_VOID,
+                                             DATA_ROW_VOID,
                                              "038a9a09-a9c1-46a2-83b2-57152e84511c"
                                            );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -418,7 +418,7 @@ static test_case_result_t diagram_nonreferencing_diagramelements_consistency( te
                                              2 /*=diagram_id*/,
                                              12 /*=classifier_id*/,
                                              DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                             DATA_ROW_ID_VOID,
+                                             DATA_ROW_VOID,
                                              "ffc3a760-820f-4d97-9e73-69d50ca23a22"
                                            );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -435,7 +435,7 @@ static test_case_result_t diagram_nonreferencing_diagramelements_consistency( te
                                              2 /*=diagram_id*/,
                                              18 /*=classifier_id*/,
                                              DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                             DATA_ROW_ID_VOID,
+                                             DATA_ROW_VOID,
                                              "a9caa99a-6f38-488d-aea4-5669835c6b1e"
                                            );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -687,9 +687,9 @@ static test_case_result_t repair_unreferenced_classifiers_2( test_fixture_t *fix
         data_err = data_relationship_init( &v_relation,
                                            34, /* relationship_id */
                                            6, /* from_classifier_id */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_VOID, /* from_feature_id */
                                            6, /* to_classifier_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_ROW_VOID, /* to_feature_id */
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "rel_stereo_t", /* stereotype */
                                            "the composition is more", /* relationship_name */
@@ -817,9 +817,9 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_err = data_relationship_init( &v_relation,
                                            34, /* relationship_id */
                                            12, /* from_classifier_id */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_VOID, /* from_feature_id */
                                            12, /* to_classifier_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_ROW_VOID, /* to_feature_id */
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "3stereo_t", /* stereotype */
                                            "the composition is more", /* name */
@@ -839,9 +839,9 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_err = data_relationship_init( &i1_relation,
                                            35, /* relationship_id */
                                            12, /* from_classifier_id */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_VOID, /* from_feature_id */
                                            12121212, /* to_classifier_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_ROW_VOID, /* to_feature_id */
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "4stereo_t", /* stereotype */
                                            "the composition is more", /* name */
@@ -861,9 +861,9 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_err = data_relationship_init( &i2_relation,
                                            36, /* relationship_id */
                                            12121212, /* from_classifier_id */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_VOID, /* from_feature_id */
                                            12, /* to_classifier_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_ROW_VOID, /* to_feature_id */
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "5stereo_t", /* stereotype */
                                            "the composition is more", /* name */
@@ -883,9 +883,9 @@ static test_case_result_t repair_invalid_relationship( test_fixture_t *fix )
         data_err = data_relationship_init( &i3_relation,
                                            37, /* relationship_id */
                                            12121212, /* from_classifier_id */
-                                           DATA_ROW_ID_VOID, /* from_feature_id */
+                                           DATA_ROW_VOID, /* from_feature_id */
                                            12121212, /* to_classifier_id */
-                                           DATA_ROW_ID_VOID, /* to_feature_id */
+                                           DATA_ROW_VOID, /* to_feature_id */
                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
                                            "6stereo_t", /* stereotype */
                                            "the composition is more", /* name */

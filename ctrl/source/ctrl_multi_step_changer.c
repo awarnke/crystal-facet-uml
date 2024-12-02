@@ -284,7 +284,7 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
     ctrl_diagram_controller_t *const diagram_ctrl
         = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
-    data_row_id_t new_diagram_id;
+    data_row_t new_diagram_id;
     const u8_error_t create_err
         = ctrl_diagram_controller_create_diagram( diagram_ctrl,
                                                   new_diagram,
@@ -299,7 +299,7 @@ u8_error_t ctrl_multi_step_changer_create_diagram ( ctrl_multi_step_changer_t *t
     }
     else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE ) )
     {
-        data_diagram_set_row_id( new_diagram, DATA_ROW_ID_VOID );
+        data_diagram_set_row_id( new_diagram, DATA_ROW_VOID );
         const u8_error_t alt_create_err
             = ctrl_diagram_controller_create_diagram( diagram_ctrl,
                                                       new_diagram,
@@ -347,7 +347,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
     ctrl_diagram_controller_t *const diagram_ctrl
         = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 
-    data_row_id_t new_diagramelement_id;
+    data_row_t new_diagramelement_id;
     const u8_error_t create_err
         = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
                                                          new_diagramelement,
@@ -362,7 +362,7 @@ u8_error_t ctrl_multi_step_changer_create_diagramelement ( ctrl_multi_step_chang
     }
     else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE ) )
     {
-        data_diagramelement_set_row_id( new_diagramelement, DATA_ROW_ID_VOID );
+        data_diagramelement_set_row_id( new_diagramelement, DATA_ROW_VOID );
         const u8_error_t alt_create_err
             = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
                                                              new_diagramelement,
@@ -410,7 +410,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
     ctrl_classifier_controller_t *const classifier_ctrl
         = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
 
-    data_row_id_t new_classifier_id;
+    data_row_t new_classifier_id;
     const u8_error_t create_err
         = ctrl_classifier_controller_create_classifier( classifier_ctrl,
                                                         new_classifier,
@@ -425,7 +425,7 @@ u8_error_t ctrl_multi_step_changer_create_classifier ( ctrl_multi_step_changer_t
     }
     else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE ) )
     {
-        data_classifier_set_row_id( new_classifier, DATA_ROW_ID_VOID );
+        data_classifier_set_row_id( new_classifier, DATA_ROW_VOID );
         const u8_error_t alt_create_err
             = ctrl_classifier_controller_create_classifier( classifier_ctrl,
                                                             new_classifier,
@@ -526,7 +526,7 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
     ctrl_classifier_controller_t *const classifier_ctrl
         = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
 
-    data_row_id_t new_feature_id;
+    data_row_t new_feature_id;
     const u8_error_t create_err
         = ctrl_classifier_controller_create_feature( classifier_ctrl,
                                                      new_feature,
@@ -541,7 +541,7 @@ u8_error_t ctrl_multi_step_changer_create_feature ( ctrl_multi_step_changer_t *t
     }
     else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE) )
     {
-        data_feature_set_row_id( new_feature, DATA_ROW_ID_VOID );
+        data_feature_set_row_id( new_feature, DATA_ROW_VOID );
         const u8_error_t alt_create_err
             = ctrl_classifier_controller_create_feature( classifier_ctrl,
                                                          new_feature,
@@ -589,7 +589,7 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
     ctrl_classifier_controller_t *const classifier_ctrl
         = ctrl_controller_get_classifier_control_ptr( (*this_).controller);
 
-    data_row_id_t new_relationship_id;
+    data_row_t new_relationship_id;
     const u8_error_t create_err
         = ctrl_classifier_controller_create_relationship( classifier_ctrl,
                                                           new_relationship,
@@ -604,7 +604,7 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
     }
     else if ( u8_error_contains( create_err, U8_ERROR_DUPLICATE) )
     {
-        data_relationship_set_row_id( new_relationship, DATA_ROW_ID_VOID );
+        data_relationship_set_row_id( new_relationship, DATA_ROW_VOID );
         const u8_error_t alt_create_err
             = ctrl_classifier_controller_create_relationship( classifier_ctrl,
                                                               new_relationship,
@@ -634,8 +634,8 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
 /* ================================ update links of existing elements  ================================ */
 
 u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_changer_t *this_,
-                                                              data_row_id_t diagram_id,
-                                                              data_row_id_t new_diagram_parent_id )
+                                                              data_row_t diagram_id,
+                                                              data_row_t new_diagram_parent_id )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;

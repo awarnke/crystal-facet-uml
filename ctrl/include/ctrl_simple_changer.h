@@ -66,7 +66,7 @@ static inline void ctrl_simple_changer_destroy ( ctrl_simple_changer_t *this_ );
  *  \return error id in case of an unhandled error, U8_ERROR_NONE otherwise
  */
 static inline u8_error_t ctrl_simple_changer_update_classifier_name ( ctrl_simple_changer_t *this_,
-                                                                      data_row_id_t classifier_id,
+                                                                      data_row_t classifier_id,
                                                                       const char* new_classifier_name,
                                                                       u8_error_t* out_info
                                                                     );

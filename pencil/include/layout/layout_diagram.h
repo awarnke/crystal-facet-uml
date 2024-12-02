@@ -111,7 +111,7 @@ static inline const data_diagram_t *layout_diagram_get_data_const ( const layout
  *  \param this_ pointer to own object attributes
  *  \return id of the diagram
  */
-static inline data_row_id_t layout_diagram_get_diagram_id ( const layout_diagram_t *this_ );
+static inline data_row_t layout_diagram_get_diagram_id ( const layout_diagram_t *this_ );
 
 #include "layout_diagram.inl"
 

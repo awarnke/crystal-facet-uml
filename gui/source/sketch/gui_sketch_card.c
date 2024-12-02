@@ -348,7 +348,7 @@ void gui_sketch_card_move_object_to_order( gui_sketch_card_t *this_,
     assert( NULL != order );
 
     const data_table_t table = data_id_get_table ( &obj_id );
-    const data_row_id_t row_id = data_id_get_row_id ( &obj_id );
+    const data_row_t row_id = data_id_get_row_id ( &obj_id );
 
     layout_order_type_t order_type = layout_order_get_order_type( order );
     switch ( order_type )

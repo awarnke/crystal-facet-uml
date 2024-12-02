@@ -84,7 +84,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
 u8_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
                                                     const data_diagram_t *new_diagram,
                                                     ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                    data_row_id_t* out_new_id
+                                                    data_row_t* out_new_id
                                                   );
 
 /*!
@@ -98,10 +98,10 @@ u8_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *t
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
-                                                                  data_row_id_t parent_diagram_id,
+                                                                  data_row_t parent_diagram_id,
                                                                   data_diagram_type_t diagram_type,
                                                                   const char* diagram_name,
-                                                                  data_row_id_t* out_new_id
+                                                                  data_row_t* out_new_id
                                                                 );
 
 /*!
@@ -110,13 +110,13 @@ u8_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_c
  *  \param this_ pointer to own object attributes
  *  \param diagram_type type of the root diagram
  *  \param diagram_name name of the root diagram
- *  \param[out] out_new_id id of the created root diagram or DATA_ROW_ID_VOID if a root diagram already existed, NULL if the new id is not needed.
+ *  \param[out] out_new_id id of the created root diagram or DATA_ROW_VOID if a root diagram already existed, NULL if the new id is not needed.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
                                                                        data_diagram_type_t diagram_type,
                                                                        const char* diagram_name,
-                                                                       data_row_id_t* out_new_id
+                                                                       data_row_t* out_new_id
                                                                      );
 
 /*!
@@ -137,7 +137,7 @@ u8_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diag
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 u8_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
-                                                    data_row_id_t obj_id,
+                                                    data_row_t obj_id,
                                                     ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                   );
 
@@ -154,8 +154,8 @@ u8_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *t
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
-                                                              data_row_id_t diagram_id,
-                                                              data_row_id_t new_diagram_parent_id,
+                                                              data_row_t diagram_id,
+                                                              data_row_t new_diagram_parent_id,
                                                               ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                             );
 
@@ -173,7 +173,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_contr
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
-                                                         data_row_id_t diagram_id,
+                                                         data_row_t diagram_id,
                                                          data_diagram_type_t new_diagram_type,
                                                          data_stat_t *io_stat
                                                        );
@@ -187,7 +187,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_stereotype ( ctrl_diagram_controller_t *this_,
-                                                               data_row_id_t diagram_id,
+                                                               data_row_t diagram_id,
                                                                const char* new_diagram_stereotype
                                                              );
 
@@ -200,7 +200,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_stereotype ( ctrl_diagram_cont
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
-                                                         data_row_id_t diagram_id,
+                                                         data_row_t diagram_id,
                                                          const char* new_diagram_name
                                                        );
 
@@ -213,7 +213,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
-                                                                data_row_id_t diagram_id,
+                                                                data_row_t diagram_id,
                                                                 const char* new_diagram_description
                                                               );
 
@@ -226,7 +226,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_con
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
-                                                               data_row_id_t diagram_id,
+                                                               data_row_t diagram_id,
                                                                int32_t new_diagram_list_order
                                                              );
 
@@ -247,7 +247,7 @@ u8_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_cont
 u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
                                                            const data_diagramelement_t *new_diagramelement,
                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set,
-                                                           data_row_id_t* out_new_id
+                                                           data_row_t* out_new_id
                                                          );
 
 /*!
@@ -265,7 +265,7 @@ u8_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controll
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 u8_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
-                                                           data_row_id_t obj_id,
+                                                           data_row_t obj_id,
                                                            ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                          );
 
@@ -282,7 +282,7 @@ u8_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controll
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
-                                                                         data_row_id_t diagramelement_id,
+                                                                         data_row_t diagramelement_id,
                                                                          data_diagramelement_flag_t new_diagramelement_display_flags,
                                                                          ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                                        );
@@ -300,8 +300,8 @@ u8_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_di
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
-                                                                              data_row_id_t diagramelement_id,
-                                                                              data_row_id_t new_diagramelement_focused_feature_id,
+                                                                              data_row_t diagramelement_id,
+                                                                              data_row_t new_diagramelement_focused_feature_id,
                                                                               ctrl_undo_redo_action_boundary_t add_to_latest_undo_set
                                                                             );
 

@@ -27,7 +27,7 @@
 #include "set/data_small_set.h"
 #include "entity/data_feature.h"
 #include "entity/data_relationship.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -95,7 +95,7 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t id,
+                                                                  data_row_t id,
                                                                   data_diagram_t *out_diagram
                                                                 );
 
@@ -117,14 +117,14 @@ static inline u8_error_t data_database_reader_get_diagram_by_uuid ( data_databas
  *  \brief reads all child-diagrams from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagrams
+ *  \param parent_id id of the parent diagram, DATA_ROW_VOID to get all root diagrams
  *  \param[in,out] io_diagram_iterator iterator over diagrams of selected parent diagram. The caller is responsible
  *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
-                                                                          data_row_id_t parent_id,
+                                                                          data_row_t parent_id,
                                                                           data_diagram_iterator_t *io_diagram_iterator
                                                                         );
 
@@ -141,7 +141,7 @@ static inline u8_error_t data_database_reader_get_diagrams_by_parent_id ( data_d
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
-                                                                              data_row_id_t classifier_id,
+                                                                              data_row_t classifier_id,
                                                                               data_diagram_iterator_t *io_diagram_iterator
                                                                             );
 
@@ -149,13 +149,13 @@ static inline u8_error_t data_database_reader_get_diagrams_by_classifier_id ( da
  *  \brief reads all child-diagram ids from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagram ids
+ *  \param parent_id id of the parent diagram, DATA_ROW_VOID to get all root diagram ids
  *  \param[out] out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
-                                                                             data_row_id_t parent_id,
+                                                                             data_row_t parent_id,
                                                                              data_small_set_t *out_diagram_ids
                                                                            );
 
@@ -171,7 +171,7 @@ static inline u8_error_t data_database_reader_get_diagram_ids_by_parent_id ( dat
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id ( data_database_reader_t *this_,
-                                                                                 data_row_id_t classifier_id,
+                                                                                 data_row_t classifier_id,
                                                                                  data_small_set_t *out_diagram_ids
                                                                                );
 
@@ -187,7 +187,7 @@ static inline u8_error_t data_database_reader_get_diagram_ids_by_classifier_id (
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_,
-                                                                     data_row_id_t id,
+                                                                     data_row_t id,
                                                                      data_classifier_t *out_classifier
                                                                    );
 
@@ -251,7 +251,7 @@ static inline u8_error_t data_database_reader_get_all_classifiers ( data_databas
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_visible_classifiers_by_diagram_id ( data_database_reader_t *this_,
-                                                                                      data_row_id_t diagram_id,
+                                                                                      data_row_t diagram_id,
                                                                                       data_visible_classifier_iterator_t *io_visible_classifier_iterator
                                                                                     );
 
@@ -267,7 +267,7 @@ static inline u8_error_t data_database_reader_get_visible_classifiers_by_diagram
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_,
-                                                                         data_row_id_t id,
+                                                                         data_row_t id,
                                                                          data_diagramelement_t *out_diagramelement
                                                                        );
 
@@ -296,7 +296,7 @@ static inline u8_error_t data_database_reader_get_diagramelement_by_uuid ( data_
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
-                                                                                  data_row_id_t diagram_id,
+                                                                                  data_row_t diagram_id,
                                                                                   data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                                 );
 
@@ -311,7 +311,7 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_diagram_id 
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_database_reader_t *this_,
-                                                                                     data_row_id_t classifier_id,
+                                                                                     data_row_t classifier_id,
                                                                                      data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                                    );
 
@@ -327,7 +327,7 @@ static inline u8_error_t data_database_reader_get_diagramelements_by_classifier_
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_,
-                                                                  data_row_id_t id,
+                                                                  data_row_t id,
                                                                   data_feature_t *out_feature
                                                                 );
 
@@ -356,7 +356,7 @@ static inline u8_error_t data_database_reader_get_feature_by_uuid ( data_databas
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
-                                                                              data_row_id_t classifier_id,
+                                                                              data_row_t classifier_id,
                                                                               data_feature_iterator_t *io_feature_iterator
                                                                             );
 
@@ -373,7 +373,7 @@ static inline u8_error_t data_database_reader_get_features_by_classifier_id ( da
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
-                                                                           data_row_id_t diagram_id,
+                                                                           data_row_t diagram_id,
                                                                            data_feature_iterator_t *io_feature_iterator
                                                                          );
 
@@ -389,7 +389,7 @@ static inline u8_error_t data_database_reader_get_features_by_diagram_id ( data_
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_,
-                                                                       data_row_id_t id,
+                                                                       data_row_t id,
                                                                        data_relationship_t *out_relationship
                                                                      );
 
@@ -420,7 +420,7 @@ static inline u8_error_t data_database_reader_get_relationship_by_uuid ( data_da
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
-                                                                                   data_row_id_t classifier_id,
+                                                                                   data_row_t classifier_id,
                                                                                    data_relationship_iterator_t *io_relationship_iterator
                                                                                  );
 
@@ -430,14 +430,14 @@ static inline u8_error_t data_database_reader_get_relationships_by_classifier_id
  *  This includes relationships where the feature is source-only, destination-only or both.
  *
  *  \param this_ pointer to own object attributes
- *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_ID_VOID.
+ *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_VOID.
  *  \param[in,out] io_relationship_iterator iterator over relationships of selected feature. The caller is responsible
  *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
-                                                                                data_row_id_t feature_id,
+                                                                                data_row_t feature_id,
                                                                                 data_relationship_iterator_t *io_relationship_iterator
                                                                               );
 
@@ -454,7 +454,7 @@ static inline u8_error_t data_database_reader_get_relationships_by_feature_id ( 
  *          U8_ERROR_NO_DB if the database is not open.
  */
 static inline u8_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
-                                                                                data_row_id_t diagram_id,
+                                                                                data_row_t diagram_id,
                                                                                 data_relationship_iterator_t *io_relationship_iterator
                                                                               );
 

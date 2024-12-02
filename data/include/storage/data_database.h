@@ -213,7 +213,7 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ );
  *  \param[out] out_new_id if fetch_new_id, the id of the newly created row is returned. NULL if id not of interest.
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if a key is not unique; U8_ERROR_READ_ONLY_DB if read only
  */
-u8_error_t data_database_in_transaction_create ( data_database_t *this_, const char* sql_statement, data_row_id_t* out_new_id );
+u8_error_t data_database_in_transaction_create ( data_database_t *this_, const char* sql_statement, data_row_t* out_new_id );
 
 /*!
  *  \brief sends one SQL command to the database within a transaction

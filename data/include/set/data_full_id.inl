@@ -48,9 +48,9 @@ static inline void data_full_id_reinit_solo ( data_full_id_t *this_, const data_
 
 static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
                                                        data_table_t primary_table,
-                                                       data_row_id_t primary_row_id,
+                                                       data_row_t primary_row_id,
                                                        data_table_t secondary_table,
-                                                       data_row_id_t secondary_row_id )
+                                                       data_row_t secondary_row_id )
 {
     assert ( ( DATA_TABLE_VOID == secondary_table )
              || ( DATA_TABLE_CLASSIFIER == secondary_table )
@@ -62,9 +62,9 @@ static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
 
 static inline void data_full_id_reinit_by_table_and_id ( data_full_id_t *this_,
                                                          data_table_t primary_table,
-                                                         data_row_id_t primary_row_id,
+                                                         data_row_t primary_row_id,
                                                          data_table_t secondary_table,
-                                                         data_row_id_t secondary_row_id )
+                                                         data_row_t secondary_row_id )
 {
     assert ( ( DATA_TABLE_VOID == secondary_table )
              || ( DATA_TABLE_CLASSIFIER == secondary_table )

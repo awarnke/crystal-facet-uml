@@ -22,7 +22,7 @@
  */
 
 #include "entity/data_id.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 
 /*!
  *  \brief the pair of visible object id and secondary object id, e.g. diagramelement and classifier or feature and classifier
@@ -99,9 +99,9 @@ static inline void data_full_id_reinit_solo ( data_full_id_t *this_, const data_
  */
 static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
                                                        data_table_t primary_table,
-                                                       data_row_id_t primary_row_id,
+                                                       data_row_t primary_row_id,
                                                        data_table_t secondary_table,
-                                                       data_row_id_t secondary_row_id
+                                                       data_row_t secondary_row_id
                                                      );
 
 /*!
@@ -115,9 +115,9 @@ static inline void data_full_id_init_by_table_and_id ( data_full_id_t *this_,
  */
 static inline void data_full_id_reinit_by_table_and_id ( data_full_id_t *this_,
                                                          data_table_t primary_table,
-                                                         data_row_id_t primary_row_id,
+                                                         data_row_t primary_row_id,
                                                          data_table_t secondary_table,
-                                                         data_row_id_t secondary_row_id
+                                                         data_row_t secondary_row_id
                                                        );
 
 /*!

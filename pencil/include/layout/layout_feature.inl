@@ -94,7 +94,7 @@ static inline const layout_visible_classifier_t *layout_feature_get_classifier_c
     return (*this_).classifier;
 }
 
-static inline data_row_id_t layout_feature_get_feature_id ( const layout_feature_t *this_ )
+static inline data_row_t layout_feature_get_feature_id ( const layout_feature_t *this_ )
 {
     return data_feature_get_row_id( (*this_).data );
 }

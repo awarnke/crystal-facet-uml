@@ -181,12 +181,12 @@ static inline const data_diagramelement_t *layout_visible_classifier_get_diagram
     return data_visible_classifier_get_diagramelement_const ( (*this_).data );
 }
 
-static inline data_row_id_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ )
+static inline data_row_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ )
 {
     return data_classifier_get_row_id( data_visible_classifier_get_classifier_const ( (*this_).data ) );
 }
 
-static inline data_row_id_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ )
+static inline data_row_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ )
 {
     return data_diagramelement_get_row_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) );
 }
@@ -194,8 +194,8 @@ static inline data_row_id_t layout_visible_classifier_get_diagramelement_id ( co
 static inline bool layout_visible_classifier_is_equal_diagramelement_id ( const layout_visible_classifier_t *this_,
                                                                           const layout_visible_classifier_t *that )
 {
-    const data_row_id_t this_diagele_id = layout_visible_classifier_get_diagramelement_id( this_ );
-    const data_row_id_t that_diagele_id = layout_visible_classifier_get_diagramelement_id( that );
+    const data_row_t this_diagele_id = layout_visible_classifier_get_diagramelement_id( this_ );
+    const data_row_t that_diagele_id = layout_visible_classifier_get_diagramelement_id( that );
     return ( this_diagele_id == that_diagele_id );
 }
 

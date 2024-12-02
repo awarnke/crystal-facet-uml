@@ -304,7 +304,7 @@ static inline u8_error_t io_element_writer_start_diagramelement( io_element_writ
  *  \param parent the hosting parent diagram
  *  \param diagramelement_ptr pointer to diagramelement that shall be written, not NULL
  *  \param occurrence the occurring classifier
- *  \param feat_occur the focused feature of the occurring classifier, NULL or !is_valid() if DATA_ROW_ID_VOID
+ *  \param feat_occur the focused feature of the occurring classifier, NULL or !is_valid() if DATA_ROW_VOID
  *  \return U8_ERROR_NONE in case of success
  */
 static inline u8_error_t io_element_writer_assemble_diagramelement( io_element_writer_t *this_,

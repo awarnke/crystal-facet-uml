@@ -64,18 +64,18 @@ static test_case_result_t create_read_modify_read( test_fixture_t *fix )
     assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
-    const static data_row_id_t PARENT_ID = 17;
-    data_row_id_t diagram_id;
+    const static data_row_t PARENT_ID = 17;
+    data_row_t diagram_id;
     data_diagram_t read_diagram;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
 
     /* create a record */
     {
-        diagram_id = DATA_ROW_ID_VOID;
+        diagram_id = DATA_ROW_VOID;
         ctrl_err = ctrl_diagram_controller_private_create_child_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT( DATA_ROW_ID_VOID != diagram_id );
+        TEST_EXPECT( DATA_ROW_VOID != diagram_id );
     }
 
     /* read this record */
@@ -161,26 +161,26 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
     u8_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
     ctrl_diagram_controller_t *diagram_ctrl;
-    data_row_id_t diagram_id;
-    data_row_id_t classifier_id;
+    data_row_t diagram_id;
+    data_row_t classifier_id;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
     data_visible_classifier_t read_vis_classifier;
     data_diagramelement_t *diag_element_ptr;
-    data_row_id_t diag_element_id;
+    data_row_t diag_element_id;
     data_diagramelement_t diag_element;
     data_diagram_t out_diagram;
 
     /* create the root diagram */
     {
-        diagram_id = DATA_ROW_ID_VOID;
+        diagram_id = DATA_ROW_VOID;
         ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl,
                                                                                DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
                                                                                "root_diagram",
                                                                                &diagram_id
                                                                              );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-        TEST_EXPECT( DATA_ROW_ID_VOID != diagram_id );
+        TEST_EXPECT( DATA_ROW_VOID != diagram_id );
     }
 
     /* create a classifier */
@@ -203,7 +203,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                                                 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_classifier_destroy ( &new_classifier );
-        TEST_EXPECT( DATA_ROW_ID_VOID != classifier_id );
+        TEST_EXPECT( DATA_ROW_VOID != classifier_id );
     }
 
     /* create a diagramelement */
@@ -213,7 +213,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                        diagram_id,
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ROW_ID_VOID
+                                       DATA_ROW_VOID
                                      );
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
@@ -222,7 +222,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
                                                                  );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
-        TEST_EXPECT( DATA_ROW_ID_VOID != diag_element_id );
+        TEST_EXPECT( DATA_ROW_VOID != diag_element_id );
     }
 
     /* get the id of the diagramelement */
@@ -256,7 +256,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_row_id( &diag_element ) );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( &diag_element ) );
         TEST_EXPECT_EQUAL_INT( diag_element_id, data_diagramelement_get_row_id( &diag_element ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &diag_element ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row_id( &diag_element ) );
     }
 
     /* get all diagrams by classifier id */
@@ -275,7 +275,7 @@ static test_case_result_t create_diagramelements_and_delete( test_fixture_t *fix
         data_err = data_diagram_iterator_next( &diagram_iterator, &(out_diagram) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( diagram_id, data_diagram_get_row_id( &(out_diagram) ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &(out_diagram) ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &(out_diagram) ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &(out_diagram) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_const( &(out_diagram) ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &(out_diagram) ) ) );

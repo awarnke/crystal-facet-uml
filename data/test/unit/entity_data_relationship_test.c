@@ -76,7 +76,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_1 );
     TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_row_id( &testee ) );
     const char* uuid_1 = data_relationship_get_uuid_const( &testee );
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
@@ -94,7 +94,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     const u8_error_t result_2
         = data_relationship_init_new( &testee,
                                     1034,
-                                    DATA_ROW_ID_VOID,
+                                    DATA_ROW_VOID,
                                     1036,
                                     824,
                                     DATA_RELATIONSHIP_TYPE_UML_REALIZATION,
@@ -105,12 +105,12 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2 );
     TEST_EXPECT_EQUAL_INT( false, data_relationship_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_row_id( &testee ) );
     const char* uuid_2 = data_relationship_get_uuid_const( &testee );
     TEST_EXPECT( uuid_2 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
     TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT( utf8string_starts_with_str( data_relationship_get_name_const( &testee ), "too long text" ) );
@@ -138,7 +138,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   1033,
                                   813,
                                   1035,
-                                  DATA_ROW_ID_VOID,
+                                  DATA_ROW_VOID,
                                   DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                   "stereotype",
                                   "name",
@@ -152,7 +152,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( 1033, data_relationship_get_from_classifier_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 813, data_relationship_get_from_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1035, data_relationship_get_to_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_to_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "1ff2be8d-c46a-4777-8017-e073a41cc680", data_relationship_get_uuid_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "stereotype", data_relationship_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "name", data_relationship_get_name_const( &testee ) );
@@ -165,7 +165,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
         = data_relationship_init( &testee,
                                   54,
                                   1034,
-                                  DATA_ROW_ID_VOID,
+                                  DATA_ROW_VOID,
                                   1036,
                                   824,
                                   DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
@@ -179,7 +179,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
     TEST_EXPECT_EQUAL_INT( 54, data_relationship_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1034, data_relationship_get_from_classifier_row_id( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 1036, data_relationship_get_to_classifier_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( 824, data_relationship_get_to_feature_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "097498ef-e43b-4b79-b26a-df6f23590165", data_relationship_get_uuid_const( &testee ) );
@@ -211,7 +211,7 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     /* sub test case 2 */
     data_relationship_set_row_id( &testee, 478 );
-    const data_row_id_t row_id = data_relationship_get_row_id( &testee );
+    const data_row_t row_id = data_relationship_get_row_id( &testee );
     TEST_EXPECT_EQUAL_INT( 478, row_id );
     TEST_EXPECT_EQUAL_INT( true, data_relationship_is_valid( &testee ) );
     const data_id_t data_id = data_relationship_get_data_id( &testee );
@@ -275,10 +275,10 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
     const data_id_t from_c_data_id = data_relationship_get_from_classifier_data_id( &testee );
     TEST_EXPECT_EQUAL_INT( 1600, data_id_get_row_id( &from_c_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &from_c_data_id ) );
-    data_relationship_set_from_feature_row_id( &testee, DATA_ROW_ID_VOID );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &testee ) );
+    data_relationship_set_from_feature_row_id( &testee, DATA_ROW_VOID );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &testee ) );
     const data_id_t from_f_data_id = data_relationship_get_from_feature_data_id( &testee );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &from_f_data_id ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &from_f_data_id ) );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_FEATURE, data_id_get_table( &from_f_data_id ) );
 
     /* sub test case 13 */

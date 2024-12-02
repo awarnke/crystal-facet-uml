@@ -102,7 +102,7 @@ void layout_visible_set_private_init_features( layout_visible_set_t *this_ )
 
         if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
         {
-            const data_row_id_t feature_id = data_feature_get_row_id( feature_data );
+            const data_row_t feature_id = data_feature_get_row_id( feature_data );
             const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                  (*this_).input_data,
                                                                  feature_id
@@ -228,12 +228,12 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
     assert ( NULL != io_dropped_relationships );
     uint32_t layout_relationship_count = 0;
 
-    const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_row_id( relationship_data );
-    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relationship_data );
-    const data_row_id_t from_feature_id = data_relationship_get_from_feature_row_id( relationship_data );
-    const data_row_id_t to_feature_id = data_relationship_get_to_feature_row_id( relationship_data );
+    const data_row_t from_classifier_id = data_relationship_get_from_classifier_row_id( relationship_data );
+    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row_id( relationship_data );
+    const data_row_t from_feature_id = data_relationship_get_from_feature_row_id( relationship_data );
+    const data_row_t to_feature_id = data_relationship_get_to_feature_row_id( relationship_data );
 
-    if ( DATA_ROW_ID_VOID == from_feature_id )  /* search source(from) in classifiers */
+    if ( DATA_ROW_VOID == from_feature_id )  /* search source(from) in classifiers */
     {
         for ( uint32_t c_idx3 = 0; c_idx3 < (*this_).visible_classifier_count; c_idx3 ++ )
         {
@@ -243,7 +243,7 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
             const bool one_from_classifier_found = ( from_classifier_id == layout_visible_classifier_get_classifier_id( probe3_classifier ) );
             if ( one_from_classifier_found )
             {
-                if ( DATA_ROW_ID_VOID == to_feature_id )  /* search destination(to) in classifiers */
+                if ( DATA_ROW_VOID == to_feature_id )  /* search destination(to) in classifiers */
                 {
                     for ( uint32_t c_idx4 = 0; c_idx4 < (*this_).visible_classifier_count; c_idx4 ++ )
                     {
@@ -325,7 +325,7 @@ uint32_t layout_visible_set_private_init_relationship( layout_visible_set_t *thi
                 const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_row_id(layout_feature_get_data_const( probe3_feature )) );
                 if ( from_feature_ok )
                 {
-                    if ( DATA_ROW_ID_VOID == to_feature_id )  /* search destination(to) in classifiers */
+                    if ( DATA_ROW_VOID == to_feature_id )  /* search destination(to) in classifiers */
                     {
                         for ( uint32_t c_idx5 = 0; c_idx5 < (*this_).visible_classifier_count; c_idx5 ++ )
                         {
@@ -673,7 +673,7 @@ void layout_visible_set_analyze ( const layout_visible_set_t *this_,
             const layout_feature_t *const feature = &((*this_).feature_layout[f_idx]);
             const data_feature_t *const feature_data = layout_feature_get_data_const( feature );
             const data_feature_type_t feature_type = data_feature_get_main_type( feature_data );
-            const data_row_id_t feature_id = layout_feature_get_feature_id( feature );
+            const data_row_t feature_id = layout_feature_get_feature_id( feature );
             const bool feature_visible
                 = data_rules_diagram_shows_feature( &((*this_).filter_rules),
                                                     (*this_).input_data,
@@ -759,7 +759,7 @@ void layout_visible_set_analyze ( const layout_visible_set_t *this_,
                 for ( uint_fast32_t probe_idx = 0; probe_idx < f_idx; probe_idx ++ )
                 {
                     const layout_feature_t *const probe = &((*this_).feature_layout[probe_idx]);
-                    const data_row_id_t probe_id = layout_feature_get_feature_id( probe );
+                    const data_row_t probe_id = layout_feature_get_feature_id( probe );
                     const bool probe_visible
                         = data_rules_diagram_shows_feature( &((*this_).filter_rules),
                                                             (*this_).input_data,
@@ -830,7 +830,7 @@ void layout_visible_set_analyze ( const layout_visible_set_t *this_,
         for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count; r_idx ++ )
         {
             const layout_relationship_t *const relationship = &((*this_).relationship_layout[r_idx]);
-            const data_row_id_t relationship_id = layout_relationship_get_relationship_id( relationship );
+            const data_row_t relationship_id = layout_relationship_get_relationship_id( relationship );
             const bool relationship_visible
                 = data_rules_diagram_shows_relationship( &((*this_).filter_rules),
                                                          (*this_).input_data,
@@ -888,7 +888,7 @@ void layout_visible_set_analyze ( const layout_visible_set_t *this_,
                     const layout_feature_t *const probe = &((*this_).feature_layout[probe_idx]);
                     const data_feature_t *const probe_data = layout_feature_get_data_const( probe );
                     const data_feature_type_t probe_type = data_feature_get_main_type( probe_data );
-                    const data_row_id_t probe_id = layout_feature_get_feature_id( probe );
+                    const data_row_t probe_id = layout_feature_get_feature_id( probe );
                     const bool probe_visible
                         = data_rules_diagram_shows_feature( &((*this_).filter_rules),
                                                             (*this_).input_data,
@@ -923,7 +923,7 @@ void layout_visible_set_analyze ( const layout_visible_set_t *this_,
                 for ( uint_fast32_t probe_idx = 0; probe_idx < r_idx; probe_idx ++ )
                 {
                     const layout_relationship_t *const probe = &((*this_).relationship_layout[probe_idx]);
-                    const data_row_id_t probe_id = layout_relationship_get_relationship_id( probe );
+                    const data_row_t probe_id = layout_relationship_get_relationship_id( probe );
                     const bool probe_visible
                         = data_rules_diagram_shows_relationship( &((*this_).filter_rules),
                                                                  (*this_).input_data,

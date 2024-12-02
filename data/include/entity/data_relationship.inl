@@ -5,11 +5,11 @@
 
 static inline void data_relationship_init_empty ( data_relationship_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
-    (*this_).from_classifier_id = DATA_ROW_ID_VOID;
-    (*this_).from_feature_id = DATA_ROW_ID_VOID;
-    (*this_).to_classifier_id = DATA_ROW_ID_VOID;
-    (*this_).to_feature_id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
+    (*this_).from_classifier_id = DATA_ROW_VOID;
+    (*this_).from_feature_id = DATA_ROW_VOID;
+    (*this_).to_classifier_id = DATA_ROW_VOID;
+    (*this_).to_feature_id = DATA_ROW_VOID;
     (*this_).main_type = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
 
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -30,10 +30,10 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
 }
 
 static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_,
-                                                      data_row_id_t from_classifier_id,
-                                                      data_row_id_t from_feature_id,
-                                                      data_row_id_t to_classifier_id,
-                                                      data_row_id_t to_feature_id,
+                                                      data_row_t from_classifier_id,
+                                                      data_row_t from_feature_id,
+                                                      data_row_t to_classifier_id,
+                                                      data_row_t to_feature_id,
                                                       data_relationship_type_t relationship_main_type,
                                                       const char* stereotype,
                                                       const char* name,
@@ -46,7 +46,7 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     (*this_).from_classifier_id = from_classifier_id;
     (*this_).from_feature_id = from_feature_id;
     (*this_).to_classifier_id = to_classifier_id;
@@ -84,11 +84,11 @@ static inline u8_error_t data_relationship_init_new ( data_relationship_t *this_
 }
 
 static inline u8_error_t data_relationship_init ( data_relationship_t *this_,
-                                                  data_row_id_t relationship_id,
-                                                  data_row_id_t from_classifier_id,
-                                                  data_row_id_t from_feature_id,
-                                                  data_row_id_t to_classifier_id,
-                                                  data_row_id_t to_feature_id,
+                                                  data_row_t relationship_id,
+                                                  data_row_t from_classifier_id,
+                                                  data_row_t from_feature_id,
+                                                  data_row_t to_classifier_id,
+                                                  data_row_t to_feature_id,
                                                   data_relationship_type_t relationship_main_type,
                                                   const char* stereotype,
                                                   const char* name,
@@ -166,16 +166,16 @@ static inline void data_relationship_replace ( data_relationship_t *this_, const
 
 static inline void data_relationship_destroy ( data_relationship_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     data_uuid_destroy( &((*this_).uuid) );
 }
 
-static inline data_row_id_t data_relationship_get_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_row_id ( const data_relationship_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_relationship_set_row_id ( data_relationship_t *this_, data_row_id_t id )
+static inline void data_relationship_set_row_id ( data_relationship_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -187,12 +187,12 @@ static inline data_id_t data_relationship_get_data_id ( const data_relationship_
     return result;
 }
 
-static inline data_row_id_t data_relationship_get_from_classifier_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_from_classifier_row_id ( const data_relationship_t *this_ )
 {
     return (*this_).from_classifier_id;
 }
 
-static inline void data_relationship_set_from_classifier_row_id ( data_relationship_t *this_, data_row_id_t from_classifier_id )
+static inline void data_relationship_set_from_classifier_row_id ( data_relationship_t *this_, data_row_t from_classifier_id )
 {
     (*this_).from_classifier_id = from_classifier_id;
 }
@@ -204,12 +204,12 @@ static inline data_id_t data_relationship_get_from_classifier_data_id ( const da
     return result;
 }
 
-static inline data_row_id_t data_relationship_get_from_feature_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_from_feature_row_id ( const data_relationship_t *this_ )
 {
     return (*this_).from_feature_id;
 }
 
-static inline void data_relationship_set_from_feature_row_id ( data_relationship_t *this_, data_row_id_t from_feature_id )
+static inline void data_relationship_set_from_feature_row_id ( data_relationship_t *this_, data_row_t from_feature_id )
 {
     (*this_).from_feature_id = from_feature_id;
 }
@@ -221,12 +221,12 @@ static inline data_id_t data_relationship_get_from_feature_data_id ( const data_
     return result;
 }
 
-static inline data_row_id_t data_relationship_get_to_classifier_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_to_classifier_row_id ( const data_relationship_t *this_ )
 {
     return (*this_).to_classifier_id;
 }
 
-static inline void data_relationship_set_to_classifier_row_id ( data_relationship_t *this_, data_row_id_t to_classifier_id )
+static inline void data_relationship_set_to_classifier_row_id ( data_relationship_t *this_, data_row_t to_classifier_id )
 {
     (*this_).to_classifier_id = to_classifier_id;
 }
@@ -238,12 +238,12 @@ static inline data_id_t data_relationship_get_to_classifier_data_id ( const data
     return result;
 }
 
-static inline data_row_id_t data_relationship_get_to_feature_row_id ( const data_relationship_t *this_ )
+static inline data_row_t data_relationship_get_to_feature_row_id ( const data_relationship_t *this_ )
 {
     return (*this_).to_feature_id;
 }
 
-static inline void data_relationship_set_to_feature_row_id ( data_relationship_t *this_, data_row_id_t to_feature_id )
+static inline void data_relationship_set_to_feature_row_id ( data_relationship_t *this_, data_row_t to_feature_id )
 {
     (*this_).to_feature_id = to_feature_id;
 }
@@ -368,7 +368,7 @@ static inline u8_error_t data_relationship_set_uuid ( data_relationship_t *this_
 
 static inline bool data_relationship_is_valid ( const data_relationship_t *this_ )
 {
-    return ( DATA_ROW_ID_VOID != (*this_).id );
+    return ( DATA_ROW_VOID != (*this_).id );
 }
 
 static inline void data_relationship_trace ( const data_relationship_t *this_ )

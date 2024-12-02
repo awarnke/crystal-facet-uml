@@ -40,16 +40,16 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ )
 }
 
 u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creator_t *this_,
-                                                         data_row_id_t diagram_id,
+                                                         data_row_t diagram_id,
                                                          int32_t x_order,
                                                          int32_t y_order,
-                                                         data_row_id_t *out_diagramelement_id,
-                                                         data_row_id_t *out_classifier_id )
+                                                         data_row_t *out_diagramelement_id,
+                                                         data_row_t *out_classifier_id )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_classifier_id );
     assert ( NULL != out_diagramelement_id );
-    assert ( DATA_ROW_ID_VOID != diagram_id );
+    assert ( DATA_ROW_VOID != diagram_id );
 
     u8_error_t c_result;
 
@@ -119,7 +119,7 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
                                        diagram_id,
                                        *out_classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                       DATA_ROW_ID_VOID
+                                       DATA_ROW_VOID
                                      );
 
         c_result = ctrl_diagram_controller_create_diagramelement ( diagram_control,
@@ -148,20 +148,20 @@ u8_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_creat
 }
 
 u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  data_row_id_t parent_classifier_id,
+                                                                  data_row_t diagram_id,
+                                                                  data_row_t parent_classifier_id,
                                                                   int32_t x_order,
                                                                   int32_t y_order,
-                                                                  data_row_id_t *out_diagramelement_id,
-                                                                  data_row_id_t *out_classifier_id,
-                                                                  data_row_id_t *out_relationship_id )
+                                                                  data_row_t *out_diagramelement_id,
+                                                                  data_row_t *out_classifier_id,
+                                                                  data_row_t *out_relationship_id )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_classifier_id );
     assert ( NULL != out_diagramelement_id );
     assert ( NULL != out_relationship_id );
-    assert ( DATA_ROW_ID_VOID != parent_classifier_id );
-    assert ( DATA_ROW_ID_VOID != diagram_id );
+    assert ( DATA_ROW_VOID != parent_classifier_id );
+    assert ( DATA_ROW_VOID != diagram_id );
 
     u8_error_t c_result;
 
@@ -183,9 +183,9 @@ u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_obj
         const u8_error_t d_err
             = data_relationship_init_new( &((*this_).private_temp_relationship),
                                           parent_classifier_id,
-                                          DATA_ROW_ID_VOID,
+                                          DATA_ROW_VOID,
                                           *out_classifier_id,
-                                          DATA_ROW_ID_VOID,
+                                          DATA_ROW_VOID,
                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           "", /* =stereotype */
                                           "", /* =name */
@@ -213,9 +213,9 @@ u8_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_obj
 }
 
 u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
-                                                      data_row_id_t parent_diagram_id,
+                                                      data_row_t parent_diagram_id,
                                                       int32_t list_order,
-                                                      data_row_id_t *out_diagram_id )
+                                                      data_row_t *out_diagram_id )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_diagram_id );
@@ -270,17 +270,17 @@ u8_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_
 
 u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
                                                            data_diagram_type_t diag_type,
-                                                           data_row_id_t from_classifier_id,
-                                                           data_row_id_t from_feature_id,
-                                                           data_row_id_t to_classifier_id,
-                                                           data_row_id_t to_feature_id,
+                                                           data_row_t from_classifier_id,
+                                                           data_row_t from_feature_id,
+                                                           data_row_t to_classifier_id,
+                                                           data_row_t to_feature_id,
                                                            int32_t list_order,
-                                                           data_row_id_t *out_relationship_id )
+                                                           data_row_t *out_relationship_id )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_relationship_id );
-    assert ( DATA_ROW_ID_VOID != from_classifier_id );
-    assert ( DATA_ROW_ID_VOID != to_classifier_id );
+    assert ( DATA_ROW_VOID != from_classifier_id );
+    assert ( DATA_ROW_VOID != to_classifier_id );
 
     u8_error_t c_result;
 
@@ -312,7 +312,7 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
 
         /* get type of from_feature */
         data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
-        if ( from_feature_id != DATA_ROW_ID_VOID )
+        if ( from_feature_id != DATA_ROW_VOID )
         {
             const u8_error_t feat_err
                 = data_database_reader_get_feature_by_id( (*this_).db_reader,
@@ -352,7 +352,7 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
 
     /* check preconditions */
     const bool is_scenario = data_rules_diagram_is_scenario ( &((*this_).data_rules), diag_type )
-                             && (( from_feature_id != DATA_ROW_ID_VOID )||( to_feature_id != DATA_ROW_ID_VOID ));
+                             && (( from_feature_id != DATA_ROW_VOID )||( to_feature_id != DATA_ROW_VOID ));
     const bool diagram_ok = is_scenario
                             ? data_rules_diagram_shows_scenario_relationships ( &((*this_).data_rules), diag_type )
                             : data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), diag_type );
@@ -392,14 +392,14 @@ u8_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_cre
 
 u8_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
                                                       data_diagram_type_t diag_type,
-                                                      data_row_id_t parent_classifier_id,
+                                                      data_row_t parent_classifier_id,
                                                       int32_t std_list_order,
                                                       int32_t port_list_order,
-                                                      data_row_id_t *out_feature_id )
+                                                      data_row_t *out_feature_id )
 {
     U8_TRACE_BEGIN();
     assert ( NULL != out_feature_id );
-    assert ( DATA_ROW_ID_VOID != parent_classifier_id );
+    assert ( DATA_ROW_VOID != parent_classifier_id );
 
     u8_error_t c_result;
 

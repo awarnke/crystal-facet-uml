@@ -23,7 +23,7 @@
 #include "set/data_small_set.h"
 #include "entity/data_feature.h"
 #include "entity/data_relationship.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -93,7 +93,7 @@ u8_error_t data_database_diagram_reader_destroy ( data_database_diagram_reader_t
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagram_by_id ( data_database_diagram_reader_t *this_,
-                                                            data_row_id_t id,
+                                                            data_row_t id,
                                                             data_diagram_t *out_diagram
                                                           );
 
@@ -115,14 +115,14 @@ u8_error_t data_database_diagram_reader_get_diagram_by_uuid ( data_database_diag
  *  \brief reads all child-diagrams from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagrams
+ *  \param parent_id id of the parent diagram, DATA_ROW_VOID to get all root diagrams
  *  \param[in,out] io_diagram_iterator iterator over diagrams of selected parent diagram. The caller is responsible
  *                                     for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_database_diagram_reader_t *this_,
-                                                                    data_row_id_t parent_id,
+                                                                    data_row_t parent_id,
                                                                     data_diagram_iterator_t *io_diagram_iterator
                                                                   );
 
@@ -139,7 +139,7 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_parent_id ( data_databas
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                        data_row_id_t classifier_id,
+                                                                        data_row_t classifier_id,
                                                                         data_diagram_iterator_t *io_diagram_iterator
                                                                       );
 
@@ -147,13 +147,13 @@ u8_error_t data_database_diagram_reader_get_diagrams_by_classifier_id ( data_dat
  *  \brief reads all child-diagram ids from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent diagram, DATA_ROW_ID_VOID to get all root diagram ids
+ *  \param parent_id id of the parent diagram, DATA_ROW_VOID to get all root diagram ids
  *  \param[out] out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_database_diagram_reader_t *this_,
-                                                                       data_row_id_t parent_id,
+                                                                       data_row_t parent_id,
                                                                        data_small_set_t *out_diagram_ids
                                                                      );
 
@@ -169,7 +169,7 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_parent_id ( data_data
  *          E.g. U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                           data_row_id_t classifier_id,
+                                                                           data_row_t classifier_id,
                                                                            data_small_set_t *out_diagram_ids
                                                                          );
 
@@ -185,7 +185,7 @@ u8_error_t data_database_diagram_reader_get_diagram_ids_by_classifier_id ( data_
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagramelement_by_id ( data_database_diagram_reader_t *this_,
-                                                                   data_row_id_t id,
+                                                                   data_row_t id,
                                                                    data_diagramelement_t *out_diagramelement
                                                                  );
 
@@ -214,7 +214,7 @@ u8_error_t data_database_diagram_reader_get_diagramelement_by_uuid ( data_databa
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data_database_diagram_reader_t *this_,
-                                                                            data_row_id_t diagram_id,
+                                                                            data_row_t diagram_id,
                                                                             data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                           );
 
@@ -229,7 +229,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_diagram_id ( data
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id ( data_database_diagram_reader_t *this_,
-                                                                               data_row_id_t classifier_id,
+                                                                               data_row_t classifier_id,
                                                                                data_diagramelement_iterator_t *io_diagramelement_iterator
                                                                              );
 
@@ -248,7 +248,7 @@ u8_error_t data_database_diagram_reader_get_diagramelements_by_classifier_id ( d
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_diagram_reader_get_visible_classifiers_by_diagram_id ( data_database_diagram_reader_t *this_,
-                                                                                data_row_id_t diagram_id,
+                                                                                data_row_t diagram_id,
                                                                                 data_visible_classifier_iterator_t *io_visible_classifier_iterator
                                                                               );
 
@@ -288,12 +288,12 @@ static inline u8_error_t data_database_diagram_reader_private_bind_void_to_state
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \param id integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id integer to bind to the prepared statement. DATA_ROW_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline u8_error_t data_database_diagram_reader_private_bind_id_to_statement ( data_database_diagram_reader_t *this_,
                                                                                      sqlite3_stmt *statement_ptr,
-                                                                                     data_row_id_t id
+                                                                                     data_row_t id
                                                                                    );
 
 /*!

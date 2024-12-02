@@ -54,11 +54,11 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     /* sub test case 0 */
     data_diagram_init_empty( &testee );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
     const char* uuid_0 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_0 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_0 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_description_const( &testee ) );
@@ -79,7 +79,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_1 );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
     const char* uuid_1 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
@@ -104,7 +104,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2 );
     TEST_EXPECT_EQUAL_INT( false, data_diagram_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_row_id( &testee ) );
     const char* uuid_2 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_2 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
@@ -122,7 +122,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
     const char* uuid_3 = data_diagram_get_uuid_const( &testee );
     TEST_EXPECT( uuid_3 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_3 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_stereotype_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_name_const( &testee ) );
     TEST_EXPECT_EQUAL_STRING( "", data_diagram_get_description_const( &testee ) );
@@ -202,7 +202,7 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     /* sub test case 2 */
     data_diagram_set_row_id( &testee, 478 );
-    const data_row_id_t row_id = data_diagram_get_row_id( &testee );
+    const data_row_t row_id = data_diagram_get_row_id( &testee );
     TEST_EXPECT_EQUAL_INT( 478, row_id );
     TEST_EXPECT_EQUAL_INT( true, data_diagram_is_valid( &testee ) );
     const data_id_t data_id = data_diagram_get_data_id( &testee );

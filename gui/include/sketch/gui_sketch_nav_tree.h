@@ -106,18 +106,18 @@ void gui_sketch_nav_tree_destroy ( gui_sketch_nav_tree_t *this_ );
  *  and calls gui_sketch_nav_tree_private_do_layout to ensure consistency of own attributes
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to load, DATA_ROW_ID_VOID to set empty data
+ *  \param diagram_id id of the diagram to load, DATA_ROW_VOID to set empty data
  *  \param db_reader pointer to a database reader object
  */
-void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
+void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t diagram_id, data_database_reader_t *db_reader );
 
 /*!
  *  \brief gets the id of the root diagram
  *
  *  \param this_ pointer to own object attributes
- *  \return the id of the root diagram, DATA_ROW_ID_VOID if no diagrams exist
+ *  \return the id of the root diagram, DATA_ROW_VOID if no diagrams exist
  */
-static inline data_row_id_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ );
+static inline data_row_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief gets the highest list order of the sibling diagrams
@@ -145,8 +145,8 @@ static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( const gui
  *  \return GUI_ERROR_NONE if both ids are in the cache, GUI_ERROR_UNKNOWN_OBJECT otherwise
  */
 static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_nav_tree_t *this_,
-                                                              data_row_id_t probe_ancestor_id,
-                                                              data_row_id_t probe_descendant_id,
+                                                              data_row_t probe_ancestor_id,
+                                                              data_row_t probe_descendant_id,
                                                               bool *out_is_descendant
                                                             );
 

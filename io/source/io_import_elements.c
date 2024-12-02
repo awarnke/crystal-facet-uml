@@ -26,20 +26,20 @@ void io_import_elements_init( io_import_elements_t *this_,
     (*this_).english_report = out_english_report;
 
     (*this_).mode = IO_IMPORT_MODE_CHECK;
-    (*this_).paste_to_diagram = DATA_ROW_ID_VOID;
+    (*this_).paste_to_diagram = DATA_ROW_VOID;
 
     ctrl_multi_step_changer_init( &((*this_).multi_step_changer), controller, db_reader );
 
     data_rules_init ( &((*this_).data_rules) );
 
     /* get the id of the root diagram if there is one */
-    (*this_).root_diagram = DATA_ROW_ID_VOID;
+    (*this_).root_diagram = DATA_ROW_VOID;
     {
         data_small_set_t roots;
         data_small_set_init( &roots );
         const u8_error_t read_error
             = data_database_reader_get_diagram_ids_by_parent_id( (*this_).db_reader,
-                                                                 DATA_ROW_ID_VOID,
+                                                                 DATA_ROW_VOID,
                                                                  &roots
                                                                );
         if ( read_error != U8_ERROR_NONE )
@@ -65,7 +65,7 @@ void io_import_elements_init( io_import_elements_t *this_,
 }
 
 void io_import_elements_init_for_paste( io_import_elements_t *this_,
-                                        data_row_id_t paste_to_diagram,
+                                        data_row_t paste_to_diagram,
                                         data_database_reader_t *db_reader,
                                         ctrl_controller_t *controller,
                                         data_stat_t *io_stat,
@@ -87,7 +87,7 @@ void io_import_elements_init_for_paste( io_import_elements_t *this_,
         if ( U8_ERROR_NONE != read_error1 )
         {
             U8_LOG_ERROR_INT( "diagram id where to import json data to does not exist (anymore)", (*this_).paste_to_diagram );
-            (*this_).paste_to_diagram = DATA_ROW_ID_VOID;
+            (*this_).paste_to_diagram = DATA_ROW_VOID;
         }
         else
         {
@@ -138,7 +138,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     u8_error_t sync_error = U8_ERROR_NONE;
 
     /* ANY MODE: determine parent id */
-    data_row_id_t parent_row_id = (*this_).root_diagram;
+    data_row_t parent_row_id = (*this_).root_diagram;
     const bool parent_uuid_specified
         = (( parent_uuid != NULL )&&( ! utf8string_equals_str( parent_uuid, "" )));
     if ( parent_uuid_specified )
@@ -167,9 +167,9 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
     /* update default parent diagram id */
     if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error == U8_ERROR_NONE ))
     {
-        if ( (*this_).paste_to_diagram == DATA_ROW_ID_VOID )
+        if ( (*this_).paste_to_diagram == DATA_ROW_VOID )
         {
-            data_row_id_t parent_row_id = (*this_).root_diagram;
+            data_row_t parent_row_id = (*this_).root_diagram;
             U8_TRACE_INFO_INT( "in paste-clipboard mode, missing parent diagram set to", parent_row_id );
         }
         else
@@ -211,7 +211,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             /* insert all consecutive elements to this new diagram */
             (*this_).paste_to_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
             /* this new diagram is root if it is the first diagram */
-            if ( (*this_).root_diagram == DATA_ROW_ID_VOID )
+            if ( (*this_).root_diagram == DATA_ROW_VOID )
             {
                 (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
             }
@@ -236,10 +236,10 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
         {
             if ( (*this_).mode == IO_IMPORT_MODE_LINK )
             {
-                /* if (*this_).temp_diagram is the only valid root, set parent_row_id to DATA_ROW_ID_VOID */
+                /* if (*this_).temp_diagram is the only valid root, set parent_row_id to DATA_ROW_VOID */
                 if ( data_diagram_get_row_id( &((*this_).temp_diagram) ) == (*this_).root_diagram )
                 {
-                    parent_row_id = DATA_ROW_ID_VOID;
+                    parent_row_id = DATA_ROW_VOID;
                 }
 
                 /* update the parent if wrong parent stored */
@@ -251,7 +251,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
                                                                                  );
 
                     /* update root diag if this is root */
-                    if (( parent_row_id == DATA_ROW_ID_VOID )&&( sync_error == U8_ERROR_NONE ))
+                    if (( parent_row_id == DATA_ROW_VOID )&&( sync_error == U8_ERROR_NONE ))
                     {
                         (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
                     }
@@ -291,7 +291,7 @@ u8_error_t io_import_elements_sync_diagram( io_import_elements_t *this_,
             else
             {
                 /* this new diagram is root if it is the first root diagram, further diagrams will not be root */
-                if (( (*this_).root_diagram == DATA_ROW_ID_VOID )&&( parent_row_id == DATA_ROW_ID_VOID )
+                if (( (*this_).root_diagram == DATA_ROW_VOID )&&( parent_row_id == DATA_ROW_VOID )
                     &&( ! parent_uuid_specified ))
                 {
                     (*this_).root_diagram = data_diagram_get_row_id( &((*this_).temp_diagram) );
@@ -326,8 +326,8 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     u8_error_t sync_error = U8_ERROR_NONE;
 
     /* ANY MODE: determine classifier/feature id */
-    data_row_id_t node_classifier_id = DATA_ROW_ID_VOID;
-    data_row_id_t node_feature_id = DATA_ROW_ID_VOID;
+    data_row_t node_classifier_id = DATA_ROW_VOID;
+    data_row_t node_feature_id = DATA_ROW_VOID;
     data_feature_type_t node_feature_type = DATA_FEATURE_TYPE_VOID;
     if ( node_uuid != NULL )
     {
@@ -372,7 +372,7 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     }
 
     /* ANY MODE: determine diagram id */
-    data_row_id_t diagram_row_id = DATA_ROW_ID_VOID;
+    data_row_t diagram_row_id = DATA_ROW_VOID;
     if (( diagram_uuid != NULL )&&( sync_error == U8_ERROR_NONE ))
     {
         if ( ! utf8string_equals_str( diagram_uuid, "" ) )
@@ -402,17 +402,17 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     /* check preconditions */
     if ( (*this_).mode == IO_IMPORT_MODE_LINK )
     {
-        if ( node_classifier_id == DATA_ROW_ID_VOID )
+        if ( node_classifier_id == DATA_ROW_VOID )
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "diagramelement references a non-existing classifier." );
         }
-        if (( node_feature_id != DATA_ROW_ID_VOID )&&( node_feature_type != DATA_FEATURE_TYPE_LIFELINE ))
+        if (( node_feature_id != DATA_ROW_VOID )&&( node_feature_type != DATA_FEATURE_TYPE_LIFELINE ))
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "diagramelement references a feature which is not of type DATA_FEATURE_TYPE_LIFELINE." );
         }
-        if ( diagram_row_id == DATA_ROW_ID_VOID )
+        if ( diagram_row_id == DATA_ROW_VOID )
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "diagramelement references a non-existing classifier." );
@@ -483,10 +483,10 @@ u8_error_t io_import_elements_sync_diagramelement( io_import_elements_t *this_,
     return sync_error;
 }
 
-u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_id_t classifier_id )
+u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_t *this_, data_row_t classifier_id )
 {
     U8_TRACE_BEGIN();
-    assert( DATA_ROW_ID_VOID != classifier_id );
+    assert( DATA_ROW_VOID != classifier_id );
     u8_error_t sync_error = U8_ERROR_NONE;
 
     if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
@@ -496,7 +496,7 @@ u8_error_t io_import_elements_private_create_diagramelement( io_import_elements_
                                       (*this_).paste_to_diagram,
                                       classifier_id,
                                       DATA_DIAGRAMELEMENT_FLAG_NONE,
-                                      DATA_ROW_ID_VOID
+                                      DATA_ROW_VOID
                                     );
         u8_error_t modified_info;
         sync_error = ctrl_multi_step_changer_create_diagramelement( &((*this_).multi_step_changer),
@@ -532,7 +532,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
 
     if ( (*this_).mode == IO_IMPORT_MODE_PASTE )
     {
-        if ( (*this_).paste_to_diagram == DATA_ROW_ID_VOID )
+        if ( (*this_).paste_to_diagram == DATA_ROW_VOID )
         {
             sync_error = U8_ERROR_FOCUS_EMPTY;
             U8_TRACE_INFO( "in paste-clipboard mode, parent diagram must be valid" );
@@ -601,7 +601,7 @@ u8_error_t io_import_elements_sync_classifier( io_import_elements_t *this_,
         if (( (*this_).mode == IO_IMPORT_MODE_PASTE )&&( sync_error == U8_ERROR_NONE ))
         {
             /* in paste mode, create a diagramelement in the current diagram */
-            const data_row_id_t classifier_row_id = data_classifier_get_row_id( &((*this_).temp_classifier ) );
+            const data_row_t classifier_row_id = data_classifier_get_row_id( &((*this_).temp_classifier ) );
             sync_error = io_import_elements_private_create_diagramelement( this_, classifier_row_id );
         }
 
@@ -622,7 +622,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     u8_error_t sync_error = U8_ERROR_NONE;
 
     /* ANY MODE: determine classifier id */
-    data_row_id_t classifier_row_id = DATA_ROW_ID_VOID;
+    data_row_t classifier_row_id = DATA_ROW_VOID;
     if ( classifier_uuid != NULL )
     {
         if ( ! utf8string_equals_str( classifier_uuid, "" ) )
@@ -652,7 +652,7 @@ u8_error_t io_import_elements_sync_feature( io_import_elements_t *this_,
     /* check preconditions */
     if (( (*this_).mode == IO_IMPORT_MODE_CREATE )||( (*this_).mode == IO_IMPORT_MODE_PASTE ))
     {
-        if ( classifier_row_id == DATA_ROW_ID_VOID )
+        if ( classifier_row_id == DATA_ROW_VOID )
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "feature references a non-existing classifier." );
@@ -745,8 +745,8 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     u8_error_t sync_error = U8_ERROR_NONE;
 
     /* ANY MODE: determine from classifier/feature */
-    data_row_id_t from_classifier_id = DATA_ROW_ID_VOID;
-    data_row_id_t from_feature_id = DATA_ROW_ID_VOID;
+    data_row_t from_classifier_id = DATA_ROW_VOID;
+    data_row_t from_feature_id = DATA_ROW_VOID;
     data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
     if ( from_node_uuid != NULL )
     {
@@ -791,8 +791,8 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     }
 
     /* ANY MODE: determine to classifier/feature */
-    data_row_id_t to_classifier_id = DATA_ROW_ID_VOID;
-    data_row_id_t to_feature_id = DATA_ROW_ID_VOID;
+    data_row_t to_classifier_id = DATA_ROW_VOID;
+    data_row_t to_feature_id = DATA_ROW_VOID;
     data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
     if ( to_node_uuid != NULL )
     {
@@ -839,12 +839,12 @@ u8_error_t io_import_elements_sync_relationship( io_import_elements_t *this_,
     /* check preconditions */
     if (( (*this_).mode == IO_IMPORT_MODE_PASTE )||( (*this_).mode == IO_IMPORT_MODE_LINK ))
     {
-        if ( from_classifier_id == DATA_ROW_ID_VOID )
+        if ( from_classifier_id == DATA_ROW_VOID )
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "A relationship could not be created because the source classifier could not be found." );
         }
-        if ( to_classifier_id == DATA_ROW_ID_VOID )
+        if ( to_classifier_id == DATA_ROW_VOID )
         {
             sync_error |= U8_ERROR_VALUE_OUT_OF_RANGE;
             U8_LOG_ERROR( "A relationship could not be created because the destination classifier could not be found." );

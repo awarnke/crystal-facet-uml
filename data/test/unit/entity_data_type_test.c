@@ -6,7 +6,7 @@
 #include "entity/data_classifier_type.h"
 #include "entity/data_feature_type.h"
 #include "entity/data_relationship_type.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
 
@@ -90,7 +90,7 @@ static test_case_result_t test_error_cases( test_fixture_t *test_env )
     data_type_t my_void_1;
     data_type_init_void( &my_void_1 );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_type_get_context( &my_void_1 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_type_get_type_as_int( &my_void_1 ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_type_get_type_as_int( &my_void_1 ) );
     TEST_EXPECT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_VOID, data_type_get_relationship_type( &my_void_1 ) );
 
     data_type_t my_void_2;

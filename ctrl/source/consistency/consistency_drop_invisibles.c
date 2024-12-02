@@ -74,7 +74,7 @@ u8_error_t consistency_drop_invisibles_delete_invisible_relationships( consisten
     assert( NULL != deleted_diagramelement );
     u8_error_t result = U8_ERROR_NONE;
 
-    data_row_id_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
+    data_row_t classifier_id = data_diagramelement_get_classifier_row_id( deleted_diagramelement );
     data_small_set_t relations_to_delete;
     data_small_set_init( &relations_to_delete );
 
@@ -146,8 +146,8 @@ u8_error_t consistency_drop_invisibles_private_has_relationship_a_diagram( consi
     assert( NULL != out_result );
     u8_error_t result = U8_ERROR_NONE;
 
-    const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_row_id( relation );
-    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
+    const data_row_t from_classifier_id = data_relationship_get_from_classifier_row_id( relation );
+    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
 
     if ( from_classifier_id == to_classifier_id )
     {

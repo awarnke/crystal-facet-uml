@@ -31,7 +31,7 @@ static inline u8_error_t ctrl_diagram_trigger_post_create_diagramelement( ctrl_d
                                                                           const data_diagramelement_t *new_diagramelement )
 {
     u8_error_t result = U8_ERROR_NONE;
-    if ( DATA_ROW_ID_VOID == data_diagramelement_get_focused_feature_row_id( new_diagramelement ) )
+    if ( DATA_ROW_VOID == data_diagramelement_get_focused_feature_row_id( new_diagramelement ) )
     {
         result = consistency_lifeline_create_a_lifeline( (*this_).lifeline, new_diagramelement );
     }

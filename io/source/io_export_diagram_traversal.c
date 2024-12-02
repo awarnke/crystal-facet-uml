@@ -72,8 +72,8 @@ u8_error_t io_export_diagram_traversal_begin_and_walk_diagram ( io_export_diagra
 
         /* load parent diagram if there is one */
         data_diagram_init_empty( &((*this_).temp_parent_diag) );
-        const data_row_id_t parent_id = data_diagram_get_parent_row_id( diag_ptr );
-        if ( DATA_ROW_ID_VOID != parent_id )
+        const data_row_t parent_id = data_diagram_get_parent_row_id( diag_ptr );
+        if ( DATA_ROW_VOID != parent_id )
         {
             const u8_error_t d_err2
                 = data_database_reader_get_diagram_by_id( (*this_).db_reader, parent_id, &((*this_).temp_parent_diag) );
@@ -188,9 +188,9 @@ u8_error_t io_export_diagram_traversal_private_iterate_diagram_classifiers ( io_
                 = data_visible_classifier_get_diagramelement_const( visible_classifier );
             const data_id_t diagele_id = data_diagramelement_get_data_id( diagele );
             const data_diagram_t *const diagram_ptr = data_visible_set_get_diagram_ptr ( (*this_).input_data );
-            const data_row_id_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( diagele );
+            const data_row_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( diagele );
             const data_feature_t *const focused_f_or_null
-                = ( focused_feature_id == DATA_ROW_ID_VOID )
+                = ( focused_feature_id == DATA_ROW_VOID )
                 ? NULL
                 : data_visible_set_get_feature_by_id_const( diagram_data, focused_feature_id );
 
@@ -230,7 +230,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_features ( io_
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &classifier_id ) );
-    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &classifier_id) );
+    assert( DATA_ROW_VOID != data_id_get_row_id( &classifier_id) );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all features */
@@ -301,7 +301,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships 
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
-    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &from_classifier_id) );
+    assert( DATA_ROW_VOID != data_id_get_row_id( &from_classifier_id) );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all relationships */
@@ -325,7 +325,7 @@ u8_error_t io_export_diagram_traversal_private_iterate_classifier_relationships 
 
                 if ( is_visible /* no filter for duplicates */ )
                 {
-                    const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
+                    const data_row_t to_classifier_id = data_relationship_get_to_classifier_row_id( relation );
                     const data_classifier_t *const dest_classifier
                         = data_visible_set_get_classifier_by_id_const ( diagram_data, to_classifier_id );
                     if ( dest_classifier != NULL )

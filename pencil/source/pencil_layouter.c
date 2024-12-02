@@ -459,7 +459,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
     pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get data of feature */
-    data_row_id_t parent_classifier_id;
+    data_row_t parent_classifier_id;
     data_feature_type_t feature_type;
     feature_type = data_feature_get_main_type ( feature_ptr );
     parent_classifier_id = data_feature_get_classifier_row_id ( feature_ptr );
@@ -475,7 +475,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         layout_order_init_empty( out_layout_order );
         result = PENCIL_ERROR_OUT_OF_BOUNDS;
     }
-    else if ( DATA_ROW_ID_VOID == parent_classifier_id ) {
+    else if ( DATA_ROW_VOID == parent_classifier_id ) {
         U8_LOG_WARNING( "feature to move has no parent classifier!" );
         layout_order_init_empty( out_layout_order );
         result = PENCIL_ERROR_UNKNOWN_OBJECT;
@@ -490,7 +490,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         {
             const layout_visible_classifier_t *const visible_classifier
                 = layout_visible_set_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
-            const data_row_id_t classfy_id
+            const data_row_t classfy_id
                 = layout_visible_classifier_get_classifier_id ( visible_classifier );
             if ( parent_classifier_id == classfy_id )
             {

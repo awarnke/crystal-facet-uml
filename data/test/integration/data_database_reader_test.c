@@ -70,7 +70,7 @@ static test_fixture_t * set_up()
     data_diagram_t root_diagram;
     data_err = data_diagram_init( &root_diagram,
                                   6, /*=diagram_id*/
-                                  DATA_ROW_ID_VOID, /*=parent_diagram_id*/
+                                  DATA_ROW_VOID, /*=parent_diagram_id*/
                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                   "st_t",  /* stereotype */
                                   "diagram_name-6",
@@ -144,7 +144,7 @@ static test_fixture_t * set_up()
                                          6, /*=diagram_id*/
                                          12, /*=classifier_id*/
                                          DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                         DATA_ROW_ID_VOID,
+                                         DATA_ROW_VOID,
                                          "c9dc1401-4b2c-48d2-a85c-efa6194f9aec"
                                        );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
@@ -172,7 +172,7 @@ static test_fixture_t * set_up()
                                          7, /*=diagram_id*/
                                          12, /*=classifier_id*/
                                          DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                         DATA_ROW_ID_VOID,
+                                         DATA_ROW_VOID,
                                          "ffde926f-efbf-45d5-bd71-ecd932f5143c"
                                        );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
@@ -186,7 +186,7 @@ static test_fixture_t * set_up()
                                          7, /*=diagram_id*/
                                          13, /*=classifier_id*/
                                          DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                         DATA_ROW_ID_VOID,
+                                         DATA_ROW_VOID,
                                          "02088b41-e71d-466d-a413-2551ba3bf10a"
                                        );
     TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
@@ -218,9 +218,9 @@ static test_fixture_t * set_up()
     data_err = data_relationship_init( &second_relation,
                                        35, /* relationship_id */
                                        13, /* from_classifier_id */
-                                       DATA_ROW_ID_VOID, /* from_feature_id */
+                                       DATA_ROW_VOID, /* from_feature_id */
                                        13, /* to_classifier_id */
-                                       DATA_ROW_ID_VOID, /* to_feature_id */
+                                       DATA_ROW_VOID, /* to_feature_id */
                                        DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, /* relationship_main_type */
                                        "st_t",  /* stereotype */
                                        "the composition is more", /* relationship_name */

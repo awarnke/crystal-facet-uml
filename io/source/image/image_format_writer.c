@@ -62,7 +62,7 @@ u8_error_t image_format_writer_render_diagram_to_file( image_format_writer_t *th
     assert( NULL != io_render_stat );
     assert( IO_FILE_FORMAT_TXT != export_type );
     assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
-    const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
+    const data_row_t diagram_row_id = data_id_get_row_id( &diagram_id );
     u8_error_t result = U8_ERROR_NONE;
 
     data_visible_set_init( (*this_).input_data );

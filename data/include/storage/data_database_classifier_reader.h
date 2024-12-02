@@ -22,7 +22,7 @@
 #include "set/data_small_set.h"
 #include "entity/data_feature.h"
 #include "entity/data_relationship.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -94,7 +94,7 @@ u8_error_t data_database_classifier_reader_destroy ( data_database_classifier_re
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_classifier_by_id ( data_database_classifier_reader_t *this_,
-                                                                  data_row_id_t id,
+                                                                  data_row_t id,
                                                                   data_classifier_t *out_classifier
                                                                 );
 
@@ -155,7 +155,7 @@ u8_error_t data_database_classifier_reader_get_all_classifiers ( data_database_c
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_feature_by_id ( data_database_classifier_reader_t *this_,
-                                                               data_row_id_t id,
+                                                               data_row_t id,
                                                                data_feature_t *out_feature
                                                              );
 
@@ -183,7 +183,7 @@ u8_error_t data_database_classifier_reader_get_feature_by_uuid ( data_database_c
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                           data_row_id_t classifier_id,
+                                                                           data_row_t classifier_id,
                                                                            data_feature_iterator_t *io_feature_iterator
                                                                          );
 
@@ -200,7 +200,7 @@ u8_error_t data_database_classifier_reader_get_features_by_classifier_id ( data_
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                        data_row_id_t diagram_id,
+                                                                        data_row_t diagram_id,
                                                                         data_feature_iterator_t *io_feature_iterator
                                                                       );
 
@@ -216,7 +216,7 @@ u8_error_t data_database_classifier_reader_get_features_by_diagram_id ( data_dat
  *          E.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationship_by_id ( data_database_classifier_reader_t *this_,
-                                                                    data_row_id_t id,
+                                                                    data_row_t id,
                                                                     data_relationship_t *out_relationship
                                                                   );
 
@@ -247,7 +247,7 @@ u8_error_t data_database_classifier_reader_get_relationship_by_uuid ( data_datab
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( data_database_classifier_reader_t *this_,
-                                                                                data_row_id_t classifier_id,
+                                                                                data_row_t classifier_id,
                                                                                 data_relationship_iterator_t *io_relationship_iterator
                                                                               );
 
@@ -257,14 +257,14 @@ u8_error_t data_database_classifier_reader_get_relationships_by_classifier_id ( 
  *  This includes relationships where the feature is source-only, destination-only or both.
  *
  *  \param this_ pointer to own object attributes
- *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_ID_VOID.
+ *  \param feature_id id of the source(from) or destination(to) feature; must not be DATA_ROW_VOID.
  *  \param[in,out] io_relationship_iterator iterator over relationships of selected feature. The caller is responsible
  *                                          for initializing before and destroying this object afterwards.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( data_database_classifier_reader_t *this_,
-                                                                             data_row_id_t feature_id,
+                                                                             data_row_t feature_id,
                                                                              data_relationship_iterator_t *io_relationship_iterator
                                                                            );
 
@@ -281,7 +281,7 @@ u8_error_t data_database_classifier_reader_get_relationships_by_feature_id ( dat
  *          U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_classifier_reader_get_relationships_by_diagram_id ( data_database_classifier_reader_t *this_,
-                                                                             data_row_id_t diagram_id,
+                                                                             data_row_t diagram_id,
                                                                              data_relationship_iterator_t *io_relationship_iterator
                                                                            );
 
@@ -310,12 +310,12 @@ u8_error_t data_database_classifier_reader_private_close ( data_database_classif
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \param id integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id integer to bind to the prepared statement. DATA_ROW_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline u8_error_t data_database_classifier_reader_private_bind_id_to_statement ( data_database_classifier_reader_t *this_,
                                                                                         sqlite3_stmt *statement_ptr,
-                                                                                        data_row_id_t id
+                                                                                        data_row_t id
                                                                                       );
 
 /*!
@@ -325,14 +325,14 @@ static inline u8_error_t data_database_classifier_reader_private_bind_id_to_stat
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \param id1 first integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
- *  \param id2 second integer to bind to the prepared statement. DATA_ROW_ID_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id1 first integer to bind to the prepared statement. DATA_ROW_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id2 second integer to bind to the prepared statement. DATA_ROW_VOID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline u8_error_t data_database_classifier_reader_private_bind_two_ids_to_statement ( data_database_classifier_reader_t *this_,
                                                                                              sqlite3_stmt *statement_ptr,
-                                                                                             data_row_id_t id1,
-                                                                                             data_row_id_t id2
+                                                                                             data_row_t id1,
+                                                                                             data_row_t id2
                                                                                            );
 
 /*!

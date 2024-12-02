@@ -13,7 +13,7 @@
 
 #include "entity/data_table.h"
 #include "entity/data_id.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "u8/u8_error.h"
 #include <stdint.h>
 #include <stdbool.h>
@@ -87,7 +87,7 @@ static inline bool data_small_set_contains ( const data_small_set_t *this_, data
  *  \param table table-id to be seached
  *  \param row_id row-id to be seached
  */
-static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, data_row_id_t row_id );
+static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, data_row_t row_id );
 
 /*!
  *  \brief adds a obj_id to data_small_set_t
@@ -108,7 +108,7 @@ static inline u8_error_t data_small_set_add_obj ( data_small_set_t *this_, data_
  *  \return U8_ERROR_DUPLICATE_ID if id is already contained, U8_ERROR_ARRAY_BUFFER_EXCEEDED if DATA_SMALL_SET_MAX_SET_SIZE exceeded,
  *          U8_ERROR_INVALID_REQUEST if object id is invalid, U8_ERROR_NONE else.
  */
-static inline u8_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_id_t row_id );
+static inline u8_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_t row_id );
 
 /*!
  *  \brief deletes an obj_id from data_small_set_t

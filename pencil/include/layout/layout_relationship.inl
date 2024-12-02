@@ -39,15 +39,15 @@ static inline bool layout_relationship_is_valid ( const layout_relationship_t *t
     }
     else
     {
-        const data_row_id_t from_classifier_id = data_relationship_get_from_classifier_row_id( (*this_).data );
-        const data_row_id_t to_classifier_id = data_relationship_get_to_classifier_row_id( (*this_).data );
-        const data_row_id_t from_feature_id = data_relationship_get_from_feature_row_id( (*this_).data );
-        const data_row_id_t to_feature_id = data_relationship_get_to_feature_row_id( (*this_).data );
+        const data_row_t from_classifier_id = data_relationship_get_from_classifier_row_id( (*this_).data );
+        const data_row_t to_classifier_id = data_relationship_get_to_classifier_row_id( (*this_).data );
+        const data_row_t from_feature_id = data_relationship_get_from_feature_row_id( (*this_).data );
+        const data_row_t to_feature_id = data_relationship_get_to_feature_row_id( (*this_).data );
         const bool from_feature_ok = ( NULL == (*this_).from_feature )
-            ? ( from_feature_id == DATA_ROW_ID_VOID )
+            ? ( from_feature_id == DATA_ROW_VOID )
             : ( from_feature_id == layout_feature_get_feature_id( (*this_).from_feature ) );
         const bool to_feature_ok = ( NULL == (*this_).to_feature )
-            ? ( to_feature_id == DATA_ROW_ID_VOID )
+            ? ( to_feature_id == DATA_ROW_VOID )
             : ( to_feature_id == layout_feature_get_feature_id( (*this_).to_feature ) );
         result = data_relationship_is_valid( (*this_).data )
             && layout_visible_classifier_is_valid( (*this_).from_classifier )
@@ -122,7 +122,7 @@ static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( const l
     return (*this_).to_feature;
 }
 
-static inline data_row_id_t layout_relationship_get_relationship_id ( const layout_relationship_t *this_ )
+static inline data_row_t layout_relationship_get_relationship_id ( const layout_relationship_t *this_ )
 {
     return data_relationship_get_row_id( (*this_).data );
 }

@@ -209,7 +209,7 @@ static inline const data_diagramelement_t *layout_visible_classifier_get_diagram
  *  \param this_ pointer to own object attributes
  *  \return id of the classifier
  */
-static inline data_row_id_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ );
+static inline data_row_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief gets the row id of the diagramelement
@@ -219,7 +219,7 @@ static inline data_row_id_t layout_visible_classifier_get_classifier_id ( const 
  *  \param this_ pointer to own object attributes
  *  \return id of the diagramelement
  */
-static inline data_row_id_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ );
+static inline data_row_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief checks if the ids of the associated diagramelements are identical

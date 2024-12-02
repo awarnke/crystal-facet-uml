@@ -55,7 +55,7 @@ static test_case_result_t test_init_get( test_fixture_t *test_env )
 
     data_id_init_void( &testee );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &testee ) );
 
     data_id_reinit( &testee, DATA_TABLE_DIAGRAMELEMENT, 15 );
@@ -71,12 +71,12 @@ static test_case_result_t test_init_get( test_fixture_t *test_env )
 
     data_id_reinit_void( &testee2 );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee2 ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee2 ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee2 ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &testee2 ) );
 
     data_id_replace( &testee, &testee2 );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_is_valid( &testee ) );
 
     data_id_destroy( &testee );
@@ -120,8 +120,8 @@ static test_case_result_t test_equals( test_fixture_t *test_env )
 
     TEST_EXPECT_EQUAL_INT( false, data_id_equals_id( &testee1, DATA_TABLE_DIAGRAM, 666 ) );
     TEST_EXPECT_EQUAL_INT( false, data_id_equals_id( &testee1, DATA_TABLE_DIAGRAMELEMENT, 123 ) );
-    TEST_EXPECT_EQUAL_INT( false, data_id_equals_id( &testee1, DATA_TABLE_VOID, DATA_ROW_ID_VOID ) );
-    TEST_EXPECT_EQUAL_INT( false, data_id_equals_id( &testee5, DATA_TABLE_VOID, DATA_ROW_ID_VOID ) );
+    TEST_EXPECT_EQUAL_INT( false, data_id_equals_id( &testee1, DATA_TABLE_VOID, DATA_ROW_VOID ) );
+    TEST_EXPECT_EQUAL_INT( false, data_id_equals_id( &testee5, DATA_TABLE_VOID, DATA_ROW_VOID ) );
 
     data_id_destroy( &testee1 );
     data_id_destroy( &testee2 );
@@ -148,7 +148,7 @@ static test_case_result_t test_from_string_ok( test_fixture_t *test_env )
 
     data_id_init_by_string( &testee, "D-001" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     data_id_destroy( &testee );
 
     utf8stringview_t remainder;
@@ -179,39 +179,39 @@ static test_case_result_t test_from_string_err( test_fixture_t *test_env )
 
     data_id_init_by_string( &testee, "" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D123456789012345678901234567890" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D-1 123" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "D0012 next" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     data_id_destroy( &testee );
 
     data_id_init_by_string( &testee, "A0012" );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     data_id_destroy( &testee );
 
     utf8stringview_t remainder;
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_EMPTY, &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, "" ) );
     data_id_destroy( &testee );
 
     data_id_init_by_stringview( &testee, &UTF8STRINGVIEW_STR( "D" ), &remainder );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_VOID, data_id_get_table( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_id_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_id_get_row_id( &testee ) );
     TEST_EXPECT_EQUAL_INT( true, utf8stringview_equals_str( &remainder, "D" ) );
     data_id_destroy( &testee );
 
@@ -238,7 +238,7 @@ static test_case_result_t test_to_string( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
     TEST_EXPECT_EQUAL_INT( true, utf8stringbuf_equals_str( strbuf, "F0123" ) );
 
-    data_id_reinit( &testee, DATA_TABLE_RELATIONSHIP, DATA_ROW_ID_VOID );
+    data_id_reinit( &testee, DATA_TABLE_RELATIONSHIP, DATA_ROW_VOID );
     utf8stringbuf_clear( strbuf );
     err = data_id_to_utf8stringbuf( &testee, strbuf );
     TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err );
@@ -292,7 +292,7 @@ static test_case_result_t test_to_stream( test_fixture_t *test_env )
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, err );
     TEST_EXPECT_EQUAL_INT( true, utf8string_equals_str( utf8stream_writemem_get_string( &stream ), "F0123" ) );
 
-    data_id_reinit( &testee, DATA_TABLE_RELATIONSHIP, DATA_ROW_ID_VOID );
+    data_id_reinit( &testee, DATA_TABLE_RELATIONSHIP, DATA_ROW_VOID );
     u8err = utf8stream_writemem_reset( &stream );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8err );
     err = data_id_to_utf8_writer( &testee, utf8stream_writemem_get_writer( &stream ) );

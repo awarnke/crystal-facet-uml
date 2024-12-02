@@ -68,35 +68,35 @@ static test_case_result_t no_hidden_relationships( test_fixture_t *fix )
     test_env_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_ID_VOID, "root diag" );
-    const data_row_id_t local_diagram = test_env_setup_data_create_diagram( &test_environ, root_diagram, "local diag" );
+    const data_row_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
+    const data_row_t local_diagram = test_env_setup_data_create_diagram( &test_environ, root_diagram, "local diag" );
 
     /* create 3 classifiers */
-    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
-    const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( &test_environ, "omni classifier" );
-    const data_row_id_t local_classifier = test_env_setup_data_create_classifier( &test_environ, "local classifier" );
+    const data_row_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
+    const data_row_t omni_classifier = test_env_setup_data_create_classifier( &test_environ, "omni classifier" );
+    const data_row_t local_classifier = test_env_setup_data_create_classifier( &test_environ, "local classifier" );
 
     /* create 5 diagramelements */
-    const data_row_id_t test_local_diagele
-        = test_env_setup_data_create_diagramelement( &test_environ, local_diagram, test_classifier, DATA_ROW_ID_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_ID_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, local_diagram, omni_classifier, DATA_ROW_ID_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_ID_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, local_diagram, local_classifier, DATA_ROW_ID_VOID );
+    const data_row_t test_local_diagele
+        = test_env_setup_data_create_diagramelement( &test_environ, local_diagram, test_classifier, DATA_ROW_VOID );
+    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
+    test_env_setup_data_create_diagramelement( &test_environ, local_diagram, omni_classifier, DATA_ROW_VOID );
+    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
+    test_env_setup_data_create_diagramelement( &test_environ, local_diagram, local_classifier, DATA_ROW_VOID );
 
     /* create 1 feature */
-    const data_row_id_t test_feature = test_env_setup_data_create_feature( &test_environ, test_classifier, "test feature" );
+    const data_row_t test_feature = test_env_setup_data_create_feature( &test_environ, test_classifier, "test feature" );
 
     /* create 2 relationships */
-    const data_row_id_t double_rel
+    const data_row_t double_rel
         = test_env_setup_data_create_relationship( &test_environ,
                                                    test_classifier, test_feature,
-                                                   omni_classifier, DATA_ROW_ID_VOID,
+                                                   omni_classifier, DATA_ROW_VOID,
                                                    "double relation" );
-    const data_row_id_t local_rel
+    const data_row_t local_rel
         = test_env_setup_data_create_relationship( &test_environ,
                                                    test_classifier, test_feature,
-                                                   local_classifier, DATA_ROW_ID_VOID,
+                                                   local_classifier, DATA_ROW_VOID,
                                                    "local relation" );
     test_env_setup_destroy( &test_environ );
 

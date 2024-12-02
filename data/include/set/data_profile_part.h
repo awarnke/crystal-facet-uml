@@ -15,7 +15,7 @@
 #include "entity/data_relationship.h"
 #include "entity/data_feature.h"
 #include "entity/data_id.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "utf8stringbuf/utf8stringview.h"
 #include <cairo.h>
 #include <stdint.h>

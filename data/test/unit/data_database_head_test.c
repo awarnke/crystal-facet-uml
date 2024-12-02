@@ -67,7 +67,7 @@ static test_case_result_t test_create_head( test_fixture_t *fix )
     /* create/insert success */
     data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    data_row_id_t new_id = DATA_ROW_ID_VOID;
+    data_row_t new_id = DATA_ROW_VOID;
     data_err = data_database_head_create_value( &test_me, &value, &new_id );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
@@ -82,7 +82,7 @@ static test_case_result_t test_create_head( test_fixture_t *fix )
     /* create/insert error */
     data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    new_id = DATA_ROW_ID_VOID;
+    new_id = DATA_ROW_VOID;
     data_err = data_database_head_create_value( &test_me, &value, &new_id );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_DUPLICATE, data_err );
 
@@ -107,7 +107,7 @@ static test_case_result_t test_read_head( test_fixture_t *fix )
     /* create/insert success */
     data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    data_row_id_t new_id = DATA_ROW_ID_VOID;
+    data_row_t new_id = DATA_ROW_VOID;
     data_err = data_database_head_create_value( &test_me, &value, &new_id );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
@@ -144,7 +144,7 @@ static test_case_result_t test_update_head( test_fixture_t *fix )
     /* create/insert success */
     data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    data_row_id_t new_id = DATA_ROW_ID_VOID;
+    data_row_t new_id = DATA_ROW_VOID;
     data_err = data_database_head_create_value( &test_me, &value, &new_id );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
@@ -185,7 +185,7 @@ static test_case_result_t test_delete_head( test_fixture_t *fix )
     /* create/insert success */
     data_err = data_head_init_new( &value, TEST_KEY, TEST_VAL );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
-    data_row_id_t new_id = DATA_ROW_ID_VOID;
+    data_row_t new_id = DATA_ROW_VOID;
     data_err = data_database_head_create_value( &test_me, &value, &new_id );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 

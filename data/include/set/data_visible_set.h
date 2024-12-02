@@ -15,7 +15,7 @@
 #include "entity/data_relationship.h"
 #include "entity/data_feature.h"
 #include "entity/data_id.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <cairo.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -80,7 +80,7 @@ void data_visible_set_destroy( data_visible_set_t *this_ );
  *  \return U8_ERROR_NONE in case of success, in case of error 
  *          e.g. U8_ERROR_DB_STRUCTURE if id does not exist or U8_ERROR_NO_DB if the database is not open.
  */
-u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader );
+u8_error_t data_visible_set_load( data_visible_set_t *this_, data_row_t diagram_id, data_database_reader_t *db_reader );
 
 /* ================================ diagram ================================ */
 
@@ -143,7 +143,7 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
  *  \param diagramelement_id id of the diagramelement for which to retrieve the visible classifier
  *  \return NULL if id not existant; pointer to data_visible_classifier_t otherwise.
  */
-static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_const ( const data_visible_set_t *this_, data_row_id_t diagramelement_id );
+static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_const ( const data_visible_set_t *this_, data_row_t diagramelement_id );
 
 /*!
  *  \brief gets a visible classifier within the painter input data
@@ -152,7 +152,7 @@ static inline const data_visible_classifier_t *data_visible_set_get_visible_clas
  *  \param diagramelement_id id of the diagramelement for which to retrieve the visible classifier
  *  \return NULL if id not existant; pointer to data_visible_classifier_t otherwise.
  */
-static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_id_t diagramelement_id );
+static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_t diagramelement_id );
 
 /*!
  *  \brief gets the classifier within the painter input data
@@ -161,7 +161,7 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
  *  \param row_id id of the classifier to retrieve
  *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
  */
-static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, data_row_id_t row_id );
+static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, data_row_t row_id );
 
 /*!
  *  \brief gets the classifier within the painter input data
@@ -170,7 +170,7 @@ static inline const data_classifier_t *data_visible_set_get_classifier_by_id_con
  *  \param row_id id of the classifier to retrieve
  *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
  */
-static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_id_t row_id );
+static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id );
 
 /*!
  *  \brief gets the classifier index within the painter input data
@@ -181,7 +181,7 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
  *  \param row_id id of the classifier to retrieve
  *  \return -1 if row_id not in cache; index of data_classifier_t otherwise.
  */
-static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, data_row_id_t row_id );
+static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, data_row_t row_id );
 
 /*!
  *  \brief gets the classifier index within the painter input data from a pointer
@@ -238,7 +238,7 @@ static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_se
  *  \param row_id id of the feature to retrieve
  *  \return NULL if row_id not in cache; pointer to data_feature_t otherwise.
  */
-static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, data_row_id_t row_id );
+static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, data_row_t row_id );
 
 /*!
  *  \brief gets a feature within the painter input data
@@ -247,7 +247,7 @@ static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( c
  *  \param row_id id of the feature to retrieve
  *  \return NULL if row_id not in cache; pointer to data_feature_t otherwise.
  */
-static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, data_row_id_t row_id );
+static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id );
 
 /*!
  *  \brief gets the list of features within the painter input data
@@ -300,7 +300,7 @@ static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_
  *  \param row_id id of the relationship to retrieve
  *  \return NULL if row_id not in cache; pointer to data_relationship_t otherwise.
  */
-static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, data_row_id_t row_id );
+static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, data_row_t row_id );
 
 /*!
  *  \brief gets a relationship within the painter input data
@@ -309,7 +309,7 @@ static inline const data_relationship_t *data_visible_set_get_relationship_by_id
  *  \param row_id id of the relationship to retrieve
  *  \return NULL if row_id not in cache; pointer to data_relationship_t otherwise.
  */
-static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, data_row_id_t row_id );
+static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id );
 
 /*!
  *  \brief determines if ancestor is an ancestor of descendant

@@ -136,7 +136,7 @@ u8_error_t data_classifier_iterator_next ( data_classifier_iterator_t *this_, da
     if ( ! (*this_).is_at_end )
     {
         sqlite3_stmt *const sql_statement = data_database_borrowed_stmt_get_statement( &((*this_).statement) );
-        data_row_id_t classifier_id = sqlite3_column_int64( sql_statement, RESULT_CLASSIFIER_ID_COLUMN );
+        data_row_t classifier_id = sqlite3_column_int64( sql_statement, RESULT_CLASSIFIER_ID_COLUMN );
         result |= data_classifier_reinit( out_classifier,
                                           classifier_id,
                                           sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),

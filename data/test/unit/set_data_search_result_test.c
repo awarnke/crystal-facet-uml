@@ -42,10 +42,10 @@ static test_case_result_t test_data_search_result_classifier( test_fixture_t *te
     data_search_result_t search_result;
 
     data_search_result_init_classifier( &search_result, 
-                                        (data_row_id_t) 130,  /* match_id */
+                                        (data_row_t) 130,  /* match_id */
                                         DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE,
                                         "Power on   234567890 234567890 234567890 234567890",
-                                        (data_row_id_t) 7  /* diagram_id */
+                                        (data_row_t) 7  /* diagram_id */
                                       );
     data_id_t match_id = data_search_result_get_match_id( &search_result );
     TEST_EXPECT_EQUAL_INT( DATA_TABLE_CLASSIFIER, data_id_get_table( &match_id ) );
@@ -77,11 +77,11 @@ static test_case_result_t test_data_search_result_feature( test_fixture_t *test_
     data_search_result_t search_result;
 
     data_search_result_init_feature( &search_result, 
-                                     (data_row_id_t) 230,  /* match_id */
+                                     (data_row_t) 230,  /* match_id */
                                      DATA_FEATURE_TYPE_IN_PORT_PIN,
                                      "DATA_SEARCH_RESULT_MAX_NAME_SIZE 4567890 234567890",
-                                     (data_row_id_t) 130,  /* classifier_id */
-                                     (data_row_id_t) 7  /* diagram_id */
+                                     (data_row_t) 130,  /* classifier_id */
+                                     (data_row_t) 7  /* diagram_id */
                                    );
 
     data_id_t * match_id = data_search_result_get_match_id_ptr( &search_result );
@@ -112,12 +112,12 @@ static test_case_result_t test_data_search_result_relationship( test_fixture_t *
     data_search_result_t search_result;
 
     data_search_result_init_relationship( &search_result, 
-                                          (data_row_id_t) 444,  /* match_id */
+                                          (data_row_t) 444,  /* match_id */
                                           DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
                                           "aggregates self as part        234567890 234567890",
-                                          (data_row_id_t) 100,  /* from_classifier_id */
-                                          (data_row_id_t) 101,  /* to_classifier_id */
-                                          (data_row_id_t) 4  /* diagram_id */
+                                          (data_row_t) 100,  /* from_classifier_id */
+                                          (data_row_t) 101,  /* to_classifier_id */
+                                          (data_row_t) 4  /* diagram_id */
                                         );
 
     const data_id_t *const match_id = data_search_result_get_match_id_const( &search_result );
@@ -148,7 +148,7 @@ static test_case_result_t test_data_search_result_diagram( test_fixture_t *test_
     data_search_result_t search_result;
 
     data_search_result_init_diagram( &search_result, 
-                                     (data_row_id_t) 31,  /* match_id */
+                                     (data_row_t) 31,  /* match_id */
                                      DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM,
                                      "power off condition  234567890 234567890 234567890"
                                    );

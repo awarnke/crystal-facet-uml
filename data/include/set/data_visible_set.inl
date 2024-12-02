@@ -65,7 +65,7 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
     return result;
 }
 
-static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_const ( const data_visible_set_t *this_, data_row_id_t diagramelement_id )
+static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_const ( const data_visible_set_t *this_, data_row_t diagramelement_id )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     const data_visible_classifier_t *result = NULL;
@@ -89,7 +89,7 @@ static inline const data_visible_classifier_t *data_visible_set_get_visible_clas
     return result;
 }
 
-static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_id_t diagramelement_id )
+static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_t diagramelement_id )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     data_visible_classifier_t *result = NULL;
@@ -113,7 +113,7 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
     return result;
 }
 
-static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, data_row_id_t row_id )
+static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, data_row_t row_id )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     const data_classifier_t *result = NULL;
@@ -136,7 +136,7 @@ static inline const data_classifier_t *data_visible_set_get_classifier_by_id_con
     return result;
 }
 
-static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_id_t row_id )
+static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     data_classifier_t *result = NULL;
@@ -159,7 +159,7 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
     return result;
 }
 
-static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, data_row_id_t row_id )
+static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, data_row_t row_id )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     int32_t result = -1;
@@ -251,7 +251,7 @@ static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_se
     return result;
 }
 
-static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, data_row_id_t row_id )
+static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, data_row_t row_id )
 {
     assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
     const data_feature_t *result = NULL;
@@ -270,7 +270,7 @@ static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( c
     return result;
 }
 
-static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, data_row_id_t row_id )
+static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id )
 {
     assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
     data_feature_t *result = NULL;
@@ -358,7 +358,7 @@ static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_
     return result;
 }
 
-static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, data_row_id_t row_id )
+static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, data_row_t row_id )
 {
     assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
     const data_relationship_t *result = NULL;
@@ -377,7 +377,7 @@ static inline const data_relationship_t *data_visible_set_get_relationship_by_id
     return result;
 }
 
-static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, data_row_id_t row_id )
+static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, data_row_t row_id )
 {
     assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
     data_relationship_t *result = NULL;

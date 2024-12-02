@@ -255,7 +255,7 @@ u8_error_t io_export_interaction_traversal_private_look_for_focused_feature ( io
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_FEATURE == data_id_get_table( &focused_feature_id ) );
-    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &focused_feature_id) );
+    assert( DATA_ROW_VOID != data_id_get_row_id( &focused_feature_id) );
     assert( fake_interaction != NULL );
     u8_error_t write_err = U8_ERROR_NONE;
 
@@ -321,7 +321,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_feature_relationships
     assert( diagram_data != NULL );
     assert( data_visible_set_is_valid( diagram_data ) );
     assert( DATA_TABLE_CLASSIFIER == data_id_get_table( &from_classifier_id ) );
-    assert( DATA_ROW_ID_VOID != data_id_get_row_id( &from_classifier_id) );
+    assert( DATA_ROW_VOID != data_id_get_row_id( &from_classifier_id) );
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* iterate over all relationships */
@@ -440,7 +440,7 @@ u8_error_t io_export_interaction_traversal_private_iterate_node_features( io_exp
     u8_error_t write_err = U8_ERROR_NONE;
 
     /* get parent classifier if */
-    const data_row_id_t classifier_id = data_classifier_get_row_id( parent_classifier );
+    const data_row_t classifier_id = data_classifier_get_row_id( parent_classifier );
 
     /* iterate over all features */
     const uint32_t count = data_visible_set_get_feature_count ( diagram_data );

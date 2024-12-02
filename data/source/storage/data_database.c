@@ -396,9 +396,9 @@ u8_error_t data_database_private_open ( data_database_t *this_, const char* db_f
         data_change_notifier_emit_signal( &((*this_).notifier),
                                           DATA_CHANGE_EVENT_TYPE_DB_OPENED,
                                           DATA_TABLE_VOID,
-                                          DATA_ROW_ID_VOID,
+                                          DATA_ROW_VOID,
                                           DATA_TABLE_VOID,
-                                          DATA_ROW_ID_VOID
+                                          DATA_ROW_VOID
                                         );
     }
 
@@ -425,9 +425,9 @@ u8_error_t data_database_close ( data_database_t *this_ )
         data_change_notifier_emit_signal( &((*this_).notifier),
                                           DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE,
                                           DATA_TABLE_VOID,
-                                          DATA_ROW_ID_VOID,
+                                          DATA_ROW_VOID,
                                           DATA_TABLE_VOID,
-                                          DATA_ROW_ID_VOID
+                                          DATA_ROW_VOID
                                         );
 
         /* inform readers and writers on close */
@@ -467,9 +467,9 @@ u8_error_t data_database_close ( data_database_t *this_ )
         data_change_notifier_emit_signal( &((*this_).notifier),
                                           DATA_CHANGE_EVENT_TYPE_DB_CLOSED,
                                           DATA_TABLE_VOID,
-                                          DATA_ROW_ID_VOID,
+                                          DATA_ROW_VOID,
                                           DATA_TABLE_VOID,
-                                          DATA_ROW_ID_VOID
+                                          DATA_ROW_VOID
         );
     }
 
@@ -708,7 +708,7 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ )
     return result;
 }
 
-u8_error_t data_database_in_transaction_create ( data_database_t *this_, const char* sql_statement, data_row_id_t* out_new_id )
+u8_error_t data_database_in_transaction_create ( data_database_t *this_, const char* sql_statement, data_row_t* out_new_id )
 {
     U8_TRACE_BEGIN();
     assert( NULL != sql_statement );
@@ -747,7 +747,7 @@ u8_error_t data_database_in_transaction_create ( data_database_t *this_, const c
         {
             if ( SQLITE_OK == sqlite_err )
             {
-                data_row_id_t new_id;
+                data_row_t new_id;
                 new_id = sqlite3_last_insert_rowid(db);
                 U8_LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
                 *out_new_id = new_id;

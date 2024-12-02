@@ -10,7 +10,7 @@
  */
 
 #include "entity/data_table.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include "utf8stringbuf/utf8error.h"
 #include "utf8stream/utf8stream_writer.h"
@@ -31,12 +31,12 @@ enum data_id_max_enum {
  */
 struct data_id_struct {
     data_table_t table;
-    data_row_id_t row_id;
+    data_row_t row_id;
 };
 
 typedef struct data_id_struct data_id_t;
 
-#define DATA_ID_VOID ((data_id_t){.table=DATA_TABLE_VOID,.row_id=DATA_ROW_ID_VOID})
+#define DATA_ID_VOID ((data_id_t){.table=DATA_TABLE_VOID,.row_id=DATA_ROW_VOID})
 #define DATA_ID(tab,row) ((data_id_t){.table=tab,.row_id=row})
 
 /*!
@@ -46,7 +46,7 @@ typedef struct data_id_struct data_id_t;
  *  \param table table id of the referenced object
  *  \param row_id row id of the referenced object
  */
-static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_id_t row_id );
+static inline void data_id_init ( data_id_t *this_, data_table_t table, data_row_t row_id );
 
 /*!
  *  \brief initializes the data_id_t struct
@@ -79,7 +79,7 @@ static inline void data_id_init_by_stringview ( data_id_t *this_,
  *  \param table table id of the referenced object
  *  \param row_id row id of the referenced object
  */
-static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_row_id_t row_id );
+static inline void data_id_reinit ( data_id_t *this_, data_table_t table, data_row_t row_id );
 
 /*!
  *  \brief initializes the data_id_t struct to void
@@ -130,7 +130,7 @@ static inline data_table_t data_id_get_table ( const data_id_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_row_id_t data_id_get_row_id ( const data_id_t *this_ );
+static inline data_row_t data_id_get_row_id ( const data_id_t *this_ );
 
 /*!
  *  \brief prints the data_id_t struct to the trace output
@@ -173,7 +173,7 @@ static inline bool data_id_is_valid ( const data_id_t *this_ );
  *  \param row_id row_id of other object
  *  \return true if both object-ids are valid and equal; false if at least one is void or they are unequal.
  */
-static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_id_t row_id );
+static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, data_row_t row_id );
 
 /*!
  *  \brief prints a textual representation of this id to an utf8stringbuf

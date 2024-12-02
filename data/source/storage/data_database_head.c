@@ -91,7 +91,7 @@ static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_ID_PREFIX =
  */
 static const char *const DATA_DATABASE_HEAD_SELECT_HEAD_BY_ID_POSTFIX = ";";
 
-u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, data_row_id_t obj_id, data_head_t *out_head )
+u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_, data_row_t obj_id, data_head_t *out_head )
 {
     U8_TRACE_BEGIN();
     assert( out_head != NULL );
@@ -244,7 +244,7 @@ static const char *const DATA_DATABASE_HEAD_INSERT_HEAD_PREFIX =
  */
 static const char *const DATA_DATABASE_HEAD_INSERT_HEAD_POSTFIX = ");";
 
-u8_error_t data_database_head_create_value ( data_database_head_t *this_, const data_head_t *head, data_row_id_t* out_new_id )
+u8_error_t data_database_head_create_value ( data_database_head_t *this_, const data_head_t *head, data_row_t* out_new_id )
 {
     U8_TRACE_BEGIN();
     assert( head != NULL );
@@ -276,7 +276,7 @@ u8_error_t data_database_head_create_value ( data_database_head_t *this_, const 
     if ( result == U8_ERROR_NONE )
     {
         const char *const sql_cmd = &((*this_).private_sql_buffer[0]);
-        data_row_id_t new_id = DATA_ROW_ID_VOID;
+        data_row_t new_id = DATA_ROW_VOID;
 
         result |= data_database_transaction_begin ( (*this_).database );
         result |= data_database_in_transaction_create( (*this_).database, sql_cmd, &new_id );
@@ -304,7 +304,7 @@ static const char *const ATA_DATABASE_HEAD_DELETE_HEAD_PREFIX =
  */
 static const char *const DATA_DATABASE_HEAD_DELETE_HEAD_POSTFIX = ");";
 
-u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_row_id_t obj_id, data_head_t *out_old_head )
+u8_error_t data_database_head_delete_value ( data_database_head_t *this_, data_row_t obj_id, data_head_t *out_old_head )
 {
     U8_TRACE_BEGIN();
     u8_error_t result = U8_ERROR_NONE;
@@ -356,7 +356,7 @@ static const char *DATA_DATABASE_HEAD_UPDATE_HEAD_INFIX = " WHERE id=";
  */
 static const char *DATA_DATABASE_HEAD_UPDATE_HEAD_POSTFIX = ";";
 
-u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_row_id_t head_id, const char* new_head_value, data_head_t *out_old_head )
+u8_error_t data_database_head_update_value ( data_database_head_t *this_, data_row_t head_id, const char* new_head_value, data_head_t *out_old_head )
 {
     U8_TRACE_BEGIN();
     assert( new_head_value != NULL );

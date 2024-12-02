@@ -12,7 +12,7 @@
 
 #include "entity/data_diagram_type.h"
 #include "entity/data_id.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "entity/data_diagram_flag.h"
 #include "entity/data_uuid.h"
 #include "u8/u8_error.h"
@@ -36,8 +36,8 @@ enum data_diagram_max_enum {
  *  \brief all data attributes needed for the diagram functions
  */
 struct data_diagram_struct {
-    data_row_id_t id;
-    data_row_id_t parent_id;
+    data_row_t id;
+    data_row_t parent_id;
     data_diagram_type_t diagram_type;
     utf8stringbuf_t stereotype;
     char private_stereotype_buffer[DATA_DIAGRAM_MAX_STEREOTYPE_SIZE];
@@ -53,7 +53,7 @@ struct data_diagram_struct {
 typedef struct data_diagram_struct data_diagram_t;
 
 /*!
- *  \brief initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID;
+ *  \brief initializes the data_diagram_t struct with id and parent_id DATA_ROW_VOID;
  *         a fresh uuid and all other values are zero.
  *
  *  \param this_ pointer to own object attributes
@@ -61,7 +61,7 @@ typedef struct data_diagram_struct data_diagram_t;
 static inline void data_diagram_init_empty ( data_diagram_t *this_ );
 
 /*!
- *  \brief re-initializes the data_diagram_t struct with id and parent_id DATA_ROW_ID_VOID;
+ *  \brief re-initializes the data_diagram_t struct with id and parent_id DATA_ROW_VOID;
  *         a fresh uuid and all other values are zero.
  *
  *  \param this_ pointer to own object attributes
@@ -69,7 +69,7 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ );
 static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
 
 /*!
- *  \brief initializes the data_diagram_t struct with id DATA_ROW_ID_VOID and a fresh uuid
+ *  \brief initializes the data_diagram_t struct with id DATA_ROW_VOID and a fresh uuid
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram
@@ -83,7 +83,7 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
  *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
-                                                 data_row_id_t parent_diagram_id,
+                                                 data_row_t parent_diagram_id,
                                                  data_diagram_type_t diagram_type,
                                                  const char* stereotype,
                                                  const char* name,
@@ -109,8 +109,8 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
  *          U8_ERROR_VALUE_OUT_OF_RANGE if uuid malformed, U8_ERROR_NONE otherwise.
  */
 static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
-                                             data_row_id_t diagram_id,
-                                             data_row_id_t parent_diagram_id,
+                                             data_row_t diagram_id,
+                                             data_row_t parent_diagram_id,
                                              data_diagram_type_t diagram_type,
                                              const char* stereotype,
                                              const char* name,
@@ -156,7 +156,7 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_diagram_get_row_id ( const data_diagram_t *this_ );
+static inline data_row_t data_diagram_get_row_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -164,7 +164,7 @@ static inline data_row_id_t data_diagram_get_row_id ( const data_diagram_t *this
  *  \param this_ pointer to own object attributes
  *  \param id new id of this object
  */
-static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_id_t id );
+static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_t id );
 
 /*!
  *  \brief gets the data_id derived from the id attribute
@@ -180,7 +180,7 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_row_id_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ );
+static inline data_row_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute parent_id
@@ -188,7 +188,7 @@ static inline data_row_id_t data_diagram_get_parent_row_id ( const data_diagram_
  *  \param this_ pointer to own object attributes
  *  \param parent_id new parent_id of this object
  */
-static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_id_t parent_id );
+static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_t parent_id );
 
 /*!
  *  \brief gets the data_id derived from the attribute parent_id
@@ -333,10 +333,10 @@ static inline const char *data_diagram_get_uuid_const ( const data_diagram_t *th
 static inline u8_error_t data_diagram_set_uuid ( data_diagram_t *this_, const char *uuid );
 
 /*!
- *  \brief checks if attribute id is not DATA_ROW_ID_VOID
+ *  \brief checks if attribute id is not DATA_ROW_VOID
  *
  *  \param this_ pointer to own object attributes
- *  \return true if the id of the diagram is not DATA_ROW_ID_VOID
+ *  \return true if the id of the diagram is not DATA_ROW_VOID
  */
 static inline bool data_diagram_is_valid ( const data_diagram_t *this_ );
 

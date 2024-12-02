@@ -67,29 +67,29 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
     assert( fix != NULL );
     u8_error_t ctrl_err;
     u8_error_t data_err;
-    data_row_id_t root_diagram_id;
-    data_row_id_t classifier_id;
-    data_row_id_t diagele_id;
+    data_row_t root_diagram_id;
+    data_row_t classifier_id;
+    data_row_t diagele_id;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &((*fix).controller) );
 
     /* create the root diagram */
-    root_diagram_id = DATA_ROW_ID_VOID;
+    root_diagram_id = DATA_ROW_VOID;
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists( diag_ctrl,
                                                                           DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
                                                                           "my_root_diag",
                                                                           &root_diagram_id
                                                                         );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-    TEST_EXPECT( DATA_ROW_ID_VOID != root_diagram_id );
+    TEST_EXPECT( DATA_ROW_VOID != root_diagram_id );
 
     /* create a classifier and a diagramelement */
-    classifier_id = DATA_ROW_ID_VOID;
+    classifier_id = DATA_ROW_VOID;
     data_classifier_t new_classifier;
     data_err = data_classifier_init( &new_classifier,
-                                     DATA_ROW_ID_VOID,  /* new classifier */
+                                     DATA_ROW_VOID,  /* new classifier */
                                      DATA_CLASSIFIER_TYPE_NODE,
                                      "",  /* stereotype */
                                      "my_node",
@@ -107,16 +107,16 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
                                                            );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     data_classifier_destroy ( &new_classifier );
-    TEST_EXPECT( DATA_ROW_ID_VOID != classifier_id );
+    TEST_EXPECT( DATA_ROW_VOID != classifier_id );
 
-    diagele_id = DATA_ROW_ID_VOID;
+    diagele_id = DATA_ROW_VOID;
     data_diagramelement_t new_diagele;
     data_err = data_diagramelement_init( &new_diagele,
-                                         DATA_ROW_ID_VOID,  /* new diagramelement */
+                                         DATA_ROW_VOID,  /* new diagramelement */
                                          root_diagram_id,
                                          classifier_id,
                                          DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                         DATA_ROW_ID_VOID,
+                                         DATA_ROW_VOID,
                                          "98e479f0-9112-483e-b64f-251d55a50c13"
                                        );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
@@ -127,7 +127,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
                                                             );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     data_diagramelement_destroy ( &new_diagele );
-    TEST_EXPECT( DATA_ROW_ID_VOID != diagele_id );
+    TEST_EXPECT( DATA_ROW_VOID != diagele_id );
 
     /* update the classifier */
     ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( classifier_ctrl, classifier_id, "my_stereo" );
@@ -207,7 +207,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
         data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), root_diagram_id, &read_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "my_root_diag", data_diagram_get_name_const( &read_diagram ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_const( &read_diagram ) ) );
@@ -272,7 +272,7 @@ static test_case_result_t undo_redo_classifier( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_INT( root_diagram_id, data_diagramelement_get_diagram_row_id( first_diagele ) );
         TEST_EXPECT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_row_id( first_diagele ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( first_diagele ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( first_diagele ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row_id( first_diagele ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "98e479f0-9112-483e-b64f-251d55a50c13", data_diagramelement_get_uuid_const( first_diagele ) ) );
 
         TEST_EXPECT_EQUAL_INT( false, data_visible_classifier_iterator_has_next( &visible_classifier_iterator ) );
@@ -286,8 +286,8 @@ static test_case_result_t undo_redo_list_limits( test_fixture_t *fix )
 {
     assert( fix != NULL );
     u8_error_t ctrl_err;
-    data_row_id_t root_diagram_id;
-    data_row_id_t child_diag_id;
+    data_row_t root_diagram_id;
+    data_row_t child_diag_id;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
 
@@ -477,7 +477,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* 1. create the feature in the db */
-    data_row_id_t new_feature_id;
+    data_row_t new_feature_id;
     ctrl_err = ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                            &step1,
                                                            CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
@@ -504,7 +504,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
     data_err = data_relationship_init( &step3b,
                                        34, /* relationship_id */
                                        86000, /* from_classifier_id */
-                                       DATA_ROW_ID_VOID, /* from_feature_id */
+                                       DATA_ROW_VOID, /* from_feature_id */
                                        86001, /* to_classifier_id */
                                        150160, /* to_feature_id */
                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
@@ -517,7 +517,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
 
     /* 3b. create the relationship in the db */
-    data_row_id_t new_relationship_id;
+    data_row_t new_relationship_id;
     ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
                                                                 &step3b,
                                                                 CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND,
@@ -598,7 +598,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "57d93512-91d6-41eb-860f-0408b79a9aaf", data_relationship_get_uuid_const( &check_r ) ) );
     }
@@ -783,7 +783,7 @@ static test_case_result_t undo_redo_feature_and_relationship( test_fixture_t *fi
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_const( &check_r ) ) );
         TEST_EXPECT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_relationship_get_from_feature_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 150160, data_relationship_get_to_feature_row_id( &check_r ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "57d93512-91d6-41eb-860f-0408b79a9aaf", data_relationship_get_uuid_const( &check_r ) ) );
     }
@@ -830,19 +830,19 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
 
     /* step 1: create a diagram */
-    data_row_id_t root_diagram_id;
-    root_diagram_id = DATA_ROW_ID_VOID;
+    data_row_t root_diagram_id;
+    root_diagram_id = DATA_ROW_VOID;
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
                                                                            DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM,
                                                                            "the_requirements",
                                                                            &root_diagram_id
                                                                          );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
-    TEST_EXPECT( DATA_ROW_ID_VOID != root_diagram_id );
+    TEST_EXPECT( DATA_ROW_VOID != root_diagram_id );
 
     /* step 2: create a diagramelement */
-    data_row_id_t diagele_id;
-    diagele_id = DATA_ROW_ID_VOID;
+    data_row_t diagele_id;
+    diagele_id = DATA_ROW_VOID;
     data_diagramelement_t new_diagele;
     data_diagramelement_init_new ( &new_diagele,
                                    root_diagram_id,
@@ -857,7 +857,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
                                                              );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     data_diagramelement_destroy ( &new_diagele );
-    TEST_EXPECT( DATA_ROW_ID_VOID != diagele_id );
+    TEST_EXPECT( DATA_ROW_VOID != diagele_id );
 
     /* step 3a: update the diagram name */
     ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl,
@@ -890,7 +890,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
     /* step 4b: update the diagramelement focused_feature_id */
     ctrl_err = ctrl_diagram_controller_update_diagramelement_focused_feature_id ( diag_ctrl,
                                                                                   diagele_id,
-                                                                                  DATA_ROW_ID_VOID,
+                                                                                  DATA_ROW_VOID,
                                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_APPEND
                                                                                 );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
@@ -934,7 +934,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
         data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), root_diagram_id, &read_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "the_requirements", data_diagram_get_name_const( &read_diagram ) ) );
     }
@@ -988,7 +988,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
         data_err = data_database_reader_get_diagram_by_id ( &((*fix).db_reader), root_diagram_id, &read_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( root_diagram_id, data_diagram_get_row_id( &read_diagram ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagram_get_parent_row_id( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_EXPECT_EQUAL_INT( 0, strcmp( "MY_NEW_NAME", data_diagram_get_name_const( &read_diagram ) ) );
     }
@@ -1000,7 +1000,7 @@ static test_case_result_t undo_redo_update_diagram( test_fixture_t *fix )
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, data_err );
         TEST_EXPECT_EQUAL_INT( diagele_id, data_diagramelement_get_row_id( &read_diagele ) );
         TEST_EXPECT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE, data_diagramelement_get_display_flags( &read_diagele ) );
-        TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_diagramelement_get_focused_feature_row_id( &read_diagele ) );
+        TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_diagramelement_get_focused_feature_row_id( &read_diagele ) );
     }
     return TEST_CASE_RESULT_OK;
 }

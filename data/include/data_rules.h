@@ -32,7 +32,7 @@
 #include "entity/data_feature_type.h"
 #include "entity/data_relationship_type.h"
 #include "entity/data_diagram_type.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <stdbool.h>
 
 /*!
@@ -73,7 +73,7 @@ static inline void data_rules_destroy ( data_rules_t *this_ );
  */
 bool data_rules_diagram_shows_feature ( const data_rules_t *this_,
                                         const data_visible_set_t *diagram_set,
-                                        data_row_id_t feature_id
+                                        data_row_t feature_id
                                       );
 
 /*!
@@ -90,7 +90,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_,
  */
 bool data_rules_diagram_shows_relationship ( const data_rules_t *this_,
                                              const data_visible_set_t *diagram_set,
-                                             data_row_id_t relationship_id
+                                             data_row_t relationship_id
                                            );
 
 /* ================================ DIAGRAM ================================ */

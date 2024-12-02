@@ -39,16 +39,16 @@ static void tear_down( test_fixture_t *test_env )
 {
 }
 
-static const data_row_id_t TEST_DIAG_ID=170;
-static const data_row_id_t TEST_CLASSIFIER_ID_OFFSET=1000;
-static const data_row_id_t TEST_DIAGELE_ID_OFFSET=2000;
-static const data_row_id_t TEST_FEATURE_ID_OFFSET=5000;
-static const data_row_id_t TEST_RELATION_ID_OFFSET=10000;
+static const data_row_t TEST_DIAG_ID=170;
+static const data_row_t TEST_CLASSIFIER_ID_OFFSET=1000;
+static const data_row_t TEST_DIAGELE_ID_OFFSET=2000;
+static const data_row_t TEST_FEATURE_ID_OFFSET=5000;
+static const data_row_t TEST_RELATION_ID_OFFSET=10000;
 static const unsigned int TEST_LIFELINE_COUNT=25;
 static const unsigned int TEST_LIFELINE_REFS=20;
 static const unsigned int TEST_CLASSIFIER_REF_MOD=32; /* only the first 32 classifiers are referenced, these multiple times */
-static const data_row_id_t TEST_CLASSIFIER_ID_GAP=9;  /* classifiers have consecutive IDs - except at this position */
-static const data_row_id_t TEST_FEATURE_ID_GAP=12;  /* features have consecutive IDs - except at this position */
+static const data_row_t TEST_CLASSIFIER_ID_GAP=9;  /* classifiers have consecutive IDs - except at this position */
+static const data_row_t TEST_FEATURE_ID_GAP=12;  /* features have consecutive IDs - except at this position */
 
 /* create
  *                                  1 data_diagram_t            with ID TEST_DIAG_ID
@@ -93,7 +93,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
         data_classifier_t *classifier = data_visible_classifier_get_classifier_ptr ( current );
         data_diagramelement_t *diagele = data_visible_classifier_get_diagramelement_ptr ( current );
 
-        data_row_id_t classifier_id = TEST_CLASSIFIER_ID_OFFSET + (vc_idx/2);
+        data_row_t classifier_id = TEST_CLASSIFIER_ID_OFFSET + (vc_idx/2);
         if ( (vc_idx/2) == TEST_CLASSIFIER_ID_GAP ) { classifier_id = classifier_id+1; }
         const bool with_feat = ( 0 == (classifier_id & 0x00000001) );
         data_err = data_classifier_init( classifier,
@@ -118,7 +118,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
                                              TEST_DIAG_ID,
                                              classifier_id,
                                              DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                                             with_lifeline ? (TEST_FEATURE_ID_OFFSET+vc_idx) : DATA_ROW_ID_VOID,  /* focused_feature_id */
+                                             with_lifeline ? (TEST_FEATURE_ID_OFFSET+vc_idx) : DATA_ROW_VOID,  /* focused_feature_id */
                                              "6bfe2cbc-498b-4f96-93dd-6293e8ffe443"
                                            );
         TEST_ENVIRONMENT_ASSERT( data_err == U8_ERROR_NONE );
@@ -135,7 +135,7 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
     {
         data_feature_t *current = &(test_input_data.features[f_idx]);
 
-        data_row_id_t feature_id = TEST_FEATURE_ID_OFFSET + f_idx;
+        data_row_t feature_id = TEST_FEATURE_ID_OFFSET + f_idx;
         if ( f_idx == TEST_FEATURE_ID_GAP ) { feature_id = feature_id+1; }
         const bool lifeline = ( f_idx < TEST_LIFELINE_COUNT );
         data_err = data_feature_init( current,
@@ -164,9 +164,9 @@ static data_visible_set_t* init_test_input_data( data_diagram_type_t diag_type )
         data_err = data_relationship_init( current,
                                            TEST_RELATION_ID_OFFSET + r_idx,  /* relationship_id */
                                            TEST_CLASSIFIER_ID_OFFSET + ( r_idx % TEST_CLASSIFIER_REF_MOD ),  /* from_classifier_id */
-                                           from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ROW_ID_VOID,  /* from_feature_id */
+                                           from_feat ? (TEST_FEATURE_ID_OFFSET+r_idx) : DATA_ROW_VOID,  /* from_feature_id */
                                            TEST_CLASSIFIER_ID_OFFSET + ( (r_idx+1) % TEST_CLASSIFIER_REF_MOD ),  /* to_classifier_id */
-                                           to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_ID_VOID,  /* to_feature_id */
+                                           to_feat ? (TEST_FEATURE_ID_OFFSET+(r_idx+1)) : DATA_ROW_VOID,  /* to_feature_id */
                                            DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,
                                            "st_t",  /* stereotype */
                                            "relationship_name",

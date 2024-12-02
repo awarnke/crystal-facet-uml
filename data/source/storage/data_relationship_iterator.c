@@ -177,11 +177,11 @@ u8_error_t data_relationship_iterator_next ( data_relationship_iterator_t *this_
                                         );
         if ( SQLITE_NULL == sqlite3_column_type( sql_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
         {
-            data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_ID_VOID );
+            data_relationship_set_from_feature_row_id ( out_relationship, DATA_ROW_VOID );
         }
         if ( SQLITE_NULL == sqlite3_column_type( sql_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
         {
-            data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_ID_VOID );
+            data_relationship_set_to_feature_row_id ( out_relationship, DATA_ROW_VOID );
         }
         U8_TRACE_INFO_INT( "(source)diagramelements.id:", sqlite3_column_int64( sql_statement, RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN ) );
         U8_TRACE_INFO_INT( "(dest)diagramelements.id:", sqlite3_column_int64( sql_statement, RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN ) );

@@ -24,7 +24,7 @@ void gui_clipboard_init ( gui_clipboard_t *this_,
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    (*this_).destination_diagram_id = DATA_ROW_ID_VOID;
+    (*this_).destination_diagram_id = DATA_ROW_VOID;
     (*this_).message_to_user = message_to_user;
     (*this_).tool_switcher = tool_switcher;
     (*this_).the_clipboard = clipboard;
@@ -79,7 +79,7 @@ int gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_smal
     return serialize_error;
 }
 
-void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_id_t destination_diagram_id )
+void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, data_row_t destination_diagram_id )
 {
     U8_TRACE_BEGIN();
 

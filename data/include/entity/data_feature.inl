@@ -5,8 +5,8 @@
 
 static inline void data_feature_init_empty ( data_feature_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
-    (*this_).classifier_id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
+    (*this_).classifier_id = DATA_ROW_VOID;
     (*this_).main_type = DATA_FEATURE_TYPE_PROPERTY;
 
     (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
@@ -28,7 +28,7 @@ static inline void data_feature_reinit_empty ( data_feature_t *this_ )
 
 static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
                                                  data_feature_type_t feature_main_type,
-                                                 data_row_id_t classifier_id,
+                                                 data_row_t classifier_id,
                                                  const char* feature_key,
                                                  const char* feature_value,
                                                  const char* feature_description,
@@ -40,7 +40,7 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     (*this_).classifier_id = classifier_id;
     (*this_).main_type = feature_main_type;
 
@@ -75,9 +75,9 @@ static inline u8_error_t data_feature_init_new ( data_feature_t *this_,
 }
 
 static inline u8_error_t data_feature_init ( data_feature_t *this_,
-                                             data_row_id_t feature_id,
+                                             data_row_t feature_id,
                                              data_feature_type_t feature_main_type,
-                                             data_row_id_t classifier_id,
+                                             data_row_t classifier_id,
                                              const char* feature_key,
                                              const char* feature_value,
                                              const char* feature_description,
@@ -151,16 +151,16 @@ static inline void data_feature_replace ( data_feature_t *this_, const data_feat
 
 static inline void data_feature_destroy ( data_feature_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     data_uuid_destroy( &((*this_).uuid) );
 }
 
-static inline data_row_id_t data_feature_get_row_id ( const data_feature_t *this_ )
+static inline data_row_t data_feature_get_row_id ( const data_feature_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_feature_set_row_id ( data_feature_t *this_, data_row_id_t id )
+static inline void data_feature_set_row_id ( data_feature_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -172,12 +172,12 @@ static inline data_id_t data_feature_get_data_id ( const data_feature_t *this_ )
     return result;
 }
 
-static inline data_row_id_t data_feature_get_classifier_row_id ( const data_feature_t *this_ )
+static inline data_row_t data_feature_get_classifier_row_id ( const data_feature_t *this_ )
 {
     return (*this_).classifier_id;
 }
 
-static inline void data_feature_set_classifier_row_id ( data_feature_t *this_, data_row_id_t classifier_id )
+static inline void data_feature_set_classifier_row_id ( data_feature_t *this_, data_row_t classifier_id )
 {
     (*this_).classifier_id = classifier_id;
 }
@@ -301,7 +301,7 @@ static inline u8_error_t data_feature_set_uuid ( data_feature_t *this_, const ch
 
 static inline bool data_feature_is_valid ( const data_feature_t *this_ )
 {
-    return ( DATA_ROW_ID_VOID != (*this_).id );
+    return ( DATA_ROW_VOID != (*this_).id );
 }
 
 static inline void data_feature_trace ( const data_feature_t *this_ )

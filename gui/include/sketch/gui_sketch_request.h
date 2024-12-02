@@ -76,7 +76,7 @@ static inline data_id_t gui_sketch_request_get_focused_diagram( const gui_sketch
  *  \param this_ pointer to own object attributes
  *  \return the requested attribute
  */
-static inline data_row_id_t gui_sketch_request_get_focused_diagram_row_id( const gui_sketch_request_t *this_ );
+static inline data_row_t gui_sketch_request_get_focused_diagram_row_id( const gui_sketch_request_t *this_ );
 
 /*!
  *  \brief sets the attribute focused_diagram
@@ -92,7 +92,7 @@ static inline void gui_sketch_request_set_focused_diagram( gui_sketch_request_t 
  *  \param this_ pointer to own object attributes
  *  \param focused_diagram the new attribute value
  */
-static inline void gui_sketch_request_set_focused_diagram_row_id( gui_sketch_request_t *this_, data_row_id_t focused_diagram );
+static inline void gui_sketch_request_set_focused_diagram_row_id( gui_sketch_request_t *this_, data_row_t focused_diagram );
 
 /*!
  *  \brief gets the attribute parent_diagram
@@ -108,7 +108,7 @@ static inline data_id_t gui_sketch_request_get_parent_diagram( const gui_sketch_
  *  \param this_ pointer to own object attributes
  *  \return the requested attribute
  */
-static inline data_row_id_t gui_sketch_request_get_parent_diagram_row_id( const gui_sketch_request_t *this_ );
+static inline data_row_t gui_sketch_request_get_parent_diagram_row_id( const gui_sketch_request_t *this_ );
 
 /*!
  *  \brief sets the attribute parent_diagram
@@ -124,7 +124,7 @@ static inline void gui_sketch_request_set_parent_diagram( gui_sketch_request_t *
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram the new attribute value
  */
-static inline void gui_sketch_request_set_parent_diagram_row_id( gui_sketch_request_t *this_, data_row_id_t parent_diagram );
+static inline void gui_sketch_request_set_parent_diagram_row_id( gui_sketch_request_t *this_, data_row_t parent_diagram );
 
 /*!
  *  \brief gets the attribute search_result_diagrams as const pointer

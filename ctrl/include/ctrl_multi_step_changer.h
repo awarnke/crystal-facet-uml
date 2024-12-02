@@ -176,8 +176,8 @@ u8_error_t ctrl_multi_step_changer_create_relationship ( ctrl_multi_step_changer
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t ctrl_multi_step_changer_update_diagram_parent_id ( ctrl_multi_step_changer_t *this_,
-                                                              data_row_id_t diagram_id,
-                                                              data_row_id_t new_diagram_parent_id
+                                                              data_row_t diagram_id,
+                                                              data_row_t new_diagram_parent_id
                                                             );
 
 /* ================================ propose names of classifiers ================================ */

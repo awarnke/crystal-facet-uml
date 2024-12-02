@@ -77,7 +77,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, result_1 );
     TEST_EXPECT_EQUAL_INT( false, data_classifier_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_classifier_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_classifier_get_row_id( &testee ) );
     const char* uuid_1 = data_classifier_get_uuid_const( &testee );
     TEST_EXPECT( uuid_1 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_1 ) );
@@ -102,7 +102,7 @@ static test_case_result_t test_initialize( test_fixture_t *test_env )
                                   );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_STRING_BUFFER_EXCEEDED, result_2 );
     TEST_EXPECT_EQUAL_INT( false, data_classifier_is_valid( &testee ) );
-    TEST_EXPECT_EQUAL_INT( DATA_ROW_ID_VOID, data_classifier_get_row_id( &testee ) );
+    TEST_EXPECT_EQUAL_INT( DATA_ROW_VOID, data_classifier_get_row_id( &testee ) );
     const char* uuid_2 = data_classifier_get_uuid_const( &testee );
     TEST_EXPECT( uuid_2 != NULL );
     TEST_EXPECT_EQUAL_INT( 36, strlen( uuid_2 ) );
@@ -199,7 +199,7 @@ static test_case_result_t test_set_get( test_fixture_t *test_env )
 
     /* sub test case 2 */
     data_classifier_set_row_id( &testee, 478 );
-    const data_row_id_t row_id = data_classifier_get_row_id( &testee );
+    const data_row_t row_id = data_classifier_get_row_id( &testee );
     TEST_EXPECT_EQUAL_INT( 478, row_id );
     TEST_EXPECT_EQUAL_INT( true, data_classifier_is_valid( &testee ) );
     const data_id_t data_id = data_classifier_get_data_id( &testee );

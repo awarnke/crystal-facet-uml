@@ -12,7 +12,7 @@
 #include "storage/data_change_event_type.h"
 #include "u8/u8_error.h"
 #include "entity/data_table.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <glib-object.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -69,15 +69,15 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ );
  *                      DATA_TABLE_VOID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
  *                      because classifiers have no parent and in case of update, no parent is needed.
  *  \param parent_row_id the row_id of the parent element
- *                      DATA_ROW_ID_VOID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
+ *                      DATA_ROW_VOID if ((table==DATA_TABLE_CLASIFIER)||(event_type==DATA_CHANGE_EVENT_TYPE_UPDATE))
  *                      because classifiers have no parent and in case of update, no parent is needed.
  */
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
                                         data_change_event_type_t event_type,
                                         data_table_t table,
-                                        data_row_id_t row_id,
+                                        data_row_t row_id,
                                         data_table_t parent_table,
-                                        data_row_id_t parent_row_id
+                                        data_row_t parent_row_id
                                       );
 
 /*!
@@ -95,7 +95,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
 static inline void data_change_notifier_emit_signal_without_parent ( data_change_notifier_t *this_,
                                                                      data_change_event_type_t event_type,
                                                                      data_table_t table,
-                                                                     data_row_id_t row_id
+                                                                     data_row_t row_id
                                                                    );
 
 /*!

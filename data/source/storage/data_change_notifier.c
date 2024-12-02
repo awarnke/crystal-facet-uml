@@ -53,9 +53,9 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ )
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
                                         data_change_event_type_t event_type,
                                         data_table_t table,
-                                        data_row_id_t row_id,
+                                        data_row_t row_id,
                                         data_table_t parent_table,
-                                        data_row_id_t parent_row_id )
+                                        data_row_t parent_row_id )
 {
     U8_TRACE_BEGIN();
 

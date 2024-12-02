@@ -154,7 +154,7 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
     if ( read_error == U8_ERROR_NONE )
     {
         /* get classifier */
-        const data_row_id_t classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
+        const data_row_t classifier_id = data_diagramelement_get_classifier_row_id( &out_diagramelement );
         read_error = data_database_reader_get_classifier_by_id( (*this_).db_reader,
                                                                 classifier_id,
                                                                 &out_classifier
@@ -163,8 +163,8 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
         /* get focused_feature */
         /*
         assert ( IO_EXPORT_SET_TRAVERSAL_MAX_FEATURES >= 1 );
-        const data_row_id_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( &out_diagramelement );
-        if ( DATA_ROW_ID_VOID == focused_feature_id )
+        const data_row_t focused_feature_id = data_diagramelement_get_focused_feature_row_id( &out_diagramelement );
+        if ( DATA_ROW_VOID == focused_feature_id )
         {
             data_feature_init_empty( &((*this_).temp_features[0]) );
         }
@@ -179,7 +179,7 @@ u8_error_t io_export_set_traversal_private_export_diagramelement( io_export_set_
 
         /* get diagram */
         /*
-        const data_row_id_t diag_id = data_diagramelement_get_diagram_row_id( &out_diagramelement );
+        const data_row_t diag_id = data_diagramelement_get_diagram_row_id( &out_diagramelement );
         read_error |= data_database_reader_get_diagram_by_id ( (*this_).db_reader,
                                                                diag_id,
                                                                &out_diagram
@@ -396,7 +396,7 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
                                                                   data_relationship_get_from_classifier_row_id( &out_relation ),
                                                                   &from_classifier
                                                                 );
-        if ( DATA_ROW_ID_VOID == data_relationship_get_from_feature_row_id( &out_relation ) )
+        if ( DATA_ROW_VOID == data_relationship_get_from_feature_row_id( &out_relation ) )
         {
             data_feature_init_empty( &((*this_).temp_feature_0) );
         }
@@ -413,7 +413,7 @@ u8_error_t io_export_set_traversal_private_export_relationship( io_export_set_tr
                                                                   data_relationship_get_to_classifier_row_id( &out_relation ),
                                                                   &to_classifier
                                                                 );
-        if ( DATA_ROW_ID_VOID == data_relationship_get_to_feature_row_id( &out_relation ) )
+        if ( DATA_ROW_VOID == data_relationship_get_to_feature_row_id( &out_relation ) )
         {
             data_feature_init_empty( &((*this_).temp_feature_1) );
         }

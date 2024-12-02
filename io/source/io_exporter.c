@@ -177,11 +177,11 @@ u8_error_t io_exporter_private_export_image_files( io_exporter_t *this_,
     assert ( NULL != target_folder );
     assert ( NULL != io_export_stat );
     U8_TRACE_INFO_STR("target_folder:", target_folder );
-    const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
+    const data_row_t diagram_row_id = data_id_get_row_id( &diagram_id );
     u8_error_t result = U8_ERROR_NONE;
 
     /* draw current diagram */
-    if ( DATA_ROW_ID_VOID != diagram_row_id )
+    if ( DATA_ROW_VOID != diagram_row_id )
     {
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
@@ -567,11 +567,11 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
 {
     U8_TRACE_BEGIN();
     assert ( NULL != io_export_stat );
-    const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
+    const data_row_t diagram_row_id = data_id_get_row_id( &diagram_id );
     u8_error_t export_err = U8_ERROR_NONE;
 
     /* write part for current diagram */
-    if ( DATA_ROW_ID_VOID != diagram_row_id )
+    if ( DATA_ROW_VOID != diagram_row_id )
     {
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
@@ -614,7 +614,7 @@ u8_error_t io_exporter_private_export_document_part( io_exporter_t *this_,
     }
 
     /* end diagram section */
-    if ( DATA_ROW_ID_VOID != diagram_row_id )
+    if ( DATA_ROW_VOID != diagram_row_id )
     {
         /* write doc part */
         export_err |= io_export_diagram_traversal_end_diagram( &((*this_).temp_diagram_traversal), diagram_id );
@@ -631,11 +631,11 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
 {
     U8_TRACE_BEGIN();
     assert ( NULL != format_writer );
-    const data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
+    const data_row_t diagram_row_id = data_id_get_row_id( &diagram_id );
     u8_error_t export_err = U8_ERROR_NONE;
 
     /* write entry for current diagram */
-    if ( DATA_ROW_ID_VOID != diagram_row_id )
+    if ( DATA_ROW_VOID != diagram_row_id )
     {
         assert( data_id_get_table( &diagram_id ) == DATA_TABLE_DIAGRAM );
 
@@ -689,7 +689,7 @@ u8_error_t io_exporter_private_export_table_of_contents( io_exporter_t *this_,
     }
 
     /* end toc entry */
-    if ( DATA_ROW_ID_VOID != diagram_row_id )
+    if ( DATA_ROW_VOID != diagram_row_id )
     {
         export_err |= document_element_writer_end_toc_entry( format_writer );
     }

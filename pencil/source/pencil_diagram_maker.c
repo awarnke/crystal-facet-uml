@@ -191,7 +191,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
             {
                 if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted ) )
                 {
-                    const data_row_id_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
+                    const data_row_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
                     const data_visible_classifier_t *visible_clsfy = data_visible_set_get_visible_classifier_by_id_const ( (*this_).input_data, diagramelement_id );
                     if ( visible_clsfy != NULL )
                     {
@@ -246,7 +246,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
     {
         case DATA_TABLE_CLASSIFIER:
         {
-            const data_row_id_t classifier_id = data_id_get_row_id ( &obj_id );
+            const data_row_t classifier_id = data_id_get_row_id ( &obj_id );
             const data_classifier_t *const the_classifier
                 = data_visible_set_get_classifier_by_id_const ( (*this_).input_data, classifier_id );
             const data_classifier_type_t c_type
@@ -265,7 +265,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_make
 
         case DATA_TABLE_FEATURE:
         {
-            const data_row_id_t feature_id = data_id_get_row_id ( &obj_id );
+            const data_row_t feature_id = data_id_get_row_id ( &obj_id );
             const data_feature_t *const the_feature
                 = data_visible_set_get_feature_by_id_const ( (*this_).input_data, feature_id );
             if( NULL != the_feature )

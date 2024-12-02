@@ -40,7 +40,7 @@ void io_importer_destroy ( io_importer_t *this_ )
 
 u8_error_t io_importer_import_clipboard( io_importer_t *this_,
                                          const char *json_text,
-                                         data_row_id_t diagram_id,
+                                         data_row_t diagram_id,
                                          data_stat_t *io_stat,
                                          u8_error_info_t *out_err_info )
 {

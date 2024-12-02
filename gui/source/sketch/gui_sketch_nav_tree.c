@@ -55,7 +55,7 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
     U8_TRACE_END();
 }
 
-void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t diagram_id, data_database_reader_t *db_reader )
+void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_t diagram_id, data_database_reader_t *db_reader )
 {
     U8_TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -68,7 +68,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
     bool finished = false;
     for ( unsigned int anc_index = 0; ( anc_index < GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS ) && ( db_err == U8_ERROR_NONE ) && ( ! finished ); anc_index ++ )
     {
-        data_row_id_t id_to_load;
+        data_row_t id_to_load;
         if ( anc_index == 0 )
         {
             id_to_load = diagram_id;
@@ -78,7 +78,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
             id_to_load = data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[anc_index-1]) );
         }
 
-        if ( id_to_load != DATA_ROW_ID_VOID )
+        if ( id_to_load != DATA_ROW_VOID )
         {
             db_err = data_database_reader_get_diagram_by_id ( db_reader, id_to_load, &((*this_).ancestor_diagrams[anc_index]) );
             if ( db_err == U8_ERROR_NONE )
@@ -92,7 +92,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
         }
     }
 
-    if ( diagram_id != DATA_ROW_ID_VOID )
+    if ( diagram_id != DATA_ROW_VOID )
     {
         if ( (*this_).ancestors_count == 0 )
         {
@@ -104,9 +104,9 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, data_row_id_t 
     /* get siblings */
     if ( db_err == U8_ERROR_NONE )
     {
-        const data_row_id_t parent_id
+        const data_row_t parent_id
             = ( (*this_).ancestors_count == 0 )
-            ? DATA_ROW_ID_VOID
+            ? DATA_ROW_VOID
             : data_diagram_get_parent_row_id( &((*this_).ancestor_diagrams[0]) );
 
         data_diagram_iterator_t diagram_iterator;

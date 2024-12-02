@@ -10,7 +10,7 @@
  */
 
 #include "storage/data_database_writer.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 
 /*!
  *  \brief attributes of the test_vector_db_t
@@ -40,13 +40,13 @@ static inline void test_vector_db_destroy( test_vector_db_t *this_ );
  *  \brief helper function to initialize the database by adding a diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_diagram_id id of the parent diagram or DATA_ROW_ID_VOID to create a root diagram
+ *  \param parent_diagram_id id of the parent diagram or DATA_ROW_VOID to create a root diagram
  *  \param name name of the newly created element
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created diagram
  */
-static inline data_row_id_t test_vector_db_create_diagram( test_vector_db_t *this_,
-                                                           data_row_id_t parent_diagram_id,
+static inline data_row_t test_vector_db_create_diagram( test_vector_db_t *this_,
+                                                           data_row_t parent_diagram_id,
                                                            const char* name,
                                                            const char* stereotype
                                                          );
@@ -59,9 +59,9 @@ static inline data_row_id_t test_vector_db_create_diagram( test_vector_db_t *thi
  *  \param classifier_id id of the classifier which to show in the diagram
  *  \return id of newly created diagramelement
  */
-static inline data_row_id_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
-                                                                  data_row_id_t diagram_id,
-                                                                  data_row_id_t classifier_id
+static inline data_row_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
+                                                                  data_row_t diagram_id,
+                                                                  data_row_t classifier_id
                                                                 );
 
 /*!
@@ -73,7 +73,7 @@ static inline data_row_id_t test_vector_db_create_diagramelement( test_vector_db
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created classifier
  */
-static inline data_row_id_t test_vector_db_create_classifier( test_vector_db_t *this_,
+static inline data_row_t test_vector_db_create_classifier( test_vector_db_t *this_,
                                                               const char* name,
                                                               data_classifier_type_t classifier_type,
                                                               const char* stereotype
@@ -88,8 +88,8 @@ static inline data_row_id_t test_vector_db_create_classifier( test_vector_db_t *
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created feature
  */
-static inline data_row_id_t test_vector_db_create_feature( test_vector_db_t *this_,
-                                                           data_row_id_t classifier_id,
+static inline data_row_t test_vector_db_create_feature( test_vector_db_t *this_,
+                                                           data_row_t classifier_id,
                                                            const char* name,
                                                            const char* stereotype
                                                          );
@@ -107,11 +107,11 @@ static inline data_row_id_t test_vector_db_create_feature( test_vector_db_t *thi
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created relationship
  */
-static inline data_row_id_t test_vector_db_create_relationship( test_vector_db_t *this_,
-                                                                data_row_id_t from_classifier_id,
-                                                                data_row_id_t from_feature_id,
-                                                                data_row_id_t to_classifier_id,
-                                                                data_row_id_t to_feature_id,
+static inline data_row_t test_vector_db_create_relationship( test_vector_db_t *this_,
+                                                                data_row_t from_classifier_id,
+                                                                data_row_t from_feature_id,
+                                                                data_row_t to_classifier_id,
+                                                                data_row_t to_feature_id,
                                                                 data_relationship_type_t rel_type,
                                                                 const char* name,
                                                                 const char* stereotype

@@ -389,7 +389,7 @@ void gui_toolbox_paste( gui_toolbox_t *this_ )
     const data_id_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
     if ( data_id_is_valid( &destination_diagram_id ) )
     {
-        const data_row_id_t dest_diagram_row_id = data_id_get_row_id( &destination_diagram_id );
+        const data_row_t dest_diagram_row_id = data_id_get_row_id( &destination_diagram_id );
         gui_clipboard_request_clipboard_text( &((*this_).clipboard), dest_diagram_row_id );
 
         /* this call triggers a callback later to gui_clipboard_clipboard_text_received_callback */
@@ -593,7 +593,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_,
             case DATA_TABLE_DIAGRAMELEMENT:
             {
                 data_diagramelement_t out_diagramelement;
-                data_row_id_t diag_elem_id = data_id_get_row_id( &current_id );
+                data_row_t diag_elem_id = data_id_get_row_id( &current_id );
                 ctrl_diagram_controller_t *diag_ctrl;
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
 

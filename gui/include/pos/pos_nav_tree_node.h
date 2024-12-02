@@ -107,7 +107,7 @@ static inline const data_diagram_t *pos_nav_tree_node_get_data_const ( const pos
  *  \param this_ pointer to own object attributes
  *  \return id of the diagram
  */
-static inline data_row_id_t pos_nav_tree_node_get_diagram_id ( const pos_nav_tree_node_t *this_ );
+static inline data_row_t pos_nav_tree_node_get_diagram_id ( const pos_nav_tree_node_t *this_ );
 
 #include "pos_nav_tree_node.inl"
 

@@ -145,7 +145,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
     result |= data_diagram_iterator_init_empty( &diagram_iterator );
 
     result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                              DATA_ROW_ID_VOID,
+                                                              DATA_ROW_VOID,
                                                               &diagram_iterator
                                                             );
 
@@ -180,7 +180,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
     {
         (*io_err) += (root_diagram_count-1) ;
         const data_id_t proposed_root_diagram = data_small_set_get_id( &all_roots, 0 );
-        const data_row_id_t proposed_root_diagram_id = data_id_get_row_id( &proposed_root_diagram );
+        const data_row_t proposed_root_diagram_id = data_id_get_row_id( &proposed_root_diagram );
         if ( ! modify_db )
         {
             utf8stream_writer_write_str( out_english_report, "    PROPOSED FIX: Attach additional root diagrams below the first: " );
@@ -192,7 +192,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_co
             for ( int list_pos = 1; list_pos < root_diagram_count; list_pos ++ )
             {
                 const data_id_t proposed_child_diagram = data_small_set_get_id( &all_roots, list_pos );
-                const data_row_id_t proposed_child_diagram_id = data_id_get_row_id( &proposed_child_diagram );
+                const data_row_t proposed_child_diagram_id = data_id_get_row_id( &proposed_child_diagram );
                 const u8_error_t data_err
                     = data_database_writer_update_diagram_parent_id( (*this_).db_writer,
                                                                      proposed_child_diagram_id,
@@ -253,12 +253,12 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
             (*io_err) += circ_ref_count;
 
             /* get the root diagram */
-            data_row_id_t root_diag_id = DATA_ROW_ID_VOID;
+            data_row_t root_diag_id = DATA_ROW_VOID;
             {
                 data_diagram_iterator_t diagram_iterator;
                 err_result |= data_diagram_iterator_init_empty( &diagram_iterator );
                 err_result |= data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                              DATA_ROW_ID_VOID,
+                                                                              DATA_ROW_VOID,
                                                                               &diagram_iterator
                                                                             );
                 if (( U8_ERROR_NONE == err_result )&& data_diagram_iterator_has_next( &diagram_iterator ) )
@@ -282,7 +282,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_
                 for ( int list_pos = 0; list_pos < circ_ref_count; list_pos ++ )
                 {
                     data_id_t diagram_id = data_small_set_get_id( &circ_ref, list_pos );
-                    data_row_id_t diagram_row_id = data_id_get_row_id( &diagram_id );
+                    data_row_t diagram_row_id = data_id_get_row_id( &diagram_id );
 
                     data_err = data_database_writer_update_diagram_parent_id ( (*this_).db_writer,
                                                                                diagram_row_id,
@@ -360,7 +360,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_id_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
+                    data_row_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
                     data_err = data_database_writer_delete_diagramelement ( (*this_).db_writer, diagramelement_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
@@ -430,8 +430,8 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_id_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
-                    data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row_id, DATA_ROW_ID_VOID, NULL );
+                    data_row_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
+                    data_err = data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diagramelement_row_id, DATA_ROW_VOID, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
                         utf8stream_writer_write_str( out_english_report, "    FIX: Focused features unlinked from " );
@@ -500,7 +500,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t classifier_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_id_t classifier_row_id = data_id_get_row_id( &classifier_id );
+                    data_row_t classifier_row_id = data_id_get_row_id( &classifier_id );
                     err_result |= data_database_consistency_checker_kill_classifier ( &((*this_).db_checker), classifier_row_id );
                     if ( U8_ERROR_NONE == err_result )
                     {
@@ -569,7 +569,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t feature_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_id_t feature_row_id = data_id_get_row_id( &feature_id );
+                    data_row_t feature_row_id = data_id_get_row_id( &feature_id );
                     data_err = data_database_writer_delete_feature ( (*this_).db_writer, feature_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
@@ -639,7 +639,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifier
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t relationship_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_id_t relation_row_id = data_id_get_row_id( &relationship_id );
+                    data_row_t relation_row_id = data_id_get_row_id( &relationship_id );
                     data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {
@@ -709,7 +709,7 @@ u8_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features (
                 for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
                 {
                     data_id_t relationship_id = data_small_set_get_id( &unref, list_pos );
-                    data_row_id_t relation_row_id = data_id_get_row_id( &relationship_id );
+                    data_row_t relation_row_id = data_id_get_row_id( &relationship_id );
                     data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
                     if ( U8_ERROR_NONE == data_err )
                     {

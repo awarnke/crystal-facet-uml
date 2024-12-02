@@ -120,7 +120,7 @@ u8_error_t data_diagramelement_iterator_next ( data_diagramelement_iterator_t *t
                                           );
         if ( SQLITE_NULL == sqlite3_column_type( sql_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
         {
-            data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_ID_VOID );
+            data_diagramelement_set_focused_feature_row_id ( out_diagramelement, DATA_ROW_VOID );
         }
         data_diagramelement_trace( out_diagramelement );
 

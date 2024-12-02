@@ -6,8 +6,8 @@
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
-    (*this_).parent_id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
+    (*this_).parent_id = DATA_ROW_VOID;
     (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
 
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -29,7 +29,7 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )
 }
 
 static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
-                                                 data_row_id_t parent_diagram_id,
+                                                 data_row_t parent_diagram_id,
                                                  data_diagram_type_t diagram_type,
                                                  const char* stereotype,
                                                  const char* name,
@@ -43,7 +43,7 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     (*this_).parent_id = parent_diagram_id;
     (*this_).diagram_type = diagram_type;
 
@@ -79,8 +79,8 @@ static inline u8_error_t data_diagram_init_new ( data_diagram_t *this_,
 }
 
 static inline u8_error_t data_diagram_init ( data_diagram_t *this_,
-                                             data_row_id_t diagram_id,
-                                             data_row_id_t parent_diagram_id,
+                                             data_row_t diagram_id,
+                                             data_row_t parent_diagram_id,
                                              data_diagram_type_t diagram_type,
                                              const char* stereotype,
                                              const char* name,
@@ -156,8 +156,8 @@ static inline void data_diagram_replace ( data_diagram_t *this_, const data_diag
 
 static inline void data_diagram_destroy ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
-    (*this_).parent_id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
+    (*this_).parent_id = DATA_ROW_VOID;
     data_uuid_destroy( &((*this_).uuid) );
 }
 
@@ -175,12 +175,12 @@ static inline void data_diagram_trace ( const data_diagram_t *this_ )
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
-static inline data_row_id_t data_diagram_get_row_id ( const data_diagram_t *this_ )
+static inline data_row_t data_diagram_get_row_id ( const data_diagram_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_id_t id )
+static inline void data_diagram_set_row_id ( data_diagram_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -192,12 +192,12 @@ static inline data_id_t data_diagram_get_data_id ( const data_diagram_t *this_ )
     return result;
 }
 
-static inline data_row_id_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ )
+static inline data_row_t data_diagram_get_parent_row_id ( const data_diagram_t *this_ )
 {
     return (*this_).parent_id;
 }
 
-static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_id_t parent_id )
+static inline void data_diagram_set_parent_row_id ( data_diagram_t *this_, data_row_t parent_id )
 {
     (*this_).parent_id = parent_id;
 }
@@ -332,7 +332,7 @@ static inline u8_error_t data_diagram_set_uuid ( data_diagram_t *this_, const ch
 
 static inline bool data_diagram_is_valid ( const data_diagram_t *this_ )
 {
-    return ( DATA_ROW_ID_VOID != (*this_).id );
+    return ( DATA_ROW_VOID != (*this_).id );
 }
 
 

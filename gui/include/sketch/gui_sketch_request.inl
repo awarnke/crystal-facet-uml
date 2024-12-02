@@ -77,7 +77,7 @@ static inline data_id_t gui_sketch_request_get_focused_diagram( const gui_sketch
     return (*this_).focused_diagram;
 }
 
-static inline data_row_id_t gui_sketch_request_get_focused_diagram_row_id( const gui_sketch_request_t *this_ )
+static inline data_row_t gui_sketch_request_get_focused_diagram_row_id( const gui_sketch_request_t *this_ )
 {
     return data_id_get_row_id( &((*this_).focused_diagram) );
 }
@@ -88,7 +88,7 @@ static inline void gui_sketch_request_set_focused_diagram( gui_sketch_request_t 
     data_id_trace( &((*this_).focused_diagram) );
 }
 
-static inline void gui_sketch_request_set_focused_diagram_row_id( gui_sketch_request_t *this_, data_row_id_t focused_diagram )
+static inline void gui_sketch_request_set_focused_diagram_row_id( gui_sketch_request_t *this_, data_row_t focused_diagram )
 {
     data_id_reinit( &((*this_).focused_diagram), DATA_TABLE_DIAGRAM, focused_diagram );
     data_id_trace( &((*this_).focused_diagram) );
@@ -99,7 +99,7 @@ static inline data_id_t gui_sketch_request_get_parent_diagram( const gui_sketch_
     return (*this_).parent_diagram;
 }
 
-static inline data_row_id_t gui_sketch_request_get_parent_diagram_row_id( const gui_sketch_request_t *this_ )
+static inline data_row_t gui_sketch_request_get_parent_diagram_row_id( const gui_sketch_request_t *this_ )
 {
     return data_id_get_row_id( &((*this_).parent_diagram ) );
 }
@@ -110,7 +110,7 @@ static inline void gui_sketch_request_set_parent_diagram( gui_sketch_request_t *
     data_id_trace( &((*this_).parent_diagram) );
 }
 
-static inline void gui_sketch_request_set_parent_diagram_row_id( gui_sketch_request_t *this_, data_row_id_t parent_diagram )
+static inline void gui_sketch_request_set_parent_diagram_row_id( gui_sketch_request_t *this_, data_row_t parent_diagram )
 {
     data_id_reinit( &((*this_).parent_diagram), DATA_TABLE_DIAGRAM, parent_diagram );
     data_id_trace( &((*this_).parent_diagram) );

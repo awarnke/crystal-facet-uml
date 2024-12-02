@@ -168,7 +168,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 }
 
 void pencil_feature_layouter_calculate_features_bounds( pencil_feature_layouter_t *this_,
-                                                        data_row_id_t diagramelement_id,
+                                                        data_row_t diagramelement_id,
                                                         PangoLayout *font_layout,
                                                         geometry_dimensions_t *out_features_bounds )
 {
@@ -545,7 +545,7 @@ void pencil_feature_layouter_private_layout_compartment ( pencil_feature_layoute
     const layout_visible_classifier_t * const vis_classfy
         = layout_feature_get_classifier_const( io_feature_layout );
     assert( NULL != vis_classfy );
-    const data_row_id_t diagele_id = layout_visible_classifier_get_diagramelement_id( vis_classfy );
+    const data_row_t diagele_id = layout_visible_classifier_get_diagramelement_id( vis_classfy );
     const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
     const data_feature_t *const the_feature = layout_feature_get_data_const( io_feature_layout );
 

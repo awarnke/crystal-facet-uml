@@ -196,7 +196,7 @@ static inline void test_data_setup_private_set_diagram( const test_data_setup_t 
     data_diagram_t *diag = data_visible_set_get_diagram_ptr( io_data_set );
     const u8_error_t d_err = data_diagram_init( diag,
                                                   (*this_).variant, /* diagram_id */
-                                                  DATA_ROW_ID_VOID, /* parent_diagram_id */
+                                                  DATA_ROW_VOID, /* parent_diagram_id */
                                                   diagram_type,
                                                   "stereo_t",  /* stereotype */
                                                   diagram_name,
@@ -328,7 +328,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
         data_uuid_t diagele_uuid;
         data_uuid_init_new( &diagele_uuid );
 
-        const data_row_id_t classifier_id = ((pseudo_random_1 % 5)==0) ? (index+2) : (index+1); /* some classifiers exist twice */
+        const data_row_t classifier_id = ((pseudo_random_1 % 5)==0) ? (index+2) : (index+1); /* some classifiers exist twice */
         const u8_error_t d1_err = data_classifier_init( classifier,
                                                         classifier_id,
                                                         class_type,
@@ -342,7 +342,7 @@ static inline void test_data_setup_private_add_classifiers( const test_data_setu
                                                       );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, d1_err&(~U8_ERROR_STRING_BUFFER_EXCEEDED) );
 
-        const data_row_id_t diagram_id = data_diagram_get_row_id( data_visible_set_get_diagram_const( io_data_set ) );
+        const data_row_t diagram_id = data_diagram_get_row_id( data_visible_set_get_diagram_const( io_data_set ) );
         const data_diagramelement_flag_t flag_inst
             = ((pseudo_random_1 % 3)==0)
             ? DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE
@@ -585,10 +585,10 @@ static inline void test_data_setup_private_add_relationships( const test_data_se
         const char* relationship_name = "";
         const char* relationship_description = "";
         int32_t list_order;
-        data_row_id_t from_classifier_row_id = DATA_ROW_ID_VOID;
-        data_row_id_t to_classifier_row_id = DATA_ROW_ID_VOID;
-        data_row_id_t from_feature_row_id = DATA_ROW_ID_VOID;
-        data_row_id_t to_feature_row_id = DATA_ROW_ID_VOID;
+        data_row_t from_classifier_row_id = DATA_ROW_VOID;
+        data_row_t to_classifier_row_id = DATA_ROW_VOID;
+        data_row_t from_feature_row_id = DATA_ROW_VOID;
+        data_row_t to_feature_row_id = DATA_ROW_VOID;
 
         const uint_fast32_t c_count = data_visible_set_get_visible_classifier_count( io_data_set );
         const uint_fast32_t f_count = data_visible_set_get_feature_count( io_data_set );

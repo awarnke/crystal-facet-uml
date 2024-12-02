@@ -268,7 +268,7 @@ u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_fla
 
     {
         /* get from classifier */
-        const data_row_id_t from_classifier_row_id = data_relationship_get_from_classifier_row_id( relation );
+        const data_row_t from_classifier_row_id = data_relationship_get_from_classifier_row_id( relation );
         if ( from_classifier_row_id == data_classifier_get_row_id ( classifier ) )
         {
             data_classifier_replace( out_from_c, classifier );
@@ -282,8 +282,8 @@ u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_fla
         }
 
         /* get from feature */
-        const data_row_id_t from_feature_row_id = data_relationship_get_from_feature_row_id( relation );
-        if ( from_feature_row_id != DATA_ROW_ID_VOID )
+        const data_row_t from_feature_row_id = data_relationship_get_from_feature_row_id( relation );
+        if ( from_feature_row_id != DATA_ROW_VOID )
         {
             data_err |=  data_database_reader_get_feature_by_id( (*this_).db_reader,
                                                                  from_feature_row_id,
@@ -296,7 +296,7 @@ u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_fla
         }
 
         /* get to classifier */
-        const data_row_id_t to_classifier_row_id = data_relationship_get_to_classifier_row_id( relation );
+        const data_row_t to_classifier_row_id = data_relationship_get_to_classifier_row_id( relation );
         if ( to_classifier_row_id == data_classifier_get_row_id ( classifier ) )
         {
             data_classifier_replace( out_to_c, classifier );
@@ -310,8 +310,8 @@ u8_error_t io_export_flat_traversal_private_get_relationship_ends( io_export_fla
         }
 
         /* get to feature */
-        const data_row_id_t to_feature_row_id = data_relationship_get_to_feature_row_id( relation );
-        if ( to_feature_row_id != DATA_ROW_ID_VOID )
+        const data_row_t to_feature_row_id = data_relationship_get_to_feature_row_id( relation );
+        if ( to_feature_row_id != DATA_ROW_VOID )
         {
             data_err |= data_database_reader_get_feature_by_id( (*this_).db_reader,
                                                                 to_feature_row_id,

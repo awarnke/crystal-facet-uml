@@ -70,35 +70,35 @@ static test_case_result_t no_results( test_fixture_t *fix )
     test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
     /* create the root diagram */
-    const data_row_id_t root_diag_id
+    const data_row_t root_diag_id
         = test_vector_db_create_diagram( &setup_env,
-                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         DATA_ROW_VOID,  /* parent_diagram_id */
                                          "root_diagram",  /* name */
                                          "Any-Blue-Item"  /* stereotype */
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != root_diag_id );
 
     /* create a classifier with stereotype which name exists but is no stereotype */
-    const data_row_id_t classifier_1_id
+    const data_row_t classifier_1_id
         = test_vector_db_create_classifier( &setup_env,
                                             "The-Blue-Stone",  /* name */
                                             DATA_CLASSIFIER_TYPE_COMPONENT,
                                             "The-Blue-Stone"  /* stereotype */
                                           );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_1_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != classifier_1_id );
     (void) test_vector_db_create_diagramelement( &setup_env,
                                                  root_diag_id,
                                                  classifier_1_id
                                                );
 
     /* create a classifier with stereotype which does not exist: "ThE" is not "The" */
-    const data_row_id_t classifier_2_id
+    const data_row_t classifier_2_id
         = test_vector_db_create_classifier( &setup_env,
                                             "non_existing_stereotype",  /* name */
                                             DATA_CLASSIFIER_TYPE_COMPONENT,
                                             "ThE-Blue-Stone"  /* stereotype */
                                           );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_2_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != classifier_2_id );
     (void) test_vector_db_create_diagramelement( &setup_env,
                                                  root_diag_id,
                                                  classifier_2_id
@@ -145,59 +145,59 @@ static test_case_result_t search_and_filter( test_fixture_t *fix )
     test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
     /* create the root diagram */
-    const data_row_id_t root_diag_id
+    const data_row_t root_diag_id
         = test_vector_db_create_diagram( &setup_env,
-                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         DATA_ROW_VOID,  /* parent_diagram_id */
                                          "root_diagram",  /* name */
                                          "Any-Blue-Item"  /* stereotype */
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != root_diag_id );
 
     /* create a stereotype (which references itself as stereotype) */
-    const data_row_id_t stereotype_id
+    const data_row_t stereotype_id
         = test_vector_db_create_classifier( &setup_env,
                                             "Any-Blue-Item",  /* name */
                                             DATA_CLASSIFIER_TYPE_STEREOTYPE,
                                             "Any-Blue-Item"  /* stereotype */
                                           );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != stereotype_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != stereotype_id );
     (void) test_vector_db_create_diagramelement( &setup_env,
                                                  root_diag_id,
                                                  stereotype_id
                                                );
 
     /* create a classifier */
-    const data_row_id_t classifier_id
+    const data_row_t classifier_id
         = test_vector_db_create_classifier( &setup_env,
                                             "The-Blue-Stone",  /* name */
                                             DATA_CLASSIFIER_TYPE_COMPONENT,
                                             "Any-Blue-Item"  /* stereotype */
                                           );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != classifier_id );
-    const data_row_id_t feature_id
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != classifier_id );
+    const data_row_t feature_id
         = test_vector_db_create_feature( &setup_env,
                                          classifier_id,
                                          "The-Blue-Stone Feature",  /* name */
                                          "stereotype-2"  
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != feature_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != feature_id );
     (void) test_vector_db_create_diagramelement( &setup_env,
                                                  root_diag_id,
                                                  classifier_id
                                                );
 
     /* create 1 relationship */
-    const data_row_id_t relation_id
+    const data_row_t relation_id
         = test_vector_db_create_relationship( &setup_env,
                                               classifier_id,
                                               feature_id,
                                               classifier_id,
-                                              DATA_ROW_ID_VOID,
+                                              DATA_ROW_VOID,
                                               DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
                                               "feature-to-classifier",  /* name */
                                               "stereotype-3"  
                                             );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != relation_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != relation_id );
 
     test_vector_db_destroy( &setup_env );
     /* ^--- creating the test vector / input data finished here. */
@@ -253,13 +253,13 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
     test_vector_db_init( &setup_env, &((*fix).db_writer) );
 
     /* create the root diagram */
-    const data_row_id_t root_diag_id
+    const data_row_t root_diag_id
         = test_vector_db_create_diagram( &setup_env,
-                                         DATA_ROW_ID_VOID,  /* parent_diagram_id */
+                                         DATA_ROW_VOID,  /* parent_diagram_id */
                                          "root_diagram",  /* name */
                                          "Any-Blue-Item"  /* stereotype */
                                        );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != root_diag_id );
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != root_diag_id );
 
     const uint_fast16_t test_count = DATA_PROFILE_PART_MAX_STEREOTYPES + 1;
     for ( uint_fast16_t index = 0; index < test_count; index ++ )
@@ -269,13 +269,13 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
         utf8stringbuf_t name = UTF8STRINGBUF( name_buf );
         utf8stringbuf_copy_str( name, "Kind-" );
         utf8stringbuf_append_int( name, index );
-        const data_row_id_t stereotype_id
+        const data_row_t stereotype_id
             = test_vector_db_create_classifier( &setup_env,
                                                 utf8stringbuf_get_string( name ),  /* name */
                                                 DATA_CLASSIFIER_TYPE_STEREOTYPE,
                                                 utf8stringbuf_get_string( name )  /* stereotype */
                                               );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_ID_VOID != stereotype_id );
+        TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != stereotype_id );
         (void) test_vector_db_create_diagramelement( &setup_env,
                                                      root_diag_id,
                                                      stereotype_id

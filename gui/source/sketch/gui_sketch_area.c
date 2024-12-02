@@ -233,7 +233,7 @@ void gui_sketch_area_show_diagram ( gui_sketch_area_t *this_, data_id_t main_dia
         data_small_set_init( &roots );
         const u8_error_t db_err
             = data_database_reader_get_diagram_ids_by_parent_id( (*this_).db_reader,
-                                                                 DATA_ROW_ID_VOID,
+                                                                 DATA_ROW_VOID,
                                                                  &roots
                                                                );
         const uint32_t count = data_small_set_get_count( &roots );
@@ -286,13 +286,13 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     if ( GUI_TOOL_SEARCH != gui_sketch_request_get_tool_mode( &((*this_).request) ) )
     {
         if ( data_id_is_valid( &former_diagram_id )
-            &&( DATA_ROW_ID_VOID == gui_sketch_area_private_get_focused_diagram_id( this_ ) ))
+            &&( DATA_ROW_VOID == gui_sketch_area_private_get_focused_diagram_id( this_ ) ))
         {
             /* the requested diagram was not loaded, try the parent: */
             gui_sketch_area_show_diagram( this_, former_parent_diagram_id );
 
             if ( data_id_is_valid( &former_parent_diagram_id )
-                &&( DATA_ROW_ID_VOID == gui_sketch_area_private_get_focused_diagram_id( this_ ) ))
+                &&( DATA_ROW_VOID == gui_sketch_area_private_get_focused_diagram_id( this_ ) ))
             {
                 /* the requested diagram was not loaded, go back to root diagram: */
                 gui_sketch_area_show_diagram( this_, DATA_ID_VOID );
@@ -361,7 +361,7 @@ void gui_sketch_area_private_load_cards_data ( gui_sketch_area_t *this_ )
 
             /* determine ids */
             const data_diagram_t *selected_diag = gui_sketch_area_private_get_focused_diagram_ptr( this_ );
-            const data_row_id_t selected_diagram_row_id = data_diagram_get_row_id( selected_diag );
+            const data_row_t selected_diagram_row_id = data_diagram_get_row_id( selected_diag );
             const data_id_t selected_diagram_id = data_diagram_get_data_id( selected_diag );
             U8_TRACE_INFO_INT( "selected_diagram_row_id:", selected_diagram_row_id );
             const data_id_t parent_diagram_id = data_diagram_get_parent_data_id( selected_diag );
@@ -889,7 +889,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                 {
                     /* create a new diagram */
                     u8_error_t c_result = U8_ERROR_NONE;
-                    data_row_id_t new_diag_id = DATA_ROW_ID_VOID;
+                    data_row_t new_diag_id = DATA_ROW_VOID;
 
                     {
                         const data_diagram_t *selected_diag;
@@ -899,7 +899,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                             case GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM:
                             {
                                 assert( data_diagram_is_valid( selected_diag ) );
-                                data_row_id_t parent_diagram_id;
+                                data_row_t parent_diagram_id;
                                 parent_diagram_id = data_diagram_get_parent_row_id( selected_diag );
                                 int32_t list_order;
                                 list_order = gui_sketch_nav_tree_get_siblings_highest_order ( &((*this_).nav_tree) );
@@ -916,7 +916,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                             case GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM:
                             {
                                 assert( data_diagram_is_valid( selected_diag ) );
-                                data_row_id_t selected_diagram_id;
+                                data_row_t selected_diagram_id;
                                 selected_diagram_id = data_diagram_get_row_id( selected_diag );
                                 int32_t list_order;
                                 list_order = gui_sketch_nav_tree_get_children_highest_order ( &((*this_).nav_tree) );
@@ -931,7 +931,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
                             case GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM:
                             {
                                 c_result = gui_sketch_object_creator_create_diagram( &((*this_).object_creator),
-                                                                                     DATA_ROW_ID_VOID,
+                                                                                     DATA_ROW_VOID,
                                                                                      0,
                                                                                      &new_diag_id
                                                                                    );
@@ -1087,7 +1087,7 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
                     /* create a new classifier */
                     data_id_t dummy_classifier;
-                    data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ROW_ID_VOID );
+                    data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ROW_VOID );
                     layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dummy_classifier, x, y );
                     const int32_t x_order = layout_order_get_first( &layout_order );
                     const int32_t y_order = layout_order_get_second( &layout_order );
@@ -1095,15 +1095,15 @@ void gui_sketch_area_button_press( gui_sketch_area_t *this_, int x, int y )
 
                     /* create a classifier or a child-classifier */
                     u8_error_t c_result;
-                    data_row_id_t new_diagele_id;
-                    data_row_id_t new_classifier_id;
+                    data_row_t new_diagele_id;
+                    data_row_t new_classifier_id;
                     if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( surrounding_element ) )
                     {
                         const data_id_t *const surrounding_classifier
                             = data_full_id_get_secondary_id_const( clicked_object );
                         assert( data_id_is_valid( surrounding_classifier ) );
 
-                        data_row_id_t new_relationship_id;
+                        data_row_t new_relationship_id;
                         c_result = gui_sketch_object_creator_create_classifier_as_child( &((*this_).object_creator),
                                                                                          data_id_get_row_id( &diagram_id ),
                                                                                          data_id_get_row_id( surrounding_classifier ),
@@ -1268,20 +1268,20 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                             U8_LOG_ERROR_HEX( "U8_ERROR_NONE !=", c_err );
                         }
                     }
-                    else if ( DATA_ROW_ID_VOID == data_id_get_row_id( &target_parent_id ) )
+                    else if ( DATA_ROW_VOID == data_id_get_row_id( &target_parent_id ) )
                     {
                         /* a diagram is dragged to the root location */
                         ctrl_diagram_controller_t *const diag_control2
                             = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                        const data_row_id_t root_id
+                        const data_row_t root_id
                             = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
-                        if (( root_id != DATA_ROW_ID_VOID )&&( root_id != data_id_get_row_id( &dragged_diagram ) ))
+                        if (( root_id != DATA_ROW_VOID )&&( root_id != data_id_get_row_id( &dragged_diagram ) ))
                         {
                             u8_error_t c_err;
                             c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
                                                                                       data_id_get_row_id( &dragged_diagram ),
-                                                                                      DATA_ROW_ID_VOID,
+                                                                                      DATA_ROW_VOID,
                                                                                       CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW
                                                                                     );
                             if ( U8_ERROR_NONE != c_err )
@@ -1323,9 +1323,9 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                     = data_full_id_get_primary_id( dragged_object );
                 if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
                 {
-                    const data_row_id_t drag_id = data_id_get_row_id( &dragged_diagram );
-                    const data_row_id_t focus_id = gui_sketch_area_private_get_focused_diagram_id( this_ );
-                    if ( ( focus_id != DATA_ROW_ID_VOID )&&( focus_id == drag_id ) )
+                    const data_row_t drag_id = data_id_get_row_id( &dragged_diagram );
+                    const data_row_t focus_id = gui_sketch_area_private_get_focused_diagram_id( this_ );
+                    if ( ( focus_id != DATA_ROW_VOID )&&( focus_id == drag_id ) )
                     {
                         /* if clicked diagram is already the focused diagram, switch to edit mode */
                         gui_toolbox_set_selected_tool( (*this_).toolbox, GUI_TOOL_EDIT );
@@ -1538,10 +1538,10 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         data_diagram_type_t diag_type = data_diagram_get_diagram_type( target_diag );
 
                         /* determine source and destionation */
-                        data_row_id_t new_from_classifier_id;
-                        data_row_id_t new_to_classifier_id;
-                        data_row_id_t new_from_feature_id;
-                        data_row_id_t new_to_feature_id;
+                        data_row_t new_from_classifier_id;
+                        data_row_t new_to_classifier_id;
+                        data_row_t new_from_feature_id;
+                        data_row_t new_to_feature_id;
                         {
                             new_from_classifier_id = data_id_get_row_id( &dragged_classifier );
                             if ( DATA_TABLE_FEATURE == data_id_get_table( &dragged_element ) )
@@ -1550,7 +1550,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                             }
                             else
                             {
-                                new_from_feature_id = DATA_ROW_ID_VOID;
+                                new_from_feature_id = DATA_ROW_VOID;
                             }
                             new_to_classifier_id = data_id_get_row_id( &destination_classifier );
                             if ( DATA_TABLE_FEATURE == data_id_get_table( &destination_element ) )
@@ -1559,7 +1559,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                             }
                             else
                             {
-                                new_to_feature_id = DATA_ROW_ID_VOID;
+                                new_to_feature_id = DATA_ROW_VOID;
                             }
                         }
 
@@ -1568,7 +1568,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         {
                             /* propose a list order */
                             data_id_t fake_relationship;
-                            data_id_init ( &fake_relationship, DATA_TABLE_RELATIONSHIP, DATA_ROW_ID_VOID );
+                            data_id_init ( &fake_relationship, DATA_TABLE_RELATIONSHIP, DATA_ROW_VOID );
                             const layout_order_t layout_order
                                 = gui_sketch_card_get_order_at_pos( target_card, fake_relationship, x, y );
                             if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
@@ -1581,7 +1581,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                             }
                         }
 
-                        data_row_id_t new_relationship_id;
+                        data_row_t new_relationship_id;
                         const u8_error_t c_result
                             = gui_sketch_object_creator_create_relationship( &((*this_).object_creator),
                                                                              diag_type,
@@ -1644,7 +1644,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
 
                         /* determine id of classifier to which the clicked object belongs */
-                        const data_row_id_t classifier_id = data_id_get_row_id( &clicked_classifier );
+                        const data_row_t classifier_id = data_id_get_row_id( &clicked_classifier );
 
                         /* propose a list_order for the feature */
                         const int32_t std_list_order_proposal
@@ -1668,7 +1668,7 @@ void gui_sketch_area_button_release( gui_sketch_area_t *this_, int x, int y )
                         }
 
                         /* create a feature */
-                        data_row_id_t new_feature_id;
+                        data_row_t new_feature_id;
                         const u8_error_t ctrl_err
                             = gui_sketch_object_creator_create_feature( &((*this_).object_creator),
                                                                         diag_type,

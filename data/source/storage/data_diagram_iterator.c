@@ -141,7 +141,7 @@ u8_error_t data_diagram_iterator_next ( data_diagram_iterator_t *this_, data_dia
                                    );
         if ( SQLITE_NULL == sqlite3_column_type( sql_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ) )
         {
-            data_diagram_set_parent_row_id( out_diagram, DATA_ROW_ID_VOID );
+            data_diagram_set_parent_row_id( out_diagram, DATA_ROW_VOID );
         }
         data_diagram_trace( out_diagram );
 

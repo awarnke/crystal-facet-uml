@@ -60,7 +60,7 @@ void data_database_head_destroy ( data_database_head_t *this_ );
  *          E.g. U8_ERROR_NOT_FOUND if key does not exist or U8_ERROR_NO_DB if the database is not open.
  */
 u8_error_t data_database_head_read_value_by_id ( data_database_head_t *this_,
-                                                 data_row_id_t obj_id,
+                                                 data_row_t obj_id,
                                                  data_head_t *out_head
                                                );
 
@@ -83,14 +83,14 @@ u8_error_t data_database_head_read_value_by_key ( data_database_head_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param head data of the new head value record to be created.
- *              The id should be DATA_ROW_ID_VOID to create a new head value
+ *              The id should be DATA_ROW_VOID to create a new head value
  *              or a valid id to update an existing head value.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if duplicate id or duplicate key, otherwise an other error code.
  */
 u8_error_t data_database_head_create_value ( data_database_head_t *this_,
                                              const data_head_t *head,
-                                             data_row_id_t* out_new_id
+                                             data_row_t* out_new_id
                                            );
 
 /*!
@@ -103,7 +103,7 @@ u8_error_t data_database_head_create_value ( data_database_head_t *this_,
  *  \return U8_ERROR_NONE in case of success, error id otherwise.
  */
 u8_error_t data_database_head_delete_value ( data_database_head_t *this_,
-                                             data_row_id_t obj_id,
+                                             data_row_t obj_id,
                                              data_head_t *out_old_head
                                            );
 
@@ -117,7 +117,7 @@ u8_error_t data_database_head_delete_value ( data_database_head_t *this_,
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
 u8_error_t data_database_head_update_value ( data_database_head_t *this_,
-                                             data_row_id_t head_id,
+                                             data_row_t head_id,
                                              const char* new_head_value,
                                              data_head_t *out_old_head
                                            );

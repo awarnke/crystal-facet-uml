@@ -25,7 +25,7 @@ static inline u8_error_t data_database_diagram_reader_private_bind_void_to_state
 
 static inline u8_error_t data_database_diagram_reader_private_bind_id_to_statement ( data_database_diagram_reader_t *this_,
                                                                                      sqlite3_stmt *statement_ptr,
-                                                                                     data_row_id_t id )
+                                                                                     data_row_t id )
 {
     assert( NULL != statement_ptr );
     u8_error_t result = U8_ERROR_NONE;

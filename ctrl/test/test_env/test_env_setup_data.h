@@ -10,7 +10,7 @@
  */
 
 #include "ctrl_controller.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 
 /*!
  *  \brief attributes of the test_env_setup_t
@@ -40,12 +40,12 @@ static inline void test_env_setup_destroy( test_env_setup_t *this_ );
  *  \brief helper function to initialize the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_diagram_id id of the parent diagram or DATA_ROW_ID_VOID to create a root diagram
+ *  \param parent_diagram_id id of the parent diagram or DATA_ROW_VOID to create a root diagram
  *  \param name name of the newly created element
  *  \return id of newly created diagram
  */
-static data_row_id_t test_env_setup_data_create_diagram( test_env_setup_t *this_,
-                                                         data_row_id_t parent_diagram_id,
+static data_row_t test_env_setup_data_create_diagram( test_env_setup_t *this_,
+                                                         data_row_t parent_diagram_id,
                                                          const char* name
                                                        );
 
@@ -56,7 +56,7 @@ static data_row_id_t test_env_setup_data_create_diagram( test_env_setup_t *this_
  *  \param name name of the newly created element
  *  \return id of newly created classifier
  */
-static data_row_id_t test_env_setup_data_create_classifier( test_env_setup_t *this_,
+static data_row_t test_env_setup_data_create_classifier( test_env_setup_t *this_,
                                                             const char* name
                                                           );
 
@@ -66,13 +66,13 @@ static data_row_id_t test_env_setup_data_create_classifier( test_env_setup_t *th
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the parent diagram to which to attach the classifier
  *  \param classifier_id id of the classifier which to attach to the diagram
- *  \param focused_feature_id id of the lifeline if applicable, DATA_ROW_ID_VOID otherwise
+ *  \param focused_feature_id id of the lifeline if applicable, DATA_ROW_VOID otherwise
  *  \return id of newly created diagramelement
  */
-static data_row_id_t test_env_setup_data_create_diagramelement( test_env_setup_t *this_,
-                                                                data_row_id_t diagram_id,
-                                                                data_row_id_t classifier_id,
-                                                                data_row_id_t focused_feature_id
+static data_row_t test_env_setup_data_create_diagramelement( test_env_setup_t *this_,
+                                                                data_row_t diagram_id,
+                                                                data_row_t classifier_id,
+                                                                data_row_t focused_feature_id
                                                               );
 
 /*!
@@ -83,8 +83,8 @@ static data_row_id_t test_env_setup_data_create_diagramelement( test_env_setup_t
  *  \param name name of the newly created element
  *  \return id of newly created feature
  */
-static data_row_id_t test_env_setup_data_create_feature( test_env_setup_t *this_,
-                                                         data_row_id_t parent_classifier_id,
+static data_row_t test_env_setup_data_create_feature( test_env_setup_t *this_,
+                                                         data_row_t parent_classifier_id,
                                                          const char* name
                                                        );
 
@@ -93,17 +93,17 @@ static data_row_id_t test_env_setup_data_create_feature( test_env_setup_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_id id of the source classifier from which the relation starts
- *  \param from_feature_id id of the source feature from which the relation starts or DATA_ROW_ID_VOID if directly conected to classifier
+ *  \param from_feature_id id of the source feature from which the relation starts or DATA_ROW_VOID if directly conected to classifier
  *  \param to_classifier_id id of the target classifier to which the relation goes to
- *  \param to_feature_id id of the target feature at which the relation ends or DATA_ROW_ID_VOID if directly conected to classifier
+ *  \param to_feature_id id of the target feature at which the relation ends or DATA_ROW_VOID if directly conected to classifier
  *  \param name name of the newly created element
  *  \return id of newly created relationship
  */
-static data_row_id_t test_env_setup_data_create_relationship( test_env_setup_t *this_,
-                                                              data_row_id_t from_classifier_id,
-                                                              data_row_id_t from_feature_id,
-                                                              data_row_id_t to_classifier_id,
-                                                              data_row_id_t to_feature_id,
+static data_row_t test_env_setup_data_create_relationship( test_env_setup_t *this_,
+                                                              data_row_t from_classifier_id,
+                                                              data_row_t from_feature_id,
+                                                              data_row_t to_classifier_id,
+                                                              data_row_t to_feature_id,
                                                               const char* name
                                                             );
 

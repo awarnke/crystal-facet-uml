@@ -82,7 +82,7 @@ static inline bool data_small_set_contains ( const data_small_set_t *this_, data
     return result;
 }
 
-static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, data_row_id_t row_id )
+static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, data_row_t row_id )
 {
     bool result;
     data_id_t my_id;
@@ -128,7 +128,7 @@ static inline u8_error_t data_small_set_add_obj ( data_small_set_t *this_, data_
     return result;
 }
 
-static inline u8_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_id_t row_id )
+static inline u8_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, data_row_t row_id )
 {
     bool result;
     data_id_t my_id;

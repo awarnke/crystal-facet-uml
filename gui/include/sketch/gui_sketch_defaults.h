@@ -14,7 +14,7 @@
 #include "entity/data_feature_type.h"
 #include "entity/data_relationship_type.h"
 #include "entity/data_diagram_type.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <stdbool.h>
 
 /*!

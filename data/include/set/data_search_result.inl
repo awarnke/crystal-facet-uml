@@ -4,7 +4,7 @@
 #include "u8/u8_log.h"
 
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
-                                                     data_row_id_t match_id,
+                                                     data_row_t match_id,
                                                      data_diagram_type_t match_type,
                                                      const char* match_name )
 {
@@ -27,10 +27,10 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
 }
 
 static inline void data_search_result_init_classifier ( data_search_result_t *this_,
-                                                        data_row_id_t match_id,
+                                                        data_row_t match_id,
                                                         data_classifier_type_t match_type,
                                                         const char* match_name,
-                                                        data_row_id_t diagram_id  )
+                                                        data_row_t diagram_id  )
 {
     assert( NULL != match_name );
     utf8error_t strerr;
@@ -51,11 +51,11 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
 }
 
 static inline void data_search_result_init_feature ( data_search_result_t *this_,
-                                                     data_row_id_t match_id,
+                                                     data_row_t match_id,
                                                      data_feature_type_t match_type,
                                                      const char* match_name,
-                                                     data_row_id_t classifier_id,
-                                                     data_row_id_t diagram_id )
+                                                     data_row_t classifier_id,
+                                                     data_row_t diagram_id )
 {
     assert( NULL != match_name );
     utf8error_t strerr;
@@ -76,12 +76,12 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
 }
 
 static inline void data_search_result_init_relationship ( data_search_result_t *this_,
-                                                          data_row_id_t match_id,
+                                                          data_row_t match_id,
                                                           data_relationship_type_t match_type,
                                                           const char* match_name,
-                                                          data_row_id_t from_classifier_id,
-                                                          data_row_id_t to_classifier_id,
-                                                          data_row_id_t diagram_id )
+                                                          data_row_t from_classifier_id,
+                                                          data_row_t to_classifier_id,
+                                                          data_row_t diagram_id )
 {
     assert( NULL != match_name );
     utf8error_t strerr;

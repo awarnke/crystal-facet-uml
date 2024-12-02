@@ -159,7 +159,7 @@ u8_error_t data_visible_classifier_iterator_next ( data_visible_classifier_itera
 
         data_classifier_t *current_classifier;
         current_classifier = data_visible_classifier_get_classifier_ptr( out_visible_classifier );
-        data_row_id_t classifier_id = sqlite3_column_int64( sql_statement, RESULT_CLASSIFIER_ID_COLUMN );
+        data_row_t classifier_id = sqlite3_column_int64( sql_statement, RESULT_CLASSIFIER_ID_COLUMN );
         result |= data_classifier_reinit( current_classifier,
                                           classifier_id,
                                           sqlite3_column_int( sql_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
@@ -184,7 +184,7 @@ u8_error_t data_visible_classifier_iterator_next ( data_visible_classifier_itera
                                             );
         if ( SQLITE_NULL == sqlite3_column_type( sql_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
         {
-            data_diagramelement_set_focused_feature_row_id ( current_diag_element, DATA_ROW_ID_VOID );
+            data_diagramelement_set_focused_feature_row_id ( current_diag_element, DATA_ROW_VOID );
         }
 
         data_classifier_trace( current_classifier );

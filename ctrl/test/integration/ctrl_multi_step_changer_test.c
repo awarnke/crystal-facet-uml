@@ -69,14 +69,14 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
     test_env_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_ID_VOID, "root diag" );
+    const data_row_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
     test_env_setup_data_create_diagram( &test_environ, root_diagram, "test diag" );
 
     /* create 1 classifiers */
-    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
+    const data_row_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
 
     /* create 1 diagramelement */
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
 
     test_env_setup_destroy( &test_environ );
 
@@ -88,11 +88,11 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
 
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_CLASSIFIER, test_classifier );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, (data_row_id_t)50000 );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_FEATURE, (data_row_t)50000 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, (data_row_id_t)50000 );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_RELATIONSHIP, (data_row_t)50000 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
-        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, (data_row_id_t)50000 );
+        add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAMELEMENT, (data_row_t)50000 );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
         add_ok = data_small_set_add_row_id( &small_set, DATA_TABLE_DIAGRAM, root_diagram );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, add_ok );
@@ -126,32 +126,32 @@ static test_case_result_t delete_set_successfully( test_fixture_t *fix )
     test_env_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_id_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_ID_VOID, "root diag" );
-    const data_row_id_t test_diagram = test_env_setup_data_create_diagram( &test_environ, root_diagram, "test diag" );
+    const data_row_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
+    const data_row_t test_diagram = test_env_setup_data_create_diagram( &test_environ, root_diagram, "test diag" );
 
     /* create 3 classifiers */
-    const data_row_id_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
-    const data_row_id_t omni_classifier = test_env_setup_data_create_classifier( &test_environ, "omni classifier" );
-    const data_row_id_t orphaned_classifier = test_env_setup_data_create_classifier( &test_environ, "orphaned classifier" );
+    const data_row_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
+    const data_row_t omni_classifier = test_env_setup_data_create_classifier( &test_environ, "omni classifier" );
+    const data_row_t orphaned_classifier = test_env_setup_data_create_classifier( &test_environ, "orphaned classifier" );
 
     /* create 2 diagramelements */
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_ID_VOID );
-    const data_row_id_t test_diagele
-        = test_env_setup_data_create_diagramelement( &test_environ, test_diagram, test_classifier, DATA_ROW_ID_VOID );
+    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
+    const data_row_t test_diagele
+        = test_env_setup_data_create_diagramelement( &test_environ, test_diagram, test_classifier, DATA_ROW_VOID );
 
     /* create 2 features */
-    const data_row_id_t test_feature = test_env_setup_data_create_feature( &test_environ, test_classifier, "test feature" );
-    const data_row_id_t omni_feature = test_env_setup_data_create_feature( &test_environ, omni_classifier, "omni feature" );
+    const data_row_t test_feature = test_env_setup_data_create_feature( &test_environ, test_classifier, "test feature" );
+    const data_row_t omni_feature = test_env_setup_data_create_feature( &test_environ, omni_classifier, "omni feature" );
 
     /* create 2 relationships */
-    const data_row_id_t test_rel
+    const data_row_t test_rel
         = test_env_setup_data_create_relationship( &test_environ,
-                                                   omni_classifier, DATA_ROW_ID_VOID,
+                                                   omni_classifier, DATA_ROW_VOID,
                                                    omni_classifier, omni_feature,
                                                    "test relation" );
     test_env_setup_data_create_relationship( &test_environ,
                                              test_classifier, test_feature,
-                                             omni_classifier, DATA_ROW_ID_VOID,
+                                             omni_classifier, DATA_ROW_VOID,
                                              "collateral relation" );
 
     test_env_setup_destroy( &test_environ );

@@ -16,7 +16,7 @@
 #include "set/data_full_id.h"
 #include "set/data_visible_classifier.h"
 #include "set/data_small_set.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -35,7 +35,7 @@ enum data_database_consistency_checker_const_enum {
 struct data_database_consistency_checker_struct {
     data_database_t *database;  /*!< pointer to external database */
 
-    data_row_id_t private_temp_diagram_ids_buf[DATA_DATABASE_CONSISTENCY_CHECKER_MAX_TEMP_DIAG_IDS][2];  /*!< buffer to store a temporary diag ids list */
+    data_row_t private_temp_diagram_ids_buf[DATA_DATABASE_CONSISTENCY_CHECKER_MAX_TEMP_DIAG_IDS][2];  /*!< buffer to store a temporary diag ids list */
 };
 
 typedef struct data_database_consistency_checker_struct data_database_consistency_checker_t;
@@ -81,7 +81,7 @@ u8_error_t data_database_consistency_checker_find_circular_diagram_parents ( dat
  */
 u8_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
                                                                        uint32_t max_out_array_size,
-                                                                       data_row_id_t (*out_diagram_id_pair)[][2],
+                                                                       data_row_t (*out_diagram_id_pair)[][2],
                                                                        uint32_t *out_diagram_id_pair_count
                                                                      );
 
@@ -152,7 +152,7 @@ u8_error_t data_database_consistency_checker_find_invalid_relationship_features 
  *  \param obj_id id of the classifier record to be deleted.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error; U8_ERROR_READ_ONLY_DB if read only.
  */
-u8_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_id_t obj_id );
+u8_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, data_row_t obj_id );
 
 #endif  /* DATA_DATABASE_CONSISTENCY_CHECKER_H */
 

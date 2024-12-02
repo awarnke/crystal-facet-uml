@@ -78,7 +78,7 @@ static test_fixture_t * set_up()
                                         32,  /* diagram_id */
                                         99,  /* classifier_id */
                                         DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE,
-                                        DATA_ROW_ID_VOID,
+                                        DATA_ROW_VOID,
                                         "1ded6d32-cdea-43d8-931c-9459065f8944"
                                       );
         TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, err1 );

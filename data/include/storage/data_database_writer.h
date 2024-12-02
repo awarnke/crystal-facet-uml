@@ -22,7 +22,7 @@
 #include "entity/data_diagramelement.h"
 #include "entity/data_feature.h"
 #include "entity/data_relationship.h"
-#include "entity/data_row_id.h"
+#include "entity/data_row.h"
 #include "utf8stringbuf/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
@@ -73,11 +73,11 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
  *  \brief creates a new diagram and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram data of the new diagram record to be created. The id should be DATA_ROW_ID_VOID unless a diagram with known, unique id shall be created.
+ *  \param diagram data of the new diagram record to be created. The id should be DATA_ROW_VOID unless a diagram with known, unique id shall be created.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, data_row_id_t* out_new_id );
+u8_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, data_row_t* out_new_id );
 
 /*!
  *  \brief deletes a diagram record and returns its old data
@@ -89,7 +89,7 @@ u8_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, 
  *  \param[out] out_old_diagram storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, data_row_id_t obj_id, data_diagram_t *out_old_diagram );
+u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, data_row_t obj_id, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: diagram_type
@@ -100,7 +100,7 @@ u8_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, 
  *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, data_row_id_t diagram_id, data_diagram_type_t new_diagram_type, data_diagram_t *out_old_diagram );
+u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, data_row_t diagram_id, data_diagram_type_t new_diagram_type, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: stereotype
@@ -111,7 +111,7 @@ u8_error_t data_database_writer_update_diagram_type ( data_database_writer_t *th
  *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagram_stereotype ( data_database_writer_t *this_, data_row_id_t diagram_id, const char* new_diagram_stereotype, data_diagram_t *out_old_diagram );
+u8_error_t data_database_writer_update_diagram_stereotype ( data_database_writer_t *this_, data_row_t diagram_id, const char* new_diagram_stereotype, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: name
@@ -122,7 +122,7 @@ u8_error_t data_database_writer_update_diagram_stereotype ( data_database_writer
  *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, data_row_id_t diagram_id, const char* new_diagram_name, data_diagram_t *out_old_diagram );
+u8_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, data_row_t diagram_id, const char* new_diagram_name, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: description
@@ -133,7 +133,7 @@ u8_error_t data_database_writer_update_diagram_name ( data_database_writer_t *th
  *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, data_row_id_t diagram_id, const char* new_diagram_description, data_diagram_t *out_old_diagram );
+u8_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, data_row_t diagram_id, const char* new_diagram_description, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: list_order
@@ -144,7 +144,7 @@ u8_error_t data_database_writer_update_diagram_description ( data_database_write
  *  \param[out] out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagram_list_order ( data_database_writer_t *this_, data_row_id_t diagram_id, int32_t new_diagram_list_order, data_diagram_t *out_old_diagram );
+u8_error_t data_database_writer_update_diagram_list_order ( data_database_writer_t *this_, data_row_t diagram_id, int32_t new_diagram_list_order, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: parent_id
@@ -156,7 +156,7 @@ u8_error_t data_database_writer_update_diagram_list_order ( data_database_writer
  *                              NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_, data_row_id_t diagram_id, data_row_id_t new_diagram_parent_id, data_diagram_t *out_old_diagram );
+u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_, data_row_t diagram_id, data_row_t new_diagram_parent_id, data_diagram_t *out_old_diagram );
 
 /* ================================ CLASSIFIER ================================ */
 
@@ -165,11 +165,11 @@ u8_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier data of the new classifier record to be created.
- *                    The id should be DATA_ROW_ID_VOID unless a classifier with known, unique id shall be created.
+ *                    The id should be DATA_ROW_VOID unless a classifier with known, unique id shall be created.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_DUPLICATE if duplicate id or duplicate name, otherwise an other error code.
  */
-u8_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, data_row_id_t* out_new_id );
+u8_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, data_row_t* out_new_id );
 
 /*!
  *  \brief deletes a classifier record and returns its old data
@@ -182,7 +182,7 @@ u8_error_t data_database_writer_create_classifier( data_database_writer_t *this_
  *                                 NULL if old data shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, data_row_id_t obj_id, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, data_row_t obj_id, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: main_type
@@ -193,7 +193,7 @@ u8_error_t data_database_writer_delete_classifier( data_database_writer_t *this_
  *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_, data_row_id_t classifier_id, data_classifier_type_t new_classifier_main_type, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_, data_row_t classifier_id, data_classifier_type_t new_classifier_main_type, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: stereotype
@@ -205,7 +205,7 @@ u8_error_t data_database_writer_update_classifier_main_type ( data_database_writ
  *                                 NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, data_row_id_t classifier_id, const char* new_classifier_stereotype, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, data_row_t classifier_id, const char* new_classifier_stereotype, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: name
@@ -216,7 +216,7 @@ u8_error_t data_database_writer_update_classifier_stereotype ( data_database_wri
  *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_, data_row_id_t classifier_id, const char* new_classifier_name, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_, data_row_t classifier_id, const char* new_classifier_name, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: description
@@ -227,7 +227,7 @@ u8_error_t data_database_writer_update_classifier_name ( data_database_writer_t 
  *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_, data_row_id_t classifier_id, const char* new_classifier_description, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_, data_row_t classifier_id, const char* new_classifier_description, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: x_order
@@ -238,7 +238,7 @@ u8_error_t data_database_writer_update_classifier_description ( data_database_wr
  *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_classifier_x_order ( data_database_writer_t *this_, data_row_id_t classifier_id, int32_t new_classifier_x_order, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_update_classifier_x_order ( data_database_writer_t *this_, data_row_t classifier_id, int32_t new_classifier_x_order, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: y_order
@@ -249,7 +249,7 @@ u8_error_t data_database_writer_update_classifier_x_order ( data_database_writer
  *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_, data_row_id_t classifier_id, int32_t new_classifier_y_order, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_, data_row_t classifier_id, int32_t new_classifier_y_order, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: list_order
@@ -260,7 +260,7 @@ u8_error_t data_database_writer_update_classifier_y_order ( data_database_writer
  *  \param[out] out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_classifier_list_order ( data_database_writer_t *this_, data_row_id_t classifier_id, int32_t new_classifier_list_order, data_classifier_t *out_old_classifier );
+u8_error_t data_database_writer_update_classifier_list_order ( data_database_writer_t *this_, data_row_t classifier_id, int32_t new_classifier_list_order, data_classifier_t *out_old_classifier );
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
@@ -268,11 +268,11 @@ u8_error_t data_database_writer_update_classifier_list_order ( data_database_wri
  *  \brief creates a new diagramelement and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ROW_ID_VOID unless a diagramelement with known, unique id shall be created.
+ *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ROW_VOID unless a diagramelement with known, unique id shall be created.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, data_row_id_t* out_new_id );
+u8_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, data_row_t* out_new_id );
 
 /*!
  *  \brief deletes a diagramelement record and returns its old data
@@ -282,7 +282,7 @@ u8_error_t data_database_writer_create_diagramelement( data_database_writer_t *t
  *  \param[out] out_old_diagramelement storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, data_row_id_t obj_id, data_diagramelement_t *out_old_diagramelement );
+u8_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, data_row_t obj_id, data_diagramelement_t *out_old_diagramelement );
 
 /*!
  *  \brief updates the diagramelement attribute: display_flags
@@ -293,7 +293,7 @@ u8_error_t data_database_writer_delete_diagramelement( data_database_writer_t *t
  *  \param[out] out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_, data_row_id_t diagramelement_id, data_diagramelement_flag_t new_display_flags, data_diagramelement_t *out_old_diagramelement );
+u8_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_, data_row_t diagramelement_id, data_diagramelement_flag_t new_display_flags, data_diagramelement_t *out_old_diagramelement );
 
 /*!
  *  \brief updates the diagramelement attribute: focused_feature_id
@@ -304,7 +304,7 @@ u8_error_t data_database_writer_update_diagramelement_display_flags ( data_datab
  *  \param[out] out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_database_writer_t *this_, data_row_id_t diagramelement_id, data_row_id_t new_focused_feature_id, data_diagramelement_t *out_old_diagramelement );
+u8_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_database_writer_t *this_, data_row_t diagramelement_id, data_row_t new_focused_feature_id, data_diagramelement_t *out_old_diagramelement );
 
 /* ================================ FEATURE ================================ */
 
@@ -312,11 +312,11 @@ u8_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_
  *  \brief creates a new feature and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param feature data of the new feature record to be created. The id should be DATA_ROW_ID_VOID unless a feature with known, unique id shall be created.
+ *  \param feature data of the new feature record to be created. The id should be DATA_ROW_VOID unless a feature with known, unique id shall be created.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, data_row_id_t* out_new_id );
+u8_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, data_row_t* out_new_id );
 
 /*!
  *  \brief deletes a feature record and returns its old data
@@ -326,7 +326,7 @@ u8_error_t data_database_writer_create_feature ( data_database_writer_t *this_, 
  *  \param[out] out_old_feature storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, data_row_id_t obj_id, data_feature_t *out_old_feature );
+u8_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, data_row_t obj_id, data_feature_t *out_old_feature );
 
 /*!
  *  \brief updates the feature attribute: main_type
@@ -337,7 +337,7 @@ u8_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, 
  *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, data_row_id_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature );
+u8_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, data_row_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature );
 
 /*!
  *  \brief updates the feature attribute: key
@@ -348,7 +348,7 @@ u8_error_t data_database_writer_update_feature_main_type ( data_database_writer_
  *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_feature_key ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_key, data_feature_t *out_old_feature );
+u8_error_t data_database_writer_update_feature_key ( data_database_writer_t *this_, data_row_t feature_id, const char* new_feature_key, data_feature_t *out_old_feature );
 
 /*!
  *  \brief updates the feature attribute: value
@@ -359,7 +359,7 @@ u8_error_t data_database_writer_update_feature_key ( data_database_writer_t *thi
  *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_feature_value ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_value, data_feature_t *out_old_feature );
+u8_error_t data_database_writer_update_feature_value ( data_database_writer_t *this_, data_row_t feature_id, const char* new_feature_value, data_feature_t *out_old_feature );
 
 /*!
  *  \brief updates the feature attribute: description
@@ -370,7 +370,7 @@ u8_error_t data_database_writer_update_feature_value ( data_database_writer_t *t
  *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_feature_description ( data_database_writer_t *this_, data_row_id_t feature_id, const char* new_feature_description, data_feature_t *out_old_feature );
+u8_error_t data_database_writer_update_feature_description ( data_database_writer_t *this_, data_row_t feature_id, const char* new_feature_description, data_feature_t *out_old_feature );
 
 /*!
  *  \brief updates the feature attribute: list_order
@@ -381,7 +381,7 @@ u8_error_t data_database_writer_update_feature_description ( data_database_write
  *  \param[out] out_old_feature storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_feature_list_order ( data_database_writer_t *this_, data_row_id_t feature_id, int32_t new_feature_list_order, data_feature_t *out_old_feature );
+u8_error_t data_database_writer_update_feature_list_order ( data_database_writer_t *this_, data_row_t feature_id, int32_t new_feature_list_order, data_feature_t *out_old_feature );
 
 /* ================================ RELATIONSHIP ================================ */
 
@@ -389,11 +389,11 @@ u8_error_t data_database_writer_update_feature_list_order ( data_database_writer
  *  \brief creates a new relationship and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param relationship data of the new relationship record to be created. The id should be DATA_ROW_ID_VOID unless a relationship with known, unique id shall be created.
+ *  \param relationship data of the new relationship record to be created. The id should be DATA_ROW_VOID unless a relationship with known, unique id shall be created.
  *  \param[out] out_new_id storage, where the id of the newly created record is stored. NULL if the id shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, data_row_id_t* out_new_id );
+u8_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, data_row_t* out_new_id );
 
 /*!
  *  \brief deletes a relationship record and returns its old data
@@ -403,7 +403,7 @@ u8_error_t data_database_writer_create_relationship ( data_database_writer_t *th
  *  \param[out] out_old_relationship storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
  *  \return U8_ERROR_NONE in case of success, an error code in case of error.
  */
-u8_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, data_row_id_t obj_id, data_relationship_t *out_old_relationship );
+u8_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, data_row_t obj_id, data_relationship_t *out_old_relationship );
 
 /*!
  *  \brief updates the relationship attribute: main_type
@@ -414,7 +414,7 @@ u8_error_t data_database_writer_delete_relationship ( data_database_writer_t *th
  *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, data_row_id_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship );
+u8_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, data_row_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship );
 
 /*!
  *  \brief updates the relationship attribute: stereotype
@@ -425,7 +425,7 @@ u8_error_t data_database_writer_update_relationship_main_type ( data_database_wr
  *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_relationship_stereotype ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_stereotype, data_relationship_t *out_old_relationship );
+u8_error_t data_database_writer_update_relationship_stereotype ( data_database_writer_t *this_, data_row_t relationship_id, const char* new_relationship_stereotype, data_relationship_t *out_old_relationship );
 
 /*!
  *  \brief updates the relationship attribute: name
@@ -436,7 +436,7 @@ u8_error_t data_database_writer_update_relationship_stereotype ( data_database_w
  *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship );
+u8_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, data_row_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship );
 
 /*!
  *  \brief updates the relationship attribute: description
@@ -447,7 +447,7 @@ u8_error_t data_database_writer_update_relationship_name ( data_database_writer_
  *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_relationship_description ( data_database_writer_t *this_, data_row_id_t relationship_id, const char* new_relationship_description, data_relationship_t *out_old_relationship );
+u8_error_t data_database_writer_update_relationship_description ( data_database_writer_t *this_, data_row_t relationship_id, const char* new_relationship_description, data_relationship_t *out_old_relationship );
 
 /*!
  *  \brief updates the relationship attribute: list_order
@@ -458,7 +458,7 @@ u8_error_t data_database_writer_update_relationship_description ( data_database_
  *  \param[out] out_old_relationship storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, U8_ERROR_NONE otherwise
  */
-u8_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, data_row_id_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship );
+u8_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, data_row_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship );
 
 #endif  /* DATA_DATABASE_WRITER_H */
 

@@ -7,7 +7,7 @@
 
 static inline void data_classifier_init_empty ( data_classifier_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     (*this_).main_type = DATA_CLASSIFIER_TYPE_BLOCK;
 
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -44,7 +44,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
     utf8error_t strerr;
     u8_error_t result = U8_ERROR_NONE;
 
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     (*this_).main_type = main_type;
 
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -80,7 +80,7 @@ static inline u8_error_t data_classifier_init_new ( data_classifier_t *this_,
 }
 
 static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
-                                                data_row_id_t id,
+                                                data_row_t id,
                                                 data_classifier_type_t main_type,
                                                 const char* stereotype,
                                                 const char* name,
@@ -133,7 +133,7 @@ static inline u8_error_t data_classifier_init ( data_classifier_t *this_,
 }
 
 static inline u8_error_t data_classifier_reinit ( data_classifier_t *this_,
-                                                  data_row_id_t id,
+                                                  data_row_t id,
                                                   data_classifier_type_t main_type,
                                                   const char* stereotype,
                                                   const char* name,
@@ -172,7 +172,7 @@ static inline void data_classifier_replace ( data_classifier_t *this_, const dat
 
 static inline void data_classifier_destroy ( data_classifier_t *this_ )
 {
-    (*this_).id = DATA_ROW_ID_VOID;
+    (*this_).id = DATA_ROW_VOID;
     data_uuid_destroy( &((*this_).uuid) );
 }
 
@@ -190,12 +190,12 @@ static inline void data_classifier_trace ( const data_classifier_t *this_ )
     U8_TRACE_INFO_STR( "- uuid:", data_uuid_get_string( &((*this_).uuid) ) );
 }
 
-static inline data_row_id_t data_classifier_get_row_id ( const data_classifier_t *this_ )
+static inline data_row_t data_classifier_get_row_id ( const data_classifier_t *this_ )
 {
     return (*this_).id;
 }
 
-static inline void data_classifier_set_row_id ( data_classifier_t *this_, data_row_id_t id )
+static inline void data_classifier_set_row_id ( data_classifier_t *this_, data_row_t id )
 {
     (*this_).id = id;
 }
@@ -343,7 +343,7 @@ static inline u8_error_t data_classifier_set_uuid ( data_classifier_t *this_, co
 
 static inline bool data_classifier_is_valid ( const data_classifier_t *this_ )
 {
-    return ( DATA_ROW_ID_VOID != (*this_).id );
+    return ( DATA_ROW_VOID != (*this_).id );
 }
 
 
