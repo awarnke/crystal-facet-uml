@@ -3,7 +3,7 @@
 #include "ctrl_multi_step_changer_test.h"
 #include "ctrl_multi_step_changer.h"
 #include "ctrl_controller.h"
-#include "test_env/test_env_setup_data.h"
+#include "tvec/tvec_setup.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
 #include "entity/data_diagram.h"
@@ -65,20 +65,20 @@ static void tear_down( test_fixture_t *fix )
 static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    test_env_setup_t test_environ;
-    test_env_setup_init( &test_environ, &((*fix).controller) );
+    tvec_setup_t test_environ;
+    tvec_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
-    test_env_setup_data_create_diagram( &test_environ, root_diagram, "test diag" );
+    const data_row_t root_diagram = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
+    tvec_setup_diagram( &test_environ, root_diagram, "test diag" );
 
     /* create 1 classifiers */
-    const data_row_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
+    const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
 
     /* create 1 diagramelement */
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
 
-    test_env_setup_destroy( &test_environ );
+    tvec_setup_destroy( &test_environ );
 
     /* try to delete each type once from the database */
     {
@@ -122,39 +122,39 @@ static test_case_result_t delete_set_not_possible( test_fixture_t *fix )
 static test_case_result_t delete_set_successfully( test_fixture_t *fix )
 {
     assert( fix != NULL );
-    test_env_setup_t test_environ;
-    test_env_setup_init( &test_environ, &((*fix).controller) );
+    tvec_setup_t test_environ;
+    tvec_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
-    const data_row_t test_diagram = test_env_setup_data_create_diagram( &test_environ, root_diagram, "test diag" );
+    const data_row_t root_diagram = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
+    const data_row_t test_diagram = tvec_setup_diagram( &test_environ, root_diagram, "test diag" );
 
     /* create 3 classifiers */
-    const data_row_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
-    const data_row_t omni_classifier = test_env_setup_data_create_classifier( &test_environ, "omni classifier" );
-    const data_row_t orphaned_classifier = test_env_setup_data_create_classifier( &test_environ, "orphaned classifier" );
+    const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
+    const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
+    const data_row_t orphaned_classifier = tvec_setup_classifier( &test_environ, "orphaned classifier" );
 
     /* create 2 diagramelements */
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
     const data_row_t test_diagele
-        = test_env_setup_data_create_diagramelement( &test_environ, test_diagram, test_classifier, DATA_ROW_VOID );
+        = tvec_setup_diagramelement( &test_environ, test_diagram, test_classifier, DATA_ROW_VOID );
 
     /* create 2 features */
-    const data_row_t test_feature = test_env_setup_data_create_feature( &test_environ, test_classifier, "test feature" );
-    const data_row_t omni_feature = test_env_setup_data_create_feature( &test_environ, omni_classifier, "omni feature" );
+    const data_row_t test_feature = tvec_setup_feature( &test_environ, test_classifier, "test feature" );
+    const data_row_t omni_feature = tvec_setup_feature( &test_environ, omni_classifier, "omni feature" );
 
     /* create 2 relationships */
     const data_row_t test_rel
-        = test_env_setup_data_create_relationship( &test_environ,
+        = tvec_setup_relationship( &test_environ,
                                                    omni_classifier, DATA_ROW_VOID,
                                                    omni_classifier, omni_feature,
                                                    "test relation" );
-    test_env_setup_data_create_relationship( &test_environ,
+    tvec_setup_relationship( &test_environ,
                                              test_classifier, test_feature,
                                              omni_classifier, DATA_ROW_VOID,
                                              "collateral relation" );
 
-    test_env_setup_destroy( &test_environ );
+    tvec_setup_destroy( &test_environ );
 
     /* delete each type once from the database */
     {

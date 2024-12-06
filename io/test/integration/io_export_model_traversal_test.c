@@ -2,7 +2,7 @@
 
 #include "io_export_model_traversal_test.h"
 #include "io_export_model_traversal.h"
-#include "test_env/test_env_setup_data.h"
+#include "tvec/tvec_setup.h"
 #include "test_result_check/test_result_check_xml.h"
 #include "xmi/xmi_element_writer.h"
 #include "u8stream/universal_memory_output_stream.h"
@@ -104,28 +104,28 @@ static void create_mini_model( ctrl_controller_t *controller,
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( controller );
     u8_error_t c_err;
-    test_env_setup_t test_env;
-    test_env_setup_init( &test_env, controller );
+    tvec_setup_t test_env;
+    tvec_setup_init( &test_env, controller );
 
-    *out_root_diagram = test_env_setup_data_create_diagram( &test_env, DATA_ROW_VOID, "root diag" );
+    *out_root_diagram = tvec_setup_diagram( &test_env, DATA_ROW_VOID, "root diag" );
 
-    *out_from_classifier_parent = test_env_setup_data_create_classifier( &test_env, "from parent" );
-    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_from_classifier_parent, DATA_ROW_VOID );
+    *out_from_classifier_parent = tvec_setup_classifier( &test_env, "from parent" );
+    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier_parent, DATA_ROW_VOID );
 
-    *out_from_classifier = test_env_setup_data_create_classifier( &test_env, "from classifier" );
-    *out_from_feature = test_env_setup_data_create_feature( &test_env, *out_from_classifier, "from feature" );
-    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_from_classifier, *out_from_feature );
+    *out_from_classifier = tvec_setup_classifier( &test_env, "from classifier" );
+    *out_from_feature = tvec_setup_feature( &test_env, *out_from_classifier, "from feature" );
+    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_from_classifier, *out_from_feature );
 
-    *out_to_classifier_parent = test_env_setup_data_create_classifier( &test_env, "to parent" );
-    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_to_classifier_parent, DATA_ROW_VOID );
+    *out_to_classifier_parent = tvec_setup_classifier( &test_env, "to parent" );
+    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier_parent, DATA_ROW_VOID );
 
-    *out_to_classifier = test_env_setup_data_create_classifier( &test_env, "to classifier" );
-    *out_to_feature = test_env_setup_data_create_feature( &test_env, *out_to_classifier, "to feature" );
-    test_env_setup_data_create_diagramelement( &test_env, *out_root_diagram, *out_to_classifier, *out_to_feature );
+    *out_to_classifier = tvec_setup_classifier( &test_env, "to classifier" );
+    *out_to_feature = tvec_setup_feature( &test_env, *out_to_classifier, "to feature" );
+    tvec_setup_diagramelement( &test_env, *out_root_diagram, *out_to_classifier, *out_to_feature );
 
     /* from child has parent */
     {
-        data_row_t from_parent_rel_id = test_env_setup_data_create_relationship( &test_env,
+        data_row_t from_parent_rel_id = tvec_setup_relationship( &test_env,
                                                                                     *out_from_classifier_parent,
                                                                                     DATA_ROW_VOID,
                                                                                     *out_from_classifier,
@@ -141,7 +141,7 @@ static void create_mini_model( ctrl_controller_t *controller,
 
     /* to child has parent */
     {
-        data_row_t to_parent_rel_id = test_env_setup_data_create_relationship( &test_env,
+        data_row_t to_parent_rel_id = tvec_setup_relationship( &test_env,
                                                                                   *out_to_classifier_parent,
                                                                                   DATA_ROW_VOID,
                                                                                   *out_to_classifier,
@@ -155,28 +155,28 @@ static void create_mini_model( ctrl_controller_t *controller,
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == c_err );
     }
 
-    *out_relation_clas_clas = test_env_setup_data_create_relationship( &test_env,
+    *out_relation_clas_clas = tvec_setup_relationship( &test_env,
                                                                        *out_from_classifier_parent,
                                                                        DATA_ROW_VOID,
                                                                        *out_to_classifier,
                                                                        DATA_ROW_VOID,
                                                                        "from classifier to classifier"
                                                                      );
-    *out_relation_clas_feat = test_env_setup_data_create_relationship( &test_env,
+    *out_relation_clas_feat = tvec_setup_relationship( &test_env,
                                                                        *out_from_classifier_parent,
                                                                        DATA_ROW_VOID,
                                                                        *out_to_classifier,
                                                                        *out_to_feature,
                                                                        "from classifier to feature"
                                                                      );
-    *out_relation_feat_clas = test_env_setup_data_create_relationship( &test_env,
+    *out_relation_feat_clas = tvec_setup_relationship( &test_env,
                                                                        *out_from_classifier_parent,
                                                                        *out_from_feature,
                                                                        *out_to_classifier,
                                                                        DATA_ROW_VOID,
                                                                        "from feature to classifier"
                                                                      );
-    *out_relation_feat_feat = test_env_setup_data_create_relationship( &test_env,
+    *out_relation_feat_feat = tvec_setup_relationship( &test_env,
                                                                        *out_from_classifier_parent,
                                                                        *out_from_feature,
                                                                        *out_to_classifier,
@@ -184,7 +184,7 @@ static void create_mini_model( ctrl_controller_t *controller,
                                                                        "from feature to feature"
                                                                      );
 
-    test_env_setup_destroy( &test_env );
+    tvec_setup_destroy( &test_env );
 }
 
 enum io_export_model_traversal_test_future_enum {

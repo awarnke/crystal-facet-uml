@@ -2,7 +2,7 @@
 
 #include "consistency_drop_invisibles_test.h"
 #include "ctrl_controller.h"
-#include "test_env/test_env_setup_data.h"
+#include "tvec/tvec_setup.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -64,41 +64,41 @@ static test_case_result_t no_hidden_relationships( test_fixture_t *fix )
     assert( fix != NULL );
     ctrl_diagram_controller_t *diagram_ctrl;
     diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &((*fix).controller) );
-    test_env_setup_t test_environ;
-    test_env_setup_init( &test_environ, &((*fix).controller) );
+    tvec_setup_t test_environ;
+    tvec_setup_init( &test_environ, &((*fix).controller) );
 
     /* create 2 diagrams */
-    const data_row_t root_diagram = test_env_setup_data_create_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
-    const data_row_t local_diagram = test_env_setup_data_create_diagram( &test_environ, root_diagram, "local diag" );
+    const data_row_t root_diagram = tvec_setup_diagram( &test_environ, DATA_ROW_VOID, "root diag" );
+    const data_row_t local_diagram = tvec_setup_diagram( &test_environ, root_diagram, "local diag" );
 
     /* create 3 classifiers */
-    const data_row_t test_classifier = test_env_setup_data_create_classifier( &test_environ, "test classifier" );
-    const data_row_t omni_classifier = test_env_setup_data_create_classifier( &test_environ, "omni classifier" );
-    const data_row_t local_classifier = test_env_setup_data_create_classifier( &test_environ, "local classifier" );
+    const data_row_t test_classifier = tvec_setup_classifier( &test_environ, "test classifier" );
+    const data_row_t omni_classifier = tvec_setup_classifier( &test_environ, "omni classifier" );
+    const data_row_t local_classifier = tvec_setup_classifier( &test_environ, "local classifier" );
 
     /* create 5 diagramelements */
     const data_row_t test_local_diagele
-        = test_env_setup_data_create_diagramelement( &test_environ, local_diagram, test_classifier, DATA_ROW_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, local_diagram, omni_classifier, DATA_ROW_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
-    test_env_setup_data_create_diagramelement( &test_environ, local_diagram, local_classifier, DATA_ROW_VOID );
+        = tvec_setup_diagramelement( &test_environ, local_diagram, test_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, test_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, local_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, root_diagram, omni_classifier, DATA_ROW_VOID );
+    tvec_setup_diagramelement( &test_environ, local_diagram, local_classifier, DATA_ROW_VOID );
 
     /* create 1 feature */
-    const data_row_t test_feature = test_env_setup_data_create_feature( &test_environ, test_classifier, "test feature" );
+    const data_row_t test_feature = tvec_setup_feature( &test_environ, test_classifier, "test feature" );
 
     /* create 2 relationships */
     const data_row_t double_rel
-        = test_env_setup_data_create_relationship( &test_environ,
+        = tvec_setup_relationship( &test_environ,
                                                    test_classifier, test_feature,
                                                    omni_classifier, DATA_ROW_VOID,
                                                    "double relation" );
     const data_row_t local_rel
-        = test_env_setup_data_create_relationship( &test_environ,
+        = tvec_setup_relationship( &test_environ,
                                                    test_classifier, test_feature,
                                                    local_classifier, DATA_ROW_VOID,
                                                    "local relation" );
-    test_env_setup_destroy( &test_environ );
+    tvec_setup_destroy( &test_environ );
 
     /* delete the local diagramelement of the test classifier */
     const u8_error_t c_err

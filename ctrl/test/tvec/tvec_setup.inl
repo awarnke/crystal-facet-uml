@@ -1,4 +1,4 @@
-/* File: test_env_setup_data.c; Copyright and License: see below */
+/* File: tvec_setup.c; Copyright and License: see below */
 
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
@@ -11,18 +11,18 @@
 #include <assert.h>
 
 
-static inline void test_env_setup_init( test_env_setup_t *this_, ctrl_controller_t *controller )
+static inline void tvec_setup_init( tvec_setup_t *this_, ctrl_controller_t *controller )
 {
     assert( controller != NULL );
     (*this_).controller = controller;
 }
 
-static inline void test_env_setup_destroy( test_env_setup_t *this_ )
+static inline void tvec_setup_destroy( tvec_setup_t *this_ )
 {
     (*this_).controller = NULL;
 }
 
-static data_row_t test_env_setup_data_create_diagram( test_env_setup_t *this_, data_row_t parent_diagram_id, const char* name )
+static data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_diagram_id, const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -60,7 +60,7 @@ static data_row_t test_env_setup_data_create_diagram( test_env_setup_t *this_, d
     return root_diag_id;
 }
 
-static data_row_t test_env_setup_data_create_classifier( test_env_setup_t *this_, const char* name )
+static data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -96,10 +96,10 @@ static data_row_t test_env_setup_data_create_classifier( test_env_setup_t *this_
     return classifier_id;
 }
 
-static data_row_t test_env_setup_data_create_diagramelement( test_env_setup_t *this_,
-                                                                data_row_t diagram_id,
-                                                                data_row_t classifier_id,
-                                                                data_row_t focused_feature_id )
+static data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
+                                             data_row_t diagram_id,
+                                             data_row_t classifier_id,
+                                             data_row_t focused_feature_id )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -119,11 +119,11 @@ static data_row_t test_env_setup_data_create_diagramelement( test_env_setup_t *t
                                              "0fea7d08-3888-4186-9ba1-7af85edf383e"
                                            );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
-        ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
-                                                                   &new_diagele,
-                                                                   CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
-                                                                   &diagele_id
-                                                                 );
+        ctrl_err = ctrl_diagram_controller_create_diagramelement( diagram_ctrl,
+                                                                  &new_diagele,
+                                                                  CTRL_UNDO_REDO_ACTION_BOUNDARY_START_NEW,
+                                                                  &diagele_id
+                                                                );
         TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
     }
@@ -132,9 +132,7 @@ static data_row_t test_env_setup_data_create_diagramelement( test_env_setup_t *t
     return diagele_id;
 }
 
-static data_row_t test_env_setup_data_create_feature( test_env_setup_t *this_,
-                                                         data_row_t parent_classifier_id,
-                                                         const char* name )
+static data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;
@@ -170,12 +168,12 @@ static data_row_t test_env_setup_data_create_feature( test_env_setup_t *this_,
     return new_feature_id;
 }
 
-static data_row_t test_env_setup_data_create_relationship( test_env_setup_t *this_,
-                                                              data_row_t from_classifier_id,
-                                                              data_row_t from_feature_id,
-                                                              data_row_t to_classifier_id,
-                                                              data_row_t to_feature_id,
-                                                              const char* name )
+static data_row_t tvec_setup_relationship( tvec_setup_t *this_,
+                                           data_row_t from_classifier_id,
+                                           data_row_t from_feature_id,
+                                           data_row_t to_classifier_id,
+                                           data_row_t to_feature_id,
+                                           const char* name )
 {
     u8_error_t ctrl_err;
     u8_error_t data_err;

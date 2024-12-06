@@ -1,4 +1,4 @@
-/* File: test_vector_db.c; Copyright and License: see below */
+/* File: tvec_add.c; Copyright and License: see below */
 
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
@@ -10,21 +10,21 @@
 #include <assert.h>
 
 
-static inline void test_vector_db_init( test_vector_db_t *this_, data_database_writer_t *db_writer )
+static inline void tvec_add_init( tvec_add_t *this_, data_database_writer_t *db_writer )
 {
     assert( db_writer != NULL );
     (*this_).db_writer = db_writer;
 }
 
-static inline void test_vector_db_destroy( test_vector_db_t *this_ )
+static inline void tvec_add_destroy( tvec_add_t *this_ )
 {
     (*this_).db_writer = NULL;
 }
 
-static inline data_row_t test_vector_db_create_diagram( test_vector_db_t *this_,
-                                                           data_row_t parent_diagram_id,
-                                                           const char* name,
-                                                           const char* stereotype )
+static inline data_row_t tvec_add_diagram( tvec_add_t *this_,
+                                           data_row_t parent_diagram_id,
+                                           const char* name,
+                                           const char* stereotype )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );
@@ -62,9 +62,7 @@ static inline data_row_t test_vector_db_create_diagram( test_vector_db_t *this_,
     return root_diag_id;
 }
 
-static inline data_row_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
-                                                                  data_row_t diagram_id,
-                                                                  data_row_t classifier_id )
+static inline data_row_t tvec_add_diagramelement( tvec_add_t *this_, data_row_t diagram_id, data_row_t classifier_id )
 {
     U8_TRACE_BEGIN();
     u8_error_t data_err;
@@ -95,10 +93,10 @@ static inline data_row_t test_vector_db_create_diagramelement( test_vector_db_t 
     return diagele_id;
 }
 
-static inline data_row_t test_vector_db_create_classifier( test_vector_db_t *this_,
-                                                              const char* name,
-                                                              data_classifier_type_t classifier_type,
-                                                              const char* stereotype )
+static inline data_row_t tvec_add_classifier( tvec_add_t *this_,
+                                              const char* name,
+                                              data_classifier_type_t classifier_type,
+                                              const char* stereotype )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );
@@ -134,10 +132,10 @@ static inline data_row_t test_vector_db_create_classifier( test_vector_db_t *thi
     return classifier_id;
 }
 
-static inline data_row_t test_vector_db_create_feature( test_vector_db_t *this_,
-                                                           data_row_t classifier_id,
-                                                           const char* name,
-                                                           const char* stereotype )
+static inline data_row_t tvec_add_feature( tvec_add_t *this_,
+                                           data_row_t classifier_id,
+                                           const char* name,
+                                           const char* stereotype )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );
@@ -172,14 +170,14 @@ static inline data_row_t test_vector_db_create_feature( test_vector_db_t *this_,
     return feature_id;
 }
 
-static inline data_row_t test_vector_db_create_relationship( test_vector_db_t *this_,
-                                                                data_row_t from_classifier_id,
-                                                                data_row_t from_feature_id,
-                                                                data_row_t to_classifier_id,
-                                                                data_row_t to_feature_id,
-                                                                data_relationship_type_t rel_type,
-                                                                const char* name,
-                                                                const char* stereotype )
+static inline data_row_t tvec_add_relationship( tvec_add_t *this_,
+                                                data_row_t from_classifier_id,
+                                                data_row_t from_feature_id,
+                                                data_row_t to_classifier_id,
+                                                data_row_t to_feature_id,
+                                                data_relationship_type_t rel_type,
+                                                const char* name,
+                                                const char* stereotype )
 {
     U8_TRACE_BEGIN();
     assert( name != NULL );

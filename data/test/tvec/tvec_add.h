@@ -1,7 +1,7 @@
-/* File: test_vector_db.h; Copyright and License: see below */
+/* File: tvec_add.h; Copyright and License: see below */
 
-#ifndef TEST_VECTOR_DB_H
-#define TEST_VECTOR_DB_H
+#ifndef TVEC_ADD_H
+#define TVEC_ADD_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -13,28 +13,28 @@
 #include "entity/data_row.h"
 
 /*!
- *  \brief attributes of the test_vector_db_t
+ *  \brief attributes of the tvec_add_t
  */
-struct test_vector_db_struct {
+struct tvec_add_struct {
     data_database_writer_t *db_writer;  /*!< pointer to external data_database_writer_t */
 };
 
-typedef struct test_vector_db_struct test_vector_db_t;
+typedef struct tvec_add_struct tvec_add_t;
 
 /*!
- *  \brief initializes the test_vector_db_t
+ *  \brief initializes the tvec_add_t
  *
  *  \param this_ pointer to own object attributes
  *  \param db_writer the db_writer pointer
  */
-static inline void test_vector_db_init( test_vector_db_t *this_, data_database_writer_t *db_writer );
+static inline void tvec_add_init( tvec_add_t *this_, data_database_writer_t *db_writer );
 
 /*!
- *  \brief destroys the test_vector_db_t
+ *  \brief destroys the tvec_add_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void test_vector_db_destroy( test_vector_db_t *this_ );
+static inline void tvec_add_destroy( tvec_add_t *this_ );
 
 /*!
  *  \brief helper function to initialize the database by adding a diagram
@@ -45,11 +45,11 @@ static inline void test_vector_db_destroy( test_vector_db_t *this_ );
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created diagram
  */
-static inline data_row_t test_vector_db_create_diagram( test_vector_db_t *this_,
-                                                           data_row_t parent_diagram_id,
-                                                           const char* name,
-                                                           const char* stereotype
-                                                         );
+static inline data_row_t tvec_add_diagram( tvec_add_t *this_,
+                                           data_row_t parent_diagram_id,
+                                           const char* name,
+                                           const char* stereotype
+                                         );
 
 /*!
  *  \brief helper function to initialize the database by adding a diagramelement
@@ -59,10 +59,10 @@ static inline data_row_t test_vector_db_create_diagram( test_vector_db_t *this_,
  *  \param classifier_id id of the classifier which to show in the diagram
  *  \return id of newly created diagramelement
  */
-static inline data_row_t test_vector_db_create_diagramelement( test_vector_db_t *this_,
-                                                                  data_row_t diagram_id,
-                                                                  data_row_t classifier_id
-                                                                );
+static inline data_row_t tvec_add_diagramelement( tvec_add_t *this_,
+                                                  data_row_t diagram_id,
+                                                  data_row_t classifier_id
+                                                );
 
 /*!
  *  \brief helper function to initialize the database by adding a classifier
@@ -73,11 +73,11 @@ static inline data_row_t test_vector_db_create_diagramelement( test_vector_db_t 
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created classifier
  */
-static inline data_row_t test_vector_db_create_classifier( test_vector_db_t *this_,
-                                                              const char* name,
-                                                              data_classifier_type_t classifier_type,
-                                                              const char* stereotype
-                                                            );
+static inline data_row_t tvec_add_classifier( tvec_add_t *this_,
+                                              const char* name,
+                                              data_classifier_type_t classifier_type,
+                                              const char* stereotype
+                                            );
 
 /*!
  *  \brief helper function to initialize the database by adding a feature
@@ -88,11 +88,11 @@ static inline data_row_t test_vector_db_create_classifier( test_vector_db_t *thi
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created feature
  */
-static inline data_row_t test_vector_db_create_feature( test_vector_db_t *this_,
-                                                           data_row_t classifier_id,
-                                                           const char* name,
-                                                           const char* stereotype
-                                                         );
+static inline data_row_t tvec_add_feature( tvec_add_t *this_,
+                                           data_row_t classifier_id,
+                                           const char* name,
+                                           const char* stereotype
+                                         );
 
 /*!
  *  \brief helper function to initialize the database by adding a relationship
@@ -107,19 +107,19 @@ static inline data_row_t test_vector_db_create_feature( test_vector_db_t *this_,
  *  \param stereotype stereotype name of the new element
  *  \return id of newly created relationship
  */
-static inline data_row_t test_vector_db_create_relationship( test_vector_db_t *this_,
-                                                                data_row_t from_classifier_id,
-                                                                data_row_t from_feature_id,
-                                                                data_row_t to_classifier_id,
-                                                                data_row_t to_feature_id,
-                                                                data_relationship_type_t rel_type,
-                                                                const char* name,
-                                                                const char* stereotype
-                                                              );
+static inline data_row_t tvec_add_relationship( tvec_add_t *this_,
+                                                data_row_t from_classifier_id,
+                                                data_row_t from_feature_id,
+                                                data_row_t to_classifier_id,
+                                                data_row_t to_feature_id,
+                                                data_relationship_type_t rel_type,
+                                                const char* name,
+                                                const char* stereotype
+                                               );
 
-#include "test_vector_db.inl"
+#include "tvec_add.inl"
 
-#endif  /* TEST_VECTOR_DB_H */
+#endif  /* TVEC_ADD_H */
 
 
 /*

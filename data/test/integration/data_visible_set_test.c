@@ -7,13 +7,14 @@
 #include "storage/data_database_writer.h"
 #include "test_expect.h"
 #include "test_environment_assert.h"
-#include "test_vector/test_vector_db.h"
+#include "tvec/tvec_add.h"
 
 static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *test_env );
 static test_case_result_t no_results( test_fixture_t *test_env );
 static test_case_result_t modify_visible_set( test_fixture_t *test_env );
 static test_case_result_t regular_visible_set( test_fixture_t *test_env );
+static test_case_result_t filter_foreign_lifelines( test_fixture_t *test_env );
 static test_case_result_t too_much_input( test_fixture_t *test_env );
 
 test_suite_t data_visible_set_test_get_suite(void)
@@ -28,6 +29,7 @@ test_suite_t data_visible_set_test_get_suite(void)
     test_suite_add_test_case( &result, "no_results", &no_results );
     test_suite_add_test_case( &result, "modify_visible_set", &modify_visible_set );
     test_suite_add_test_case( &result, "regular_visible_set", &regular_visible_set );
+    test_suite_add_test_case( &result, "filter_foreign_lifelines", &filter_foreign_lifelines );
     test_suite_add_test_case( &result, "too_much_input", &too_much_input );
     return result;
 }
@@ -290,107 +292,92 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
     assert( fix != NULL );
 
     /* v--- creating the test vector */
-    test_vector_db_t setup_env;
-    test_vector_db_init( &setup_env, &((*fix).db_writer) );
+    tvec_add_t setup_env;
+    tvec_add_init( &setup_env, &((*fix).db_writer) );
+    /* note: the tvec_add_t class already performs error handling via */
+    /* TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, some_error ); */
 
     /* create the root diagram */
     const data_row_t root_diag_id
-        = test_vector_db_create_diagram( &setup_env,
-                                         DATA_ROW_VOID,  /* parent_diagram_id */
-                                         "root_diagram",  /* name */
-                                         "stereotype" 
-                                       );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != root_diag_id );
+        = tvec_add_diagram( &setup_env, DATA_ROW_VOID, "root_name", "stereotype" );
 
     /* create a classifier */
     const data_row_t classifier_blue_id
-        = test_vector_db_create_classifier( &setup_env,
-                                            "The-Blue-Stone",  /* name */
-                                            DATA_CLASSIFIER_TYPE_COMPONENT,
-                                            "stereotype"  
-                                          );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != classifier_blue_id );
+        = tvec_add_classifier( &setup_env,
+                               "The-Blue-Stone",  /* name */
+                               DATA_CLASSIFIER_TYPE_COMPONENT,
+                               "stereotype"
+                             );
     const data_row_t feature_blue_id
-        = test_vector_db_create_feature( &setup_env,
-                                         classifier_blue_id,
-                                         "The-Blue-Stone Feature",  /* name */
-                                         "stereotype"  
-                                       );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != feature_blue_id );
+        = tvec_add_feature( &setup_env,
+                            classifier_blue_id,
+                            "The-Blue-Stone Feature",  /* name */
+                            "stereotype"
+                          );
     const data_row_t diagele_blue_id
-        = test_vector_db_create_diagramelement( &setup_env,
-                                                root_diag_id,
-                                                classifier_blue_id
-                                              );
+        = tvec_add_diagramelement( &setup_env, root_diag_id, classifier_blue_id );
 
     /* create another classifier */
     const data_row_t classifier_green_id
-        = test_vector_db_create_classifier( &setup_env,
-                                            "The-Green-Stone",  /* name */
-                                            DATA_CLASSIFIER_TYPE_COMPONENT,
-                                            "stereotype"  
-                                          );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != classifier_green_id );
+        = tvec_add_classifier( &setup_env,
+                               "The-Green-Stone",  /* name */
+                               DATA_CLASSIFIER_TYPE_COMPONENT,
+                               "stereotype"
+                             );
     const data_row_t feature_green_id
-        = test_vector_db_create_feature( &setup_env,
-                                         classifier_green_id,
-                                         "The-Green-Stone Feature",  /* name */
-                                         "stereotype"  
-                                       );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != feature_green_id );
+        = tvec_add_feature( &setup_env,
+                            classifier_green_id,
+                            "The-Green-Stone Feature",  /* name */
+                            "stereotype"
+                          );
     const data_row_t diagele_green_id
-        = test_vector_db_create_diagramelement( &setup_env,
-                                                root_diag_id,
-                                                classifier_green_id
-                                              );
+        = tvec_add_diagramelement( &setup_env, root_diag_id, classifier_green_id );
 
     /* create 4 relationships */
     const data_row_t rel_a_id
-        = test_vector_db_create_relationship( &setup_env,
-                                              classifier_blue_id,
-                                              DATA_ROW_VOID,
-                                              classifier_green_id,
-                                              DATA_ROW_VOID,
-                                              DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
-                                              "blue-to-green",  /* name */
-                                              "stereotype"  
-                                            );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != rel_a_id );
+        = tvec_add_relationship( &setup_env,
+                                 classifier_blue_id,
+                                 DATA_ROW_VOID,
+                                 classifier_green_id,
+                                 DATA_ROW_VOID,
+                                 DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
+                                 "blue-to-green",  /* name */
+                                 "stereotype"
+                               );
     const data_row_t rel_b_id
-        = test_vector_db_create_relationship( &setup_env,
-                                              classifier_green_id,
-                                              feature_green_id,
-                                              classifier_blue_id,
-                                              feature_blue_id,
-                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
-                                              "GREEN_TO_BLUE",  /* name */
-                                              "stereotype"  
-                                            );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != rel_b_id );
+        = tvec_add_relationship( &setup_env,
+                                 classifier_green_id,
+                                 feature_green_id,
+                                 classifier_blue_id,
+                                 feature_blue_id,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "GREEN_TO_BLUE",  /* name */
+                                 "stereotype"
+                               );
     const data_row_t rel_c_id
-        = test_vector_db_create_relationship( &setup_env,
-                                              10000,
-                                              99999,
-                                              classifier_blue_id,
-                                              feature_blue_id,
-                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
-                                              "SOME_TO_BLUE",  /* name */
-                                              "stereotype"  
-                                            );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != rel_c_id );
+        = tvec_add_relationship( &setup_env,
+                                 10000,
+                                 99999,
+                                 classifier_blue_id,
+                                 feature_blue_id,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "SOME_TO_BLUE",  /* name */
+                                 "stereotype"
+                               );
     const data_row_t rel_d_id
-        = test_vector_db_create_relationship( &setup_env,
-                                              classifier_green_id,
-                                              feature_green_id,
-                                              10000,
-                                              99999,
-                                              DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
-                                              "GREEN_TO_SOME",  /* name */
-                                              "stereotype"  
-                                            );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != rel_d_id );
+        = tvec_add_relationship( &setup_env,
+                                 classifier_green_id,
+                                 feature_green_id,
+                                 10000,
+                                 99999,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "GREEN_TO_SOME",  /* name */
+                                 "stereotype"
+                               );
+    (void) rel_c_id;  /* unused variable */
+    (void) rel_d_id;  /* unused variable */
 
-    test_vector_db_destroy( &setup_env );
+    tvec_add_destroy( &setup_env );
     /* ^--- creating the test vector / input data finished here. */
 
     /* load a visible set of elements */
@@ -494,21 +481,48 @@ static test_case_result_t regular_visible_set( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
+static test_case_result_t filter_foreign_lifelines( test_fixture_t *fix )
+{
+    assert( fix != NULL );
+
+    /* v--- creating the test vector */
+    tvec_add_t tvec;
+    tvec_add_init( &tvec, &((*fix).db_writer) );
+    /* note: the tvec_add_t class already performs error handling via */
+    /* TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, some_error ); */
+
+    /* create the root diagram */
+    const data_row_t diag_root = tvec_add_diagram( &tvec, DATA_ROW_VOID, "root_name", "stereotype" );
+    (void) diag_root;  /* unused variable */
+
+    tvec_add_destroy( &tvec );
+    /* ^--- creating the test vector / input data finished here. */
+
+    /* load a visible set of elements */
+    {
+        data_visible_set_init( &((*fix).test_me) );
+
+        const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), diag_root, &((*fix).db_reader) );
+        TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
+
+        data_visible_set_destroy( &((*fix).test_me) );
+    }
+
+    return TEST_CASE_RESULT_ERR;
+}
+
 static test_case_result_t too_much_input( test_fixture_t *fix )
 {
     assert( fix != NULL );
     /* v--- creating the test vector */
-    test_vector_db_t setup_env;
-    test_vector_db_init( &setup_env, &((*fix).db_writer) );
+    tvec_add_t setup_env;
+    tvec_add_init( &setup_env, &((*fix).db_writer) );
+    /* note: the tvec_add_t class already performs error handling via */
+    /* TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, some_error ); */
 
     /* create the root diagram */
     const data_row_t root_diag_id
-        = test_vector_db_create_diagram( &setup_env,
-                                         DATA_ROW_VOID,  /* parent_diagram_id */
-                                         "root_diagram",  /* name */
-                                         "stereotype"
-                                       );
-    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != root_diag_id );
+        = tvec_add_diagram( &setup_env, DATA_ROW_VOID, "root_name", "stereotype" );
 
     /* create many classifiers with 2 features each */
     data_row_t classifier_last_id = DATA_ROW_VOID;
@@ -520,31 +534,29 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
         utf8stringbuf_append_str( name_str, "NM_" );
         utf8stringbuf_append_int( name_str, idx_c );
         const data_row_t classifier_blue_id
-            = test_vector_db_create_classifier( &setup_env,
-                                                utf8stringbuf_get_string( name_str ),
-                                                DATA_CLASSIFIER_TYPE_COMPONENT,
-                                                "stereotype"
-                                              );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != classifier_blue_id );
+            = tvec_add_classifier( &setup_env,
+                                   utf8stringbuf_get_string( name_str ),
+                                   DATA_CLASSIFIER_TYPE_COMPONENT,
+                                   "stereotype"
+                                 );
         classifier_last_id = classifier_blue_id;
         const data_row_t feature_blue_id
-            = test_vector_db_create_feature( &setup_env,
-                                             classifier_blue_id,
-                                             "The Blue Feature",  /* name */
-                                             "stereotype"
-                                           );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != feature_blue_id );
+            = tvec_add_feature( &setup_env,
+                                classifier_blue_id,
+                                "The Blue Feature",  /* name */
+                                "stereotype"
+                              );
         const data_row_t feature_green_id
-            = test_vector_db_create_feature( &setup_env,
-                                             classifier_blue_id,
-                                             "The Green Feature",  /* name */
-                                             "stereotype"
-                                           );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != feature_green_id );
-        (void) test_vector_db_create_diagramelement( &setup_env,
-                                                     root_diag_id,
-                                                     classifier_blue_id
-                                                   );
+            = tvec_add_feature( &setup_env,
+                                classifier_blue_id,
+                                "The Green Feature",  /* name */
+                                "stereotype"
+                              );
+        const data_row_t diagele_blue_id
+            = tvec_add_diagramelement( &setup_env, root_diag_id, classifier_blue_id );
+        (void) feature_blue_id;  /* unused variable */
+        (void) feature_green_id;  /* unused variable */
+        (void) diagele_blue_id;  /* unused variable */
     }
     TEST_ENVIRONMENT_ASSERT( DATA_VISIBLE_SET_MAX_FEATURES == 2 * DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
@@ -552,19 +564,19 @@ static test_case_result_t too_much_input( test_fixture_t *fix )
     for ( int_fast32_t r_idx = 0; r_idx <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS; r_idx ++ )
     {
         const data_row_t rel_a_id
-            = test_vector_db_create_relationship( &setup_env,
-                                                  classifier_last_id,
-                                                  DATA_ROW_VOID,
-                                                  classifier_last_id,
-                                                  DATA_ROW_VOID,
-                                                  DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
-                                                  "blue-to-green",  /* name */
-                                                  "stereotype"
-                                                );
-        TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != rel_a_id );
+            = tvec_add_relationship( &setup_env,
+                                     classifier_last_id,
+                                     DATA_ROW_VOID,
+                                     classifier_last_id,
+                                     DATA_ROW_VOID,
+                                     DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                     "blue-to-green",  /* name */
+                                     "stereotype"
+                                   );
+        (void) rel_a_id;  /* unused variable */
     }
 
-    test_vector_db_destroy( &setup_env );
+    tvec_add_destroy( &setup_env );
     /* ^--- creating the test vector / input data finished here. */
 
     /* load a visible set of elements */

@@ -1,7 +1,7 @@
-/* File: test_env_setup_data.h; Copyright and License: see below */
+/* File: tvec_setup.h; Copyright and License: see below */
 
-#ifndef TEST_ENV_SETUP_DATA_H
-#define TEST_ENV_SETUP_DATA_H
+#ifndef TVEC_SETUP_H
+#define TVEC_SETUP_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -13,28 +13,28 @@
 #include "entity/data_row.h"
 
 /*!
- *  \brief attributes of the test_env_setup_t
+ *  \brief attributes of the tvec_setup_t
  */
-struct test_env_setup_struct {
+struct tvec_setup_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
 };
 
-typedef struct test_env_setup_struct test_env_setup_t;
+typedef struct tvec_setup_struct tvec_setup_t;
 
 /*!
- *  \brief initializes the test_env_setup_t
+ *  \brief initializes the tvec_setup_t
  *
  *  \param this_ pointer to own object attributes
  *  \param controller the controller pointer
  */
-static inline void test_env_setup_init( test_env_setup_t *this_, ctrl_controller_t *controller );
+static inline void tvec_setup_init( tvec_setup_t *this_, ctrl_controller_t *controller );
 
 /*!
- *  \brief destroys the test_env_setup_t
+ *  \brief destroys the tvec_setup_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void test_env_setup_destroy( test_env_setup_t *this_ );
+static inline void tvec_setup_destroy( tvec_setup_t *this_ );
 
 /*!
  *  \brief helper function to initialize the database
@@ -44,10 +44,7 @@ static inline void test_env_setup_destroy( test_env_setup_t *this_ );
  *  \param name name of the newly created element
  *  \return id of newly created diagram
  */
-static data_row_t test_env_setup_data_create_diagram( test_env_setup_t *this_,
-                                                         data_row_t parent_diagram_id,
-                                                         const char* name
-                                                       );
+static data_row_t tvec_setup_diagram( tvec_setup_t *this_, data_row_t parent_diagram_id, const char* name );
 
 /*!
  *  \brief helper function to initialize the database
@@ -56,9 +53,7 @@ static data_row_t test_env_setup_data_create_diagram( test_env_setup_t *this_,
  *  \param name name of the newly created element
  *  \return id of newly created classifier
  */
-static data_row_t test_env_setup_data_create_classifier( test_env_setup_t *this_,
-                                                            const char* name
-                                                          );
+static data_row_t tvec_setup_classifier( tvec_setup_t *this_, const char* name );
 
 /*!
  *  \brief helper function to initialize the database
@@ -69,11 +64,11 @@ static data_row_t test_env_setup_data_create_classifier( test_env_setup_t *this_
  *  \param focused_feature_id id of the lifeline if applicable, DATA_ROW_VOID otherwise
  *  \return id of newly created diagramelement
  */
-static data_row_t test_env_setup_data_create_diagramelement( test_env_setup_t *this_,
-                                                                data_row_t diagram_id,
-                                                                data_row_t classifier_id,
-                                                                data_row_t focused_feature_id
-                                                              );
+static data_row_t tvec_setup_diagramelement( tvec_setup_t *this_,
+                                             data_row_t diagram_id,
+                                             data_row_t classifier_id,
+                                             data_row_t focused_feature_id
+                                           );
 
 /*!
  *  \brief helper function to initialize the database
@@ -83,10 +78,7 @@ static data_row_t test_env_setup_data_create_diagramelement( test_env_setup_t *t
  *  \param name name of the newly created element
  *  \return id of newly created feature
  */
-static data_row_t test_env_setup_data_create_feature( test_env_setup_t *this_,
-                                                         data_row_t parent_classifier_id,
-                                                         const char* name
-                                                       );
+static data_row_t tvec_setup_feature( tvec_setup_t *this_, data_row_t parent_classifier_id, const char* name );
 
 /*!
  *  \brief helper function to initialize the database
@@ -99,17 +91,17 @@ static data_row_t test_env_setup_data_create_feature( test_env_setup_t *this_,
  *  \param name name of the newly created element
  *  \return id of newly created relationship
  */
-static data_row_t test_env_setup_data_create_relationship( test_env_setup_t *this_,
-                                                              data_row_t from_classifier_id,
-                                                              data_row_t from_feature_id,
-                                                              data_row_t to_classifier_id,
-                                                              data_row_t to_feature_id,
-                                                              const char* name
-                                                            );
+static data_row_t tvec_setup_relationship( tvec_setup_t *this_,
+                                           data_row_t from_classifier_id,
+                                           data_row_t from_feature_id,
+                                           data_row_t to_classifier_id,
+                                           data_row_t to_feature_id,
+                                           const char* name
+                                         );
 
-#include "test_env_setup_data.inl"
+#include "tvec_setup.inl"
 
-#endif  /* TEST_ENV_SETUP_DATA_H */
+#endif  /* TVEC_SETUP_H */
 
 
 /*
