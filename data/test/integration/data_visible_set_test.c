@@ -491,9 +491,108 @@ static test_case_result_t filter_foreign_lifelines( test_fixture_t *fix )
     /* note: the tvec_add_t class already performs error handling via */
     /* TEST_ENVIRONMENT_ASSERT_EQUAL_INT( U8_ERROR_NONE, some_error ); */
 
+    /* create blue classifier */
+    const data_row_t class_blue_id
+        = tvec_add_classifier( &tvec,
+                               "The-Blue-Stone",  /* name */
+                               DATA_CLASSIFIER_TYPE_COMPONENT,
+                               "stereotype"
+                             );
+
+    /* create red classifier */
+    const data_row_t class_red_id
+        = tvec_add_classifier( &tvec,
+                               "The-Red-Stone",  /* name */
+                               DATA_CLASSIFIER_TYPE_CLASS,
+                               "stereotype"
+                             );
+
     /* create the root diagram */
     const data_row_t diag_root = tvec_add_diagram( &tvec, DATA_ROW_VOID, "root_name", "stereotype" );
-    (void) diag_root;  /* unused variable */
+
+    /* create local diagram */
+    const data_row_t diag_local = tvec_add_diagram( &tvec, diag_root, "local_name", "stereotype" );
+
+    /* create 4 lifelines */
+    const data_row_t life_root_blue = tvec_add_lifeline( &tvec, diag_root, class_blue_id );
+    const data_row_t life_root_red = tvec_add_lifeline( &tvec, diag_root, class_red_id );
+    const data_row_t life_local_blue = tvec_add_lifeline( &tvec, diag_local, class_blue_id );
+    const data_row_t life_local_red = tvec_add_lifeline( &tvec, diag_local, class_red_id );
+
+    /* create 7 relationships */
+    const data_row_t rel_root_f2f
+        = tvec_add_relationship( &tvec,
+                                 class_blue_id,
+                                 life_root_blue,
+                                 class_red_id,
+                                 life_root_red,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "foreign feat-2-feat",  /* name */
+                                 "stereotype"
+                               );
+    const data_row_t rel_root_f2c
+        = tvec_add_relationship( &tvec,
+                                 class_blue_id,
+                                 life_root_blue,
+                                 class_red_id,
+                                 DATA_ROW_VOID,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "foreign feat-2-class",  /* name */
+                                 "stereotype"
+                               );
+    const data_row_t rel_root_c2f
+        = tvec_add_relationship( &tvec,
+                                 class_blue_id,
+                                 DATA_ROW_VOID,
+                                 class_red_id,
+                                 life_root_red,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "foreign class-2-feat",  /* name */
+                                 "stereotype"
+                               );
+    (void) rel_root_f2f;  /* unused variable */
+    (void) rel_root_f2c;  /* unused variable */
+    (void) rel_root_c2f;  /* unused variable */
+    const data_row_t rel_any_c2c
+        = tvec_add_relationship( &tvec,
+                                 class_blue_id,
+                                 DATA_ROW_VOID,
+                                 class_red_id,
+                                 DATA_ROW_VOID,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "foreign class-2-class",  /* name */
+                                 "stereotype"
+                               );
+    const data_row_t rel_local_f2f
+        = tvec_add_relationship( &tvec,
+                                 class_blue_id,
+                                 life_local_blue,
+                                 class_red_id,
+                                 life_local_red,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "local feat-2-feat",  /* name */
+                                 "stereotype"
+                               );
+    const data_row_t rel_local_f2c
+        = tvec_add_relationship( &tvec,
+                                 class_blue_id,
+                                 life_local_blue,
+                                 class_red_id,
+                                 DATA_ROW_VOID,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "local feat-2-class",  /* name */
+                                 "stereotype"
+                               );
+    const data_row_t rel_local_c2f
+        = tvec_add_relationship( &tvec,
+                                 class_blue_id,
+                                 DATA_ROW_VOID,
+                                 class_red_id,
+                                 life_local_red,
+                                 DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                 "local class-2-feat",  /* name */
+                                 "stereotype"
+                               );
 
     tvec_add_destroy( &tvec );
     /* ^--- creating the test vector / input data finished here. */
@@ -502,13 +601,48 @@ static test_case_result_t filter_foreign_lifelines( test_fixture_t *fix )
     {
         data_visible_set_init( &((*fix).test_me) );
 
-        const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), diag_root, &((*fix).db_reader) );
+        const u8_error_t init_err = data_visible_set_load( &((*fix).test_me), diag_local, &((*fix).db_reader) );
         TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, init_err );
+
+        TEST_EXPECT_EQUAL_INT( true, data_visible_set_is_valid(  &((*fix).test_me) ) );
+
+        {
+            const uint32_t classifier_count = data_visible_set_get_visible_classifier_count( &((*fix).test_me) );
+            TEST_EXPECT_EQUAL_INT( 2, classifier_count );
+        }
+
+        {
+            const uint32_t feature_count = data_visible_set_get_feature_count( &((*fix).test_me) );
+            TEST_EXPECT_EQUAL_INT( 2, feature_count );
+
+            const data_feature_t *const feat_1 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), life_local_blue /* row_id */ );
+            TEST_EXPECT_EQUAL_INT( life_local_blue, data_feature_get_row_id( feat_1 ) );
+
+            const data_feature_t *const feat_2 = data_visible_set_get_feature_by_id_const( &((*fix).test_me), life_local_red /* row_id */ );
+            TEST_EXPECT_EQUAL_INT( life_local_red, data_feature_get_row_id( feat_2 ) );
+        }
+
+        {
+            const uint32_t relationship_count = data_visible_set_get_relationship_count( &((*fix).test_me) );
+            TEST_EXPECT_EQUAL_INT( 4, relationship_count );
+
+            const data_relationship_t *const rel_1 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_any_c2c /* row_id */ );
+            TEST_EXPECT_EQUAL_INT( rel_any_c2c, data_relationship_get_row_id( rel_1 ) );
+
+            const data_relationship_t *const rel_2 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_f2f /* row_id */ );
+            TEST_EXPECT_EQUAL_INT( rel_local_f2f, data_relationship_get_row_id( rel_2 ) );
+
+            const data_relationship_t *const rel_3 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_f2c /* row_id */ );
+            TEST_EXPECT_EQUAL_INT( rel_local_f2c, data_relationship_get_row_id( rel_3 ) );
+
+            const data_relationship_t *const rel_4 = data_visible_set_get_relationship_by_id_const( &((*fix).test_me), rel_local_c2f /* row_id */ );
+            TEST_EXPECT_EQUAL_INT( rel_local_c2f, data_relationship_get_row_id( rel_4 ) );
+        }
 
         data_visible_set_destroy( &((*fix).test_me) );
     }
 
-    return TEST_CASE_RESULT_ERR;
+    return TEST_CASE_RESULT_OK;
 }
 
 static test_case_result_t too_much_input( test_fixture_t *fix )

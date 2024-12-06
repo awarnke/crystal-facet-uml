@@ -95,6 +95,20 @@ static inline data_row_t tvec_add_feature( tvec_add_t *this_,
                                          );
 
 /*!
+ *  \brief helper function to initialize the database
+ *
+ *  This function adds 2 objects:
+ *  a feature of type DATA_FEATURE_TYPE_LIFELINE
+ *  and a diagramelement
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the parent diagram to which to attach the classifier
+ *  \param classifier_id id of the classifier to which to attach the feature
+ *  \return id of newly created feature; The id of the diagramelement is not returned.
+ */
+static inline data_row_t tvec_add_lifeline( tvec_add_t *this_, data_row_t diagram_id, data_row_t classifier_id );
+
+/*!
  *  \brief helper function to initialize the database by adding a relationship
  *
  *  \param this_ pointer to own object attributes

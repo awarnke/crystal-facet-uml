@@ -170,6 +170,61 @@ static inline data_row_t tvec_add_feature( tvec_add_t *this_,
     return feature_id;
 }
 
+static inline data_row_t tvec_add_lifeline( tvec_add_t *this_, data_row_t diagram_id, data_row_t classifier_id )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t data_err;
+
+    /* create a classifier */
+    data_row_t feature_id;
+    {
+        static data_feature_t new_feature;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
+        data_err = data_feature_init( &new_feature,
+                                      DATA_ROW_VOID /* feature_id is ignored */,
+                                      DATA_FEATURE_TYPE_LIFELINE,
+                                      classifier_id,
+                                      "",  /* name = key */
+                                      "",  /* stereotype = value */
+                                      "",  /* description */
+                                      50,
+                                      "2555ba06-4ec1-4a7f-b202-8a6887c63cca"
+                                    );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+        data_err = data_database_writer_create_feature( (*this_).db_writer,
+                                                        &new_feature,
+                                                        &feature_id
+                                                      );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+        data_feature_destroy( &new_feature );
+    }
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != feature_id );
+
+    /* create a diagramelement */
+    data_row_t diagele_id;
+    {
+        static data_diagramelement_t new_diagele;  /* static ok for a single-threaded test case and preserves stack space, which is important for 32bit systems */
+        data_err = data_diagramelement_init( &new_diagele,
+                                             DATA_ROW_VOID /* diagramelement_id is ignored */,
+                                             diagram_id,
+                                             classifier_id,
+                                             DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                             feature_id,
+                                             "0fea7d08-3888-4186-9ba1-7af85edf383e"
+                                           );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+        data_err = data_database_writer_create_diagramelement( (*this_).db_writer,
+                                                               &new_diagele,
+                                                               &diagele_id
+                                                             );
+        TEST_ENVIRONMENT_ASSERT( U8_ERROR_NONE == data_err );
+        data_diagramelement_destroy( &new_diagele );
+    }
+    TEST_ENVIRONMENT_ASSERT( DATA_ROW_VOID != diagele_id );
+
+    U8_TRACE_END();
+    return feature_id;
+}
+
 static inline data_row_t tvec_add_relationship( tvec_add_t *this_,
                                                 data_row_t from_classifier_id,
                                                 data_row_t from_feature_id,
