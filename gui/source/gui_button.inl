@@ -10,11 +10,34 @@ static inline void gui_button_init( gui_button_t *this_,
 
     (*this_).label = GTK_LABEL( gtk_label_new( label_text ) );
 
-    (*this_).box = GTK_BOX( gtk_box_new(  GTK_ORIENTATION_VERTICAL, 0 /* spacing */ ) );
+    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 0 /* spacing */ ) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).icon) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).label) );
 
     (*this_).button = GTK_BUTTON( gtk_button_new() );
+    gtk_button_set_child( (*this_).button, GTK_WIDGET((*this_).box) );
+
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).button), tooltip_text );
+
+    /* increase the reference counter to keep the button and its children alive */
+    /* g_object_ref( (*this_).button ); */
+}
+
+static inline void gui_button_init_toggle( gui_button_t *this_,
+                                           GdkPaintable * icon_source,
+                                           const char *label_text,
+                                           const char *tooltip_text )
+{
+    (*this_).icon = GTK_IMAGE( gtk_image_new_from_paintable( icon_source ) );
+    gtk_widget_set_size_request( GTK_WIDGET((*this_).icon), 32 /*=w*/ , 32 /*=h*/ );
+
+    (*this_).label = GTK_LABEL( gtk_label_new( label_text ) );
+
+    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 0 /* spacing */ ) );
+    gtk_box_append( (*this_).box, GTK_WIDGET((*this_).icon) );
+    gtk_box_append( (*this_).box, GTK_WIDGET((*this_).label) );
+
+    (*this_).button = GTK_BUTTON( gtk_toggle_button_new() );
     gtk_button_set_child( (*this_).button, GTK_WIDGET((*this_).box) );
 
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).button), tooltip_text );
@@ -41,7 +64,7 @@ static inline GtkLabel * gui_button_get_label_ptr ( const gui_button_t *this_ )
 
 static inline GtkButton * gui_button_get_button_ptr ( const gui_button_t *this_ )
 {
-    return (*this_).button;
+    return GTK_BUTTON((*this_).button);
 }
 
 static inline GtkWidget * gui_button_get_widget_ptr ( const gui_button_t *this_ )

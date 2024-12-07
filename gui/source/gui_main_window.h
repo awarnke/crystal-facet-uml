@@ -67,16 +67,11 @@ struct gui_main_window_struct {
 
     GtkWidget *tool_sect_1_icon;
 
-    GtkWidget *view_new_window_icon;
-    GtkButton *view_new_window;
-    GtkWidget *view_navigate_icon;
-    GtkWidget *view_navigate;
-    GtkWidget *view_edit_icon;
-    GtkWidget *view_edit;
-    GtkWidget *view_create_icon;
-    GtkWidget *view_create;
-    GtkWidget *view_search_icon;
-    GtkWidget *view_search;
+    gui_button_t view_new_window;
+    gui_button_t view_navigate;
+    gui_button_t view_edit;
+    gui_button_t view_create;
+    gui_button_t view_search;
 
     GtkWidget *tool_sect_2_icon;
 
@@ -89,6 +84,7 @@ struct gui_main_window_struct {
     gui_button_t edit_instantiate;
     gui_button_t edit_highlight;
     gui_button_t edit_reset;
+
     gui_button_t help_about;
 
     GtkShortcutController *keyboard_shortcut_ctrl;
