@@ -22248,6 +22248,7 @@
         "id": 205,
         "main_type": 200,
         "type": "Association",
+        "stereotype": "optional",
         "name": "from",
         "description": [
                 ""
@@ -22265,6 +22266,7 @@
         "id": 206,
         "main_type": 200,
         "type": "Association",
+        "stereotype": "optional",
         "name": "to",
         "description": [
                 ""
@@ -22333,6 +22335,7 @@
         "id": 204,
         "main_type": 200,
         "type": "Association",
+        "stereotype": "optional",
         "name": "focused_feature",
         "description": [
                 "to select one of possibly several lifelines"
@@ -22384,6 +22387,7 @@
         "id": 99,
         "main_type": 200,
         "type": "Association",
+        "stereotype": "optional",
         "name": "parent",
         "description": [
                 ""

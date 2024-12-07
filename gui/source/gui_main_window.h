@@ -19,6 +19,7 @@
 #include "gui_file_export_dialog.h"
 #include "gui_search_request.h"
 #include "gui_search_runner.h"
+#include "gui_button.h"
 #include "attributes/gui_attribute_type_of_classifier.h"
 #include "attributes/gui_attribute_type_of_diagram.h"
 #include "attributes/gui_attribute_type_of_feature.h"

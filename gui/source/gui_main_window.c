@@ -367,10 +367,22 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 {
     U8_TRACE_BEGIN();
 
+    /* TODO: clean up */
+    GtkLabel * file_new_label = GTK_LABEL( gtk_label_new( "new" ) );
+
     (*this_).file_new_db_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_new_db( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_db_icon), 32 /*=w*/ , 32 /*=h*/ );
+
+    /* TODO: clean up */
+    GtkBox * file_button_box = GTK_BOX( gtk_box_new (  GTK_ORIENTATION_VERTICAL, 0 /* spacing */ ) );
+    gtk_box_append( file_button_box, GTK_WIDGET((*this_).file_new_db_icon) );
+    gtk_box_append( file_button_box, GTK_WIDGET(file_new_label) );
+
     (*this_).file_new_db = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).file_new_db), (*this_).file_new_db_icon );
+    /* gtk_button_set_image( GTK_BUTTON((*this_).file_new_db), (*this_).file_new_db_icon ); */
+    /* TODO: clean up */
+    gtk_button_set_child( (*this_).file_new_db, GTK_WIDGET(file_button_box) );
+
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_db), "New" );
     /* gtk_button_set_label( (*this_).file_new_db, "New" ); */
 
