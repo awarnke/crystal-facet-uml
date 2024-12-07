@@ -44,6 +44,11 @@ static inline GtkButton * gui_button_get_button_ptr ( const gui_button_t *this_ 
     return (*this_).button;
 }
 
+static inline GtkWidget * gui_button_get_widget_ptr ( const gui_button_t *this_ )
+{
+    return GTK_WIDGET((*this_).button);
+}
+
 
 /*
 Copyright 2024-2024 Andreas Warnke

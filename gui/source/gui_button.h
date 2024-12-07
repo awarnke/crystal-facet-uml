@@ -74,6 +74,14 @@ static inline GtkLabel * gui_button_get_label_ptr ( const gui_button_t *this_ );
  */
 static inline GtkButton * gui_button_get_button_ptr ( const gui_button_t *this_ );
 
+/*!
+ *  \brief gets the button, typecast as widget
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return button
+ */
+static inline GtkWidget * gui_button_get_widget_ptr ( const gui_button_t *this_ );
+
 #include "gui_button.inl"
 
 #endif  /* GUI_BUTTON_H */

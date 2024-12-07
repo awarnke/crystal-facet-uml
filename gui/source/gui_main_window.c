@@ -125,7 +125,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                                 GTK_WIDGET( (*this_).type_feat_grid ),
                                 GTK_WIDGET( (*this_).type_rel_grid ),
                                 GTK_TEXT_VIEW( (*this_).description_text_view ),
-                                GTK_BUTTON( (*this_).file_save_button ),
+                                gui_button_get_button_ptr( &((*this_).file_save ) ),
                                 res,
                                 controller,
                                 db_reader,
@@ -187,10 +187,10 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).window), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_main_window_data_changed_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).tool_row), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
-    g_signal_connect( G_OBJECT((*this_).file_new_db), "clicked", G_CALLBACK(gui_main_window_new_db_btn_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_open_db_btn_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).file_save_button), "clicked", G_CALLBACK(gui_main_window_save_btn_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).file_new) ), "clicked", G_CALLBACK(gui_main_window_new_db_btn_callback), this_ );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).file_open) ), "clicked", G_CALLBACK(gui_main_window_open_db_btn_callback), this_ );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).file_save) ), "clicked", G_CALLBACK(gui_main_window_save_btn_callback), this_ );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).file_export) ), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).view_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
 
     gui_toolbox_t *const tools = &((*this_).tools_data);
@@ -216,15 +216,15 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).search_entry), "activate", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_button), "clicked", G_CALLBACK(gui_search_request_search_start_callback), &((*this_).search_request) );
 
-    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_toolbox_delete_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_toolbox_instantiate_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_toolbox_highlight_btn_callback), tools );
-    g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_undo) ), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_redo) ), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_cut) ), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_copy) ), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_paste) ), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_delete) ), "clicked", G_CALLBACK(gui_toolbox_delete_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_instantiate) ), "clicked", G_CALLBACK(gui_toolbox_instantiate_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_highlight) ), "clicked", G_CALLBACK(gui_toolbox_highlight_btn_callback), tools );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).edit_reset) ), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), tools );
 
     g_signal_connect( G_OBJECT((*this_).name_entry),
                       "activate",
@@ -296,7 +296,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
         /* ^-- name_entry is the  proxy for all widgets of attributes_editor */
 
-    g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
+    g_signal_connect( gui_button_get_widget_ptr( &((*this_).help_about) ), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
     U8_TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
@@ -355,6 +355,21 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     (*this_).controller = NULL;
 #endif  /* not NDEBUG */
 
+    gui_button_destroy( &((*this_).file_new) );
+    gui_button_destroy( &((*this_).file_open) );
+    gui_button_destroy( &((*this_).file_save) );
+    gui_button_destroy( &((*this_).file_export) );
+    gui_button_destroy( &((*this_).edit_undo) );
+    gui_button_destroy( &((*this_).edit_redo) );
+    gui_button_destroy( &((*this_).edit_cut) );
+    gui_button_destroy( &((*this_).edit_copy) );
+    gui_button_destroy( &((*this_).edit_paste) );
+    gui_button_destroy( &((*this_).edit_delete) );
+    gui_button_destroy( &((*this_).edit_instantiate) );
+    gui_button_destroy( &((*this_).edit_highlight) );
+    gui_button_destroy( &((*this_).edit_reset) );
+    gui_button_destroy( &((*this_).help_about) );
+
     U8_TRACE_END();
 }
 
@@ -367,36 +382,23 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 {
     U8_TRACE_BEGIN();
 
-    /* TODO: clean up */
-    GtkLabel * file_new_label = GTK_LABEL( gtk_label_new( "new" ) );
+    gui_button_init( &((*this_).file_new),
+                     GDK_PAINTABLE( gui_resources_get_file_new_db( res ) ),
+                     "new",
+                     "New"
+                    );
 
-    (*this_).file_new_db_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_new_db( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_new_db_icon), 32 /*=w*/ , 32 /*=h*/ );
+    gui_button_init( &((*this_).file_open),
+                     GDK_PAINTABLE( gui_resources_get_file_use_db( res ) ),
+                     "open",
+                     "Open"
+                    );
 
-    /* TODO: clean up */
-    GtkBox * file_button_box = GTK_BOX( gtk_box_new (  GTK_ORIENTATION_VERTICAL, 0 /* spacing */ ) );
-    gtk_box_append( file_button_box, GTK_WIDGET((*this_).file_new_db_icon) );
-    gtk_box_append( file_button_box, GTK_WIDGET(file_new_label) );
-
-    (*this_).file_new_db = GTK_BUTTON(gtk_button_new());
-    /* gtk_button_set_image( GTK_BUTTON((*this_).file_new_db), (*this_).file_new_db_icon ); */
-    /* TODO: clean up */
-    gtk_button_set_child( (*this_).file_new_db, GTK_WIDGET(file_button_box) );
-
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_db), "New" );
-    /* gtk_button_set_label( (*this_).file_new_db, "New" ); */
-
-    (*this_).file_use_db_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_use_db( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_use_db_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).file_use_db = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).file_use_db), (*this_).file_use_db_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_use_db), "Open" );
-
-    (*this_).file_save_button = gtk_button_new();
-    (*this_).file_save_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_save( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_save_icon), 32 /*=w*/ , 32 /*=h*/ );
-    gtk_button_set_image( GTK_BUTTON((*this_).file_save_button), (*this_).file_save_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_save_button), "Save (Ctrl-S)" );
+    gui_button_init( &((*this_).file_save),
+                     GDK_PAINTABLE( gui_resources_get_file_save( res ) ),
+                     "save",
+                     "Save (Ctrl-S)"
+                    );
     GtkShortcutTrigger *commit_trig = gtk_shortcut_trigger_parse_string( "<Control>S" );
     GtkShortcutAction *commit_act = gtk_callback_action_new( &gui_main_window_save_shortcut_callback,
                                                              this_,
@@ -408,11 +410,11 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                                                          );
     gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_s );
 
-    (*this_).file_export_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_file_export( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).file_export_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).file_export = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).file_export), (*this_).file_export_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_export), "Export" );
+    gui_button_init( &((*this_).file_export),
+                     GDK_PAINTABLE( gui_resources_get_file_export( res ) ),
+                     "out",
+                     "Export"
+                    );
 
     (*this_).tool_sect_1_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_tool_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_sect_1_icon), 12 /*=w*/ , 32 /*=h*/ );
@@ -459,11 +461,11 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_create), "Create" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).view_search), "Search" );
 
-    (*this_).edit_undo_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_undo( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_undo_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_undo = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
+    gui_button_init( &((*this_).edit_undo),
+                     GDK_PAINTABLE( gui_resources_get_edit_undo( res ) ),
+                     "undo",
+                     "Undo (Ctrl-Z)"
+                    );
     GtkShortcutTrigger *undo_trig = gtk_shortcut_trigger_parse_string( "<Control>Z" );
     GtkShortcutAction *undo_act = gtk_callback_action_new( &gui_toolbox_undo_shortcut_callback,
                                                            &((*this_).tools_data),
@@ -475,11 +477,11 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                                                          );
     gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_z );
 
-    (*this_).edit_redo_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_redo( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_redo_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_redo = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
+    gui_button_init( &((*this_).edit_redo),
+                     GDK_PAINTABLE( gui_resources_get_edit_redo( res ) ),
+                     "redo",
+                     "Redo (Ctrl-Y)"
+                   );
     GtkShortcutTrigger *redo_trig = gtk_shortcut_trigger_parse_string( "<Control>Y" );
     GtkShortcutAction *redo_act = gtk_callback_action_new( &gui_toolbox_redo_shortcut_callback,
                                                            &((*this_).tools_data),
@@ -491,77 +493,77 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                                                          );
     gtk_shortcut_controller_add_shortcut( (*this_).keyboard_shortcut_ctrl, ctrl_y );
 
-    (*this_).edit_cut_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_cut( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_cut_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_cut = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_cut), (*this_).edit_cut_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut (Ctrl-X)" );
+    gui_button_init( &((*this_).edit_cut),
+                     GDK_PAINTABLE( gui_resources_get_edit_cut( res ) ),
+                     "cut",
+                     "Cut (Ctrl-X)"
+                   );
     /*
     GDK_KEY_x + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_copy_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_copy( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_copy_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_copy = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_copy), (*this_).edit_copy_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy (Ctrl-C)" );
+    gui_button_init( &((*this_).edit_copy),
+                     GDK_PAINTABLE( gui_resources_get_edit_copy( res ) ),
+                     "copy",
+                     "Copy (Ctrl-C)"
+                   );
     /*
     GDK_KEY_c + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_paste_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_paste( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_paste_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_paste = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_paste), (*this_).edit_paste_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste (Ctrl-V)" );
+    gui_button_init( &((*this_).edit_paste),
+                     GDK_PAINTABLE( gui_resources_get_edit_paste( res ) ),
+                     "paste",
+                     "Paste (Ctrl-V)"
+                   );
     /*
     GK_KEY_v + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_delete_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_delete( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_delete_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_delete = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_delete), (*this_).edit_delete_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete (DEL)" );
+    gui_button_init( &((*this_).edit_delete),
+                     GDK_PAINTABLE( gui_resources_get_edit_delete( res ) ),
+                     "del",
+                     "Delete (DEL)"
+                   );
     /*
     GDK_KEY_Delete handling see gui_sketch_area_key_press_callback();
     moved there to not interfere with text input fields
     */
 
-    (*this_).edit_instantiate_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_instantiate( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_instantiate_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_instantiate = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_instantiate), (*this_).edit_instantiate_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_instantiate), "Instantiate" );
+    gui_button_init( &((*this_).edit_instantiate),
+                     GDK_PAINTABLE( gui_resources_get_edit_instantiate( res ) ),
+                     "inst",
+                     "Instantiate"
+                   );
 
-    (*this_).edit_highlight_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_highlight( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_highlight_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_highlight = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_highlight), (*this_).edit_highlight_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_highlight), "Highlight" );
+    gui_button_init( &((*this_).edit_highlight),
+                     GDK_PAINTABLE( gui_resources_get_edit_highlight( res ) ),
+                     "mark",
+                     "Highlight"
+                   );
 
-    (*this_).edit_reset_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_edit_reset( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).edit_reset_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).edit_reset = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).edit_reset), (*this_).edit_reset_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_reset), "Reset Selection" );
+    gui_button_init( &((*this_).edit_reset),
+                     GDK_PAINTABLE( gui_resources_get_edit_reset( res ) ),
+                     "zero",
+                     "Reset Selection"
+                   );
 
-    (*this_).tool_about_icon = gtk_image_new_from_paintable( GDK_PAINTABLE( gui_resources_get_crystal_facet_uml( res ) ) );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).tool_about_icon), 32 /*=w*/ , 32 /*=h*/ );
-    (*this_).tool_about = GTK_BUTTON(gtk_button_new());
-    gtk_button_set_image( GTK_BUTTON((*this_).tool_about), (*this_).tool_about_icon );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
+    gui_button_init( &((*this_).help_about),
+                     GDK_PAINTABLE( gui_resources_get_crystal_facet_uml( res ) ),
+                     "info",
+                     "About"
+                   );
 
     /* insert widgets to box container */
     {
         (*this_).tool_row = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, /*spacing:*/ 4 );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_new_db) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_use_db) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_save_button) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).file_export) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_new) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_open) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_save) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).file_export) ) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_1_icon) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).view_new_window) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).view_search) );
@@ -569,16 +571,16 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).view_edit) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).view_create) );
         gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_sect_2_icon) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_undo) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_redo) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_cut) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_copy) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_paste) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_delete) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_instantiate) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_highlight) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).edit_reset) );
-        gtk_box_append( GTK_BOX((*this_).tool_row), GTK_WIDGET((*this_).tool_about) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_undo) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_redo) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_cut) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_copy) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_paste) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_delete) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_instantiate) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_highlight) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).edit_reset) ) );
+        gtk_box_append( GTK_BOX((*this_).tool_row), gui_button_get_widget_ptr( &((*this_).help_about) ) );
     }
 
     U8_TRACE_END();

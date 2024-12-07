@@ -20,7 +20,6 @@ ideas for future versions:
   [ ] allow creating diagrams before choosing a filename
   [ ] a communication diagram can (unintendedly) show hierarchies. In this case, children are not selectable.
   [ ] inserting messages _and_ actors to sequence charts does not work because the actor gets a new lifeline
-! [ ] show static texts under the icons of buttons (Note: sadly, gtk_button_set_label replaces the image)
   [ ] while pressing the mouse button, the status bar shall not change size -> otherwise pressed element moves around
   @pencil
   [ ] activity bars on lifelines missing

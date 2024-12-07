@@ -60,14 +60,10 @@ struct gui_main_window_struct {
 
     GtkWidget *tool_row;
 
-    GtkWidget *file_new_db_icon;
-    GtkButton *file_new_db;
-    GtkWidget *file_use_db_icon;
-    GtkButton *file_use_db;
-    GtkWidget *file_save_icon;
-    GtkWidget *file_save_button;
-    GtkWidget *file_export_icon;
-    GtkButton *file_export;
+    gui_button_t file_new;
+    gui_button_t file_open;
+    gui_button_t file_save;
+    gui_button_t file_export;
 
     GtkWidget *tool_sect_1_icon;
 
@@ -84,26 +80,16 @@ struct gui_main_window_struct {
 
     GtkWidget *tool_sect_2_icon;
 
-    GtkWidget *edit_undo_icon;
-    GtkButton *edit_undo;
-    GtkWidget *edit_redo_icon;
-    GtkButton *edit_redo;
-    GtkWidget *edit_cut_icon;
-    GtkButton *edit_cut;
-    GtkWidget *edit_copy_icon;
-    GtkButton *edit_copy;
-    GtkWidget *edit_paste_icon;
-    GtkButton *edit_paste;
-    GtkWidget *edit_delete_icon;
-    GtkButton *edit_delete;
-    GtkWidget *edit_instantiate_icon;
-    GtkButton *edit_instantiate;
-    GtkWidget *edit_highlight_icon;
-    GtkButton *edit_highlight;
-    GtkWidget *edit_reset_icon;
-    GtkButton *edit_reset;
-    GtkWidget *tool_about_icon;
-    GtkButton *tool_about;
+    gui_button_t edit_undo;
+    gui_button_t edit_redo;
+    gui_button_t edit_cut;
+    gui_button_t edit_copy;
+    gui_button_t edit_paste;
+    gui_button_t edit_delete;
+    gui_button_t edit_instantiate;
+    gui_button_t edit_highlight;
+    gui_button_t edit_reset;
+    gui_button_t help_about;
 
     GtkShortcutController *keyboard_shortcut_ctrl;
 
