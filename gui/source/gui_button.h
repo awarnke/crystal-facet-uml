@@ -42,6 +42,20 @@ static inline void gui_button_init ( gui_button_t *this_,
                                    );
 
 /*!
+ *  \brief initializes the gui_button_t struct as a toggle button
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param icon_source a gdk paintable object that allows to render an icon
+ *  \param label_text the text to display on the label
+ *  \param tooltip_text the text to display on the tooltip
+ */
+static inline void gui_button_init_toggle ( gui_button_t *this_,
+                                            GdkPaintable * icon_source,
+                                            const char *label_text,
+                                            const char *tooltip_text
+                                          );
+
+/*!
  *  \brief destroys the gui_button_t struct
  *
  *  \param this_ pointer to own object attributes

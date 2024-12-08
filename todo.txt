@@ -50,7 +50,6 @@ ideas for future versions:
       --> use the "display_flags" field of "diagrams"
   [ ] allow to toggle element-filter in diagrams: Show/hide scenario-based relationships, show/hide features,
       show/hide relationships-of-other-diag-types
-  [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
   [ ] links unclear:
       interactionuse(diag-reference)-to-fragment(diag); --> use a DATA_FEATURE_TYPE_LINK
   [ ] links unclear: provided/required-interface(feature)-to-interface(classifier)

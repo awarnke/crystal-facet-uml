@@ -1,7 +1,7 @@
 crystal-facet-uml (1.62.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * Gui shows static texts under the icons of buttons
+  * Gui shows labels below the icons of buttons
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 01 Dec 2024 08:30:00 +0100
 

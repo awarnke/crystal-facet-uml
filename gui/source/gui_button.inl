@@ -8,9 +8,27 @@ static inline void gui_button_init( gui_button_t *this_,
     (*this_).icon = GTK_IMAGE( gtk_image_new_from_paintable( icon_source ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).icon), 32 /*=w*/ , 32 /*=h*/ );
 
-    (*this_).label = GTK_LABEL( gtk_label_new( label_text ) );
+    /*
+    utf8stream_writemem_t css_out;
+    utf8stream_writemem_init( &css_out, css_buf, sizeof(css_buf) );
+    utf8stream_writer_t *css_in = utf8stream_writemem_get_writer( &css_out );
+    u8_error_t write_err = U8_ERROR_NONE;
+    write_err |= utf8stream_writer_write_str( &css_in, "<small>" );
+    write_err |= utf8stream_writer_write_str( &css_in, label_text );
+    write_err |= utf8stream_writer_write_str( &css_in, "</small>" );
+    write_err |= utf8stream_writer_flush( &css_in );
+    utf8stream_writemem_destroy( &css_out );
+    */
+    char css_buf[48] = "";
+    utf8stringbuf_t css = UTF8STRINGBUF( css_buf );
+    utf8stringbuf_append_str( css, "<small>" );
+    utf8stringbuf_append_str( css, label_text );
+    utf8stringbuf_append_str( css, "</small>" );
 
-    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 0 /* spacing */ ) );
+    (*this_).label = GTK_LABEL( gtk_label_new( NULL ) );
+    gtk_label_set_markup( (*this_).label, utf8stringbuf_get_string( css ) );
+
+    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 2 /* spacing */ ) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).icon) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).label) );
 
@@ -31,9 +49,16 @@ static inline void gui_button_init_toggle( gui_button_t *this_,
     (*this_).icon = GTK_IMAGE( gtk_image_new_from_paintable( icon_source ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).icon), 32 /*=w*/ , 32 /*=h*/ );
 
-    (*this_).label = GTK_LABEL( gtk_label_new( label_text ) );
+    char css_buf[48] = "";
+    utf8stringbuf_t css = UTF8STRINGBUF( css_buf );
+    utf8stringbuf_append_str( css, "<small>" );
+    utf8stringbuf_append_str( css, label_text );
+    utf8stringbuf_append_str( css, "</small>" );
 
-    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 0 /* spacing */ ) );
+    (*this_).label = GTK_LABEL( gtk_label_new( NULL ) );
+    gtk_label_set_markup( (*this_).label, utf8stringbuf_get_string( css ) );
+
+    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 2 /* spacing */ ) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).icon) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).label) );
 

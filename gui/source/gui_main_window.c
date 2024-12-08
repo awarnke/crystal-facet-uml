@@ -418,7 +418,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 
     gui_button_init( &((*this_).file_export),
                      GDK_PAINTABLE( gui_resources_get_file_export( res ) ),
-                     "out",
+                     "export",
                      "Export"
                     );
 
@@ -450,7 +450,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 
     gui_button_init_toggle( &((*this_).view_create),
                             GDK_PAINTABLE( gui_resources_get_view_create( res ) ),
-                            "add",
+                            "create",
                             "Create"
                            );
     gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON( gui_button_get_widget_ptr( &((*this_).view_create) ) ),
@@ -459,7 +459,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
 
     gui_button_init_toggle( &((*this_).view_search),
                             GDK_PAINTABLE( gui_resources_get_view_search( res ) ),
-                            "srch",
+                            "search",
                             "Search"
                            );
     gtk_toggle_button_set_group( GTK_TOGGLE_BUTTON( gui_button_get_widget_ptr( &((*this_).view_search) ) ),
