@@ -14,6 +14,21 @@
 
 #include "resources/crystal_facet_uml.c"
 #include "resources/edit_attributes_sect.c"
+
+#include "resources/file_new.c"
+#include "resources/file_open.c"
+#include "resources/file_save.c"
+#include "resources/file_saved.c"
+#include "resources/file_export.c"
+
+#include "resources/view_create.c"
+#include "resources/view_edit.c"
+#include "resources/view_navigate.c"
+#include "resources/view_new_window.c"
+#include "resources/view_search.c"
+
+#include "resources/tool_sect.c"
+
 #include "resources/edit_copy.c"
 #include "resources/edit_cut.c"
 #include "resources/edit_delete.c"
@@ -23,20 +38,12 @@
 #include "resources/edit_redo.c"
 #include "resources/edit_undo.c"
 #include "resources/edit_reset.c"
-#include "resources/file_export.c"
-#include "resources/file_new_db.c"
-#include "resources/file_save.c"
-#include "resources/file_use_db.c"
+
 #include "resources/message_error.c"
 #include "resources/message_info.c"
 #include "resources/message_warn.c"
 #include "resources/message_user_doc.c"
-#include "resources/view_create.c"
-#include "resources/view_edit.c"
-#include "resources/view_navigate.c"
-#include "resources/view_new_window.c"
-#include "resources/view_search.c"
-#include "resources/tool_sect.c"
+
 #include "resources/navigate_breadcrumb_folder.c"
 #include "resources/navigate_closed_folder.c"
 #include "resources/navigate_create_child.c"
@@ -165,7 +172,20 @@ void gui_resources_init ( gui_resources_t *this_ )
 
     (*this_).edit_attributes_sect = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_attributes_sect ) );
 
+    (*this_).file_new = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_new ) );
+    (*this_).file_open = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_open ) );
     (*this_).file_save = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_save ) );
+    (*this_).file_saved = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_saved ) );
+    (*this_).file_export = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_export ) );
+
+    (*this_).view_new_window = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_new_window ) );
+    (*this_).view_search = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_search ) );
+    (*this_).view_navigate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_navigate ) );
+    (*this_).view_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_create ) );
+    (*this_).view_edit = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_edit ) );
+
+    (*this_).tool_sect = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( tool_sect ) );
+
     (*this_).edit_copy = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_copy ) );
     (*this_).edit_cut = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_cut ) );
     (*this_).edit_delete = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_delete ) );
@@ -176,22 +196,10 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).edit_undo = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_undo ) );
     (*this_).edit_reset = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( edit_reset ) );
 
-    (*this_).file_export = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_export ) );
-    (*this_).file_new_db = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_new_db ) );
-    (*this_).view_new_window = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_new_window ) );
-    (*this_).file_use_db = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_use_db ) );
-
     (*this_).message_error = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_error ) );
     (*this_).message_info = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_info ) );
     (*this_).message_warn = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_warn ) );
-
     (*this_).message_user_doc = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( message_user_doc ) );
-
-    (*this_).view_search = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_search ) );
-    (*this_).view_navigate = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_navigate ) );
-    (*this_).view_create = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_create ) );
-    (*this_).view_edit = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_edit ) );
-    (*this_).tool_sect = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( tool_sect ) );
 
     (*this_).navigate_breadcrumb_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_breadcrumb_folder ) );
     (*this_).navigate_closed_folder = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( navigate_closed_folder ) );
@@ -305,7 +313,20 @@ void gui_resources_destroy ( gui_resources_t *this_ )
 
     g_object_unref ((*this_).edit_attributes_sect);
 
+    g_object_unref ((*this_).file_new);
+    g_object_unref ((*this_).file_open);
     g_object_unref ((*this_).file_save);
+    g_object_unref ((*this_).file_saved);
+    g_object_unref ((*this_).file_export);
+
+    g_object_unref ((*this_).view_new_window);
+    g_object_unref ((*this_).view_search);
+    g_object_unref ((*this_).view_navigate);
+    g_object_unref ((*this_).view_create);
+    g_object_unref ((*this_).view_edit);
+
+    g_object_unref ((*this_).tool_sect);
+
     g_object_unref ((*this_).edit_copy);
     g_object_unref ((*this_).edit_cut);
     g_object_unref ((*this_).edit_delete);
@@ -316,22 +337,11 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).edit_undo);
     g_object_unref ((*this_).edit_reset);
 
-    g_object_unref ((*this_).file_export);
-    g_object_unref ((*this_).file_new_db);
-    g_object_unref ((*this_).view_new_window);
-    g_object_unref ((*this_).file_use_db);
-
     g_object_unref ((*this_).message_error);
     g_object_unref ((*this_).message_info);
     g_object_unref ((*this_).message_warn);
 
     g_object_unref ((*this_).message_user_doc);
-
-    g_object_unref ((*this_).view_search);
-    g_object_unref ((*this_).view_navigate);
-    g_object_unref ((*this_).view_create);
-    g_object_unref ((*this_).view_edit);
-    g_object_unref ((*this_).tool_sect);
 
     g_object_unref ((*this_).navigate_breadcrumb_folder);
     g_object_unref ((*this_).navigate_closed_folder);

@@ -18,6 +18,21 @@
 struct gui_resources_struct {
     GdkTexture *crystal_facet_uml;
     GdkTexture *edit_attributes_sect;
+
+    GdkTexture *file_new;
+    GdkTexture *file_open;
+    GdkTexture *file_save;
+    GdkTexture *file_saved;
+    GdkTexture *file_export;
+
+    GdkTexture *view_new_window;
+    GdkTexture *view_search;
+    GdkTexture *view_navigate;
+    GdkTexture *view_create;
+    GdkTexture *view_edit;
+
+    GdkTexture *tool_sect;
+
     GdkTexture *edit_copy;
     GdkTexture *edit_cut;
     GdkTexture *edit_delete;
@@ -27,20 +42,12 @@ struct gui_resources_struct {
     GdkTexture *edit_instantiate;
     GdkTexture *edit_highlight;
     GdkTexture *edit_reset;
-    GdkTexture *file_export;
-    GdkTexture *file_new_db;
-    GdkTexture *file_save;
-    GdkTexture *file_use_db;
+
     GdkTexture *message_error;
     GdkTexture *message_info;
     GdkTexture *message_warn;
     GdkTexture *message_user_doc;
-    GdkTexture *view_new_window;
-    GdkTexture *view_search;
-    GdkTexture *view_navigate;
-    GdkTexture *view_create;
-    GdkTexture *view_edit;
-    GdkTexture *tool_sect;
+
     GdkTexture *navigate_breadcrumb_folder;
     GdkTexture *navigate_closed_folder;
     GdkTexture *navigate_create_child;
@@ -163,6 +170,41 @@ void gui_resources_destroy ( gui_resources_t *this_ );
 static inline GdkTexture *gui_resources_get_crystal_facet_uml ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the file_new
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_file_new ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the file_open
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_file_open ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the file_save
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_file_save ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the file_saved
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_file_saved ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the file_export
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_file_export ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the edit_attributes_sect
  *
  *  \param this_ pointer to own object attributes
@@ -231,34 +273,6 @@ static inline GdkTexture *gui_resources_get_edit_undo ( gui_resources_t *this_ )
  *  \param this_ pointer to own object attributes
  */
 static inline GdkTexture *gui_resources_get_edit_reset ( gui_resources_t *this_ );
-
-/*!
- *  \brief gets the file_export
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkTexture *gui_resources_get_file_export ( gui_resources_t *this_ );
-
-/*!
- *  \brief gets the file_new_db
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkTexture *gui_resources_get_file_new_db ( gui_resources_t *this_ );
-
-/*!
- *  \brief gets the file_save
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkTexture *gui_resources_get_file_save ( gui_resources_t *this_ );
-
-/*!
- *  \brief gets the file_use_db
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkTexture *gui_resources_get_file_use_db ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the message_error

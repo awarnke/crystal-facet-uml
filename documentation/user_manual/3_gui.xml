@@ -37,7 +37,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_new_db.svg" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_new.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
@@ -63,7 +63,7 @@
             <para>
 
                 <inlinemediaobject>
-                    <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.svg" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_open.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
                     <listitem>

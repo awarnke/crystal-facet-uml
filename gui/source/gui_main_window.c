@@ -389,13 +389,13 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     U8_TRACE_BEGIN();
 
     gui_button_init( &((*this_).file_new),
-                     GDK_PAINTABLE( gui_resources_get_file_new_db( res ) ),
+                     GDK_PAINTABLE( gui_resources_get_file_new( res ) ),
                      "new",
                      "New"
                     );
 
     gui_button_init( &((*this_).file_open),
-                     GDK_PAINTABLE( gui_resources_get_file_use_db( res ) ),
+                     GDK_PAINTABLE( gui_resources_get_file_open( res ) ),
                      "open",
                      "Open"
                     );
@@ -672,6 +672,8 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     "    <object class=\"GtkPaned\">\n"
     "      <property name=\"start-child\">\n"
     "        <object class=\"GtkImage\">\n"
+    "          <property name=\"width-request\">32</property>\n"
+    "          <property name=\"height-request\">24</property>\n"
     "          <binding name=\"paintable\">\n"
     "            <lookup name=\"icon\" type=\"GuiTypeResource\">\n"
     "              <lookup name=\"item\">GtkListItem</lookup>\n"

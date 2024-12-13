@@ -10,6 +10,31 @@ static inline GdkTexture *gui_resources_get_edit_attributes_sect ( gui_resources
     return (*this_).edit_attributes_sect;
 }
 
+static inline GdkTexture *gui_resources_get_file_new ( gui_resources_t *this_ )
+{
+    return (*this_).file_new;
+}
+
+static inline GdkTexture *gui_resources_get_file_open ( gui_resources_t *this_ )
+{
+    return (*this_).file_open;
+}
+
+static inline GdkTexture *gui_resources_get_file_save ( gui_resources_t *this_ )
+{
+    return (*this_).file_save;
+}
+
+static inline GdkTexture *gui_resources_get_file_saved ( gui_resources_t *this_ )
+{
+    return (*this_).file_saved;
+}
+
+static inline GdkTexture *gui_resources_get_file_export ( gui_resources_t *this_ )
+{
+    return (*this_).file_export;
+}
+
 static inline GdkTexture *gui_resources_get_edit_copy ( gui_resources_t *this_ )
 {
     return (*this_).edit_copy;
@@ -53,26 +78,6 @@ static inline GdkTexture *gui_resources_get_edit_undo ( gui_resources_t *this_ )
 static inline GdkTexture *gui_resources_get_edit_reset ( gui_resources_t *this_ )
 {
     return (*this_).edit_reset;
-}
-
-static inline GdkTexture *gui_resources_get_file_export ( gui_resources_t *this_ )
-{
-    return (*this_).file_export;
-}
-
-static inline GdkTexture *gui_resources_get_file_new_db ( gui_resources_t *this_ )
-{
-    return (*this_).file_new_db;
-}
-
-static inline GdkTexture *gui_resources_get_file_save ( gui_resources_t *this_ )
-{
-    return (*this_).file_save;
-}
-
-static inline GdkTexture *gui_resources_get_file_use_db ( gui_resources_t *this_ )
-{
-    return (*this_).file_use_db;
 }
 
 static inline GdkTexture *gui_resources_get_message_error ( gui_resources_t *this_ )

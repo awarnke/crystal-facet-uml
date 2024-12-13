@@ -4,7 +4,7 @@ static const struct {
     guint  height;
     guint  bytes_per_pixel; /* 2:RGB16, 3:RGB, 4:RGBA */
     guint8 pixel_data[1024*4];
-} file_use_db = {
+} file_open = {
     32, 32, 4,
     {
       0,  0,  0,  0,   0,  0,  0,  0,   0,  0,  0,  0,   0,  0,  0,  0,   0,  0,  0,  0,   0,  0,  0,  0,   0,  0,  0,  0,   0,  0,  0,  0,

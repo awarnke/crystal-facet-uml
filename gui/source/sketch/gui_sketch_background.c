@@ -117,7 +117,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                                        );
 
     gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_file_new_db( (*this_).resources ),
+                                                         gui_resources_get_file_new( (*this_).resources ),
                                                          "To begin, please",
                                                          "create a new database file first.",
                                                          text_area_start+BORDER,

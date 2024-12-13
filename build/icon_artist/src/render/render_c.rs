@@ -93,9 +93,7 @@ static const struct {{
                 /* lines are 140 characters wide */
                 pix_in_line = 0;
                 write!(self.output_file, "\n    ",).expect("Error at writing file");
-            }
-            else
-            {
+            } else {
                 /* only a sigle space*/
                 write!(self.output_file, " ",).expect("Error at writing file");
             }
