@@ -12,7 +12,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
-#include "gui_file_db_manager.h"
+#include "gui_file_action.h"
 #include "io_data_file.h"
 #include <gtk/gtk.h>
 
@@ -20,7 +20,7 @@
  *  \brief attributes of the use database file dialog
  */
 struct gui_file_use_db_dialog_struct {
-    gui_file_db_manager_t file_manager;  /*!<  own instance of gui_file_db_manager_t */
+    gui_file_action_t *file_action;  /*!<  pointer to instance of gui_file_action_t */
 
     GtkWindow *parent_window;  /*!< pointer to parent window, needed for modal dialogs */
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
@@ -38,16 +38,12 @@ typedef struct gui_file_use_db_dialog_struct gui_file_use_db_dialog_t;
  *  \brief initializes the gui_file_use_db_dialog
  *
  *  \param this_ pointer to own object attributes
- *  \param controller pointer to a controller object which can modify the database
- *  \param data_file pointer to a data_file object
  *  \param parent_window pointer to the gtk parent window, to which this modal dialog belongs
- *  \param message_to_user pointer to the message_to_user object to use
+ *  \param file_action in case a file was selected for new/open, file_action is the executor of that action
  */
 void gui_file_use_db_dialog_init( gui_file_use_db_dialog_t *this_,
-                                  ctrl_controller_t *controller,
-                                  io_data_file_t *data_file,
                                   GtkWindow *parent_window,
-                                  gui_simple_message_to_user_t *message_to_user
+                                  gui_file_action_t *file_action
                                 );
 
 /*!

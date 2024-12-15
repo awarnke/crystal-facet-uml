@@ -134,11 +134,14 @@ void gui_main_window_init( gui_main_window_t *this_,
                               );
 
     /* init the file choosers */
+    gui_file_action_init( &((*this_).file_action),
+                          controller,
+                          data_file,
+                          &((*this_).message_to_user)
+                        );
     gui_file_use_db_dialog_init( &((*this_).file_use_db_dialog),
-                                 controller,
-                                 data_file,
                                  GTK_WINDOW( (*this_).window ),
-                                 &((*this_).message_to_user)
+                                 &((*this_).file_action)
                                );
     gui_file_export_dialog_init( &((*this_).file_export_dialog),
                                  io_data_file_get_database_ptr( data_file ),
@@ -343,6 +346,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_file_export_dialog_destroy ( &((*this_).file_export_dialog) );
     gui_file_use_db_dialog_destroy ( &((*this_).file_use_db_dialog) );
     U8_TRACE_INFO("GTK+ hidden windows are destroyed.");
+    gui_file_action_destroy( &((*this_).file_action) );
 
     gui_search_request_destroy( &((*this_).search_request) );
     gui_search_runner_destroy( &((*this_).search_runner) );

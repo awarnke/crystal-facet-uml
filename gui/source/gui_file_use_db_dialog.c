@@ -8,10 +8,8 @@
 #include <stdbool.h>
 
 void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
-                                   ctrl_controller_t *controller,
-                                   io_data_file_t *database,
                                    GtkWindow *parent_window,
-                                   gui_simple_message_to_user_t *message_to_user )
+                                   gui_file_action_t *file_action )
 {
     U8_TRACE_BEGIN();
 
@@ -50,7 +48,7 @@ void gui_file_use_db_dialog_init ( gui_file_use_db_dialog_t *this_,
     gtk_file_dialog_set_title( (*this_).open_file_dialog, "Select file to open" );
 #endif
 
-    gui_file_db_manager_init( &((*this_).file_manager), controller, database, message_to_user );
+    (*this_).file_action = file_action;
 
 #if (( GTK_MAJOR_VERSION == 4 )&&( GTK_MINOR_VERSION < 10 ))
     g_signal_connect( G_OBJECT((*this_).new_file_chooser),
@@ -86,8 +84,7 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
     g_object_unref( (*this_).open_file_dialog );
 #endif
 
-    gui_file_db_manager_destroy( &((*this_).file_manager) );
-
+    (*this_).file_action = NULL;
     (*this_).parent_window = NULL;
 
     U8_TRACE_END();
@@ -163,7 +160,7 @@ void gui_file_use_db_dialog_response_callback( GtkDialog *dialog, gint response_
             {
                 U8_TRACE_INFO_STR( "File chosen:", filename );
 
-                gui_file_db_manager_use_db( &((*this_).file_manager), filename );
+                gui_file_action_use_db( (*this_).file_action, filename );
 
                 g_free (filename);
             }
@@ -232,7 +229,7 @@ void gui_file_use_db_dialog_async_ready_callback_on_open( GObject* source_object
                 events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
             }
 
-            gui_file_db_manager_use_db( &((*this_).file_manager), folder_path );
+            gui_file_action_use_db( (*this_).file_action, folder_path );
 
             g_free (folder_path);
         }
@@ -275,7 +272,7 @@ void gui_file_use_db_dialog_async_ready_callback_on_new( GObject* source_object,
                 events_handled = g_main_context_iteration( NULL, /*may_block*/ FALSE );
             }
 
-            gui_file_db_manager_use_db( &((*this_).file_manager), folder_path );
+            gui_file_action_use_db( (*this_).file_action, folder_path );
 
             g_free (folder_path);
         }

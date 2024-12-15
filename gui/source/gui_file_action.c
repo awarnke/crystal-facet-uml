@@ -1,6 +1,6 @@
-/* File: gui_file_db_manager.c; Copyright and License: see below */
+/* File: gui_file_action.c; Copyright and License: see below */
 
-#include "gui_file_db_manager.h"
+#include "gui_file_action.h"
 #include "u8/u8_error_info.h"
 #include "u8/u8_trace.h"
 #include <gtk/gtk.h>
@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-void gui_file_db_manager_init( gui_file_db_manager_t *this_,
+void gui_file_action_init( gui_file_action_t *this_,
                                ctrl_controller_t *controller,
                                io_data_file_t *data_file,
                                gui_simple_message_to_user_t *message_to_user )
@@ -25,7 +25,7 @@ void gui_file_db_manager_init( gui_file_db_manager_t *this_,
     U8_TRACE_END();
 }
 
-void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ )
+void gui_file_action_destroy( gui_file_action_t *this_ )
 {
     U8_TRACE_BEGIN();
 
@@ -36,7 +36,7 @@ void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t gui_file_db_manager_use_db( gui_file_db_manager_t *this_, const char *filename )
+u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filename )
 {
     U8_TRACE_BEGIN();
 

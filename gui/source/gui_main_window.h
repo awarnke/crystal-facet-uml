@@ -17,9 +17,10 @@
 #include "attributes/gui_attributes_editor.h"
 #include "gui_file_use_db_dialog.h"
 #include "gui_file_export_dialog.h"
+#include "gui_file_action.h"
 #include "gui_search_request.h"
 #include "gui_search_runner.h"
-#include "gui_button.h"
+#include "wrap/gui_button.h"
 #include "attributes/gui_attribute_type_of_classifier.h"
 #include "attributes/gui_attribute_type_of_diagram.h"
 #include "attributes/gui_attribute_type_of_feature.h"
@@ -45,6 +46,7 @@ struct gui_main_window_struct {
     gui_attributes_editor_t attributes_editor;  /*!<  own instance of gui_attributes_editor_t */
     observer_t *window_close_observer;  /*!< pointer to external observer_t listener object */
     observer_t *window_open_observer;  /*!< pointer to external observer_t listener object */
+    gui_file_action_t file_action;  /*!<  own instance of gui_file_action_t */
     gui_file_use_db_dialog_t file_use_db_dialog;  /*!<  own instance of gui_file_use_db_dialog_t */
     gui_file_export_dialog_t file_export_dialog;  /*!<  own instance of gui_file_export_dialog_t */
     io_data_file_t *data_file;  /*!< pointer to external data_file */

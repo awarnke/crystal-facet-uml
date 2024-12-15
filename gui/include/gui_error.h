@@ -9,13 +9,15 @@
  *  \brief Notifies errors in the gui module
  */
 
+#include "u8/u8_error.h"
+
 /*!
  *  \brief error constants which explain errors which occurred in the gui module
  */
 enum gui_error_enum {
     GUI_ERROR_NONE = 0,  /*!< 0: success */
-    GUI_ERROR_OUT_OF_BOUNDS = 1,  /*!< 1: input parameters are out of bounds */
-    GUI_ERROR_UNKNOWN_OBJECT = 2,  /*!< 2: referenced object is not in current diagram */
+    GUI_ERROR_OUT_OF_BOUNDS = U8_ERROR_PARAM_OUT_OF_RANGE,  /*!< input parameters like coordinates are out of bounds */
+    GUI_ERROR_UNKNOWN_OBJECT = U8_ERROR_NOT_FOUND,  /*!< referenced object id is not in current diagram */
 };
 
 typedef enum gui_error_enum gui_error_t;
