@@ -167,812 +167,812 @@ void gui_resources_destroy ( gui_resources_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_crystal_facet_uml ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_crystal_facet_uml ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_new
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_file_new ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_file_new ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_open
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_file_open ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_file_open ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_save
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_file_save ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_file_save ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_saved
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_file_saved ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_file_saved ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_export
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_file_export ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_file_export ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_attributes_sect
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_attributes_sect ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_attributes_sect ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_copy
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_copy ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_copy ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_cut
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_cut ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_cut ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_delete
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_delete ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_delete ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_instantiate
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_instantiate ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_instantiate ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_highlight
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_highlight ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_highlight ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_paste
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_paste ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_paste ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_redo
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_redo ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_redo ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_undo
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_undo ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_undo ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_reset
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_edit_reset ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_edit_reset ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the message_error
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_message_error ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_message_error ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the message_info
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_message_info ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_message_info ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the message_warn
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_message_warn ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_message_warn ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the message_user_doc
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_message_user_doc ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_message_user_doc ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the view_new_window
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_view_new_window ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_view_new_window ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the view_search
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_view_search ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_view_search ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the view_navigate
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_view_navigate ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_view_navigate ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the view_create
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_view_create ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_view_create ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the view_edit
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_view_edit ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_view_edit ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_sect
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_tool_sect ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_tool_sect ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_breadcrumb_folder
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_navigate_breadcrumb_folder ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_navigate_breadcrumb_folder ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_closed_folder
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_navigate_closed_folder ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_navigate_closed_folder ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_open_folder
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_navigate_open_folder ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_navigate_open_folder ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_create_child
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_navigate_create_child ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_navigate_create_child ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_create_child_0
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_navigate_create_child_0 ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_navigate_create_child_0 ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_create_sibling
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_navigate_create_sibling ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_navigate_create_sibling ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the navigate_create_sibling_0
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_navigate_create_sibling_0 ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_navigate_create_sibling_0 ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the search_search
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_search_search ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_search_search ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the background_column as GdkPixbuf
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_background_column ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_undef
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_undef ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_undef ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_activity
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_activity ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_activity ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_block
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_block ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_block ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_box
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_box ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_box ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_class
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_class ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_class ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_communication
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_communication ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_communication ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_component
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_component ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_component ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_composite
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_composite ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_composite ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_deployment
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_deployment ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_deployment ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_internal
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_internal ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_internal ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_list
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_list ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_list ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_overview
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_overview ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_overview ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_package
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_package ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_package ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_parametric
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_parametric ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_parametric ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_profile
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_profile ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_profile ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_requirement
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_requirement ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_requirement ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_sequence
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_sequence ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_sequence ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_state
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_state ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_state ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_timing
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_timing ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_timing ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_usecase
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_diag_usecase ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_accept
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_accept ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_accept ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_activity
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_activity ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_activity ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_actor
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_actor ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_actor ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_artifact
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_artifact ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_artifact ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_block
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_block ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_block ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_class
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_class ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_class ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_comment
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_comment ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_comment ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_component
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_component ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_component ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_constraint
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_constraint ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_constraint ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_decision
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_decision ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_decision ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_deephistory
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_deephistory ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_deephistory ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_diagram
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_diagram ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_diagram ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_final
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_final ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_final ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_fork
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_fork ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_fork ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_history
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_history ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_history ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_image
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_image ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_image ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_initial
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_initial ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_initial ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_interface
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_interface ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_interface ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_join
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_join ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_join ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_node
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_node ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_node ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_object
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_object ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_object ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_package
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_package ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_package ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_part
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_part ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_part ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_region
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_region ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_region ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_requirement
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_requirement ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_requirement ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_send
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_send ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_send ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_state
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_state ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_state ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_stereotype
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_stereotype ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_stereotype ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_subsystem
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_subsystem ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_subsystem ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_time
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_time ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_time ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_usecase
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_clas_usecase ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_clas_usecase ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_entry
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_entry ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_entry ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_exit
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_exit ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_exit ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_life
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_life ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_life ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_operation
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_operation ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_operation ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_port
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_port ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_port ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_property
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_property ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_property ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_provide
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_provide ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_provide ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_require
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_require ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_require ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_rx
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_rx ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_rx ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_tag
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_tag ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_tag ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_tx
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_feat_tx ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_feat_tx ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_aggregate
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_aggregate ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_aggregate ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_associate
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_associate ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_associate ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_async
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_async ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_async ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_compose
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_compose ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_compose ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_communication_path
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_communication_path ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_communication_path ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_contain
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_contain ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_contain ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_control_flow
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_control_flow ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_control_flow ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_depend
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_depend ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_depend ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_deploy
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_deploy ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_deploy ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_extend
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_extend ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_extend ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_generalize
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_generalize ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_generalize ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_include
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_include ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_include ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_manifest
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_manifest ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_manifest ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_object_flow
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_object_flow ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_object_flow ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_realize
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_realize ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_realize ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_refine
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_refine ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_refine ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_return
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_return ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_return ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_sync
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_sync ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_sync ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_rel_trace
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkTexture *gui_resources_get_type_rel_trace ( gui_resources_t *this_ );
+static inline GdkTexture *gui_resources_get_type_rel_trace ( const gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

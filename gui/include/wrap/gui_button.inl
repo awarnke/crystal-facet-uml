@@ -28,7 +28,7 @@ static inline void gui_button_init( gui_button_t *this_,
     (*this_).label = GTK_LABEL( gtk_label_new( NULL ) );
     gtk_label_set_markup( (*this_).label, utf8stringbuf_get_string( css ) );
 
-    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 2 /* spacing */ ) );
+    (*this_).box = GTK_BOX( gtk_box_new( GTK_ORIENTATION_VERTICAL, 4 /* spacing */ ) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).icon) );
     gtk_box_append( (*this_).box, GTK_WIDGET((*this_).label) );
 

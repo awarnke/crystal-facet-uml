@@ -10,6 +10,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
+#include "wrap/gui_button.h"
 #include "io_data_file.h"
 #include "ctrl_controller.h"
 #include <gtk/gtk.h>
@@ -32,12 +33,13 @@ typedef struct gui_file_action_struct gui_file_action_t;
  *  \param controller pointer to the controller object to use
  *  \param data_file pointer to the data_file object to use
  *  \param message_to_user pointer to the message_to_user object to use
+ *  \param save_button pointer to the save button, which indicates if the database is saved or not
  */
 void gui_file_action_init( gui_file_action_t *this_,
-                               ctrl_controller_t *controller,
-                               io_data_file_t *data_file,
-                               gui_simple_message_to_user_t *message_to_user
-                             );
+                           ctrl_controller_t *controller,
+                           io_data_file_t *data_file,
+                           gui_simple_message_to_user_t *message_to_user
+                         );
 
 /*!
  *  \brief destroys the main window
@@ -51,8 +53,18 @@ void gui_file_action_destroy( gui_file_action_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param filename filename of the file to open, must not be NULL
-*/
+ */
 u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filename );
+
+/*!
+ *  \brief saves the data_file
+ *
+ *  Errors are reported directly to the user via (*this_).message_to_user.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return U8_ERROR_NONE if save was successful
+ */
+u8_error_t gui_file_action_save( gui_file_action_t *this_ );
 
 #endif  /* GUI_FILE_ACTION_H */
 

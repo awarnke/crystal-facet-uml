@@ -50,9 +50,7 @@ struct gui_main_window_struct {
     gui_file_use_db_dialog_t file_use_db_dialog;  /*!<  own instance of gui_file_use_db_dialog_t */
     gui_file_export_dialog_t file_export_dialog;  /*!<  own instance of gui_file_export_dialog_t */
     io_data_file_t *data_file;  /*!< pointer to external data_file */
-#ifndef NDEBUG
-    ctrl_controller_t *controller;  /*!< pointer to external controller, which can test the database in debug mode */
-#endif  /* not NDEBUG */
+    const gui_resources_t *resources;  /*!< pointer to external resource provider */
 
     GtkWidget *window;
     GtkWidget *main_stack_column;
@@ -148,7 +146,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
  *  \param controller pointer to a controller object which can modify the database
  *  \param data_file pointer to a data_file object
  *  \param db_reader pointer to a database reader object
- *  \param res pointer to a resource provider
+ *  \param resources pointer to a resource provider
  *  \param gtk_app the gtk application object
  *  \param window_close_observer observer for a button press on the close window button
  *  \param window_open_observer observer for a button press on the open window button
@@ -157,7 +155,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,
                            io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
-                           gui_resources_t *res,
+                           gui_resources_t *resources,
                            GtkApplication *gtk_app,
                            observer_t *window_close_observer,
                            observer_t *window_open_observer
@@ -174,34 +172,30 @@ void gui_main_window_destroy( gui_main_window_t *this_ );
  *  \brief initializes the widgets that belong to the toolbox group at the top of the main window
  *
  *  \param this_ pointer to own object attributes
- *  \param res pointer to a resource provider
  */
-void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resources_t *res );
+void gui_main_window_private_init_toolbox( gui_main_window_t *this_ );
 
 /*!
  *  \brief initializes the widgets that belong to the attributes editor group at the right of the main window
  *
  *  \param this_ pointer to own object attributes
- *  \param res pointer to a resource provider
  */
-void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, gui_resources_t *res );
+void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_ );
 
 /*!
  *  \brief initializes the widgets that belong to the simple message to user group at the bottom of the main window
  *
  *  \param this_ pointer to own object attributes
- *  \param res pointer to a resource provider
  */
-void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *this_, gui_resources_t *res );
+void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *this_ );
 
 /*!
  *  \brief initializes the widgets that belong to the sketch area group at the center of the main window,
  *         including the search bar
  *
  *  \param this_ pointer to own object attributes
- *  \param res pointer to a resource provider
  */
-void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *this_, gui_resources_t *res );
+void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *this_ );
 
 /*!
  *  \brief callback that is executed when the main window is destroyed

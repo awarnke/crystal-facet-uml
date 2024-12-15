@@ -40,7 +40,7 @@ enum gui_type_resource_list_max_enum {
  *  \brief attributes of the gui_type_resource_list_t
  */
 struct gui_type_resource_list_struct {
-    gui_resources_t *resources;
+    const gui_resources_t *resources;
     gui_type_resource_t type_name_icon_list[GUI_TYPE_RESOURCE_LIST_MAX_TYPES];
     gui_type_resource_t type_undef;
     unsigned int diagram_types_start;
@@ -68,7 +68,7 @@ typedef struct gui_type_resource_list_struct gui_type_resource_list_t;
  *  \param this_ pointer to own object attributes
  *  \param resources pointer to resources
  */
-void gui_type_resource_list_init ( gui_type_resource_list_t *this_, gui_resources_t *resources );
+void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_resources_t *resources );
 
 /*!
  *  \brief destroys the gui_type_resource_list_t

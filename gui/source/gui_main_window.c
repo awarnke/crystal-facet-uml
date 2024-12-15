@@ -11,10 +11,6 @@
 #include "storage/data_database.h"
 #include "storage/data_change_notifier.h"
 #include "meta/meta_info.h"
-#ifndef NDEBUG
-#include "u8stream/universal_stream_output_stream.h"
-#include "utf8stream/utf8stream_writer.h"
-#endif  /* not NDEBUG */
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -24,7 +20,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,
                            io_data_file_t *data_file,
                            data_database_reader_t *db_reader,
-                           gui_resources_t *res,
+                           gui_resources_t *resources,
                            GtkApplication *gtk_app,
                            observer_t *window_close_observer,
                            observer_t *window_open_observer )
@@ -36,9 +32,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     (*this_).window_close_observer = window_close_observer;
     (*this_).window_open_observer = window_open_observer;
     (*this_).data_file = data_file;
-#ifndef NDEBUG
-    (*this_).controller = controller;
-#endif  /* not NDEBUG */
+    (*this_).resources = resources;
 
     /* init window */
     {
@@ -51,8 +45,8 @@ void gui_main_window_init( gui_main_window_t *this_,
     }
 
     /* init the message widgets */
-    gui_main_window_private_init_simple_message_to_user( this_, res );
-    gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
+    gui_main_window_private_init_simple_message_to_user( this_ );
+    gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, resources );
 
     /* init the keyboard shortcuts */
     {
@@ -61,7 +55,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     }
 
     /* init tools */
-    gui_main_window_private_init_toolbox( this_, res );
+    gui_main_window_private_init_toolbox( this_ );
 
     /* determine the current/main clipboard */
     GdkClipboard *current_clipboard = NULL;
@@ -88,7 +82,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                     );
 
     /* init search widgets and sketch area */
-    gui_main_window_private_init_search_and_sketch_area( this_, res );
+    gui_main_window_private_init_search_and_sketch_area( this_ );
     gui_search_runner_init( &((*this_).search_runner),
                             &((*this_).message_to_user),
                             db_reader,
@@ -107,13 +101,13 @@ void gui_main_window_init( gui_main_window_t *this_,
                           &((*this_).marker_data),
                           &((*this_).tools_data),
                           &((*this_).message_to_user),
-                          res,
+                          resources,
                           controller,
                           db_reader
                         );
 
     /* init attribute editor widgets */
-    gui_main_window_private_init_attributes_editor( this_, res );
+    gui_main_window_private_init_attributes_editor( this_ );
 
     gui_attributes_editor_init( &((*this_).attributes_editor),
                                 GTK_LABEL( (*this_).id_label ),
@@ -126,7 +120,7 @@ void gui_main_window_init( gui_main_window_t *this_,
                                 GTK_WIDGET( (*this_).type_rel_grid ),
                                 GTK_TEXT_VIEW( (*this_).description_text_view ),
                                 gui_button_get_button_ptr( &((*this_).file_save ) ),
-                                res,
+                                resources,
                                 controller,
                                 db_reader,
                                 io_data_file_get_database_ptr( data_file ),
@@ -356,9 +350,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_attributes_editor_destroy( &((*this_).attributes_editor) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     (*this_).data_file = NULL;
-#ifndef NDEBUG
-    (*this_).controller = NULL;
-#endif  /* not NDEBUG */
+    (*this_).resources = NULL;
 
     gui_button_destroy( &((*this_).file_new) );
     gui_button_destroy( &((*this_).file_open) );
@@ -388,9 +380,10 @@ static inline void gtk_button_set_image( GtkButton *btn, GtkWidget *icon )
     gtk_button_set_child( btn, icon );
 }
 
-void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resources_t *res )
+void gui_main_window_private_init_toolbox( gui_main_window_t *this_ )
 {
     U8_TRACE_BEGIN();
+    const gui_resources_t *const res = (*this_).resources;
 
     gui_button_init( &((*this_).file_new),
                      GDK_PAINTABLE( gui_resources_get_file_new( res ) ),
@@ -405,7 +398,7 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
                     );
 
     gui_button_init( &((*this_).file_save),
-                     GDK_PAINTABLE( gui_resources_get_file_save( res ) ),
+                     GDK_PAINTABLE( gui_resources_get_file_saved( res ) ),
                      "save",
                      "Save (Ctrl-S)"
                     );
@@ -600,9 +593,10 @@ void gui_main_window_private_init_toolbox( gui_main_window_t *this_, gui_resourc
     U8_TRACE_END();
 }
 
-void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, gui_resources_t *res )
+void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_ )
 {
     U8_TRACE_BEGIN();
+    const gui_resources_t *const res = (*this_).resources;
 
     (*this_).attr_section_icon = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_edit_attributes_sect( res ) ) );
     gtk_widget_set_size_request( GTK_WIDGET((*this_).attr_section_icon), 48 /*=w*/ , 12 /*=h*/ );
@@ -824,18 +818,15 @@ void gui_main_window_private_init_attributes_editor( gui_main_window_t *this_, g
     U8_TRACE_END();
 }
 
-void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *this_, gui_resources_t *res )
+void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *this_ )
 {
     U8_TRACE_BEGIN();
+    const gui_resources_t *const res = (*this_).resources;
 
     (*this_).message_text_label = gtk_label_new( "" );
     gtk_label_set_xalign(GTK_LABEL( (*this_).message_text_label ), 0.0 );
 
-    (*this_).message_icon_image = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_crystal_facet_uml( res ) ) );
-    /* TODO check if GtkPicture is better suited than GtkImage because of setting the size */
-    // gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
-    // gtk_image_set_pixel_size( GTK_IMAGE((*this_).message_icon_image), 32 );
-    gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
+    (*this_).message_icon_image = gtk_image_new_from_paintable( GDK_PAINTABLE ( gui_resources_get_crystal_facet_uml( res ) ) );    gtk_widget_set_size_request( GTK_WIDGET((*this_).message_icon_image), 32 /*=w*/ , 32 /*=h*/ );
 
     /* insert widgets to box container */
     {
@@ -852,9 +843,10 @@ void gui_main_window_private_init_simple_message_to_user( gui_main_window_t *thi
     U8_TRACE_END();
 }
 
-void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *this_, gui_resources_t *res )
+void gui_main_window_private_init_search_and_sketch_area( gui_main_window_t *this_ )
 {
     U8_TRACE_BEGIN();
+    const gui_resources_t *const res = (*this_).resources;
 
     /* init search widgets */
     {
@@ -971,51 +963,17 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
 
     gui_attributes_editor_commit_changes ( &((*this_).attributes_editor) );
 
-    u8_error_t d_err;
-    d_err = U8_ERROR_NONE;
-    d_err |= io_data_file_trace_stats( (*this_).data_file );
-    d_err |= io_data_file_sync_to_disk( (*this_).data_file );
-    d_err |= io_data_file_trace_stats( (*this_).data_file );
-    if ( U8_ERROR_NONE != d_err )
+    const u8_error_t err = gui_file_action_save( &((*this_).file_action) );
+    if ( err == U8_ERROR_NONE )
     {
-        gui_simple_message_to_user_show_message( &((*this_).message_to_user),
-                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
-                                               );
-    }
-    else
-    {
-        gui_simple_message_to_user_show_message_with_name( &((*this_).message_to_user),
-                                                           GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN,
-                                                           io_data_file_get_filename_const( (*this_).data_file )
-                                                         );
-#ifndef NDEBUG
-        /* in debug mode, also check consistency of database */
-        universal_stream_output_stream_t out_stream;
-        universal_stream_output_stream_init( &out_stream, stdout );
-        universal_output_stream_t *const out_base = universal_stream_output_stream_get_output_stream( &out_stream );
-        utf8stream_writer_t out_report;
-        utf8stream_writer_init( &out_report, out_base );
-        uint32_t found_errors;
-        uint32_t fixed_errors;
-        ctrl_controller_repair_database( (*this_).controller,
-                                         false /* no repair, just test */,
-                                         &found_errors,
-                                         &fixed_errors,
-                                         &out_report
-                                       );
-        if (( found_errors != 0 ) || ( fixed_errors != 0 ))
+        GtkImage *const save_icon = gui_button_get_icon_ptr( &((*this_).file_save) );
+        const GdkPaintable *const actual_paint = gtk_image_get_paintable( save_icon );
+        GdkPaintable *const current_paint = GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) );
+        if ( actual_paint != current_paint )
         {
-            gui_simple_message_to_user_show_message_with_quantity( &((*this_).message_to_user),
-                                                                   GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                   GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT,
-                                                                   found_errors
-                                                                 );
+            gtk_image_set_from_paintable( save_icon, current_paint );
+            U8_TRACE_INFO("icon of save button set to SAVED(/)");
         }
-        utf8stream_writer_destroy( &out_report );
-        universal_stream_output_stream_destroy( &out_stream );
-#endif
     }
 
     U8_TRACE_TIMESTAMP();
@@ -1084,6 +1042,7 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
     U8_TRACE_BEGIN();
     gui_main_window_t *this_ = user_data;
 
+    /* update the window title */
     if (( DATA_CHANGE_EVENT_TYPE_DB_OPENED == data_change_message_get_event( msg ) )
         || ( DATA_CHANGE_EVENT_TYPE_DB_CLOSED == data_change_message_get_event( msg ) ))
     {
@@ -1096,6 +1055,30 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
         else
         {
             gtk_window_set_title(GTK_WINDOW((*this_).window), filename );
+        }
+    }
+
+    /* update the save button status indicator */
+    GtkImage *const save_icon = gui_button_get_icon_ptr( &((*this_).file_save) );
+    const GdkPaintable *const actual_paint = gtk_image_get_paintable( save_icon );
+
+    if (( DATA_CHANGE_EVENT_TYPE_DB_OPENED == data_change_message_get_event( msg ) )
+        || ( DATA_CHANGE_EVENT_TYPE_DB_CLOSED == data_change_message_get_event( msg ) ))
+    {
+        GdkPaintable *const current_paint = GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) );
+        if ( actual_paint != current_paint )
+        {
+            gtk_image_set_from_paintable( save_icon, current_paint );
+            U8_TRACE_INFO("icon of save button set to SAVED(/)");
+        }
+    }
+    else if ( DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE != data_change_message_get_event( msg ) )
+    {
+        GdkPaintable *const current_paint = GDK_PAINTABLE( gui_resources_get_file_save( (*this_).resources ) );
+        if ( actual_paint != current_paint )
+        {
+            gtk_image_set_from_paintable( save_icon, current_paint );
+            U8_TRACE_INFO("icon of save button set to NOT-SAVED(*)");
         }
     }
 

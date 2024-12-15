@@ -6,7 +6,7 @@
 #include <gtk/gtk.h>
 #include <assert.h>
 
-void gui_type_resource_list_init ( gui_type_resource_list_t *this_, gui_resources_t *resources )
+void gui_type_resource_list_init ( gui_type_resource_list_t *this_, const gui_resources_t *resources )
 {
     U8_TRACE_BEGIN();
     assert( resources != NULL );

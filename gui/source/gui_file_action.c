@@ -3,15 +3,19 @@
 #include "gui_file_action.h"
 #include "u8/u8_error_info.h"
 #include "u8/u8_trace.h"
+#ifndef NDEBUG
+#include "u8stream/universal_stream_output_stream.h"
+#include "utf8stream/utf8stream_writer.h"
+#endif  /* not NDEBUG */
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
 
 void gui_file_action_init( gui_file_action_t *this_,
-                               ctrl_controller_t *controller,
-                               io_data_file_t *data_file,
-                               gui_simple_message_to_user_t *message_to_user )
+                           ctrl_controller_t *controller,
+                           io_data_file_t *data_file,
+                           gui_simple_message_to_user_t *message_to_user )
 {
     U8_TRACE_BEGIN();
     assert( NULL != controller );
@@ -117,6 +121,62 @@ u8_error_t gui_file_action_use_db( gui_file_action_t *this_, const char *filenam
 
     U8_TRACE_END_ERR( error );
     return error;
+}
+
+u8_error_t gui_file_action_save( gui_file_action_t *this_ )
+{
+    U8_TRACE_BEGIN();
+    u8_error_t err = U8_ERROR_NONE;
+
+    u8_error_t d_err;
+    d_err = U8_ERROR_NONE;
+    d_err |= io_data_file_trace_stats( (*this_).data_file );
+    d_err |= io_data_file_sync_to_disk( (*this_).data_file );
+    d_err |= io_data_file_trace_stats( (*this_).data_file );
+    if ( U8_ERROR_NONE != d_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
+                                               );
+    }
+    else
+    {
+        gui_simple_message_to_user_show_message_with_name( (*this_).message_to_user,
+                                                           GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITTEN,
+                                                           io_data_file_get_filename_const( (*this_).data_file )
+                                                         );
+#ifndef NDEBUG
+        /* in debug mode, also check consistency of database */
+        universal_stream_output_stream_t out_stream;
+        universal_stream_output_stream_init( &out_stream, stdout );
+        universal_output_stream_t *const out_base = universal_stream_output_stream_get_output_stream( &out_stream );
+        utf8stream_writer_t out_report;
+        utf8stream_writer_init( &out_report, out_base );
+        uint32_t found_errors;
+        uint32_t fixed_errors;
+        ctrl_controller_repair_database( (*this_).controller,
+                                         false /* no repair, just test */,
+                                         &found_errors,
+                                         &fixed_errors,
+                                         &out_report
+                                       );
+        if (( found_errors != 0 ) || ( fixed_errors != 0 ))
+        {
+            gui_simple_message_to_user_show_message_with_quantity( (*this_).message_to_user,
+                                                                   GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                   GUI_SIMPLE_MESSAGE_CONTENT_DB_INCONSISTENT,
+                                                                   found_errors
+                                                                 );
+        }
+        utf8stream_writer_destroy( &out_report );
+        universal_stream_output_stream_destroy( &out_stream );
+#endif
+    }
+
+    U8_TRACE_END_ERR( err );
+    return err;
 }
 
 

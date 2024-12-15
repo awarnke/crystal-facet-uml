@@ -14,7 +14,6 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long (hint already added to user manual)
   [ ] store edited text fields before performing undo/redo operations
 ! [ ] auto-save when losing focus; Check GtkEventControllerFocus enter and leave (example in gui_main_window.c)
-  [ ] modify the save icon when there are unsaved changes
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
