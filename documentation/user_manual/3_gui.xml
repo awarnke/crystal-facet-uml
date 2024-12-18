@@ -97,6 +97,9 @@
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/file_save.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_saved.svg" width="1cm"/></imageobject>
+                </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
                         <para>

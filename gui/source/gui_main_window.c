@@ -181,6 +181,7 @@ void gui_main_window_init( gui_main_window_t *this_,
     /* parameter info: g_signal_connect( instance-that-emits-the-signal, signal-name, callback-handler, data-to-be-passed-to-callback-handler) */
     g_signal_connect( G_OBJECT((*this_).window), "close-request", G_CALLBACK(gui_main_window_delete_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).window), "state-flags-changed", G_CALLBACK( gui_main_window_state_callback ), this_ );
     g_signal_connect( G_OBJECT((*this_).window), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_main_window_data_changed_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).tool_row), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
@@ -1080,6 +1081,35 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
             gtk_image_set_from_paintable( save_icon, current_paint );
             U8_TRACE_INFO("icon of save button set to NOT-SAVED(*)");
         }
+    }
+
+    U8_TRACE_TIMESTAMP();
+    U8_TRACE_END();
+}
+
+void gui_main_window_state_callback( GtkWidget* window, GtkStateFlags old_flags, gpointer user_data )
+{
+    U8_TRACE_BEGIN();
+    gui_main_window_t *this_ = user_data;
+
+    /* GTK_STATE_FLAG_ACTIVE is close to what is needed */
+    /* but it is sometimes not called when window loses focus */
+    /* and it is sometimes activated multiple times when window gains focus */
+
+    GtkStateFlags new_flags = gtk_widget_get_state_flags ( window );
+    GtkStateFlags changed = old_flags ^ new_flags;
+
+    if ( 0 != ( changed & GTK_STATE_FLAG_BACKDROP ) )
+    {
+        if ( 0 != ( new_flags & GTK_STATE_FLAG_BACKDROP ) )
+        {
+            U8_TRACE_INFO("GTK_STATE_FLAG & GTK_STATE_FLAG_BACKDROP: true");
+        }
+        else
+        {
+            U8_TRACE_INFO("GTK_STATE_FLAG & GTK_STATE_FLAG_BACKDROP: false");
+        }
+        // U8_TRACE_FLUSH();
     }
 
     U8_TRACE_TIMESTAMP();

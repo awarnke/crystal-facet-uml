@@ -18,19 +18,18 @@
 static const char *const MAIN_HELP
     = "\nUsage:\n"
 #ifndef NDEBUG
-    "    G_ENABLE_DIAGNOSTIC=1 ./crystal-facet-uml : for mor debug information\n"
+    "    G_ENABLE_DIAGNOSTIC=1 ./crystal-facet-uml : for more debug information\n"
 #endif
     "    -h : for help\n"
     "    -v : for version\n"
-    "    -e <database_file> <export_format> <export_directory> : to export all diagrams,\n"
+    "    -e <file> <export_format> <export_directory> : to export all diagrams,\n"
     "       export_format: docbook|json|pdf|png|ps|svg|txt|html|xmi\n"
-    "    -i <database_file> <import_mode>   <json_input_file>  : to import elements,\n"
+    "    -i <file> <import_mode>   <json_input_file>  : to import elements,\n"
     "       import_mode: check|add\n"
-    "   [-u] <database_file> : to use/create a database file\n"
-    "       extension for compact sqlite format: *.cfu1\n"
-    "    -g <database_file> : to upgrade the database tables from version 1.32.1 and older\n"
-    "    -t <database_file> : to test the database file\n"
-    "    -r <database_file> : to test and repair the database file\n";
+    "   [-u] <file> : to use/create a database file\n"
+    "    -g <file> : to upgrade the database tables from version 1.32.1 and older\n"
+    "    -t <file> : to test the database file\n"
+    "    -r <file> : to test and repair the database file\n";
 
 int main_execute (int argc, char **argv) {
     U8_TRACE_BEGIN();

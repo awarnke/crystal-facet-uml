@@ -29,13 +29,6 @@ static GREEN: geometry::Color = geometry::Color {
     blue: 0x99,
 };
 
-/// anber fill color
-static AMBER: geometry::Color = geometry::Color {
-    red: 0xff,
-    green: 0xcc,
-    blue: 0x88,
-};
-
 /// black color
 static BLACK: geometry::Color = geometry::Color {
     red: 0x0,
@@ -60,6 +53,12 @@ static GRAY: geometry::Color = geometry::Color {
 /// black pen
 static BLACK_PEN: geometry::Pen = geometry::Pen {
     color: BLACK,
+    width: 1.0,
+};
+
+/// white pen
+static WHITE_PEN: geometry::Pen = geometry::Pen {
+    color: WHITE,
     width: 1.0,
 };
 
@@ -345,7 +344,7 @@ pub fn generate_file_save(out: &mut dyn PathRenderer) -> () {
         LineRel(Offset { dx: 8.0, dy: 2.0 }),
         CloseRel,
     ];
-    out.render_path(&unsaved_sym, &Some(BLACK_PEN), &Some(AMBER));
+    out.render_path(&unsaved_sym, &Some(WHITE_PEN), &Some(GRAY));
 }
 
 /// The function generates a saved-file icon to vector graphics drawing directives

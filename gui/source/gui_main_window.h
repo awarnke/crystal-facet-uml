@@ -249,6 +249,11 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data );
  */
 void gui_main_window_data_changed_callback( GtkWidget *window, data_change_message_t *msg, gpointer user_data );
 
+/*!
+ *  \brief callback that informs that the window was activated or dropped-to-back
+ */
+void gui_main_window_state_callback( GtkWidget* window, GtkStateFlags old_flags, gpointer user_data );
+
 #endif  /* GUI_MAIN_WINDOW_H */
 
 

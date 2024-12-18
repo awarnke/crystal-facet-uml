@@ -7,13 +7,14 @@ ideas for future versions:
   @gui
   [ ] performance optimization: redraw only when shown(=visible) items have changed;
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
-      do not redraw twice, once for deactivating a tool and again for activating another
+  [ ] do not redraw twice, once for deactivating a tool and again for activating another
       (this is still the case in 1.61.2)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] show a progress bar while exporting diagrams (especially for png mode)
-  [ ] scrolling through search list missing if result list is too long (hint already added to user manual)
+  [ ] scrolling through search list missing if result list is too long
+      (workaround hint already added to user manual)
   [ ] store edited text fields before performing undo/redo operations
-! [ ] auto-save when losing focus; Check GtkEventControllerFocus enter and leave (example in gui_main_window.c)
+! [ ] auto-save when losing focus; Check gui_main_window_activated callback
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] auto-reload when gaining focus
   [ ] allow creating diagrams before choosing a filename
