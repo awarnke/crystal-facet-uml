@@ -967,12 +967,12 @@ void gui_main_window_save_btn_callback( GtkButton *button, gpointer user_data )
     const u8_error_t err = gui_file_action_save( &((*this_).file_action) );
     if ( err == U8_ERROR_NONE )
     {
-        GtkImage *const save_icon = gui_button_get_icon_ptr( &((*this_).file_save) );
-        const GdkPaintable *const actual_paint = gtk_image_get_paintable( save_icon );
-        GdkPaintable *const current_paint = GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) );
-        if ( actual_paint != current_paint )
+        GtkImage *const save_image = gui_button_get_icon_ptr( &((*this_).file_save) );
+        const GdkPaintable *const shown_icon = gtk_image_get_paintable( save_image );
+        GdkPaintable *const saved_icon = GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) );
+        if ( shown_icon != saved_icon )
         {
-            gtk_image_set_from_paintable( save_icon, current_paint );
+            gtk_image_set_from_paintable( save_image, saved_icon );
             U8_TRACE_INFO("icon of save button set to SAVED(/)");
         }
     }
@@ -1060,25 +1060,25 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_change_messa
     }
 
     /* update the save button status indicator */
-    GtkImage *const save_icon = gui_button_get_icon_ptr( &((*this_).file_save) );
-    const GdkPaintable *const actual_paint = gtk_image_get_paintable( save_icon );
+    GtkImage *const save_image = gui_button_get_icon_ptr( &((*this_).file_save) );
+    const GdkPaintable *const shown_icon = gtk_image_get_paintable( save_image );
 
     if (( DATA_CHANGE_EVENT_TYPE_DB_OPENED == data_change_message_get_event( msg ) )
         || ( DATA_CHANGE_EVENT_TYPE_DB_CLOSED == data_change_message_get_event( msg ) ))
     {
-        GdkPaintable *const current_paint = GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) );
-        if ( actual_paint != current_paint )
+        GdkPaintable *const saved_icon = GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) );
+        if ( shown_icon != saved_icon )
         {
-            gtk_image_set_from_paintable( save_icon, current_paint );
+            gtk_image_set_from_paintable( save_image, saved_icon );
             U8_TRACE_INFO("icon of save button set to SAVED(/)");
         }
     }
     else if ( DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE != data_change_message_get_event( msg ) )
     {
-        GdkPaintable *const current_paint = GDK_PAINTABLE( gui_resources_get_file_save( (*this_).resources ) );
-        if ( actual_paint != current_paint )
+        GdkPaintable *const save_icon = GDK_PAINTABLE( gui_resources_get_file_save( (*this_).resources ) );
+        if ( shown_icon != save_icon )
         {
-            gtk_image_set_from_paintable( save_icon, current_paint );
+            gtk_image_set_from_paintable( save_image, save_icon );
             U8_TRACE_INFO("icon of save button set to NOT-SAVED(*)");
         }
     }
@@ -1101,13 +1101,38 @@ void gui_main_window_state_callback( GtkWidget* window, GtkStateFlags old_flags,
 
     if ( 0 != ( changed & GTK_STATE_FLAG_BACKDROP ) )
     {
+        GtkImage *const save_image = gui_button_get_icon_ptr( &((*this_).file_save) );
+        const GdkPaintable *const shown_icon = gtk_image_get_paintable( save_image );
+        GdkPaintable *const saved_icon = GDK_PAINTABLE( gui_resources_get_file_saved( (*this_).resources ) );
+
+        bool is_saved = ( shown_icon == saved_icon );
         if ( 0 != ( new_flags & GTK_STATE_FLAG_BACKDROP ) )
         {
             U8_TRACE_INFO("GTK_STATE_FLAG & GTK_STATE_FLAG_BACKDROP: true");
+            if ( ! is_saved )
+            {
+                /* update the save button status indicator */
+                GdkPaintable *const unsaved_icon = GDK_PAINTABLE( gui_resources_get_file_unsaved( (*this_).resources ) );
+                if ( shown_icon != unsaved_icon )
+                {
+                    gtk_image_set_from_paintable( save_image, unsaved_icon );
+                    U8_TRACE_INFO("icon of save button set to UNSAVED(*)");
+                }
+            }
         }
         else
         {
             U8_TRACE_INFO("GTK_STATE_FLAG & GTK_STATE_FLAG_BACKDROP: false");
+            if ( ! is_saved )
+            {
+                /* update the save button status indicator */
+                GdkPaintable *const save_icon = GDK_PAINTABLE( gui_resources_get_file_save( (*this_).resources ) );
+                if ( shown_icon != save_icon )
+                {
+                    gtk_image_set_from_paintable( save_image, save_icon );
+                    U8_TRACE_INFO("icon of save button set to SAVE(*)");
+                }
+            }
         }
         // U8_TRACE_FLUSH();
     }

@@ -34,6 +34,7 @@ MESSAGE("GLIB2:   ${GLIB2_INCLUDE_DIRS}")
 MESSAGE("GLIB2:   ${GLIB2_LIBRARY_DIRS}")
 MESSAGE("GLIB2:   ${GLIB2_CFLAGS}")
 
+# for DEBUG mode, some headers may not be found automatically:
 #EXECUTE_PROCESS(COMMAND pkg-config --cflags glib-2.0
 #                OUTPUT_VARIABLE GLIB_MORE_CFLAGS)
 #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GLIB_MORE_CFLAGS}" )
@@ -52,6 +53,7 @@ MESSAGE("GTK:    ${GTK_LDFLAGS_OTHER}")
 MESSAGE("GTK:    ${GTK_CFLAGS}")
 MESSAGE("GTK:    ${GTK_CFLAGS_OTHER}")
 
+# for DEBUG mode, some headers may not be found automatically:
 #EXECUTE_PROCESS(COMMAND pkg-config --cflags graphene-1.0
 #                OUTPUT_VARIABLE GRAPHENE_MORE_CFLAGS)
 #SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GRAPHENE_MORE_CFLAGS}" )

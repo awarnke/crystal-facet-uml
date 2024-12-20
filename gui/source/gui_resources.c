@@ -19,6 +19,7 @@
 #include "resources/file_open.c"
 #include "resources/file_save.c"
 #include "resources/file_saved.c"
+#include "resources/file_unsaved.c"
 #include "resources/file_export.c"
 
 #include "resources/view_create.c"
@@ -176,6 +177,7 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).file_open = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_open ) );
     (*this_).file_save = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_save ) );
     (*this_).file_saved = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_saved ) );
+    (*this_).file_unsaved = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_unsaved ) );
     (*this_).file_export = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( file_export ) );
 
     (*this_).view_new_window = gui_resources_new_texture_from_pixbuf_data( GIMP_PIXBUF_DATA( view_new_window ) );
@@ -317,6 +319,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
     g_object_unref ((*this_).file_open);
     g_object_unref ((*this_).file_save);
     g_object_unref ((*this_).file_saved);
+    g_object_unref ((*this_).file_unsaved);
     g_object_unref ((*this_).file_export);
 
     g_object_unref ((*this_).view_new_window);

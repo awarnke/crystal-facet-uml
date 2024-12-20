@@ -23,6 +23,7 @@ struct gui_resources_struct {
     GdkTexture *file_open;
     GdkTexture *file_save;
     GdkTexture *file_saved;
+    GdkTexture *file_unsaved;
     GdkTexture *file_export;
 
     GdkTexture *view_new_window;
@@ -196,6 +197,13 @@ static inline GdkTexture *gui_resources_get_file_save ( const gui_resources_t *t
  *  \param this_ pointer to own object attributes
  */
 static inline GdkTexture *gui_resources_get_file_saved ( const gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the file_unsaved
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkTexture *gui_resources_get_file_unsaved ( const gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_export

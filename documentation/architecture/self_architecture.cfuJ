@@ -4477,7 +4477,7 @@
         "type": "UMLActivityDiagram",
         "name": "Runtime View",
         "description": [
-                "This diagram depicts the run modes of the software."
+                "This diagram depicts the operation modes of the software."
         ],
         "list_order": 163840,
         "display_flags": 0,
@@ -4539,7 +4539,7 @@
             "id": 460,
             "display_flags": 33554432,
             "display_tags": "GrayOut",
-            "classifier_name": "runmodes",
+            "classifier_name": "operation modes",
             "node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
             "uuid": "601d7265-d927-4460-a56f-3e80be8f7484"
           }
@@ -8510,6 +8510,19 @@
             ],
             "list_order": 131072,
             "uuid": "b9340045-c52e-4c46-b523-dadf9e134872"
+          },
+          {
+            "id": 148,
+            "main_type": 0,
+            "type": "Property",
+            "key": "revision_id",
+            "value": "not-yet-implemented",
+            "description": [
+                "a revision id allows to check if the database contents has changed.\n",
+                "This is interesting e.g. to decide if the current database contents is already stored to disk or not - or to decide if a cache is still up to date or not."
+            ],
+            "list_order": 81920,
+            "uuid": "859a4a9e-2bea-4241-a6c8-d21ba5c811ae"
           }
         ]
       }
@@ -14286,7 +14299,7 @@
         "id": 313,
         "main_type": 110,
         "type": "Activity",
-        "name": "runmodes",
+        "name": "operation modes",
         "description": [
                 ""
         ],
@@ -28087,7 +28100,7 @@
                 ""
         ],
         "list_order": 171008,
-        "from_classifier_name": "runmodes",
+        "from_classifier_name": "operation modes",
         "to_classifier_name": "mode?",
         "from_node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
         "to_node": "04e97427-c28f-45df-8eb2-db1c2b414aee",
@@ -28104,7 +28117,7 @@
                 ""
         ],
         "list_order": 203776,
-        "from_classifier_name": "runmodes",
+        "from_classifier_name": "operation modes",
         "to_classifier_name": "start",
         "from_node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
         "to_node": "30f294b8-0e06-4149-9228-0c8b356c5f3e",
@@ -28121,7 +28134,7 @@
                 ""
         ],
         "list_order": 236544,
-        "from_classifier_name": "runmodes",
+        "from_classifier_name": "operation modes",
         "to_classifier_name": "run test /repair /export / import via CLI",
         "from_node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
         "to_node": "a3bc34c7-37a1-4140-acb9-174be445378a",
@@ -28138,7 +28151,7 @@
                 ""
         ],
         "list_order": 269312,
-        "from_classifier_name": "runmodes",
+        "from_classifier_name": "operation modes",
         "to_classifier_name": "end",
         "from_node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
         "to_node": "b162d0e5-f79d-47ed-ac3c-fec3ec5e6cca",
@@ -28155,7 +28168,7 @@
                 ""
         ],
         "list_order": 302080,
-        "from_classifier_name": "runmodes",
+        "from_classifier_name": "operation modes",
         "to_classifier_name": "GUI-mode",
         "from_node": "5ccad7c2-c35e-4cf6-9a9c-226e65c4eae2",
         "to_node": "161b4bcf-890c-4b0e-a134-39acc694bbbe",

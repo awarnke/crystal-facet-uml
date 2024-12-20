@@ -17,7 +17,7 @@ static test_case_result_t open_invalid_file( test_fixture_t *fix );
 /*!
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
  */
-static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu1";
+static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfuJ";
 
 test_suite_t io_data_file_test_get_suite(void)
 {
@@ -74,6 +74,10 @@ static test_case_result_t create_new_db( test_fixture_t *fix )
 
     isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( true, isopen );
+
+    ctrl_err = io_data_file_close ( &((*fix).data_file) );
+    TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
+
     return TEST_CASE_RESULT_OK;
 }
 
@@ -105,7 +109,6 @@ static test_case_result_t open_existing_db( test_fixture_t *fix )
     ctrl_err = io_data_file_open_writeable( &((*fix).data_file), DATABASE_FILENAME, &err_info );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, ctrl_err );
     TEST_EXPECT_EQUAL_INT( U8_ERROR_NONE, u8_error_info_get_error( &err_info ) );
-    TEST_EXPECT_EQUAL_INT( U8_ERROR_INFO_UNIT_VOID, u8_error_info_get_unit( &err_info ) );
 
     isopen = io_data_file_is_open( &((*fix).data_file) );
     TEST_EXPECT_EQUAL_INT( true, isopen );

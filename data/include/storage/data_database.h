@@ -53,7 +53,7 @@ struct data_database_struct {
     uint_fast8_t transaction_recursion;  /*!< current transaction depth, 0 if no transaction active */
 
     data_database_listener_t *(listener_list[DATA_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
-                                                              /*!< Only in case of a changed db-file, listeners are informed. */
+                                                                             /*!< Only in case of a changed db-file, listeners are informed. */
 };
 
 typedef struct data_database_struct data_database_t;

@@ -20,7 +20,7 @@
  *  \brief all data attributes needed for the database functions
  */
 struct io_data_file_struct {
-    data_database_t database;  /*!< a database struct to read/write the database, handle tlocks and transactions */
+    data_database_t database;  /*!< a database struct to read/write the database, handle locks and transactions */
                                /*!< and notifications to registered listeners */
     ctrl_controller_t controller;  /*!< a controller struct to modify the database */
 

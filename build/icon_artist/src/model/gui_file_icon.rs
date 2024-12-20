@@ -29,6 +29,13 @@ static GREEN: geometry::Color = geometry::Color {
     blue: 0x99,
 };
 
+/// amber fill color
+static AMBER: geometry::Color = geometry::Color {
+    red: 0xff,
+    green: 0xcc,
+    blue: 0x88,
+};
+
 /// black color
 static BLACK: geometry::Color = geometry::Color {
     red: 0x0,
@@ -325,7 +332,7 @@ pub fn generate_file_save(out: &mut dyn PathRenderer) -> () {
     let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
     out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
 
-    /* ok symbol */
+    /* asterisk symbol */
     let unsaved_sym: [geometry::DrawDirective; 16] = [
         MoveRel(Offset { dx: 19.5, dy: 11.5 }),
         LineRel(Offset { dx: 3.0, dy: 0.0 }),
@@ -377,6 +384,46 @@ pub fn generate_file_saved(out: &mut dyn PathRenderer) -> () {
         Close,
     ];
     out.render_path(&ok_sym, &Some(BLACK_PEN), &Some(GREEN));
+}
+
+/// The function generates an unsaved-file icon to vector graphics drawing directives
+///
+/// # Panics
+///
+/// This function panics if PathRenderer cannot write to the output sink.
+///
+pub fn generate_file_unsaved(out: &mut dyn PathRenderer) -> () {
+    /* background */
+    let icon_segs: [geometry::DrawDirective; 12] = get_db_storage_shadows();
+    out.render_path(&icon_segs, &None, &Some(GRAY));
+
+    let icon_segs: [geometry::DrawDirective; 5] = get_db_storage_reflection();
+    out.render_path(&icon_segs, &None, &Some(WHITE));
+
+    /* contour */
+    let icon_segs: [geometry::DrawDirective; 9] = get_db_storage_contour();
+    out.render_path(&icon_segs, &Some(BLACK_PEN), &None);
+
+    /* asterisk symbol */
+    let unsaved_sym: [geometry::DrawDirective; 16] = [
+        MoveRel(Offset { dx: 19.5, dy: 11.5 }),
+        LineRel(Offset { dx: 3.0, dy: 0.0 }),
+        LineRel(Offset { dx: 0.0, dy: 7.0 }),
+        LineRel(Offset { dx: 8.0, dy: -2.0 }),
+        LineRel(Offset { dx: 0.0, dy: 3.0 }),
+        LineRel(Offset { dx: -7.0, dy: 2.0 }),
+        LineRel(Offset { dx: 4.0, dy: 7.0 }),
+        LineRel(Offset { dx: -3.0, dy: 1.0 }),
+        LineRel(Offset { dx: -3.5, dy: -6.0 }),
+        LineRel(Offset { dx: -3.5, dy: 6.0 }),
+        LineRel(Offset { dx: -3.0, dy: -1.0 }),
+        LineRel(Offset { dx: 4.0, dy: -7.0 }),
+        LineRel(Offset { dx: -7.0, dy: -2.0 }),
+        LineRel(Offset { dx: 0.0, dy: -3.0 }),
+        LineRel(Offset { dx: 8.0, dy: 2.0 }),
+        CloseRel,
+    ];
+    out.render_path(&unsaved_sym, &Some(BLACK_PEN), &Some(AMBER));
 }
 
 /// The function generates an export-files icon to vector graphics drawing directives
@@ -434,6 +481,11 @@ pub fn get_icons() -> &'static [IconSource<'static>] {
             name: "file_saved",
             viewport: ICON_VIEW_RECT,
             generate: generate_file_saved,
+        },
+        IconSource {
+            name: "file_unsaved",
+            viewport: ICON_VIEW_RECT,
+            generate: generate_file_unsaved,
         },
         IconSource {
             name: "file_export",

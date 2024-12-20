@@ -30,6 +30,11 @@ static inline GdkTexture *gui_resources_get_file_saved ( const gui_resources_t *
     return (*this_).file_saved;
 }
 
+static inline GdkTexture *gui_resources_get_file_unsaved ( const gui_resources_t *this_ )
+{
+    return (*this_).file_unsaved;
+}
+
 static inline GdkTexture *gui_resources_get_file_export ( const gui_resources_t *this_ )
 {
     return (*this_).file_export;
