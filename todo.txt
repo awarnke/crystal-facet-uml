@@ -14,7 +14,7 @@ ideas for future versions:
   [ ] scrolling through search list missing if result list is too long
       (workaround hint already added to user manual)
   [?] store edited text fields before performing undo/redo operations
-! [ ] auto-save when losing focus; at least warn; Check gui_main_window_activated callback
+  [ ] auto-save when losing focus; Check gui_main_window_activated callback
   [ ] auto-reload when gaining focus; at least warn on changes; Check gui_main_window_activated callback
   [ ] kill -SIGTERM should save the latest changes - at least flush the database to disk
   [ ] allow creating diagrams before choosing a filename
