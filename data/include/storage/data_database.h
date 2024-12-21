@@ -51,6 +51,7 @@ struct data_database_struct {
     char private_db_file_name_buffer[DATA_DATABASE_MAX_FILEPATH];
     data_database_state_t db_state;
     uint_fast8_t transaction_recursion;  /*!< current transaction depth, 0 if no transaction active */
+    uint32_t revision;  /*!< the revision identifier of the stored data-model */
 
     data_database_listener_t *(listener_list[DATA_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. */
                                                                              /*!< Only in case of a changed db-file, listeners are informed. */
@@ -263,6 +264,25 @@ static inline u8_error_t data_database_prepare_statement ( data_database_t *this
 static inline u8_error_t data_database_finalize_statement ( data_database_t *this_, sqlite3_stmt *statement_ptr );
 
 /* ================================ Information ================================ */
+
+/*!
+ *  \brief gets the revision_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return an identifier that allows to check if the database contents has changed
+ */
+static inline uint32_t data_database_get_revision ( data_database_t *this_ );
+
+/*!
+ *  \brief sets the revision_id
+ *
+ *  setting a revision id is useful in case a known, previous state of the database is restored,
+ *  e.g. by reloading or by undo/redo actions
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param revision identifier that allows to check if the database contents has the expected revision
+ */
+static inline void data_database_set_revision ( data_database_t *this_, uint32_t revision );
 
 /*!
  *  \brief prints statistics of the current database file to the trace output

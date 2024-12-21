@@ -37,6 +37,7 @@ void io_data_file_init ( io_data_file_t *this_ )
 
     (*this_).auto_writeback_to_json = false;
     (*this_).delete_db_when_finished = false;
+    (*this_).sync_revision = 0;
 
     U8_TRACE_END();
 }
@@ -207,6 +208,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= data_database_head_create_value( &head_table, &head, NULL );
         }
         data_database_head_destroy( &head_table );
+
+        (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
     }
 
     U8_TRACE_END_ERR( err );
@@ -386,6 +389,8 @@ u8_error_t io_data_file_private_export ( io_data_file_t *this_, const char *dst_
         }
         io_exporter_destroy( &exporter );
         data_database_reader_destroy( &db_reader );
+
+        (*this_).sync_revision = data_database_get_revision( &((*this_).database) );
     }
     else
     {

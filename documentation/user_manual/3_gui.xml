@@ -100,11 +100,20 @@
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/file_saved.svg" width="1cm"/></imageobject>
                 </inlinemediaobject>
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/file_unsaved.svg" width="1cm"/></imageobject>
+                </inlinemediaobject>
                 <itemizedlist>
                     <listitem>
                         <para>
                             Stores the latest changes to the database immediately.
                             Note that at regular program exit, the database is stored automatically anyhow.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            The icon indicates if there are unsaved changes,
+                            it is yellow in case the window is in the background.
                         </para>
                     </listitem>
                 </itemizedlist>

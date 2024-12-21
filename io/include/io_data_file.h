@@ -34,6 +34,7 @@ struct io_data_file_struct {
                                   /*!< when flushing (sync to disk) and when closing. */
     bool delete_db_when_finished;  /*!< true if the current database (db_file_name) shall automatically */
                                    /*!< be deleted when closing. */
+    uint32_t sync_revision;  /*!< the revision id of the database that is synchronized to disk */
 };
 
 typedef struct io_data_file_struct io_data_file_t;
@@ -142,6 +143,22 @@ static inline ctrl_controller_t *io_data_file_get_controller_ptr ( io_data_file_
  *  \return U8_ERROR_NONE in case of success, U8_ERROR_AT_DB in case of an error
  */
 u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ );
+
+/*!
+ *  \brief gets the revision identifier of the database when it was last synchronized to disk
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return revision of the database when it was last successfully synced to disk
+ */
+static inline uint32_t io_data_file_get_sync_revision ( io_data_file_t *this_ );
+
+/*!
+ *  \brief checks it the database revision equals the file revision when it was last synchronized to disk
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if in sync
+ */
+static inline bool io_data_file_is_in_sync ( io_data_file_t *this_ );
 
 /*!
  *  \brief prints statistics of the current data file to the trace output

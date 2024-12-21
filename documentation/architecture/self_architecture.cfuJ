@@ -8515,10 +8515,10 @@
             "id": 148,
             "main_type": 0,
             "type": "Property",
-            "key": "revision_id",
-            "value": "not-yet-implemented",
+            "key": "revision",
             "description": [
-                "a revision id allows to check if the database contents has changed.\n",
+                "a revision identifier allows to check if the database contents has changed.\n",
+                "\n",
                 "This is interesting e.g. to decide if the current database contents is already stored to disk or not - or to decide if a cache is still up to date or not."
             ],
             "list_order": 81920,

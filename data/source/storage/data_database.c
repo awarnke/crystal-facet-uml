@@ -303,6 +303,7 @@ void data_database_init ( data_database_t *this_ )
     {
         (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
         (*this_).transaction_recursion = 0;
+        (*this_).revision = 0;
     }
     result |= data_database_unlock_on_write( this_ );
     if( result != U8_ERROR_NONE )
@@ -695,6 +696,14 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ )
                 sqlite3_free( error_msg );
                 error_msg = NULL;
             }
+
+            /* increase the revision id */
+            u8_error_t locking_error;
+            locking_error = data_database_lock_on_write( this_ );
+            (*this_).revision ++;
+            locking_error |= data_database_unlock_on_write( this_ );
+            assert( locking_error == U8_ERROR_NONE );
+            (void) locking_error;  /* this should not happen in RELEASE mode */
         }
         (*this_).transaction_recursion --;
     }

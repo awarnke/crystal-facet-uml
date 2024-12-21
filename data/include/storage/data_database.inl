@@ -48,6 +48,8 @@ static inline bool data_database_is_open( data_database_t *this_ )
     locking_error = data_database_lock_on_write( this_ );
     result = (*this_).db_state != DATA_DATABASE_STATE_CLOSED;
     locking_error |= data_database_unlock_on_write( this_ );
+    assert( locking_error == U8_ERROR_NONE );
+    (void) locking_error;  /* this should not happen in RELEASE mode */
     return result;
 }
 
@@ -150,6 +152,28 @@ static inline u8_error_t data_database_finalize_statement ( data_database_t *thi
 }
 
 /* ================================ Information ================================ */
+
+static inline uint32_t data_database_get_revision ( data_database_t *this_ )
+{
+    uint32_t result;
+    u8_error_t locking_error;
+    locking_error = data_database_lock_on_write( this_ );
+    result = (*this_).revision;
+    locking_error |= data_database_unlock_on_write( this_ );
+    assert( locking_error == U8_ERROR_NONE );
+    (void) locking_error;  /* ignore errors at lock */
+    return result;
+}
+
+static inline void data_database_set_revision ( data_database_t *this_, uint32_t revision )
+{
+    u8_error_t locking_error;
+    locking_error = data_database_lock_on_write( this_ );
+    (*this_).revision = revision;
+    locking_error |= data_database_unlock_on_write( this_ );
+    assert( locking_error == U8_ERROR_NONE );
+    (void) locking_error;  /* ignore errors at lock */
+}
 
 static inline const char *data_database_get_filename_ptr ( data_database_t *this_ )
 {
