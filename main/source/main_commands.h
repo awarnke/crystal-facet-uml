@@ -47,19 +47,6 @@ u8_error_t main_commands_init ( main_commands_t *this_, bool start_gui, int argc
 void main_commands_destroy ( main_commands_t *this_ );
 
 /*!
- *  \brief upgrades the data_file to the latest format
- *
- *  \param this_ pointer to own object attributes
- *  \param data_file_path pathname of the data_file
- *  \param out_english_report utf8stream_writer_t where to write a non-translated report to
- *  \return U8_ERROR_NONE in case of success
- */
-u8_error_t main_commands_upgrade ( main_commands_t *this_,
-                                   const char *data_file_path,
-                                   utf8stream_writer_t *out_english_report
-                                 );
-
-/*!
  *  \brief repairs or checks the data_file
  *
  *  \param this_ pointer to own object attributes

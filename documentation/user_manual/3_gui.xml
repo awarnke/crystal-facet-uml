@@ -47,11 +47,8 @@
                     </listitem>
                     <listitem>
                         <para>
-                            Enter a filename; the extension may be <command>.cfuJ</command>.
-                            A json-based file structure is used to store your data in a git-friendly format.
-                            Only if the file name ends with extension <command>.cfu1</command>,
-                            the binary sqlite3-based database format is stored.
-                            This is compatible to old versions of crystal-facet-uml (&lt;1.35.0).
+                            Enter a filename;
+                            a json-based file structure is used to store your data in a git-friendly format.
                         </para>
                     </listitem>
                 </itemizedlist>

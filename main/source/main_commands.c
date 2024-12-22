@@ -57,33 +57,6 @@ void main_commands_destroy ( main_commands_t *this_ )
     U8_TRACE_END();
 }
 
-u8_error_t main_commands_upgrade ( main_commands_t *this_,
-                                   const char *data_file_path,
-                                   utf8stream_writer_t *out_english_report )
-{
-    U8_TRACE_BEGIN();
-    u8_error_t result = U8_ERROR_NONE;
-
-    assert( data_file_path != NULL );
-
-    U8_TRACE_INFO("opening DB...");
-    u8_error_info_t err_info;
-    result |= io_data_file_open_writeable( (*this_).data_file, data_file_path, &err_info );  /* upgrade is implicitely done */
-    if ( result != U8_ERROR_NONE )
-    {
-        utf8stream_writer_write_str( out_english_report, "error opening database_file " );
-        utf8stream_writer_write_str( out_english_report, data_file_path );
-        utf8stream_writer_write_str( out_english_report, "\n" );
-    }
-    result |= main_commands_private_report_error_info( this_, &err_info, out_english_report );
-
-    U8_TRACE_INFO("closing DB...");
-    io_data_file_close( (*this_).data_file );
-
-    U8_TRACE_END_ERR( result );
-    return result;
-}
-
 u8_error_t main_commands_repair ( main_commands_t *this_,
                                   const char *data_file_path,
                                   bool check_only,

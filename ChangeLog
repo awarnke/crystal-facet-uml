@@ -1,3 +1,10 @@
+crystal-facet-uml (1.62.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * All new files are of type json (no native sqlite3 format anymore)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 Dec 2024 18:00:00 +0100
+
 crystal-facet-uml (1.62.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

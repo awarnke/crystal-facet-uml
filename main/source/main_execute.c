@@ -27,7 +27,6 @@ static const char *const MAIN_HELP
     "    -i <file> <import_mode>   <json_input_file>  : to import elements,\n"
     "       import_mode: check|add\n"
     "   [-u] <file> : to use/create a database file\n"
-    "    -g <file> : to upgrade the database tables from version 1.32.1 and older\n"
     "    -t <file> : to test the database file\n"
     "    -r <file> : to test and repair the database file\n";
 
@@ -43,7 +42,6 @@ int main_execute (int argc, char **argv) {
     bool do_repair = false;
     bool do_check = false;
     bool do_export = false;
-    bool do_upgrade = false;
     bool do_import = false;
     io_file_format_t export_format = 0;
     io_import_mode_t import_mode = 0;
@@ -87,12 +85,6 @@ int main_execute (int argc, char **argv) {
             do_not_start = true;
             do_check = true;
         }
-        if ( utf8string_equals_str( argv[1], "-g" ) )
-        {
-            database_file = argv[2];
-            do_not_start = true;
-            do_upgrade = true;
-        }
         if ( utf8string_equals_str( argv[1], "-u" ) )
         {
             database_file = argv[2];
@@ -122,12 +114,6 @@ int main_execute (int argc, char **argv) {
         main_commands_t commands;
         const int argc_remaining = 1;
         exit_code |= main_commands_init( &commands, ( ! do_not_start ), argc_remaining, argv );
-
-        /* upgrade only if explicitly requested, otherwiese read-only mode of -t and -e options does not work: */
-        if ( do_upgrade )
-        {
-            exit_code |= main_commands_upgrade( &commands, database_file, &writer );
-        }
 
         /* repair database */
         if ( do_repair || do_check )

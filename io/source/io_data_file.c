@@ -18,7 +18,6 @@
 
 static const char *IO_DATA_FILE_TEMP_EXT = ".tmp-cfu";
 static const char *IO_DATA_FILE_JSON_EXT = ".cfuJ";
-static const char *IO_DATA_FILE_CFU1_EXT = ".cfu1";  /* the native sqlite3 DB format */
 
 void io_data_file_init ( io_data_file_t *this_ )
 {
@@ -76,7 +75,7 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
 
     if ( file_not_readable != U8_ERROR_NONE )
     {
-        if ( temp_requested )
+        if (( temp_requested )||( ! is_json ))
         {
             U8_TRACE_INFO( "CASE: use temp db file that does not exist, is not accessible or has wrong format" );
             U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
@@ -84,12 +83,14 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             /* To be consistent with the case of opening an existing temporary file, also this is exported to json later */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = ( ! read_only );
+
             err |= utf8stringbuf_copy_view( (*this_).data_file_name, &req_file_parent );
             err |= utf8stringbuf_append_view( (*this_).data_file_name, &req_file_basename );
             err |= utf8stringbuf_append_str( (*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
+
             err |= utf8stringbuf_copy_str( (*this_).db_file_name, requested_file_path );
         }
-        else if ( is_json )
+        else
         {
             U8_TRACE_INFO( "CASE: use json file that does not exist or is not accessible" );
             U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
@@ -101,16 +102,6 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             err |= utf8stringbuf_append_view( (*this_).db_file_name, &req_file_basename );
             err |= utf8stringbuf_append_str( (*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
             u8dir_file_remove( utf8stringbuf_get_string( (*this_).db_file_name ) );  /* ignore possible errors */
-        }
-        else
-        {
-            U8_TRACE_INFO( "CASE: use sqlite file that does not exist, is not accessible or has wrong format" );
-            U8_TRACE_INFO( read_only ? "read_only" : "writeable" );
-            /* A new sqlite file shall be created */
-            (*this_).auto_writeback_to_json = false;
-            (*this_).delete_db_when_finished = false;
-            err |= utf8stringbuf_copy_str( (*this_).data_file_name, requested_file_path );
-            err |= utf8stringbuf_copy_str( (*this_).db_file_name, requested_file_path );
         }
     }
     else
@@ -306,16 +297,8 @@ u8_error_t io_data_file_private_guess_db_type ( const io_data_file_t *this_, con
     }
     else
     {
-        if( 1 == utf8string_ends_with_str( filename, IO_DATA_FILE_CFU1_EXT ) )
-        {
-            U8_TRACE_INFO_STR("File does not exist and type defaults to sqlite3:", filename);
-            *out_json = false;
-        }
-        else
-        {
-            U8_TRACE_INFO_STR("File does not exist and is of type json:", filename);
-            *out_json = true;
-        }
+        U8_TRACE_INFO_STR("File does not exist", filename);
+        *out_json = true;
     }
 
     /* cleanup */
