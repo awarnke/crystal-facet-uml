@@ -39,6 +39,8 @@ struct ctrl_undo_redo_entry_struct {
     ctrl_undo_redo_entry_type_t action_type;
     union ctrl_undo_redo_entry_private_data_union data_before_action;
     union ctrl_undo_redo_entry_private_data_union data_after_action;
+    /* bool boundary_after_action; */ /* true if there is a boundary after this action */
+    /* uint32_t boundary_revision_after_action; */ /* revision identifier at a boundary after this action */
 };
 
 typedef struct ctrl_undo_redo_entry_struct ctrl_undo_redo_entry_t;

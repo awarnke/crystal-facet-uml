@@ -6,7 +6,7 @@
     "major_version": 1,
     "minor_version": 1,
     "generator_name": "crystal-facet-uml",
-    "generator_version": "1.61.3"
+    "generator_version": "1.62.0"
   }
   ,
   "views":
@@ -815,13 +815,6 @@
             "classifier_name": "Base Logic Board",
             "node": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
             "uuid": "2ffceefa-3844-4794-b363-b07f6f31ed2e"
-          },
-          {
-            "id": 66,
-            "display_flags": 0,
-            "classifier_name": "Base Micro Controller",
-            "node": "d505e906-e1bb-4d07-9a3a-76052334bf16",
-            "uuid": "60822e63-4709-4eb9-a395-9a7cb5c15212"
           }
         ]
       }
@@ -4351,8 +4344,7 @@
             "id": 1,
             "main_type": 6,
             "type": "Port",
-            "key": "Camera",
-            "value": "LVDS",
+            "key": "camera connector",
             "description": [
                 ""
             ],
@@ -4363,8 +4355,7 @@
             "id": 2,
             "main_type": 6,
             "type": "Port",
-            "key": "Mic-Connector",
-            "value": "I2S",
+            "key": "microphone connector",
             "description": [
                 ""
             ],
@@ -4375,7 +4366,7 @@
             "id": 8,
             "main_type": 2,
             "type": "Port",
-            "key": "Base Board Connector",
+            "key": "base board connector",
             "description": [
                 ""
             ],
@@ -4394,8 +4385,8 @@
         "description": [
                 "The base logic board consists of several electronic parts shown in D0035#name."
         ],
-        "x_order": -858822106,
-        "y_order": -703990301,
+        "x_order": -790789043,
+        "y_order": -1137259057,
         "list_order": -1137259057,
         "uuid": "544ce34e-748c-4962-94cd-24f4c6f0ea72",
         "features":
@@ -4404,12 +4395,45 @@
             "id": 31,
             "main_type": 2,
             "type": "Port",
-            "key": "Main Board Connector",
+            "key": "main board connector",
             "description": [
                 ""
             ],
-            "list_order": 108538057,
+            "list_order": 420163893,
             "uuid": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b"
+          },
+          {
+            "id": 49,
+            "main_type": 7,
+            "type": "Port",
+            "key": "speaker connector",
+            "description": [
+                ""
+            ],
+            "list_order": 886197654,
+            "uuid": "a538b940-007d-4236-991f-b2e674e0c275"
+          },
+          {
+            "id": 50,
+            "main_type": 7,
+            "type": "Port",
+            "key": "motor connector",
+            "description": [
+                ""
+            ],
+            "list_order": 1495737960,
+            "uuid": "926d9611-b320-4fa4-abaf-d39b0927bcc9"
+          },
+          {
+            "id": 51,
+            "main_type": 2,
+            "type": "Port",
+            "key": "diagnostic connector",
+            "description": [
+                ""
+            ],
+            "list_order": 1250395623,
+            "uuid": "21c590d1-efac-448e-b28d-dd2565b86d99"
           }
         ]
       }
@@ -4461,20 +4485,18 @@
             "id": 3,
             "main_type": 7,
             "type": "Port",
-            "key": "Motor Control",
-            "value": "I2C",
+            "key": "motor control",
             "description": [
                 ""
             ],
-            "list_order": 1230957002,
+            "list_order": 1602391937,
             "uuid": "001ecb64-b47f-4387-b256-2f50e99c203c"
           },
           {
             "id": 4,
             "main_type": 7,
             "type": "Port",
-            "key": "Speaker",
-            "value": "I2S",
+            "key": "speaker",
             "description": [
                 ""
             ],
@@ -4485,12 +4507,11 @@
             "id": 5,
             "main_type": 2,
             "type": "Port",
-            "key": "Diag",
-            "value": "JTAG",
+            "key": "diagnostic port",
             "description": [
                 ""
             ],
-            "list_order": 1636059470,
+            "list_order": 1356622852,
             "uuid": "e4cc1e9e-becc-4254-b397-fd8a4858ba73"
           },
           {
@@ -4509,7 +4530,6 @@
             "main_type": 2,
             "type": "Port",
             "key": "clock comm",
-            "value": "I2C",
             "description": [
                 ""
             ],
@@ -4520,7 +4540,7 @@
             "id": 9,
             "main_type": 2,
             "type": "Port",
-            "key": "Main Board Connector",
+            "key": "main board connector",
             "description": [
                 ""
             ],
@@ -4531,8 +4551,7 @@
             "id": 10,
             "main_type": 6,
             "type": "Port",
-            "key": "Temperature",
-            "value": "sensor",
+            "key": "temperature",
             "description": [
                 ""
             ],
@@ -6573,8 +6592,8 @@
         "description": [
                 "The Main Logic Board shall create a 3D model of the environment based on 2 camera images."
         ],
-        "x_order": -1127544510,
-        "y_order": 898896125,
+        "x_order": -976877047,
+        "y_order": 475831631,
         "list_order": 898896125,
         "uuid": "691d5030-5e11-4e65-b478-759ce31584fa",
         "features":
@@ -6591,8 +6610,8 @@
         "description": [
                 "The Base Logic Board shall steer the motors of the tool-arm to a given 3D position."
         ],
-        "x_order": 150137426,
-        "y_order": 898896125,
+        "x_order": -871153376,
+        "y_order": 475831631,
         "list_order": 898896125,
         "uuid": "1012252e-ac53-4c7c-b9ed-61382fcbd30e",
         "features":
@@ -9207,7 +9226,7 @@
         "list_order": 65536,
         "from_classifier_name": "Camera",
         "to_classifier_name": "Main Logic Board",
-        "to_feature_key": "Camera",
+        "to_feature_key": "camera connector",
         "from_node": "fb66c906-d06a-4518-8701-229af4169a30",
         "to_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
         "uuid": "a1b7a0ee-9160-437d-9fdb-53800d02aff5"
@@ -9225,28 +9244,10 @@
         "list_order": 98304,
         "from_classifier_name": "Microphone",
         "to_classifier_name": "Main Logic Board",
-        "to_feature_key": "Mic-Connector",
+        "to_feature_key": "microphone connector",
         "from_node": "9b8074dd-bb9a-4540-86d5-a1bdf90bf1b7",
         "to_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
         "uuid": "89d87a02-dcf2-41c7-a7a7-221191929da0"
-      }
-    },
-    {
-      "relationship": {
-        "id": 61,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "service ctrl",
-        "description": [
-                ""
-        ],
-        "list_order": 262144,
-        "from_classifier_name": "Programming and Diagnostic Connector",
-        "to_classifier_name": "Base Micro Controller",
-        "to_feature_key": "Diag",
-        "from_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
-        "to_node": "e4cc1e9e-becc-4254-b397-fd8a4858ba73",
-        "uuid": "58f8f728-b0d1-40b6-bf2f-3acad020ae79"
       }
     },
     {
@@ -9362,7 +9363,7 @@
         ],
         "list_order": 98304,
         "from_classifier_name": "Main Logic Board",
-        "from_feature_key": "Mic-Connector",
+        "from_feature_key": "microphone connector",
         "to_classifier_name": "Main Performance Controller",
         "from_node": "168231f5-4ca5-4ae2-92a1-96da722d4bdd",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
@@ -9380,7 +9381,7 @@
         ],
         "list_order": 163840,
         "from_classifier_name": "Main Logic Board",
-        "from_feature_key": "Camera",
+        "from_feature_key": "camera connector",
         "to_classifier_name": "Main Performance Controller",
         "from_node": "c4e66459-04e8-45c7-9ab9-e0fde6b2ead9",
         "to_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
@@ -9432,9 +9433,9 @@
         ],
         "list_order": 491520,
         "from_classifier_name": "Main Logic Board",
-        "from_feature_key": "Base Board Connector",
+        "from_feature_key": "base board connector",
         "to_classifier_name": "Base Logic Board",
-        "to_feature_key": "Main Board Connector",
+        "to_feature_key": "main board connector",
         "from_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "to_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
         "uuid": "cf0a4566-874e-451c-af04-e5fb01809094"
@@ -9570,9 +9571,9 @@
         ],
         "list_order": 458752,
         "from_classifier_name": "Base Logic Board",
-        "from_feature_key": "Main Board Connector",
+        "from_feature_key": "main board connector",
         "to_classifier_name": "Base Micro Controller",
-        "to_feature_key": "Main Board Connector",
+        "to_feature_key": "main board connector",
         "from_node": "9a17d951-dd65-4a2b-bf5e-c1bb6db4563b",
         "to_node": "b2533db8-6881-4300-a224-3f8a5724481a",
         "uuid": "d7c66b64-caf8-4ebb-92ed-48048b064385"
@@ -9597,6 +9598,60 @@
     },
     {
       "relationship": {
+        "id": 322,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 557056,
+        "from_classifier_name": "Base Logic Board",
+        "from_feature_key": "speaker connector",
+        "to_classifier_name": "Loud Speaker",
+        "from_node": "a538b940-007d-4236-991f-b2e674e0c275",
+        "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
+        "uuid": "1532aebf-a7aa-4898-9605-6de374c62b4c"
+      }
+    },
+    {
+      "relationship": {
+        "id": 324,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 622592,
+        "from_classifier_name": "Base Logic Board",
+        "from_feature_key": "diagnostic connector",
+        "to_classifier_name": "Programming and Diagnostic Connector",
+        "from_node": "21c590d1-efac-448e-b28d-dd2565b86d99",
+        "to_node": "4247b2e1-f3da-4356-81c5-160af47f3e11",
+        "uuid": "9f9b68cc-2dff-499d-af5a-2b105ff7495b"
+      }
+    },
+    {
+      "relationship": {
+        "id": 326,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 688128,
+        "from_classifier_name": "Base Logic Board",
+        "from_feature_key": "motor connector",
+        "to_classifier_name": "Motors",
+        "from_node": "926d9611-b320-4fa4-abaf-d39b0927bcc9",
+        "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
+        "uuid": "5a36607c-9ff6-46f3-ad85-637c1cd7527e"
+      }
+    },
+    {
+      "relationship": {
         "id": 63,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -9610,42 +9665,6 @@
         "from_node": "0b05d10e-67ac-4c11-9995-146a103d2ff2",
         "to_node": "ff9e0b80-c92f-4986-9bfe-b2b4cd81d47a",
         "uuid": "45c714aa-f331-493b-9751-205f6bfa8b8d"
-      }
-    },
-    {
-      "relationship": {
-        "id": 59,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 196608,
-        "from_classifier_name": "Base Micro Controller",
-        "from_feature_key": "Motor Control",
-        "to_classifier_name": "Motors",
-        "from_node": "001ecb64-b47f-4387-b256-2f50e99c203c",
-        "to_node": "df5a9168-c8b7-4926-a479-cde71d3d1b57",
-        "uuid": "4340c8a5-cf59-432f-9ca8-19369c95e452"
-      }
-    },
-    {
-      "relationship": {
-        "id": 60,
-        "main_type": 230,
-        "type": "CommunicationPath",
-        "name": "",
-        "description": [
-                ""
-        ],
-        "list_order": 229376,
-        "from_classifier_name": "Base Micro Controller",
-        "from_feature_key": "Speaker",
-        "to_classifier_name": "Loud Speaker",
-        "from_node": "0c7cc002-e769-4914-ac08-cb08a480273b",
-        "to_node": "a0389bb7-689b-4a48-bb56-08038f4db4fc",
-        "uuid": "e76462a4-fa34-4a94-97d2-c69690da25b7"
       }
     },
     {
@@ -9754,6 +9773,63 @@
     },
     {
       "relationship": {
+        "id": 321,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 524288,
+        "from_classifier_name": "Base Micro Controller",
+        "from_feature_key": "speaker",
+        "to_classifier_name": "Base Logic Board",
+        "to_feature_key": "speaker connector",
+        "from_node": "0c7cc002-e769-4914-ac08-cb08a480273b",
+        "to_node": "a538b940-007d-4236-991f-b2e674e0c275",
+        "uuid": "18cdfd5f-4a21-42de-aa78-a0f07ef9897e"
+      }
+    },
+    {
+      "relationship": {
+        "id": 323,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 589824,
+        "from_classifier_name": "Base Micro Controller",
+        "from_feature_key": "diagnostic port",
+        "to_classifier_name": "Base Logic Board",
+        "to_feature_key": "diagnostic connector",
+        "from_node": "e4cc1e9e-becc-4254-b397-fd8a4858ba73",
+        "to_node": "21c590d1-efac-448e-b28d-dd2565b86d99",
+        "uuid": "f9ea87fb-0095-43e1-94e2-01fd73fbe963"
+      }
+    },
+    {
+      "relationship": {
+        "id": 325,
+        "main_type": 230,
+        "type": "CommunicationPath",
+        "name": "",
+        "description": [
+                ""
+        ],
+        "list_order": 655360,
+        "from_classifier_name": "Base Micro Controller",
+        "from_feature_key": "motor control",
+        "to_classifier_name": "Base Logic Board",
+        "to_feature_key": "motor connector",
+        "from_node": "001ecb64-b47f-4387-b256-2f50e99c203c",
+        "to_node": "926d9611-b320-4fa4-abaf-d39b0927bcc9",
+        "uuid": "ed4041f6-06f2-4d15-ac10-861b0cb0ca7a"
+      }
+    },
+    {
+      "relationship": {
         "id": 67,
         "main_type": 230,
         "type": "CommunicationPath",
@@ -9832,7 +9908,7 @@
         "list_order": 131072,
         "from_classifier_name": "Main Performance Controller",
         "to_classifier_name": "Main Logic Board",
-        "to_feature_key": "Base Board Connector",
+        "to_feature_key": "base board connector",
         "from_node": "2914538a-a694-4c3a-9a1c-9e613ae95555",
         "to_node": "46bf6bfc-fb70-4850-b07e-3e5a0745cbe2",
         "uuid": "9908519c-1252-420e-8c43-cb9fa046a308"
@@ -9969,7 +10045,7 @@
         "list_order": 425984,
         "from_classifier_name": "Temperature Sensor",
         "to_classifier_name": "Base Micro Controller",
-        "to_feature_key": "Temperature",
+        "to_feature_key": "temperature",
         "from_node": "e6c6d9b3-3478-4049-8b14-9bec33edf78d",
         "to_node": "a07bc82b-80cb-4799-a63a-4af05a86abfe",
         "uuid": "db30ce1b-b9ce-4693-8acb-6bf7f6873d3c"

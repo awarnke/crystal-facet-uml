@@ -283,6 +283,13 @@ static const char *DATA_DATABASE_BEGIN_TRANSACTION =
 static const char *DATA_DATABASE_COMMIT_TRANSACTION =
     "COMMIT TRANSACTION;";
 
+/*!
+ *  \brief keep track of the next unused revision identifier
+ *
+ *  because data_database_set_revision() may set an already used identifier
+ */
+static uint32_t data_database_unused_revision = 0;
+
 /* ================================ Lifecycle ================================ */
 
 void data_database_init ( data_database_t *this_ )
@@ -303,7 +310,7 @@ void data_database_init ( data_database_t *this_ )
     {
         (*this_).db_state = DATA_DATABASE_STATE_CLOSED;
         (*this_).transaction_recursion = 0;
-        (*this_).revision = 0;
+        (*this_).revision = ( data_database_unused_revision++ );
     }
     result |= data_database_unlock_on_write( this_ );
     if( result != U8_ERROR_NONE )
@@ -700,7 +707,7 @@ u8_error_t data_database_transaction_commit ( data_database_t *this_ )
             /* increase the revision id */
             u8_error_t locking_error;
             locking_error = data_database_lock_on_write( this_ );
-            (*this_).revision ++;
+            (*this_).revision = ( data_database_unused_revision++ );
             locking_error |= data_database_unlock_on_write( this_ );
             assert( locking_error == U8_ERROR_NONE );
             (void) locking_error;  /* this should not happen in RELEASE mode */

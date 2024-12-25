@@ -40,7 +40,7 @@
           {
             "id": 858,
             "display_flags": 0,
-            "classifier_name": "Crystal-Facet-Uml",
+            "classifier_name": "crystal-facet-uml",
             "node": "84da4630-3946-47a5-b0e6-02c37bcb11f4",
             "uuid": "1acbd898-2008-43ff-a0d1-7f8af3acb37d"
           }
@@ -4472,17 +4472,57 @@
     },
     {
       "diagram": {
-        "id": 12,
-        "diagram_type": 11,
-        "type": "UMLActivityDiagram",
+        "id": 123,
+        "diagram_type": 17,
+        "type": "UMLInteractionDiagram/overview",
         "name": "Runtime View",
         "description": [
-                "This diagram depicts the operation modes of the software."
+                ""
         ],
-        "list_order": 163840,
+        "list_order": 147456,
         "display_flags": 0,
         "parent_name": "crystal-facet-uml Architecture",
         "parent": "7a8e4585-27c6-413c-ae8f-fcbd4c5d7a43",
+        "uuid": "e025e449-e5cf-4d6d-b97f-cc5075ec1df5",
+        "diagramelements":
+        [
+          {
+            "id": 910,
+            "display_flags": 0,
+            "classifier_name": "Operation Modes",
+            "node": "916b47d4-b067-4c7c-b135-f0ca5de63727",
+            "uuid": "8be8e0d8-c507-4ff9-9c6f-442d74698745"
+          },
+          {
+            "id": 911,
+            "display_flags": 0,
+            "classifier_name": "Multithreading in GUI Mode",
+            "node": "b8f4951a-d5c8-48af-81da-eaa2bf7901fb",
+            "uuid": "0f0f6ea1-07bf-4c0f-9749-d9a83f52fa27"
+          },
+          {
+            "id": 912,
+            "display_flags": 0,
+            "classifier_name": "Database file recovery",
+            "node": "c33ddb6f-54c2-47b0-9294-ab846959107b",
+            "uuid": "31a62d9d-8175-42d3-a635-53239515dcc4"
+          }
+        ]
+      }
+    },
+    {
+      "diagram": {
+        "id": 12,
+        "diagram_type": 11,
+        "type": "UMLActivityDiagram",
+        "name": "Operation Modes",
+        "description": [
+                "This diagram depicts the operation modes of the software."
+        ],
+        "list_order": -1,
+        "display_flags": 0,
+        "parent_name": "Runtime View",
+        "parent": "e025e449-e5cf-4d6d-b97f-cc5075ec1df5",
         "uuid": "12c299c9-5ca3-472a-ace6-8be7e6655402",
         "diagramelements":
         [
@@ -4566,10 +4606,10 @@
                 "  This limitation would need to be changed if a multi-threaded gui\n",
                 "  should access a single ctrl and data instance. (Currently, the software is single-threaded)"
         ],
-        "list_order": -1,
+        "list_order": 1073741823,
         "display_flags": 0,
         "parent_name": "Runtime View",
-        "parent": "12c299c9-5ca3-472a-ace6-8be7e6655402",
+        "parent": "e025e449-e5cf-4d6d-b97f-cc5075ec1df5",
         "uuid": "f1f57119-8ce4-4705-9d61-65531fce7c69",
         "diagramelements":
         [
@@ -4810,10 +4850,10 @@
                 "crystal-facet-uml stores the data model in a json based file. While working on the model, it is kept in a temporary database.\n",
                 "These two locations can run out of sync. This diagram lists the causes and the mitigations."
         ],
-        "list_order": 32767,
+        "list_order": 1610612734,
         "display_flags": 0,
         "parent_name": "Runtime View",
-        "parent": "12c299c9-5ca3-472a-ace6-8be7e6655402",
+        "parent": "e025e449-e5cf-4d6d-b97f-cc5075ec1df5",
         "uuid": "b7081cb1-fa8c-4c63-8509-95cc7d0b258f",
         "diagramelements":
         [
@@ -18524,7 +18564,7 @@
         "main_type": 138,
         "type": "Image",
         "stereotype": "cfu",
-        "name": "Crystal-Facet-Uml",
+        "name": "crystal-facet-uml",
         "description": [
                 ""
         ],
@@ -19168,6 +19208,94 @@
         "uuid": "a0cf9e76-52b9-4270-877d-c9418bf7395d",
         "features":
         [
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 554,
+        "main_type": 112,
+        "type": "InteractionUse",
+        "name": "Operation Modes",
+        "description": [
+                ""
+        ],
+        "x_order": -1155345386,
+        "y_order": -847651665,
+        "list_order": -842616021,
+        "uuid": "85becd49-66e0-4e23-b44b-2253165c30e9",
+        "features":
+        [
+          {
+            "id": 149,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "916b47d4-b067-4c7c-b135-f0ca5de63727"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 555,
+        "main_type": 112,
+        "type": "InteractionUse",
+        "name": "Multithreading in GUI Mode",
+        "description": [
+                ""
+        ],
+        "x_order": 706831676,
+        "y_order": -847651665,
+        "list_order": -1136943079,
+        "uuid": "3364f5fd-58c1-403f-82d6-33f31d5d4a7a",
+        "features":
+        [
+          {
+            "id": 150,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "b8f4951a-d5c8-48af-81da-eaa2bf7901fb"
+          }
+        ]
+      }
+    },
+    {
+      "classifier": {
+        "id": 556,
+        "main_type": 112,
+        "type": "InteractionUse",
+        "stereotype": "not-yet-implemented",
+        "name": "Database file recovery",
+        "description": [
+                ""
+        ],
+        "x_order": 870203167,
+        "y_order": -847651665,
+        "list_order": -847651665,
+        "uuid": "587ba447-ccdc-4e7c-9f11-863f65cdda83",
+        "features":
+        [
+          {
+            "id": 151,
+            "main_type": 3,
+            "type": "Lifeline",
+            "key": "",
+            "description": [
+                ""
+            ],
+            "list_order": 0,
+            "uuid": "c33ddb6f-54c2-47b0-9294-ab846959107b"
+          }
         ]
       }
     }
