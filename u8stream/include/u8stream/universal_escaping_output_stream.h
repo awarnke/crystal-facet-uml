@@ -13,6 +13,35 @@
  *  This class can be used to e.g escape a couple of characters by escape sequences
  *  or to indent lines after every newline character.
  *  This class does not search for sequences that are split between multiple write calls.
+ *
+ *  Examples for patterns_and_replacements:
+ *  \code
+ *      const char *const SQL_ENCODE[][2] = {
+ *          { "\0", "\\0" },  //  within strings, null cannot be represented.
+ *          { "\x09", "\\t" },
+ *          { "\x0a", "\\n" },
+ *          { "\x0d", "\\r" },
+ *          { "\x0e", "\\b" },
+ *          { "\x1a", "\\z" },
+ *          { "\"", "\\\"" },
+ *          { "'", "\\'" },
+ *          { "\\", "\\\\" },
+ *          { "%", "\\%" },  //  % replacement only needed in searches by LIKE operator
+ *          { "_", "\\_" },  //  _ replacement only needed in searches by LIKE operator
+ *          { NULL, NULL }
+ *      };
+ *      utf8stringbuf_replace_all( mySqlBuf, &SQL_ENCODE );
+ *      const char *const XML_ENCODE[][2] = {
+ *          { "<", "&lt;" },
+ *          { ">", "&gt;" },
+ *          { "&", "&amp;" },
+ *          { "\"", "&quot;" },  //  " replacement only needed in attribute values
+ *          { "'", "&apos;" },  //  ' replacement only needed in attribute values
+ *          { NULL, NULL }
+ *      };
+ *      utf8stringbuf_replace_all( myXmlBuf, &XML_ENCODE );
+ *  \endcode
+ *
  */
 
 #include "u8stream/universal_output_stream.h"
