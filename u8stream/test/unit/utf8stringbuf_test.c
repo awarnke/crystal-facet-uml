@@ -26,8 +26,6 @@ static test_case_result_t testCopyView( test_fixture_t *fix );
 #ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 static test_case_result_t testReplaceAll( test_fixture_t *fix );
 static test_case_result_t testReplaceAllBadCases( test_fixture_t *fix );
-static test_case_result_t testReplaceAllStr( test_fixture_t *fix );
-static test_case_result_t testReplaceAllBuf( test_fixture_t *fix );
 #endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
 static test_case_result_t testAppendStr( test_fixture_t *fix );
 static test_case_result_t testAppendBuf( test_fixture_t *fix );
@@ -58,11 +56,9 @@ test_suite_t utf8stringbuf_test_get_suite(void)
     test_suite_add_test_case( &result, "testCopyStr", &testCopyStr );
     test_suite_add_test_case( &result, "testCopyWithCutUtf8", &testCopyWithCutUtf8 );
     test_suite_add_test_case( &result, "testCopyView", &testCopyView );
-    #ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
+#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
     test_suite_add_test_case( &result, "testReplaceAll", &testReplaceAll );
     test_suite_add_test_case( &result, "testReplaceAllBadCases", &testReplaceAllBadCases );
-    test_suite_add_test_case( &result, "testReplaceAllStr", &testReplaceAllStr );
-    test_suite_add_test_case( &result, "testReplaceAllBuf", &testReplaceAllBuf );
 #endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
     test_suite_add_test_case( &result, "testAppendStr", &testAppendStr );
     test_suite_add_test_case( &result, "testAppendBuf", &testAppendBuf );
@@ -738,49 +734,6 @@ static test_case_result_t testReplaceAllBadCases( test_fixture_t *fix )
     equal = utf8stringbuf_equals_str( dynTestBuf2, "a5 " "\xE2\x82\xAC" );
     TEST_EXPECT_EQUAL_INT( 1, equal );
 
-    return TEST_CASE_RESULT_OK;
-}
-#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
-static test_case_result_t testReplaceAllStr( test_fixture_t *fix )
-{
-    /* utf8stringbuf_replace_all_str_by_str is just a wrapper around utf8stringbuf_replace_all */
-    /* therefore, we do only two tests */
-    utf8error_t error;
-    int equal;
-    char dynTestArr1[7] = "Helllo";
-    utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
-
-    /* check utf8stringbuf_replace_all_str_by_str */
-    error = utf8stringbuf_replace_all_str_by_str( dynTestBuf1, NULL, "" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_NULL_PARAM, error );
-    equal = utf8stringbuf_equals_str( dynTestBuf1, "Helllo" );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-
-    error = utf8stringbuf_replace_all_str_by_str( dynTestBuf1, "lo", "o!" );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
-    equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello!" );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    return TEST_CASE_RESULT_OK;
-}
-#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
-static test_case_result_t testReplaceAllBuf( test_fixture_t *fix )
-{
-    /* utf8stringbuf_replace_all_buf_by_buf is just a wrapper around utf8stringbuf_replace_all */
-    /* therefore, we do only one test */
-    utf8error_t error;
-    int equal;
-    char dynTestArr1[7] = "Helllo";
-    utf8stringbuf_t dynTestBuf1 = UTF8STRINGBUF(dynTestArr1);
-
-    /* check utf8stringbuf_replace_all_buf_by_buf */
-    error = utf8stringbuf_replace_all_buf_by_buf( dynTestBuf1, utf8stringbuf("ll"), utf8stringbuf("l") );
-    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, error );
-    equal = utf8stringbuf_equals_str( dynTestBuf1, "Hello" );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
     return TEST_CASE_RESULT_OK;
 }
 #endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */

@@ -41,7 +41,7 @@
 extern "C" {
 #endif
 
-//#define UTF8STRINGBUF_DEPRECATED_INPLACE
+#define UTF8STRINGBUF_DEPRECATED_INPLACE
 
 /* Note: If optimization level is zero, inline might not work. */
 /*       You possibly have to append the following string      */
@@ -334,32 +334,6 @@ static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const 
 
 #ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 /*!
- *  \brief Replaces all occurrences of pattern by replacement.
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
- *  \param this_ The string buffer within which to search
- *  \param pattern The 0-terminated string to search. Empty or NULL patterns are not replaced.
- *  \param replacement The 0-terminated string to replace the pattern with.
- *  \return UTF8ERROR_SUCCESS in case of success,
- *          UTF8ERROR_TRUNCATED if the string buffer was truncated or
- *          UTF8ERROR_NULL_PARAM if pattern is NULL.
- */
-static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8stringbuf_t this_, const char *pattern, const char *replacement );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
-/*!
- *  \brief Replaces all occurrences of pattern by replacement.
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
- *  \param this_ The string buffer within which to search
- *  \param pattern The string to search. Empty patterns are not replaced.
- *  \param replacement The string to replace the pattern with.
- *  \return UTF8ERROR_SUCCESS in case of success,
- *          UTF8ERROR_TRUNCATED if the string buffer was truncated.
- */
-static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, const utf8stringbuf_t replacement );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
-
-/*!
  *  \brief Replaces all occurrences of patterns by the corresponding replacement strings
  *
  *  This function is intended to escape character sequences.
@@ -403,6 +377,7 @@ static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8string
  *          UTF8ERROR_NULL_PARAM if patterns_and_replacements is NULL.
  */
 extern utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *const ((*patterns_and_replacements)[][2]) );
+#endif  // UTF8STRINGBUF_DEPRECATED_INPLACE
 
 /*!
  *  \brief Splits a string buffer into an ignored first part and the unfilled terminating part

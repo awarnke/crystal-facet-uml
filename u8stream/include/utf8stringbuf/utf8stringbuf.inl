@@ -277,24 +277,6 @@ static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const 
     return result;
 }
 
-#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
-static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8stringbuf_t this_, const char *pattern, const char *replacement ) {
-    utf8error_t result = UTF8ERROR_NULL_PARAM;
-    if ( pattern != NULL ) {
-        const char *const patterns_and_replacements[][2] = { { pattern, replacement }, { NULL, NULL } };
-        result = utf8stringbuf_replace_all( this_, &patterns_and_replacements );
-    }
-    return result;
-}
-#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
-static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, const utf8stringbuf_t replacement ) {
-    const char *const patterns_and_replacements[][2] = { { pattern.buf, replacement.buf }, { NULL, NULL } };
-    return utf8stringbuf_replace_all( this_, &patterns_and_replacements );
-}
-#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
-
 static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const char *appendix ) {
     utf8error_t result = UTF8ERROR_SUCCESS;
     if ( appendix == NULL ) {
