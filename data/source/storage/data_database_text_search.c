@@ -137,14 +137,14 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
             universal_escaping_output_stream_init( &esc_out, &DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE, stream_out );
             result |= universal_escaping_output_stream_write( &esc_out, textfragment, text_len );
             result |= universal_escaping_output_stream_flush( &esc_out );
-            universal_escaping_output_stream_destroy( &esc_out );
+            result |= universal_escaping_output_stream_destroy( &esc_out );
         }
         result |= universal_memory_output_stream_write( &mem_out,
                                                         &DATA_DATABASE_TEXT_SEARCH_SQL_LIKE_DELIMITER,
                                                         sizeof(DATA_DATABASE_TEXT_SEARCH_SQL_LIKE_DELIMITER)
                                                       );
     }
-    universal_memory_output_stream_destroy( &mem_out );
+    result |= universal_memory_output_stream_destroy( &mem_out );
 
     U8_TRACE_INFO_STR( "LIKE SEARCH:", like_search );
     if ( result != U8_ERROR_NONE )

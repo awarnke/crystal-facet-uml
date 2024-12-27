@@ -91,7 +91,7 @@
  *  - Optionally, "_replace"/"_replacemove" de+constructors may be provided for copying/moving objects into already initialized ones.
  *    \n This constructor shall re-initialize the struct that was already initialized before the copy/move of the provided object.
  *  - To facilitate static and/or constant initialization, uppercase TYPENAME() macros may map parameters to struct fields.
- *    \n Alternatively a function of name type-name and "_init_const" may return a const object (not a pointer).
+ *    \n Alternatively a function of name "&lt;type-name&gt;_new" may return a const object (not a pointer).
  *  .
  *
  *  \subsection cfu-lifecycle Responsabilities for Creation and Destruction
