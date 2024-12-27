@@ -49,21 +49,6 @@ static inline int utf8string_equals_str( utf8string_t *this_, utf8string_t *that
     return ( cmpResult == 0 ) ? UTF8STRING_TRUE : UTF8STRING_FALSE;
 }
 
-#ifdef UTF8STRING_DEPRECATED_INDEX
-static inline int utf8string_equals_region_str( utf8string_t *this_, int start, utf8string_t *that ) {
-    int cmpResult = -1;
-    if (( this_ != NULL ) && ( that != NULL )) {
-        int thisLen = strlen(this_);
-        int thatLen = strlen(that);
-        unsigned int end = ((unsigned int)start) + ((unsigned int)thatLen);
-        if (( 0 <= start )&&( end <= thisLen )) {
-            cmpResult = memcmp( &(this_[start]), that, thatLen );
-        }
-    }
-    return ( cmpResult == 0 ) ? UTF8STRING_TRUE : UTF8STRING_FALSE;
-}
-#endif  /* UTF8STRING_DEPRECATED_INDEX */
-
 static inline int utf8string_starts_with_str( utf8string_t *this_, utf8string_t *that ) {
     int cmpResult = -1;
     if (( this_ != NULL )&&( that != NULL )) {

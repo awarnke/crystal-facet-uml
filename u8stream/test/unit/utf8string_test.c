@@ -17,9 +17,6 @@ static void tear_down( test_fixture_t *fix );
 static test_case_result_t testSize( test_fixture_t *fix );
 static test_case_result_t testLength( test_fixture_t *fix );
 static test_case_result_t testEquals( test_fixture_t *fix );
-#ifdef UTF8STRING_DEPRECATED_INDEX
-static test_case_result_t testEqualsRegion( test_fixture_t *fix );
-#endif  /* UTF8STRING_DEPRECATED_INDEX */
 static test_case_result_t testStartsWith( test_fixture_t *fix );
 static test_case_result_t testEndsWith( test_fixture_t *fix );
 static test_case_result_t testFindFirst( test_fixture_t *fix );
@@ -50,9 +47,6 @@ test_suite_t utf8string_test_get_suite(void)
     test_suite_add_test_case( &result, "testSize", &testSize );
     test_suite_add_test_case( &result, "testLength", &testLength );
     test_suite_add_test_case( &result, "testEquals", &testEquals );
-#ifdef UTF8STRING_DEPRECATED_INDEX
-    test_suite_add_test_case( &result, "testEqualsRegion", &testEqualsRegion );
-#endif  /* UTF8STRING_DEPRECATED_INDEX */
     test_suite_add_test_case( &result, "testStartsWith", &testStartsWith );
     test_suite_add_test_case( &result, "testEndsWith", &testEndsWith );
     test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
@@ -122,40 +116,6 @@ static test_case_result_t testEquals( test_fixture_t *fix )
 
     return TEST_CASE_RESULT_OK;
 }
-
-#ifdef UTF8STRING_DEPRECATED_INDEX
-static test_case_result_t testEqualsRegion( test_fixture_t *fix )
-{
-    //  prepare
-    int equal;
-    char dynTestArr1[] = "Hello";
-    char dynTestArr2[] = "Hello Hell Hello Hello";
-
-    //  test utf8string_equals_region_str
-    equal = utf8string_equals_region_str( dynTestArr1, 0, dynTestArr1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_str( dynTestArr1, 0, "Hello" );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_str( dynTestArr1, 5, "" );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_str( dynTestArr1, 0, "" );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_str( dynTestArr2, 6, dynTestArr1 );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_str( dynTestArr2, 17, dynTestArr1 );
-    TEST_EXPECT_EQUAL_INT( 1, equal );
-    equal = utf8string_equals_region_str( NULL, 0, "Hi" );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_str( "", 0, NULL );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_str( dynTestArr1, -1, NULL );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-    equal = utf8string_equals_region_str( NULL, 0, NULL );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-
-    return TEST_CASE_RESULT_OK;
-}
-#endif  /* UTF8STRING_DEPRECATED_INDEX */
 
 static test_case_result_t testLength( test_fixture_t *fix )
 {
