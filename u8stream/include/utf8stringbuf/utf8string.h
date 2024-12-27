@@ -99,43 +99,9 @@ static inline int utf8string_ends_with_str( utf8string_t *this_, utf8string_t *t
  * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
  * \param this_ The 0-terminated string within which to search
  * \param pattern The 0-terminated string to search
- * \return Index of the first occurrence within the string.
- *         -1 if there is no match.
+ * \return true if there is a match
  */
-static inline int utf8string_find_first_str( utf8string_t *this_, utf8string_t *pattern );
-
-/*!
- * \brief Searches a pattern within a string starting at the end
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The 0-terminated string within which to search
- * \param pattern The 0-terminated string to search
- * \return Index of the first occurrence within the string.
- *         -1 if there is no match.
- */
-static inline int utf8string_find_last_str( utf8string_t *this_, utf8string_t *pattern );
-
-/*!
- * \brief Searches a pattern within a string
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- * \param this_ The 0-terminated string within which to search
- * \param pattern The 0-terminated string to search
- * \param start_index Index where to start the search.
- * \return Index of the next occurrence within the string equal or greater than start_index.
- *         -1 if there is no match.
- */
-static inline int utf8string_find_next_str( utf8string_t *this_, utf8string_t *pattern, int start_index );
-
-/*!
- * \brief Gets the code point at a given byte index.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- * \param this_ The 0-terminated string object
- * \param byte_index index where to read the character from.
- * \return A unicode codepoint.
- *         utf8codepoint_is_valid will state 0 if there is an illegal byte-sequence within the string
- *         or if byte_index is out of range.
- *         The terminating zero of a string is a valid character.
- */
-static inline utf8codepoint_t utf8string_get_char_at( utf8string_t *this_, unsigned int byte_index );
+static inline bool utf8string_contains_str( utf8string_t *this_, utf8string_t *pattern );
 
 /*!
  * \brief Parses a signed integer from a string in decimal format

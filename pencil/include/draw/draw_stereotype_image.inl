@@ -76,7 +76,7 @@ static inline bool draw_stereotype_private_image_exists ( const draw_stereotype_
     assert( drawing_directives != NULL );
     /* TODO allow namespaces, e.g. <ns:path; check for end of nmtoken to prevent finding <pathfinder */
     const char *pattern = "<path";
-    const bool exists = ( -1 != utf8string_find_first_str( drawing_directives, pattern ) );
+    const bool exists = utf8string_contains_str( drawing_directives, pattern );
     return exists;
 }
 

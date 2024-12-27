@@ -18,13 +18,6 @@ extern "C" {
 /*  enumeration for true and false or success and failure */
 enum utf8string_bool_enum {UTF8STRING_FALSE=0, UTF8STRING_TRUE=1,};
 
-/*!
- *  \enum utf8string_search_enum
- *  \private
- */
-/*  enumeration for search pattern not found */
-enum utf8string_search_enum {UTF8STRING_NOT_FOUND=-1,};
-
 static inline size_t utf8string_get_size( utf8string_t *this_ ) {
     size_t sizeResult = 0;
     if ( this_ != NULL ) {
@@ -70,42 +63,12 @@ static inline int utf8string_ends_with_str( utf8string_t *this_, utf8string_t *t
     return ( cmpResult == 0 ) ? UTF8STRING_TRUE : UTF8STRING_FALSE;
 }
 
-static inline int utf8string_find_first_str( utf8string_t *this_, utf8string_t *pattern ) {
-    int result = UTF8STRING_NOT_FOUND;
+static inline bool utf8string_contains_str( utf8string_t *this_, utf8string_t *pattern ) {
+    bool result = false;
     if (( pattern != NULL )&&( this_ != NULL )) {
         const char *ptrResult = strstr( this_, pattern );
         if ( ptrResult != NULL ) {
-            result = (int) (ptrResult - this_);
-        }
-    }
-    return result;
-}
-
-static inline int utf8string_find_last_str( utf8string_t *this_, utf8string_t *pattern ) {
-    int result = UTF8STRING_NOT_FOUND;
-    if (( pattern != NULL )&&( this_ != NULL )) {
-        int thisLen = strlen( this_ );
-        int patternLen = strlen( pattern );
-        if ( patternLen <= thisLen ) {
-            for ( int probeIdx = (thisLen-patternLen); probeIdx >= 0; probeIdx --) {
-                if ( 0 == memcmp( &(this_[probeIdx]), pattern, patternLen )) {
-                    /* last occurrence found! */
-                    result = probeIdx;
-                    break;
-                }
-            }
-        }
-    }
-    return result;
-}
-
-static inline int utf8string_find_next_str( utf8string_t *this_, utf8string_t *pattern, int start_index ) {
-    int result = UTF8STRING_NOT_FOUND;
-    unsigned int thisSize = utf8string_get_size( this_ );
-    if (( pattern != NULL ) && ( start_index >= 0 ) && ( start_index < thisSize )) {
-        const char *ptrResult = strstr( &(this_[start_index]), pattern );
-        if ( ptrResult != NULL ) {
-            result = (int) (ptrResult - this_);
+            result = true;
         }
     }
     return result;

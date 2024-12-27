@@ -43,12 +43,26 @@ static test_case_result_t test_format( test_fixture_t *test_env )
 
     TEST_EXPECT_EQUAL_INT( 36, utf8string_get_length(uuid_1) );
 
-    TEST_EXPECT_EQUAL_INT( 8, utf8string_find_next_str(uuid_1,"-",0) );
-    TEST_EXPECT_EQUAL_INT( 8+1+4, utf8string_find_next_str(uuid_1,"-",8+1) );
-    TEST_EXPECT_EQUAL_INT( 8+1+4+1, utf8string_find_next_str(uuid_1,"4",8+1+4) );
-    TEST_EXPECT_EQUAL_INT( 8+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1) );
-    TEST_EXPECT_EQUAL_INT( 8+1+4+1+4+1+4, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1) );
-    TEST_EXPECT_EQUAL_INT( -1, utf8string_find_next_str(uuid_1,"-",8+1+4+1+4+1+4+1) );
+    utf8stringview_t uuid_1_view = UTF8STRINGVIEW_STR( uuid_1 );
+    utf8stringview_t before_minus;
+    utf8stringview_t after_minus;
+    const utf8error_t err_minus = utf8stringview_split_at_first_str( &uuid_1_view, "-", &before_minus, &after_minus );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err_minus );
+    TEST_EXPECT_EQUAL_INT( 8, utf8stringview_get_length( &before_minus ) );
+
+    const utf8error_t err_minus2 = utf8stringview_split_at_first_str( &after_minus, "-", &before_minus, &after_minus );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err_minus2 );
+    TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &before_minus ) );
+    TEST_EXPECT_EQUAL_INT( true, utf8stringview_starts_with_str( &after_minus, "4" ) );
+
+    const utf8error_t err_minus3 = utf8stringview_split_at_first_str( &after_minus, "-", &before_minus, &after_minus );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err_minus3 );
+    TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &before_minus ) );
+
+    const utf8error_t err_minus4 = utf8stringview_split_at_first_str( &after_minus, "-", &before_minus, &after_minus );
+    TEST_EXPECT_EQUAL_INT( UTF8ERROR_SUCCESS, err_minus4 );
+    TEST_EXPECT_EQUAL_INT( 4, utf8stringview_get_length( &before_minus ) );
+    TEST_EXPECT_EQUAL_INT( 12, utf8stringview_get_length( &after_minus ) );
 
     data_uuid_destroy( &testee );
     return TEST_CASE_RESULT_OK;

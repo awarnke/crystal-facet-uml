@@ -147,16 +147,34 @@ u8_error_t io_exporter_private_get_filename( io_exporter_t *this_,
     assert ( NULL != path );
     u8_error_t err = U8_ERROR_NONE;
 
-    const unsigned int path_len = utf8string_get_length( path );
-    const int path_suffix = utf8string_find_last_str( path, "." );
-    const int path_start_filename_unix = utf8string_find_last_str( path, "/" );
-    const int path_start_filename_win = utf8string_find_last_str( path, "\\" );
-    const int path_start_filename = u8_i32_max2( path_start_filename_unix, path_start_filename_win );
-    const int start = (( path_start_filename == -1 ) ? 0 : (path_start_filename+1) );
-    const int length = (( path_suffix < start ) ? (path_len-start) : (path_suffix-start) );
-    const utf8stringview_t base_name = UTF8STRINGVIEW( &(path[start]), length );
+    utf8stringview_t path_view = UTF8STRINGVIEW_STR( path );
 
-    err = utf8stringbuf_copy_view( out_base_filename, &base_name );
+    utf8stringview_t before_winpath_sep;
+    utf8stringview_t after_winpath_sep;
+    const utf8error_t err_w = utf8stringview_split_at_last_str( &path_view, "\\", &before_winpath_sep, &after_winpath_sep );
+    if ( err_w != UTF8ERROR_SUCCESS )
+    {
+        after_winpath_sep = path_view;
+    }
+    utf8stringview_t before_unixpath_sep;
+    utf8stringview_t after_unixpath_sep;
+    const utf8error_t err_u = utf8stringview_split_at_last_str( &after_winpath_sep, "/", &before_unixpath_sep, &after_unixpath_sep );
+    if ( err_u != UTF8ERROR_SUCCESS )
+    {
+        after_unixpath_sep = after_winpath_sep;
+    }
+    utf8stringview_t before_dot;
+    utf8stringview_t after_dot;
+    const utf8error_t err_d = utf8stringview_split_at_last_str( &after_unixpath_sep, ".", &before_dot, &after_dot );
+    if ( ( err_d != UTF8ERROR_SUCCESS )
+        || ( utf8stringview_get_length( &before_dot ) == 0 )
+        || ( utf8stringview_get_length( &after_dot ) == 0 ) )
+    {
+        /* either no dot found or the filename begins with dot or the filename ends on dot */
+        before_dot = after_unixpath_sep;
+    }
+
+    err = utf8stringbuf_copy_view( out_base_filename, &before_dot );
     if ( utf8stringbuf_get_length( out_base_filename ) == 0 )
     {
         err = U8_ERROR_INPUT_EMPTY;

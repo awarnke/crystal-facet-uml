@@ -59,7 +59,7 @@ static inline void io_data_file_private_split_path( const io_data_file_t *this_,
     utf8stringview_t before_winpath_sep;
     utf8stringview_t after_winpath_sep;
     const utf8error_t err_w = utf8stringview_split_at_last_str( path, "\\", &before_winpath_sep, &after_winpath_sep );
-    if (  err_w == UTF8ERROR_SUCCESS )
+    if ( err_w == UTF8ERROR_SUCCESS )
     {
         /* add the separator to before_winpath_sep */
         before_winpath_sep = UTF8STRINGVIEW( utf8stringview_get_start( &before_winpath_sep ),

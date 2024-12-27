@@ -19,9 +19,7 @@ static test_case_result_t testLength( test_fixture_t *fix );
 static test_case_result_t testEquals( test_fixture_t *fix );
 static test_case_result_t testStartsWith( test_fixture_t *fix );
 static test_case_result_t testEndsWith( test_fixture_t *fix );
-static test_case_result_t testFindFirst( test_fixture_t *fix );
-static test_case_result_t testFindNext( test_fixture_t *fix );
-static test_case_result_t testFindLast( test_fixture_t *fix );
+static test_case_result_t testContains( test_fixture_t *fix );
 static test_case_result_t testCharAt( test_fixture_t *fix );
 static test_case_result_t testCharAtLoops( test_fixture_t *fix );
 static test_case_result_t testParseInt( test_fixture_t *fix );
@@ -49,9 +47,7 @@ test_suite_t utf8string_test_get_suite(void)
     test_suite_add_test_case( &result, "testEquals", &testEquals );
     test_suite_add_test_case( &result, "testStartsWith", &testStartsWith );
     test_suite_add_test_case( &result, "testEndsWith", &testEndsWith );
-    test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
-    test_suite_add_test_case( &result, "testFindNext", &testFindNext );
-    test_suite_add_test_case( &result, "testFindLast", &testFindLast );
+    test_suite_add_test_case( &result, "testContains", &testContains );
     test_suite_add_test_case( &result, "testCharAt", &testCharAt );
     test_suite_add_test_case( &result, "testCharAtLoops", &testCharAtLoops );
     test_suite_add_test_case( &result, "testParseInt", &testParseInt );
@@ -190,78 +186,34 @@ static test_case_result_t testEndsWith( test_fixture_t *fix )
     return TEST_CASE_RESULT_OK;
 }
 
-static test_case_result_t testFindFirst( test_fixture_t *fix )
+static test_case_result_t testContains( test_fixture_t *fix )
 {
-    int pos;
+    bool pos;
     char srchArr3[] = "N/A";
 
-    pos = utf8string_find_first_str( NULL, srchArr3);
-    TEST_EXPECT_EQUAL_INT( -1, pos );
+    pos = utf8string_contains_str( NULL, srchArr3);
+    TEST_EXPECT_EQUAL_INT( false, pos );
 
-    pos = utf8string_find_first_str( NULL, "");
-    TEST_EXPECT_EQUAL_INT( -1, pos );
+    pos = utf8string_contains_str( NULL, "");
+    TEST_EXPECT_EQUAL_INT( false, pos );
 
-    pos = utf8string_find_first_str( NULL, NULL);
-    TEST_EXPECT_EQUAL_INT( -1, pos );
+    pos = utf8string_contains_str( NULL, NULL);
+    TEST_EXPECT_EQUAL_INT( false, pos );
 
-    pos = utf8string_find_first_str( srchArr3, srchArr3);
-    TEST_EXPECT_EQUAL_INT( 0, pos );
+    pos = utf8string_contains_str( srchArr3, srchArr3);
+    TEST_EXPECT_EQUAL_INT( true, pos );
 
-    pos = utf8string_find_first_str( "", srchArr3);
-    TEST_EXPECT_EQUAL_INT( -1, pos );
+    pos = utf8string_contains_str( "", srchArr3);
+    TEST_EXPECT_EQUAL_INT( false, pos );
 
-    pos = utf8string_find_first_str( "_N/A_N/A", srchArr3);
-    TEST_EXPECT_EQUAL_INT( 1, pos );
+    pos = utf8string_contains_str( "_N/A_N/A", srchArr3);
+    TEST_EXPECT_EQUAL_INT( true, pos );
 
-    pos = utf8string_find_first_str( "_n/a_n/a", srchArr3);
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    return TEST_CASE_RESULT_OK;
-}
-
-static test_case_result_t testFindNext( test_fixture_t *fix )
-{
-    int pos;
-    char srchArr1[10] = "aaaa";
-
-    pos = utf8string_find_next_str( NULL, NULL, 1000 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_next_str( NULL, NULL, 0 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_next_str( "aaaaaa", srchArr1, 1 );
-    TEST_EXPECT_EQUAL_INT( 1, pos );
-
-    pos = utf8string_find_next_str( "aaaaaa", srchArr1, 3 );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
+    pos = utf8string_contains_str( "_n/a_n/a", srchArr3);
+    TEST_EXPECT_EQUAL_INT( false, pos );
 
     return TEST_CASE_RESULT_OK;
 }
-
-static test_case_result_t testFindLast( test_fixture_t *fix )
-{
-    int pos;
-    char srchArr1[10] = "aaaab";
-
-    pos = utf8string_find_last_str( srchArr1, NULL );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_last_str( NULL, NULL );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    pos = utf8string_find_last_str( srchArr1, "" );
-    TEST_EXPECT_EQUAL_INT( 5, pos );
-
-    pos = utf8string_find_last_str( srchArr1, "aaa" );
-    TEST_EXPECT_EQUAL_INT( 1, pos );
-
-    pos = utf8string_find_last_str( srchArr1, "bb" );
-    TEST_EXPECT_EQUAL_INT( -1, pos );
-
-    return TEST_CASE_RESULT_OK;
-}
-
 
 static test_case_result_t testCharAt( test_fixture_t *fix )
 {
