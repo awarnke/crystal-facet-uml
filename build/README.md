@@ -28,6 +28,8 @@ debian/ubuntu/raspberry-os:
 >
 > sudo apt install lcov        # for reporting test coverage
 >
+> sudo apt install curl        # for installing rust
+>
 > curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \\
 > | sh # for running qualification tests or icon_artist resource generator
 

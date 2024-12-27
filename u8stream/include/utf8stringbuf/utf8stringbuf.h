@@ -41,6 +41,8 @@
 extern "C" {
 #endif
 
+//#define UTF8STRINGBUF_DEPRECATED_INPLACE
+
 /* Note: If optimization level is zero, inline might not work. */
 /*       You possibly have to append the following string      */
 /*       after every function prototype for gcc:               */
@@ -245,32 +247,6 @@ static inline int utf8stringbuf_equals_view( const utf8stringbuf_t this_, const 
  */
 static inline int utf8stringbuf_equals_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
 
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Checks if the region equals the given string.
- *
- *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
- *  \param start the start position of the region to compare.
- *  \param that A 0-terminated c string. In case of NULL, this function returns 0.
- *  \return 1 if the region equals the given string, 0 if not.
- */
-static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, int start, const char *that );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Checks if the region equals the given string.
- *
- *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- *  \param this_ A string buffer object
- *  \param start the start position of the region to compare.
- *  \param that Another string buffer object
- *  \return 1 if the region equals the given string, 0 if not.
- */
-static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, int start, const utf8stringbuf_t that );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
 /*!
  *  \brief Checks if the string buffer starts with the specified characters.
  *
@@ -310,143 +286,6 @@ static inline int utf8stringbuf_ends_with_str( const utf8stringbuf_t this_, cons
  *  \return 1 if the string buffer ends with the characters in that, 0 if not.
  */
 static inline int utf8stringbuf_ends_with_buf( const utf8stringbuf_t this_, const utf8stringbuf_t that );
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Searches a pattern within a string
- *
- *  Example:
- *  \code
- *      utf8stringbuf_find_first_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ));
- *  \endcode
- *  will return index 2.
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ The string buffer within which to search
- *  \param pattern The string buffer containing the byte-sequence to search
- *  \return Index of the first occurrence within the string buffer.
- *          -1 if there is no match.
- */
-static inline int utf8stringbuf_find_first_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Searches a pattern within a string
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ The string buffer within which to search
- *  \param pattern The 0-terminated string to search
- *  \return Index of the first occurrence within the string buffer.
- *          -1 if there is no match.
- */
-static inline int utf8stringbuf_find_first_str( const utf8stringbuf_t this_, const char *pattern );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Searches a pattern within a string starting at the end
- *
- *  Example:
- *  \code
- *      utf8stringbuf_find_last_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ));
- *  \endcode
- *  will return index 11.
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ The string buffer within which to search
- *  \param pattern The string buffer containing the byte-sequence to search
- *  \return Index of the first occurrence within the string buffer.
- *          -1 if there is no match.
- */
-static inline int utf8stringbuf_find_last_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Searches a pattern within a string starting at the end
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ The string buffer within which to search
- *  \param pattern The 0-terminated string to search
- *  \return Index of the first occurrence within the string buffer.
- *          -1 if there is no match.
- */
-static inline int utf8stringbuf_find_last_str( const utf8stringbuf_t this_, const char *pattern );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Searches a pattern within a string
- *
- *  Example:
- *  \code
- *      utf8stringbuf_find_next_buf( utf8stringbuf( "hasta la vista" ), utf8stringbuf( "sta" ), 3);
- *  \endcode
- *  will return index 11.
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ The string buffer within which to search
- *  \param pattern The string buffer containing the byte-sequence to search
- *  \param start_index Index where to start the search.
- *  \return Index of the next occurrence within the string buffer equal or greater than start_index.
- *          -1 if there is no match.
- */
-static inline int utf8stringbuf_find_next_buf( const utf8stringbuf_t this_, const utf8stringbuf_t pattern, int start_index );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Searches a pattern within a string
- *  \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen
- *  \param this_ The string buffer within which to search
- *  \param pattern The 0-terminated string to search
- *  \param start_index Index where to start the search.
- *  \return Index of the next occurrence within the string buffer equal or greater than start_index.
- *          -1 if there is no match.
- */
-static inline int utf8stringbuf_find_next_str( const utf8stringbuf_t this_, const char *pattern, int start_index );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-/*!
- *  \brief Gets the code point at a given byte index.
- *
- *  Example usage:
- *  \n
- *  You can read a codepoint at a given byte index,
- *  e.g. within a trademark information, where C2 AE is the (R) sign:
- *  \code
- *      utf8codepoint_t result;
- *      char testArr[] = "\xC2\xAE 2005 A.A. \xC2\xAE 2006-2012 B.B.";
- *      utf8stringbuf_t testBuf = UTF8STRINGBUF(testArr);
- *      result = utf8stringbuf_get_char_at( testBuf, 13 );
- *      printf( "Code Point: %x", utf8codepoint_get_char(result) );
- *  \endcode
- *  This code will print "Code Point: ae" because the utf-8 sequence C2 AE is the unicode character 00AE.
- *  \n
- *
- *  You can iterate over all code points:
- *  \code
- *      size_t byteSize = utf8stringbuf_get_size( testBuf );
- *      unsigned int currentIndex = 0;
- *      for ( int loopCount = 0; loopCount < byteSize; loopCount ++ ) {
- *          result = utf8stringbuf_get_char_at( testBuf, currentIndex );
- *          if ( utf8codepoint_is_valid(result) && ( utf8codepoint_get_char(result) != '\0' )) {
- *              // do something with the current code point here
- *              currentIndex += utf8codepoint_get_length(result);
- *          }
- *          else {
- *              break;
- *          }
- *      }
- *  \endcode
- *  Note: the loopCount variable is just an unnecessary fallback to ensure that this is no endless loop, an unconditional for(;;) will also succeed.
- *  \n
- *  \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)
- *  \param this_ The string buffer object
- *  \param byte_index index where to read the character from.
- *  \return A unicode codepoint. The result is undefined if byte_index is out of range.
- *          utf8codepoint_is_valid will state 0 if there is an illegal byte-sequence within the string buffer.
- *          The terminating zero of a string buffer is a valid character.
- */
-static inline utf8codepoint_t utf8stringbuf_get_char_at( const utf8stringbuf_t this_, unsigned int byte_index );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
 
 /*!
  *  \brief Copies a string
@@ -493,49 +332,7 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
  */
 static inline utf8error_t utf8stringbuf_copy_view( utf8stringbuf_t this_, const utf8stringview_t *original );
 
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Copies a substring
- *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \n
- * This function does not check, that the provided range in the source string is a valid utf8 sequence.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer.  It is valid to provide an uninitialized buffer that possibly is not null-terminated.
- * \param that The source string buffer. The buffers of this_ and that must not overlap!
- * \param start Start index within the source string, from which to copy. 0 is the index of the first byte.
- * \param length Length in bytes to be copied.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation or
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal range.
- */
-extern utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, const utf8stringbuf_t that, int start, int length );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Copies a substring
- *
- * If the source string does not fit into the destination buffer,
- * the copied string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \n
- * This function does not check, that the provided range in the source string is a valid utf8 sequence.
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The destination string buffer.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
- * \param that The 0-terminated source string. The buffers of this_ and that must not overlap!
- * \param start Start index within the source string, from which to copy. 0 is the index of the first byte.
- * \param length Length in bytes to be copied.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_TRUNCATED in case of truncation or
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal range or
- *         UTF8ERROR_NULL_PARAM if that was NULL.
- */
-extern utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const char *that, int start, int length );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
+#ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 /*!
  *  \brief Replaces all occurrences of pattern by replacement.
  *  \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*p+n*(n+r)), n:strlen, p:patternlen, r:replacelen
@@ -547,6 +344,7 @@ extern utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, co
  *          UTF8ERROR_NULL_PARAM if pattern is NULL.
  */
 static inline utf8error_t utf8stringbuf_replace_all_str_by_str( const utf8stringbuf_t this_, const char *pattern, const char *replacement );
+#endif  /* UTF8STRINGBUF_DEPRECATED_INPLACE */
 
 #ifdef UTF8STRINGBUF_DEPRECATED_INPLACE
 /*!
@@ -605,117 +403,6 @@ static inline utf8error_t utf8stringbuf_replace_all_buf_by_buf( const utf8string
  *          UTF8ERROR_NULL_PARAM if patterns_and_replacements is NULL.
  */
 extern utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *const ((*patterns_and_replacements)[][2]) );
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Replaces a region within a string buffer
- *
- * If the resulting string does not fit into the destination buffer,
- * the destination string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+r), n:strlen, r:replacelen
- * \param this_ The destination string buffer
- * \param start Start index within the string buffer, where to start the replacement. 0 is the index of the first byte.
- * \param length Length in bytes to be replaced. Provide 0 to only insert characters without deleting.
- * \param replacement The 0-terminated replacement string. The buffers of this_ and replacement must not overlap!
- *        Provide the empty string or NULL to simply delete a region within a string buffer.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
- */
-static inline utf8error_t utf8stringbuf_replace_region_by_str( utf8stringbuf_t this_, int start, int length, const char *replacement );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Replaces a region within a string buffer
- *
- * If the resulting string does not fit into the destination buffer,
- * the destination string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+r), n:strlen, r:replacelen
- * \param this_ The destination string buffer
- * \param start Start index within the string buffer, where to start the replacement. 0 is the index of the first byte.
- * \param length Length in bytes to be replaced. Provide 0 to only insert characters without deleting.
- * \param replacement The replacement string buffer. The buffers of this_ and replacement must not overlap!
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
- */
-static inline utf8error_t utf8stringbuf_replace_region_by_buf( utf8stringbuf_t this_, int start, int length, const utf8stringbuf_t replacement );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Deletes a region within a string buffer
- *
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \param start Start index within the string buffer, where to start deleting. 0 is the index of the first byte.
- * \param length Length in bytes to be deleted.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been deleted.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
- */
-static inline utf8error_t utf8stringbuf_delete( utf8stringbuf_t this_, int start, int length );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Deletes a region at the end of a string buffer
- *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \param length Length in bytes to be deleted.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been deleted.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
- */
-static inline utf8error_t utf8stringbuf_delete_from_end( utf8stringbuf_t this_, int length );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Truncates a string buffer
- *
- * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
- * \param this_ The string buffer
- * \param start Start index within the string buffer, where to start deleting. 0 is the index of the first byte.
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been deleted.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges.
- */
-static inline utf8error_t utf8stringbuf_delete_to_end( utf8stringbuf_t this_, int start );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Inserts a string to a string buffer
- *
- * If the resulting string does not fit into the buffer,
- * the string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+i), n:strlen, i:insertlen
- * \param this_ The string buffer
- * \param start Start index within the string buffer, where to start the insertation. 0 is the index of the first byte.
- * \param insert The 0-terminated inseration string. The buffers of this_ and insert must not overlap!
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been inserted.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
- */
-static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int start, const char *insert );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-/*!
- * \brief Inserts a string buffer to a string buffer
- *
- * If the resulting string does not fit into the buffer,
- * the string gets truncated. This function ensures, that
- * truncation does not split an utf8 code-point in half.
- * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n+i), n:strlen, i:insertlen
- * \param this_ The string buffer
- * \param start Start index within the string buffer, where to start the insertation. 0 is the index of the first byte.
- * \param insert The inseration string buffer. The buffers of this_ and insert must not overlap!
- * \return UTF8ERROR_SUCCESS in case of success: All bytes have been inserted.
- *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
- */
-static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 /*!
  *  \brief Splits a string buffer into an ignored first part and the unfilled terminating part

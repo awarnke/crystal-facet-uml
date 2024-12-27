@@ -14,12 +14,6 @@ static test_fixture_t * set_up();
 static void tear_down( test_fixture_t *fix );
 static test_case_result_t testClear( test_fixture_t *fix );
 static test_case_result_t testAppendStr( test_fixture_t *fix );
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-static test_case_result_t testFindFirst( test_fixture_t *fix );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-static test_case_result_t testInsertAndDelete( test_fixture_t *fix );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 test_suite_t utf8stringbuf_performance_get_list(void)
 {
@@ -32,12 +26,6 @@ test_suite_t utf8stringbuf_performance_get_list(void)
                    );
     test_suite_add_test_case( &result, "testClear", &testClear );
     test_suite_add_test_case( &result, "testAppendStr", &testAppendStr );
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-    test_suite_add_test_case( &result, "testFindFirst", &testFindFirst );
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-    test_suite_add_test_case( &result, "testInsertAndDelete", &testInsertAndDelete );
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
     return result;
 }
 
@@ -181,158 +169,6 @@ static test_case_result_t testAppendStr( test_fixture_t *fix )
     TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
     return TEST_CASE_RESULT_OK;
 }
-
-#ifdef UTF8STRINGBUF_DEPRECATED_INDEX
-static test_case_result_t testFindFirst( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    clock_t posixStart;
-    clock_t posixEnd;
-    clock_t posixDiff;
-    clock_t utf8sbStart;
-    clock_t utf8sbEnd;
-    clock_t utf8sbDiff;
-    int loopMax = 20*cpu_perf_factor;
-
-    char* posixLoc = NULL;
-    int utf8sbLoc = -1;
-
-    /* measure the time of the standard posix function */
-    posixStart = clock();
-    for ( int loop1 = 0; loop1 < loopMax; loop1 ++ ) {
-        posixLoc = strstr( (*fix).posix_buf, "1234");
-    }
-    posixEnd = clock();
-    posixDiff = posixEnd - posixStart;
-
-    /* measure the time of the utf8stringbuf function */
-    utf8sbStart = clock();
-    for ( int loop2 = 0; loop2 < loopMax; loop2 ++ ) {
-        utf8sbLoc = utf8stringbuf_find_first_str( (*fix).utf8_sb_buf, "1234" );
-    }
-    utf8sbEnd = clock();
-    utf8sbDiff = utf8sbEnd - utf8sbStart;
-
-    /* check the result */
-    TEST_EXPECT( posixLoc == NULL );
-    TEST_EXPECT_EQUAL_INT( -1, utf8sbLoc );
-
-    /* print the time measurement */
-    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for find string\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
-
-    /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
-    TEST_EXPECT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
-    return TEST_CASE_RESULT_OK;
-}
-#endif  /* UTF8STRINGBUF_DEPRECATED_INDEX */
-
-#ifdef UTF8STRINGBUF_UNCHECKED_RANGE
-const char EXAMPLE_DATA[] =
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890"
-    "12345678[10]345678[20]345678[30]345678[40]345678[50]345678[60]34567890";
-
-/*enum TestPositionsAndSizes { TEST_INDEX = 21, TEST_SHIFT = 678, };*/
-
-static test_case_result_t testInsertAndDelete( test_fixture_t *fix )
-{
-    assert( fix != NULL );
-    clock_t posixStart;
-    clock_t posixEnd;
-    clock_t posixDiff;
-    clock_t utf8sbStart;
-    clock_t utf8sbEnd;
-    clock_t utf8sbDiff;
-    int loopMax = 200*cpu_perf_factor;
-
-    /* prepare test */
-    memcpy( (*fix).posix_buf, EXAMPLE_DATA, sizeof(EXAMPLE_DATA) );
-
-    /* measure the time of the standard posix function */
-    posixStart = clock();
-    for ( int loop1 = 0; loop1 < loopMax; loop1 ++ ) {
-        const int TEST_INDEX = (loop1 & 0x1f);
-        const int TEST_SHIFT = (loop1 & 0x3ff);
-        /* insert TEST_SHIFT at pos TEST_INDEX */
-        /* Note: memcpy must not copy between overlapping regions. Therefore, we need to copy to a (*fix).temp_arr first */
-        memcpy( (*fix).temp_arr, &((*fix).posix_buf[TEST_INDEX]), sizeof(EXAMPLE_DATA)-TEST_INDEX );
-        memcpy( &((*fix).posix_buf[TEST_INDEX+TEST_SHIFT]), (*fix).temp_arr, sizeof(EXAMPLE_DATA)-TEST_INDEX );
-        memcpy( &((*fix).posix_buf[TEST_INDEX]), EXAMPLE_DATA, TEST_SHIFT );
-        /* delete TEST_SHIFT at pos TEST_INDEX */
-        memcpy( (*fix).temp_arr, &((*fix).posix_buf[TEST_INDEX+TEST_SHIFT]), sizeof(EXAMPLE_DATA)-TEST_INDEX );
-        memcpy( &((*fix).posix_buf[TEST_INDEX]), (*fix).temp_arr, sizeof(EXAMPLE_DATA)-TEST_INDEX );
-    }
-    posixEnd = clock();
-    posixDiff = posixEnd - posixStart;
-
-    /* prepare test */
-    memcpy( (*fix).utf8_sb_arr, EXAMPLE_DATA, sizeof(EXAMPLE_DATA) );
-
-    /* measure the time of the utf8stringbuf function */
-    utf8sbStart = clock();
-    for ( int loop2 = 0; loop2 < loopMax; loop2 ++ ) {
-        const int TEST_INDEX = (loop2 & 0x1f);
-        const int TEST_SHIFT = (loop2 & 0x3ff);
-        /* insert TEST_SHIFT at pos TEST_INDEX */
-        utf8stringbuf_insert_str( (*fix).utf8_sb_buf, TEST_INDEX, &(EXAMPLE_DATA[sizeof(EXAMPLE_DATA)-1-TEST_SHIFT]) );
-        /* delete TEST_SHIFT at pos TEST_INDEX */
-        utf8stringbuf_delete( (*fix).utf8_sb_buf, TEST_INDEX, TEST_SHIFT );
-    }
-    utf8sbEnd = clock();
-    utf8sbDiff = utf8sbEnd - utf8sbStart;
-
-    /* check the result */
-    int equal = memcmp( (*fix).posix_buf, (*fix).utf8_sb_arr, sizeof(EXAMPLE_DATA) );
-    TEST_EXPECT_EQUAL_INT( 0, equal );
-
-    /* print the time measurement */
-    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for insert and delete\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
-
-    /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
-    TEST_EXPECT( ( utf8sbDiff ) <= ( posixDiff * TEST_MAX_DURATION_FACTOR ) );
-    return TEST_CASE_RESULT_OK;
-}
-#endif  /* UTF8STRINGBUF_UNCHECKED_RANGE */
 
 
 /*
