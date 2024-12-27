@@ -16,7 +16,7 @@ static inline void utf8codepointiterator_destroy ( utf8codepointiterator_t *this
 
 static inline bool utf8codepointiterator_has_next ( const utf8codepointiterator_t *this_ )
 {
-    return utf8codepoint_is_valid( &(*this_).next );
+    return utf8codepoint_is_valid( &((*this_).next) );
 }
 
 static inline utf8codepoint_t utf8codepointiterator_next ( utf8codepointiterator_t *this_ )
@@ -36,9 +36,9 @@ static inline void utf8codepointiterator_private_step_to_next ( utf8codepointite
     else
     {
         (*this_).next = utf8codepoint_new( utf8stringview_get_start( &((*this_).remaining) ), remaining_len );
-        if ( utf8codepoint_is_valid( &(*this_).next ) )
+        if ( utf8codepoint_is_valid( &((*this_).next) ) )
         {
-            const unsigned int next_len = utf8codepoint_get_length( &(*this_).next );
+            const unsigned int next_len = utf8codepoint_get_length( &((*this_).next) );
             (*this_).remaining
                 = UTF8STRINGVIEW( utf8stringview_get_start( &((*this_).remaining) ) + next_len,
                                   (remaining_len - next_len )

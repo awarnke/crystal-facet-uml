@@ -28,11 +28,11 @@ void io_data_file_init ( io_data_file_t *this_ )
 
     (*this_).data_file_name
         = utf8stringbuf_new( sizeof((*this_).private_data_file_name_buffer), (*this_).private_data_file_name_buffer );
-    utf8stringbuf_clear( &(*this_).data_file_name );
+    utf8stringbuf_clear( &((*this_).data_file_name) );
 
     (*this_).db_file_name
         = utf8stringbuf_new( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
-    utf8stringbuf_clear( &(*this_).db_file_name );
+    utf8stringbuf_clear( &((*this_).db_file_name) );
 
     (*this_).auto_writeback_to_json = false;
     (*this_).delete_db_when_finished = false;
@@ -84,11 +84,11 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = ( ! read_only );
 
-            err |= utf8stringbuf_copy_view( &(*this_).data_file_name, &req_file_parent );
-            err |= utf8stringbuf_append_view( &(*this_).data_file_name, &req_file_basename );
-            err |= utf8stringbuf_append_str( &(*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
+            err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
+            err |= utf8stringbuf_append_view( &((*this_).data_file_name), &req_file_basename );
+            err |= utf8stringbuf_append_str( &((*this_).data_file_name), IO_DATA_FILE_JSON_EXT );
 
-            err |= utf8stringbuf_copy_str( &(*this_).db_file_name, requested_file_path );
+            err |= utf8stringbuf_copy_str( &((*this_).db_file_name), requested_file_path );
         }
         else
         {
@@ -97,11 +97,11 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             /* A new json file shall be created */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = ( ! read_only );
-            err |= utf8stringbuf_copy_str( &(*this_).data_file_name, requested_file_path );
-            err |= utf8stringbuf_copy_view( &(*this_).db_file_name, &req_file_parent );
-            err |= utf8stringbuf_append_view( &(*this_).db_file_name, &req_file_basename );
-            err |= utf8stringbuf_append_str( &(*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
-            u8dir_file_remove( utf8stringbuf_get_string( &(*this_).db_file_name ) );  /* ignore possible errors */
+            err |= utf8stringbuf_copy_str( &((*this_).data_file_name), requested_file_path );
+            err |= utf8stringbuf_copy_view( &((*this_).db_file_name), &req_file_parent );
+            err |= utf8stringbuf_append_view( &((*this_).db_file_name), &req_file_basename );
+            err |= utf8stringbuf_append_str( &((*this_).db_file_name), IO_DATA_FILE_TEMP_EXT );
+            u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible errors */
         }
     }
     else
@@ -112,10 +112,10 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             /* A temporary sqlite file shall be used and later be exported to json */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = ( ! read_only );
-            err |= utf8stringbuf_copy_view( &(*this_).data_file_name, &req_file_parent );
-            err |= utf8stringbuf_append_view( &(*this_).data_file_name, &req_file_basename );
-            err |= utf8stringbuf_append_str( &(*this_).data_file_name, IO_DATA_FILE_JSON_EXT );
-            err |= utf8stringbuf_copy_str( &(*this_).db_file_name, requested_file_path );
+            err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
+            err |= utf8stringbuf_append_view( &((*this_).data_file_name), &req_file_basename );
+            err |= utf8stringbuf_append_str( &((*this_).data_file_name), IO_DATA_FILE_JSON_EXT );
+            err |= utf8stringbuf_copy_str( &((*this_).db_file_name), requested_file_path );
         }
         else if ( is_json )
         {
@@ -123,13 +123,13 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             /* An existing json file shall be used */
             (*this_).auto_writeback_to_json = ( ! read_only );
             (*this_).delete_db_when_finished = true;
-            err |= utf8stringbuf_copy_str( &(*this_).data_file_name, requested_file_path );
-            err |= utf8stringbuf_copy_view( &(*this_).db_file_name, &req_file_parent );
-            err |= utf8stringbuf_append_view( &(*this_).db_file_name, &req_file_basename );
-            err |= utf8stringbuf_append_str( &(*this_).db_file_name, IO_DATA_FILE_TEMP_EXT );
-            u8dir_file_remove( utf8stringbuf_get_string( &(*this_).db_file_name ) );  /* ignore possible errors */
+            err |= utf8stringbuf_copy_str( &((*this_).data_file_name), requested_file_path );
+            err |= utf8stringbuf_copy_view( &((*this_).db_file_name), &req_file_parent );
+            err |= utf8stringbuf_append_view( &((*this_).db_file_name), &req_file_basename );
+            err |= utf8stringbuf_append_str( &((*this_).db_file_name), IO_DATA_FILE_TEMP_EXT );
+            u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible errors */
 
-            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &(*this_).db_file_name ) );
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
             if ( err != U8_ERROR_NONE )
             {
                 U8_LOG_ERROR("An error occurred at creating a temporary database file, possibly the parent directory is read-only.")
@@ -139,13 +139,13 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             }
             else
             {
-                err |= io_data_file_private_import( this_, utf8stringbuf_get_string( &(*this_).data_file_name ), out_err_info );
+                err |= io_data_file_private_import( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ), out_err_info );
                 err |= data_database_close( &((*this_).database) );
 
                 if ( err != U8_ERROR_NONE )
                 {
                     U8_LOG_ERROR("An error occurred at reading a json data file")
-                    u8dir_file_remove( utf8stringbuf_get_string( &(*this_).db_file_name ) );  /* ignore possible additional errors */
+                    u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible additional errors */
                     U8_LOG_WARNING("Changes will not be written back to not accidentally overwrite the data source")
                     (*this_).auto_writeback_to_json = false;
                     (*this_).delete_db_when_finished = true;  /* do not keep .tmp-cfu files when import was not successful */
@@ -158,22 +158,22 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
             /* An sqlite file shall be used */
             (*this_).auto_writeback_to_json = false;
             (*this_).delete_db_when_finished = false;
-            err |= utf8stringbuf_copy_str( &(*this_).data_file_name, requested_file_path );
-            err |= utf8stringbuf_copy_str( &(*this_).db_file_name, requested_file_path );
+            err |= utf8stringbuf_copy_str( &((*this_).data_file_name), requested_file_path );
+            err |= utf8stringbuf_copy_str( &((*this_).db_file_name), requested_file_path );
         }
     }
-    U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &(*this_).data_file_name ) );
-    U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &(*this_).db_file_name ) );
+    U8_TRACE_INFO_STR( "data_file_name:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
+    U8_TRACE_INFO_STR( "db_file_name:  ", utf8stringbuf_get_string( &((*this_).db_file_name) ) );
 
     if ( err == U8_ERROR_NONE )
     {
         if ( read_only )
         {
-            err |= data_database_open_read_only( &((*this_).database), utf8stringbuf_get_string( &(*this_).db_file_name ) );
+            err |= data_database_open_read_only( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
         }
         else
         {
-            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &(*this_).db_file_name ) );
+            err |= data_database_open( &((*this_).database), utf8stringbuf_get_string( &((*this_).db_file_name) ) );
         }
     }
 
@@ -189,8 +189,8 @@ u8_error_t io_data_file_open ( io_data_file_t *this_,
         {
             U8_TRACE_INFO_STR( "DATA_FILE_NAME:", data_head_get_value_const( &head ) );
             /* set the data_file_name to the read head value */
-            err |= utf8stringbuf_copy_view( &(*this_).data_file_name, &req_file_parent );
-            err |= utf8stringbuf_append_str( &(*this_).data_file_name, data_head_get_value_const( &head ) );
+            err |= utf8stringbuf_copy_view( &((*this_).data_file_name), &req_file_parent );
+            err |= utf8stringbuf_append_str( &((*this_).data_file_name), data_head_get_value_const( &head ) );
         }
         else if ( (*this_).auto_writeback_to_json )
         {
@@ -216,7 +216,7 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
     if ( (*this_).auto_writeback_to_json )
     {
         U8_TRACE_INFO( "CASE: auto_writeback_to_json == true" );
-        result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &(*this_).data_file_name ) );
+        result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ) );
     }
 
     result |= data_database_close( &((*this_).database) );
@@ -224,7 +224,7 @@ u8_error_t io_data_file_close ( io_data_file_t *this_ )
     if ( (*this_).delete_db_when_finished )
     {
         U8_TRACE_INFO( "CASE: delete_db_when_finished == true" );
-        u8dir_file_remove( utf8stringbuf_get_string( &(*this_).db_file_name ) );  /* ignore possible errors */
+        u8dir_file_remove( utf8stringbuf_get_string( &((*this_).db_file_name) ) );  /* ignore possible errors */
     }
 
     (*this_).auto_writeback_to_json = false;
@@ -242,7 +242,7 @@ u8_error_t io_data_file_sync_to_disk ( io_data_file_t *this_ )
 
     if ( (*this_).auto_writeback_to_json )
     {
-        result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &(*this_).data_file_name ) );
+        result |= io_data_file_private_export( this_, utf8stringbuf_get_string( &((*this_).data_file_name) ) );
     }
 
     U8_TRACE_END_ERR( result );
@@ -253,7 +253,7 @@ u8_error_t io_data_file_trace_stats ( io_data_file_t *this_ )
 {
     U8_TRACE_BEGIN();
 
-    U8_TRACE_INFO_STR( "io_data_file_t:", utf8stringbuf_get_string( &(*this_).data_file_name ) );
+    U8_TRACE_INFO_STR( "io_data_file_t:", utf8stringbuf_get_string( &((*this_).data_file_name) ) );
 
     const u8_error_t result = data_database_trace_stats( &((*this_).database) );
 

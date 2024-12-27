@@ -15,7 +15,7 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
     (*this_).id = DATA_ROW_VOID;
 
     (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
-    strerr = utf8stringbuf_copy_str( &(*this_).key, head_key );
+    strerr = utf8stringbuf_copy_str( &((*this_).key), head_key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
@@ -23,7 +23,7 @@ static inline u8_error_t data_head_init_new ( data_head_t *this_,
     }
 
     (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
-    strerr = utf8stringbuf_copy_str( &(*this_).value, head_value );
+    strerr = utf8stringbuf_copy_str( &((*this_).value), head_value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
@@ -46,7 +46,7 @@ static inline u8_error_t data_head_init ( data_head_t *this_,
     (*this_).id = head_id;
 
     (*this_).key = utf8stringbuf_new( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
-    strerr = utf8stringbuf_copy_str( &(*this_).key, head_key );
+    strerr = utf8stringbuf_copy_str( &((*this_).key), head_key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
@@ -54,7 +54,7 @@ static inline u8_error_t data_head_init ( data_head_t *this_,
     }
 
     (*this_).value = utf8stringbuf_new( sizeof((*this_).private_value_buffer), (*this_).private_value_buffer );
-    strerr = utf8stringbuf_copy_str( &(*this_).value, head_value );
+    strerr = utf8stringbuf_copy_str( &((*this_).value), head_value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
@@ -101,7 +101,7 @@ static inline void data_head_set_row_id ( data_head_t *this_, data_row_t id )
 
 static inline const char *data_head_get_key_const ( const data_head_t *this_ )
 {
-    return utf8stringbuf_get_string( &(*this_).key );
+    return utf8stringbuf_get_string( &((*this_).key) );
 }
 
 static inline u8_error_t data_head_set_key ( data_head_t *this_, const char *key )
@@ -109,7 +109,7 @@ static inline u8_error_t data_head_set_key ( data_head_t *this_, const char *key
     assert( NULL != key );
     u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
-    strerr = utf8stringbuf_copy_str( &(*this_).key, key );
+    strerr = utf8stringbuf_copy_str( &((*this_).key), key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -120,12 +120,12 @@ static inline u8_error_t data_head_set_key ( data_head_t *this_, const char *key
 
 static inline const char *data_head_get_value_const ( const data_head_t *this_ )
 {
-    return utf8stringbuf_get_string( &(*this_).value );
+    return utf8stringbuf_get_string( &((*this_).value) );
 }
 
 static inline bool data_head_has_value ( const data_head_t *this_ )
 {
-    return ( ! utf8stringbuf_equals_str( &(*this_).value, "" ) );
+    return ( ! utf8stringbuf_equals_str( &((*this_).value), "" ) );
 }
 
 static inline u8_error_t data_head_set_value ( data_head_t *this_, const char *value )
@@ -133,7 +133,7 @@ static inline u8_error_t data_head_set_value ( data_head_t *this_, const char *v
     assert( NULL != value );
     u8_error_t result = U8_ERROR_NONE;
     utf8error_t strerr;
-    strerr = utf8stringbuf_copy_str( &(*this_).value, value );
+    strerr = utf8stringbuf_copy_str( &((*this_).value), value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         U8_LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
@@ -151,8 +151,8 @@ static inline void data_head_trace ( const data_head_t *this_ )
 {
     U8_TRACE_INFO( "data_head_t" );
     U8_TRACE_INFO_INT( "- id:", (*this_).id );
-    U8_TRACE_INFO_STR( "- key:", utf8stringbuf_get_string( &(*this_).key) );
-    U8_TRACE_INFO_STR( "- value:", utf8stringbuf_get_string( &(*this_).value) );
+    U8_TRACE_INFO_STR( "- key:", utf8stringbuf_get_string( &((*this_).key)) );
+    U8_TRACE_INFO_STR( "- value:", utf8stringbuf_get_string( &((*this_).value)) );
 }
 
 

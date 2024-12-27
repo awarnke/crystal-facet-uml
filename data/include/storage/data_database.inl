@@ -177,7 +177,7 @@ static inline void data_database_set_revision ( data_database_t *this_, uint32_t
 
 static inline const char *data_database_get_filename_ptr ( data_database_t *this_ )
 {
-    return ( data_database_is_open( this_ ) ? utf8stringbuf_get_string( &(*this_).db_file_name ) : NULL );
+    return ( data_database_is_open( this_ ) ? utf8stringbuf_get_string( &((*this_).db_file_name) ) : NULL );
 }
 
 /* ================================ Change Listener ================================ */

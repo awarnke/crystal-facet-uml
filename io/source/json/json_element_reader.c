@@ -385,28 +385,28 @@ u8_error_t json_element_reader_get_next_classifier ( json_element_reader_t *this
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_classifier_set_stereotype( out_object,
-                                                        utf8stringbuf_get_string( &(*this_).temp_string )
+                                                        utf8stringbuf_get_string( &((*this_).temp_string) )
                                                       );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_CLASSIFIER_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_classifier_set_name( out_object,
-                                                  utf8stringbuf_get_string( &(*this_).temp_string )
+                                                  utf8stringbuf_get_string( &((*this_).temp_string) )
                                                 );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION ) )
                     {
                         result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
                         data_classifier_set_description( out_object,
-                                                         utf8stringbuf_get_string( &(*this_).temp_string )
+                                                         utf8stringbuf_get_string( &((*this_).temp_string) )
                                                        );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_UUID ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         result |= data_classifier_set_uuid( out_object,
-                                                            utf8stringbuf_get_string( &(*this_).temp_string )
+                                                            utf8stringbuf_get_string( &((*this_).temp_string) )
                                                           );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
@@ -550,14 +550,14 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                     {
                         result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
                         data_diagram_set_description( out_object,
-                                                      utf8stringbuf_get_string( &(*this_).temp_string )
+                                                      utf8stringbuf_get_string( &((*this_).temp_string) )
                                                     );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         result |= data_diagram_set_name( out_object,
-                                                         utf8stringbuf_get_string( &(*this_).temp_string )
+                                                         utf8stringbuf_get_string( &((*this_).temp_string) )
                                                        );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_STEREOTYPE ) )
@@ -565,7 +565,7 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                         /* new in 1.43.0: stereotype; imported since 1.47.0 */
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         result |= data_diagram_set_stereotype( out_object,
-                                                               utf8stringbuf_get_string( &(*this_).temp_string )
+                                                               utf8stringbuf_get_string( &((*this_).temp_string) )
                                                              );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_DISPLAY_FLAGS ) )
@@ -586,7 +586,7 @@ u8_error_t json_element_reader_get_next_diagram ( json_element_reader_t *this_,
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         result |= data_diagram_set_uuid( out_object,
-                                                         utf8stringbuf_get_string( &(*this_).temp_string )
+                                                         utf8stringbuf_get_string( &((*this_).temp_string) )
                                                        );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_DIAGRAM_ELEMENTS ) )
@@ -696,7 +696,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                         /* new in 1.43.0: stereotype; imported since 1.47.0 */
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_relationship_set_stereotype( out_object,
-                                                          utf8stringbuf_get_string( &(*this_).temp_string )
+                                                          utf8stringbuf_get_string( &((*this_).temp_string) )
                                                         );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER ) )
@@ -709,14 +709,14 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
                         result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
                         data_relationship_set_description( out_object,
-                                                           utf8stringbuf_get_string( &(*this_).temp_string )
+                                                           utf8stringbuf_get_string( &((*this_).temp_string) )
                                                          );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_relationship_set_name( out_object,
-                                                    utf8stringbuf_get_string( &(*this_).temp_string )
+                                                    utf8stringbuf_get_string( &((*this_).temp_string) )
                                                   );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID ) )
@@ -728,7 +728,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                        U8_TRACE_INFO_STR( "from-classifier name:", utf8stringbuf_get_string( &(*this_).temp_string ) );
+                        U8_TRACE_INFO_STR( "from-classifier name:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID ) )
                     {
@@ -739,7 +739,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                        U8_TRACE_INFO_STR( "from-feature key:", utf8stringbuf_get_string( &(*this_).temp_string ) );
+                        U8_TRACE_INFO_STR( "from-feature key:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID ) )
                     {
@@ -750,7 +750,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                        U8_TRACE_INFO_STR( "to-classifier name:", utf8stringbuf_get_string( &(*this_).temp_string ) );
+                        U8_TRACE_INFO_STR( "to-classifier name:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID ) )
                     {
@@ -762,7 +762,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
 
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
-                        U8_TRACE_INFO_STR( "to-feature key:", utf8stringbuf_get_string( &(*this_).temp_string ) );
+                        U8_TRACE_INFO_STR( "to-feature key:", utf8stringbuf_get_string( &((*this_).temp_string) ) );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_NODE ) )
                     {
@@ -776,7 +776,7 @@ u8_error_t json_element_reader_get_next_relationship ( json_element_reader_t *th
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         result |= data_relationship_set_uuid( out_object,
-                                                              utf8stringbuf_get_string( &(*this_).temp_string )
+                                                              utf8stringbuf_get_string( &((*this_).temp_string) )
                                                             );
                     }
                     else
@@ -1033,28 +1033,28 @@ u8_error_t json_element_reader_get_next_feature ( json_element_reader_t *this_, 
                     {
                         result = json_element_reader_private_read_string_array( this_, (*this_).temp_string );
                         data_feature_set_description( out_object,
-                                                      utf8stringbuf_get_string( &(*this_).temp_string )
+                                                      utf8stringbuf_get_string( &((*this_).temp_string) )
                                                     );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_KEY ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_feature_set_key( out_object,
-                                              utf8stringbuf_get_string( &(*this_).temp_string )
+                                              utf8stringbuf_get_string( &((*this_).temp_string) )
                                             );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_FEATURE_VALUE ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         data_feature_set_value( out_object,
-                                                utf8stringbuf_get_string( &(*this_).temp_string )
+                                                utf8stringbuf_get_string( &((*this_).temp_string) )
                                               );
                     }
                     else if ( utf8stringbuf_equals_str( &member_name, JSON_CONSTANTS_KEY_UUID ) )
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         result |= data_feature_set_uuid( out_object,
-                                                         utf8stringbuf_get_string( &(*this_).temp_string )
+                                                         utf8stringbuf_get_string( &((*this_).temp_string) )
                                                        );
                     }
                     else
@@ -1185,7 +1185,7 @@ u8_error_t json_element_reader_get_next_diagramelement( json_element_reader_t *t
                     {
                         result = json_token_reader_read_string_value( &((*this_).tokenizer), (*this_).temp_string );
                         result |= data_diagramelement_set_uuid( out_object,
-                                                                utf8stringbuf_get_string( &(*this_).temp_string )
+                                                                utf8stringbuf_get_string( &((*this_).temp_string) )
                                                               );
                     }
                     else
