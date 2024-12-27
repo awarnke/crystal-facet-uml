@@ -4,18 +4,22 @@
 #include "u8/u8_trace.h"
 #include "u8/u8_log.h"
 #include "utf8stringbuf/utf8stringbuf.h"
+#include "u8stream/universal_output_stream.h"
+#include "u8stream/universal_memory_output_stream.h"
+#include "u8stream/universal_escaping_output_stream.h"
 #include <sqlite3.h>
 #include <assert.h>
 
 /*!
  *  \brief translation table to encode strings for usage in LIKE search string literals
  */
-const char *const DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE[][2] = {
+static const char *const DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE[][2] = {
     { "%", "\\%" },
     { "_", "\\_" },
     { "\\", "\\\\" },
     { NULL, NULL }
 };
+static const char DATA_DATABASE_TEXT_SEARCH_SQL_LIKE_DELIMITER = '%';
 
 u8_error_t data_database_text_search_init( data_database_text_search_t *this_, data_database_t *database )
 {
@@ -105,63 +109,83 @@ u8_error_t data_database_text_search_get_objects_by_textfragment( data_database_
     U8_TRACE_BEGIN();
     assert( NULL != io_results );
     assert( NULL != textfragment );
+    const unsigned int text_len = utf8string_get_length( textfragment );
     u8_error_t result = U8_ERROR_NONE;
 
     /* escape-encode textfragment */
-    utf8error_t u8err = UTF8ERROR_SUCCESS;
-    char like_search_buf[48] = "";
-    utf8stringbuf_t like_search = UTF8STRINGBUF( like_search_buf );
-    const bool search_empty = (0 == utf8string_get_length( textfragment ));
+    char like_search[64] = "";
+    universal_memory_output_stream_t mem_out;
+    universal_memory_output_stream_init( &mem_out,
+                                         like_search,
+                                         sizeof(like_search),
+                                         UNIVERSAL_MEMORY_OUTPUT_STREAM_0TERM_UTF8
+                                       );
+    const bool search_empty = ( 0 == text_len );
     if ( search_empty )
     {
-        /* no wildcards and no excaping if search string is empty */
-        utf8stringbuf_clear( like_search );
+        /* no wildcards and no escaping if search string is empty */
     }
     else
     {
-        u8err |= utf8stringbuf_append_str( like_search, "%" );
-        utf8stringbuf_t escape_me = utf8stringbuf_get_end( like_search );
-        u8err |= utf8stringbuf_append_str( escape_me, textfragment );
-        u8err |= utf8stringbuf_replace_all( escape_me, &DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
-        u8err |= utf8stringbuf_append_str( like_search, "%" );
+        result |= universal_memory_output_stream_write( &mem_out,
+                                                        &DATA_DATABASE_TEXT_SEARCH_SQL_LIKE_DELIMITER,
+                                                        sizeof(DATA_DATABASE_TEXT_SEARCH_SQL_LIKE_DELIMITER)
+                                                      );
+        {
+            universal_output_stream_t* stream_out = universal_memory_output_stream_get_output_stream( &mem_out );
+            universal_escaping_output_stream_t esc_out;
+            universal_escaping_output_stream_init( &esc_out, &DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE, stream_out );
+            result |= universal_escaping_output_stream_write( &esc_out, textfragment, text_len );
+            result |= universal_escaping_output_stream_flush( &esc_out );
+            universal_escaping_output_stream_destroy( &esc_out );
+        }
+        result |= universal_memory_output_stream_write( &mem_out,
+                                                        &DATA_DATABASE_TEXT_SEARCH_SQL_LIKE_DELIMITER,
+                                                        sizeof(DATA_DATABASE_TEXT_SEARCH_SQL_LIKE_DELIMITER)
+                                                      );
     }
-    U8_TRACE_INFO_STR( "LIKE SEARCH:", utf8stringbuf_get_string( like_search ) );
-    if ( u8err != UTF8ERROR_SUCCESS )
+    universal_memory_output_stream_destroy( &mem_out );
+
+    U8_TRACE_INFO_STR( "LIKE SEARCH:", like_search );
+    if ( result != U8_ERROR_NONE )
     {
         U8_LOG_WARNING_STR( "error at escaping the search string", textfragment );
     }
-    /* search for the prepared pattern. In case of empty, search for a non-existing pattern in the type fields */
-    const char *const search_name = search_empty ? "" : utf8stringbuf_get_string( like_search );
-    const char *const search_type = search_empty ? "\n" : utf8stringbuf_get_string( like_search );
-    const char *const search_descr = search_empty ? "" : utf8stringbuf_get_string( like_search );
+    else
+    {
+        /* search for the prepared pattern. In case of empty, search for a non-existing pattern in the type fields */
+        const char *const search_name = search_empty ? "" : like_search;
+        const char *const search_type = search_empty ? "\n" : like_search;
+        const char *const search_descr = search_empty ? "" : like_search;
 
-    result |= data_database_text_search_private_get_diagrams_by_textfragment( this_,
-                                                                              search_name,
-                                                                              search_type,
-                                                                              search_descr,
-                                                                              io_results
-                                                                            );
+        result |= data_database_text_search_private_get_diagrams_by_textfragment( this_,
+                                                                                  search_name,
+                                                                                  search_type,
+                                                                                  search_descr,
+                                                                                  io_results
+                                                                                );
 
-    result |= data_database_text_search_private_get_classifiers_by_textfragment( this_,
-                                                                                 search_name,
-                                                                                 search_type,
-                                                                                 search_descr,
-                                                                                 io_results
-                                                                               );
+        result |= data_database_text_search_private_get_classifiers_by_textfragment( this_,
+                                                                                     search_name,
+                                                                                     search_type,
+                                                                                     search_descr,
+                                                                                     io_results
+                                                                                   );
 
-    result |= data_database_text_search_private_get_features_by_textfragment( this_,
-                                                                              search_name,
-                                                                              search_type,
-                                                                              search_descr,
-                                                                              io_results
-                                                                            );
+        result |= data_database_text_search_private_get_features_by_textfragment( this_,
+                                                                                  search_name,
+                                                                                  search_type,
+                                                                                  search_descr,
+                                                                                  io_results
+                                                                                );
 
-    result |= data_database_text_search_private_get_relationships_by_textfragment( this_,
-                                                                                   search_name,
-                                                                                   search_type,
-                                                                                   search_descr,
-                                                                                   io_results
-                                                                                 );
+        result |= data_database_text_search_private_get_relationships_by_textfragment( this_,
+                                                                                       search_name,
+                                                                                       search_type,
+                                                                                       search_descr,
+                                                                                       io_results
+                                                                                     );
+    }
 
     U8_TRACE_END_ERR( result );
     return result;

@@ -41,8 +41,6 @@
 extern "C" {
 #endif
 
-#define UTF8STRINGBUF_DEPRECATED_INPLACE
-
 /* Note: If optimization level is zero, inline might not work. */
 /*       You possibly have to append the following string      */
 /*       after every function prototype for gcc:               */
